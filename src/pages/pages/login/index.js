@@ -73,8 +73,6 @@ const LoginPage = () => {
   const [password, setPassword] = useState('') //เก็บค่า Password
   const [responsedata, setResponseData] = useState('') // เก็บค่า data ที่จะเอาไปฝังใน local Storage
 
-  console.log('ข้อมูลฝัง', responsedata)
-
   // ** State
   const [values, setValues] = useState({
     password: '',
@@ -86,6 +84,7 @@ const LoginPage = () => {
   const router = useRouter()
 
   // เช็คค่า Cookie
+  const [verificationComplete, setVerificationComplete] = useState(false)
   useEffect(() => {
     const token = Cookies.get('jwt') // Get token from cookie or local storage
 
@@ -99,9 +98,15 @@ const LoginPage = () => {
       if (decodedToken) {
         // Invalid token, redirect to login page
         router.push('/')
+      } else {
+        setVerificationComplete(true)
       }
     }
   }, [router])
+
+  if (!verificationComplete) {
+    return <div>Loading...</div>
+  }
 
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword })
