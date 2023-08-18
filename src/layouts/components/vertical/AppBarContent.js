@@ -1,13 +1,19 @@
 // ** MUI Imports
 import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
+import Hidden from '@mui/material/Hidden'
 import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
-import useMediaQuery from '@mui/material/useMediaQuery'
 import InputAdornment from '@mui/material/InputAdornment'
 
 // ** Icons Imports
 import Menu from 'mdi-material-ui/Menu'
 import Magnify from 'mdi-material-ui/Magnify'
+import CartOutline from 'mdi-material-ui/CartOutline'
+
+// ** Theme Config Import
+import themeConfig from 'src/configs/themeConfig'
 
 // ** Components
 import ModeToggler from 'src/@core/layouts/components/shared-components/ModeToggler'
@@ -16,56 +22,53 @@ import NotificationDropdown from 'src/@core/layouts/components/shared-components
 
 const AppBarContent = props => {
   // ** Props
-  const { hidden, settings, saveSettings, toggleNavVisibility } = props
-
-  // ** Hook
-  const hiddenSm = useMediaQuery(theme => theme.breakpoints.down('sm'))
+  const { settings, saveSettings, toggleNavVisibility } = props
 
   return (
-    <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <Box className='actions-left' sx={{ mr: 2, display: 'flex', alignItems: 'center' }}>
-        {hidden ? (
-          <IconButton
-            color='inherit'
-            onClick={toggleNavVisibility}
-            sx={{ ml: -2.75, ...(hiddenSm ? {} : { mr: 3.5 }) }}
-          >
-            <Menu />
-          </IconButton>
-        ) : null}
-        <TextField
-          size='small'
-          sx={{ '& .MuiOutlinedInput-root': { borderRadius: 4 } }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position='start'>
-                <Magnify fontSize='small' />
-              </InputAdornment>
-            )
-          }}
-        />
-      </Box>
-      <Box className='actions-right' sx={{ display: 'flex', alignItems: 'center' }}>
-        {hiddenSm ? null : (
-          <Box
-            component='a'
-            target='_blank'
-            rel='noreferrer'
-            sx={{ mr: 4, display: 'flex' }}
-            href='https://github.com/themeselection/materio-mui-react-nextjs-admin-template-free'
-          >
-            <img
-              height={24}
-              alt='github stars'
-              src='https://img.shields.io/github/stars/themeselection/materio-mui-react-nextjs-admin-template-free?style=social'
+    <Grid container>
+      <Hidden mdDown>
+        <Grid item md={1} lg={1} xl={1} display='grid' justifyContent='flex-end'>
+          <Box sx={{ width: '100%' }}>
+            <IconButton color='inherit' onClick={toggleNavVisibility} sx={{ ml: -2.75 }}>
+              <Menu />
+            </IconButton>
+          </Box>
+        </Grid>
+      </Hidden>
+      <Grid item xs={6} sm={3} md={2} lg={2} xl={2}>
+        <Box sx={{ width: '100%', paddingTop: '5px' }}>
+          <Typography variant='h5'>{themeConfig.templateName}</Typography>
+        </Box>
+      </Grid>
+      <Hidden smDown>
+        <Grid item sm={6} md={6} lg={6} xl={6}>
+          <Box sx={{ width: '100%' }}>
+            <TextField
+              size='small'
+              sx={{ width: '80%', '& .MuiOutlinedInput-root': { borderRadius: 4 } }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position='start'>
+                    <Magnify fontSize='small' />
+                  </InputAdornment>
+                )
+              }}
             />
           </Box>
-        )}
-        <ModeToggler settings={settings} saveSettings={saveSettings} />
-        <NotificationDropdown />
-        <UserDropdown />
-      </Box>
-    </Box>
+        </Grid>
+      </Hidden>
+      <Grid item xs={6} sm={3} md={3} lg={2} xl={2} display='grid' justifyContent='flex-end'>
+        <Box className='actions-right' sx={{ width: '100%' }}>
+          <ModeToggler settings={settings} saveSettings={saveSettings} />
+          <NotificationDropdown />
+          <IconButton>
+            {/* ต้องสร้าง components ใน src/@core/layouts/components/shared-components/ สำหรับปุ่ม ตะกร้า  */}
+            <CartOutline />
+          </IconButton>
+          <UserDropdown />
+        </Box>
+      </Grid>
+    </Grid>
   )
 }
 

@@ -65,7 +65,7 @@ const VerticalLayout = props => {
         <Navigation
           navWidth={navWidth}
           navVisible={navVisible}
-          setNavVisible={setNavVisible}
+          setNavVisible={setNavVisible} // opens/closes the vertical nav
           toggleNavVisibility={toggleNavVisibility}
           {...props}
         />
