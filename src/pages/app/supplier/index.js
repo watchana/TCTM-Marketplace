@@ -1,7 +1,7 @@
 import React from 'react'
 
-const index = () => {
-  return <div>index</div>
+const SupplierPage = () => {
+  return <div>SupplierPage</div>
 }
 
-export default index
+export default SupplierPage
