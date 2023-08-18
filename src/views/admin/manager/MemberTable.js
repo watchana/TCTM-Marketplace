@@ -8,6 +8,10 @@ import { DataGrid } from '@mui/x-data-grid'
 // ** Axios
 import axios from 'axios'
 
+function getFullName(params) {
+  return `${params.row.user_first_name || ''} ${params.row.user_last_name || ''}`
+}
+
 const MemberTable = () => {
   const [rows, setRows] = useState([])
 
@@ -28,21 +32,17 @@ const MemberTable = () => {
   }, [])
 
   const columns = [
-    { field: 'account_id', headerName: 'Account Id', width: 150 },
+    { field: 'account_id', headerName: 'Account Id', width: 130 },
     {
       field: 'member_id',
       headerName: 'Member Id',
       width: 150
     },
     {
-      field: 'user_first_name',
-      headerName: 'First Name',
-      width: 150
-    },
-    {
-      field: 'user_last_name',
-      headerName: 'Last Name',
-      width: 150
+      field: 'fullName',
+      headerName: 'Full name',
+      width: 160,
+      valueGetter: getFullName
     },
     {
       field: 'user_company',
@@ -61,10 +61,19 @@ const MemberTable = () => {
     },
     {
       field: 'approve',
-      headerName: 'approve',
+      headerName: 'Approve',
       sortable: false,
       renderCell: params => {
         return <Button variant='contained'>approve</Button>
+      }
+    },
+    {
+      field: 'กisapproved',
+      headerName: 'Disapproved',
+      sortable: false,
+      width: 150,
+      renderCell: params => {
+        return <Button variant='contained'>disapproved</Button>
       }
     }
   ]

@@ -2,11 +2,15 @@
 import React, { useEffect, useState } from 'react'
 
 // ** MUI Imports
-import { Card } from '@mui/material'
+import { Card, Button } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 
 // ** Axios
 import axios from 'axios'
+
+function getFullName(params) {
+  return `${params.row.user_first_name || ''} ${params.row.user_last_name || ''}`
+}
 
 const MemberTable = () => {
   const [rows, setRows] = useState([])
@@ -28,36 +32,49 @@ const MemberTable = () => {
   }, [])
 
   const columns = [
-    { field: 'account_id', headerName: 'Account Id', width: 70 },
+    { field: 'account_id', headerName: 'Account Id', width: 130 },
     {
       field: 'member_id',
       headerName: 'Member Id',
-      width: 70
+      width: 150
     },
     {
-      field: 'user_first_name',
-      headerName: 'First Name',
-      width: 130
-    },
-    {
-      field: 'user_last_name',
-      headerName: 'Last Name',
-      width: 130
+      field: 'fullName',
+      headerName: 'Full name',
+      width: 160,
+      valueGetter: getFullName
     },
     {
       field: 'user_company',
       headerName: 'Company',
-      width: 130
+      width: 150
     },
     {
       field: 'user_email',
       headerName: 'Email',
-      width: 130
+      width: 150
     },
     {
       field: 'user_tel',
       headerName: 'Tel',
-      width: 130
+      width: 150
+    },
+    {
+      field: 'approve',
+      headerName: 'Approve',
+      sortable: false,
+      renderCell: params => {
+        return <Button variant='contained'>approve</Button>
+      }
+    },
+    {
+      field: 'disapproved',
+      headerName: 'Disapproved',
+      sortable: false,
+      width: 150,
+      renderCell: params => {
+        return <Button variant='contained'>disapproved</Button>
+      }
     }
   ]
 
@@ -68,6 +85,7 @@ const MemberTable = () => {
   return (
     <Card>
       <DataGrid
+        sx={{ paddingX: '10px' }}
         rows={rows}
         columns={columns}
         getRowId={row => row.account_id}
@@ -79,7 +97,6 @@ const MemberTable = () => {
           }
         }}
         pageSizeOptions={[5]}
-        checkboxSelection
         disableRowSelectionOnClick
       />
     </Card>
