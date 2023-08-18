@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 // ** Next Imports
 import Link from 'next/link'
@@ -43,7 +43,7 @@ import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
 import axios from 'axios'
 
 // ** jwt
-import { createToken } from '../../../../utils/auth'
+import { createToken, verifyToken } from '../../../../utils/auth'
 import Cookies from 'js-cookie'
 
 // ** Switch Alert Import
@@ -84,6 +84,24 @@ const LoginPage = () => {
   // ** Hook
   const theme = useTheme()
   const router = useRouter()
+
+  // เช็คค่า Cookie
+  useEffect(() => {
+    const token = Cookies.get('jwt') // Get token from cookie or local storage
+
+    if (token) {
+      // If not logged in, redirect to login page
+      router.push('/')
+    } else {
+      // Verify the token
+      const decodedToken = verifyToken(token) // Use your verification function
+
+      if (decodedToken) {
+        // Invalid token, redirect to login page
+        router.push('/')
+      }
+    }
+  }, [router])
 
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword })
