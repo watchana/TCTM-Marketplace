@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from 'react'
+
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
 
@@ -22,7 +24,13 @@ import WeeklyOverview from 'src/views/dashboard/WeeklyOverview'
 import DepositWithdraw from 'src/views/dashboard/DepositWithdraw'
 import SalesByCountries from 'src/views/dashboard/SalesByCountries'
 
+import Cookies from 'js-cookie'
+import { useRouter } from 'next/router'
+import { withAuth } from './pages/AuthCheck'
+
 const Dashboard = () => {
+  const router = useRouter()
+
   return (
     <ApexChartWrapper>
       <Grid container spacing={6}>
@@ -98,4 +106,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default withAuth(Dashboard)
