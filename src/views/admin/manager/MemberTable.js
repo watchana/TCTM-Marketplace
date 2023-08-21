@@ -12,25 +12,7 @@ function getFullName(params) {
   return `${params.row.user_first_name || ''} ${params.row.user_last_name || ''}`
 }
 
-const MemberTable = () => {
-  const [rows, setRows] = useState([])
-
-  useEffect(() => {
-    axios
-      .get('http://111.223.38.19/api/method/frappe.API.TCTM.approve.userqueue', {
-        headers: {
-          Authorization: 'token 76dc8ec5e14d19c:a644317879022f2'
-        }
-      })
-      .then(response => {
-        console.log(response.data.message.Data)
-        setRows(response.data.message.Data)
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }, [])
-
+const MemberTable = ({ rows }) => {
   const columns = [
     { field: 'account_id', headerName: 'Account Id', width: 130 },
     {
@@ -64,16 +46,24 @@ const MemberTable = () => {
       headerName: 'Approve',
       sortable: false,
       renderCell: params => {
-        return <Button variant='contained'>approve</Button>
+        return (
+          <Button variant='contained' color='primary'>
+            approve
+          </Button>
+        )
       }
     },
     {
-      field: 'กisapproved',
+      field: 'disapproved',
       headerName: 'Disapproved',
       sortable: false,
       width: 150,
       renderCell: params => {
-        return <Button variant='contained'>disapproved</Button>
+        return (
+          <Button variant='contained' color='secondary'>
+            disapproved
+          </Button>
+        )
       }
     }
   ]

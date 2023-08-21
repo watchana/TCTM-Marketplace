@@ -2,14 +2,15 @@
 import React from 'react'
 
 // ** MUI Imports
-import { Box, Tab, Card } from '@mui/material'
+import { Box, Tab, Card, Typography } from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 
 // ** Components
 import MemberTable from 'src/views/admin/manager/MemberTable'
 import SupplierTable from 'src/views/admin/manager/SupplierTable'
+import axios from 'axios'
 
-const ManagerPage = () => {
+const ManagerPage = ({ dataMember, dataSupplier }) => {
   const [value, setValue] = React.useState('1')
 
   const handleChange = (event, newValue) => {
@@ -17,25 +18,71 @@ const ManagerPage = () => {
   }
 
   return (
-    <Box sx={{ width: '100%', typography: 'body1' }}>
-      <Card>
-        <TabContext value={value}>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <TabList onChange={handleChange} aria-label='lab API tabs example'>
-              <Tab label='Customer' value='1' />
-              <Tab label='Supplier' value='2' />
-            </TabList>
-          </Box>
-          <TabPanel value='1'>
-            <MemberTable />
-          </TabPanel>
-          <TabPanel value='2'>
-            <SupplierTable />
-          </TabPanel>
-        </TabContext>
+    <>
+      <Box sx={{ mb: 5 }}>
+        <Typography variant='h5' color='primary'>
+          TCTM Manager
+        </Typography>
+        <Typography variant='body2'>Membership approval management page</Typography>
+      </Box>
+      <Card sx={{ width: '100%' }}>
+        <Box>
+          <TabContext value={value}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <TabList onChange={handleChange} aria-label='lab API tabs example'>
+                <Tab label='Customer' value='1' />
+                <Tab label='Supplier' value='2' />
+              </TabList>
+            </Box>
+            <TabPanel value='1'>
+              <MemberTable rows={dataMember} />
+            </TabPanel>
+            <TabPanel value='2'>
+              <SupplierTable rows={dataSupplier} />
+            </TabPanel>
+          </TabContext>
+        </Box>
       </Card>
-    </Box>
+    </>
   )
+}
+
+export const getServerSideProps = async context => {
+  try {
+    const memberResponse = await axios.get('http://111.223.38.19/api/method/frappe.API.TCTM.approve.userqueue', {
+      headers: {
+        Authorization: 'token 76dc8ec5e14d19c:a644317879022f2'
+      }
+    })
+
+    const supplierResponse = await axios.get('http://111.223.38.19/api/method/frappe.API.TCTM.approve.userqueue', {
+      headers: {
+        Authorization: 'token 76dc8ec5e14d19c:a644317879022f2'
+      }
+    })
+
+    const dataMember = memberResponse.data.message.Data // ไม่จำเป็นต้องใช้ await
+    const dataSupplier = supplierResponse.data.message.Data // ไม่จำเป็นต้องใช้ await
+
+    console.log('DataMember:', dataMember)
+    console.log('DataSupplier:', dataSupplier)
+
+    return {
+      props: {
+        dataMember: dataMember || [],
+        dataSupplier: dataSupplier || []
+      }
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error)
+
+    return {
+      props: {
+        dataMember: [],
+        dataSupplier: []
+      }
+    }
+  }
 }
 
 export default ManagerPage
