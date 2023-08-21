@@ -5,6 +5,7 @@ import { useState, Fragment } from 'react'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import dayjs from 'dayjs'
 
 // ** Next Imports
 import Link from 'next/link'
@@ -28,6 +29,7 @@ import { styled, useTheme } from '@mui/material/styles'
 import MuiCard from '@mui/material/Card'
 import InputAdornment from '@mui/material/InputAdornment'
 import MuiFormControlLabel from '@mui/material/FormControlLabel'
+import { FormHelperText } from '@mui/material'
 
 // ** Icons Imports
 import EyeOutline from 'mdi-material-ui/EyeOutline'
@@ -91,15 +93,20 @@ const RegisterPage = () => {
   const [company, setCompany] = useState('') // ตัวแปรเก็บค่า company
   const [address, setAddress] = useState('') // ตัวแปรเก็บค่า address
   const [tel, setTel] = useState('') // ตัวแปรเก็บค่า Tel
-  const [date, setDate] = useState('') // ตัวแปรเก็บค่า Date
+  const [date, setDate] = useState(dayjs()) // ตัวแปรเก็บค่า Date
   const [email, setEmail] = useState('') // ตัวแปรเก็บค่า Email
+
+  // ตัวแปรเช็คสถานะการส่งข้อมูล
+  const [isSubmitted, setIsSubmitted] = useState(false)
 
   //**  ฟังก์ชันบัณทึกการเปลี่ยนแปลงค่า Input
 
   // ฟังก์ชันบัณทึกค่าของ User
   const handleUserSet = event => {
-    // console.log(event.target.value)
-    setUser(event.target.value)
+    const userInput = event.target.value
+    if (/^[a-zA-Z]+$/.test(userInput) || userInput === '') {
+      setUser(userInput)
+    }
   }
 
   // ฟังก์ชันบัณทึกค่าของ Password
@@ -110,18 +117,26 @@ const RegisterPage = () => {
 
   // ฟังก์ชันบัณทึกค่าของ firstname
   const handleFirstnameSet = event => {
-    console.log(event.target.value)
-    setFirstname(event.target.value)
+    const firstnameInput = event.target.value
+    if (/^[a-zA-Z\s]*$/.test(firstnameInput) || firstnameInput === '') {
+      setFirstname(firstnameInput)
+    }
   }
 
   // ฟังก์ชันบัณทึกค่าของ Lastname
-  const handleLastnamenameSet = event => {
-    setLastname(event.target.value)
+  const handleLastnameSet = event => {
+    const lastnameInput = event.target.value
+    if (/^[a-zA-Z]+$/.test(lastnameInput) || lastnameInput === '') {
+      setLastname(lastnameInput)
+    }
   }
 
   // ฟังก์ชันบัณทึกค่าของ company
   const handleCompanySet = event => {
-    setCompany(event.target.value)
+    const companyInput = event.target.value
+    if (/^[a-zA-Z\s]*$/.test(companyInput) || companyInput === '') {
+      setCompany(companyInput)
+    }
   }
 
   // ฟังก์ชันบัณทึกค่าของ Address
@@ -131,23 +146,60 @@ const RegisterPage = () => {
 
   // ฟังก์ชันบัณทึกค่าของ tel
   const handleTelSet = event => {
-    setTel(event.target.value)
+    const telInput = event.target.value
+    if (/^[0-9]*$/.test(telInput) || telInput === '') {
+      setTel(telInput)
+    }
   }
 
   // ฟังก์ชันบัณทึกค่าของ date
   const handleDateSet = selectedDate => {
-    const formattedDate = selectedDate.format('MM/DD/YYYY')
-    setDate(formattedDate)
+    if (!isNaN(selectedDate) || null) {
+      setDate(selectedDate)
+    } else {
+      setDate('')
+    }
   }
 
   // ฟังก์ชันบัณทึกค่าของ email
   const handleEmailSet = event => {
-    setEmail(event.target.value)
+    const emailInput = event.target.value
+    if (/^[a-zA-Z0-9 !@#$%^&*()_+{}\[\]:;<>,.?~\-]+$/.test(emailInput) || emailInput === '') {
+      setEmail(emailInput)
+    }
   }
 
-  // ฟังชันส่งค่าข้อมูล
   const handleSubmitData = event => {
     event.preventDefault()
+    setIsSubmitted(true)
+
+    // ตรวจสอบค่าว่างก่อนส่ง
+    const fieldsToCheck = [user, password, email, firstname, lastname, company, address, tel, date]
+    if (fieldsToCheck.some(field => field === '' || field === null || field === undefined)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'กรุณาระบุข้อมูลให้ครบ',
+        text: 'โปรดกรอกข้อมูลให้ครบทุกช่อง'
+      })
+
+      return
+    }
+
+    // แปลงค่าวันเกิด user ก่อนส่ง ส่ง
+    let formattedDate = ''
+    if (date) {
+      formattedDate = date.format('MM/DD/YYYY')
+    }
+
+    if (formattedDate === '') {
+      Swal.fire({
+        icon: 'error',
+        title: 'กรุณาระบุข้อมูลให้ครบ',
+        text: 'โปรดกรอกข้อมูลให้ครบทุกช่อง'
+      })
+
+      return
+    }
 
     const data = {
       username: user,
@@ -158,7 +210,7 @@ const RegisterPage = () => {
       user_company: company,
       user_address: address,
       user_tel: tel,
-      user_birthday: date
+      user_birthday: formattedDate
     }
 
     console.log('ข้อมูลที่ส่งไป Server', data)
@@ -166,9 +218,7 @@ const RegisterPage = () => {
     axios
       .post(`${process.env.NEXT_PUBLIC_API}TCTM.register.register`, data)
       .then(response => {
-        // การจัดการเมื่อส่งสำเร็จ
-        console.log(response.data) // แสดงข้อมูลที่ได้จากการส่ง
-
+        console.log(response.data)
         Swal.fire({
           icon: 'success',
           title: 'ส่งข้อมูลสำเร็จ',
@@ -176,9 +226,7 @@ const RegisterPage = () => {
         })
       })
       .catch(error => {
-        // การจัดการเมื่อเกิดข้อผิดพลาด
         console.error(error)
-
         Swal.fire({
           icon: 'error',
           title: 'Log in ล้มเหลว...',
@@ -274,9 +322,11 @@ const RegisterPage = () => {
               sx={{ marginBottom: 4 }}
               value={user}
               onChange={handleUserSet}
+              error={user === '' && isSubmitted}
+              helperText={user === '' && isSubmitted ? 'Please enter your username.' : ''}
             />
             {/* Password Input */}
-            <FormControl fullWidth sx={{ marginBottom: 4 }}>
+            <FormControl fullWidth sx={{ marginBottom: 4 }} error={password === '' && isSubmitted}>
               <InputLabel htmlFor='auth-register-password'>Password</InputLabel>
               <OutlinedInput
                 label='Password'
@@ -297,6 +347,7 @@ const RegisterPage = () => {
                   </InputAdornment>
                 }
               />
+              {password === '' && isSubmitted && <FormHelperText>Please enter your password.</FormHelperText>}
             </FormControl>
 
             <Divider sx={{ my: 5 }}>and</Divider>
@@ -308,39 +359,82 @@ const RegisterPage = () => {
                 id='FirstName'
                 label='FirstName EN'
                 sx={{ marginBottom: 4 }}
+                value={firstname}
                 onChange={handleFirstnameSet}
+                error={firstname === '' && isSubmitted}
+                helperText={firstname === '' && isSubmitted ? 'Please enter your firstname.' : ''}
               />
+
+              {/* LastName Input */}
               <TextField
                 autoFocus
                 fullWidth
                 id='LastName'
                 label='LastName EN'
                 sx={{ marginBottom: 4 }}
-                onChange={handleLastnamenameSet}
+                value={lastname}
+                onChange={handleLastnameSet}
+                error={lastname === '' && isSubmitted}
+                helperText={lastname === '' && isSubmitted ? 'Please enter your lastname.' : ''}
               />
+
+              {/* Company Input */}
               <TextField
                 autoFocus
                 fullWidth
                 id='Company'
                 label='Company'
                 sx={{ marginBottom: 4 }}
+                value={company}
                 onChange={handleCompanySet}
+                error={company === '' && isSubmitted}
+                helperText={company === '' && isSubmitted ? 'Please enter your company.' : ''}
               />
+
+              {/* Address Input */}
               <TextField
                 autoFocus
                 fullWidth
                 id='Address'
                 label='Address'
                 sx={{ marginBottom: 4 }}
+                value={address}
                 onChange={handleAddressSet}
+                error={address === '' && isSubmitted}
+                helperText={address === '' && isSubmitted ? 'Please enter your address.' : ''}
               />
-              <TextField autoFocus fullWidth id='Tel' label='Tel' sx={{ marginBottom: 4 }} onChange={handleTelSet} />
+
+              {/* Tel Input */}
+              <TextField
+                autoFocus
+                fullWidth
+                id='Tel'
+                label='Tel'
+                sx={{ marginBottom: 4 }}
+                value={tel}
+                onChange={handleTelSet}
+                error={tel === '' && isSubmitted}
+                helperText={tel === '' && isSubmitted ? 'Please enter your tel.' : ''}
+              />
+
+              {/* Date Input */}
               <Box sx={{ width: '100%', marginBottom: 4 }}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker value={date} onChange={handleDateSet} />
                 </LocalizationProvider>
               </Box>
-              <TextField fullWidth type='email' label='Email' sx={{ marginBottom: 4 }} onChange={handleEmailSet} />
+
+              {/* Email Input */}
+              <TextField
+                fullWidth
+                type='email'
+                label='Email'
+                sx={{ marginBottom: 4 }}
+                value={email}
+                onChange={handleEmailSet}
+                error={email === '' && isSubmitted}
+                helperText={email === '' && isSubmitted ? 'Please enter your email.' : ''}
+              />
             </Box>
             <FormControlLabel
               control={<Checkbox />}
