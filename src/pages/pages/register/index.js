@@ -1,6 +1,11 @@
 // ** React Imports
 import { useState, Fragment } from 'react'
 
+// ** MUI X Imports
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+
 // ** Next Imports
 import Link from 'next/link'
 
@@ -22,10 +27,6 @@ import InputAdornment from '@mui/material/InputAdornment'
 import MuiFormControlLabel from '@mui/material/FormControlLabel'
 
 // ** Icons Imports
-import Google from 'mdi-material-ui/Google'
-import Github from 'mdi-material-ui/Github'
-import Twitter from 'mdi-material-ui/Twitter'
-import Facebook from 'mdi-material-ui/Facebook'
 import EyeOutline from 'mdi-material-ui/EyeOutline'
 import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 
@@ -189,7 +190,11 @@ const RegisterPage = () => {
               <TextField autoFocus fullWidth id='Company' label='Company' sx={{ marginBottom: 4 }} />
               <TextField autoFocus fullWidth id='Address' label='Address' sx={{ marginBottom: 4 }} />
               <TextField autoFocus fullWidth id='Tel' label='Tel' sx={{ marginBottom: 4 }} />
-              <TextField autoFocus fullWidth id='BirthDay' label='Birth Day' sx={{ marginBottom: 4 }} />
+              <Box sx={{ width: '100%', marginBottom: 4 }}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker />
+                </LocalizationProvider>
+              </Box>
               <TextField fullWidth type='email' label='Email' sx={{ marginBottom: 4 }} />
             </Box>
             <FormControlLabel
