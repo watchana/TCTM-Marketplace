@@ -1,6 +1,6 @@
 // pages/index.js
 import React from 'react'
-import { Grid, Box, TablePagination, TextField } from '@mui/material'
+import { Grid, Box, TablePagination, TextField, Stack, Pagination } from '@mui/material'
 import ProductCard from '../views/Home/card'
 import ProductImageCard from '../views/Home/category'
 import { useState } from 'react'
@@ -72,7 +72,6 @@ const productsData = [
   {
     name: 'ชิ้นที่ 4',
     description: 'ไม่รู้ไม่ชี้',
-    price: 500,
     image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
   },
   {
@@ -128,11 +127,11 @@ const productsData = [
     description: 'ไม่รู้ไม่ชี้',
     price: 500,
     image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
-  },
+  }
 ]
 
 const Home = () => {
-  const [currentPage, setCurrentPage] = useState(0)
+  const [currentPage, setCurrentPage] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(12)
 
   const handleChangePage = (event, newPage) => {
@@ -141,10 +140,10 @@ const Home = () => {
 
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(parseInt(event.target.value, 10))
-    setCurrentPage(0)
+    setCurrentPage(1) // รีเซ็ตหน้าเป็นหน้าแรกเมื่อเปลี่ยนจำนวนแถวต่อหน้า
   }
 
-  const startIndex = currentPage * rowsPerPage
+  const startIndex = (currentPage - 1) * rowsPerPage
   const endIndex = startIndex + rowsPerPage
   const visibleProducts = productsData.slice(startIndex, endIndex)
 
@@ -166,54 +165,45 @@ const Home = () => {
         <hr />
       </Box>
       <Box>
-      <Grid container spacing={6}>
-        <Grid item xs={12} sm={6} md={3}>
-          <TextField label="ช่องที่ 1" variant="outlined" fullWidth />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <TextField label="ช่องที่ 2" variant="outlined" fullWidth />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <TextField label="ช่องที่ 3" variant="outlined" fullWidth />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <TextField label="ช่องที่ 4" variant="outlined" fullWidth />
-        </Grid>
-      </Grid>
-    </Box>
-      <h1 className='title'> ร้านค้าออนไลน์ </h1>
-      <TablePagination
-        rowsPerPageOptions={[8, 16, 24]} // ตัวเลือกจำนวนแถวต่อหน้า
-        component='div'
-        count={productsData.length}
-        rowsPerPage={rowsPerPage}
-        page={currentPage}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-      <div className='card-list'>
         <Grid container spacing={6}>
-          {visibleProducts.map((product, index) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-              <ProductCard
-                name={product.name}
-                description={product.description}
-                price={product.price}
-                image={product.image}
-              />
-            </Grid>
-          ))}
+          <Grid item xs={12} sm={6} md={3}>
+            <TextField label='ช่องที่ 1' variant='outlined' fullWidth />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <TextField label='ช่องที่ 2' variant='outlined' fullWidth />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <TextField label='ช่องที่ 3' variant='outlined' fullWidth />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <TextField label='ช่องที่ 4' variant='outlined' fullWidth />
+          </Grid>
         </Grid>
-        <TablePagination
-        rowsPerPageOptions={[8, 16, 24]} // ตัวเลือกจำนวนแถวต่อหน้า
-        component='div'
-        count={productsData.length}
-        rowsPerPage={rowsPerPage}
-        page={currentPage}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-      </div>
+      </Box>
+      <h1 className='title'> ร้านค้าออนไลน์ </h1>
+      <Stack direction='column' spacing={2}>
+        <div style={{ marginLeft: 'auto' }}>
+          <Pagination
+            count={Math.ceil(productsData.length / rowsPerPage)} // คำนวณจำนวนหน้า
+            page={currentPage}
+            onChange={handleChangePage}
+          />
+        </div>
+        <div className='card-list'>
+          <Grid container spacing={6}>
+            {visibleProducts.map((product, index) => (
+              <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+                <ProductCard
+                  name={product.name}
+                  description={product.description}
+                  price={product.price}
+                  image={product.image}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </div>
+      </Stack>
     </div>
   )
 }
