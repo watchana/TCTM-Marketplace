@@ -11,8 +11,10 @@ import SupplierTable from 'src/views/admin/manager/SupplierTable'
 import axios from 'axios'
 
 const ManagerPage = ({ dataMember, dataSupplier }) => {
+  // ** States
   const [value, setValue] = React.useState('1')
 
+  // ** Function to handle tabs
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
@@ -48,6 +50,8 @@ const ManagerPage = ({ dataMember, dataSupplier }) => {
 }
 
 export const getServerSideProps = async context => {
+  // ** The code block you provided is an asynchronous function that fetches data from two different
+  // ** endpoints using the axios library. It makes two GET requests to the same endpoint with different headers.
   try {
     const memberResponse = await axios.get('http://111.223.38.19/api/method/frappe.API.TCTM.approve.userqueue', {
       headers: {
@@ -61,11 +65,8 @@ export const getServerSideProps = async context => {
       }
     })
 
-    const dataMember = memberResponse.data.message.Data // ไม่จำเป็นต้องใช้ await
-    const dataSupplier = supplierResponse.data.message.Data // ไม่จำเป็นต้องใช้ await
-
-    console.log('DataMember:', dataMember)
-    console.log('DataSupplier:', dataSupplier)
+    const dataMember = memberResponse.data.message.Data
+    const dataSupplier = supplierResponse.data.message.Data
 
     return {
       props: {

@@ -8,11 +8,14 @@ import { DataGrid } from '@mui/x-data-grid'
 // ** Axios
 import axios from 'axios'
 
+// ** Custom Components
+// ** merge first name and last name
 function getFullName(params) {
   return `${params.row.user_first_name || ''} ${params.row.user_last_name || ''}`
 }
 
 const MemberTable = ({ rows }) => {
+  // ** header table
   const columns = [
     { field: 'account_id', headerName: 'Account Id', width: 130 },
     {
@@ -68,6 +71,7 @@ const MemberTable = ({ rows }) => {
     }
   ]
 
+  // ** when rows is empty, show loading
   if (rows.length === 0) {
     return <div>Loading...</div>
   }
