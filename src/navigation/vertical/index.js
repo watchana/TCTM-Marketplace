@@ -26,13 +26,12 @@ const navigation = () => {
       sectionTitle: 'Pages'
     },
     {
-      title: 'Login',
+      title: 'product_details',
       icon: Login,
-      path: '/pages/login',
-      openInNewTab: true
+      path: '/product_details',
     },
     {
-      title: 'Register',
+      title: 'details',
       icon: AccountPlusOutline,
       path: '/pages/register',
       openInNewTab: true

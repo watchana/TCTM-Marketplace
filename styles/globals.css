@@ -22,3 +22,33 @@ code:not([class*='language-']):after {
 code[class*='language-'] {
   padding: 0;
 }
+
+.product-image {
+  margin-top: 6rem; /* หรือใช้ px หรือ em ตามที่คุณต้องการ */
+}
+
+.slider-container {
+  display: flex; /* ใช้ Flexbox */
+  overflow-x: auto; /* เปิดใช้งานการเลื่อนแนวนอน */
+  scroll-snap-type: x mandatory; /* ตั้งค่า scroll-snap ให้ขั้นบังคับ */
+}
+
+.slider-container > * {
+  flex: 0 0 auto; /* ห้ามขยายขนาดของ Grid items */
+  scroll-snap-align: start; /* ตั้งค่าจุดเริ่มต้นของ scroll-snap */
+}
+
+/* เพิ่ม Padding เพื่อเว้นระยะห่างระหว่าง Grid items */
+.slider-container > * + * {
+  margin-left: 16px; /* ห่างจากองค์ประกอบก่อนหน้า */
+}
+
+/* ปรับขนาดของ Grid items ให้เหมาะสมกับขนาดภาพ */
+.slider-container img {
+  width: 100%;
+  height: auto;
+}
+
+.carousel-root {
+  height: 80%;
+}

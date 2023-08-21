@@ -5,13 +5,18 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
+import { useEffect } from 'react';
 
-const ProductCard = ({ name, description, price, image }) => {
+const ProductCard = ({productId, name, description, price, image }) => {
   const router = useRouter();
 
   const handleCardClick = () => {
-    router.push(`/product/${name}`);
+    router.push(`/product_details/${productId}`);
   };
+
+  useEffect (() => {
+    console.log('test' ,productId);
+  }, [])
 
   return (
     <Card>
