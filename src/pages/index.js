@@ -1,6 +1,6 @@
 // pages/index.js
 import React from 'react'
-import { Grid, Box, TablePagination, TextField, Stack, Pagination } from '@mui/material'
+import { Grid, Box, TablePagination, TextField, Stack, Pagination, Button } from '@mui/material'
 import ProductCard from '../views/Home/card'
 import ProductImageCard from '../views/Home/category'
 import { useState } from 'react'
@@ -131,16 +131,23 @@ const productsData = [
 ]
 
 const Home = () => {
+  const [selectedFilter, setSelectedFilter] = useState(null);
+
+  const handleFilterClick = (filter) => {
+    if (selectedFilter === filter) {
+      // ถ้าคลิกซ้ำกับตัวเดิม ให้ยกเลิกการเลือก
+      setSelectedFilter(null);
+    } else {
+      // ถ้าคลิกตัวใหม่ ให้เลือกตัวนั้น
+      setSelectedFilter(filter);
+    }
+  };
+  
   const [currentPage, setCurrentPage] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(12)
 
   const handleChangePage = (event, newPage) => {
     setCurrentPage(newPage)
-  }
-
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(parseInt(event.target.value, 10))
-    setCurrentPage(1) // รีเซ็ตหน้าเป็นหน้าแรกเมื่อเปลี่ยนจำนวนแถวต่อหน้า
   }
 
   const startIndex = (currentPage - 1) * rowsPerPage
@@ -163,20 +170,53 @@ const Home = () => {
       </div>
       <Box>
         <hr />
-      </Box>
+        </Box>
       <Box>
         <Grid container spacing={6}>
-          <Grid item xs={12} sm={6} md={3}>
-            <TextField label='ช่องที่ 1' variant='outlined' fullWidth />
+          <Grid item xs={12} sm={6} md={1.5}>
+            <Button
+              variant={selectedFilter === 'Sort by' ? 'contained' : 'outlined'}
+              onClick={() => handleFilterClick('Sort by')}
+              fullWidth
+            >
+              Sort by
+            </Button>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <TextField label='ช่องที่ 2' variant='outlined' fullWidth />
+          <Grid item xs={12} sm={6} md={1.5}>
+            <Button
+              variant={selectedFilter === 'New' ? 'contained' : 'outlined'}
+              onClick={() => handleFilterClick('New')}
+              fullWidth
+            >
+              New
+            </Button>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <TextField label='ช่องที่ 3' variant='outlined' fullWidth />
+          <Grid item xs={12} sm={6} md={1.5}>
+            <Button
+              variant={selectedFilter === 'Sales' ? 'contained' : 'outlined'}
+              onClick={() => handleFilterClick('Sales')}
+              fullWidth
+            >
+              Sales
+            </Button>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <TextField label='ช่องที่ 4' variant='outlined' fullWidth />
+          <Grid item xs={12} sm={6} md={1.5}>
+            <Button
+              variant={selectedFilter === 'Size' ? 'contained' : 'outlined'}
+              onClick={() => handleFilterClick('Size')}
+              fullWidth
+            >
+              Size
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={6} md={1.5}>
+            <Button
+              variant={selectedFilter === 'Color' ? 'contained' : 'outlined'}
+              onClick={() => handleFilterClick('Color')}
+              fullWidth
+            >
+              Color
+            </Button>
           </Grid>
         </Grid>
       </Box>
