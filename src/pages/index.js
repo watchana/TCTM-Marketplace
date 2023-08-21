@@ -14,20 +14,20 @@ const productsPreview = [
     image: '../../../img/2023-08-18 090802.png' // ตั้งค่า path รูปภาพ
   },
   {
-    name: 'นาริฬาหยุดเวลา',
+    name: 'นาฬิกาหยุดเวลา',
     description: 'ไม่รู้ไม่ชี้',
     price: 200,
     image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
   },
   {
-    name: 'พระกายแก้ว',
-    description: 'เป็นตัวประหลาดสักอย่างนี้ละ',
+    name: 'พระนาราย',
+    description: 'เป็นได้แค่นั้นละ',
     price: 100,
     image: '../../../img/2023-08-18 090802.png' // ตั้งค่า path รูปภาพ
   },
   {
-    name: 'นาริฬาหยุดเวลา',
-    description: 'ไม่รู้ไม่ชี้',
+    name: 'ทศกัน',
+    description: 'ยักไก่ๆ',
     price: 200,
     image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
   }
@@ -40,7 +40,7 @@ const productsData = [
     image: '../../../img/2023-08-18 090802.png' // ตั้งค่า path รูปภาพ
   },
   {
-    name: 'นาริฬาหยุดเวลา',
+    name: 'นาฬิกาหยุดเวลา',
     description: 'ไม่รู้ไม่ชี้',
     price: 200,
     image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
@@ -58,72 +58,72 @@ const productsData = [
     image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
   },
   {
-    name: 'ชิ้นที่ 4',
+    name: 'ชิ้นที่ 5',
     description: 'ไม่รู้ไม่ชี้',
     price: 500,
     image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
   },
   {
-    name: 'ชิ้นที่ 4',
+    name: 'ชิ้นที่ 6',
     description: 'ไม่รู้ไม่ชี้',
     price: 500,
     image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
   },
   {
-    name: 'ชิ้นที่ 4',
+    name: 'ชิ้นที่ 7',
     description: 'ไม่รู้ไม่ชี้',
     image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
   },
   {
-    name: 'ชิ้นที่ 4',
-    description: 'ไม่รู้ไม่ชี้',
-    price: 500,
-    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
-  },
-  {
-    name: 'ชิ้นที่ 4',
+    name: 'ชิ้นที่ 8',
     description: 'ไม่รู้ไม่ชี้',
     price: 500,
     image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
   },
   {
-    name: 'ชิ้นที่ 4',
+    name: 'ชิ้นที่ 9',
     description: 'ไม่รู้ไม่ชี้',
     price: 500,
     image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
   },
   {
-    name: 'ชิ้นที่ 4',
+    name: 'ชิ้นที่ 10',
     description: 'ไม่รู้ไม่ชี้',
     price: 500,
     image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
   },
   {
-    name: 'ชิ้นที่ 4',
+    name: 'ชิ้นที่ 11',
     description: 'ไม่รู้ไม่ชี้',
     price: 500,
     image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
   },
   {
-    name: 'ชิ้นที่ 4',
+    name: 'ชิ้นที่ 12',
     description: 'ไม่รู้ไม่ชี้',
     price: 500,
     image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
   },
   {
-    name: 'ชิ้นที่ 4',
+    name: 'ชิ้นที่ 13',
     description: 'ไม่รู้ไม่ชี้',
     price: 500,
     image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
   },
   {
-    name: 'ชิ้นที่ 4',
+    name: 'ชิ้นที่ 14',
     description: 'ไม่รู้ไม่ชี้',
     price: 500,
     image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
   },
   {
-    name: 'ชิ้นที่ 4',
+    name: 'ชิ้นที่ 15',
+    description: 'ไม่รู้ไม่ชี้',
+    price: 500,
+    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
+  },
+  {
+    name: 'ชิ้นที่ 16',
     description: 'ไม่รู้ไม่ชี้',
     price: 500,
     image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
