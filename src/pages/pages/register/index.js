@@ -134,7 +134,7 @@ const RegisterPage = () => {
   // ฟังก์ชันบัณทึกค่าของ company
   const handleCompanySet = event => {
     const companyInput = event.target.value
-    if (/^[a-zA-Z\s]*$/.test(companyInput) || companyInput === '') {
+    if (/^[a-zA-Z\s!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]*$/.test(companyInput) || companyInput === '') {
       setCompany(companyInput)
     }
   }
