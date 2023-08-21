@@ -23,6 +23,9 @@ import AccountOutline from 'mdi-material-ui/AccountOutline'
 import MessageOutline from 'mdi-material-ui/MessageOutline'
 import HelpCircleOutline from 'mdi-material-ui/HelpCircleOutline'
 
+// Import Cookie
+import Cookies from 'js-cookie'
+
 // ** Styled Components
 const BadgeContentSpan = styled('span')(({ theme }) => ({
   width: 8,
@@ -45,6 +48,13 @@ const UserDropdown = () => {
 
   const handleDropdownClose = url => {
     if (url) {
+      if (url === '/pages/login') {
+        // Clear token from local storage
+        localStorage.removeItem('jwt')
+
+        // Clear token from Cookies
+        Cookies.remove('jwt')
+      }
       router.push(url)
     }
     setAnchorEl(null)
