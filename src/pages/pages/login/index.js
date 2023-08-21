@@ -164,7 +164,7 @@ const LoginPage = () => {
             Cookies.set('jwt', token)
             Swal.fire({
               icon: 'success',
-              title: 'Your work has been saved',
+              title: 'Login Success',
               showConfirmButton: false,
               timer: 1000
             }).then(router.push(`/`))
