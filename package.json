@@ -54,6 +54,7 @@
     "@mui/x-date-pickers": "^6.11.2",
     "@popperjs/core": "^2.11.2",
     "apexcharts-clevision": "3.28.5",
+    "axios": "^1.4.0",
     "babel-eslint": "^10.1.0",
     "clsx": "^1.1.1",
     "date-fns": "^2.30.0",
@@ -70,7 +71,8 @@
     "react-dom": "17.0.2",
     "react-perfect-scrollbar": "^1.5.8",
     "react-popper": "^2.2.5",
-    "styled-components": "^5.3.11"
+    "styled-components": "^5.3.11",
+    "sweetalert2": "^11.7.27"
   },
   "devDependencies": {
     "eslint": "^7.32.0",

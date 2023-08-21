@@ -1,13 +1,16 @@
 // ** React Imports
 import { useState, Fragment } from 'react'
 
-// ** MUI X Imports
+// ** MUI X Date picker Imports
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 
 // ** Next Imports
 import Link from 'next/link'
+
+// ** Axios Import
+import axios from 'axios'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
@@ -39,6 +42,9 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 // ** Demo Imports
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
 
+// ** Switch Alert Import
+const Swal = require('sweetalert2')
+
 // ** Styled Components
 const Card = styled(MuiCard)(({ theme }) => ({
   [theme.breakpoints.up('sm')]: { width: '28rem' }
@@ -69,16 +75,116 @@ const RegisterPage = () => {
   // ** Hook
   const theme = useTheme()
 
-  const handleChange = prop => event => {
-    setValues({ ...values, [prop]: event.target.value })
-  }
-
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword })
   }
 
   const handleMouseDownPassword = event => {
     event.preventDefault()
+  }
+
+  // ประกาศตัวแปรเก็บข้อมูล
+  const [user, setUser] = useState('') // ตัวแปรเก็บค่า User
+  const [password, setPassword] = useState('') // ตัวแปรเก็บค่า password
+  const [firstname, setFirstname] = useState('') // ตัวแปรเก็บค่า firstname
+  const [lastname, setLastname] = useState('') // ตัวแปรเก็บค่า lastname
+  const [company, setCompany] = useState('') // ตัวแปรเก็บค่า company
+  const [address, setAddress] = useState('') // ตัวแปรเก็บค่า address
+  const [tel, setTel] = useState('') // ตัวแปรเก็บค่า Tel
+  const [date, setDate] = useState('') // ตัวแปรเก็บค่า Date
+  const [email, setEmail] = useState('') // ตัวแปรเก็บค่า Email
+
+  //**  ฟังก์ชันบัณทึกการเปลี่ยนแปลงค่า Input
+
+  // ฟังก์ชันบัณทึกค่าของ User
+  const handleUserSet = event => {
+    // console.log(event.target.value)
+    setUser(event.target.value)
+  }
+
+  // ฟังก์ชันบัณทึกค่าของ Password
+  const handlePasswordSet = prop => event => {
+    setValues({ ...values, [prop]: event.target.value })
+    setPassword(event.target.value)
+  }
+
+  // ฟังก์ชันบัณทึกค่าของ firstname
+  const handleFirstnameSet = event => {
+    console.log(event.target.value)
+    setFirstname(event.target.value)
+  }
+
+  // ฟังก์ชันบัณทึกค่าของ Lastname
+  const handleLastnamenameSet = event => {
+    setLastname(event.target.value)
+  }
+
+  // ฟังก์ชันบัณทึกค่าของ company
+  const handleCompanySet = event => {
+    setCompany(event.target.value)
+  }
+
+  // ฟังก์ชันบัณทึกค่าของ Address
+  const handleAddressSet = event => {
+    setAddress(event.target.value)
+  }
+
+  // ฟังก์ชันบัณทึกค่าของ tel
+  const handleTelSet = event => {
+    setTel(event.target.value)
+  }
+
+  // ฟังก์ชันบัณทึกค่าของ date
+  const handleDateSet = selectedDate => {
+    const formattedDate = selectedDate.format('MM/DD/YYYY')
+    setDate(formattedDate)
+  }
+
+  // ฟังก์ชันบัณทึกค่าของ email
+  const handleEmailSet = event => {
+    setEmail(event.target.value)
+  }
+
+  // ฟังชันส่งค่าข้อมูล
+  const handleSubmitData = event => {
+    event.preventDefault()
+
+    const data = {
+      username: user,
+      password: password,
+      user_email: email,
+      user_first_name: firstname,
+      user_last_name: lastname,
+      user_company: company,
+      user_address: address,
+      user_tel: tel,
+      user_birthday: date
+    }
+
+    console.log('ข้อมูลที่ส่งไป Server', data)
+
+    axios
+      .post(`${process.env.NEXT_PUBLIC_API}TCTM.register.register`, data)
+      .then(response => {
+        // การจัดการเมื่อส่งสำเร็จ
+        console.log(response.data) // แสดงข้อมูลที่ได้จากการส่ง
+
+        Swal.fire({
+          icon: 'success',
+          title: 'ส่งข้อมูลสำเร็จ',
+          text: 'ข้อมูลถูกส่งไปยัง API แล้ว'
+        })
+      })
+      .catch(error => {
+        // การจัดการเมื่อเกิดข้อผิดพลาด
+        console.error(error)
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Log in ล้มเหลว...',
+          text: 'มีข้อผิดพลาดในการเรียก API'
+        })
+      })
   }
 
   return (
@@ -159,14 +265,24 @@ const RegisterPage = () => {
             </Typography>
           </Box>
           <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-            <TextField autoFocus fullWidth id='username' label='Username' sx={{ marginBottom: 4 }} />
+            {/* User Input */}
+            <TextField
+              autoFocus
+              fullWidth
+              id='username'
+              label='Username'
+              sx={{ marginBottom: 4 }}
+              value={user}
+              onChange={handleUserSet}
+            />
+            {/* Password Input */}
             <FormControl fullWidth sx={{ marginBottom: 4 }}>
               <InputLabel htmlFor='auth-register-password'>Password</InputLabel>
               <OutlinedInput
                 label='Password'
                 value={values.password}
                 id='auth-register-password'
-                onChange={handleChange('password')}
+                onChange={handlePasswordSet('password')}
                 type={values.showPassword ? 'text' : 'password'}
                 endAdornment={
                   <InputAdornment position='end'>
@@ -185,17 +301,46 @@ const RegisterPage = () => {
 
             <Divider sx={{ my: 5 }}>and</Divider>
             <Box sx={{ width: '100%' }}>
-              <TextField autoFocus fullWidth id='FirstName' label='FirstName EN' sx={{ marginBottom: 4 }} />
-              <TextField autoFocus fullWidth id='LastName' label='LastName EN' sx={{ marginBottom: 4 }} />
-              <TextField autoFocus fullWidth id='Company' label='Company' sx={{ marginBottom: 4 }} />
-              <TextField autoFocus fullWidth id='Address' label='Address' sx={{ marginBottom: 4 }} />
-              <TextField autoFocus fullWidth id='Tel' label='Tel' sx={{ marginBottom: 4 }} />
+              {/* FirstName Input */}
+              <TextField
+                autoFocus
+                fullWidth
+                id='FirstName'
+                label='FirstName EN'
+                sx={{ marginBottom: 4 }}
+                onChange={handleFirstnameSet}
+              />
+              <TextField
+                autoFocus
+                fullWidth
+                id='LastName'
+                label='LastName EN'
+                sx={{ marginBottom: 4 }}
+                onChange={handleLastnamenameSet}
+              />
+              <TextField
+                autoFocus
+                fullWidth
+                id='Company'
+                label='Company'
+                sx={{ marginBottom: 4 }}
+                onChange={handleCompanySet}
+              />
+              <TextField
+                autoFocus
+                fullWidth
+                id='Address'
+                label='Address'
+                sx={{ marginBottom: 4 }}
+                onChange={handleAddressSet}
+              />
+              <TextField autoFocus fullWidth id='Tel' label='Tel' sx={{ marginBottom: 4 }} onChange={handleTelSet} />
               <Box sx={{ width: '100%', marginBottom: 4 }}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker />
+                  <DatePicker value={date} onChange={handleDateSet} />
                 </LocalizationProvider>
               </Box>
-              <TextField fullWidth type='email' label='Email' sx={{ marginBottom: 4 }} />
+              <TextField fullWidth type='email' label='Email' sx={{ marginBottom: 4 }} onChange={handleEmailSet} />
             </Box>
             <FormControlLabel
               control={<Checkbox />}
@@ -208,7 +353,14 @@ const RegisterPage = () => {
                 </Fragment>
               }
             />
-            <Button fullWidth size='large' type='submit' variant='contained' sx={{ marginBottom: 7 }}>
+            <Button
+              fullWidth
+              size='large'
+              type='submit'
+              variant='contained'
+              sx={{ marginBottom: 7 }}
+              onClick={handleSubmitData}
+            >
               Sign up
             </Button>
           </form>
