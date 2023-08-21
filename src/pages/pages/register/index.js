@@ -154,19 +154,12 @@ const RegisterPage = () => {
                 fontSize: '1.5rem !important'
               }}
             >
-              {themeConfig.templateName}
+              {''} register
             </Typography>
-          </Box>
-          <Box sx={{ mb: 6 }}>
-            <Typography variant='h5' sx={{ fontWeight: 600, marginBottom: 1.5 }}>
-              Adventure starts here 🚀
-            </Typography>
-            <Typography variant='body2'>Make your app management easy and fun!</Typography>
           </Box>
           <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
             <TextField autoFocus fullWidth id='username' label='Username' sx={{ marginBottom: 4 }} />
-            <TextField fullWidth type='email' label='Email' sx={{ marginBottom: 4 }} />
-            <FormControl fullWidth>
+            <FormControl fullWidth sx={{ marginBottom: 4 }}>
               <InputLabel htmlFor='auth-register-password'>Password</InputLabel>
               <OutlinedInput
                 label='Password'
@@ -188,6 +181,17 @@ const RegisterPage = () => {
                 }
               />
             </FormControl>
+
+            <Divider sx={{ my: 5 }}>and</Divider>
+            <Box sx={{ width: '100%' }}>
+              <TextField autoFocus fullWidth id='FirstName' label='FirstName EN' sx={{ marginBottom: 4 }} />
+              <TextField autoFocus fullWidth id='LastName' label='LastName EN' sx={{ marginBottom: 4 }} />
+              <TextField autoFocus fullWidth id='Company' label='Company' sx={{ marginBottom: 4 }} />
+              <TextField autoFocus fullWidth id='Address' label='Address' sx={{ marginBottom: 4 }} />
+              <TextField autoFocus fullWidth id='Tel' label='Tel' sx={{ marginBottom: 4 }} />
+              <TextField autoFocus fullWidth id='BirthDay' label='Birth Day' sx={{ marginBottom: 4 }} />
+              <TextField fullWidth type='email' label='Email' sx={{ marginBottom: 4 }} />
+            </Box>
             <FormControlLabel
               control={<Checkbox />}
               label={
@@ -202,41 +206,6 @@ const RegisterPage = () => {
             <Button fullWidth size='large' type='submit' variant='contained' sx={{ marginBottom: 7 }}>
               Sign up
             </Button>
-            <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-              <Typography variant='body2' sx={{ marginRight: 2 }}>
-                Already have an account?
-              </Typography>
-              <Typography variant='body2'>
-                <Link passHref href='/pages/login'>
-                  <LinkStyled>Sign in instead</LinkStyled>
-                </Link>
-              </Typography>
-            </Box>
-            <Divider sx={{ my: 5 }}>or</Divider>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Link href='/' passHref>
-                <IconButton component='a' onClick={e => e.preventDefault()}>
-                  <Facebook sx={{ color: '#497ce2' }} />
-                </IconButton>
-              </Link>
-              <Link href='/' passHref>
-                <IconButton component='a' onClick={e => e.preventDefault()}>
-                  <Twitter sx={{ color: '#1da1f2' }} />
-                </IconButton>
-              </Link>
-              <Link href='/' passHref>
-                <IconButton component='a' onClick={e => e.preventDefault()}>
-                  <Github
-                    sx={{ color: theme => (theme.palette.mode === 'light' ? '#272727' : theme.palette.grey[300]) }}
-                  />
-                </IconButton>
-              </Link>
-              <Link href='/' passHref>
-                <IconButton component='a' onClick={e => e.preventDefault()}>
-                  <Google sx={{ color: '#db4437' }} />
-                </IconButton>
-              </Link>
-            </Box>
           </form>
         </CardContent>
       </Card>
