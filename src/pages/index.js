@@ -18,14 +18,16 @@ const Dashboard = () => {
   return (
     <Container maxWidth='xl'>
       <Box sx={{ height: '100%' }}>
-        <Card sx={{ width: '100%', height: '300px', bgcolor: '#999' }}>
-          <Typography variant='h1'>Billboard</Typography>
+        <Card sx={{ width: '100%', height: '300px', bgcolor: '#999', paddingTop: 20 }}>
+          <Typography variant='h1' textAlign='center'>
+            Billboard
+          </Typography>
         </Card>
         <Box sx={{ width: '100%', marginY: 5 }}>
           <Typography variant='h4'>Products!</Typography>
         </Box>
-        <Box sx={{ width: '100%', paddingX: 40 }}>
-          <Grid container spacing={5}>
+        <Box sx={{ width: '100%' }}>
+          <Grid spacing={5} container direction='row' justifyContent='center' alignItems='center'>
             <Grid item>
               <Card sx={{ width: '244px', height: '160px', bgcolor: '#999' }}>
                 <CardContent sx={{ width: '100%', height: '100%', padding: 17 }}>
