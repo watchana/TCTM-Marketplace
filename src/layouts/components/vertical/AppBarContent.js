@@ -1,7 +1,12 @@
+// ** Next Import
+import Link from 'next/link'
+
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Hidden from '@mui/material/Hidden'
+import Avatar from '@mui/material/Avatar'
+import CardMedia from '@mui/material/CardMedia'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
@@ -26,30 +31,23 @@ const AppBarContent = props => {
 
   return (
     <Grid container direction='row' justifyContent='space-between' alignItems='flex-start'>
-      <Grid item xs={6} sm={6} md={2} lg={2} xl={2} display='grid' justifyContent='flex-end'>
-        LOGO
+      <Grid item>
+        <Box display='flex' direction='row'>
+          <Link href='/' passHref>
+            <img src='/images/cards/TCTM_Group_3 (1).png' alt='logo' width='52px' />
+          </Link>
+          <Hidden smDown>
+            <Box sx={{ marginLeft: 3 }}>
+              <Typography variant='h5' sx={{ fontWeight: 'bold', marginBottom: '-10px' }}>
+                TCTM
+              </Typography>
+              <Typography variant='body1'>Marketplace</Typography>
+            </Box>
+          </Hidden>
+        </Box>
       </Grid>
-      <Hidden mdDown>
-        <Grid item md={8} lg={8} xl={8} textAlign='center'>
-          <Box sx={{ width: '100%' }}>
-            <TextField
-              fullWidth
-              size='small'
-              placeholder='Search Product…'
-              sx={{ width: '70%', borderRadius: 1 }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position='start'>
-                    <Magnify fontSize='small' />
-                  </InputAdornment>
-                )
-              }}
-            />
-          </Box>
-        </Grid>
-      </Hidden>
-      <Grid item xs={6} sm={6} md={2} lg={2} xl={2} display='grid' justifyContent='flex-end'>
-        <Box sx={{ width: '100%' }}>
+      <Grid item>
+        <Box className='actions-right' sx={{ width: '100%' }}>
           <ModeToggler settings={settings} saveSettings={saveSettings} />
           <IconButton>
             {/* ต้องสร้าง components ใน src/@core/layouts/components/shared-components/ สำหรับปุ่ม ตะกร้า  */}
