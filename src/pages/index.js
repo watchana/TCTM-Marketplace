@@ -9,8 +9,106 @@ import Container from '@mui/material/Container'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import Autocomplete from '@mui/material/Autocomplete'
+import Button from '@mui/material/Button'
+
+// ** Switch Alert Import
+const Swal = require('sweetalert2')
+
+// ** axios Imports
+import axios from 'axios'
 
 const Dashboard = () => {
+  // รับค่าตัวแปร
+  const [storename, setStoreName] = useState('') // ตัวแปรเก็บค่า storename
+  const [email, setEmail] = useState('') // ตัวแปรเก็บค่า email
+  const [tel, setTel] = useState('') // ตัวแปรเก็บค่า Tel Store details
+  const [storedetails, setStoreDetails] = useState('') // ตัวแปรเก็บค่า Store details
+  const [idcard, setIdCard] = useState('') // ตัวแปรเก็บค่า Id Card
+  const [address, setAddress] = useState('') // ตัวแปรเก็บค่า ที่อยู่
+
+  // ตัวแปรเช็คสถานะการส่งข้อมูล
+  const [isSubmitted, setIsSubmitted] = useState(false)
+
+  // ฟังก์ชันบัณทึกค่าของ storename
+  const handleStoreNameSet = event => {
+    setStoreName(event.target.value)
+  }
+
+  // ฟังก์ชันบัณทึกค่าของ email
+  const handleEmailSet = event => {
+    setEmail(event.target.value)
+  }
+
+  // ฟังก์ชันบัณทึกค่าของ Tel
+  const handleTelSet = event => {
+    setTel(event.target.value)
+  }
+
+  // ฟังก์ชันบัณทึกค่าของ StoreDetails
+  const handleStoreDetailsSet = event => {
+    setStoreDetails(event.target.value)
+  }
+
+  // ฟังก์ชันบัณทึกค่าของ IdCard
+  const handleIdCardSet = event => {
+    setIdCard(event.target.value)
+  }
+
+  // ฟังก์ชันบัณทึกค่าของ Address
+  const handleAddressSet = event => {
+    setAddress(event.target.value)
+  }
+
+  const handleSubmitData = event => {
+    event.preventDefault()
+    setIsSubmitted(true)
+
+    // ตรวจสอบค่าว่างก่อนส่ง
+    const fieldsToCheck = [idcard, tel, email, storename, storedetails, address]
+    if (fieldsToCheck.some(field => field === '' || field === null || field === undefined)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'กรุณาระบุข้อมูลให้ครบ',
+        text: 'โปรดกรอกข้อมูลให้ครบทุกช่อง'
+      })
+
+      return
+    }
+
+    const data = {
+      sub_bank_number: idcard,
+      sub_tel: tel,
+      sub_email: email,
+      sub_name: storename,
+      sub_description: storedetails,
+      sub_address: address,
+      sub_address_shop: '1',
+      sub_address_claim: '1',
+      member_id: 'MEM-2' // Id คน login
+    }
+
+    console.log('ข้อมูลที่ส่งไป Server', data)
+
+    axios
+      .post(`${process.env.NEXT_PUBLIC_API}TCTM.register.registerMarket`, data)
+      .then(response => {
+        console.log(response.data)
+        Swal.fire({
+          icon: 'success',
+          title: 'ส่งข้อมูลสำเร็จ',
+          text: 'กรุณารอ การยืนยันจาก TCTM'
+        })
+      })
+      .catch(error => {
+        console.error(error)
+        Swal.fire({
+          icon: 'error',
+          title: 'Log in ล้มเหลว...',
+          text: 'มีข้อผิดพลาดในการเรียก API'
+        })
+      })
+  }
+
   return (
     <Container maxWidth='xl'>
       <Box>
@@ -26,7 +124,15 @@ const Dashboard = () => {
             </Grid>
             <Grid item md={8}>
               <Box sx={{ width: '50%' }}>
-                <TextField fullWidth size='small' label='Enter Store Name'></TextField>
+                <TextField
+                  fullWidth
+                  size='small'
+                  label='Enter Store Name'
+                  value={storename}
+                  onChange={handleStoreNameSet}
+                  error={storename === '' && isSubmitted}
+                  helperText={storename === '' && isSubmitted ? 'Please enter your Store Name.' : ''}
+                ></TextField>
               </Box>
             </Grid>
           </Grid>
@@ -39,7 +145,15 @@ const Dashboard = () => {
             </Grid>
             <Grid item md={8}>
               <Box sx={{ width: '50%' }}>
-                <TextField fullWidth size='small' label='Enter Email'></TextField>
+                <TextField
+                  fullWidth
+                  size='small'
+                  label='Enter Email'
+                  value={email}
+                  onChange={handleEmailSet}
+                  error={email === '' && isSubmitted}
+                  helperText={email === '' && isSubmitted ? 'Please enter your email.' : ''}
+                ></TextField>
               </Box>
             </Grid>
           </Grid>
@@ -52,7 +166,15 @@ const Dashboard = () => {
             </Grid>
             <Grid item md={8}>
               <Box sx={{ width: '50%' }}>
-                <TextField fullWidth size='small' label='Enter Tel'></TextField>
+                <TextField
+                  fullWidth
+                  size='small'
+                  label='Enter Tel'
+                  value={tel}
+                  onChange={handleTelSet}
+                  error={tel === '' && isSubmitted}
+                  helperText={tel === '' && isSubmitted ? 'Please enter your tel.' : ''}
+                ></TextField>
               </Box>
             </Grid>
           </Grid>
@@ -66,7 +188,17 @@ const Dashboard = () => {
             </Grid>
             <Grid item md={8}>
               <Box sx={{ width: '50%' }}>
-                <TextField fullWidth multiline rows={4} size='small' label='Enter Details'></TextField>
+                <TextField
+                  fullWidth
+                  multiline
+                  rows={4}
+                  size='small'
+                  label='Enter Details'
+                  value={storedetails}
+                  onChange={handleStoreDetailsSet}
+                  error={storedetails === '' && isSubmitted}
+                  helperText={storedetails === '' && isSubmitted ? 'Please enter your storedetails.' : ''}
+                ></TextField>
               </Box>
             </Grid>
           </Grid>
@@ -77,7 +209,7 @@ const Dashboard = () => {
         <Typography variant='h5'>Address</Typography>
       </Box>
       <Box>
-        {/* ปชช */}
+        {/* บัญชีธนาคาร */}
         <Box sx={{ width: '100%', marginBottom: 4 }}>
           <Grid container>
             <Grid item md={4}>
@@ -85,221 +217,57 @@ const Dashboard = () => {
             </Grid>
             <Grid item md={8}>
               <Box sx={{ width: '50%' }}>
-                <TextField fullWidth size='small' label='Address on ID card *'></TextField>
+                <TextField
+                  fullWidth
+                  size='small'
+                  label='Address on ID card *'
+                  value={idcard}
+                  onChange={handleIdCardSet}
+                  error={idcard === '' && isSubmitted}
+                  helperText={idcard === '' && isSubmitted ? 'Please enter your idcard.' : ''}
+                ></TextField>
               </Box>
             </Grid>
           </Grid>
         </Box>
-        {/* จังหวัด */}
+
+        {/* ข้อมูลที่อยู่ */}
         <Box sx={{ width: '100%', marginBottom: 4 }}>
           <Grid container>
             <Grid item md={4}>
-              <Typography variant='body1'>Province</Typography>
+              <Typography variant='body1'>Address Information *</Typography>
             </Grid>
             <Grid item md={8}>
               <Box sx={{ width: '50%' }}>
-                <Autocomplete
+                <TextField
+                  fullWidth
+                  multiline
+                  rows={4}
                   size='small'
-                  disablePortal
-                  id='combo-box-demo'
-                  options={top100Films}
-                  sx={{ width: 300 }}
-                  renderInput={params => <TextField {...params} label='Province' />}
-                />
+                  label='Address Information *'
+                  value={address}
+                  onChange={handleAddressSet}
+                  error={address === '' && isSubmitted}
+                  helperText={address === '' && isSubmitted ? 'Please enter your address.' : ''}
+                ></TextField>
               </Box>
             </Grid>
           </Grid>
         </Box>
-        {/* อำเภท */}
-        <Box sx={{ width: '100%', marginBottom: 4 }}>
-          <Grid container>
-            <Grid item md={4}>
-              <Typography variant='body1'>District</Typography>
-            </Grid>
-            <Grid item md={8}>
-              <Box sx={{ width: '50%' }}>
-                <Autocomplete
-                  size='small'
-                  disablePortal
-                  id='combo-box-demo'
-                  options={top100Films}
-                  sx={{ width: 300 }}
-                  renderInput={params => <TextField {...params} label='District' />}
-                />
-              </Box>
-            </Grid>
-          </Grid>
-        </Box>
-        {/* ตำบล */}
-        <Box sx={{ width: '100%', marginBottom: 4 }}>
-          <Grid container>
-            <Grid item md={4}>
-              <Typography variant='body1'>Sub District</Typography>
-            </Grid>
-            <Grid item md={8}>
-              <Box sx={{ width: '50%' }}>
-                <Autocomplete
-                  size='small'
-                  disablePortal
-                  id='combo-box-demo'
-                  options={top100Films}
-                  sx={{ width: 300 }}
-                  renderInput={params => <TextField {...params} label='Sub District' />}
-                />
-              </Box>
-            </Grid>
-          </Grid>
-        </Box>
-        {/* ไปรษณีย์ */}
-        <Box sx={{ width: '100%', marginBottom: 4 }}>
-          <Grid container>
-            <Grid item md={4}>
-              <Typography variant='body1'>Post Office</Typography>
-            </Grid>
-            <Grid item md={8}>
-              <Box sx={{ width: '50%' }}>
-                <Autocomplete
-                  size='small'
-                  disablePortal
-                  id='combo-box-demo'
-                  options={top100Films}
-                  sx={{ width: 300 }}
-                  renderInput={params => <TextField {...params} label='Post Office' />}
-                />
-              </Box>
-            </Grid>
-          </Grid>
-        </Box>
+
+        <Button
+          fullWidth
+          size='large'
+          type='submit'
+          variant='contained'
+          sx={{ marginTop: 7 }}
+          onClick={handleSubmitData}
+        >
+          Sign up
+        </Button>
       </Box>
     </Container>
   )
 }
 
 export default Dashboard
-
-const top100Films = [
-  { label: 'The Shawshank Redemption', year: 1994 },
-  { label: 'The Godfather', year: 1972 },
-  { label: 'The Godfather: Part II', year: 1974 },
-  { label: 'The Dark Knight', year: 2008 },
-  { label: '12 Angry Men', year: 1957 },
-  { label: "Schindler's List", year: 1993 },
-  { label: 'Pulp Fiction', year: 1994 },
-  {
-    label: 'The Lord of the Rings: The Return of the King',
-    year: 2003
-  },
-  { label: 'The Good, the Bad and the Ugly', year: 1966 },
-  { label: 'Fight Club', year: 1999 },
-  {
-    label: 'The Lord of the Rings: The Fellowship of the Ring',
-    year: 2001
-  },
-  {
-    label: 'Star Wars: Episode V - The Empire Strikes Back',
-    year: 1980
-  },
-  { label: 'Forrest Gump', year: 1994 },
-  { label: 'Inception', year: 2010 },
-  {
-    label: 'The Lord of the Rings: The Two Towers',
-    year: 2002
-  },
-  { label: "One Flew Over the Cuckoo's Nest", year: 1975 },
-  { label: 'Goodfellas', year: 1990 },
-  { label: 'The Matrix', year: 1999 },
-  { label: 'Seven Samurai', year: 1954 },
-  {
-    label: 'Star Wars: Episode IV - A New Hope',
-    year: 1977
-  },
-  { label: 'City of God', year: 2002 },
-  { label: 'Se7en', year: 1995 },
-  { label: 'The Silence of the Lambs', year: 1991 },
-  { label: "It's a Wonderful Life", year: 1946 },
-  { label: 'Life Is Beautiful', year: 1997 },
-  { label: 'The Usual Suspects', year: 1995 },
-  { label: 'Léon: The Professional', year: 1994 },
-  { label: 'Spirited Away', year: 2001 },
-  { label: 'Saving Private Ryan', year: 1998 },
-  { label: 'Once Upon a Time in the West', year: 1968 },
-  { label: 'American History X', year: 1998 },
-  { label: 'Interstellar', year: 2014 },
-  { label: 'Casablanca', year: 1942 },
-  { label: 'City Lights', year: 1931 },
-  { label: 'Psycho', year: 1960 },
-  { label: 'The Green Mile', year: 1999 },
-  { label: 'The Intouchables', year: 2011 },
-  { label: 'Modern Times', year: 1936 },
-  { label: 'Raiders of the Lost Ark', year: 1981 },
-  { label: 'Rear Window', year: 1954 },
-  { label: 'The Pianist', year: 2002 },
-  { label: 'The Departed', year: 2006 },
-  { label: 'Terminator 2: Judgment Day', year: 1991 },
-  { label: 'Back to the Future', year: 1985 },
-  { label: 'Whiplash', year: 2014 },
-  { label: 'Gladiator', year: 2000 },
-  { label: 'Memento', year: 2000 },
-  { label: 'The Prestige', year: 2006 },
-  { label: 'The Lion King', year: 1994 },
-  { label: 'Apocalypse Now', year: 1979 },
-  { label: 'Alien', year: 1979 },
-  { label: 'Sunset Boulevard', year: 1950 },
-  {
-    label: 'Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb',
-    year: 1964
-  },
-  { label: 'The Great Dictator', year: 1940 },
-  { label: 'Cinema Paradiso', year: 1988 },
-  { label: 'The Lives of Others', year: 2006 },
-  { label: 'Grave of the Fireflies', year: 1988 },
-  { label: 'Paths of Glory', year: 1957 },
-  { label: 'Django Unchained', year: 2012 },
-  { label: 'The Shining', year: 1980 },
-  { label: 'WALL·E', year: 2008 },
-  { label: 'American Beauty', year: 1999 },
-  { label: 'The Dark Knight Rises', year: 2012 },
-  { label: 'Princess Mononoke', year: 1997 },
-  { label: 'Aliens', year: 1986 },
-  { label: 'Oldboy', year: 2003 },
-  { label: 'Once Upon a Time in America', year: 1984 },
-  { label: 'Witness for the Prosecution', year: 1957 },
-  { label: 'Das Boot', year: 1981 },
-  { label: 'Citizen Kane', year: 1941 },
-  { label: 'North by Northwest', year: 1959 },
-  { label: 'Vertigo', year: 1958 },
-  {
-    label: 'Star Wars: Episode VI - Return of the Jedi',
-    year: 1983
-  },
-  { label: 'Reservoir Dogs', year: 1992 },
-  { label: 'Braveheart', year: 1995 },
-  { label: 'M', year: 1931 },
-  { label: 'Requiem for a Dream', year: 2000 },
-  { label: 'Amélie', year: 2001 },
-  { label: 'A Clockwork Orange', year: 1971 },
-  { label: 'Like Stars on Earth', year: 2007 },
-  { label: 'Taxi Driver', year: 1976 },
-  { label: 'Lawrence of Arabia', year: 1962 },
-  { label: 'Double Indemnity', year: 1944 },
-  {
-    label: 'Eternal Sunshine of the Spotless Mind',
-    year: 2004
-  },
-  { label: 'Amadeus', year: 1984 },
-  { label: 'To Kill a Mockingbird', year: 1962 },
-  { label: 'Toy Story 3', year: 2010 },
-  { label: 'Logan', year: 2017 },
-  { label: 'Full Metal Jacket', year: 1987 },
-  { label: 'Dangal', year: 2016 },
-  { label: 'The Sting', year: 1973 },
-  { label: '2001: A Space Odyssey', year: 1968 },
-  { label: "Singin' in the Rain", year: 1952 },
-  { label: 'Toy Story', year: 1995 },
-  { label: 'Bicycle Thieves', year: 1948 },
-  { label: 'The Kid', year: 1921 },
-  { label: 'Inglourious Basterds', year: 2009 },
-  { label: 'Snatch', year: 2000 },
-  { label: '3 Idiots', year: 2009 },
-  { label: 'Monty Python and the Holy Grail', year: 1975 }
-]
