@@ -4,6 +4,7 @@ import Link from 'next/link'
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
+import Button from '@mui/material/Button'
 import Hidden from '@mui/material/Hidden'
 import Avatar from '@mui/material/Avatar'
 import CardMedia from '@mui/material/CardMedia'
@@ -16,6 +17,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 import Menu from 'mdi-material-ui/Menu'
 import Magnify from 'mdi-material-ui/Magnify'
 import CartOutline from 'mdi-material-ui/CartOutline'
+import HelpBox from 'mdi-material-ui/HelpBox'
 
 // ** Theme Config Import
 import themeConfig from 'src/configs/themeConfig'
@@ -46,8 +48,29 @@ const AppBarContent = props => {
           </Hidden>
         </Box>
       </Grid>
+      <Hidden mdDown>
+        <Grid item xs={6}>
+          <Box sx={{ width: '100%', padding: 1 }}>
+            <TextField
+              size='small'
+              placeholder='Search Product…'
+              sx={{ width: '100%', '& .MuiOutlinedInput-root': { borderRadius: 4 } }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position='start'>
+                    <Magnify fontSize='small' />
+                  </InputAdornment>
+                )
+              }}
+            />
+          </Box>
+        </Grid>
+      </Hidden>
       <Grid item>
         <Box className='actions-right' sx={{ width: '100%', height: '100%', padding: 1 }}>
+          <Button variant='outlined' startIcon={<HelpBox />}>
+            +Add Post
+          </Button>
           <ModeToggler settings={settings} saveSettings={saveSettings} />
           <IconButton>
             {/* ต้องสร้าง components ใน src/@core/layouts/components/shared-components/ สำหรับปุ่ม ตะกร้า  */}
