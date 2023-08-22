@@ -22,6 +22,7 @@ import LogoutVariant from 'mdi-material-ui/LogoutVariant'
 import AccountOutline from 'mdi-material-ui/AccountOutline'
 import MessageOutline from 'mdi-material-ui/MessageOutline'
 import HelpCircleOutline from 'mdi-material-ui/HelpCircleOutline'
+import StorefrontPlusOutline from 'mdi-material-ui/StorefrontPlusOutline'
 
 // Import Cookie
 import Cookies from 'js-cookie'
@@ -128,10 +129,11 @@ const UserDropdown = () => {
             Inbox
           </Box>
         </MenuItem>
+        {/* ตรงนี้ไว้ใส่ registration-supplier */}
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
-            <MessageOutline sx={{ marginRight: 2 }} />
-            Chat
+            <StorefrontPlusOutline sx={{ marginRight: 2 }} />
+            Registration Maker
           </Box>
         </MenuItem>
         <Divider />
