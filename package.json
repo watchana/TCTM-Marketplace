@@ -54,6 +54,7 @@
     "@mui/x-data-grid": "^6.11.2",
     "@popperjs/core": "^2.11.2",
     "apexcharts-clevision": "3.28.5",
+    "axios": "^1.4.0",
     "babel-eslint": "^10.1.0",
     "clsx": "^1.1.1",
     "eslint-plugin-react": "^7.29.4",
@@ -67,7 +68,8 @@
     "react-multi-carousel": "^2.8.4",
     "react-perfect-scrollbar": "^1.5.8",
     "react-popper": "^2.2.5",
-    "react-responsive-carousel": "^3.2.23"
+    "react-responsive-carousel": "^3.2.23",
+    "sweetalert2": "^11.7.27"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
