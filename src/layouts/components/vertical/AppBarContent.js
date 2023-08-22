@@ -47,7 +47,7 @@ const AppBarContent = props => {
         </Box>
       </Grid>
       <Grid item>
-        <Box className='actions-right' sx={{ width: '100%' }}>
+        <Box className='actions-right' sx={{ width: '100%', height: '100%', padding: 1 }}>
           <ModeToggler settings={settings} saveSettings={saveSettings} />
           <IconButton>
             {/* ต้องสร้าง components ใน src/@core/layouts/components/shared-components/ สำหรับปุ่ม ตะกร้า  */}
