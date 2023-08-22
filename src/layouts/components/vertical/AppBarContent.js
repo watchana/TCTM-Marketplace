@@ -25,27 +25,18 @@ const AppBarContent = props => {
   const { settings, saveSettings, toggleNavVisibility } = props
 
   return (
-    <Grid container>
-      <Hidden mdDown>
-        <Grid item md={1} lg={1} xl={1} display='grid' justifyContent='flex-end'>
-          <Box sx={{ width: '100%' }}>
-            <IconButton color='inherit' onClick={toggleNavVisibility} sx={{ ml: -2.75 }}>
-              <Menu />
-            </IconButton>
-          </Box>
-        </Grid>
-      </Hidden>
-      <Grid item xs={6} sm={3} md={2} lg={2} xl={2}>
-        <Box sx={{ width: '100%', paddingTop: '5px' }}>
-          <Typography variant='h5'>{themeConfig.templateName}</Typography>
-        </Box>
+    <Grid container direction='row' justifyContent='space-between' alignItems='flex-start'>
+      <Grid item xs={6} sm={6} md={2} lg={2} xl={2} display='grid' justifyContent='flex-end'>
+        LOGO
       </Grid>
-      <Hidden smDown>
-        <Grid item sm={6} md={6} lg={6} xl={6}>
+      <Hidden mdDown>
+        <Grid item md={8} lg={8} xl={8} textAlign='center'>
           <Box sx={{ width: '100%' }}>
             <TextField
+              fullWidth
               size='small'
-              sx={{ width: '80%', '& .MuiOutlinedInput-root': { borderRadius: 4 } }}
+              placeholder='Search Product…'
+              sx={{ width: '70%', borderRadius: 1 }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position='start'>
@@ -57,14 +48,14 @@ const AppBarContent = props => {
           </Box>
         </Grid>
       </Hidden>
-      <Grid item xs={6} sm={3} md={3} lg={2} xl={2} display='grid' justifyContent='flex-end'>
-        <Box className='actions-right' sx={{ width: '100%' }}>
+      <Grid item xs={6} sm={6} md={2} lg={2} xl={2} display='grid' justifyContent='flex-end'>
+        <Box sx={{ width: '100%' }}>
           <ModeToggler settings={settings} saveSettings={saveSettings} />
-          <NotificationDropdown />
           <IconButton>
             {/* ต้องสร้าง components ใน src/@core/layouts/components/shared-components/ สำหรับปุ่ม ตะกร้า  */}
             <CartOutline />
           </IconButton>
+          <NotificationDropdown />
           <UserDropdown />
         </Box>
       </Grid>
@@ -73,3 +64,49 @@ const AppBarContent = props => {
 }
 
 export default AppBarContent
+
+// {/* <Grid container>
+// <Hidden mdDown>
+//   <Grid item md={1} lg={1} xl={1} display='grid' justifyContent='flex-end'>
+//     <Box sx={{ width: '100%' }}>
+//       <IconButton color='inherit' onClick={toggleNavVisibility} sx={{ ml: -2.75 }}>
+//         <Menu />
+//       </IconButton>
+//     </Box>
+//   </Grid>
+// </Hidden>
+// <Grid item xs={4} sm={3} md={2} lg={2} xl={2}>
+//   <Box sx={{ width: '100%', paddingTop: '5px' }}>
+//     <Typography variant='h5'>{themeConfig.templateName}</Typography>
+//   </Box>
+// </Grid>
+// <Hidden smDown>
+//   <Grid item sm={5} md={6} lg={6} xl={6}>
+//     <Box sx={{ width: '100%' }}>
+//       <TextField
+//         size='small'
+//         placeholder='Search Product…'
+//         sx={{ width: '80%', '& .MuiOutlinedInput-root': { borderRadius: 4 } }}
+//         InputProps={{
+//           startAdornment: (
+//             <InputAdornment position='start'>
+//               <Magnify fontSize='small' />
+//             </InputAdornment>
+//           )
+//         }}
+//       />
+//     </Box>
+//   </Grid>
+// </Hidden>
+// <Grid item xs={8} sm={4} md={3} lg={2} xl={2} display='grid' justifyContent='flex-end'>
+//   <Box className='actions-right' sx={{ width: '100%' }}>
+//     <ModeToggler settings={settings} saveSettings={saveSettings} />
+//     <NotificationDropdown />
+//     <IconButton>
+//       {/* ต้องสร้าง components ใน src/@core/layouts/components/shared-components/ สำหรับปุ่ม ตะกร้า  */}
+//       <CartOutline />
+//     </IconButton>
+//     <UserDropdown />
+//   </Box>
+// </Grid>
+// </Grid> */}

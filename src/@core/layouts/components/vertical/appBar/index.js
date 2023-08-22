@@ -42,7 +42,7 @@ const LayoutAppBar = props => {
   const { contentWidth } = settings
 
   return (
-    <AppBar elevation={1} color='default' className='layout-navbar' position='static'>
+    <AppBar elevation={2} color='default' className='layout-navbar' position='static'>
       <Toolbar
         className='navbar-content-container'
         sx={{
@@ -53,48 +53,6 @@ const LayoutAppBar = props => {
       >
         {(userVerticalAppBarContent && userVerticalAppBarContent(props)) || null}
       </Toolbar>
-      {/* <Grid container spacing={2} display='flex' justifyContent='center' sx={{ marginBottom: 3, overflowX: 'hidden' }}>
-        <Grid item>
-          <Button variant='outlined' size='small' endIcon={<Apple />}>
-            Product 1
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button variant='outlined' size='small' endIcon={<Apple />}>
-            Product 2
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button variant='outlined' size='small' endIcon={<Apple />}>
-            Product 3
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button variant='outlined' size='small' endIcon={<Apple />}>
-            Product 4
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button variant='outlined' size='small' endIcon={<Apple />}>
-            Product 5
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button variant='outlined' size='small' endIcon={<Apple />}>
-            Product 6
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button variant='outlined' size='small' endIcon={<Apple />}>
-            Product 7
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button variant='outlined' size='small' endIcon={<Apple />}>
-            Product 8
-          </Button>
-        </Grid>
-      </Grid> */}
     </AppBar>
   )
 }
