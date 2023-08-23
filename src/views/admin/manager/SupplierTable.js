@@ -15,7 +15,10 @@ function getFullName(params) {
 }
 
 const MemberTable = ({ rows }) => {
-  console.log('bill', rows)
+  const [tableRows, setTableRows] = useState(rows) //เก็บข้อมูล Row ใน table
+
+  // นำเข้าตัวsweetalert2
+  const Swal = require('sweetalert2')
 
   // ** header table
   const columns = [
@@ -47,7 +50,7 @@ const MemberTable = ({ rows }) => {
       sortable: false,
       renderCell: params => {
         return (
-          <Button variant='contained' color='primary'>
+          <Button variant='contained' color='primary' onClick={() => handleApproveSubmit(params.row.sub_id)}>
             approve
           </Button>
         )
@@ -60,13 +63,91 @@ const MemberTable = ({ rows }) => {
       width: 150,
       renderCell: params => {
         return (
-          <Button variant='contained' color='secondary'>
+          <Button variant='contained' color='secondary' onClick={() => handleRejectSubmit(params.row.sub_id)}>
             disapproved
           </Button>
         )
       }
     }
   ]
+
+  // ฟังก์ชันสำหรับ Approve DATA
+  const handleApproveSubmit = id => {
+    const data = {
+      sub_id: id
+    }
+
+    axios
+      .put(`${process.env.NEXT_PUBLIC_API}TCTM.approve.supplierapprove`, data)
+      .then(function (response) {
+        // หลังจากที่อนุมัติสำเร็จ ลบแถวที่ถูก Approve ออกจากข้อมูล
+        const updatedRows = tableRows.filter(row => row.sub_id !== id)
+
+        setTableRows(updatedRows)
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Approve success',
+          text: 'Your work has been saved',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      })
+      .catch(function (error) {
+        console.log(error)
+        Swal.fire({
+          icon: 'error',
+          title: 'Approve Error',
+          text: 'Something went wrong!'
+        })
+      })
+  }
+
+  // ฟังก์ชันสำหรับ  Band ร้านค้า
+  const handleRejectSubmit = id => {
+    // แสดงกล่องข้อความยืนยัน
+    Swal.fire({
+      title: 'Confirm Reject',
+      text: 'Are you sure you want to reject this submission?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Reject'
+    }).then(result => {
+      // ถ้าผู้ใช้กดปุ่ม Confirm (Yes)
+      if (result.isConfirmed) {
+        const data = {
+          sub_id: id
+        }
+
+        axios
+          .put(`${process.env.NEXT_PUBLIC_API}TCTM.approve.supplierreject`, data)
+          .then(function (response) {
+            // หลังจากที่แตะเสร็จ ลบแถวที่ถูก แตะ ออกจากข้อมูล
+            const updatedRows = tableRows.filter(row => row.sub_id !== id)
+
+            setTableRows(updatedRows)
+
+            Swal.fire({
+              icon: 'success',
+              title: 'Reject success',
+              text: 'Your work has been saved',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          })
+          .catch(function (error) {
+            console.log(error)
+            Swal.fire({
+              icon: 'error',
+              title: 'Reject Error',
+              text: 'Something went wrong!'
+            })
+          })
+      }
+    })
+  }
 
   // ** when rows is empty, show loading
   if (rows.length === 0) {
@@ -77,7 +158,7 @@ const MemberTable = ({ rows }) => {
     <Card>
       <DataGrid
         sx={{ paddingX: '10px' }}
-        rows={rows}
+        rows={tableRows}
         columns={columns}
         getRowId={row => row.sub_id}
         initialState={{
