@@ -10,7 +10,7 @@ import MemberTable from 'src/views/admin/manager/MemberTable'
 import SupplierTable from 'src/views/admin/manager/SupplierTable'
 import axios from 'axios'
 
-const ManagerPage = ({ dataMember, dataSupplier }) => {
+const ManagerPage = ({ dataUser, dataMarket }) => {
   // ** States
   const [value, setValue] = React.useState('1')
 
@@ -32,15 +32,15 @@ const ManagerPage = ({ dataMember, dataSupplier }) => {
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <TabList onChange={handleChange} aria-label='lab API tabs example'>
-                <Tab label='Customer' value='1' />
-                <Tab label='Supplier' value='2' />
+                <Tab label='User' value='1' />
+                <Tab label='Marketplace' value='2' />
               </TabList>
             </Box>
             <TabPanel value='1'>
-              <MemberTable rows={dataMember} />
+              <MemberTable rows={dataUser} />
             </TabPanel>
             <TabPanel value='2'>
-              <SupplierTable rows={dataSupplier} />
+              <SupplierTable rows={dataMarket} />
             </TabPanel>
           </TabContext>
         </Box>
@@ -53,25 +53,25 @@ export const getServerSideProps = async context => {
   // ** The code block you provided is an asynchronous function that fetches data from two different
   // ** endpoints using the axios library. It makes two GET requests to the same endpoint with different headers.
   try {
-    const memberResponse = await axios.get('http://111.223.38.19/api/method/frappe.API.TCTM.approve.userqueue', {
+    const userResponse = await axios.get('http://111.223.38.19/api/method/frappe.API.TCTM.approve.userqueue', {
       headers: {
         Authorization: 'token 76dc8ec5e14d19c:a644317879022f2'
       }
     })
 
-    const supplierResponse = await axios.get('http://111.223.38.19/api/method/frappe.API.TCTM.approve.userqueue', {
+    const marketResponse = await axios.get('http://111.223.38.19/api/method/frappe.API.TCTM.approve.supplierqueue', {
       headers: {
         Authorization: 'token 76dc8ec5e14d19c:a644317879022f2'
       }
     })
 
-    const dataMember = memberResponse.data.message.Data
-    const dataSupplier = supplierResponse.data.message.Data
+    const dataUser = userResponse.data.message.Data
+    const dataMarket = marketResponse.data.message.Data
 
     return {
       props: {
-        dataMember: dataMember || [],
-        dataSupplier: dataSupplier || []
+        dataUser: dataUser || [],
+        dataMarket: dataMarket || []
       }
     }
   } catch (error) {
@@ -79,8 +79,8 @@ export const getServerSideProps = async context => {
 
     return {
       props: {
-        dataMember: [],
-        dataSupplier: []
+        dataUser: [],
+        dataMarket: []
       }
     }
   }
