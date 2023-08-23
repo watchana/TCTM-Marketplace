@@ -172,7 +172,7 @@ const LoginPage = () => {
               title: 'Login Success',
               showConfirmButton: false,
               timer: 1000
-            }).then(router.push(`#`))
+            }).then(router.push(`/`))
           } else if (receivedStatus === 'Banned') {
             Swal.fire({
               icon: 'error',
