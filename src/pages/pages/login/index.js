@@ -8,8 +8,8 @@ import { useRouter } from 'next/router'
 // ** MUI Components
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import Switch from '@mui/material/Switch'
 import Divider from '@mui/material/Divider'
-import Checkbox from '@mui/material/Checkbox'
 import TextField from '@mui/material/TextField'
 import InputLabel from '@mui/material/InputLabel'
 import Typography from '@mui/material/Typography'
@@ -26,14 +26,8 @@ import MuiFormControlLabel from '@mui/material/FormControlLabel'
 import EyeOutline from 'mdi-material-ui/EyeOutline'
 import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 
-// ** Configs
-import themeConfig from 'src/configs/themeConfig'
-
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
-
-// ** Demo Imports
-import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
 
 // ** Axios Import
 import axios from 'axios'
@@ -211,8 +205,8 @@ const LoginPage = () => {
       <Typography variant='h4' sx={{ fontWeight: 'bold', marginTop: 2 }}>
         TCTM
       </Typography>
-      <Card sx={{ zIndex: 1, marginTop: 3 }}>
-        <CardContent sx={{ padding: theme => `${theme.spacing(12, 9, 7)} !important` }}>
+      <Card sx={{ zIndex: 1, marginTop: 3, borderRadius: '34px' }}>
+        <CardContent sx={{ padding: theme => `${theme.spacing(12, 9, 0)} !important` }}>
           <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
             <TextField
               autoFocus
@@ -221,6 +215,11 @@ const LoginPage = () => {
               label='Email address'
               sx={{ marginBottom: 4 }}
               onChange={handleSetUser}
+              InputProps={{
+                style: {
+                  borderRadius: '10px'
+                }
+              }}
             />
             <FormControl fullWidth>
               <InputLabel htmlFor='auth-login-password'>Password</InputLabel>
@@ -230,6 +229,7 @@ const LoginPage = () => {
                 id='auth-login-password'
                 onChange={handleSetPassword('password')}
                 type={values.showPassword ? 'text' : 'password'}
+                style={{ borderRadius: '10px' }}
                 endAdornment={
                   <InputAdornment position='end'>
                     <IconButton
@@ -244,29 +244,34 @@ const LoginPage = () => {
                 }
               />
             </FormControl>
-            <Box
-              sx={{ mb: 4, display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'space-between' }}
-            >
-              <FormControlLabel control={<Checkbox />} label='Remember Me' />
+            <Box sx={{ mb: 4 }}>
               <Link passHref href='/'>
                 <LinkStyled onClick={e => e.preventDefault()}>Forgot Password?</LinkStyled>
               </Link>
             </Box>
-            <Button fullWidth size='large' variant='contained' sx={{ marginBottom: 7 }} onClick={handleSubmitData}>
-              Login
+            <Button
+              fullWidth
+              size='large'
+              variant='contained'
+              sx={{ marginBottom: 2 }}
+              style={{ borderRadius: '10px' }}
+              onClick={handleSubmitData}
+            >
+              Sign in
             </Button>
-            <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-              <Typography variant='body2' sx={{ marginRight: 2 }}>
-                New on our platform?
-              </Typography>
-              <Typography variant='body2'>
-                <Link passHref href='/pages/register'>
-                  <LinkStyled>Create an account</LinkStyled>
-                </Link>
-              </Typography>
+            <Box sx={{ mb: 4 }}>
+              <FormControlLabel control={<Switch />} label='Remember Me' />
             </Box>
           </form>
         </CardContent>
+        <Divider />
+        <Box sx={{ paddingX: 9, paddingTop: 3, paddingBottom: 5 }}>
+          <Link passHref href='/pages/register'>
+            <Button fullWidth variant='outlined' style={{ borderRadius: '10px' }}>
+              Register
+            </Button>
+          </Link>
+        </Box>
       </Card>
     </Box>
   )

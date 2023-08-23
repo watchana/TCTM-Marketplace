@@ -40,9 +40,9 @@ const DefaultPalette = (mode, themeColor) => {
     //   contrastText: '#FFF'
     // },
     primary: {
-      light: '#caf0f8',
-      main: '#90e0ef',
-      dark: '#00b4d8',
+      light: '#FF6166',
+      main: '#d74050 ',
+      dark: '#E04347',
       contrastText: '#FFF'
     },
     secondary: {
