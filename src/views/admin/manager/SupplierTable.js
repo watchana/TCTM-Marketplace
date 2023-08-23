@@ -15,12 +15,14 @@ function getFullName(params) {
 }
 
 const MemberTable = ({ rows }) => {
+  console.log('bill', rows)
+
   // ** header table
   const columns = [
-    { field: 'account_id', headerName: 'Account Id', width: 130 },
+    { field: 'sub_id', headerName: 'Account Id', width: 130 },
     {
-      field: 'member_id',
-      headerName: 'Member Id',
+      field: 'sub_name',
+      headerName: 'Market name',
       width: 150
     },
     {
@@ -35,12 +37,7 @@ const MemberTable = ({ rows }) => {
       width: 150
     },
     {
-      field: 'user_email',
-      headerName: 'Email',
-      width: 150
-    },
-    {
-      field: 'user_tel',
+      field: 'sub_tel',
       headerName: 'Tel',
       width: 150
     },
@@ -82,7 +79,7 @@ const MemberTable = ({ rows }) => {
         sx={{ paddingX: '10px' }}
         rows={rows}
         columns={columns}
-        getRowId={row => row.account_id}
+        getRowId={row => row.sub_id}
         initialState={{
           pagination: {
             paginationModel: {

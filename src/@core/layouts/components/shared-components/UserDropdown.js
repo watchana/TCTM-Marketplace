@@ -99,7 +99,7 @@ const UserDropdown = () => {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <Box sx={{ pt: 2, pb: 3, px: 4 }}>
+        <Box sx={{ pt: 2, pb: 3, px: 4 }} onClick={() => handleDropdownClose('/')}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Badge
               overlap='circular'
@@ -129,11 +129,18 @@ const UserDropdown = () => {
             Inbox
           </Box>
         </MenuItem>
-        {/* ตรงนี้ไว้ใส่ registration-supplier */}
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+        {/* ปุ่ม registration-supplier */}
+        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/pages/registerSupplier/')}>
           <Box sx={styles}>
             <StorefrontPlusOutline sx={{ marginRight: 2 }} />
             Registration Maker
+          </Box>
+        </MenuItem>
+        {/* ปุ่ม Approve */}
+        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/app/admin/manager/')}>
+          <Box sx={styles}>
+            <CurrencyUsd sx={{ marginRight: 2 }} />
+            Approve
           </Box>
         </MenuItem>
         <Divider />
@@ -141,12 +148,6 @@ const UserDropdown = () => {
           <Box sx={styles}>
             <CogOutline sx={{ marginRight: 2 }} />
             Settings
-          </Box>
-        </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <CurrencyUsd sx={{ marginRight: 2 }} />
-            Pricing
           </Box>
         </MenuItem>
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
