@@ -73,6 +73,11 @@ const LoginPage = () => {
   const theme = useTheme()
   const router = useRouter()
 
+  // รีค่า token ทุกครั้งที่เข้ามาหน้านี้
+  // useEffect(() => {
+  //   Cookies.remove('jwt')
+  // }, [])
+
   // เช็คค่า Cookie
   const [verificationComplete, setVerificationComplete] = useState(false)
   useEffect(() => {

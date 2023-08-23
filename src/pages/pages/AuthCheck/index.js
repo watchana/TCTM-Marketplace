@@ -9,10 +9,14 @@ export const withAuth = WrappedComponent => {
   const AuthComponent = props => {
     const router = useRouter()
     const [verificationComplete, setVerificationComplete] = useState(false)
+    const [token, setToken] = useState(Cookies.get('jwt'))
 
     useEffect(() => {
-      const token = Cookies.get('jwt') // Get token from cookie or local storage
+      // When token changes, update the state
+      setToken(Cookies.get('jwt'))
+    }, [])
 
+    useEffect(() => {
       if (!token) {
         // If not logged in, redirect to login page
         router.push('pages/login/')
@@ -23,11 +27,13 @@ export const withAuth = WrappedComponent => {
         if (!decodedToken) {
           // Invalid token, redirect to login page
           router.push('pages/login/')
+          alert('เอาอีกแล้วนะ')
+          Cookies.remove('jwt') // Remove the token
         } else {
           setVerificationComplete(true)
         }
       }
-    }, [router])
+    }, [token, router])
 
     if (!verificationComplete) {
       return <div>Loading...</div>
