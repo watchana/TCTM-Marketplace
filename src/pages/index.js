@@ -12,6 +12,8 @@ import CardContent from '@mui/material/CardContent'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 import { withAuth } from './pages/AuthCheck'
+import SlideshowWithCards from './Fuse/slide/slidebillboard'
+import SlideshowWithProduct from './Fuse/slide/slideproduct'
 
 const Dashboard = () => {
   const router = useRouter()
@@ -19,60 +21,12 @@ const Dashboard = () => {
   return (
     <Container maxWidth='xl'>
       <Box sx={{ height: '100%' }}>
-        <Card sx={{ width: '100%', height: '300px', bgcolor: '#999' }}>
-          {/* ใส่ Link ตรงนี้ */}
-          <ButtonBase sx={{ width: '100%', height: '100%' }}>
-            <Typography variant='h1' textAlign='center'>
-              Billboard
-            </Typography>
-          </ButtonBase>
-        </Card>
+        <SlideshowWithCards />
         <Box sx={{ width: '100%', marginY: 5 }}>
-          <Typography variant='h4'>Products!</Typography>
+          <Typography variant='h4'> New Products! </Typography>
         </Box>
         <Box sx={{ width: '100%' }}>
-          <Grid spacing={5} container direction='row' justifyContent='center' alignItems='center'>
-            <Grid item>
-              <Card sx={{ width: '244px', height: '160px', bgcolor: '#999' }}>
-                {/* ใส่ Link ตรงนี้ */}
-                <ButtonBase sx={{ width: '100%', height: '100%' }}>
-                  <CardContent sx={{ width: '100%', height: '100%', padding: 17 }}>
-                    <Typography variant='h5'>Product</Typography>
-                  </CardContent>
-                </ButtonBase>
-              </Card>
-            </Grid>
-            <Grid item>
-              <Card sx={{ width: '244px', height: '160px', bgcolor: '#999' }}>
-                {/* ใส่ Link ตรงนี้ */}
-                <ButtonBase sx={{ width: '100%', height: '100%' }}>
-                  <CardContent sx={{ width: '100%', height: '100%', padding: 17 }}>
-                    <Typography variant='h5'>Product</Typography>
-                  </CardContent>
-                </ButtonBase>
-              </Card>
-            </Grid>
-            <Grid item>
-              <Card sx={{ width: '244px', height: '160px', bgcolor: '#999' }}>
-                {/* ใส่ Link ตรงนี้ */}
-                <ButtonBase sx={{ width: '100%', height: '100%' }}>
-                  <CardContent sx={{ width: '100%', height: '100%', padding: 17 }}>
-                    <Typography variant='h5'>Product</Typography>
-                  </CardContent>
-                </ButtonBase>
-              </Card>
-            </Grid>
-            <Grid item>
-              <Card sx={{ width: '244px', height: '160px', bgcolor: '#999' }}>
-                {/* ใส่ Link ตรงนี้ */}
-                <ButtonBase sx={{ width: '100%', height: '100%' }}>
-                  <CardContent sx={{ width: '100%', height: '100%', padding: 17 }}>
-                    <Typography variant='h5'>Product</Typography>
-                  </CardContent>
-                </ButtonBase>
-              </Card>
-            </Grid>
-          </Grid>
+          <SlideshowWithProduct />
         </Box>
       </Box>
     </Container>
