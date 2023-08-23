@@ -205,7 +205,7 @@ const LoginPage = () => {
       <Typography variant='h4' sx={{ fontWeight: 'bold', marginTop: 2 }}>
         TCTM
       </Typography>
-      <Card sx={{ zIndex: 1, marginTop: 3 }}>
+      <Card sx={{ zIndex: 1, marginTop: 3, borderRadius: '34px' }}>
         <CardContent sx={{ padding: theme => `${theme.spacing(12, 9, 0)} !important` }}>
           <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
             <TextField
@@ -215,6 +215,11 @@ const LoginPage = () => {
               label='Email address'
               sx={{ marginBottom: 4 }}
               onChange={handleSetUser}
+              InputProps={{
+                style: {
+                  borderRadius: '10px'
+                }
+              }}
             />
             <FormControl fullWidth>
               <InputLabel htmlFor='auth-login-password'>Password</InputLabel>
@@ -224,6 +229,7 @@ const LoginPage = () => {
                 id='auth-login-password'
                 onChange={handleSetPassword('password')}
                 type={values.showPassword ? 'text' : 'password'}
+                style={{ borderRadius: '10px' }}
                 endAdornment={
                   <InputAdornment position='end'>
                     <IconButton
@@ -243,7 +249,14 @@ const LoginPage = () => {
                 <LinkStyled onClick={e => e.preventDefault()}>Forgot Password?</LinkStyled>
               </Link>
             </Box>
-            <Button fullWidth size='large' variant='contained' sx={{ marginBottom: 2 }} onClick={handleSubmitData}>
+            <Button
+              fullWidth
+              size='large'
+              variant='contained'
+              sx={{ marginBottom: 2 }}
+              style={{ borderRadius: '10px' }}
+              onClick={handleSubmitData}
+            >
               Sign in
             </Button>
             <Box sx={{ mb: 4 }}>
@@ -254,7 +267,7 @@ const LoginPage = () => {
         <Divider />
         <Box sx={{ paddingX: 9, paddingTop: 3, paddingBottom: 5 }}>
           <Link passHref href='/pages/register'>
-            <Button fullWidth variant='outlined'>
+            <Button fullWidth variant='outlined' style={{ borderRadius: '10px' }}>
               Register
             </Button>
           </Link>
