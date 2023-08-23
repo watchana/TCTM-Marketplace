@@ -5,6 +5,7 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import Container from '@mui/material/Container'
+import ButtonBase from '@mui/material/ButtonBase'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 
@@ -19,39 +20,56 @@ const Dashboard = () => {
     <Container maxWidth='xl'>
       <Box sx={{ height: '100%' }}>
         <Card sx={{ width: '100%', height: '300px', bgcolor: '#999' }}>
-          <Typography variant='h1'>Billboard</Typography>
+          {/* ใส่ Link ตรงนี้ */}
+          <ButtonBase sx={{ width: '100%', height: '100%' }}>
+            <Typography variant='h1' textAlign='center'>
+              Billboard
+            </Typography>
+          </ButtonBase>
         </Card>
         <Box sx={{ width: '100%', marginY: 5 }}>
           <Typography variant='h4'>Products!</Typography>
         </Box>
-        <Box sx={{ width: '100%', paddingX: 40 }}>
-          <Grid container spacing={5}>
+        <Box sx={{ width: '100%' }}>
+          <Grid spacing={5} container direction='row' justifyContent='center' alignItems='center'>
             <Grid item>
               <Card sx={{ width: '244px', height: '160px', bgcolor: '#999' }}>
-                <CardContent sx={{ width: '100%', height: '100%', padding: 17 }}>
-                  <Typography variant='h5'>Product</Typography>
-                </CardContent>
+                {/* ใส่ Link ตรงนี้ */}
+                <ButtonBase sx={{ width: '100%', height: '100%' }}>
+                  <CardContent sx={{ width: '100%', height: '100%', padding: 17 }}>
+                    <Typography variant='h5'>Product</Typography>
+                  </CardContent>
+                </ButtonBase>
               </Card>
             </Grid>
             <Grid item>
               <Card sx={{ width: '244px', height: '160px', bgcolor: '#999' }}>
-                <CardContent sx={{ width: '100%', height: '100%', padding: 17 }}>
-                  <Typography variant='h5'>Product</Typography>
-                </CardContent>
+                {/* ใส่ Link ตรงนี้ */}
+                <ButtonBase sx={{ width: '100%', height: '100%' }}>
+                  <CardContent sx={{ width: '100%', height: '100%', padding: 17 }}>
+                    <Typography variant='h5'>Product</Typography>
+                  </CardContent>
+                </ButtonBase>
               </Card>
             </Grid>
             <Grid item>
               <Card sx={{ width: '244px', height: '160px', bgcolor: '#999' }}>
-                <CardContent sx={{ width: '100%', height: '100%', padding: 17 }}>
-                  <Typography variant='h5'>Product</Typography>
-                </CardContent>
+                {/* ใส่ Link ตรงนี้ */}
+                <ButtonBase sx={{ width: '100%', height: '100%' }}>
+                  <CardContent sx={{ width: '100%', height: '100%', padding: 17 }}>
+                    <Typography variant='h5'>Product</Typography>
+                  </CardContent>
+                </ButtonBase>
               </Card>
             </Grid>
             <Grid item>
               <Card sx={{ width: '244px', height: '160px', bgcolor: '#999' }}>
-                <CardContent sx={{ width: '100%', height: '100%', padding: 17 }}>
-                  <Typography variant='h5'>Product</Typography>
-                </CardContent>
+                {/* ใส่ Link ตรงนี้ */}
+                <ButtonBase sx={{ width: '100%', height: '100%' }}>
+                  <CardContent sx={{ width: '100%', height: '100%', padding: 17 }}>
+                    <Typography variant='h5'>Product</Typography>
+                  </CardContent>
+                </ButtonBase>
               </Card>
             </Grid>
           </Grid>

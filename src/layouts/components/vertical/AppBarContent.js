@@ -49,7 +49,7 @@ const AppBarContent = props => {
         </Box>
       </Grid>
       <Hidden mdDown>
-        <Grid item xs={6}>
+        <Grid item md={4} lg={6}>
           <Box sx={{ width: '100%', padding: 1 }}>
             <TextField
               size='small'
@@ -68,9 +68,11 @@ const AppBarContent = props => {
       </Hidden>
       <Grid item>
         <Box className='actions-right' sx={{ width: '100%', height: '100%', padding: 1 }}>
-          <Button variant='outlined' startIcon={<HelpBox />}>
-            +Add Post
-          </Button>
+          <Hidden smDown>
+            <Button variant='outlined' startIcon={<HelpBox />}>
+              +Add Post
+            </Button>
+          </Hidden>
           <ModeToggler settings={settings} saveSettings={saveSettings} />
           <IconButton>
             {/* ต้องสร้าง components ใน src/@core/layouts/components/shared-components/ สำหรับปุ่ม ตะกร้า  */}
