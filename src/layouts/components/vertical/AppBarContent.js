@@ -43,7 +43,7 @@ const AppBarContent = props => {
             <Hidden smDown>
               <Box sx={{ marginLeft: 3 }}>
                 <Link href='/' passHref>
-                  <Typography ml={-8.5} variant='h5' sx={{ fontWeight: 'bold', marginBottom: '-10px' }}>
+                  <Typography ml={-8.1} variant='h5' sx={{ fontWeight: 'bold', marginBottom: '-10px' }}>
                     TCTM
                   </Typography>
                 </Link>
@@ -61,7 +61,7 @@ const AppBarContent = props => {
             <TextField
               size='small'
               placeholder='Search Product…'
-              sx={{ width: '100%', '& .MuiOutlinedInput-root': { borderRadius: 4 } }}
+              sx={{ width: '100%', '& .MuiOutlinedInput-root': { borderRadius: '18px' } }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position='start'>
@@ -76,7 +76,7 @@ const AppBarContent = props => {
       <Grid item>
         <Box className='actions-right' sx={{ width: '100%', height: '100%', padding: 1 }}>
           <Hidden smDown>
-            <Button variant='outlined' startIcon={<HelpBox />}>
+            <Button variant='outlined' startIcon={<HelpBox />} style={{ borderRadius: '10px' }}>
               +Add Post
             </Button>
           </Hidden>
