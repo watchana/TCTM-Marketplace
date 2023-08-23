@@ -10,6 +10,7 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import Autocomplete from '@mui/material/Autocomplete'
 import Button from '@mui/material/Button'
+import { useRouter } from 'next/router'
 
 // ** Switch Alert Import
 const Swal = require('sweetalert2')
@@ -18,6 +19,9 @@ const Swal = require('sweetalert2')
 import axios from 'axios'
 
 const Dashboard = () => {
+  // ** Hook
+  const router = useRouter()
+
   // รับค่าตัวแปร
   const [storename, setStoreName] = useState('') // ตัวแปรเก็บค่า storename
   const [email, setEmail] = useState('') // ตัวแปรเก็บค่า email
@@ -98,6 +102,7 @@ const Dashboard = () => {
           title: 'ส่งข้อมูลสำเร็จ',
           text: 'กรุณารอ การยืนยันจาก TCTM'
         })
+        router.push('/')
       })
       .catch(error => {
         console.error(error)

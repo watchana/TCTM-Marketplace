@@ -9,6 +9,7 @@ import dayjs from 'dayjs'
 
 // ** Next Imports
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 // ** Axios Import
 import axios from 'axios'
@@ -70,6 +71,7 @@ const RegisterPage = () => {
 
   // ** Hook
   const theme = useTheme()
+  const router = useRouter()
 
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword })
@@ -207,7 +209,7 @@ const RegisterPage = () => {
       user_birthday: formattedDate
     }
 
-    console.log('ข้อมูลที่ส่งไป Server', data)
+    // console.log('ข้อมูลที่ส่งไป Server', data)
 
     axios
       .post(`${process.env.NEXT_PUBLIC_API}TCTM.register.register`, data)
@@ -218,6 +220,7 @@ const RegisterPage = () => {
           title: 'ส่งข้อมูลสำเร็จ',
           text: 'ข้อมูลถูกส่งไปยัง API แล้ว'
         })
+        router.push('/pages/login')
       })
       .catch(error => {
         console.error(error)
