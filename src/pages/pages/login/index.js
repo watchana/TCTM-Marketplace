@@ -23,10 +23,6 @@ import InputAdornment from '@mui/material/InputAdornment'
 import MuiFormControlLabel from '@mui/material/FormControlLabel'
 
 // ** Icons Imports
-import Google from 'mdi-material-ui/Google'
-import Github from 'mdi-material-ui/Github'
-import Twitter from 'mdi-material-ui/Twitter'
-import Facebook from 'mdi-material-ui/Facebook'
 import EyeOutline from 'mdi-material-ui/EyeOutline'
 import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 
@@ -147,6 +143,7 @@ const LoginPage = () => {
           const receivedStatus = response.data.message.Message
           if (receivedStatus === 'OK') {
             const userData = response.data.message.Data[0].user_role
+
             const resNameData =
               response.data.message.Data[0].user_first_name + ' ' + response.data.message.Data[0].user_last_name
             const EmailData = response.data.message.Data[0].user_email
@@ -209,25 +206,22 @@ const LoginPage = () => {
   }
 
   return (
-    <Box className='content-center'>
-      <Card sx={{ zIndex: 1 }}>
+    <Box className='content-center' sx={{ display: 'flex', flexDirection: 'column' }}>
+      <img src='/images/cards/TCTM_Group_3 (1).png' alt='logo' width='80px' />
+      <Typography variant='h4' sx={{ fontWeight: 'bold', marginTop: 2 }}>
+        TCTM
+      </Typography>
+      <Card sx={{ zIndex: 1, marginTop: 3 }}>
         <CardContent sx={{ padding: theme => `${theme.spacing(12, 9, 7)} !important` }}>
-          <Box sx={{ mb: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Typography
-              variant='h6'
-              sx={{
-                ml: 3,
-                lineHeight: 1,
-                fontWeight: 600,
-                textTransform: 'uppercase',
-                fontSize: '1.5rem !important'
-              }}
-            >
-              Log in
-            </Typography>
-          </Box>
           <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-            <TextField autoFocus fullWidth id='email' label='Email' sx={{ marginBottom: 4 }} onChange={handleSetUser} />
+            <TextField
+              autoFocus
+              fullWidth
+              id='email'
+              label='Email address'
+              sx={{ marginBottom: 4 }}
+              onChange={handleSetUser}
+            />
             <FormControl fullWidth>
               <InputLabel htmlFor='auth-login-password'>Password</InputLabel>
               <OutlinedInput
