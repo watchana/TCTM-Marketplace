@@ -27,6 +27,9 @@ import StorefrontPlusOutline from 'mdi-material-ui/StorefrontPlusOutline'
 // Import Cookie
 import Cookies from 'js-cookie'
 
+// Import auth token Decode
+import { createToken, verifyToken } from '../../../../../utils/auth'
+
 // ** Styled Components
 const BadgeContentSpan = styled('span')(({ theme }) => ({
   width: 8,
@@ -52,6 +55,9 @@ const UserDropdown = () => {
       if (url === '/pages/login') {
         // Clear token from local storage
         localStorage.removeItem('jwt')
+        localStorage.removeItem('name')
+        localStorage.removeItem('Email')
+        localStorage.removeItem('Member_Id')
 
         // Clear token from Cookies
         Cookies.remove('jwt')
@@ -72,6 +78,26 @@ const UserDropdown = () => {
     '& svg': {
       fontSize: '1.375rem',
       color: 'text.secondary'
+    }
+  }
+
+  // ** รับค่าจาก local Storage
+  let username = ''
+  if (typeof window !== 'undefined') {
+    username = localStorage.getItem('name')
+  }
+
+  // ** ทำการถอดรหัส role
+  let role = ''
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem('jwt')
+    const decodedToken = verifyToken(token)
+
+    if (decodedToken) {
+      role = decodedToken.Role
+      console.log('Role:', role)
+    } else {
+      console.log('Invalid or expired token')
     }
   }
 
@@ -109,9 +135,9 @@ const UserDropdown = () => {
               <Avatar alt='John Doe' src='/images/avatars/1.png' sx={{ width: '2.5rem', height: '2.5rem' }} />
             </Badge>
             <Box sx={{ display: 'flex', marginLeft: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
-              <Typography sx={{ fontWeight: 600 }}>ซี กรอฟ</Typography>
+              <Typography sx={{ fontWeight: 600 }}>{username}</Typography>
               <Typography variant='body2' sx={{ fontSize: '0.8rem', color: 'text.disabled' }}>
-                Admin
+                {role}
               </Typography>
             </Box>
           </Box>

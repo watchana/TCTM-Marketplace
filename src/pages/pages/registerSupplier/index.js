@@ -84,7 +84,7 @@ const Dashboard = () => {
       sub_address: address,
       sub_address_shop: '1',
       sub_address_claim: '1',
-      member_id: 'MEM-2' // Id คน login
+      member_id: localStorage.getItem('Member_Id')
     }
 
     console.log('ข้อมูลที่ส่งไป Server', data)
