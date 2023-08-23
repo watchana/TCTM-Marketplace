@@ -99,7 +99,7 @@ const UserDropdown = () => {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <Box sx={{ pt: 2, pb: 3, px: 4 }} onClick={() => handleDropdownClose('/')}>
+        <Box sx={{ pt: 2, pb: 3, px: 4 }} onClick={() => handleDropdownClose()}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Badge
               overlap='circular'

@@ -42,10 +42,14 @@ const AppBarContent = props => {
             </Link>
             <Hidden smDown>
               <Box sx={{ marginLeft: 3 }}>
-                <Typography ml={-8.5} variant='h5' sx={{ fontWeight: 'bold', marginBottom: '-10px' }}>
-                  TCTM
-                </Typography>
-                <Typography variant='body1'>Marketplace</Typography>
+                <Link href='/' passHref>
+                  <Typography ml={-8.5} variant='h5' sx={{ fontWeight: 'bold', marginBottom: '-10px' }}>
+                    TCTM
+                  </Typography>
+                </Link>
+                <Link href='/' passHref>
+                  <Typography variant='body1'>Marketplace</Typography>
+                </Link>
               </Box>
             </Hidden>
           </ButtonBase>
