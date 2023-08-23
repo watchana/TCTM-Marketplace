@@ -1,8 +1,7 @@
 import React from 'react'
 import { Box, Grid, Card, ButtonBase, CardContent, Typography } from '@mui/material'
-import { Slide } from 'react-slideshow-image' // นำเข้าไลบรารี Slide ที่คุณใช้
-import 'react-slideshow-image/dist/styles.css' // Import สไตล์ของไลบรารี Slide
-
+import { Slide } from 'react-slideshow-image'
+import 'react-slideshow-image/dist/styles.css'
 const SlideshowWithCards = () => {
   return (
     <Box sx={{ width: '100%' }}>

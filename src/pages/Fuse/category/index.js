@@ -1,148 +1,64 @@
 // pages/index.js
 import React from 'react'
 import { Grid, Box, TablePagination, TextField, Stack, Pagination, Button } from '@mui/material'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import CardMedia from '@mui/material/CardMedia'
+import Typography from '@mui/material/Typography'
+import axios from 'axios'
 import ProductImageCard from './category'
-import ProductCard from './card'
-// import productsData from '../../dummy/productsdummy';
-
-const productsPreview = [
-  {
-    name: 'พระกายแก้ว',
-    description: 'เป็นตัวประหลาดสักอย่างนี้ละ',
-    price: 100,
-    image: '../../../img/2023-08-18 090802.png' // ตั้งค่า path รูปภาพ
-  },
-  {
-    name: 'นาฬิกาหยุดเวลา',
-    description: 'ไม่รู้ไม่ชี้',
-    price: 200,
-    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
-  },
-  {
-    name: 'พระนาราย',
-    description: 'เป็นได้แค่นั้นละ',
-    price: 100,
-    image: '../../../img/2023-08-18 090802.png' // ตั้งค่า path รูปภาพ
-  },
-  {
-    name: 'ทศกัน',
-    description: 'ยักไก่ๆ',
-    price: 200,
-    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
-  }
-]
-const productsData = [
-  {
-    name: 'พระกายแก้ว',
-    description: 'เป็นตัวประหลาดสักอย่างนี้ละ',
-    price: 100,
-    image: '../../../img/2023-08-18 090802.png' // ตั้งค่า path รูปภาพ
-  },
-  {
-    name: 'นาฬิกาหยุดเวลา',
-    description: 'ไม่รู้ไม่ชี้',
-    price: 200,
-    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
-  },
-  {
-    name: 'ชิ้นที่ 3',
-    description: 'ไม่รู้ไม่ชี้',
-    price: 500,
-    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
-  },
-  {
-    name: 'ชิ้นที่ 4',
-    description: 'ไม่รู้ไม่ชี้',
-    price: 500,
-    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
-  },
-  {
-    name: 'ชิ้นที่ 5',
-    description: 'ไม่รู้ไม่ชี้',
-    price: 500,
-    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
-  },
-  {
-    name: 'ชิ้นที่ 6',
-    description: 'ไม่รู้ไม่ชี้',
-    price: 500,
-    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
-  },
-  {
-    name: 'ชิ้นที่ 7',
-    description: 'ไม่รู้ไม่ชี้',
-    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
-  },
-  {
-    name: 'ชิ้นที่ 8',
-    description: 'ไม่รู้ไม่ชี้',
-    price: 500,
-    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
-  },
-  {
-    name: 'ชิ้นที่ 9',
-    description: 'ไม่รู้ไม่ชี้',
-    price: 500,
-    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
-  },
-  {
-    name: 'ชิ้นที่ 10',
-    description: 'ไม่รู้ไม่ชี้',
-    price: 500,
-    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
-  },
-  {
-    name: 'ชิ้นที่ 11',
-    description: 'ไม่รู้ไม่ชี้',
-    price: 500,
-    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
-  },
-  {
-    name: 'ชิ้นที่ 12',
-    description: 'ไม่รู้ไม่ชี้',
-    price: 500,
-    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
-  },
-  {
-    name: 'ชิ้นที่ 13',
-    description: 'ไม่รู้ไม่ชี้',
-    price: 500,
-    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
-  },
-  {
-    name: 'ชิ้นที่ 14',
-    description: 'ไม่รู้ไม่ชี้',
-    price: 500,
-    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
-  },
-  {
-    name: 'ชิ้นที่ 15',
-    description: 'ไม่รู้ไม่ชี้',
-    price: 500,
-    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
-  },
-  {
-    name: 'ชิ้นที่ 16',
-    description: 'ไม่รู้ไม่ชี้',
-    price: 500,
-    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
-  }
-]
+import SlideshowWithCategory from '../slide/slidecategoer'
 
 const Home = () => {
-  const [selectedFilter, setSelectedFilter] = useState(null);
+  // ตัวแปรเก็บค่าข้อมูล
+  const [product, setProduct] = useState('') // ตัวแปรเก็บค่า product
+  const [productname, setProductName] = useState('') // ตัวแปรเก็บค่า ชื่อ product
+  const [description, setDescription] = useState('') // ตัวแปรเก็บค่า description
+  const [price, setPrice] = useState('') // ตัวแปรเก็บค่า price
+  const [image, setImage] = useState('') // ตัวแปรเก็บค่า image
 
-  const handleFilterClick = (filter) => {
+  console.log('ข้อมูล Product', product)
+
+  // รับค่าข้อมูลจาก Api
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.product.allproducts`)
+
+        const productData = response.data.message.Data
+        const names = productData.map(product => product.product_name)
+        const description = productData.map(product => product.product_description)
+        const price = productData.map(product => product.product_price)
+
+        console.log('ทดสอบ', response.data.message.Data)
+        setProduct(response.data.message.Data)
+
+        // setProductName(names)
+        // setDescription(description)
+        // setPrice(price)
+        // console.log('ข้อมูลสินค้า', response.data.message.Data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    fetchData()
+  }, [])
+
+  // ฟังก์ชันกรองข้อมูล
+  const [selectedFilter, setSelectedFilter] = useState(null)
+
+  const handleFilterClick = filter => {
     if (selectedFilter === filter) {
       // ถ้าคลิกซ้ำกับตัวเดิม ให้ยกเลิกการเลือก
-      setSelectedFilter(null);
+      setSelectedFilter(null)
     } else {
       // ถ้าคลิกตัวใหม่ ให้เลือกตัวนั้น
-      setSelectedFilter(filter);
+      setSelectedFilter(filter)
     }
-  };
-  
+  }
+
+  // ฟังก์ชัน pagination
   const [currentPage, setCurrentPage] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(12)
 
@@ -152,25 +68,16 @@ const Home = () => {
 
   const startIndex = (currentPage - 1) * rowsPerPage
   const endIndex = startIndex + rowsPerPage
-  const visibleProducts = productsData.slice(startIndex, endIndex)
 
   return (
     <div className='container'>
       <div className='container'>
         <h1 className='title'> Category </h1>
-        <div className='card-list'>
-          <Grid container spacing={6} justifyContent='flex-end'>
-            {productsPreview.map((product, index) => (
-              <Grid item xs={12} sm={6} md={5} lg={3} key={index}>
-                <ProductImageCard name={product.name} image={product.image} />
-              </Grid>
-            ))}
-          </Grid>
-        </div>
+        <SlideshowWithCategory />
       </div>
       <Box>
         <hr />
-        </Box>
+      </Box>
       <Box>
         <Grid container spacing={6}>
           <Grid item xs={12} sm={6} md={1.5}>
@@ -221,31 +128,88 @@ const Home = () => {
         </Grid>
       </Box>
       <h1 className='title'> ร้านค้าออนไลน์ </h1>
-      <Stack direction='column' spacing={2}>
-        <div style={{ marginLeft: 'auto' }}>
-          <Pagination
-            count={Math.ceil(productsData.length / rowsPerPage)} // คำนวณจำนวนหน้า
-            page={currentPage}
-            onChange={handleChangePage}
-          />
-        </div>
-        <div className='card-list'>
-          <Grid container spacing={6}>
-            {visibleProducts.map((product, index) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-                <ProductCard
-                  name={product.name}
-                  description={product.description}
-                  price={product.price}
-                  image={product.image}
+      <Grid container spacing={6}>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+          {productsPreview.map((item, index) => (
+            <Box sx={{ flex: '0 0 calc(25% - 20px)', padding: '10px', minWidth: '352px' }} key={index}>
+              <Card sx={{ width: '100%' }}>
+                {/* แสดงรูปภาพสินค้า */}
+                <CardMedia
+                  component='img'
+                  height='200'
+                  image={item.image}
+                  style={{ cursor: 'pointer', maxWidth: '100%' }}
                 />
-              </Grid>
-            ))}
-          </Grid>
-        </div>
-      </Stack>
+
+                <CardContent>
+                  {/* แสดงชื่อสินค้า */}
+                  <Typography variant='body1' component='div' fontWeight='bold' style={{ cursor: 'pointer' }}>
+                    {item.name}
+                  </Typography>
+
+                  {/* แสดงราคาสินค้า */}
+                  <Typography variant='body1' color='text.primary'>
+                    Price: {item.price} THB
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Box>
+          ))}
+        </Box>
+      </Grid>
     </div>
   )
 }
 
 export default Home
+
+const productsPreview = [
+  {
+    name: 'พระกายแก้ว',
+    description: 'เป็นตัวประหลาดสักอย่างนี้ละ',
+    price: '3,000,000',
+    image: '/img/20W_Fiber_Laser_Engrave_KX-200.jpg' // ตั้งค่า path รูปภาพ
+  },
+  {
+    name: 'นาฬิกาหยุดเวลา',
+    description: 'ไม่รู้ไม่ชี้',
+    price: '4,500,000',
+    image: '/img/CNC_5_Axis_Router_Rotary_Table_Horizontal.jpg' // ตั้งค่า path รูปภาพ
+  },
+  {
+    name: 'พระนาราย',
+    description: 'เป็นได้แค่นั้นละ',
+    price: '8,542,000',
+    image: '/img/CNC_Laser_5axis_net.png' // ตั้งค่า path รูปภาพ
+  },
+  {
+    name: 'ทศกัน',
+    description: 'ยักไก่ๆ',
+    price: '9,758,420',
+    image: '/img/CNC_Router_milling_S4.jpg' // ตั้งค่า path รูปภาพ
+  },
+  {
+    name: 'ชิ้นที่ 1',
+    description: 'เป็นตัวประหลาดสักอย่างนี้ละ',
+    price: '15,000',
+    image: '/img/CNC_5_Axis.png' // ตั้งค่า path รูปภาพ
+  },
+  {
+    name: 'ชิ้นที่ 2',
+    description: 'เป็นตัวประหลาดสักอย่างนี้ละ',
+    price: '15,000',
+    image: '/img/CNC_Router_Milling_Z.jpg' // ตั้งค่า path รูปภาพ
+  },
+  {
+    name: 'ชิ้นที่ 3',
+    description: 'เป็นตัวประหลาดสักอย่างนี้ละ',
+    price: '15,000',
+    image: '/img/CNC_Router_Milling_ZXR.png' // ตั้งค่า path รูปภาพ
+  },
+  {
+    name: 'ชิ้นที่ 4',
+    description: 'เป็นตัวประหลาดสักอย่างนี้ละ',
+    price: '15,000',
+    image: '/img/UV_Laser_Engraving_Machine.jpg' // ตั้งค่า path รูปภาพ
+  }
+]
