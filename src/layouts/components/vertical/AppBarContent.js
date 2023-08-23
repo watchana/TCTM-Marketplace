@@ -9,6 +9,7 @@ import Hidden from '@mui/material/Hidden'
 import Avatar from '@mui/material/Avatar'
 import CardMedia from '@mui/material/CardMedia'
 import TextField from '@mui/material/TextField'
+import ButtonBase from '@mui/material/ButtonBase'
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
@@ -35,17 +36,19 @@ const AppBarContent = props => {
     <Grid container direction='row' justifyContent='space-between' alignItems='flex-start'>
       <Grid item>
         <Box display='flex' direction='row'>
-          <Link href='/' passHref>
-            <img src='/images/cards/TCTM_Group_3 (1).png' alt='logo' width='52px' />
-          </Link>
-          <Hidden smDown>
-            <Box sx={{ marginLeft: 3 }}>
-              <Typography variant='h5' sx={{ fontWeight: 'bold', marginBottom: '-10px' }}>
-                TCTM
-              </Typography>
-              <Typography variant='body1'>Marketplace</Typography>
-            </Box>
-          </Hidden>
+          <ButtonBase>
+            <Link href='/' passHref>
+              <img src='/images/cards/TCTM_Group_3 (1).png' alt='logo' width='52px' />
+            </Link>
+            <Hidden smDown>
+              <Box sx={{ marginLeft: 3 }}>
+                <Typography variant='h5' sx={{ fontWeight: 'bold', marginBottom: '-10px' }}>
+                  TCTM
+                </Typography>
+                <Typography variant='body1'>Marketplace</Typography>
+              </Box>
+            </Hidden>
+          </ButtonBase>
         </Box>
       </Grid>
       <Hidden mdDown>
