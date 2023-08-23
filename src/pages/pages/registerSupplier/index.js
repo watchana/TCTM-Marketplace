@@ -91,12 +91,9 @@ const Dashboard = () => {
       member_id: localStorage.getItem('Member_Id')
     }
 
-    console.log('ข้อมูลที่ส่งไป Server', data)
-
     axios
       .post(`${process.env.NEXT_PUBLIC_API}TCTM.register.registerMarket`, data)
       .then(response => {
-        console.log(response.data)
         Swal.fire({
           icon: 'success',
           title: 'ส่งข้อมูลสำเร็จ',

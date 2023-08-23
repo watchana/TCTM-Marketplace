@@ -114,15 +114,11 @@ const LoginPage = () => {
   // ฟังก์ชันเก็บค่าตัวแปร
   const handleSetUser = event => {
     setUser(event.target.value)
-
-    // console.log('User input:', event.target.value)
   }
 
   const handleSetPassword = prop => event => {
     setPassword(event.target.value)
     setValues({ ...values, [prop]: event.target.value })
-
-    // console.log(event.target.value)
   }
 
   const handleSubmitData = event => {
@@ -132,8 +128,6 @@ const LoginPage = () => {
       username: user,
       password: password
     }
-
-    // console.log('ข้อมูลที่ส่งไป Server', data)
 
     axios
       .post(`${process.env.NEXT_PUBLIC_API}TCTM.authen.login`, data)
@@ -148,14 +142,11 @@ const LoginPage = () => {
             const EmailData = response.data.message.Data[0].user_email
             const MemberId = response.data.message.Data[0].member_id
 
-            console.log('userData: ', MemberId)
             setResponseData(userData)
 
             const Roledata = {
               Role: userData
             }
-
-            console.log('ข้อมูล Role', Roledata)
 
             // Create a JWT
             const token = createToken(Roledata)

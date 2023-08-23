@@ -95,7 +95,6 @@ const UserDropdown = () => {
 
     if (decodedToken) {
       role = decodedToken.Role
-      console.log('Role:', role)
     } else {
       console.log('Invalid or expired token')
     }

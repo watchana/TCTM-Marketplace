@@ -27,7 +27,7 @@ export const withAuth = WrappedComponent => {
         if (!decodedToken) {
           // Invalid token, redirect to login page
           router.push('pages/login/')
-          alert('เอาอีกแล้วนะ')
+          alert('แตกไปซะ')
           Cookies.remove('jwt') // Remove the token
         } else {
           setVerificationComplete(true)
