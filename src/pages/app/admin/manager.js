@@ -1,23 +1,43 @@
-// ** React Imports
-import React from 'react'
-
-// ** MUI Imports
+import React, { useState, useEffect } from 'react'
 import { Box, Tab, Card, Typography } from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-
-// ** Components
 import MemberTable from 'src/views/admin/manager/MemberTable'
 import SupplierTable from 'src/views/admin/manager/SupplierTable'
 import axios from 'axios'
 
-const ManagerPage = ({ dataUser, dataMarket }) => {
-  // ** States
-  const [value, setValue] = React.useState('1')
+const ManagerPage = () => {
+  const [value, setValue] = useState('1')
+  const [dataUser, setDataUser] = useState([])
+  const [dataMarket, setDataMarket] = useState([])
 
-  // ** Function to handle tabs
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userResponse = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.approve.userqueue`, {
+          headers: {
+            Authorization: 'token 76dc8ec5e14d19c:a644317879022f2'
+          }
+        })
+
+        const marketResponse = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.approve.supplierqueue`, {
+          headers: {
+            Authorization: 'token 76dc8ec5e14d19c:a644317879022f2'
+          }
+        })
+
+        setDataUser(userResponse.data.message.Data || [])
+        setDataMarket(marketResponse.data.message.Data || [])
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    }
+
+    fetchData()
+  }, [value])
 
   return (
     <>
@@ -47,43 +67,6 @@ const ManagerPage = ({ dataUser, dataMarket }) => {
       </Card>
     </>
   )
-}
-
-export const getServerSideProps = async context => {
-  // ** The code block you provided is an asynchronous function that fetches data from two different
-  // ** endpoints using the axios library. It makes two GET requests to the same endpoint with different headers.
-  try {
-    const userResponse = await axios.get('http://111.223.38.19/api/method/frappe.API.TCTM.approve.userqueue', {
-      headers: {
-        Authorization: 'token 76dc8ec5e14d19c:a644317879022f2'
-      }
-    })
-
-    const marketResponse = await axios.get('http://111.223.38.19/api/method/frappe.API.TCTM.approve.supplierqueue', {
-      headers: {
-        Authorization: 'token 76dc8ec5e14d19c:a644317879022f2'
-      }
-    })
-
-    const dataUser = userResponse.data.message.Data
-    const dataMarket = marketResponse.data.message.Data
-
-    return {
-      props: {
-        dataUser: dataUser || [],
-        dataMarket: dataMarket || []
-      }
-    }
-  } catch (error) {
-    console.error('Error fetching data:', error)
-
-    return {
-      props: {
-        dataUser: [],
-        dataMarket: []
-      }
-    }
-  }
 }
 
 export default ManagerPage
