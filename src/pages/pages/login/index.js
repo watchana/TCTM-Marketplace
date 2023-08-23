@@ -147,18 +147,26 @@ const LoginPage = () => {
           const receivedStatus = response.data.message.Message
           if (receivedStatus === 'OK') {
             const userData = response.data.message.Data[0].user_role
-            console.log('userData: ', userData)
+            const resNameData =
+              response.data.message.Data[0].user_first_name + ' ' + response.data.message.Data[0].user_last_name
+            const EmailData = response.data.message.Data[0].user_email
+
+            console.log('userData: ', resNameData)
             setResponseData(userData)
 
             const Roledata = {
               Role: userData
             }
 
+            console.log('ข้อมูล Role', Roledata)
+
             // Create a JWT
             const token = createToken(Roledata)
 
             // Store the token in local storage
             localStorage.setItem('jwt', token)
+            localStorage.setItem('name', resNameData)
+            localStorage.setItem('Email', EmailData)
 
             // Store the token in a cookie
             Cookies.set('jwt', token)
@@ -167,7 +175,7 @@ const LoginPage = () => {
               title: 'Login Success',
               showConfirmButton: false,
               timer: 1000
-            }).then(router.push(`/`))
+            }).then(router.push(`#`))
           } else if (receivedStatus === 'Banned') {
             Swal.fire({
               icon: 'error',
