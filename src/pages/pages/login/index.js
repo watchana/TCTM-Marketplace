@@ -128,7 +128,7 @@ const LoginPage = () => {
       password: password
     }
 
-    console.log('ข้อมูลที่ส่งไป Server', data)
+    // console.log('ข้อมูลที่ส่งไป Server', data)
 
     axios
       .post(`${process.env.NEXT_PUBLIC_API}TCTM.authen.login`, data)
@@ -141,8 +141,9 @@ const LoginPage = () => {
             const resNameData =
               response.data.message.Data[0].user_first_name + ' ' + response.data.message.Data[0].user_last_name
             const EmailData = response.data.message.Data[0].user_email
+            const MemberId = response.data.message.Data[0].member_id
 
-            console.log('userData: ', resNameData)
+            console.log('userData: ', MemberId)
             setResponseData(userData)
 
             const Roledata = {
@@ -158,6 +159,7 @@ const LoginPage = () => {
             localStorage.setItem('jwt', token)
             localStorage.setItem('name', resNameData)
             localStorage.setItem('Email', EmailData)
+            localStorage.setItem('Member_Id', MemberId)
 
             // Store the token in a cookie
             Cookies.set('jwt', token)
