@@ -35,6 +35,16 @@ const RegisterProductPage = () => {
     detail: ''
   })
 
+  const productOptionsInit = [
+    {
+      optionId: 1,
+      optionName: '',
+      optionValue: '' || {}
+    }
+  ]
+
+  const [productOptions, setProductOptions] = useState(productOptionsInit)
+
   const currencies = [
     {
       value: 'USD',
@@ -100,9 +110,24 @@ const RegisterProductPage = () => {
     }
   }
 
+  const handleAddOption = e => {
+    const newOption = {
+      optionId: productOptions.length + 1,
+      optionName: '',
+      optionValue: '' || {}
+    }
+    setProductOptions([...productOptions, newOption])
+  }
+
+  const handleDeleteOption = e => {
+    const updatedOptions = [...productOptions]
+    updatedOptions.splice(productOptions.length - 1, 1)
+    setProductOptions(updatedOptions)
+  }
+
   useEffect(() => {
-    console.log(selectedImage)
-  }, [selectedImage])
+    console.log(productOptions)
+  }, [productOptions])
 
   return (
     <Box>
@@ -111,7 +136,8 @@ const RegisterProductPage = () => {
         <Typography variant='body1'>กรอกข้อมูลสินค้าที่ต้องการลงทะเบียน</Typography>
       </Box>
 
-      <Card sx={{ padding: 10 }}>
+      {/* รูปภาพ & วิดิโอ */}
+      <Card sx={{ padding: 8, marginBlock: 5 }}>
         <Typography variant='h5'>รูปภาพสินค้า</Typography>
         <Box sx={{ my: 4 }} border={1} borderColor='rgba(0, 0, 0, 0.2)' borderRadius={1}>
           <Grid container spacing={5} sx={{ p: 4 }}>
@@ -167,7 +193,6 @@ const RegisterProductPage = () => {
                   <Typography variant='body1'>No image selected</Typography>
                 )}
               </Box>
-              <Box></Box>
             </Grid>
           </Grid>
         </Box>
@@ -225,58 +250,142 @@ const RegisterProductPage = () => {
             </Grid>
           </Grid>
         </Box>
-        <Grid container spacing={5}>
-          <Grid item xs={12}>
-            <Typography>ชื่อสินค้า</Typography>
-            <TextField
-              fullWidth
-              id='product-name'
-              value={product.name}
-              onChange={e => setProduct({ ...product, name: e.target.value })}
-            />
-          </Grid>
+        <Grid container spacing={5}></Grid>
+      </Card>
 
-          <Grid item xs={12}>
-            <Typography>หมวดหมู่</Typography>
-            <Select fullWidth defaultValue='' id='grouped-select' label='Grouping'>
-              <MenuItem value=''>
-                <em>None</em>
-              </MenuItem>
-              <ListSubheader>Category 1</ListSubheader>
-              <MenuItem value={1}>Option 1</MenuItem>
-              <MenuItem value={2}>Option 2</MenuItem>
-              <ListSubheader>Category 2</ListSubheader>
-              <MenuItem value={3}>Option 3</MenuItem>
-              <MenuItem value={4}>Option 4</MenuItem>
-            </Select>
-          </Grid>
+      {/* รายละเอียดสินค้า */}
+      <Card sx={{ padding: 8, marginBlock: 5 }}>
+        <Typography variant='h5'>รายละเอียดสินค้า</Typography>
+        <Box sx={{ my: 4 }} border={1} borderColor='rgba(0, 0, 0, 0.2)' borderRadius={1}>
+          <Grid container spacing={5} sx={{ p: 4 }}>
+            <Grid item xs={12} sm={6}>
+              <Typography>ชื่อสินค้า</Typography>
+              <TextField
+                fullWidth
+                id='product-name'
+                value={product.name}
+                onChange={e => setProduct({ ...product, name: e.target.value })}
+              />
+            </Grid>
 
-          <Grid item xs={12} sm={6} md={4}>
-            <Typography>Please select your currency</Typography>
-            <TextField fullWidth select id='outlined-select-currency' defaultValue='EUR'>
-              {currencies.map(option => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label} : {option.value}
+            <Grid item xs={12} sm={6}>
+              <Typography>หมวดหมู่</Typography>
+              <Select fullWidth defaultValue='' id='grouped-select' label='Grouping'>
+                <MenuItem value=''>
+                  <em>None</em>
                 </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-          <Grid item xs={12} sm={6} md={8}>
-            <Typography>ราคาสินค้า</Typography>
-            <TextField fullWidth id='product-price' variant='outlined' />
-          </Grid>
+                <ListSubheader>Category 1</ListSubheader>
+                <MenuItem value={1}>Option 1</MenuItem>
+                <MenuItem value={2}>Option 2</MenuItem>
+                <ListSubheader>Category 2</ListSubheader>
+                <MenuItem value={3}>Option 3</MenuItem>
+                <MenuItem value={4}>Option 4</MenuItem>
+              </Select>
+            </Grid>
 
-          <Grid item xs={12}>
-            <Typography>จำนวนสินค้า</Typography>
-            <TextField fullWidth id='product-quantity' variant='outlined' />
-          </Grid>
+            <Grid item xs={12}>
+              <Typography>รายละเอียดสินค้า</Typography>
+              <TextField fullWidth id='product-detail' multiline rows={4} variant='outlined' />
+            </Grid>
 
-          <Grid item xs={12}>
-            <Typography>รายละเอียดสินค้า</Typography>
-            <TextField fullWidth id='product-detail' multiline rows={4} variant='outlined' />
+            <Grid item xs={12} sm={6}>
+              <Typography>แบรนด์</Typography>
+              <TextField fullWidth id='product-brand' variant='outlined' />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <Typography>น้ำหนัก</Typography>
+              <TextField fullWidth id='product-brand' variant='outlined' />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <Typography>ฺBakeware Type</Typography>
+              <TextField fullWidth id='product-brand' variant='outlined' />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <Typography>หมายเลขใบอนุญาติ </Typography>
+              <TextField fullWidth id='product-brand' variant='outlined' />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <Typography>ประเทศต้นกำเนิดสินค้า</Typography>
+              <TextField fullWidth id='product-brand' variant='outlined' />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <Typography>ขนาดบรรจุ</Typography>
+              <TextField fullWidth id='product-brand' variant='outlined' />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <Typography>ส่วนประกอบ</Typography>
+              <TextField fullWidth id='product-brand' variant='outlined' />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <Typography>ปริมาณ</Typography>
+              <TextField fullWidth id='product-brand' variant='outlined' />
+            </Grid>
           </Grid>
+        </Box>
+      </Card>
+
+      {/* ตัวเลือกสินค้า */}
+      <Card sx={{ padding: 8, marginBlock: 5 }}>
+        <Box sx={{ mb: 4 }}>
+          <Typography variant='h5'>ตัวเลือกสินค้า</Typography>
+          <Typography variant='body1'>หัวข้อตัวเลือกที่ต้องการ</Typography>
+        </Box>
+        <Grid container spacing={5} alignItems={'flex-end'}>
+          {productOptions.map(option => (
+            <Grid item key={option.optionId} xs={12}>
+              <Grid container spacing={5}>
+                <Grid item key={option.optionId} xs={12} sm={6}>
+                  <Typography>ตัวเลือกที่ {option.optionId}</Typography>
+                  <TextField fullWidth id={`product-option-name-${option.optionId}`} variant='outlined' />
+                </Grid>
+                <Grid item key={option.optionId} xs={12} sm={6}>
+                  <Typography>แบบกรอกข้อมูล หรือ แบบเลือก</Typography>
+                  <Select
+                    fullWidth
+                    labelId='demo-simple-select-label'
+                    id='demo-simple-select'
+                    value={option.optionValue}
+                    onChange={e =>
+                      setProductOptions(options =>
+                        options.map(opt =>
+                          opt.optionId === option.optionId ? { ...opt, optionValue: e.target.value } : opt
+                        )
+                      )
+                    }
+                  >
+                    <MenuItem value={10}>กรอกเอง</MenuItem>
+                    <MenuItem value={20}>เลือก</MenuItem>
+                  </Select>
+                </Grid>
+              </Grid>
+            </Grid>
+          ))}
+          {productOptions.length < 5 ? (
+            <Grid item xs={6} sm={6} sx={{}}>
+              <Button fullWidth variant='contained' sx={{ height: 55 }} onClick={handleAddOption}>
+                +
+              </Button>
+            </Grid>
+          ) : (
+            <Grid item xs={6} sm={6} sx={{}}></Grid>
+          )}
+          {productOptions.length !== 1 && (
+            <Grid item xs={6} sm={6}>
+              <Button fullWidth variant='contained' sx={{ height: 55 }} onClick={handleDeleteOption}>
+                -
+              </Button>
+            </Grid>
+          )}
         </Grid>
       </Card>
+
       <Modal
         open={openImagePreview}
         onClose={handleClose}
