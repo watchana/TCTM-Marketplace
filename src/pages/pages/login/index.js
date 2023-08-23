@@ -270,7 +270,6 @@ const LoginPage = () => {
             <Button fullWidth variant='outlined' style={{ borderRadius: '10px' }}>
               Register
             </Button>
-            <></>
           </Link>
         </Box>
       </Card>
