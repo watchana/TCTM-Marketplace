@@ -231,7 +231,7 @@ const RegisterPage = () => {
 
   return (
     <Box className='content-center'>
-      <Card sx={{ zIndex: 1 }}>
+      <Card sx={{ zIndex: 1, borderRadius: '34px' }}>
         <CardContent sx={{ padding: theme => `${theme.spacing(7, 9, 2)} !important` }}>
           <Box sx={{ mb: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Typography
@@ -259,11 +259,17 @@ const RegisterPage = () => {
               onChange={handleUserSet}
               error={user === '' && isSubmitted}
               helperText={user === '' && isSubmitted ? 'Please enter your username.' : ''}
+              InputProps={{
+                style: {
+                  borderRadius: '10px'
+                }
+              }}
             />
             {/* Password Input */}
             <FormControl fullWidth sx={{ marginBottom: 1 }} error={password === '' && isSubmitted}>
               <InputLabel htmlFor='auth-register-password'>Password</InputLabel>
               <OutlinedInput
+                style={{ borderRadius: '10px' }}
                 label='Password'
                 value={values.password}
                 id='auth-register-password'
@@ -298,6 +304,11 @@ const RegisterPage = () => {
                   onChange={handleFirstnameSet}
                   error={firstname === '' && isSubmitted}
                   helperText={firstname === '' && isSubmitted ? 'Please enter your firstname.' : ''}
+                  InputProps={{
+                    style: {
+                      borderRadius: '10px'
+                    }
+                  }}
                 />
 
                 {/* LastName Input */}
@@ -310,6 +321,11 @@ const RegisterPage = () => {
                   onChange={handleLastnameSet}
                   error={lastname === '' && isSubmitted}
                   helperText={lastname === '' && isSubmitted ? 'Please enter your lastname.' : ''}
+                  InputProps={{
+                    style: {
+                      borderRadius: '10px'
+                    }
+                  }}
                 />
               </Box>
 
@@ -324,6 +340,11 @@ const RegisterPage = () => {
                 onChange={handleCompanySet}
                 error={company === '' && isSubmitted}
                 helperText={company === '' && isSubmitted ? 'Please enter your company.' : ''}
+                InputProps={{
+                  style: {
+                    borderRadius: '10px'
+                  }
+                }}
               />
 
               {/* Address Input */}
@@ -337,6 +358,11 @@ const RegisterPage = () => {
                 onChange={handleAddressSet}
                 error={address === '' && isSubmitted}
                 helperText={address === '' && isSubmitted ? 'Please enter your address.' : ''}
+                InputProps={{
+                  style: {
+                    borderRadius: '10px'
+                  }
+                }}
               />
 
               <Box sx={{ width: '100%', marginBottom: 4, display: 'flex', justifyContent: 'space-between' }}>
@@ -351,6 +377,11 @@ const RegisterPage = () => {
                   onChange={handleTelSet}
                   error={tel === '' && isSubmitted}
                   helperText={tel === '' && isSubmitted ? 'Please enter your tel.' : ''}
+                  InputProps={{
+                    style: {
+                      borderRadius: '10px'
+                    }
+                  }}
                 />
 
                 {/* Date Input */}
@@ -370,6 +401,11 @@ const RegisterPage = () => {
                 onChange={handleEmailSet}
                 error={email === '' && isSubmitted}
                 helperText={email === '' && isSubmitted ? 'Please enter your email.' : ''}
+                InputProps={{
+                  style: {
+                    borderRadius: '10px'
+                  }
+                }}
               />
             </Box>
             <FormControlLabel
@@ -389,6 +425,7 @@ const RegisterPage = () => {
               type='submit'
               variant='contained'
               sx={{ marginBottom: 5 }}
+              style={{ borderRadius: '10px' }}
               onClick={handleSubmitData}
             >
               Sign up
