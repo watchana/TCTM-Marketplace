@@ -54,8 +54,6 @@
     "@mui/x-date-pickers": "^6.11.2",
     "@popperjs/core": "^2.11.2",
     "apexcharts-clevision": "3.28.5",
-    "axios": "^1.4.0",
-    "axios": "^1.4.0",
     "babel-eslint": "^10.1.0",
     "clsx": "^1.1.1",
     "date-fns": "^2.30.0",
