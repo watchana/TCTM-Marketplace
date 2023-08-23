@@ -34,15 +34,15 @@ const AppBarContent = props => {
 
   return (
     <Grid container direction='row' justifyContent='space-between' alignItems='flex-start'>
-      <Grid item>
+      <Grid item display='grid' justifyContent='flex-start'>
         <Box display='flex' direction='row'>
-          <ButtonBase>
+          <ButtonBase sx={{ width: '100%', height: '100%' }}>
             <Link href='/' passHref>
               <img src='/images/cards/TCTM_Group_3 (1).png' alt='logo' width='52px' />
             </Link>
             <Hidden smDown>
               <Box sx={{ marginLeft: 3 }}>
-                <Typography variant='h5' sx={{ fontWeight: 'bold', marginBottom: '-10px' }}>
+                <Typography ml={-8.5} variant='h5' sx={{ fontWeight: 'bold', marginBottom: '-10px' }}>
                   TCTM
                 </Typography>
                 <Typography variant='body1'>Marketplace</Typography>
@@ -103,7 +103,7 @@ export default AppBarContent
 // </Hidden>
 // <Grid item xs={4} sm={3} md={2} lg={2} xl={2}>
 //   <Box sx={{ width: '100%', paddingTop: '5px' }}>
-//     <Typography variant='h5'>{themeConfig.templateName}</Typography>
+//  <Typography variant='h5'>{themeConfig.templateName}</Typography>
 //   </Box>
 // </Grid>
 // <Hidden smDown>

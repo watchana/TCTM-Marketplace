@@ -9,7 +9,7 @@ const themeConfig = {
   menuTextTruncate: false /* true | false */,
   navigationSize: 260 /* Number in PX(Pixels) /*! Note: This is for Vertical navigation menu only */,
   // ** Other Configs
-  responsiveFontSizes: true /* true | false */,
+  responsiveFontSizes: false /* true | false */,
   disableRipple: false /* true | false */
 }
 
