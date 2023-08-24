@@ -1,33 +1,29 @@
 import React from 'react'
-import { Box, Grid, Card, ButtonBase, CardContent, Typography } from '@mui/material'
+import { Box, Card, CardContent, Typography, Link as MuiLink } from '@mui/material'
 import { Slide } from 'react-slideshow-image'
 import 'react-slideshow-image/dist/styles.css'
-const SlideshowWithCards = () => {
+import CardMedia from '@mui/material/CardMedia'
+import { CardActionArea } from '@mui/material'
+
+const SlideshowWithCards = ({ productData }) => {
+  const limitedProductData = productData.slice(0, 4)
+
   return (
     <Box sx={{ width: '100%' }}>
-      {/* เพิ่มสไลด์ของคุณที่นี่ */}
-      <Slide>
-        <div>
-          <Card sx={{ width: '100%', height: '300px', bgcolor: '#999' }}>
-            {/* ใส่ Link ตรงนี้ */}
-            <ButtonBase sx={{ width: '100%', height: '100%' }}>
-              <Typography variant='h1' textAlign='center'>
-                Billboard1
-              </Typography>
-            </ButtonBase>
+      <Slide autoplay={true} duration={1500} transitionDuration={500}>
+        {limitedProductData.map((product, index) => (
+          <Card sx={{ maxWidth: 450, display: 'flex', justifyContent: 'center' }} key={index}>
+            <CardActionArea component={MuiLink} href={`/product/${product.product_id}`}>
+              <CardMedia
+                component='img'
+                style={{ margin: 'auto', display: 'block' }}
+                height='auto'
+                image={`imgTctmProduct/${product.image_file_name}`}
+                alt='Cabill Board'
+              />
+            </CardActionArea>
           </Card>
-        </div>
-        <div>
-          <Card sx={{ width: '100%', height: '300px', bgcolor: '#999' }}>
-            {/* ใส่ Link ตรงนี้ */}
-            <ButtonBase sx={{ width: '100%', height: '100%' }}>
-              <Typography variant='h1' textAlign='center'>
-                Billboard2
-              </Typography>
-            </ButtonBase>
-          </Card>
-        </div>
-        {/* เพิ่มสไลด์เพิ่มเติมตามต้องการ */}
+        ))}
       </Slide>
     </Box>
   )
