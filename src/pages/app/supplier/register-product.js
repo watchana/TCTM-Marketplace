@@ -39,30 +39,19 @@ const RegisterProductPage = () => {
     {
       optionId: 1,
       optionName: '',
-      optionValue: '' || {}
+      optionType: 1,
+      optionValue: [{ valueId: 1, valueName: '' }]
     }
   ]
-
   const [productOptions, setProductOptions] = useState(productOptionsInit)
 
-  const currencies = [
+  const productOptionGroupsInit = [
     {
-      value: 'USD',
-      label: '$'
-    },
-    {
-      value: 'EUR',
-      label: '€'
-    },
-    {
-      value: 'JPY',
-      label: '¥'
-    },
-    {
-      value: 'THB',
-      label: '฿'
+      optionGroupId: 1,
+      optionGroupName: ''
     }
   ]
+  const [productOptionGroups, setProductOptionGroups] = useState(productOptionGroupsInit)
 
   const handleImageChange = event => {
     const files = event.target.files
@@ -114,7 +103,8 @@ const RegisterProductPage = () => {
     const newOption = {
       optionId: productOptions.length + 1,
       optionName: '',
-      optionValue: '' || {}
+      optionType: 1,
+      optionValue: [{ valueId: 1, valueName: '' }]
     }
     setProductOptions([...productOptions, newOption])
   }
@@ -123,6 +113,54 @@ const RegisterProductPage = () => {
     const updatedOptions = [...productOptions]
     updatedOptions.splice(productOptions.length - 1, 1)
     setProductOptions(updatedOptions)
+  }
+
+  const handleOptionTypeChange = (e, optionId) => {
+    e.target.value === 1
+      ? setProductOptions(options =>
+          options.map(opt =>
+            opt.optionId === optionId
+              ? { ...opt, optionType: e.target.value, optionValue: [{ valueId: 1, valueName: '' }] }
+              : opt
+          )
+        )
+      : setProductOptions(options =>
+          options.map(opt => (opt.optionId === optionId ? { ...opt, optionType: e.target.value } : opt))
+        )
+  }
+
+  const handleAddOptionValue = e => {
+    const updatedOptions = [...productOptions]
+    const lastOption = updatedOptions[updatedOptions.length - 1]
+
+    const newOptionValue = {
+      valueId: lastOption.optionValue.length + 1,
+      valueName: ''
+    }
+    lastOption.optionValue.push(newOptionValue)
+    setProductOptions(updatedOptions)
+  }
+
+  const handleDeleteOptionValue = e => {
+    const updatedOptions = [...productOptions]
+    const lastOption = updatedOptions[updatedOptions.length - 1]
+
+    lastOption.optionValue.splice(lastOption.optionValue.length - 1, 1)
+    setProductOptions(updatedOptions)
+  }
+
+  const handleAddOptionGroup = e => {
+    const newOptionGroup = {
+      optionGroupId: productOptionGroups.length + 1,
+      optionGroupName: ''
+    }
+    setProductOptionGroups([...productOptionGroups, newOptionGroup])
+  }
+
+  const handleDeleteOptionGroup = e => {
+    const updatedOptionGroups = [...productOptionGroups]
+    updatedOptionGroups.splice(productOptionGroups.length - 1, 1)
+    setProductOptionGroups(updatedOptionGroups)
   }
 
   useEffect(() => {
@@ -334,16 +372,36 @@ const RegisterProductPage = () => {
       {/* ตัวเลือกสินค้า */}
       <Card sx={{ padding: 8, marginBlock: 5 }}>
         <Box sx={{ mb: 4 }}>
-          <Typography variant='h5'>ตัวเลือกสินค้า</Typography>
+          <Typography variant='h5'>เพิ่มตัวเลือกสินค้า</Typography>
           <Typography variant='body1'>หัวข้อตัวเลือกที่ต้องการ</Typography>
         </Box>
         <Grid container spacing={5} alignItems={'flex-end'}>
           {productOptions.map(option => (
-            <Grid item key={option.optionId} xs={12}>
+            <Grid
+              item
+              key={option.optionId}
+              xs={12}
+              border={1}
+              borderColor='rgba(0, 0, 0, 0.2)'
+              borderRadius={1}
+              sx={{ m: 5, p: 4 }}
+            >
               <Grid container spacing={5}>
                 <Grid item key={option.optionId} xs={12} sm={6}>
                   <Typography>ตัวเลือกที่ {option.optionId}</Typography>
-                  <TextField fullWidth id={`product-option-name-${option.optionId}`} variant='outlined' />
+                  <TextField
+                    fullWidth
+                    id={`product-option-name-${option.optionId}`}
+                    variant='outlined'
+                    value={option.optionName}
+                    onChange={e =>
+                      setProductOptions(options =>
+                        options.map(opt =>
+                          opt.optionId === option.optionId ? { ...opt, optionName: e.target.value } : opt
+                        )
+                      )
+                    }
+                  />
                 </Grid>
                 <Grid item key={option.optionId} xs={12} sm={6}>
                   <Typography>แบบกรอกข้อมูล หรือ แบบเลือก</Typography>
@@ -351,22 +409,69 @@ const RegisterProductPage = () => {
                     fullWidth
                     labelId='demo-simple-select-label'
                     id='demo-simple-select'
-                    value={option.optionValue}
-                    onChange={e =>
-                      setProductOptions(options =>
-                        options.map(opt =>
-                          opt.optionId === option.optionId ? { ...opt, optionValue: e.target.value } : opt
-                        )
-                      )
-                    }
+                    value={option.optionType}
+                    onChange={e => handleOptionTypeChange(e, option.optionId)}
                   >
-                    <MenuItem value={10}>กรอกเอง</MenuItem>
-                    <MenuItem value={20}>เลือก</MenuItem>
+                    <MenuItem value={1}>กรอกเอง</MenuItem>
+                    <MenuItem value={2}>เลือก</MenuItem>
                   </Select>
+                </Grid>
+
+                <Grid item xs={12}>
+                  {option.optionType === 2 && (
+                    <Grid container spacing={5} alignItems={'flex-end'}>
+                      {option.optionValue.map(value => (
+                        <Grid item key={value.valueId} xs={6}>
+                          <Typography>ตัวเลือกย่อยที่ {value.valueId}</Typography>
+                          <TextField
+                            fullWidth
+                            id='product-option-name'
+                            variant='outlined'
+                            onChange={e =>
+                              setProductOptions(options =>
+                                options.map(opt =>
+                                  opt.optionId === option.optionId
+                                    ? {
+                                        ...opt,
+                                        optionValue: opt.optionValue.map(val =>
+                                          val.valueId === value.valueId
+                                            ? {
+                                                ...val,
+                                                valueName: e.target.value
+                                              }
+                                            : val
+                                        )
+                                      }
+                                    : opt
+                                )
+                              )
+                            }
+                          />
+                        </Grid>
+                      ))}
+                      {option.optionValue.length < 5 ? (
+                        <Grid item xs={3}>
+                          <Button fullWidth variant='contained' sx={{ height: 55 }} onClick={handleAddOptionValue}>
+                            +
+                          </Button>
+                        </Grid>
+                      ) : (
+                        <Grid item xs={12} sm={12}></Grid>
+                      )}
+                      {option.optionValue.length !== 1 && (
+                        <Grid item xs={3}>
+                          <Button fullWidth variant='contained' sx={{ height: 55 }} onClick={handleDeleteOptionValue}>
+                            -
+                          </Button>
+                        </Grid>
+                      )}
+                    </Grid>
+                  )}
                 </Grid>
               </Grid>
             </Grid>
           ))}
+
           {productOptions.length < 5 ? (
             <Grid item xs={6} sm={6} sx={{}}>
               <Button fullWidth variant='contained' sx={{ height: 55 }} onClick={handleAddOption}>
@@ -386,6 +491,68 @@ const RegisterProductPage = () => {
         </Grid>
       </Card>
 
+      {/* รายละเอียดสินค้าของแต่ละตัวเลือก */}
+      <Card sx={{ padding: 8, marginBlock: 5 }}>
+        <Typography variant='h5'>รายละเอียดสินค้าของแต่ละตัวเลือก</Typography>
+        {productOptionGroups.map(optionGroup => (
+          <Box key={optionGroup.optionGroupId} sx={{ marginY: 2 }}>
+            <Typography variant='h5'>สินค้าตัวเลือกที่ {optionGroup.optionGroupId}</Typography>
+            <Box sx={{ my: 4 }} border={1} borderColor='rgba(0, 0, 0, 0.2)' borderRadius={1}>
+              <Grid container spacing={5} sx={{ p: 4 }}>
+                {productOptions.map(
+                  option =>
+                    option.optionName.length > 0 && (
+                      <Grid item key={option.optionId} xs={12} sm={6}>
+                        <Typography>{option.optionName}</Typography>
+                        {option.optionType === 1 ? (
+                          <TextField fullWidth id={`product-option-group-name-${option.optionId}`} variant='outlined' />
+                        ) : (
+                          <Select fullWidth labelId='demo-simple-select-label' id='demo-simple-select'>
+                            {option.optionValue.map(value => (
+                              <MenuItem key={value.valueId} value={value.valueName}>
+                                {value.valueName}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        )}
+                      </Grid>
+                    )
+                )}
+
+                <Grid item xs={12} sm={6}>
+                  <Typography>ราคาสินค้า</Typography>
+                  <TextField
+                    fullWidth
+                    id={`product-option-group-name-${optionGroup.optionGroupId}`}
+                    variant='outlined'
+                    value={optionGroup.optionGroupName}
+                  />
+                </Grid>
+              </Grid>
+            </Box>
+          </Box>
+        ))}
+        <Grid container spacing={5}>
+          {productOptionGroups.length < 5 ? (
+            <Grid item xs={6} sm={6}>
+              <Button fullWidth variant='contained' sx={{ height: 55 }} onClick={handleAddOptionGroup}>
+                +
+              </Button>
+            </Grid>
+          ) : (
+            <Grid item xs={6} sm={6}></Grid>
+          )}
+          {productOptionGroups.length !== 1 && (
+            <Grid item xs={6} sm={6}>
+              <Button fullWidth variant='contained' sx={{ height: 55 }} onClick={handleDeleteOptionGroup}>
+                -
+              </Button>
+            </Grid>
+          )}
+        </Grid>
+      </Card>
+
+      {/* show full image */}
       <Modal
         open={openImagePreview}
         onClose={handleClose}
