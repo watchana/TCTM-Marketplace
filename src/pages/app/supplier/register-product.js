@@ -45,13 +45,18 @@ const RegisterProductPage = () => {
   ]
   const [productOptions, setProductOptions] = useState(productOptionsInit)
 
-  const productOptionGroupsInit = [
-    {
-      optionGroupId: 1,
-      optionGroupName: ''
-    }
-  ]
-  const [productOptionGroups, setProductOptionGroups] = useState(productOptionGroupsInit)
+  const productOptionGroupsInit = {
+    optionGroupId: 1,
+    optionGroupColumn1: '',
+    optionGroupColumn2: '',
+    optionGroupColumn3: '',
+    optionGroupColumn4: '',
+    optionGroupColumn5: '',
+    optionGroupPrice: '',
+    optionGroupQuantity: 0
+  }
+
+  const [productOptionGroups, setProductOptionGroups] = useState([productOptionGroupsInit])
 
   const handleImageChange = event => {
     const files = event.target.files
@@ -152,23 +157,33 @@ const RegisterProductPage = () => {
   }
 
   const handleAddOptionGroup = e => {
-    const newOptionGroup = {
-      optionGroupId: productOptionGroups.length + 1,
-      optionGroupName: ''
-    }
+    const optionGroupIds = productOptionGroups.map(optionGroup => optionGroup.optionGroupId)
+    const maxId = Math.max(...optionGroupIds)
+
+    const newOptionGroup = { ...productOptionGroupsInit, optionGroupId: maxId + 1 }
     setProductOptionGroups([...productOptionGroups, newOptionGroup])
   }
 
-  const handleDeleteOptionGroup = e => {
+  const handleDeleteOptionGroup = (e, id) => {
     if (productOptionGroups.length === 1) return
-    const updatedOptionGroups = [...productOptionGroups]
-    updatedOptionGroups.splice(productOptionGroups.length - 1, 1)
+    const updatedOptionGroups = productOptionGroups.filter(optionGroup => optionGroup.optionGroupId !== id)
+    setProductOptionGroups(updatedOptionGroups)
+  }
+
+  const handleProductOptionGroupChange = (e, optionGroupId, col) => {
+    const updatedOptionGroups = productOptionGroups.map(optionGroup => {
+      if (optionGroup.optionGroupId === optionGroupId) {
+        return { ...optionGroup, [col]: e.target.value }
+      } else {
+        return optionGroup
+      }
+    })
     setProductOptionGroups(updatedOptionGroups)
   }
 
   useEffect(() => {
-    console.log(productOptions)
-  }, [productOptions])
+    console.log(productOptionGroups)
+  }, [productOptionGroups])
 
   return (
     <Box>
@@ -387,7 +402,7 @@ const RegisterProductPage = () => {
               border={1}
               borderColor='rgba(0, 0, 0, 0.2)'
               borderRadius={1}
-              sx={{ m: 5, p: 4 }}
+              sx={{ m: 4, p: 6 }}
             >
               <Grid container spacing={5} alignItems={'flex-end'}>
                 <Grid item key={option.optionId} xs={12} sm={5}>
@@ -436,7 +451,7 @@ const RegisterProductPage = () => {
                     <Grid container spacing={5} alignItems={'flex-end'}>
                       {option.optionValue.map(value => (
                         <Grid container spacing={5} alignItems={'flex-end'} key={value.valueId} sx={{ m: 0 }}>
-                          <Grid item xs={10}>
+                          <Grid item xs={12} sm={10}>
                             <Typography>ตัวเลือกย่อยที่ {value.valueId}</Typography>
                             <TextField
                               fullWidth
@@ -463,7 +478,7 @@ const RegisterProductPage = () => {
                               }
                             />
                           </Grid>
-                          <Grid item xs={2}>
+                          <Grid item xs sm={2}>
                             <Button
                               fullWidth
                               variant='contained'
@@ -476,7 +491,7 @@ const RegisterProductPage = () => {
                         </Grid>
                       ))}
                       {option.optionValue.length < 5 ? (
-                        <Grid item xs={3}>
+                        <Grid item xs>
                           <Button fullWidth variant='contained' sx={{ height: 55 }} onClick={handleAddOptionValue}>
                             +
                           </Button>
@@ -490,34 +505,54 @@ const RegisterProductPage = () => {
               </Grid>
             </Grid>
           ))}
-
-          {productOptions.length < 5 ? (
-            <Grid item xs={6} sm={6} sx={{}}>
-              <Button fullWidth variant='contained' sx={{ height: 55 }} onClick={handleAddOption}>
-                +
-              </Button>
-            </Grid>
-          ) : (
-            <Grid item xs={6} sm={6} sx={{}}></Grid>
-          )}
         </Grid>
+
+        <Box sx={{ mx: 4, pr: 6 }}>
+          <Grid container spacing={5} direction='row-reverse'>
+            {productOptions.length < 5 ? (
+              <Grid item xs sm={2}>
+                <Button fullWidth variant='contained' sx={{ height: 55 }} onClick={handleAddOption}>
+                  +
+                </Button>
+              </Grid>
+            ) : (
+              <Grid item xs></Grid>
+            )}
+          </Grid>
+        </Box>
       </Card>
 
       {/* รายละเอียดสินค้าของแต่ละตัวเลือก */}
       <Card sx={{ padding: 8, marginBlock: 5 }}>
-        <Typography variant='h5'>รายละเอียดสินค้าของแต่ละตัวเลือก</Typography>
-        {productOptionGroups.map(optionGroup => (
-          <Box key={optionGroup.optionGroupId} sx={{ marginY: 2 }}>
-            <Typography variant='h5'>สินค้าตัวเลือกที่ {optionGroup.optionGroupId}</Typography>
+        <Box sx={{ mb: 4 }}>
+          <Typography variant='h5'>รายละเอียดสินค้าของแต่ละตัวเลือก</Typography>
+        </Box>
+        {productOptionGroups.map((optionGroup, index) => (
+          <Box key={optionGroup.optionGroupId}>
+            <Typography variant='body1'>สินค้าตัวเลือกที่ {index + 1}</Typography>
             <Box sx={{ my: 4 }} border={1} borderColor='rgba(0, 0, 0, 0.2)' borderRadius={1}>
-              <Grid container spacing={5} sx={{ p: 4 }}>
+              <Grid container spacing={5} sx={{ p: 4 }} alignItems={'flex-end'}>
                 {productOptions.map(
-                  option =>
+                  (option, index) =>
                     option.optionName.length > 0 && (
-                      <Grid item key={option.optionId} xs={12} sm={5}>
-                        <Typography>{option.optionName}</Typography>
+                      <Grid item key={option.optionId} xs={12} sm={6}>
+                        <Typography>
+                          {option.optionName} {index + 1}
+                        </Typography>
                         {option.optionType === 1 ? (
-                          <TextField fullWidth id={`product-option-group-name-${option.optionId}`} variant='outlined' />
+                          <TextField
+                            fullWidth
+                            id={`product-option-group-name-${option.optionId}`}
+                            variant='outlined'
+                            value={optionGroup[`optionGroupColumn${index + 1}`]}
+                            onChange={e =>
+                              handleProductOptionGroupChange(
+                                e,
+                                optionGroup.optionGroupId,
+                                `optionGroupColumn${index + 1}`
+                              )
+                            }
+                          />
                         ) : (
                           <Select fullWidth labelId='demo-simple-select-label' id='demo-simple-select'>
                             {option.optionValue.map(value => (
@@ -531,17 +566,47 @@ const RegisterProductPage = () => {
                     )
                 )}
 
-                <Grid item xs={12} sm={5}>
+                <Grid item xs>
                   <Typography>ราคาสินค้า</Typography>
                   <TextField
                     fullWidth
+                    type='number'
                     id={`product-option-group-name-${optionGroup.optionGroupId}`}
                     variant='outlined'
-                    value={optionGroup.optionGroupName}
+                    value={optionGroup.optionGroupPrice}
+                    onChange={e =>
+                      setProductOptionGroups(prevGroups =>
+                        prevGroups.map(group =>
+                          group.optionGroupId === optionGroup.optionGroupId
+                            ? { ...group, optionGroupPrice: e.target.value }
+                            : group
+                        )
+                      )
+                    }
                   />
                 </Grid>
 
-                <Grid item xs={6} sm={2} alignSelf={'flex-end'}>
+                <Grid item xs>
+                  <Typography>จำนวนสินค้า</Typography>
+                  <TextField
+                    fullWidth
+                    type='number'
+                    id={`product-option-group-name-${optionGroup.optionGroupId}`}
+                    variant='outlined'
+                    value={optionGroup.optionGroupQuantity}
+                    onChange={e =>
+                      setProductOptionGroups(prevGroups =>
+                        prevGroups.map(group =>
+                          group.optionGroupId === optionGroup.optionGroupId
+                            ? { ...group, optionGroupQuantity: e.target.value }
+                            : group
+                        )
+                      )
+                    }
+                  />
+                </Grid>
+
+                <Grid item xs sm={2} alignSelf={'flex-end'}>
                   <Button
                     fullWidth
                     variant='contained'
@@ -555,17 +620,20 @@ const RegisterProductPage = () => {
             </Box>
           </Box>
         ))}
-        <Grid container spacing={5}>
-          {productOptionGroups.length < 5 ? (
-            <Grid item xs={6} sm={6}>
-              <Button fullWidth variant='contained' sx={{ height: 55 }} onClick={handleAddOptionGroup}>
-                +
-              </Button>
-            </Grid>
-          ) : (
-            <Grid item xs={6} sm={6}></Grid>
-          )}
-        </Grid>
+
+        <Box sx={{ mx: 4 }}>
+          <Grid container spacing={5} direction='row-reverse'>
+            {productOptionGroups.length < 5 ? (
+              <Grid item xs sm={2}>
+                <Button fullWidth variant='contained' sx={{ height: 55 }} onClick={handleAddOptionGroup}>
+                  +
+                </Button>
+              </Grid>
+            ) : (
+              <Grid item xs={6}></Grid>
+            )}
+          </Grid>
+        </Box>
       </Card>
 
       {/* show full image */}
