@@ -69,11 +69,25 @@ const User = () => {
   return (
     <StyledDataGrid
       autoHeight
-      rows={Userlist.map(val => ({ ...val, id: val.account_id }))} // เพิ่มคุณสมบัติ id ในแต่ละแถว
+      rows={Userlist.map(val => ({ ...val, id: val.account_id, sub_status: val.account_status.toString() }))} // เพิ่มคุณสมบัติ id ในแต่ละแถว
       getRowId={account_id => account_id.id} // กำหนดให้ใช้คุณสมบัติ id เป็น id ของแถว
       columns={[
         { field: 'account_id', headerName: 'ID', width: 120 },
-        { field: 'account_status', headerName: 'สถานะไอดี', width: 80 },
+        {
+          field: 'account_status',
+          headerName: 'สถานะไอดี',
+          width: 120,
+          valueFormatter: params => {
+            const subStatus = params.value // ค่าที่อยู่ในช่อง "สถานะไอดี"
+            if (subStatus === '1') {
+              return 'ไม่โดนแบน'
+            } else if (subStatus === '2') {
+              return 'ยืนยันแล้ว'
+            } else if (subStatus === '0') {
+              return 'โดนแบน'
+            }
+          }
+        },
         { field: 'member_id', headerName: 'รหัสซัพาย', width: 80 },
         { field: 'sub_id', headerName: 'รหัสมาชิก', width: 80 },
         { field: 'user_company', headerName: 'บริษัท', width: 150 },
