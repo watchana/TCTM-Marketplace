@@ -6,25 +6,25 @@ import ProductImageCard from '../category/category'
 
 const productsPreview = [
   {
-    name: 'พระกายแก้ว',
+    name: 'เครื่องยิงเลเซอร์',
     description: 'เป็นตัวประหลาดสักอย่างนี้ละ',
     price: '3,000,000',
     image: '/img/20W_Fiber_Laser_Engrave_KX-200.jpg' // ตั้งค่า path รูปภาพ
   },
   {
-    name: 'นาฬิกาหยุดเวลา',
+    name: 'เครื่องอคริลิก',
     description: 'ไม่รู้ไม่ชี้',
     price: '4,500,000',
     image: '/img/CNC_5_Axis_Router_Rotary_Table_Horizontal.jpg' // ตั้งค่า path รูปภาพ
   },
   {
-    name: 'พระนาราย',
+    name: 'เครื่องแพ็คแพ็กภัณฑ์',
     description: 'เป็นได้แค่นั้นละ',
     price: '8,542,000',
     image: '/img/CNC_Laser_5axis_net.png' // ตั้งค่า path รูปภาพ
   },
   {
-    name: 'ทศกัน',
+    name: 'เครื่องตัดโฟม',
     description: 'ยักไก่ๆ',
     price: '9,758,420',
     image: '/img/CNC_Router_milling_S4.jpg' // ตั้งค่า path รูปภาพ
