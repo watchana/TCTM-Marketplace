@@ -203,10 +203,10 @@ const LoginPage = () => {
 
   return (
     <Box className='content-center' sx={{ display: 'flex', flexDirection: 'column' }}>
-      <img src='/images/cards/TCTM_Group_3 (1).png' alt='logo' width='80px' />
-      <Typography variant='h4' sx={{ fontWeight: 'bold', marginTop: 2 }}>
+      <img src='/images/cards/LOGO_TCTM_2.png' alt='logo' width='320px' />
+      {/* <Typography variant='h4' sx={{ fontWeight: 'bold', marginTop: 2 }}>
         TCTM
-      </Typography>
+      </Typography> */}
       <Card sx={{ zIndex: 1, marginTop: 3, borderRadius: '34px' }}>
         <CardContent sx={{ padding: theme => `${theme.spacing(12, 9, 0)} !important` }}>
           <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>

@@ -8,6 +8,7 @@ import Divider from '@mui/material/Divider'
 import Container from '@mui/material/Container'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+import CardContent from '@mui/material/CardContent'
 import Autocomplete from '@mui/material/Autocomplete'
 import Button from '@mui/material/Button'
 import { useRouter } from 'next/router'
@@ -117,15 +118,19 @@ const Dashboard = () => {
   return (
     <Container maxWidth='xl'>
       <Box>
-        <Typography variant='h5'>Maker Regis System</Typography>
+        <Typography variant='h5' sx={{ fontWeight: 'bold' }}>
+          Maker Regis System
+        </Typography>
       </Box>
-      <Divider sx={{ marginY: 6 }} />
-      <Box>
+      <Divider sx={{ marginTop: 6 }} />
+      <CardContent sx={{ padding: theme => `${theme.spacing(6, 6, 2)} !important` }}>
         {/* ชื่อร้านค้า */}
         <Box sx={{ width: '100%', marginBottom: 4 }}>
           <Grid container>
             <Grid item md={4}>
-              <Typography variant='body1'>Store Name</Typography>
+              <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
+                Store Name
+              </Typography>
             </Grid>
             <Grid item md={8}>
               <Box sx={{ width: '50%' }}>
@@ -146,7 +151,9 @@ const Dashboard = () => {
         <Box sx={{ width: '100%', marginBottom: 4 }}>
           <Grid container>
             <Grid item md={4}>
-              <Typography variant='body1'>Email</Typography>
+              <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
+                Email
+              </Typography>
             </Grid>
             <Grid item md={8}>
               <Box sx={{ width: '50%' }}>
@@ -167,7 +174,9 @@ const Dashboard = () => {
         <Box sx={{ width: '100%', marginBottom: 4 }}>
           <Grid container>
             <Grid item md={4}>
-              <Typography variant='body1'>Tel</Typography>
+              <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
+                Tel
+              </Typography>
             </Grid>
             <Grid item md={8}>
               <Box sx={{ width: '50%' }}>
@@ -189,7 +198,9 @@ const Dashboard = () => {
         <Box sx={{ width: '100%', marginBottom: 4 }}>
           <Grid container>
             <Grid item md={4}>
-              <Typography variant='body1'>Store details</Typography>
+              <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
+                Store details
+              </Typography>
             </Grid>
             <Grid item md={8}>
               <Box sx={{ width: '50%' }}>
@@ -208,7 +219,7 @@ const Dashboard = () => {
             </Grid>
           </Grid>
         </Box>
-      </Box>
+      </CardContent>
       <Divider sx={{ marginY: 6 }} />
       <Box sx={{ width: '100%', marginBottom: 4 }}>
         <Typography variant='h5'>Address</Typography>
@@ -218,7 +229,9 @@ const Dashboard = () => {
         <Box sx={{ width: '100%', marginBottom: 4 }}>
           <Grid container>
             <Grid item md={4}>
-              <Typography variant='body1'>Address on ID card *</Typography>
+              <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
+                Address on ID card *
+              </Typography>
             </Grid>
             <Grid item md={8}>
               <Box sx={{ width: '50%' }}>
@@ -240,7 +253,9 @@ const Dashboard = () => {
         <Box sx={{ width: '100%', marginBottom: 4 }}>
           <Grid container>
             <Grid item md={4}>
-              <Typography variant='body1'>Address Information *</Typography>
+              <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
+                Address Information *
+              </Typography>
             </Grid>
             <Grid item md={8}>
               <Box sx={{ width: '50%' }}>

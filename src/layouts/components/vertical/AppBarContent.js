@@ -6,8 +6,7 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import Hidden from '@mui/material/Hidden'
-import Avatar from '@mui/material/Avatar'
-import CardMedia from '@mui/material/CardMedia'
+import Tooltip from '@mui/material/Tooltip'
 import TextField from '@mui/material/TextField'
 import ButtonBase from '@mui/material/ButtonBase'
 import Typography from '@mui/material/Typography'
@@ -36,23 +35,25 @@ const AppBarContent = props => {
     <Grid container direction='row' justifyContent='space-between' alignItems='flex-start'>
       <Grid item display='grid' justifyContent='flex-start'>
         <Box display='flex' direction='row'>
-          <ButtonBase sx={{ width: '100%', height: '100%' }}>
-            <Link href='/' passHref>
-              <img src='/images/cards/TCTM_Group_3 (1).png' alt='logo' width='52px' />
-            </Link>
-            <Hidden smDown>
-              <Box sx={{ marginLeft: 3 }}>
-                <Link href='/' passHref>
-                  <Typography ml={-8.1} variant='h5' sx={{ fontWeight: 'bold', marginBottom: '-10px' }}>
-                    TCTM
-                  </Typography>
-                </Link>
-                <Link href='/' passHref>
-                  <Typography variant='body1'>Marketplace</Typography>
-                </Link>
-              </Box>
-            </Hidden>
-          </ButtonBase>
+          <Tooltip title='Main Menu' placement='bottom'>
+            <ButtonBase sx={{ width: '100%', height: '100%' }}>
+              <Link href='/' passHref>
+                <img src='/images/cards/TCTM_Group_3 (1).png' alt='logo' width='52px' />
+              </Link>
+              <Hidden smDown>
+                <Box sx={{ marginLeft: 3 }}>
+                  <Link href='/' passHref>
+                    <Typography ml={-8.1} variant='h5' sx={{ fontWeight: 'bold', marginBottom: '-10px' }}>
+                      TCTM
+                    </Typography>
+                  </Link>
+                  <Link href='/' passHref>
+                    <Typography variant='body1'>Marketplace</Typography>
+                  </Link>
+                </Box>
+              </Hidden>
+            </ButtonBase>
+          </Tooltip>
         </Box>
       </Grid>
       <Hidden mdDown>
