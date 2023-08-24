@@ -110,6 +110,7 @@ const RegisterProductPage = () => {
   }
 
   const handleDeleteOption = e => {
+    if (productOptions.length === 1) return
     const updatedOptions = [...productOptions]
     updatedOptions.splice(productOptions.length - 1, 1)
     setProductOptions(updatedOptions)
@@ -142,6 +143,7 @@ const RegisterProductPage = () => {
   }
 
   const handleDeleteOptionValue = e => {
+    if (productOptions[productOptions.length - 1].optionValue.length === 1) return
     const updatedOptions = [...productOptions]
     const lastOption = updatedOptions[updatedOptions.length - 1]
 
@@ -158,6 +160,7 @@ const RegisterProductPage = () => {
   }
 
   const handleDeleteOptionGroup = e => {
+    if (productOptionGroups.length === 1) return
     const updatedOptionGroups = [...productOptionGroups]
     updatedOptionGroups.splice(productOptionGroups.length - 1, 1)
     setProductOptionGroups(updatedOptionGroups)
@@ -386,8 +389,8 @@ const RegisterProductPage = () => {
               borderRadius={1}
               sx={{ m: 5, p: 4 }}
             >
-              <Grid container spacing={5}>
-                <Grid item key={option.optionId} xs={12} sm={6}>
+              <Grid container spacing={5} alignItems={'flex-end'}>
+                <Grid item key={option.optionId} xs={12} sm={5}>
                   <Typography>ตัวเลือกที่ {option.optionId}</Typography>
                   <TextField
                     fullWidth
@@ -403,7 +406,7 @@ const RegisterProductPage = () => {
                     }
                   />
                 </Grid>
-                <Grid item key={option.optionId} xs={12} sm={6}>
+                <Grid item key={option.optionId} xs={12} sm={5}>
                   <Typography>แบบกรอกข้อมูล หรือ แบบเลือก</Typography>
                   <Select
                     fullWidth
@@ -417,36 +420,59 @@ const RegisterProductPage = () => {
                   </Select>
                 </Grid>
 
+                <Grid item xs={12} sm={2} alignSelf={'flex-end'}>
+                  <Button
+                    fullWidth
+                    variant='contained'
+                    sx={{ height: 55, bgcolor: 'red' }}
+                    onClick={e => handleDeleteOption(e, option.optionId)}
+                  >
+                    -
+                  </Button>
+                </Grid>
+
                 <Grid item xs={12}>
                   {option.optionType === 2 && (
                     <Grid container spacing={5} alignItems={'flex-end'}>
                       {option.optionValue.map(value => (
-                        <Grid item key={value.valueId} xs={6}>
-                          <Typography>ตัวเลือกย่อยที่ {value.valueId}</Typography>
-                          <TextField
-                            fullWidth
-                            id='product-option-name'
-                            variant='outlined'
-                            onChange={e =>
-                              setProductOptions(options =>
-                                options.map(opt =>
-                                  opt.optionId === option.optionId
-                                    ? {
-                                        ...opt,
-                                        optionValue: opt.optionValue.map(val =>
-                                          val.valueId === value.valueId
-                                            ? {
-                                                ...val,
-                                                valueName: e.target.value
-                                              }
-                                            : val
-                                        )
-                                      }
-                                    : opt
+                        <Grid container spacing={5} alignItems={'flex-end'} key={value.valueId} sx={{ m: 0 }}>
+                          <Grid item xs={10}>
+                            <Typography>ตัวเลือกย่อยที่ {value.valueId}</Typography>
+                            <TextField
+                              fullWidth
+                              id='product-option-name'
+                              variant='outlined'
+                              onChange={e =>
+                                setProductOptions(options =>
+                                  options.map(opt =>
+                                    opt.optionId === option.optionId
+                                      ? {
+                                          ...opt,
+                                          optionValue: opt.optionValue.map(val =>
+                                            val.valueId === value.valueId
+                                              ? {
+                                                  ...val,
+                                                  valueName: e.target.value
+                                                }
+                                              : val
+                                          )
+                                        }
+                                      : opt
+                                  )
                                 )
-                              )
-                            }
-                          />
+                              }
+                            />
+                          </Grid>
+                          <Grid item xs={2}>
+                            <Button
+                              fullWidth
+                              variant='contained'
+                              sx={{ height: 55, bgcolor: 'blue' }}
+                              onClick={e => handleDeleteOptionValue(e, option.optionId, value.valueId)}
+                            >
+                              -
+                            </Button>
+                          </Grid>
                         </Grid>
                       ))}
                       {option.optionValue.length < 5 ? (
@@ -457,13 +483,6 @@ const RegisterProductPage = () => {
                         </Grid>
                       ) : (
                         <Grid item xs={12} sm={12}></Grid>
-                      )}
-                      {option.optionValue.length !== 1 && (
-                        <Grid item xs={3}>
-                          <Button fullWidth variant='contained' sx={{ height: 55 }} onClick={handleDeleteOptionValue}>
-                            -
-                          </Button>
-                        </Grid>
                       )}
                     </Grid>
                   )}
@@ -481,13 +500,6 @@ const RegisterProductPage = () => {
           ) : (
             <Grid item xs={6} sm={6} sx={{}}></Grid>
           )}
-          {productOptions.length !== 1 && (
-            <Grid item xs={6} sm={6}>
-              <Button fullWidth variant='contained' sx={{ height: 55 }} onClick={handleDeleteOption}>
-                -
-              </Button>
-            </Grid>
-          )}
         </Grid>
       </Card>
 
@@ -502,7 +514,7 @@ const RegisterProductPage = () => {
                 {productOptions.map(
                   option =>
                     option.optionName.length > 0 && (
-                      <Grid item key={option.optionId} xs={12} sm={6}>
+                      <Grid item key={option.optionId} xs={12} sm={5}>
                         <Typography>{option.optionName}</Typography>
                         {option.optionType === 1 ? (
                           <TextField fullWidth id={`product-option-group-name-${option.optionId}`} variant='outlined' />
@@ -519,7 +531,7 @@ const RegisterProductPage = () => {
                     )
                 )}
 
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={5}>
                   <Typography>ราคาสินค้า</Typography>
                   <TextField
                     fullWidth
@@ -527,6 +539,17 @@ const RegisterProductPage = () => {
                     variant='outlined'
                     value={optionGroup.optionGroupName}
                   />
+                </Grid>
+
+                <Grid item xs={6} sm={2} alignSelf={'flex-end'}>
+                  <Button
+                    fullWidth
+                    variant='contained'
+                    sx={{ height: 55, bgcolor: 'red' }}
+                    onClick={e => handleDeleteOptionGroup(e, optionGroup.optionGroupId)}
+                  >
+                    -
+                  </Button>
                 </Grid>
               </Grid>
             </Box>
@@ -541,13 +564,6 @@ const RegisterProductPage = () => {
             </Grid>
           ) : (
             <Grid item xs={6} sm={6}></Grid>
-          )}
-          {productOptionGroups.length !== 1 && (
-            <Grid item xs={6} sm={6}>
-              <Button fullWidth variant='contained' sx={{ height: 55 }} onClick={handleDeleteOptionGroup}>
-                -
-              </Button>
-            </Grid>
           )}
         </Grid>
       </Card>
