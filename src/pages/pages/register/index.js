@@ -209,12 +209,9 @@ const RegisterPage = () => {
       user_birthday: formattedDate
     }
 
-    // console.log('ข้อมูลที่ส่งไป Server', data)
-
     axios
       .post(`${process.env.NEXT_PUBLIC_API}TCTM.register.register`, data)
       .then(response => {
-        console.log(response.data)
         Swal.fire({
           icon: 'success',
           title: 'ส่งข้อมูลสำเร็จ',
