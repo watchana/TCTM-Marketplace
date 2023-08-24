@@ -12,6 +12,9 @@ import Container from '@mui/material/Container'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import { CardActionArea } from '@mui/material'
+import Autocomplete from '@mui/material/Autocomplete'
+import TextField from '@mui/material/TextField'
+
 import axios from 'axios'
 
 // ** MDI Icon Imports
@@ -21,6 +24,9 @@ const Category = productData => {
   const [filteredProducts, setFilteredProducts] = useState(productData.productData) // เก็บข้อมูลที่ถูกกรอก
   const [activeButton, setActiveButton] = useState(null) // เช็คสถานะปุ่มที่ถูกกด
 
+  const [searchValue, setSearchValue] = useState('') // State เพื่อเก็บคำค้นหา
+  const [searchResults, setSearchResults] = useState([]) // State เพื่อเก็บผลลัพธ์การค้นหา
+
   if (!productData || productData.length === 0) {
     // ตรวจสอบว่า productData เป็นค่าว่าง หรือไม่เป็น Array หรือมีข้อมูลสินค้า 0 รายการ
     return <p>No products available.</p>
@@ -29,12 +35,25 @@ const Category = productData => {
   // เก็บข้อมูลสินค้า
   const products = productData.productData
 
+  // ฟังก์ชันค้นหา
+  const handleSearch = value => {
+    setSearchValue(value)
+
+    // ทำการค้นหาผลลัพธ์ในรายการสินค้าที่มี image_file_name ที่ตรงกับคำค้นหา
+    const searchResults = products.filter(product =>
+      product.image_file_name.toLowerCase().includes(value.toLowerCase())
+    )
+
+    setSearchResults(searchResults)
+  }
+
   //ปุ่มแยกประเภทผลิตภัณ
   // เครื่องตัด
   const handleCuttingMachineClick = () => {
     const cuttingMachineProducts = products.filter(product => product.category_name === 'engraving / cutting machine')
     setFilteredProducts(cuttingMachineProducts)
     setActiveButton('cuttingMachine')
+    setSearchResults([])
   }
 
   // เครื่องอคลิลิค
@@ -42,6 +61,7 @@ const Category = productData => {
     const acrylicMachineProducts = products.filter(product => product.category_name === 'acrylic machine')
     setFilteredProducts(acrylicMachineProducts)
     setActiveButton('acrylicMachine')
+    setSearchResults([])
   }
 
   // เครื่องเลเซอร์
@@ -49,6 +69,7 @@ const Category = productData => {
     const laserMachineProducts = products.filter(product => product.category_name === 'laser marking machine.')
     setFilteredProducts(laserMachineProducts)
     setActiveButton('laserMachine')
+    setSearchResults([])
   }
 
   // other
@@ -56,8 +77,9 @@ const Category = productData => {
     const otherMachineProducts = products.filter(product => product.category_name === 'other')
     setFilteredProducts(otherMachineProducts)
     setActiveButton('otherMachine')
+    setSearchResults([])
   }
-  console.log(products)
+  console.log('ไอเจิด', products)
 
   return (
     <>
@@ -145,47 +167,93 @@ const Category = productData => {
             </Grid>
           </Box>
 
+          <Autocomplete
+            id='search-autocomplete'
+            options={searchResults} // รายการผลลัพธ์การค้นหา
+            getOptionLabel={product => product.image_file_name}
+            renderInput={params => <TextField {...params} label='Search' variant='outlined' />}
+            onInputChange={(event, value) => handleSearch(value)} // เมื่อผู้ใช้ป้อนคำค้นหา
+          />
+
           {/* >>>>> list Products <<<<< */}
           <Box sx={{ width: '100%' }}>
             <Grid container spacing={10}>
               {/* ======================================= map ========================================= */}
-              {filteredProducts.map((product, index) => (
-                <Grid item key={product.product_id}>
-                  <Card sx={{ width: '190px', height: '280px', bgcolor: '#fff', borderRadius: '10px' }}>
-                    <CardActionArea>
-                      <Box sx={{ width: '100%', height: '70%', padding: '10px 7px 3px' }}>
-                        {/* ใส่รูป */}
-                        <CardMedia
-                          component='img'
-                          height='200px'
-                          image={`/imgTctmProduct/${product.image_file_name}`}
-                          sx={{ borderRadius: '10px' }}
-                        />
-                      </Box>
-                      <Box sx={{ width: '100%', height: '30%', paddingLeft: 2.5, paddingTop: 2 }}>
-                        <Box>
-                          <Typography
-                            variant='h6'
-                            sx={{
-                              fontWeight: 600,
-                              overflow: 'hidden',
-                              whiteSpace: 'nowrap',
-                              textOverflow: 'ellipsis'
-                            }}
-                          >
-                            {product.product_name}
-                          </Typography>
-                        </Box>
-                        <Box>
-                          <Typography variant='body1' sx={{ fontWeight: 600 }}>
-                            $ {product.product_price}
-                          </Typography>
-                        </Box>
-                      </Box>
-                    </CardActionArea>
-                  </Card>
-                </Grid>
-              ))}
+              {searchResults.length > 0
+                ? searchResults.map((product, index) => (
+                    <Grid item key={product.product_id}>
+                      <Card sx={{ width: '190px', height: '280px', bgcolor: '#fff', borderRadius: '10px' }}>
+                        <CardActionArea>
+                          <Box sx={{ width: '100%', height: '70%', padding: '10px 7px 3px' }}>
+                            {/* ใส่รูป */}
+                            <CardMedia
+                              component='img'
+                              height='200px'
+                              image={`/imgTctmProduct/${product.image_file_name}`}
+                              sx={{ borderRadius: '10px' }}
+                            />
+                          </Box>
+                          <Box sx={{ width: '100%', height: '30%', paddingLeft: 2.5, paddingTop: 2 }}>
+                            <Box>
+                              <Typography
+                                variant='h6'
+                                sx={{
+                                  fontWeight: 600,
+                                  overflow: 'hidden',
+                                  whiteSpace: 'nowrap',
+                                  textOverflow: 'ellipsis'
+                                }}
+                              >
+                                {product.product_name}
+                              </Typography>
+                            </Box>
+                            <Box>
+                              <Typography variant='body1' sx={{ fontWeight: 600 }}>
+                                $ {product.product_price}
+                              </Typography>
+                            </Box>
+                          </Box>
+                        </CardActionArea>
+                      </Card>
+                    </Grid>
+                  ))
+                : filteredProducts.map((product, index) => (
+                    <Grid item key={product.product_id}>
+                      <Card sx={{ width: '190px', height: '280px', bgcolor: '#fff', borderRadius: '10px' }}>
+                        <CardActionArea>
+                          <Box sx={{ width: '100%', height: '70%', padding: '10px 7px 3px' }}>
+                            {/* ใส่รูป */}
+                            <CardMedia
+                              component='img'
+                              height='200px'
+                              image={`/imgTctmProduct/${product.image_file_name}`}
+                              sx={{ borderRadius: '10px' }}
+                            />
+                          </Box>
+                          <Box sx={{ width: '100%', height: '30%', paddingLeft: 2.5, paddingTop: 2 }}>
+                            <Box>
+                              <Typography
+                                variant='h6'
+                                sx={{
+                                  fontWeight: 600,
+                                  overflow: 'hidden',
+                                  whiteSpace: 'nowrap',
+                                  textOverflow: 'ellipsis'
+                                }}
+                              >
+                                {product.product_name}
+                              </Typography>
+                            </Box>
+                            <Box>
+                              <Typography variant='body1' sx={{ fontWeight: 600 }}>
+                                $ {product.product_price}
+                              </Typography>
+                            </Box>
+                          </Box>
+                        </CardActionArea>
+                      </Card>
+                    </Grid>
+                  ))}
             </Grid>
           </Box>
         </Box>
