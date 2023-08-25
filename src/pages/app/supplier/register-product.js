@@ -17,7 +17,8 @@ import {
   Modal,
   Fade,
   Backdrop,
-  IconButton
+  IconButton,
+  CardContent
 } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 
@@ -415,12 +416,12 @@ const RegisterProductPage = () => {
       </Card>
 
       {/* ตัวเลือกสินค้า */}
-      <Card sx={{ padding: 8, marginBlock: 5 }}>
-        <Box sx={{ mb: 4 }}>
-          <Typography variant='h5'>เพิ่มตัวเลือกสินค้า</Typography>
-          <Typography variant='body1'>หัวข้อตัวเลือกที่ต้องการ</Typography>
-        </Box>
-        <Grid container spacing={5} alignItems={'flex-end'}>
+      <Card sx={{ marginBlock: 5, width: '100%' }}>
+        <CardContent>
+          <Box sx={{ mb: 4, pb: 2 }}>
+            <Typography variant='h5'>เพิ่มตัวเลือกสินค้า</Typography>
+            <Typography variant='body1'>หัวข้อตัวเลือกที่ต้องการ</Typography>
+          </Box>
           {productOptions.map((option, index) => (
             <Grid
               container
@@ -428,11 +429,10 @@ const RegisterProductPage = () => {
               border={1}
               borderColor='rgba(0, 0, 0, 0.2)'
               borderRadius={1}
-              sx={{ m: 4, p: 6 }}
-              direction='column'
+              sx={{ p: 4, marginBlock: 4 }}
             >
               <Grid container spacing={5} alignItems={'flex-end'}>
-                <Grid item key={option.optionId} xs={12} sm={7}>
+                <Grid item key={option.optionId} xs={12} sm>
                   <Typography>ตัวเลือกที่ {index + 1}</Typography>
                   <TextField
                     fullWidth
@@ -448,7 +448,7 @@ const RegisterProductPage = () => {
                     }
                   />
                 </Grid>
-                <Grid item key={option.optionId} xs={12} sm={4}>
+                <Grid item key={option.optionId} xs={12} sm>
                   <Typography>แบบกรอกข้อมูล หรือ แบบเลือก</Typography>
                   <Select
                     fullWidth
@@ -532,13 +532,11 @@ const RegisterProductPage = () => {
               </Grid>
             </Grid>
           ))}
-        </Grid>
 
-        <Box sx={{ mx: 4, pr: 6 }}>
-          <Grid container spacing={5} direction='row-reverse'>
+          <Grid container spacing={5}>
             {productOptions.length < 5 ? (
-              <Grid item xs sm={2}>
-                <Button fullWidth variant='contained' sx={{ height: 55 }} onClick={e => handleAddOption(e)}>
+              <Grid item xs>
+                <Button fullWidth variant='outlined' sx={{ height: 55 }} onClick={e => handleAddOption(e)}>
                   +
                 </Button>
               </Grid>
@@ -546,7 +544,7 @@ const RegisterProductPage = () => {
               <Grid item xs></Grid>
             )}
           </Grid>
-        </Box>
+        </CardContent>
       </Card>
 
       {/* รายละเอียดสินค้าของแต่ละตัวเลือก */}
@@ -648,19 +646,17 @@ const RegisterProductPage = () => {
           </Box>
         ))}
 
-        <Box sx={{ mx: 4, overflow: 'hidden' }}>
-          <Grid container spacing={5} direction='row-reverse'>
-            {productOptionGroups.length < 5 ? (
-              <Grid item xs sm={2}>
-                <Button fullWidth variant='contained' sx={{ height: 55 }} onClick={handleAddOptionGroup}>
-                  +
-                </Button>
-              </Grid>
-            ) : (
-              <Grid item xs={6}></Grid>
-            )}
-          </Grid>
-        </Box>
+        <Grid container spacing={5}>
+          {productOptionGroups.length < 5 ? (
+            <Grid item xs>
+              <Button fullWidth variant='outlined' sx={{ height: 55 }} onClick={handleAddOptionGroup}>
+                +
+              </Button>
+            </Grid>
+          ) : (
+            <Grid item xs={6}></Grid>
+          )}
+        </Grid>
       </Card>
 
       <Card sx={{ padding: 8, marginBlock: 5 }}>
