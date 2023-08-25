@@ -1,14 +1,30 @@
-import React from 'react'
-import { Box, Grid, Card, ButtonBase, CardContent, Typography } from '@mui/material'
-import { Slide } from 'react-slideshow-image'
-import 'react-slideshow-image/dist/styles.css'
+// ** React Imports
+import { React, useEffect, useState } from 'react'
+import { Slide } from 'react-slideshow-image' // นำเข้าไลบรารี Slide ที่คุณใช้
+import 'react-slideshow-image/dist/styles.css' // Import สไตล์ของไลบรารี Slide
+
+// ** MUI Imports
+import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
+import Card from '@mui/material/Card'
+import ButtonBase from '@mui/material/ButtonBase'
+import Typography from '@mui/material/Typography'
+
 const SlideshowWithCards = () => {
   return (
     <Box sx={{ width: '100%' }}>
       {/* เพิ่มสไลด์ของคุณที่นี่ */}
       <Slide>
-        <div>
-          <Card sx={{ width: '100%', height: '300px', bgcolor: '#999' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundSize: 'cover',
+            height: '300px'
+          }}
+        >
+          <Card sx={{ width: '80%', height: '300px' }}>
             {/* ใส่ Link ตรงนี้ */}
             <ButtonBase sx={{ width: '100%', height: '100%' }}>
               <Typography variant='h1' textAlign='center'>
@@ -16,9 +32,17 @@ const SlideshowWithCards = () => {
               </Typography>
             </ButtonBase>
           </Card>
-        </div>
-        <div>
-          <Card sx={{ width: '100%', height: '300px', bgcolor: '#999' }}>
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundSize: 'cover',
+            height: '300px'
+          }}
+        >
+          <Card sx={{ width: '80%', height: '300px' }}>
             {/* ใส่ Link ตรงนี้ */}
             <ButtonBase sx={{ width: '100%', height: '100%' }}>
               <Typography variant='h1' textAlign='center'>
@@ -26,7 +50,7 @@ const SlideshowWithCards = () => {
               </Typography>
             </ButtonBase>
           </Card>
-        </div>
+        </Box>
         {/* เพิ่มสไลด์เพิ่มเติมตามต้องการ */}
       </Slide>
     </Box>
