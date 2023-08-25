@@ -1,11 +1,7 @@
-// ** MUI Imports
-import Grid from '@mui/material/Grid'
-import Button from '@mui/material/Button'
+// ** React Imports
 import { styled, useTheme } from '@mui/material/styles'
 import MuiAppBar from '@mui/material/AppBar'
 import MuiToolbar from '@mui/material/Toolbar'
-
-import Apple from 'mdi-material-ui/Apple'
 
 const AppBar = styled(MuiAppBar)(({ theme }) => ({
   transition: 'none',
@@ -42,7 +38,7 @@ const LayoutAppBar = props => {
   const { contentWidth } = settings
 
   return (
-    <AppBar elevation={1} color='default' className='layout-navbar' position='static' sx={{ height: '100px' }}>
+    <AppBar elevation={1} color='default' className='layout-navbar' position='static' sx={{ height: '140px' }}>
       <Toolbar
         className='navbar-content-container'
         sx={{
