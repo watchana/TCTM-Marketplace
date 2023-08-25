@@ -1,7 +1,7 @@
 import Grid from '@mui/material/Grid'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { Box, Button } from '@mui/material'
+import { Box, Button, palette, Chip, Stack } from '@mui/material'
 import { StyledDataGrid } from 'src/views/backoffice/styled'
 import userid from './user'
 
@@ -10,47 +10,58 @@ const Market = () => {
 
   useEffect(() => {
     axios.get('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.market.allmarket').then(response => {
-      console.log('setMarket:', response.data.message.Data)
+      // console.log('setMarket:', response.data.message.Data)
       setMarketlist(response.data.message.Data)
     })
   }, [])
 
+  useEffect(() => {
+    fetchMarketData()
+  }, [])
+
+  const fetchMarketData = () => {
+    axios
+      .get('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.market.allmarket')
+      .then(response => {
+        setMarketlist(response.data.message.Data)
+      })
+      .catch(error => {
+        console.error('Error:', error)
+      })
+  }
+
   const handleBanClick = sub_id => {
-    // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Ban
     console.log(`Ban account with ID ${sub_id}`)
 
     axios
       .post('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.market.banmarket', {
-        sub_id // ส่ง account_id ไปที่ API
+        sub_id
       })
       .then(response => {
         console.log('UserID', response)
-        // ทำอย่างอื่นตามความต้องการ
+        // หลังจากทำการ Ban สำเร็จ ให้เรียกฟังก์ชัน fetchMarketData เพื่ออัปเดตข้อมูลใหม่
+        fetchMarketData()
       })
       .catch(error => {
         console.error('Error:', error)
       })
-
-    window.location.reload()
   }
 
   const handleUnbanClick = sub_id => {
-    // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Unban
     console.log(`Unban account with ID ${sub_id}`)
 
     axios
       .post('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.market.unbanmarket', {
-        sub_id // ส่ง account_id ไปที่ API
+        sub_id
       })
       .then(response => {
         console.log('UserID', response)
-        // ทำอย่างอื่นตามความต้องการ
+        // หลังจากทำการ Unban สำเร็จ ให้เรียกฟังก์ชัน fetchMarketData เพื่ออัปเดตข้อมูลใหม่
+        fetchMarketData()
       })
       .catch(error => {
         console.error('Error:', error)
       })
-
-    window.location.reload()
   }
 
   const handleDeleteClick = sub_id => {
@@ -66,7 +77,7 @@ const Market = () => {
   return (
     <StyledDataGrid
       autoHeight
-      rows={Marketlist.map(val => ({ ...val, id: val.member_id, sub_status: val.sub_status.toString() }))} // เพิ่มคุณสมบัติ id ในแต่ละแถว
+      rows={Marketlist.map(val => ({ ...val, id: val.member_id }))} // เพิ่มคุณสมบัติ id ในแต่ละแถว
       getRowId={member_id => member_id.id} // กำหนดให้ใช้คุณสมบัติ id เป็น id ของแถว
       columns={[
         { field: 'sub_id', headerName: 'ID', width: 80 },
@@ -75,15 +86,23 @@ const Market = () => {
           field: 'sub_status',
           headerName: 'สถานะไอดี',
           width: 120,
-          valueFormatter: params => {
+          renderCell: params => {
             const subStatus = params.value // ค่าที่อยู่ในช่อง "สถานะไอดี"
+            let chipColor = 'default'
+            let chipLabel = ''
+
             if (subStatus === '1') {
-              return 'ไม่โดนแบน'
+              chipColor = 'warning'
+              chipLabel = 'รอการยืนยัน'
             } else if (subStatus === '2') {
-              return 'ยืนยันแล้ว'
+              chipColor = 'success'
+              chipLabel = 'ปกติ'
             } else if (subStatus === '0') {
-              return 'โดนแบน'
+              chipColor = 'error'
+              chipLabel = 'โดนแบน'
             }
+
+            return <Chip label={chipLabel} color={chipColor} />
           }
         },
         { field: 'sub_name', headerName: 'ชื่อร้าน', width: 130 },
@@ -101,7 +120,13 @@ const Market = () => {
                 color='success'
                 className='btn btn-info'
                 style={{ marginRight: '5px' }}
-                onClick={() => handleBanClick(params.row.sub_id)}
+                onClick={() => {
+                  if (params.row.sub_status !== '0') {
+                    // ตรวจสอบว่าไม่ใช่ "ยืนยันแล้ว"
+                    handleBanClick(params.row.sub_id)
+                  }
+                }}
+                disabled={params.row.sub_status === '0'} // ปิดปุ่มถ้า sub_status เป็น 0
               >
                 Ban
               </Button>
@@ -111,27 +136,15 @@ const Market = () => {
                 color='success'
                 className='btn btn-info'
                 style={{ marginRight: '5px' }}
-                onClick={() => handleUnbanClick(params.row.sub_id)}
+                onClick={() => {
+                  if (params.row.sub_status !== '2') {
+                    // ตรวจสอบว่าไม่ใช่ "ยืนยันแล้ว"
+                    handleUnbanClick(params.row.sub_id)
+                  }
+                }}
+                disabled={params.row.sub_status === '1' || params.row.sub_status === '2'} // ปิดปุ่มถ้า account_status เป็น 1 หรือ 2
               >
                 Unban
-              </Button>
-              <Button
-                variant='contained'
-                color='success'
-                className='btn btn-info'
-                style={{ marginRight: '5px' }}
-                onClick={() => handleDeleteClick(params.row.sub_id)}
-              >
-                Delete
-              </Button>
-              <Button
-                variant='contained'
-                color='success'
-                className='btn btn-info'
-                style={{ marginRight: '5px' }}
-                onClick={() => handleUndeleteClick(params.row.sub_id)}
-              >
-                Undelete
               </Button>
             </div>
           )

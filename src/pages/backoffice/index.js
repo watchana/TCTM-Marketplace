@@ -1,41 +1,33 @@
-import React, { useState } from 'react';
-import { Button } from '@mui/material'
-import User from './user';
-import Market from './market';
+import React, { useState } from 'react'
+import { Button, AppBar, Toolbar, Tab, Tabs } from '@mui/material'
+import User from './user'
+import Market from './market'
+import Product from './product'
 
 const Backoffice = () => {
-  const [isUserVisible, setUserVisible] = useState(true); // สร้าง state เพื่อเก็บสถานะการแสดง User
-  const [isMarketVisible, setMarketVisible] = useState(false); // สร้าง state เพื่อเก็บสถานะการแสดง Market
+  const [activeTab, setActiveTab] = useState('user')
 
-  const handleUserClick = () => {
-    setUserVisible(true); // แสดงคอมโพเนนต์ User
-    setMarketVisible(false); // ซ่อนคอมโพเนนต์ Market
-  };
-
-  const handleMarketClick = () => {
-    setUserVisible(false); // ซ่อนคอมโพเนนต์ User
-    setMarketVisible(true); // แสดงคอมโพเนนต์ Market
-  };
+  const handleTabChange = (event, newValue) => {
+    setActiveTab(newValue)
+  }
 
   return (
     <div>
-      {/* แสดงปุ่ม User หาก isUserVisible เป็น true */}
-      {isUserVisible && (
-        <div>
-          <Button onClick={handleMarketClick}>Market</Button>
-          <User />
-        </div>
-      )}
+      <AppBar position='static' style={{ background: '#f5f5f5', color: '#333' }}>
+        <Toolbar>
+          <Tabs value={activeTab} onChange={handleTabChange} indicatorColor='primary'>
+            <Tab label='User' value='user' style={{ color: '#333' }} />
+            <Tab label='Market' value='market' style={{ color: '#333' }} />
+            <Tab label='Product' value='product' style={{ color: '#333' }} />
+          </Tabs>
+        </Toolbar>
+      </AppBar>
 
-      {/* แสดงปุ่ม Market หาก isMarketVisible เป็น true */}
-      {isMarketVisible && (
-        <div>
-          <Button onClick={handleUserClick}>User</Button>
-          <Market />
-        </div>
-      )}
+      {activeTab === 'user' && <User />}
+      {activeTab === 'market' && <Market />}
+      {activeTab === 'product' && <Product />}
     </div>
-  );
-};
+  )
+}
 
-export default Backoffice;
+export default Backoffice

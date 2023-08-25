@@ -4,63 +4,61 @@ import axios from 'axios'
 import { Box, Button, Chip } from '@mui/material'
 import { StyledDataGrid } from 'src/views/backoffice/styled'
 
-const User = () => {
-  const [Userlist, setUserlist] = useState([])
+const Product = () => {
+  const [Productlist, setProductlist] = useState([])
 
   useEffect(() => {
-    axios.get('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.users.alluser').then(response => {
-      // console.log('setUser:', response.data.message.Data)
-      setUserlist(response.data.message.Data)
+    axios.get('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.product.allproduct').then(response => {
+      console.log('setProduxt:', response.data.message.Data)
+      setProductlist(response.data.message.Data)
     })
   }, [])
 
   useEffect(() => {
-    fetchUserData()
+    fetchProductData()
   }, [])
 
-  const fetchUserData = () => {
+  const fetchProductData = () => {
     axios
-      .get('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.users.alluser')
+      .get('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.product.allproduct')
       .then(response => {
-        setUserlist(response.data.message.Data)
+        setProductlist(response.data.message.Data)
       })
       .catch(error => {
         console.error('Error:', error)
       })
   }
 
-  const handleBanClick = (account_id, member_id) => {
+  const handleBanClick = product_id => {
     // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Ban
-    console.log(`Ban account with ID ${account_id}`)
+    console.log(`Ban account with ID ${product_id}`)
 
     axios
-      .post('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.users.banuser', {
-        account_id,
-        user_id: member_id // ส่ง account_id ไปที่ API
+      .post('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.product.ban', {
+        product_id
       })
       .then(response => {
         console.log('UserID', response)
-        fetchUserData()
         // ทำอย่างอื่นตามความต้องการ
+        fetchProductData()
       })
       .catch(error => {
         console.error('Error:', error)
       })
   }
 
-  const handleUnbanClick = (account_id, member_id) => {
+  const handleUnbanClick = product_id => {
     // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Unban
-    console.log(`Unban account with ID ${account_id}`)
+    console.log(`Unban account with ID ${product_id}`)
 
     axios
-      .post('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.users.unbanuser', {
-        account_id,
-        user_id: member_id // ส่ง account_id ไปที่ API
+      .post('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.product.unban', {
+        product_id
       })
       .then(response => {
         console.log('UserID', response)
-        fetchUserData()
         // ทำอย่างอื่นตามความต้องการ
+        fetchProductData()
       })
       .catch(error => {
         console.error('Error:', error)
@@ -80,13 +78,13 @@ const User = () => {
   return (
     <StyledDataGrid
       autoHeight
-      rows={Userlist.map(val => ({ ...val, id: val.account_id, sub_status: val.account_status.toString() }))} // เพิ่มคุณสมบัติ id ในแต่ละแถว
-      getRowId={account_id => account_id.id} // กำหนดให้ใช้คุณสมบัติ id เป็น id ของแถว
+      rows={Productlist.map(val => ({ ...val, id: val.product_id }))} // เพิ่มคุณสมบัติ id ในแต่ละแถว
+      getRowId={product_id => product_id.id} // กำหนดให้ใช้คุณสมบัติ id เป็น id ของแถว
       columns={[
-        { field: 'account_id', headerName: 'ID', width: 120 },
+        { field: 'product_id', headerName: 'ID', width: 120 },
         {
-          field: 'account_status',
-          headerName: 'สถานะไอดี',
+          field: 'product_status',
+          headerName: 'สถานะของ',
           width: 120,
           renderCell: params => {
             const subStatus = params.value // ค่าที่อยู่ในช่อง "สถานะไอดี"
@@ -107,16 +105,14 @@ const User = () => {
             return <Chip label={chipLabel} color={chipColor} />
           }
         },
-        { field: 'member_id', headerName: 'รหัสซัพาย', width: 80 },
-        { field: 'sub_id', headerName: 'รหัสมาชิก', width: 80 },
-        { field: 'user_company', headerName: 'บริษัท', width: 150 },
-        { field: 'user_first_name', headerName: 'ชื่อ', width: 150 },
-        { field: 'user_last_name', headerName: 'นามสกุล', width: 80 },
-        { field: 'user_role', headerName: 'กลุ่ม', width: 80 },
+        { field: 'category_name', headerName: 'ชื่อหมวดหมู่', width: 250 },
+        { field: 'product_name', headerName: 'ชื่อสินค้า', width: 200 },
+        { field: 'sub_name', headerName: 'ชื่อสมาชิก', width: 150 },
+        { field: 'product_price', headerName: 'ราคา', width: 120 },
         {
           field: 'actions',
           headerName: 'ปุ่ม',
-          width: 400, // ปรับขนาดตามความต้องการ
+          width: 250, // ปรับขนาดตามความต้องการ
           renderCell: params => (
             <div>
               <Button
@@ -125,12 +121,12 @@ const User = () => {
                 className='btn btn-info'
                 style={{ marginRight: '5px' }}
                 onClick={() => {
-                  if (params.row.account_status !== '0') {
+                  if (params.row.product_status !== '0') {
                     // ตรวจสอบว่าไม่ใช่ "ยืนยันแล้ว"
-                    handleBanClick(params.row.account_id, params.row.member_id)
+                    handleBanClick(params.row.product_id)
                   }
                 }}
-                disabled={params.row.account_status === '0'} // ปิดปุ่มถ้า account_status เป็น 0
+                disabled={params.row.product_status === '0'} // ปิดปุ่มถ้า product_status เป็น 0
               >
                 Ban
               </Button>
@@ -141,12 +137,12 @@ const User = () => {
                 className='btn btn-info'
                 style={{ marginRight: '5px' }}
                 onClick={() => {
-                  if (params.row.account_status !== '2') {
+                  if (params.row.product_status !== '2') {
                     // ตรวจสอบว่าไม่ใช่ "ยืนยันแล้ว"
-                    handleUnbanClick(params.row.account_id, params.row.member_id)
+                    handleUnbanClick(params.row.product_id)
                   }
                 }}
-                disabled={params.row.account_status === '1' || params.row.account_status === '2'} // ปิดปุ่มถ้า account_status เป็น 1 หรือ 2
+                disabled={params.row.product_status === '1' || params.row.product_status === '2'} // ปิดปุ่มถ้า account_status เป็น 1 หรือ 2
               >
                 Unban
               </Button>
@@ -176,4 +172,4 @@ const User = () => {
   )
 }
 
-export default User
+export default Product

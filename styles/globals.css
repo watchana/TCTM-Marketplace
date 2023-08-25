@@ -22,3 +22,19 @@ code:not([class*='language-']):after {
 code[class*='language-'] {
   padding: 0;
 }
+
+.menubar {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.menubar li {
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.menubar li.active {
+  font-weight: bold; /* เพิ่มสถานะที่เลือกในเมนู */
+}
