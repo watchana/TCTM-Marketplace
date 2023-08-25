@@ -205,7 +205,7 @@ const RegisterProductPage = () => {
   }
 
   useEffect(() => {
-    console.log(productOptionGroups)
+    console.log('productOptionGroups: ', productOptionGroups)
   }, [productOptionGroups])
 
   useEffect(() => {
