@@ -58,6 +58,7 @@ const RegisterProductPage = () => {
 
   const [productOptionGroups, setProductOptionGroups] = useState([productOptionGroupsInit])
 
+  // ** upload images
   const handleImageChange = event => {
     const files = event.target.files
     if (files && files.length > 0) {
@@ -68,6 +69,7 @@ const RegisterProductPage = () => {
     }
   }
 
+  // ** upload videos
   const handleVideoChange = event => {
     const files = event.target.files
     if (files && files.length > 0) {
@@ -104,20 +106,24 @@ const RegisterProductPage = () => {
     }
   }
 
+  // ** add product options
   const handleAddOption = e => {
+    const MaxOptionId = Math.max(...productOptions.map(option => option.optionId))
+
     const newOption = {
-      optionId: productOptions.length + 1,
+      optionId: MaxOptionId + 1,
       optionName: '',
       optionType: 1,
-      optionValue: [{ valueId: 1, valueName: '' }]
+      optionValue: [{}]
     }
     setProductOptions([...productOptions, newOption])
   }
 
-  const handleDeleteOption = e => {
-    if (productOptions.length === 1) return
-    const updatedOptions = [...productOptions]
-    updatedOptions.splice(productOptions.length - 1, 1)
+  // ** delete product options
+  const handleDeleteOption = (e, id) => {
+    if (productOptions.length === 1) return setProductOptions(productOptionsInit)
+
+    const updatedOptions = productOptions.filter(option => option.optionId !== id)
     setProductOptions(updatedOptions)
   }
 
@@ -135,24 +141,41 @@ const RegisterProductPage = () => {
         )
   }
 
+  // ** add product option value
   const handleAddOptionValue = e => {
-    const updatedOptions = [...productOptions]
-    const lastOption = updatedOptions[updatedOptions.length - 1]
+    const optionValueIds = productOptions[productOptions.length - 1].optionValue.map(value => value.valueId)
+    const maxId = Math.max(...optionValueIds)
 
-    const newOptionValue = {
-      valueId: lastOption.optionValue.length + 1,
-      valueName: ''
-    }
-    lastOption.optionValue.push(newOptionValue)
+    const newOptionValue = { valueId: maxId + 1, valueName: '' }
+
+    const updatedOptions = productOptions.map(option => {
+      if (option.optionId === productOptions[productOptions.length - 1].optionId) {
+        return { ...option, optionValue: [...option.optionValue, newOptionValue] }
+      } else {
+        return option
+      }
+    })
+
     setProductOptions(updatedOptions)
   }
 
-  const handleDeleteOptionValue = e => {
-    if (productOptions[productOptions.length - 1].optionValue.length === 1) return
-    const updatedOptions = [...productOptions]
-    const lastOption = updatedOptions[updatedOptions.length - 1]
+  // ** delete product option value
+  const handleDeleteOptionValue = (e, optionId, valueId) => {
+    if (productOptions[productOptions.length - 1].optionValue.length === 1)
+      return setProductOptions(options =>
+        options.map(option =>
+          option.optionId === optionId ? { ...option, optionValue: [{ valueId: 1, valueName: '' }] } : option
+        )
+      )
 
-    lastOption.optionValue.splice(lastOption.optionValue.length - 1, 1)
+    const updatedOptions = productOptions.map(option => {
+      if (option.optionId === optionId) {
+        return { ...option, optionValue: option.optionValue.filter(value => value.valueId !== valueId) }
+      } else {
+        return option
+      }
+    })
+
     setProductOptions(updatedOptions)
   }
 
@@ -165,7 +188,7 @@ const RegisterProductPage = () => {
   }
 
   const handleDeleteOptionGroup = (e, id) => {
-    if (productOptionGroups.length === 1) return
+    if (productOptionGroups.length === 1) return setProductOptionGroups([productOptionGroupsInit])
     const updatedOptionGroups = productOptionGroups.filter(optionGroup => optionGroup.optionGroupId !== id)
     setProductOptionGroups(updatedOptionGroups)
   }
@@ -184,6 +207,10 @@ const RegisterProductPage = () => {
   useEffect(() => {
     console.log(productOptionGroups)
   }, [productOptionGroups])
+
+  useEffect(() => {
+    console.log('productOptions: ', productOptions)
+  }, [productOptions])
 
   return (
     <Box>
@@ -394,19 +421,19 @@ const RegisterProductPage = () => {
           <Typography variant='body1'>หัวข้อตัวเลือกที่ต้องการ</Typography>
         </Box>
         <Grid container spacing={5} alignItems={'flex-end'}>
-          {productOptions.map(option => (
+          {productOptions.map((option, index) => (
             <Grid
-              item
+              container
               key={option.optionId}
-              xs={12}
               border={1}
               borderColor='rgba(0, 0, 0, 0.2)'
               borderRadius={1}
               sx={{ m: 4, p: 6 }}
+              direction='column'
             >
               <Grid container spacing={5} alignItems={'flex-end'}>
-                <Grid item key={option.optionId} xs={12} sm={5}>
-                  <Typography>ตัวเลือกที่ {option.optionId}</Typography>
+                <Grid item key={option.optionId} xs={12} sm={7}>
+                  <Typography>ตัวเลือกที่ {index + 1}</Typography>
                   <TextField
                     fullWidth
                     id={`product-option-name-${option.optionId}`}
@@ -421,7 +448,7 @@ const RegisterProductPage = () => {
                     }
                   />
                 </Grid>
-                <Grid item key={option.optionId} xs={12} sm={5}>
+                <Grid item key={option.optionId} xs={12} sm={4}>
                   <Typography>แบบกรอกข้อมูล หรือ แบบเลือก</Typography>
                   <Select
                     fullWidth
@@ -435,24 +462,24 @@ const RegisterProductPage = () => {
                   </Select>
                 </Grid>
 
-                <Grid item xs={12} sm={2} alignSelf={'flex-end'}>
+                <Grid item xs={12} sm={1} alignSelf={'flex-end'}>
                   <Button
                     fullWidth
                     variant='contained'
                     sx={{ height: 55, bgcolor: 'red' }}
                     onClick={e => handleDeleteOption(e, option.optionId)}
                   >
-                    -
+                    <DeleteIcon />
                   </Button>
                 </Grid>
 
                 <Grid item xs={12}>
                   {option.optionType === 2 && (
                     <Grid container spacing={5} alignItems={'flex-end'}>
-                      {option.optionValue.map(value => (
+                      {option.optionValue.map((value, index) => (
                         <Grid container spacing={5} alignItems={'flex-end'} key={value.valueId} sx={{ m: 0 }}>
                           <Grid item xs={12} sm={10}>
-                            <Typography>ตัวเลือกย่อยที่ {value.valueId}</Typography>
+                            <Typography>ตัวเลือกย่อยที่ {index + 1}</Typography>
                             <TextField
                               fullWidth
                               id='product-option-name'
@@ -485,7 +512,7 @@ const RegisterProductPage = () => {
                               sx={{ height: 55, bgcolor: 'blue' }}
                               onClick={e => handleDeleteOptionValue(e, option.optionId, value.valueId)}
                             >
-                              -
+                              <DeleteIcon />
                             </Button>
                           </Grid>
                         </Grid>
@@ -511,7 +538,7 @@ const RegisterProductPage = () => {
           <Grid container spacing={5} direction='row-reverse'>
             {productOptions.length < 5 ? (
               <Grid item xs sm={2}>
-                <Button fullWidth variant='contained' sx={{ height: 55 }} onClick={handleAddOption}>
+                <Button fullWidth variant='contained' sx={{ height: 55 }} onClick={e => handleAddOption(e)}>
                   +
                 </Button>
               </Grid>
@@ -566,7 +593,7 @@ const RegisterProductPage = () => {
                     )
                 )}
 
-                <Grid item xs>
+                <Grid item xs sm={7}>
                   <Typography>ราคาสินค้า</Typography>
                   <TextField
                     fullWidth
@@ -586,7 +613,7 @@ const RegisterProductPage = () => {
                   />
                 </Grid>
 
-                <Grid item xs>
+                <Grid item xs sm={4}>
                   <Typography>จำนวนสินค้า</Typography>
                   <TextField
                     fullWidth
@@ -606,14 +633,14 @@ const RegisterProductPage = () => {
                   />
                 </Grid>
 
-                <Grid item xs sm={2} alignSelf={'flex-end'}>
+                <Grid item xs sm={1} alignSelf={'flex-end'}>
                   <Button
                     fullWidth
                     variant='contained'
                     sx={{ height: 55, bgcolor: 'red' }}
                     onClick={e => handleDeleteOptionGroup(e, optionGroup.optionGroupId)}
                   >
-                    -
+                    <DeleteIcon />
                   </Button>
                 </Grid>
               </Grid>
@@ -621,7 +648,7 @@ const RegisterProductPage = () => {
           </Box>
         ))}
 
-        <Box sx={{ mx: 4 }}>
+        <Box sx={{ mx: 4, overflow: 'hidden' }}>
           <Grid container spacing={5} direction='row-reverse'>
             {productOptionGroups.length < 5 ? (
               <Grid item xs sm={2}>
@@ -634,6 +661,21 @@ const RegisterProductPage = () => {
             )}
           </Grid>
         </Box>
+      </Card>
+
+      <Card sx={{ padding: 8, marginBlock: 5 }}>
+        <Grid container justifyContent='flex-end' alignItems='center' spacing={3}>
+          <Grid item xs={6} sm={2}>
+            <Button variant='contained' color='success' sx={{ width: '100%' }}>
+              Add Product
+            </Button>
+          </Grid>
+          <Grid item xs={6} sm={2}>
+            <Button variant='contained' color='error' sx={{ width: '100%' }}>
+              Discard
+            </Button>
+          </Grid>
+        </Grid>
       </Card>
 
       {/* show full image */}
