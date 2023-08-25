@@ -18,9 +18,13 @@ import {
   Fade,
   Backdrop,
   IconButton,
-  CardContent
+  CardContent,
+  ImageListItemBar
 } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
+
+// ** Switch Alert Import
+const Swal = require('sweetalert2')
 
 const RegisterProductPage = () => {
   const [uploadImages, setUploadImages] = useState([])
@@ -61,13 +65,17 @@ const RegisterProductPage = () => {
 
   // ** upload images
   const handleImageChange = event => {
-    const file = event.target.files[0]
-    if (file && file.type.startsWith('video/') && file.size <= 100 * 1024 * 1024) {
-      // ตรวจสอบประเภทและขนาดของวิดีโอ
-      setUploadVideo({
-        file: file,
-        url: URL.createObjectURL(file) // สร้าง URL สำหรับแสดงวิดีโอ
-      })
+    const files = event.target.files
+    if (files && files.length > 0) {
+      const newImages = Array.from(files)
+        .filter(file => file.type.startsWith('image/') && file.size <= 10 * 1024 * 1024) // ตรวจสอบประเภทและขนาดของรูปภาพ
+        .map(file => ({
+          file: file,
+          name: file.name, // เก็บชื่อไฟล์
+          url: URL.createObjectURL(file)
+        }))
+
+      setUploadImages(prevImages => [...prevImages, ...newImages])
     }
   }
 
@@ -75,19 +83,25 @@ const RegisterProductPage = () => {
   const handleVideoChange = event => {
     const files = event.target.files
     if (files && files.length > 0) {
-      const newVideos = Array.from(files)
-        .filter(file => file.type.startsWith('video/') && file.size <= 100 * 1024 * 1024) // ตรวจสอบประเภทและขนาดของวิดีโอ
-        .map(file => URL.createObjectURL(file))
+      const maxSize = 100 * 1024 * 1024 // 100 MB
+      if (files[0].size > maxSize) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'The video size is too large. Please choose a video that is under 100MB.'
+        })
+      } else {
+        const newVideos = Array.from(files)
+          .filter(file => file.type.startsWith('video/') && file.size <= maxSize)
+          .map(file => URL.createObjectURL(file))
 
-      setUploadVideos(newVideos) // ใช้วิดีโอใหม่แทนที่ทั้งหมด
-
-      // หรือถ้าต้องการเพิ่มวิดีโอใน array เดิม ให้ใช้บรรทัดด้านล่างแทน
-      // setUploadVideos([...uploadVideos, ...newVideos]);
+        setUploadVideos(newVideos)
+      }
     }
   }
 
   const handleOpen = image => {
-    setSelectedImage(image)
+    setSelectedImage(image.url)
     setOpenImagePreview(true)
   }
 
@@ -224,14 +238,15 @@ const RegisterProductPage = () => {
       {/* รูปภาพ & วิดิโอ */}
       <Card sx={{ padding: 8, marginBlock: 5 }}>
         <Typography variant='h5'>รูปภาพสินค้า</Typography>
-        <Box sx={{ my: 4 }} border={1} borderColor='rgba(0, 0, 0, 0.2)' borderRadius={1}>
+        <Box sx={{ m: 4 }} border={1} borderColor='rgba(0, 0, 0, 0.2)' borderRadius={1}>
           <Grid container spacing={5} sx={{ p: 4 }}>
             <Grid item xs={12} sm={2}>
-              <Box sx={{ p: 4, width: '100%', height: '100%' }}>
+              <Box sx={{ p: 4 }}>
                 <Button
                   sx={{
                     bgcolor: 'rgba(0, 0, 0, 0.01)',
-                    height: '100%'
+                    height: '100%',
+                    width: '100%'
                   }}
                   component='label'
                   fullWidth
@@ -245,17 +260,34 @@ const RegisterProductPage = () => {
               <Box sx={{ my: 4, p: 4 }} border={1} borderColor='rgba(0, 0, 0, 0.2)' borderRadius={1}>
                 {uploadImages.length > 0 ? (
                   <div>
-                    <ImageList sx={{ width: 'auto', height: 300 }} cols={3}>
+                    <ImageList sx={{ width: 'auto', height: 400 }} cols={2}>
                       {uploadImages.map((image, index) => (
                         <ImageListItem key={index}>
                           <img
                             key={index}
-                            src={image}
+                            src={image.url}
                             alt={`Image ${index}`}
                             loading='lazy'
-                            width={'100%'}
-                            height={'auto'}
+                            style={{
+                              width: '250px', // กำหนดความกว้าง
+                              height: '250px', // กำหนดความสูง
+                              margin: 'auto', // จัดตำแหน่งรูปให้อยู่ตรงกลาง
+                              display: 'block' // ให้รูปแสดงเป็นบล็อกเพื่อจัดตำแหน่งและขนาด
+                            }}
                             onClick={() => handleOpen(image)}
+                          />
+                          <ImageListItemBar
+                            titleTypographyProps={{
+                              variant: 'body2',
+                              style: { fontSize: '12px', textAlign: 'center' }
+                            }}
+                            subtitleTypographyProps={{
+                              variant: 'body2',
+                              style: { fontSize: '10px', textAlign: 'center' }
+                            }}
+                            title={image.name}
+                            subtitle={<span>by: {image.name}</span>}
+                            position='below'
                           />
                           <IconButton
                             aria-label='delete'
@@ -282,15 +314,13 @@ const RegisterProductPage = () => {
           </Grid>
         </Box>
         <Typography variant='h5'>วิดีโอสินค้า</Typography>
-        <Box sx={{ my: 4 }} border={1} borderColor='rgba(0, 0, 0, 0.2)' borderRadius={1}>
+        <Box sx={{ m: 4 }} border={1} borderColor='rgba(0, 0, 0, 0.2)' borderRadius={1}>
           <Grid container spacing={5} sx={{ p: 4 }}>
             <Grid item xs={12} sm={2}>
-              <Box sx={{ my: 4, maxWidth: '100%', justifyContent: 'center', display: 'flex' }}>
+              <Box sx={{ mt: 4 }}>
                 <Button
                   sx={{
-                    bgcolor: 'rgba(0, 0, 0, 0.01)',
-                    width: 'full',
-                    height: 150
+                    bgcolor: 'rgba(0, 0, 0, 0.01)'
                   }}
                   component='label'
                   fullWidth
