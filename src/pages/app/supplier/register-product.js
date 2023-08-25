@@ -24,7 +24,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 
 const RegisterProductPage = () => {
   const [uploadImages, setUploadImages] = useState([])
-  const [uploadVideos, setUploadVideos] = useState([])
+  const [uploadVideos, setUploadVideos] = useState({})
   const [openImagePreview, setOpenImagePreview] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
 
@@ -61,12 +61,13 @@ const RegisterProductPage = () => {
 
   // ** upload images
   const handleImageChange = event => {
-    const files = event.target.files
-    if (files && files.length > 0) {
-      const newImages = Array.from(files)
-        .slice(0, 10)
-        .map(file => URL.createObjectURL(file))
-      setUploadImages([...uploadImages, ...newImages])
+    const file = event.target.files[0]
+    if (file && file.type.startsWith('video/') && file.size <= 100 * 1024 * 1024) {
+      // ตรวจสอบประเภทและขนาดของวิดีโอ
+      setUploadVideo({
+        file: file,
+        url: URL.createObjectURL(file) // สร้าง URL สำหรับแสดงวิดีโอ
+      })
     }
   }
 
