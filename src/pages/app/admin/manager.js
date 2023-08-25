@@ -3,12 +3,16 @@ import { Box, Tab, Card, Typography } from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import MemberTable from 'src/views/admin/manager/MemberTable'
 import SupplierTable from 'src/views/admin/manager/SupplierTable'
+import ProductTable from 'src/views/admin/manager/ProductTable'
 import axios from 'axios'
 
 const ManagerPage = () => {
   const [value, setValue] = useState('1')
   const [dataUser, setDataUser] = useState([])
   const [dataMarket, setDataMarket] = useState([])
+  const [dataProduct, setDataProduct] = useState([])
+
+  console.log('ข้อมูล product', dataProduct)
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -29,8 +33,15 @@ const ManagerPage = () => {
           }
         })
 
+        const productResponse = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.approve.productsqueue`, {
+          headers: {
+            Authorization: 'token 76dc8ec5e14d19c:a644317879022f2'
+          }
+        })
+
         setDataUser(userResponse.data.message.Data || [])
         setDataMarket(marketResponse.data.message.Data || [])
+        setDataProduct(productResponse.data.message.Data || [])
       } catch (error) {
         console.error('Error fetching data:', error)
       }
@@ -54,6 +65,7 @@ const ManagerPage = () => {
               <TabList onChange={handleChange} aria-label='lab API tabs example'>
                 <Tab label='User' value='1' />
                 <Tab label='Marketplace' value='2' />
+                <Tab label='Product' value='3' />
               </TabList>
             </Box>
             <TabPanel value='1'>
@@ -61,6 +73,9 @@ const ManagerPage = () => {
             </TabPanel>
             <TabPanel value='2'>
               <SupplierTable rows={dataMarket} />
+            </TabPanel>
+            <TabPanel value='3'>
+              <ProductTable rows={dataProduct} />
             </TabPanel>
           </TabContext>
         </Box>
