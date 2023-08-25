@@ -39,8 +39,8 @@ const Category = ({ productData, SearchProduct, keyword }) => {
   }, [SearchProduct, keyword, productData])
 
   // console.log('ข้อมูล filtered Products', filteredProducts)
-  console.log('ข้อมูล SearchProduct', SearchProduct)
-  console.log('ข้อมูล keyword', keyword)
+  // console.log('ข้อมูล SearchProduct', SearchProduct)
+  // console.log('ข้อมูล keyword', keyword)
 
   // ตรวจสอบหาก filteredProducts เป็น undefined หรือ null
   if (filteredProducts === undefined || filteredProducts === null) {
@@ -51,19 +51,6 @@ const Category = ({ productData, SearchProduct, keyword }) => {
         </Box>
       </Container>
     )
-  }
-
-  // ฟังก์ชันค้นหา
-  const handleSearch = value => {
-    setSearchValue(value)
-
-    // ทำการค้นหาผลลัพธ์ในรายการสินค้าที่มี image_file_name ที่ตรงกับคำค้นหา
-    const searchResults =
-      products && products.length > 0
-        ? products.filter(product => product.product_name.toLowerCase().includes(value.toLowerCase()))
-        : []
-
-    setSearchResults(searchResults)
   }
 
   //ฟังก์ชันจัดการ ปุ่มแยกประเภทผลิตภัณ
@@ -82,7 +69,8 @@ const Category = ({ productData, SearchProduct, keyword }) => {
     }
     router.replace('/designs/category', undefined, { shallow: true })
   }
-  console.log('ไข้อมูลสินค้า', products)
+
+  // console.log('ข้อมูลสินค้า', products)
 
   return (
     <>
@@ -138,93 +126,63 @@ const Category = ({ productData, SearchProduct, keyword }) => {
             </Grid>
           </Box>
 
-          <Autocomplete
-            id='search-autocomplete'
-            options={searchResults} // รายการผลลัพธ์การค้นหา
-            getOptionLabel={product => product.product_name}
-            renderInput={params => <TextField {...params} label='Search' variant='outlined' />}
-            onInputChange={(event, value) => handleSearch(value)} // เมื่อผู้ใช้ป้อนคำค้นหา
-          />
-
           {/* >>>>> list Products <<<<< */}
           <Box sx={{ width: '100%' }}>
             <Grid container spacing={10}>
               {/* ======================================= map ========================================= */}
-              {searchResults.length > 0
-                ? searchResults.map((product, index) => (
-                    <Grid item key={product.product_id}>
-                      <Card sx={{ width: '190px', height: '280px', bgcolor: '#fff', borderRadius: '10px' }}>
-                        <CardActionArea>
-                          <Box sx={{ width: '100%', height: '70%', padding: '10px 7px 3px' }}>
-                            {/* ใส่รูป */}
-                            <CardMedia
-                              component='img'
-                              height='200px'
-                              image={`/imgTctmProduct/${product.image_file_name}`}
-                              sx={{ borderRadius: '10px' }}
-                            />
+              {filteredProducts.length > 0 ? (
+                filteredProducts.map((product, index) => (
+                  <Grid item key={product.product_id}>
+                    <Card sx={{ width: '190px', height: '280px', bgcolor: '#fff', borderRadius: '10px' }}>
+                      <CardActionArea>
+                        <Box sx={{ width: '100%', height: '70%', padding: '10px 7px 3px' }}>
+                          {/* ใส่รูป */}
+                          <CardMedia
+                            component='img'
+                            height='200px'
+                            image={`/imgTctmProduct/${product.image_file_name}`}
+                            sx={{ borderRadius: '10px' }}
+                          />
+                        </Box>
+                        <Box sx={{ width: '100%', height: '30%', paddingLeft: 2.5, paddingTop: 2 }}>
+                          <Box>
+                            <Typography
+                              variant='h6'
+                              sx={{
+                                fontWeight: 600,
+                                overflow: 'hidden',
+                                whiteSpace: 'nowrap',
+                                textOverflow: 'ellipsis'
+                              }}
+                            >
+                              {product.product_name}
+                            </Typography>
                           </Box>
-                          <Box sx={{ width: '100%', height: '30%', paddingLeft: 2.5, paddingTop: 2 }}>
-                            <Box>
-                              <Typography
-                                variant='h6'
-                                sx={{
-                                  fontWeight: 600,
-                                  overflow: 'hidden',
-                                  whiteSpace: 'nowrap',
-                                  textOverflow: 'ellipsis'
-                                }}
-                              >
-                                {product.product_name}
-                              </Typography>
-                            </Box>
-                            <Box>
-                              <Typography variant='body1' sx={{ fontWeight: 600 }}>
-                                $ {product.product_price}
-                              </Typography>
-                            </Box>
+                          <Box>
+                            <Typography variant='body1' sx={{ fontWeight: 600 }}>
+                              $ {product.product_price}
+                            </Typography>
                           </Box>
-                        </CardActionArea>
-                      </Card>
-                    </Grid>
-                  ))
-                : filteredProducts.map((product, index) => (
-                    <Grid item key={product.product_id}>
-                      <Card sx={{ width: '190px', height: '280px', bgcolor: '#fff', borderRadius: '10px' }}>
-                        <CardActionArea>
-                          <Box sx={{ width: '100%', height: '70%', padding: '10px 7px 3px' }}>
-                            {/* ใส่รูป */}
-                            <CardMedia
-                              component='img'
-                              height='200px'
-                              image={`/imgTctmProduct/${product.image_file_name}`}
-                              sx={{ borderRadius: '10px' }}
-                            />
-                          </Box>
-                          <Box sx={{ width: '100%', height: '30%', paddingLeft: 2.5, paddingTop: 2 }}>
-                            <Box>
-                              <Typography
-                                variant='h6'
-                                sx={{
-                                  fontWeight: 600,
-                                  overflow: 'hidden',
-                                  whiteSpace: 'nowrap',
-                                  textOverflow: 'ellipsis'
-                                }}
-                              >
-                                {product.product_name}
-                              </Typography>
-                            </Box>
-                            <Box>
-                              <Typography variant='body1' sx={{ fontWeight: 600 }}>
-                                $ {product.product_price}
-                              </Typography>
-                            </Box>
-                          </Box>
-                        </CardActionArea>
-                      </Card>
-                    </Grid>
-                  ))}
+                        </Box>
+                      </CardActionArea>
+                    </Card>
+                  </Grid>
+                ))
+              ) : (
+                <Grid item xs={12}>
+                  <Box
+                    sx={{
+                      width: '100%',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      height: '200px'
+                    }}
+                  >
+                    <Typography variant='body1'>ไม่พบสินค้า</Typography>
+                  </Box>
+                </Grid>
+              )}
             </Grid>
           </Box>
         </Box>
