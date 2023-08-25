@@ -22,6 +22,13 @@ import LogoutVariant from 'mdi-material-ui/LogoutVariant'
 import AccountOutline from 'mdi-material-ui/AccountOutline'
 import MessageOutline from 'mdi-material-ui/MessageOutline'
 import HelpCircleOutline from 'mdi-material-ui/HelpCircleOutline'
+import StorefrontPlusOutline from 'mdi-material-ui/StorefrontPlusOutline'
+
+// Import Cookie
+import Cookies from 'js-cookie'
+
+// Import auth token Decode
+import { createToken, verifyToken } from '../../../../../utils/auth'
 
 // ** Styled Components
 const BadgeContentSpan = styled('span')(({ theme }) => ({
@@ -45,6 +52,16 @@ const UserDropdown = () => {
 
   const handleDropdownClose = url => {
     if (url) {
+      if (url === '/pages/login') {
+        // Clear token from local storage
+        localStorage.removeItem('jwt')
+        localStorage.removeItem('name')
+        localStorage.removeItem('Email')
+        localStorage.removeItem('Member_Id')
+
+        // Clear token from Cookies
+        Cookies.remove('jwt')
+      }
       router.push(url)
     }
     setAnchorEl(null)
@@ -61,6 +78,25 @@ const UserDropdown = () => {
     '& svg': {
       fontSize: '1.375rem',
       color: 'text.secondary'
+    }
+  }
+
+  // ** รับค่าจาก local Storage
+  let username = ''
+  if (typeof window !== 'undefined') {
+    username = localStorage.getItem('name')
+  }
+
+  // ** ทำการถอดรหัส role
+  let role = ''
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem('jwt')
+    const decodedToken = verifyToken(token)
+
+    if (decodedToken) {
+      role = decodedToken.Role
+    } else {
+      console.log('Invalid or expired token')
     }
   }
 
@@ -88,7 +124,7 @@ const UserDropdown = () => {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <Box sx={{ pt: 2, pb: 3, px: 4 }}>
+        <Box sx={{ pt: 2, pb: 3, px: 4 }} onClick={() => handleDropdownClose()}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Badge
               overlap='circular'
@@ -98,9 +134,9 @@ const UserDropdown = () => {
               <Avatar alt='John Doe' src='/images/avatars/1.png' sx={{ width: '2.5rem', height: '2.5rem' }} />
             </Badge>
             <Box sx={{ display: 'flex', marginLeft: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
-              <Typography sx={{ fontWeight: 600 }}>John Doe</Typography>
+              <Typography sx={{ fontWeight: 600 }}>{username}</Typography>
               <Typography variant='body2' sx={{ fontSize: '0.8rem', color: 'text.disabled' }}>
-                Admin
+                {role}
               </Typography>
             </Box>
           </Box>
@@ -118,10 +154,18 @@ const UserDropdown = () => {
             Inbox
           </Box>
         </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+        {/* ปุ่ม registration-supplier */}
+        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/pages/registerSupplier/')}>
           <Box sx={styles}>
-            <MessageOutline sx={{ marginRight: 2 }} />
-            Chat
+            <StorefrontPlusOutline sx={{ marginRight: 2 }} />
+            Registration Maker
+          </Box>
+        </MenuItem>
+        {/* ปุ่ม Approve */}
+        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/app/admin/manager/')}>
+          <Box sx={styles}>
+            <CurrencyUsd sx={{ marginRight: 2 }} />
+            Approve
           </Box>
         </MenuItem>
         <Divider />
@@ -129,12 +173,6 @@ const UserDropdown = () => {
           <Box sx={styles}>
             <CogOutline sx={{ marginRight: 2 }} />
             Settings
-          </Box>
-        </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <CurrencyUsd sx={{ marginRight: 2 }} />
-            Pricing
           </Box>
         </MenuItem>
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>

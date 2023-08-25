@@ -1,101 +1,57 @@
+// ** React Imports
+import { React, useEffect, useState } from 'react'
+
 // ** MUI Imports
-import Grid from '@mui/material/Grid'
+import Box from '@mui/material/Box'
+import Link from '@mui/material/Link'
+import Container from '@mui/material/Container'
+import Typography from '@mui/material/Typography'
 
-// ** Icons Imports
-import Poll from 'mdi-material-ui/Poll'
-import CurrencyUsd from 'mdi-material-ui/CurrencyUsd'
-import HelpCircleOutline from 'mdi-material-ui/HelpCircleOutline'
-import BriefcaseVariantOutline from 'mdi-material-ui/BriefcaseVariantOutline'
+// ** Import components
+import { useRouter } from 'next/router'
+import { withAuth } from './pages/AuthCheck'
+import SlideshowWithCards from './Fuse/slide/slidebillboard'
+import SlideshowWithProduct from './Fuse/slide/slideproduct'
+import SlideRecommended from './Fuse/slide/slideRecommended'
 
-// ** Custom Components Imports
-import CardStatisticsVerticalComponent from 'src/@core/components/card-statistics/card-stats-vertical'
-
-// ** Styled Component Import
-import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
-
-// ** Demo Components Imports
-import Table from 'src/views/dashboard/Table'
-import Trophy from 'src/views/dashboard/Trophy'
-import TotalEarning from 'src/views/dashboard/TotalEarning'
-import StatisticsCard from 'src/views/dashboard/StatisticsCard'
-import WeeklyOverview from 'src/views/dashboard/WeeklyOverview'
-import DepositWithdraw from 'src/views/dashboard/DepositWithdraw'
-import SalesByCountries from 'src/views/dashboard/SalesByCountries'
+// ** Import Cookies
+import Cookies from 'js-cookie'
 
 const Dashboard = () => {
+  const router = useRouter()
+
   return (
-    <ApexChartWrapper>
-      <Grid container spacing={6}>
-        <Grid item xs={12} md={4}>
-          <Trophy />
-        </Grid>
-        <Grid item xs={12} md={8}>
-          <StatisticsCard />
-        </Grid>
-        <Grid item xs={12} md={6} lg={4}>
-          <WeeklyOverview />
-        </Grid>
-        <Grid item xs={12} md={6} lg={4}>
-          <TotalEarning />
-        </Grid>
-        <Grid item xs={12} md={6} lg={4}>
-          <Grid container spacing={6}>
-            <Grid item xs={6}>
-              <CardStatisticsVerticalComponent
-                stats='$25.6k'
-                icon={<Poll />}
-                color='success'
-                trendNumber='+42%'
-                title='Total Profit'
-                subtitle='Weekly Profit'
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <CardStatisticsVerticalComponent
-                stats='$78'
-                title='Refunds'
-                trend='negative'
-                color='secondary'
-                trendNumber='-15%'
-                subtitle='Past Month'
-                icon={<CurrencyUsd />}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <CardStatisticsVerticalComponent
-                stats='862'
-                trend='negative'
-                trendNumber='-18%'
-                title='New Project'
-                subtitle='Yearly Project'
-                icon={<BriefcaseVariantOutline />}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <CardStatisticsVerticalComponent
-                stats='15'
-                color='warning'
-                trend='negative'
-                trendNumber='-18%'
-                subtitle='Last Week'
-                title='Sales Queries'
-                icon={<HelpCircleOutline />}
-              />
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid item xs={12} md={6} lg={4}>
-          <SalesByCountries />
-        </Grid>
-        <Grid item xs={12} md={12} lg={8}>
-          <DepositWithdraw />
-        </Grid>
-        <Grid item xs={12}>
-          <Table />
-        </Grid>
-      </Grid>
-    </ApexChartWrapper>
+    <Container maxWidth='xl'>
+      <Box sx={{ height: '100%' }}>
+        {/** ส่วนของ Billboard */}
+        <SlideshowWithCards />
+
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginY: 5 }}>
+          <Typography variant='h4' fontSize='bold'>
+            Products Brands
+          </Typography>
+          {/** ใส่ Link Product */}
+          <Link href='#'>SHOW ALL BRANDS</Link>
+        </Box>
+        <Box sx={{ width: '100%' }}>
+          {/** ส่วนของ Slide Products! */}
+          <SlideshowWithProduct />
+        </Box>
+
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginY: 5 }}>
+          <Typography variant='h4' fontSize='bold'>
+            Recommended
+          </Typography>
+          {/** ใส่ Link Product */}
+          <Link href='#'>SHOW ALL PRODUCTS</Link>
+        </Box>
+        <Box sx={{ width: '100%' }}>
+          {/** ส่วนของ Slide Recommended! */}
+          <SlideRecommended />
+        </Box>
+      </Box>
+    </Container>
   )
 }
 
-export default Dashboard
+export default withAuth(Dashboard)

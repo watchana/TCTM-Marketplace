@@ -1,4 +1,4 @@
-// ** MUI Imports
+// ** React Imports
 import { styled, useTheme } from '@mui/material/styles'
 import MuiAppBar from '@mui/material/AppBar'
 import MuiToolbar from '@mui/material/Toolbar'
@@ -38,7 +38,7 @@ const LayoutAppBar = props => {
   const { contentWidth } = settings
 
   return (
-    <AppBar elevation={0} color='default' className='layout-navbar' position='static'>
+    <AppBar elevation={1} color='default' className='layout-navbar' position='static' sx={{ height: '140px' }}>
       <Toolbar
         className='navbar-content-container'
         sx={{
