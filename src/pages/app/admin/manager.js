@@ -12,7 +12,7 @@ const ManagerPage = () => {
   const [dataMarket, setDataMarket] = useState([])
   const [dataProduct, setDataProduct] = useState([])
 
-  console.log('ข้อมูล product', dataProduct)
+  // console.log('ข้อมูล product', dataProduct)
 
   const handleChange = (event, newValue) => {
     setValue(newValue)

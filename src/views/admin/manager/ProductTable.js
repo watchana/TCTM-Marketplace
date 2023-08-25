@@ -11,7 +11,7 @@ import axios from 'axios'
 const ProductTable = ({ rows }) => {
   const [tableRows, setTableRows] = useState(rows) //เก็บข้อมูล Row ใน table
 
-  console.log(tableRows)
+  //   console.log(tableRows)
 
   // นำเข้าตัวsweetalert2
   const Swal = require('sweetalert2')
