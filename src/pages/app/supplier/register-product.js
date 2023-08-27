@@ -93,9 +93,13 @@ const RegisterProductPage = () => {
       } else {
         const newVideos = Array.from(files)
           .filter(file => file.type.startsWith('video/') && file.size <= maxSize)
-          .map(file => URL.createObjectURL(file))
+          .map(file => ({
+            file: file,
+            name: file.name,
+            url: URL.createObjectURL(file)
+          }))
 
-        setUploadVideos(newVideos)
+        setUploadVideos(prevVideos => [...prevVideos, ...newVideos])
       }
     }
   }
