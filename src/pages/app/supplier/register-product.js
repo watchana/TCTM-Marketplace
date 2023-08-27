@@ -104,6 +104,7 @@ const RegisterProductPage = () => {
     }
   }
 
+  // ** open image preview
   const handleOpen = image => {
     setSelectedImage(image.url)
     setOpenImagePreview(true)
