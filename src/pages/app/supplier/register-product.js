@@ -116,6 +116,7 @@ const RegisterProductPage = () => {
     setOpenImagePreview(false)
   }
 
+  // ** delete image
   const handleDeleteMedia = (index, mediaType) => {
     if (mediaType === 'image') {
       const updatedImages = [...uploadImages]
