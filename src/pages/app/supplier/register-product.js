@@ -110,6 +110,7 @@ const RegisterProductPage = () => {
     setOpenImagePreview(true)
   }
 
+  // ** close image preview
   const handleClose = () => {
     setSelectedImage(null)
     setOpenImagePreview(false)
