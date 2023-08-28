@@ -231,14 +231,6 @@ const RegisterProduct = ({
     setProductOptionGroups(updatedOptionGroups)
   }
 
-  useEffect(() => {
-    console.log('productOptionGroups: ', productOptionGroups)
-  }, [productOptionGroups])
-
-  useEffect(() => {
-    console.log('productOptions: ', productOptions)
-  }, [productOptions])
-
   return (
     <Box>
       <Box sx={{ mb: 4 }}>

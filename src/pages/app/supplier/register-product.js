@@ -125,10 +125,6 @@ const RegisterProductPage = ({ productCategories }) => {
     setActiveStep(0)
   }
 
-  useEffect(() => {
-    console.log(productCategories)
-  }, [productCategories])
-
   return (
     <Box sx={{ width: '100%' }}>
       <Stepper activeStep={activeStep}>

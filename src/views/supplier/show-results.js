@@ -36,8 +36,7 @@ const ShowResults = ({ productOptions, productOptionGroups }) => {
   return (
     <Box>
       <Typography variant='h4' gutterBottom>
-        {' '}
-        Show Results{' '}
+        Show Results
       </Typography>
       <Card sx={{ p: 8, marginBlock: 5 }}>
         <DataGrid rows={rows} columns={columns} />
