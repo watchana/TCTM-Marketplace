@@ -161,7 +161,7 @@ const CategoryManager = () => {
             initialState={{
               pagination: {
                 paginationModel: {
-                  pageSize: 5
+                  pageSize: 20
                 }
               }
             }}
