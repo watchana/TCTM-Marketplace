@@ -8,7 +8,7 @@ import { Box, Stepper, Step, StepLabel, Button, Typography } from '@mui/material
 import axios from 'axios'
 
 // ** Components
-import RegisterProduct from 'src/views/supplier/register-product'
+import RegisterProduct from 'src/views/supplier/RegisterProduct'
 import ShowResults from 'src/views/supplier/show-results'
 
 // ** Switch Alert Import
@@ -23,6 +23,7 @@ const RegisterProductPage = ({ productCategories }) => {
     {
       optionId: 1,
       optionName: '',
+      optionValidation: 0,
       optionType: 1,
       optionValue: [{ valueId: 1, valueName: '' }]
     }
@@ -37,7 +38,8 @@ const RegisterProductPage = ({ productCategories }) => {
     optionGroupColumn4: '',
     optionGroupColumn5: '',
     optionGroupPrice: null,
-    optionGroupQuantity: null
+    optionGroupQuantity: null,
+    optionGroupValidation: 0
   }
 
   const [productOptionGroups, setProductOptionGroups] = useState([productOptionGroupsInit])
@@ -52,19 +54,63 @@ const RegisterProductPage = ({ productCategories }) => {
 
   const handleNext = () => {
     let newSkipped = skipped
+
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values())
       newSkipped.delete(activeStep)
     } else if (activeStep === 0) {
-      productOptions.map((option, index) => {
+      let hasOptionError = false
+      let optionValidationIndex = null
+      let hasOptionGroupError = false
+
+      const newProductOptions = productOptions.map((option, index) => {
         if (option.optionName === '') {
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Please fill in all the fields!'
-          })
+          hasOptionError = true
+
+          return { ...option, optionValidation: 1 }
         }
+
+        optionValidationIndex = index + 1
+
+        return option
       })
+
+      if (optionValidationIndex !== null) {
+        const newProductOptionGroups = productOptionGroups.map(optionGroup => {
+          for (let i = 0; i < optionValidationIndex; i++) {
+            if (optionGroup[`optionGroupColumn${i + 1}`] === '') {
+              hasOptionGroupError = true
+              console.log('test')
+
+              return { ...optionGroup, optionGroupValidation: 1 }
+            }
+          }
+
+          return optionGroup
+        })
+      }
+
+      if (hasOptionError) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Please fill in all Option fields!'
+        })
+      }
+
+      if (hasOptionGroupError) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Please fill in all Option Group fields!'
+        })
+      }
+
+      if (!hasOptionError && !hasOptionGroupError) {
+        setProductOptions(newProductOptions)
+        setActiveStep(prevActiveStep => prevActiveStep + 1)
+        setSkipped(newSkipped)
+      }
     } else {
       setActiveStep(prevActiveStep => prevActiveStep + 1)
       setSkipped(newSkipped)
@@ -73,20 +119,6 @@ const RegisterProductPage = ({ productCategories }) => {
 
   const handleBack = () => {
     setActiveStep(prevActiveStep => prevActiveStep - 1)
-  }
-
-  const handleSkip = () => {
-    if (!isStepOptional(activeStep)) {
-      throw new Error("You can't skip a step that isn't optional.")
-    }
-
-    setActiveStep(prevActiveStep => prevActiveStep + 1)
-    setSkipped(prevSkipped => {
-      const newSkipped = new Set(prevSkipped.values())
-      newSkipped.add(activeStep)
-
-      return newSkipped
-    })
   }
 
   const handleReset = () => {

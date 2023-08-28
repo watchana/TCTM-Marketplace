@@ -50,6 +50,7 @@ const RegisterProduct = ({
     {
       optionId: 1,
       optionName: '',
+      optionValidation: 0,
       optionType: 1,
       optionValue: [{ valueId: 1, valueName: '' }]
     }
@@ -468,11 +469,14 @@ const RegisterProduct = ({
                     fullWidth
                     id={`product-option-name-${option.optionId}`}
                     variant='outlined'
+                    error={option.optionValidation === 1}
                     value={option.optionName}
                     onChange={e =>
                       setProductOptions(options =>
                         options.map(opt =>
-                          opt.optionId === option.optionId ? { ...opt, optionName: e.target.value } : opt
+                          opt.optionId === option.optionId
+                            ? { ...opt, optionName: e.target.value, optionValidation: 0 }
+                            : opt
                         )
                       )
                     }
