@@ -1,5 +1,5 @@
 // ** React Imports
-import { React, useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -17,8 +17,11 @@ import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
 import Autocomplete from '@mui/material/Autocomplete'
+import { Select, MenuItem } from '@mui/material'
 
 import { DataGrid } from '@mui/x-data-grid'
+import axios from 'axios'
+import { get, set } from 'local-storage'
 
 // ** Icons Imports
 import Plus from 'mdi-material-ui/Plus'
@@ -26,60 +29,72 @@ import ChevronRight from 'mdi-material-ui/ChevronRight'
 
 // ** Data Grid Columns
 const columns = [
-  { field: 'id', headerName: 'No.', width: 90 },
-  {
-    field: 'name',
-    headerName: 'Product Name',
-    width: 150,
-    editable: true
-  },
-  {
-    field: 'details',
-    headerName: 'Product Details',
-    width: 150,
-    editable: true
-  },
-  {
-    field: 'stock',
-    headerName: 'Stock',
-    type: 'number',
-    width: 110,
-    editable: true
-  },
-  {
-    field: 'price',
-    headerName: 'Price',
-    type: 'number',
-    sortable: false,
-    width: 160
-  },
-  {
-    field: 'status',
-    headerName: 'Status',
-    sortable: false,
-    width: 160
-  }
-]
-
-// ** Data Grid Rows
-const rows = [
-  { id: 1, details: 'text', name: 'text', stock: 35, price: 30, status: 'tradable' },
-  { id: 2, details: 'text', name: 'text', stock: 42, price: 30, status: 'In progress' },
-  { id: 3, details: 'text', name: 'text', stock: 45, price: 30, status: 'tradable' },
-  { id: 4, details: 'text', name: 'text', stock: 16, price: 30, status: 'In progress' },
-  { id: 5, details: 'text', name: 'text', stock: 32, price: 30, status: 'tradable' },
-  { id: 6, details: 'text', name: null, stock: 15, price: 30, status: 'tradable' },
-  { id: 7, details: 'text', name: 'text', stock: 44, price: 30, status: 'In progress' },
-  { id: 8, details: 'text', name: 'text', stock: 36, price: 30, status: 'tradable' },
-  { id: 9, details: 'text', name: 'text', stock: 65, price: 30, status: 'In progress' }
+  { field: 'product_id', headerName: 'product ID  ', width: 90 },
+  { field: 'product_name', headerName: 'Name ', width: 350 },
+  { field: 'product_count', headerName: 'amount ', width: 180 }
 ]
 
 const MyMarket = () => {
   const [value, setValue] = useState('1')
 
+  // ดึงข้อมูลจาก Local Storage
+  const userId = get('Member_Id') // Id ผู้ใช้จาก local Storage
+
+  // เซตข้อมูลลงตัวแปร
+  const [productdata, setProductData] = useState([])
+  const [selectedCategory, setSelectedCategory] = useState('')
+  console.log('ข้อมูลสินค้า', productdata)
+
+  // ตัวแปรควบคุม State
+  const [searchText, setSearchText] = useState('') //state สำหรับเก็บข้อมูลการค้นหา
+
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
+
+  const initialProductData = useRef([]) // เก็บค่าเริ่มต้นของข้อมูลสินค้า
+  // เก็บค่าข้อมูลประเภทสินค้าที่ไม่ซํ้ากัน
+  const uniqueCategoryIds = Array.from(new Set(initialProductData.current.map(category => category.category_id)))
+
+  // ฟังก์ชันจัดการ Select Dropdown
+  const handleCategoryChange = event => {
+    setSelectedCategory(event.target.value)
+    const filteredData = initialProductData.current.filter(product => product.category_id === event.target.value)
+    setProductData(filteredData)
+  }
+
+  // ฟังก์ชันค้นหาข้อมูล
+  const handleSearch = () => {
+    const filteredData = productdata.filter(item => item.product_name.toLowerCase().includes(searchText.toLowerCase()))
+    setProductData(filteredData)
+  }
+
+  // ฟังก์ชันรีเซตข้อมูล
+  const handleReset = () => {
+    setProductData(initialProductData.current)
+    setSearchText('')
+    setSelectedCategory('')
+  }
+
+  // เก็บค่าข้อมูลลง Api
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.mymarket.allproductinmarket`, {
+          params: {
+            member_id: userId
+          }
+        })
+
+        initialProductData.current = response.data.message.Data
+        setProductData(initialProductData.current)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchData()
+  }, [userId])
 
   return (
     <Container maxWidth='xl'>
@@ -113,7 +128,13 @@ const MyMarket = () => {
                       <Typography variant='h6' fontSize={18}>
                         Product Name
                       </Typography>
-                      <TextField size='small' id='outlined-basic' variant='outlined' />
+                      <TextField
+                        size='small'
+                        id='outlined-basic'
+                        variant='outlined'
+                        value={searchText}
+                        onChange={e => setSearchText(e.target.value)}
+                      />
                     </FormControl>
                   </Grid>
                   <Grid item xl={6} md={6} sm={12} xs={12}>
@@ -121,7 +142,26 @@ const MyMarket = () => {
                       <Typography variant='h6' fontSize={18}>
                         Product Category
                       </Typography>
-                      <TextField size='small' id='outlined-basic' variant='outlined' />
+                      <Select
+                        size='small'
+                        labelId='category-label'
+                        id='category-select'
+                        value={selectedCategory} // The selected category_id
+                        onChange={handleCategoryChange} // Function to handle category change
+                        label='Product Category'
+                      >
+                        {uniqueCategoryIds.map(categoryId => {
+                          const selectedCategory = initialProductData.current.find(
+                            category => category.category_id === categoryId
+                          )
+
+                          return (
+                            <MenuItem key={categoryId} value={categoryId}>
+                              {selectedCategory.category_name}
+                            </MenuItem>
+                          )
+                        })}
+                      </Select>
                     </FormControl>
                   </Grid>
                 </Grid>
@@ -139,10 +179,10 @@ const MyMarket = () => {
                         marginBottom: { sm: 2, xs: 2 }
                       }}
                     >
-                      <Button variant='contained' color='primary'>
+                      <Button variant='contained' color='primary' onClick={handleSearch}>
                         Search
                       </Button>
-                      <Button variant='contained' color='primary'>
+                      <Button variant='contained' color='primary' onClick={handleReset}>
                         Reset
                       </Button>
                     </Box>
@@ -174,7 +214,7 @@ const MyMarket = () => {
                     Product List
                   </Typography>
                   <Typography variant='h2' fontSize={54} align='center'>
-                    1
+                    {productdata.length}
                   </Typography>
                 </Box>
               </Box>
@@ -196,8 +236,9 @@ const MyMarket = () => {
             <TabPanel value='1'>
               <Box sx={{ width: '100%', height: '100%' }}>
                 <DataGrid
-                  rows={rows}
+                  rows={productdata}
                   columns={columns}
+                  getRowId={row => row.product_id}
                   initialState={{
                     pagination: {
                       paginationModel: {
