@@ -19,7 +19,7 @@ import Breadcrumbs from '@mui/material/Breadcrumbs'
 import Autocomplete from '@mui/material/Autocomplete'
 import { Select, MenuItem } from '@mui/material'
 
-import { DataGrid } from '@mui/x-data-grid'
+import { DataGrid, GridOverlay } from '@mui/x-data-grid'
 import axios from 'axios'
 import { get, set } from 'local-storage'
 
@@ -236,20 +236,26 @@ const MyMarket = () => {
             {/* ใส่ Data Grid */}
             <TabPanel value='1'>
               <Box sx={{ width: '100%', height: '100%' }}>
-                <DataGrid
-                  rows={productdata}
-                  columns={columns}
-                  getRowId={row => row.product_id}
-                  initialState={{
-                    pagination: {
-                      paginationModel: {
-                        pageSize: 5
+                {productdata && productdata.length > 0 ? (
+                  <DataGrid
+                    rows={productdata}
+                    columns={columns}
+                    getRowId={row => row.product_id}
+                    initialState={{
+                      pagination: {
+                        paginationModel: {
+                          pageSize: 5
+                        }
                       }
-                    }
-                  }}
-                  pageSizeOptions={[5]}
-                  disableRowSelectionOnClick
-                />
+                    }}
+                    pageSizeOptions={[5]}
+                    disableRowSelectionOnClick
+                  />
+                ) : (
+                  <GridOverlay>
+                    <div>No Data</div>
+                  </GridOverlay>
+                )}
               </Box>
             </TabPanel>
             <TabPanel value='2'>Item Two</TabPanel>
