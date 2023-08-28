@@ -1,44 +1,23 @@
-// *** React Import
-import React, { useEffect, useState } from 'react'
+// ** React Imports
+import React, { useState, useEffect } from 'react'
 
-// ** Mui imports
-import {
-  Card,
-  Grid,
-  Typography,
-  Box,
-  TextField,
-  Select,
-  MenuItem,
-  ListSubheader,
-  Button,
-  ImageList,
-  ImageListItem,
-  Modal,
-  Fade,
-  Backdrop,
-  IconButton,
-  CardContent,
-  ImageListItemBar
-} from '@mui/material'
-import DeleteIcon from '@mui/icons-material/Delete'
+// ** MUI Imports
+import { Box, Stepper, Step, StepLabel, Button, Typography } from '@mui/material'
+
+// ** axios
+import axios from 'axios'
+
+// ** Components
+import RegisterProduct from 'src/views/supplier/register-product'
+import ShowResults from 'src/views/supplier/show-results'
 
 // ** Switch Alert Import
 const Swal = require('sweetalert2')
 
-const RegisterProductPage = () => {
-  const [uploadImages, setUploadImages] = useState([])
-  const [uploadVideos, setUploadVideos] = useState({})
-  const [openImagePreview, setOpenImagePreview] = useState(false)
-  const [selectedImage, setSelectedImage] = useState(null)
-
-  const [product, setProduct] = useState({
-    name: '',
-    category: '',
-    price: '',
-    quantity: '',
-    detail: ''
-  })
+const RegisterProductPage = ({ productCategories }) => {
+  const steps = ['Register Product', 'Show Results']
+  const [activeStep, setActiveStep] = useState(0)
+  const [skipped, setSkipped] = useState(new Set())
 
   const productOptionsInit = [
     {
@@ -57,700 +36,141 @@ const RegisterProductPage = () => {
     optionGroupColumn3: '',
     optionGroupColumn4: '',
     optionGroupColumn5: '',
-    optionGroupPrice: '',
-    optionGroupQuantity: 0
+    optionGroupPrice: null,
+    optionGroupQuantity: null
   }
 
   const [productOptionGroups, setProductOptionGroups] = useState([productOptionGroupsInit])
 
-  // ** upload images
-  const handleImageChange = event => {
-    const files = event.target.files
-    if (files && files.length > 0) {
-      const newImages = Array.from(files)
-        .filter(file => file.type.startsWith('image/') && file.size <= 10 * 1024 * 1024) // ตรวจสอบประเภทและขนาดของรูปภาพ
-        .map(file => ({
-          file: file,
-          name: file.name, // เก็บชื่อไฟล์
-          url: URL.createObjectURL(file)
-        }))
+  const isStepOptional = step => {
+    return step === 1
+  }
 
-      setUploadImages(prevImages => [...prevImages, ...newImages])
+  const isStepSkipped = step => {
+    return skipped.has(step)
+  }
+
+  const handleNext = () => {
+    let newSkipped = skipped
+    if (isStepSkipped(activeStep)) {
+      newSkipped = new Set(newSkipped.values())
+      newSkipped.delete(activeStep)
+    } else if (activeStep === 0) {
+      productOptions.map((option, index) => {
+        if (option.optionName === '') {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Please fill in all the fields!'
+          })
+        }
+      })
+    } else {
+      setActiveStep(prevActiveStep => prevActiveStep + 1)
+      setSkipped(newSkipped)
     }
   }
 
-  // ** upload videos
-  const handleVideoChange = event => {
-    const files = event.target.files
-    if (files && files.length > 0) {
-      const maxSize = 100 * 1024 * 1024 // 100 MB
-      if (files[0].size > maxSize) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'The video size is too large. Please choose a video that is under 100MB.'
-        })
-      } else {
-        const newVideos = Array.from(files)
-          .filter(file => file.type.startsWith('video/') && file.size <= maxSize)
-          .map(file => ({
-            file: file,
-            name: file.name,
-            url: URL.createObjectURL(file)
-          }))
+  const handleBack = () => {
+    setActiveStep(prevActiveStep => prevActiveStep - 1)
+  }
 
-        setUploadVideos(prevVideos => [...prevVideos, ...newVideos])
-      }
+  const handleSkip = () => {
+    if (!isStepOptional(activeStep)) {
+      throw new Error("You can't skip a step that isn't optional.")
     }
-  }
 
-  // ** open image preview
-  const handleOpen = image => {
-    setSelectedImage(image.url)
-    setOpenImagePreview(true)
-  }
+    setActiveStep(prevActiveStep => prevActiveStep + 1)
+    setSkipped(prevSkipped => {
+      const newSkipped = new Set(prevSkipped.values())
+      newSkipped.add(activeStep)
 
-  // ** close image preview
-  const handleClose = () => {
-    setSelectedImage(null)
-    setOpenImagePreview(false)
-  }
-
-  // ** delete image
-  const handleDeleteMedia = (index, mediaType) => {
-    if (mediaType === 'image') {
-      const updatedImages = [...uploadImages]
-      updatedImages.splice(index, 1)
-      setUploadImages(updatedImages)
-    } else if (mediaType === 'video') {
-      const updatedVideos = [...uploadVideos]
-      updatedVideos.splice(index, 1)
-      setUploadVideos(updatedVideos)
-    }
-  }
-
-  // ** add product options
-  const handleAddOption = e => {
-    const MaxOptionId = Math.max(...productOptions.map(option => option.optionId))
-
-    const newOption = {
-      optionId: MaxOptionId + 1,
-      optionName: '',
-      optionType: 1,
-      optionValue: [{}]
-    }
-    setProductOptions([...productOptions, newOption])
-  }
-
-  // ** delete product options
-  const handleDeleteOption = (e, id) => {
-    if (productOptions.length === 1) return setProductOptions(productOptionsInit)
-
-    const updatedOptions = productOptions.filter(option => option.optionId !== id)
-    setProductOptions(updatedOptions)
-  }
-
-  const handleOptionTypeChange = (e, optionId) => {
-    e.target.value === 1
-      ? setProductOptions(options =>
-          options.map(opt =>
-            opt.optionId === optionId
-              ? { ...opt, optionType: e.target.value, optionValue: [{ valueId: 1, valueName: '' }] }
-              : opt
-          )
-        )
-      : setProductOptions(options =>
-          options.map(opt => (opt.optionId === optionId ? { ...opt, optionType: e.target.value } : opt))
-        )
-  }
-
-  // ** add product option value
-  const handleAddOptionValue = e => {
-    const optionValueIds = productOptions[productOptions.length - 1].optionValue.map(value => value.valueId)
-    const maxId = Math.max(...optionValueIds)
-
-    const newOptionValue = { valueId: maxId + 1, valueName: '' }
-
-    const updatedOptions = productOptions.map(option => {
-      if (option.optionId === productOptions[productOptions.length - 1].optionId) {
-        return { ...option, optionValue: [...option.optionValue, newOptionValue] }
-      } else {
-        return option
-      }
+      return newSkipped
     })
-
-    setProductOptions(updatedOptions)
   }
 
-  // ** delete product option value
-  const handleDeleteOptionValue = (e, optionId, valueId) => {
-    if (productOptions[productOptions.length - 1].optionValue.length === 1)
-      return setProductOptions(options =>
-        options.map(option =>
-          option.optionId === optionId ? { ...option, optionValue: [{ valueId: 1, valueName: '' }] } : option
-        )
-      )
-
-    const updatedOptions = productOptions.map(option => {
-      if (option.optionId === optionId) {
-        return { ...option, optionValue: option.optionValue.filter(value => value.valueId !== valueId) }
-      } else {
-        return option
-      }
-    })
-
-    setProductOptions(updatedOptions)
-  }
-
-  const handleAddOptionGroup = e => {
-    const optionGroupIds = productOptionGroups.map(optionGroup => optionGroup.optionGroupId)
-    const maxId = Math.max(...optionGroupIds)
-
-    const newOptionGroup = { ...productOptionGroupsInit, optionGroupId: maxId + 1 }
-    setProductOptionGroups([...productOptionGroups, newOptionGroup])
-  }
-
-  const handleDeleteOptionGroup = (e, id) => {
-    if (productOptionGroups.length === 1) return setProductOptionGroups([productOptionGroupsInit])
-    const updatedOptionGroups = productOptionGroups.filter(optionGroup => optionGroup.optionGroupId !== id)
-    setProductOptionGroups(updatedOptionGroups)
-  }
-
-  const handleProductOptionGroupChange = (e, optionGroupId, col) => {
-    const updatedOptionGroups = productOptionGroups.map(optionGroup => {
-      if (optionGroup.optionGroupId === optionGroupId) {
-        return { ...optionGroup, [col]: e.target.value }
-      } else {
-        return optionGroup
-      }
-    })
-    setProductOptionGroups(updatedOptionGroups)
+  const handleReset = () => {
+    setActiveStep(0)
   }
 
   useEffect(() => {
-    console.log('productOptionGroups: ', productOptionGroups)
-  }, [productOptionGroups])
-
-  useEffect(() => {
-    console.log('productOptions: ', productOptions)
-  }, [productOptions])
+    console.log(productCategories)
+  }, [productCategories])
 
   return (
-    <Box>
-      <Box sx={{ mb: 4 }}>
-        <Typography variant='h4'>Register Product</Typography>
-        <Typography variant='body1'>กรอกข้อมูลสินค้าที่ต้องการลงทะเบียน</Typography>
-      </Box>
-
-      {/* รูปภาพ & วิดิโอ */}
-      <Card sx={{ padding: 8, marginBlock: 5 }}>
-        <Typography variant='h5'>รูปภาพสินค้า</Typography>
-        <Box sx={{ m: 4 }} border={1} borderColor='rgba(0, 0, 0, 0.2)' borderRadius={1}>
-          <Grid container spacing={5} sx={{ p: 4 }}>
-            <Grid item xs={12} sm={2}>
-              <Box sx={{ p: 4 }}>
-                <Button
-                  sx={{
-                    bgcolor: 'rgba(0, 0, 0, 0.01)',
-                    height: '100%',
-                    width: '100%'
-                  }}
-                  component='label'
-                  fullWidth
-                >
-                  Upload Image
-                  <input type='file' accept='image/*' hidden multiple onChange={handleImageChange} />
-                </Button>
-              </Box>
-            </Grid>
-            <Grid item xs={12} sm={10}>
-              <Box sx={{ my: 4, p: 4 }} border={1} borderColor='rgba(0, 0, 0, 0.2)' borderRadius={1}>
-                {uploadImages.length > 0 ? (
-                  <div>
-                    <ImageList sx={{ width: 'auto', height: 400 }} cols={2}>
-                      {uploadImages.map((image, index) => (
-                        <ImageListItem key={index}>
-                          <img
-                            key={index}
-                            src={image.url}
-                            alt={`Image ${index}`}
-                            loading='lazy'
-                            style={{
-                              width: '250px', // กำหนดความกว้าง
-                              height: '250px', // กำหนดความสูง
-                              margin: 'auto', // จัดตำแหน่งรูปให้อยู่ตรงกลาง
-                              display: 'block' // ให้รูปแสดงเป็นบล็อกเพื่อจัดตำแหน่งและขนาด
-                            }}
-                            onClick={() => handleOpen(image)}
-                          />
-                          <ImageListItemBar
-                            titleTypographyProps={{
-                              variant: 'body2',
-                              style: { fontSize: '12px', textAlign: 'center' }
-                            }}
-                            subtitleTypographyProps={{
-                              variant: 'body2',
-                              style: { fontSize: '10px', textAlign: 'center' }
-                            }}
-                            title={image.name}
-                            subtitle={<span>by: {image.name}</span>}
-                            position='below'
-                          />
-                          <IconButton
-                            aria-label='delete'
-                            onClick={() => handleDeleteMedia(index, 'image')}
-                            sx={{
-                              position: 'absolute',
-                              top: 5,
-                              right: 5,
-                              color: 'white',
-                              bgcolor: 'rgba(0, 0, 0, 0.5)'
-                            }}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </ImageListItem>
-                      ))}
-                    </ImageList>
-                  </div>
-                ) : (
-                  <Typography variant='body1'>No image selected</Typography>
-                )}
-              </Box>
-            </Grid>
-          </Grid>
-        </Box>
-        <Typography variant='h5'>วิดีโอสินค้า</Typography>
-        <Box sx={{ m: 4 }} border={1} borderColor='rgba(0, 0, 0, 0.2)' borderRadius={1}>
-          <Grid container spacing={5} sx={{ p: 4 }}>
-            <Grid item xs={12} sm={2}>
-              <Box sx={{ mt: 4 }}>
-                <Button
-                  sx={{
-                    bgcolor: 'rgba(0, 0, 0, 0.01)'
-                  }}
-                  component='label'
-                  fullWidth
-                >
-                  Upload Video
-                  <input type='file' accept='video/*' hidden multiple onChange={handleVideoChange} />
-                </Button>
-              </Box>
-            </Grid>
-            <Grid item xs={12} sm={10}>
-              <Box sx={{ my: 4, p: 4 }} border={1} borderColor='rgba(0, 0, 0, 0.2)' borderRadius={1}>
-                {uploadVideos.length > 0 ? (
-                  <div>
-                    {uploadVideos.map((video, index) => (
-                      <div key={index} style={{ position: 'relative', marginBottom: '20px' }}>
-                        <video
-                          key={index}
-                          src={video}
-                          controls
-                          style={{ display: 'block', maxWidth: '100%', maxHeight: '80vh', margin: 'auto' }} // ปรับขนาดและตำแหน่งให้แสดงตรงกลาง
-                        />
-                        <IconButton
-                          aria-label='delete'
-                          onClick={() => handleDeleteMedia(index, 'video')}
-                          sx={{
-                            position: 'absolute',
-                            top: 5,
-                            right: 5,
-                            color: 'white',
-                            bgcolor: 'rgba(0, 0, 0, 0.5)'
-                          }}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <Typography variant='body1'>No Video selected</Typography>
-                )}
-              </Box>
-            </Grid>
-          </Grid>
-        </Box>
-        <Grid container spacing={5}></Grid>
-      </Card>
-
-      {/* รายละเอียดสินค้า */}
-      <Card sx={{ padding: 8, marginBlock: 5 }}>
-        <Typography variant='h5'>รายละเอียดสินค้า</Typography>
-        <Box sx={{ my: 4 }} border={1} borderColor='rgba(0, 0, 0, 0.2)' borderRadius={1}>
-          <Grid container spacing={5} sx={{ p: 4 }}>
-            <Grid item xs={12} sm={6}>
-              <Typography>ชื่อสินค้า</Typography>
-              <TextField
-                fullWidth
-                id='product-name'
-                value={product.name}
-                onChange={e => setProduct({ ...product, name: e.target.value })}
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <Typography>หมวดหมู่</Typography>
-              <Select fullWidth defaultValue='' id='grouped-select' label='Grouping'>
-                <MenuItem value=''>
-                  <em>None</em>
-                </MenuItem>
-                <ListSubheader>Category 1</ListSubheader>
-                <MenuItem value={1}>Option 1</MenuItem>
-                <MenuItem value={2}>Option 2</MenuItem>
-                <ListSubheader>Category 2</ListSubheader>
-                <MenuItem value={3}>Option 3</MenuItem>
-                <MenuItem value={4}>Option 4</MenuItem>
-              </Select>
-            </Grid>
-
-            <Grid item xs={12}>
-              <Typography>รายละเอียดสินค้า</Typography>
-              <TextField fullWidth id='product-detail' multiline rows={4} variant='outlined' />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <Typography>แบรนด์</Typography>
-              <TextField fullWidth id='product-brand' variant='outlined' />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <Typography>น้ำหนัก</Typography>
-              <TextField fullWidth id='product-brand' variant='outlined' />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <Typography>ฺBakeware Type</Typography>
-              <TextField fullWidth id='product-brand' variant='outlined' />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <Typography>หมายเลขใบอนุญาติ </Typography>
-              <TextField fullWidth id='product-brand' variant='outlined' />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <Typography>ประเทศต้นกำเนิดสินค้า</Typography>
-              <TextField fullWidth id='product-brand' variant='outlined' />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <Typography>ขนาดบรรจุ</Typography>
-              <TextField fullWidth id='product-brand' variant='outlined' />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <Typography>ส่วนประกอบ</Typography>
-              <TextField fullWidth id='product-brand' variant='outlined' />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <Typography>ปริมาณ</Typography>
-              <TextField fullWidth id='product-brand' variant='outlined' />
-            </Grid>
-          </Grid>
-        </Box>
-      </Card>
-
-      {/* ตัวเลือกสินค้า */}
-      <Card sx={{ marginBlock: 5, width: '100%' }}>
-        <CardContent>
-          <Box sx={{ mb: 4, pb: 2 }}>
-            <Typography variant='h5'>เพิ่มตัวเลือกสินค้า</Typography>
-            <Typography variant='body1'>หัวข้อตัวเลือกที่ต้องการ</Typography>
-          </Box>
-          {productOptions.map((option, index) => (
-            <Grid
-              container
-              key={option.optionId}
-              border={1}
-              borderColor='rgba(0, 0, 0, 0.2)'
-              borderRadius={1}
-              sx={{ p: 4, marginBlock: 4 }}
-            >
-              <Grid container spacing={5} alignItems={'flex-end'}>
-                <Grid item key={option.optionId} xs={12} sm>
-                  <Typography>ตัวเลือกที่ {index + 1}</Typography>
-                  <TextField
-                    fullWidth
-                    id={`product-option-name-${option.optionId}`}
-                    variant='outlined'
-                    value={option.optionName}
-                    onChange={e =>
-                      setProductOptions(options =>
-                        options.map(opt =>
-                          opt.optionId === option.optionId ? { ...opt, optionName: e.target.value } : opt
-                        )
-                      )
-                    }
-                  />
-                </Grid>
-                <Grid item key={option.optionId} xs={12} sm>
-                  <Typography>แบบกรอกข้อมูล หรือ แบบเลือก</Typography>
-                  <Select
-                    fullWidth
-                    labelId='demo-simple-select-label'
-                    id='demo-simple-select'
-                    value={option.optionType}
-                    onChange={e => handleOptionTypeChange(e, option.optionId)}
-                  >
-                    <MenuItem value={1}>กรอกเอง</MenuItem>
-                    <MenuItem value={2}>เลือก</MenuItem>
-                  </Select>
-                </Grid>
-
-                <Grid item xs={12} sm={1} alignSelf={'flex-end'}>
-                  <Button
-                    fullWidth
-                    variant='contained'
-                    sx={{ height: 55, bgcolor: 'red' }}
-                    onClick={e => handleDeleteOption(e, option.optionId)}
-                  >
-                    <DeleteIcon />
-                  </Button>
-                </Grid>
-
-                <Grid item xs={12}>
-                  {option.optionType === 2 && (
-                    <Grid container spacing={5} alignItems={'flex-end'}>
-                      {option.optionValue.map((value, index) => (
-                        <Grid container spacing={5} alignItems={'flex-end'} key={value.valueId} sx={{ m: 0 }}>
-                          <Grid item xs={12} sm={10}>
-                            <Typography>ตัวเลือกย่อยที่ {index + 1}</Typography>
-                            <TextField
-                              fullWidth
-                              id='product-option-name'
-                              variant='outlined'
-                              onChange={e =>
-                                setProductOptions(options =>
-                                  options.map(opt =>
-                                    opt.optionId === option.optionId
-                                      ? {
-                                          ...opt,
-                                          optionValue: opt.optionValue.map(val =>
-                                            val.valueId === value.valueId
-                                              ? {
-                                                  ...val,
-                                                  valueName: e.target.value
-                                                }
-                                              : val
-                                          )
-                                        }
-                                      : opt
-                                  )
-                                )
-                              }
-                            />
-                          </Grid>
-                          <Grid item xs sm={2}>
-                            <Button
-                              fullWidth
-                              variant='contained'
-                              sx={{ height: 55, bgcolor: 'blue' }}
-                              onClick={e => handleDeleteOptionValue(e, option.optionId, value.valueId)}
-                            >
-                              <DeleteIcon />
-                            </Button>
-                          </Grid>
-                        </Grid>
-                      ))}
-                      {option.optionValue.length < 5 ? (
-                        <Grid item xs>
-                          <Button fullWidth variant='contained' sx={{ height: 55 }} onClick={handleAddOptionValue}>
-                            +
-                          </Button>
-                        </Grid>
-                      ) : (
-                        <Grid item xs={12} sm={12}></Grid>
-                      )}
-                    </Grid>
-                  )}
-                </Grid>
-              </Grid>
-            </Grid>
-          ))}
-
-          <Grid container spacing={5}>
-            {productOptions.length < 5 ? (
-              <Grid item xs>
-                <Button fullWidth variant='outlined' sx={{ height: 55 }} onClick={e => handleAddOption(e)}>
-                  +
-                </Button>
-              </Grid>
-            ) : (
-              <Grid item xs></Grid>
-            )}
-          </Grid>
-        </CardContent>
-      </Card>
-
-      {/* รายละเอียดสินค้าของแต่ละตัวเลือก */}
-      <Card sx={{ padding: 8, marginBlock: 5 }}>
-        <Box sx={{ mb: 4 }}>
-          <Typography variant='h5'>รายละเอียดสินค้าของแต่ละตัวเลือก</Typography>
-        </Box>
-        {productOptionGroups.map((optionGroup, index) => (
-          <Box key={optionGroup.optionGroupId}>
-            <Typography variant='body1'>สินค้าตัวเลือกที่ {index + 1}</Typography>
-            <Box sx={{ my: 4 }} border={1} borderColor='rgba(0, 0, 0, 0.2)' borderRadius={1}>
-              <Grid container spacing={5} sx={{ p: 4 }} alignItems={'flex-end'}>
-                {productOptions.map(
-                  (option, index) =>
-                    option.optionName.length > 0 && (
-                      <Grid item key={option.optionId} xs={12} sm={6}>
-                        <Typography>
-                          {option.optionName} {index + 1}
-                        </Typography>
-                        {option.optionType === 1 ? (
-                          <TextField
-                            fullWidth
-                            id={`product-option-group-name-${option.optionId}`}
-                            variant='outlined'
-                            value={optionGroup[`optionGroupColumn${index + 1}`]}
-                            onChange={e =>
-                              handleProductOptionGroupChange(
-                                e,
-                                optionGroup.optionGroupId,
-                                `optionGroupColumn${index + 1}`
-                              )
-                            }
-                          />
-                        ) : (
-                          <Select fullWidth labelId='demo-simple-select-label' id='demo-simple-select'>
-                            {option.optionValue.map(value => (
-                              <MenuItem key={value.valueId} value={value.valueName}>
-                                {value.valueName}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        )}
-                      </Grid>
-                    )
-                )}
-
-                <Grid item xs sm={7}>
-                  <Typography>ราคาสินค้า</Typography>
-                  <TextField
-                    fullWidth
-                    type='number'
-                    id={`product-option-group-name-${optionGroup.optionGroupId}`}
-                    variant='outlined'
-                    value={optionGroup.optionGroupPrice}
-                    onChange={e =>
-                      setProductOptionGroups(prevGroups =>
-                        prevGroups.map(group =>
-                          group.optionGroupId === optionGroup.optionGroupId
-                            ? { ...group, optionGroupPrice: e.target.value }
-                            : group
-                        )
-                      )
-                    }
-                  />
-                </Grid>
-
-                <Grid item xs sm={4}>
-                  <Typography>จำนวนสินค้า</Typography>
-                  <TextField
-                    fullWidth
-                    type='number'
-                    id={`product-option-group-name-${optionGroup.optionGroupId}`}
-                    variant='outlined'
-                    value={optionGroup.optionGroupQuantity}
-                    onChange={e =>
-                      setProductOptionGroups(prevGroups =>
-                        prevGroups.map(group =>
-                          group.optionGroupId === optionGroup.optionGroupId
-                            ? { ...group, optionGroupQuantity: e.target.value }
-                            : group
-                        )
-                      )
-                    }
-                  />
-                </Grid>
-
-                <Grid item xs sm={1} alignSelf={'flex-end'}>
-                  <Button
-                    fullWidth
-                    variant='contained'
-                    sx={{ height: 55, bgcolor: 'red' }}
-                    onClick={e => handleDeleteOptionGroup(e, optionGroup.optionGroupId)}
-                  >
-                    <DeleteIcon />
-                  </Button>
-                </Grid>
-              </Grid>
-            </Box>
-          </Box>
-        ))}
-
-        <Grid container spacing={5}>
-          {productOptionGroups.length < 5 ? (
-            <Grid item xs>
-              <Button fullWidth variant='outlined' sx={{ height: 55 }} onClick={handleAddOptionGroup}>
-                +
-              </Button>
-            </Grid>
-          ) : (
-            <Grid item xs={6}></Grid>
-          )}
-        </Grid>
-      </Card>
-
-      <Card sx={{ padding: 8, marginBlock: 5 }}>
-        <Grid container justifyContent='flex-end' alignItems='center' spacing={3}>
-          <Grid item xs={6} sm={2}>
-            <Button variant='contained' color='success' sx={{ width: '100%' }}>
-              Add Product
-            </Button>
-          </Grid>
-          <Grid item xs={6} sm={2}>
-            <Button variant='contained' color='error' sx={{ width: '100%' }}>
-              Discard
-            </Button>
-          </Grid>
-        </Grid>
-      </Card>
-
-      {/* show full image */}
-      <Modal
-        open={openImagePreview}
-        onClose={handleClose}
-        closeAfterTransition
-        slots={{ backdrop: Backdrop }}
-        slotProps={{
-          backdrop: {
-            TransitionComponent: Fade
+    <Box sx={{ width: '100%' }}>
+      <Stepper activeStep={activeStep}>
+        {steps.map((label, index) => {
+          const stepProps = {}
+          const labelProps = {}
+          if (isStepOptional(index)) {
+            labelProps.optional = <Typography variant='caption'>Optional</Typography>
           }
-        }}
-      >
-        <Fade in={openImagePreview}>
-          <Box
-            sx={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: 'auto',
-              bgcolor: 'background.paper',
-              boxShadow: 24,
-              p: 4
-            }}
-          >
-            {selectedImage ? (
-              <img
-                src={selectedImage}
-                alt='Selected Image'
-                style={{ maxWidth: '100%', maxHeight: '80vh' }} // ปรับขนาดให้พอดีกับ viewport
-              />
-            ) : (
-              <Typography variant='body1'>No image selected</Typography>
-            )}
+          if (isStepSkipped(index)) {
+            stepProps.completed = false
+          }
+
+          return (
+            <Step key={label} {...stepProps}>
+              <StepLabel {...labelProps}>{label}</StepLabel>
+            </Step>
+          )
+        })}
+      </Stepper>
+      {activeStep === steps.length ? (
+        <React.Fragment>
+          <Typography sx={{ mt: 2, mb: 1 }}>All steps completed - you&apos;re finished</Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+            <Box sx={{ flex: '1 1 auto' }} />
+            <Button onClick={handleReset}>Reset</Button>
           </Box>
-        </Fade>
-      </Modal>
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          {activeStep === 0 && (
+            <RegisterProduct
+              productOptions={productOptions}
+              setProductOptions={setProductOptions}
+              productOptionGroups={productOptionGroups}
+              setProductOptionGroups={setProductOptionGroups}
+              productCategories={productCategories}
+            />
+          )}
+          {activeStep === 1 && (
+            <ShowResults productOptions={productOptions} productOptionGroups={productOptionGroups} />
+          )}
+          {activeStep === 2 && 'test'}
+          {/* <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography> */}
+          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+            <Button color='inherit' disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
+              Back
+            </Button>
+            <Box sx={{ flex: '1 1 auto' }} />
+            <Button size='large' onClick={handleNext}>
+              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+            </Button>
+          </Box>
+        </React.Fragment>
+      )}
     </Box>
   )
+}
+
+export async function getServerSideProps() {
+  try {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.product_category.allcategorys`)
+    const productCategories = res.data.message.Data
+
+    return {
+      props: { productCategories: productCategories }
+    }
+  } catch (error) {
+    console.log(error)
+
+    return {
+      props: { productCategories: [] }
+    }
+  }
 }
 
 export default RegisterProductPage
