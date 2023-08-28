@@ -136,7 +136,7 @@ const RegisterProductPage = ({ productCategories }) => {
           const stepProps = {}
           const labelProps = {}
           if (isStepOptional(index)) {
-            labelProps.optional = <Typography variant='caption'>Optional</Typography>
+            labelProps.optional = true
           }
           if (isStepSkipped(index)) {
             stepProps.completed = false
