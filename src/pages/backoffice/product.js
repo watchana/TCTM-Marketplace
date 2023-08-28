@@ -84,7 +84,7 @@ const Product = () => {
         { field: 'product_id', headerName: 'ID', width: 120 },
         {
           field: 'product_status',
-          headerName: 'สถานะของ',
+          headerName: 'สถานะ',
           width: 120,
           renderCell: params => {
             const subStatus = params.value // ค่าที่อยู่ในช่อง "สถานะไอดี"
@@ -105,7 +105,7 @@ const Product = () => {
             return <Chip label={chipLabel} color={chipColor} />
           }
         },
-        { field: 'category_name', headerName: 'ชื่อหมวดหมู่', width: 250 },
+        { field: 'category_name', headerName: 'หมวดหมู่', width: 250 },
         { field: 'product_name', headerName: 'ชื่อสินค้า', width: 200 },
         { field: 'sub_name', headerName: 'ชื่อสมาชิก', width: 150 },
         { field: 'product_price', headerName: 'ราคา', width: 120 },
