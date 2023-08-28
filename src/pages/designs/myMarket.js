@@ -19,7 +19,7 @@ import Breadcrumbs from '@mui/material/Breadcrumbs'
 import Autocomplete from '@mui/material/Autocomplete'
 import { Select, MenuItem } from '@mui/material'
 
-import { DataGrid, GridOverlay } from '@mui/x-data-grid'
+import { DataGrid } from '@mui/x-data-grid'
 import axios from 'axios'
 import { get, set } from 'local-storage'
 
@@ -54,8 +54,11 @@ const MyMarket = () => {
   }
 
   const initialProductData = useRef([]) // เก็บค่าเริ่มต้นของข้อมูลสินค้า
+
   // เก็บค่าข้อมูลประเภทสินค้าที่ไม่ซํ้ากัน
-  const uniqueCategoryIds = Array.from(new Set(initialProductData.current.map(category => category.category_id)))
+  const uniqueCategoryIds = Array.from(
+    new Set(initialProductData.current ? initialProductData.current.map(category => category.category_id) : [])
+  )
 
   // ฟังก์ชันจัดการ Select Dropdown
   const handleCategoryChange = event => {
@@ -215,7 +218,7 @@ const MyMarket = () => {
                     Product List
                   </Typography>
                   <Typography variant='h2' fontSize={54} align='center'>
-                    {productdata.length}
+                    {productdata && productdata.length > 0 ? productdata.length : 0}
                   </Typography>
                 </Box>
               </Box>
@@ -236,7 +239,7 @@ const MyMarket = () => {
             {/* ใส่ Data Grid */}
             <TabPanel value='1'>
               <Box sx={{ width: '100%', height: '100%' }}>
-                {productdata && productdata.length > 0 ? (
+                {initialProductData.current && initialProductData.current.length > 0 ? (
                   <DataGrid
                     rows={productdata}
                     columns={columns}
@@ -252,12 +255,13 @@ const MyMarket = () => {
                     disableRowSelectionOnClick
                   />
                 ) : (
-                  <GridOverlay>
-                    <div>No Data</div>
-                  </GridOverlay>
+                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                    No Data
+                  </div>
                 )}
               </Box>
             </TabPanel>
+
             <TabPanel value='2'>Item Two</TabPanel>
             <TabPanel value='3'>Item Three</TabPanel>
           </TabContext>
