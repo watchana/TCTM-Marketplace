@@ -7,11 +7,14 @@ import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import Hidden from '@mui/material/Hidden'
 import CardMedia from '@mui/material/CardMedia'
+import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
+import InputAdornment from '@mui/material/InputAdornment'
 
 // ** Icons Imports
 import Send from 'mdi-material-ui/Send'
+import Magnify from 'mdi-material-ui/Magnify'
 import CartOutline from 'mdi-material-ui/CartOutline'
 
 // ** Theme Config Import
@@ -29,12 +32,38 @@ const AppBarContent = props => {
   return (
     <Grid container direction='column'>
       <Grid container direction='row' justifyContent='space-between' alignItems='flex-start'>
-        <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
+        <Grid item xl={3} lg={3} md={3} sm={6} xs={6}>
           <Box sx={{ width: '150px', height: '70px' }}>
             <CardMedia sx={{ height: '70px' }} image='/images/cards/LOGO_TCTM_3.png' />
           </Box>
         </Grid>
-        <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
+        <Hidden mdDown>
+          <Grid item xl={4} lg={4} md={4}>
+            <Grid
+              container
+              direction='row'
+              justifyContent='center'
+              alignItems='center'
+              sx={{ width: '100%', height: '70px' }}
+            >
+              <Grid item xs={12}>
+                <TextField
+                  size='small'
+                  placeholder='Search Product…'
+                  sx={{ width: '100%', '& .MuiOutlinedInput-root': { borderRadius: '18px' } }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position='start'>
+                        <Magnify fontSize='small' />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Hidden>
+        <Grid item xl={4} lg={4} md={4} sm={6} xs={6}>
           <Grid
             container
             spacing={'15px'}
