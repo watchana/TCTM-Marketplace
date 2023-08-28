@@ -43,7 +43,8 @@ const MyMarket = () => {
   // เซตข้อมูลลงตัวแปร
   const [productdata, setProductData] = useState([])
   const [selectedCategory, setSelectedCategory] = useState('')
-  console.log('ข้อมูลสินค้า', productdata)
+
+  // console.log('ข้อมูลสินค้า', productdata)
 
   // ตัวแปรควบคุม State
   const [searchText, setSearchText] = useState('') //state สำหรับเก็บข้อมูลการค้นหา
