@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Box, Button, Chip } from '@mui/material'
 import { StyledDataGrid } from 'src/views/backoffice/styled'
+import Swal from 'sweetalert2'
 
 const User = () => {
   const [Userlist, setUserlist] = useState([])
@@ -126,11 +127,26 @@ const User = () => {
                 style={{ marginRight: '5px' }}
                 onClick={() => {
                   if (params.row.account_status !== '0') {
-                    // ตรวจสอบว่าไม่ใช่ "ยืนยันแล้ว"
-                    handleBanClick(params.row.account_id, params.row.member_id)
+                    Swal.fire({
+                      title: 'ต้องการที่จะแบนผู้ใช้คนนี้ไหม?',
+                      icon: 'question',
+                      showCancelButton: true,
+                      confirmButtonText: 'ใช่',
+                      cancelButtonText: 'ไม่ใช่'
+                    }).then(result => {
+                      if (result.isConfirmed) {
+                        handleBanClick(params.row.account_id, params.row.member_id)
+                      }
+                    })
+                  } else {
+                    Swal.fire({
+                      title: 'ไม่สามารถแบนได้',
+                      text: 'เนื่องจากสถานะถูกแบนแล้ว',
+                      icon: 'error'
+                    })
                   }
                 }}
-                disabled={params.row.account_status === '0'} // ปิดปุ่มถ้า account_status เป็น 0
+                disabled={params.row.account_status === '0'}
               >
                 Ban
               </Button>
@@ -142,11 +158,26 @@ const User = () => {
                 style={{ marginRight: '5px' }}
                 onClick={() => {
                   if (params.row.account_status !== '2') {
-                    // ตรวจสอบว่าไม่ใช่ "ยืนยันแล้ว"
-                    handleUnbanClick(params.row.account_id, params.row.member_id)
+                    Swal.fire({
+                      title: 'คุณต้องการที่จะปลดแบนผู้ใช้คนนี้ไหม?',
+                      icon: 'question',
+                      showCancelButton: true,
+                      confirmButtonText: 'ใช่',
+                      cancelButtonText: 'ไม่ใช่'
+                    }).then(result => {
+                      if (result.isConfirmed) {
+                        handleUnbanClick(params.row.account_id, params.row.member_id)
+                      }
+                    })
+                  } else {
+                    Swal.fire({
+                      title: 'ไม่สามารถยกเลิกการแบนได้',
+                      text: 'เนื่องจากสถานะยืนยันแล้ว',
+                      icon: 'error'
+                    })
                   }
                 }}
-                disabled={params.row.account_status === '1' || params.row.account_status === '2'} // ปิดปุ่มถ้า account_status เป็น 1 หรือ 2
+                disabled={params.row.account_status === '1' || params.row.account_status === '2'}
               >
                 Unban
               </Button>

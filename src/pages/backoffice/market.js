@@ -4,6 +4,7 @@ import axios from 'axios'
 import { Box, Button, palette, Chip, Stack } from '@mui/material'
 import { StyledDataGrid } from 'src/views/backoffice/styled'
 import userid from './user'
+import Swal from 'sweetalert2'
 
 const Market = () => {
   const [Marketlist, setMarketlist] = useState([])
@@ -122,11 +123,26 @@ const Market = () => {
                 style={{ marginRight: '5px' }}
                 onClick={() => {
                   if (params.row.sub_status !== '0') {
-                    // ตรวจสอบว่าไม่ใช่ "ยืนยันแล้ว"
-                    handleBanClick(params.row.sub_id)
+                    Swal.fire({
+                      title: 'ต้องการที่จะแบนร้านค้านี้ไหม?',
+                      icon: 'question',
+                      showCancelButton: true,
+                      confirmButtonText: 'แบน',
+                      cancelButtonText: 'ยกเลิก'
+                    }).then(result => {
+                      if (result.isConfirmed) {
+                        handleBanClick(params.row.sub_id)
+                      }
+                    })
+                  } else {
+                    Swal.fire({
+                      title: 'ไม่สามารถแบนได้',
+                      text: 'เนื่องจากสถานะถูกแบนแล้ว',
+                      icon: 'error'
+                    });
                   }
                 }}
-                disabled={params.row.sub_status === '0'} // ปิดปุ่มถ้า sub_status เป็น 0
+                disabled={params.row.sub_status === '0'}
               >
                 Ban
               </Button>
@@ -138,8 +154,23 @@ const Market = () => {
                 style={{ marginRight: '5px' }}
                 onClick={() => {
                   if (params.row.sub_status !== '2') {
-                    // ตรวจสอบว่าไม่ใช่ "ยืนยันแล้ว"
-                    handleUnbanClick(params.row.sub_id)
+                    Swal.fire({
+                      title: 'คุณต้องการที่จะปลดแบนร้านค้านี้ไหม?',
+                      icon: 'question',
+                      showCancelButton: true,
+                      confirmButtonText: 'ปลดแบน',
+                      cancelButtonText: 'ยกเลิก'
+                    }).then(result => {
+                      if (result.isConfirmed) {
+                        handleUnbanClick(params.row.sub_id)
+                      }
+                    })
+                  } else {
+                    Swal.fire({
+                      title: 'ไม่สามารถยกเลิกการแบนได้',
+                      text: 'เนื่องจากสถานะยืนยันแล้ว',
+                      icon: 'error'
+                    })
                   }
                 }}
                 disabled={params.row.sub_status === '1' || params.row.sub_status === '2'} // ปิดปุ่มถ้า account_status เป็น 1 หรือ 2
