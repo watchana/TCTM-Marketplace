@@ -134,6 +134,13 @@ const User = () => {
                       confirmButtonText: 'ใช่',
                       cancelButtonText: 'ไม่ใช่'
                     }).then(result => {
+                      Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'แบนเรียบร้อย',
+                        showConfirmButton: false,
+                        timer: 1500
+                      })
                       if (result.isConfirmed) {
                         handleBanClick(params.row.account_id, params.row.member_id)
                       }

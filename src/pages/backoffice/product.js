@@ -131,6 +131,13 @@ const Product = () => {
                       cancelButtonText: 'ปลดแบน'
                     }).then(result => {
                       if (result.isConfirmed) {
+                        Swal.fire({
+                          position: 'center',
+                          icon: 'success',
+                          title: 'แบนเรียบร้อย',
+                          showConfirmButton: false,
+                          timer: 1500
+                        })
                         handleBanClick(params.row.product_id)
                       }
                     })

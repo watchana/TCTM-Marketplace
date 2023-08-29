@@ -13,12 +13,12 @@ const Backoffice = () => {
 
   return (
     <div>
-      <AppBar position='static' style={{ background: '#f5f5f5', color: '#333' }}>
+      <AppBar position='static' style={{ background: '##dedede', color: '##3c3c3c' }}>
         <Toolbar>
-          <Tabs value={activeTab} onChange={handleTabChange} indicatorColor='primary'>
-            <Tab label='User' value='user' style={{ color: '#333' }} />
-            <Tab label='Market' value='market' style={{ color: '#333' }} />
-            <Tab label='Product' value='product' style={{ color: '#333' }} />
+          <Tabs value={activeTab} onChange={handleTabChange} indicatorColor='#d7e2ea'>
+            <Tab label='User' value='user' style={{ color: '#d7e2ea' }} />
+            <Tab label='Market' value='market' style={{ color: '#d7e2ea' }} />
+            <Tab label='Product' value='product' style={{ color: '#d7e2ea' }} />
           </Tabs>
         </Toolbar>
       </AppBar>

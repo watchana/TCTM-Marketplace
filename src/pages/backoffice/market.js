@@ -130,16 +130,22 @@ const Market = () => {
                       confirmButtonText: 'แบน',
                       cancelButtonText: 'ยกเลิก'
                     }).then(result => {
-                      if (result.isConfirmed) {
+                      if (result.isConfirmed)
+                        Swal.fire({
+                          position: 'center',
+                          icon: 'success',
+                          title: 'แบนเรียบร้อย',
+                          showConfirmButton: false,
+                          timer: 1500
+                        })
                         handleBanClick(params.row.sub_id)
-                      }
                     })
                   } else {
                     Swal.fire({
                       title: 'ไม่สามารถแบนได้',
                       text: 'เนื่องจากสถานะถูกแบนแล้ว',
                       icon: 'error'
-                    });
+                    })
                   }
                 }}
                 disabled={params.row.sub_status === '0'}
