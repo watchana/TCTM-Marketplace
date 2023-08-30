@@ -74,7 +74,13 @@ const AppBarContent = props => {
           >
             <Hidden mdDown>
               <Grid>
-                <Button variant='outlined' color='secondary' endIcon={<Send />} style={{ borderRadius: '4px' }}>
+                <Button
+                  variant='outlined'
+                  color='secondary'
+                  endIcon={<Send />}
+                  href='/designs/requirements'
+                  style={{ borderRadius: '4px' }}
+                >
                   POST
                 </Button>
               </Grid>

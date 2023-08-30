@@ -50,7 +50,6 @@ const Dashboard = () => {
           <SlideRecommended />
         </Box>
       </Box>
-      <Box></Box>
     </Container>
   )
 }
