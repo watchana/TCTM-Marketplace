@@ -1,7 +1,5 @@
 // ** Next Import
 import Link from 'next/link'
-import { useState } from 'react'
-import { useRouter } from 'next/router'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -30,24 +28,6 @@ import NotificationDropdown from 'src/@core/layouts/components/shared-components
 const AppBarContent = props => {
   // ** Props
   const { settings, saveSettings, toggleNavVisibility } = props
-
-  // ** State สำหรับการค้นหา
-  const [searchValue, setSearchValue] = useState('')
-
-  // ** Router ของ Next.js
-  const router = useRouter()
-
-  // ** ฟังก์ชันสำหรับการค้นหา
-  const handleSearch = value => {
-    setSearchValue(value)
-  }
-
-  // ** ฟังก์ชันสำหรับการดำเนินการเมื่อกดปุ่มค้นหา
-  const handleSearchSubmit = () => {
-    if (searchValue.trim() !== '') {
-      router.replace(`/designs/category?keyword=${encodeURIComponent(searchValue)}`)
-    }
-  }
 
   return (
     <Grid container direction='column'>
@@ -183,31 +163,6 @@ const AppBarContent = props => {
             </Hidden>
           </Grid>
         </Box>
-      </Grid>
-      <Hidden mdDown>
-        <Grid item md={4} lg={6}>
-          <Box sx={{ width: '100%', padding: 1 }}>
-            <TextField
-              size='small'
-              placeholder='Search Product…'
-              value={searchValue}
-              onChange={e => handleSearch(e.target.value)}
-              onKeyPress={e => {
-                if (e.key === 'Enter') {
-                  handleSearchSubmit()
-                }
-              }}
-              sx={{ width: '100%', '& .MuiOutlinedInput-root': { borderRadius: '18px' } }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position='start'>
-                    <Magnify fontSize='small' />
-                  </InputAdornment>
-                )
-              }}
-            />
-          </Box>
-        </Grid>
       </Hidden>
     </Grid>
   )
