@@ -23,11 +23,13 @@ import FormLabel from '@mui/material/FormLabel'
 
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import ProductCard from 'src/views/Home/card'
+import ProductCard from './Component/card'
+
 import IconButton from '@mui/material/IconButton'
-import Carousel from 'react-multi-carousel'
-import 'react-multi-carousel/lib/styles.css'
+import { Carousel } from 'react-responsive-carousel'
+import './Component/styled'
 import ImageSlider from './ImageSlider'
+import { useRouter } from 'next/router'
 import axios from 'axios'
 
 export default function ProductDetails() {
@@ -35,6 +37,8 @@ export default function ProductDetails() {
   const [quantity, setQuantity] = useState(1) // ตัวแปรเก็บค่าจำนวนสินค้า
   const [productOption, setProductOption] = useState([]) // ตัวแปรเก็บค่าตัวเลือกสินค้า
   const [options, setOptions] = useState([]) // ตัวแปรเก็บค่า ตัวเลือก
+
+  console.log(options)
 
   // เก็บค่าข้อมูลตัวเลือกจาก radio
   const [selectedValues, setSelectedValues] = useState({})
@@ -44,9 +48,14 @@ export default function ProductDetails() {
   const [priceoption, setPriceOption] = useState({}) // ตัวแปรกรองข้อมูลราคา
   const [pricedisplay, setPriceDisplay] = useState('') // ตัวแปรเก็บค่า ที่ต้องจ่าย
 
-  // console.log('ข้อมูลตัวแปร Radio', selectedValues)
-  // console.log('ข้อมูลราคาสินค้า ', pricedisplay)
+  // รับค่า id product
+  const router = useRouter() // เรียกใช้งาน Router
+  const { product_id } = router.query
+  const productId = product_id
 
+  // console.log('รหัส Product', productId)
+  //console.log('ข้อมูลตัวแปร Radio', selectedValues)
+  // console.log('ข้อมูลราคาสินค้า ', pricedisplay)
   // console.log('ตัวเลือกราคา', price)
   // console.log('ตัวเลือกราคากรอง', priceoption)
 
@@ -126,7 +135,7 @@ export default function ProductDetails() {
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.product.productdetailv2`, {
           params: {
-            product_id: 'PDI-44'
+            product_id: productId
           }
         })
 
@@ -145,7 +154,7 @@ export default function ProductDetails() {
     }
 
     fetchData()
-  }, [])
+  }, [productId])
 
   return (
     <Container maxWidth='lg'>

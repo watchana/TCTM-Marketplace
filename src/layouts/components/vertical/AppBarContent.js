@@ -1,21 +1,25 @@
 // ** Next Import
 import Link from 'next/link'
+import { useState } from 'react'
+import { useRouter } from 'next/router'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import Hidden from '@mui/material/Hidden'
-import CardMedia from '@mui/material/CardMedia'
+import Tooltip from '@mui/material/Tooltip'
 import TextField from '@mui/material/TextField'
-import IconButton from '@mui/material/IconButton'
+import ButtonBase from '@mui/material/ButtonBase'
 import Typography from '@mui/material/Typography'
+import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 
 // ** Icons Imports
-import Send from 'mdi-material-ui/Send'
+import Menu from 'mdi-material-ui/Menu'
 import Magnify from 'mdi-material-ui/Magnify'
 import CartOutline from 'mdi-material-ui/CartOutline'
+import HelpBox from 'mdi-material-ui/HelpBox'
 
 // ** Theme Config Import
 import themeConfig from 'src/configs/themeConfig'
@@ -29,203 +33,138 @@ const AppBarContent = props => {
   // ** Props
   const { settings, saveSettings, toggleNavVisibility } = props
 
+  // ** State สำหรับการค้นหา
+  const [searchValue, setSearchValue] = useState('')
+
+  // ** Router ของ Next.js
+  const router = useRouter()
+
+  // ** ฟังก์ชันสำหรับการค้นหา
+  const handleSearch = value => {
+    setSearchValue(value)
+  }
+
+  // ** ฟังก์ชันสำหรับการดำเนินการเมื่อกดปุ่มค้นหา
+  const handleSearchSubmit = () => {
+    if (searchValue.trim() !== '') {
+      router.replace(`/pages/category?keyword=${encodeURIComponent(searchValue)}`)
+    }
+  }
+
   return (
-    <Grid container direction='column'>
-      <Grid container direction='row' justifyContent='space-between' alignItems='flex-start'>
-        <Grid item xl={3} lg={3} md={3} sm={6} xs={6}>
-          <Box sx={{ width: '150px', height: '70px' }}>
-            <CardMedia sx={{ height: '70px' }} image='/images/cards/LOGO_TCTM_3.png' />
+    <Grid container direction='row' justifyContent='space-between' alignItems='flex-start'>
+      <Grid item display='grid' justifyContent='flex-start'>
+        <Box display='flex' direction='row'>
+          <Tooltip title='Main Menu' placement='bottom'>
+            <ButtonBase sx={{ width: '100%', height: '100%' }}>
+              <Link href='/' passHref>
+                <img src='/images/cards/TCTM_Group_3 (1).png' alt='logo' width='52px' />
+              </Link>
+              <Hidden smDown>
+                <Box sx={{ marginLeft: 3 }}>
+                  <Link href='/' passHref>
+                    <Typography ml={-8.1} variant='h5' sx={{ fontWeight: 'bold', marginBottom: '-10px' }}>
+                      TCTM
+                    </Typography>
+                  </Link>
+                  <Link href='/' passHref>
+                    <Typography variant='body1'>Marketplace</Typography>
+                  </Link>
+                </Box>
+              </Hidden>
+            </ButtonBase>
+          </Tooltip>
+        </Box>
+      </Grid>
+      <Hidden mdDown>
+        <Grid item md={4} lg={6}>
+          <Box sx={{ width: '100%', padding: 1 }}>
+            <TextField
+              size='small'
+              placeholder='Search Product…'
+              value={searchValue}
+              onChange={e => handleSearch(e.target.value)}
+              onKeyPress={e => {
+                if (e.key === 'Enter') {
+                  handleSearchSubmit()
+                }
+              }}
+              sx={{ width: '100%', '& .MuiOutlinedInput-root': { borderRadius: '18px' } }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position='start'>
+                    <Magnify fontSize='small' />
+                  </InputAdornment>
+                )
+              }}
+            />
           </Box>
         </Grid>
-        <Hidden mdDown>
-          <Grid item xl={4} lg={4} md={4}>
-            <Grid
-              container
-              direction='row'
-              justifyContent='center'
-              alignItems='center'
-              sx={{ width: '100%', height: '70px' }}
-            >
-              <Grid item xs={12}>
-                <TextField
-                  size='small'
-                  placeholder='Search Product…'
-                  sx={{ width: '100%', '& .MuiOutlinedInput-root': { borderRadius: '18px' } }}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position='start'>
-                        <Magnify fontSize='small' />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-        </Hidden>
-        <Grid item xl={4} lg={4} md={4} sm={6} xs={6}>
-          <Grid
-            container
-            spacing={'15px'}
-            direction='row'
-            justifyContent='flex-end'
-            alignItems='center'
-            sx={{ width: '100%', height: '70px' }}
-          >
-            <Hidden mdDown>
-              <Grid>
-                <Button variant='outlined' color='secondary' endIcon={<Send />} style={{ borderRadius: '4px' }}>
-                  POST
-                </Button>
-              </Grid>
-            </Hidden>
-            <Grid>
-              <IconButton>
-                {/* ต้องสร้าง components ใน src/@core/layouts/components/shared-components/ สำหรับปุ่ม ตะกร้า  */}
-                <CartOutline />
-              </IconButton>
-            </Grid>
-            <Grid>
-              <NotificationDropdown />
-            </Grid>
-            <Grid>
-              <UserDropdown />
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
-
-      <Hidden smDown>
-        <Box sx={{ width: '100%', height: '35px', marginTop: '10px' }}>
-          <Grid container direction='row' justifyContent='space-between' alignItems='flex-end'>
-            {/* ด้านซ้าย */}
-
-            <Grid item>
-              <Grid container direction='row' spacing={5}>
-                <Grid item>
-                  <Link href='#' passHref>
-                    <Typography variant='body1' color='textPrimary' fontWeight='bold'>
-                      Products
-                    </Typography>
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href='#' passHref>
-                    <Typography variant='body1' color='textPrimary' fontWeight='bold'>
-                      Brands
-                    </Typography>
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href='#' passHref>
-                    <Typography variant='body1' color='textPrimary' fontWeight='bold'>
-                      Promotion
-                    </Typography>
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href='#' passHref>
-                    <Typography variant='body1' color='textPrimary' fontWeight='bold'>
-                      Technical
-                    </Typography>
-                  </Link>
-                </Grid>
-              </Grid>
-            </Grid>
-
-            {/* ด้านซ้าย */}
-            <Hidden mdDown>
-              <Grid item>
-                <Grid container direction='row' spacing={5}>
-                  <Grid item>
-                    <Link href='#' passHref>
-                      <Typography variant='body1' color='textPrimary' fontWeight='bold'>
-                        Shipping
-                      </Typography>
-                    </Link>
-                  </Grid>
-                  <Grid item>
-                    <Link href='#' passHref>
-                      <Typography variant='body1' color='textPrimary' fontWeight='bold'>
-                        Returns & Warranty
-                      </Typography>
-                    </Link>
-                  </Grid>
-                  <Grid item>
-                    <Link href='#' passHref>
-                      <Typography variant='body1' color='textPrimary' fontWeight='bold'>
-                        Contact
-                      </Typography>
-                    </Link>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Hidden>
-          </Grid>
-        </Box>
       </Hidden>
+      <Grid item>
+        <Box className='actions-right' sx={{ width: '100%', height: '100%', padding: 1 }}>
+          <Hidden smDown>
+            <Button variant='outlined' startIcon={<HelpBox />} style={{ borderRadius: '10px' }}>
+              +Add Post
+            </Button>
+          </Hidden>
+          <ModeToggler settings={settings} saveSettings={saveSettings} />
+          <IconButton>
+            {/* ต้องสร้าง components ใน src/@core/layouts/components/shared-components/ สำหรับปุ่ม ตะกร้า  */}
+            <CartOutline />
+          </IconButton>
+          <NotificationDropdown />
+          <UserDropdown />
+        </Box>
+      </Grid>
     </Grid>
   )
 }
 
 export default AppBarContent
 
-// <Grid container direction='row' justifyContent='space-between' alignItems='flex-start'>
-//   <Grid item display='grid' justifyContent='flex-start'>
-//     <Box display='flex' direction='row'>
-//       <Tooltip title='Main Menu' placement='bottom'>
-//         <ButtonBase sx={{ width: '100%', height: '100%' }}>
-//           <Link href='/' passHref>
-//             <img src='/images/cards/TCTM_Group_3 (1).png' alt='logo' width='52px' />
-//           </Link>
-//           <Hidden smDown>
-//             <Box sx={{ marginLeft: 3 }}>
-//               <Link href='/' passHref>
-//                 <Typography ml={-8.1} variant='h5' sx={{ fontWeight: 'bold', marginBottom: '-10px' }}>
-//                   TCTM
-//                 </Typography>
-//               </Link>
-//               <Link href='/' passHref>
-//                 <Typography variant='body1'>Marketplace</Typography>
-//               </Link>
-//             </Box>
-//           </Hidden>
-//         </ButtonBase>
-//       </Tooltip>
-//     </Box>
-//   </Grid>
-//   <Hidden mdDown>
-//     <Grid item md={4} lg={6}>
-//       <Box sx={{ width: '100%', padding: 1 }}>
-//         <TextField
-//           size='small'
-//           placeholder='Search Product…'
-//           sx={{ width: '100%', '& .MuiOutlinedInput-root': { borderRadius: '18px' } }}
-//           InputProps={{
-//             startAdornment: (
-//               <InputAdornment position='start'>
-//                 <Magnify fontSize='small' />
-//               </InputAdornment>
-//             )
-//           }}
-//         />
-//       </Box>
-//     </Grid>
-//   </Hidden>
-//   <Grid item>
-//     <Box className='actions-right' sx={{ width: '100%', height: '100%', padding: 1 }}>
-//       <Hidden smDown>
-//         <Button variant='outlined' startIcon={<HelpBox />} style={{ borderRadius: '10px' }}>
-//           +Add Post
-//         </Button>
-//       </Hidden>
-//       <ModeToggler settings={settings} saveSettings={saveSettings} />
-//       <IconButton>
-//         {/* ต้องสร้าง components ใน src/@core/layouts/components/shared-components/ สำหรับปุ่ม ตะกร้า  */}
-//         <CartOutline />
+// {/* <Grid container>
+// <Hidden mdDown>
+//   <Grid item md={1} lg={1} xl={1} display='grid' justifyContent='flex-end'>
+//     <Box sx={{ width: '100%' }}>
+//       <IconButton color='inherit' onClick={toggleNavVisibility} sx={{ ml: -2.75 }}>
+//         <Menu />
 //       </IconButton>
-//       <NotificationDropdown />
-//       <UserDropdown />
 //     </Box>
 //   </Grid>
+// </Hidden>
+// <Grid item xs={4} sm={3} md={2} lg={2} xl={2}>
+//   <Box sx={{ width: '100%', paddingTop: '5px' }}>
+//  <Typography variant='h5'>{themeConfig.templateName}</Typography>
+//   </Box>
 // </Grid>
+// <Hidden smDown>
+//   <Grid item sm={5} md={6} lg={6} xl={6}>
+//     <Box sx={{ width: '100%' }}>
+//       <TextField
+//         size='small'
+//         placeholder='Search Product…'
+//         sx={{ width: '80%', '& .MuiOutlinedInput-root': { borderRadius: 4 } }}
+//         InputProps={{
+//           startAdornment: (
+//             <InputAdornment position='start'>
+//               <Magnify fontSize='small' />
+//             </InputAdornment>
+//           )
+//         }}
+//       />
+//     </Box>
+//   </Grid>
+// </Hidden>
+// <Grid item xs={8} sm={4} md={3} lg={2} xl={2} display='grid' justifyContent='flex-end'>
+//   <Box className='actions-right' sx={{ width: '100%' }}>
+//     <ModeToggler settings={settings} saveSettings={saveSettings} />
+//     <NotificationDropdown />
+//     <IconButton>
+//       {/* ต้องสร้าง components ใน src/@core/layouts/components/shared-components/ สำหรับปุ่ม ตะกร้า  */}
+//       <CartOutline />
+//     </IconButton>
+//     <UserDropdown />
+//   </Box>
+// </Grid>
+// </Grid> */}

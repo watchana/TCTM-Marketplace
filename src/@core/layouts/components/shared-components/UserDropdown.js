@@ -100,6 +100,8 @@ const UserDropdown = () => {
     }
   }
 
+  console.log('โรล', role)
+
   return (
     <Fragment>
       <Badge
@@ -155,17 +157,58 @@ const UserDropdown = () => {
           </Box>
         </MenuItem>
         {/* ปุ่ม registration-supplier */}
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/pages/registerSupplier/')}>
+        <MenuItem
+          sx={{ p: 0 }}
+          onClick={() => handleDropdownClose('/pages/registerSupplier/')}
+          style={{ display: role === 'USER' ? 'block' : 'none' }}
+        >
           <Box sx={styles}>
             <StorefrontPlusOutline sx={{ marginRight: 2 }} />
             Registration Maker
           </Box>
         </MenuItem>
-        {/* ปุ่ม Approve */}
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/app/admin/manager/')}>
+        {/* ปุ่มหน้า My Market */}
+        <MenuItem
+          sx={{ p: 0 }}
+          onClick={() => handleDropdownClose('/pages/myMarket/')}
+          style={{ display: role === 'USER' ? 'block' : 'none' }}
+        >
           <Box sx={styles}>
             <CurrencyUsd sx={{ marginRight: 2 }} />
-            Approve
+            My Market
+          </Box>
+        </MenuItem>
+        {/* ปุ่ม Approve */}
+        <MenuItem
+          sx={{ p: 0 }}
+          onClick={() => handleDropdownClose('/app/admin/manager/')}
+          style={{ display: role === 'TCTM' || role === 'ADMIN' ? 'block' : 'none' }}
+        >
+          <Box sx={styles}>
+            <CurrencyUsd sx={{ marginRight: 2 }} />
+            Approve(TCTM)
+          </Box>
+        </MenuItem>
+        {/* ปุ่ม Approve Category*/}
+        <MenuItem
+          sx={{ p: 0 }}
+          onClick={() => handleDropdownClose('/backoffice/category-manager')}
+          style={{ display: role === 'ADMIN' ? 'block' : 'none' }}
+        >
+          <Box sx={styles}>
+            <CurrencyUsd sx={{ marginRight: 2 }} />
+            Manage Category
+          </Box>
+        </MenuItem>
+        {/* ปุ่ม Backoffice หน้า Band*/}
+        <MenuItem
+          sx={{ p: 0 }}
+          onClick={() => handleDropdownClose('/backoffice')}
+          style={{ display: role === 'ADMIN' ? 'block' : 'none' }}
+        >
+          <Box sx={styles}>
+            <CurrencyUsd sx={{ marginRight: 2 }} />
+            Backoffice
           </Box>
         </MenuItem>
         <Divider />

@@ -43,7 +43,7 @@ const Dashboard = () => {
             Recommended
           </Typography>
           {/** ใส่ Link Product */}
-          <Link href='#'>SHOW ALL PRODUCTS</Link>
+          <Link href='/pages/category'>SHOW ALL PRODUCTS</Link>
         </Box>
         <Box sx={{ width: '100%' }}>
           {/** ส่วนของ Slide Recommended! */}
