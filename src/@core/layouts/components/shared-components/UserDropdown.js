@@ -168,6 +168,13 @@ const UserDropdown = () => {
             Approve
           </Box>
         </MenuItem>
+        {/* ปุ่ม จัดการประเภทสินค้า (admin) */}
+        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/admin/category-manager/')}>
+          <Box sx={styles}>
+            <HelpCircleOutline sx={{ marginRight: 2 }} />
+            category manager
+          </Box>
+        </MenuItem>
         <Divider />
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
