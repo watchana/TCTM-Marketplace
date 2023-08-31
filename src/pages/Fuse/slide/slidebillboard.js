@@ -28,7 +28,7 @@ const SlideshowWithCards = () => {
             {/* ใส่ Link ตรงนี้ */}
             <ButtonBase sx={{ width: '100%', height: '100%' }}>
               <Typography variant='h1' textAlign='center'>
-                Billboard1
+                CaBillboard1
               </Typography>
             </ButtonBase>
           </Card>
@@ -46,7 +46,7 @@ const SlideshowWithCards = () => {
             {/* ใส่ Link ตรงนี้ */}
             <ButtonBase sx={{ width: '100%', height: '100%' }}>
               <Typography variant='h1' textAlign='center'>
-                Billboard2
+                CaBillboard2
               </Typography>
             </ButtonBase>
           </Card>
