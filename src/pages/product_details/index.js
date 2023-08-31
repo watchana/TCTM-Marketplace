@@ -1,4 +1,4 @@
-// pages/ProductDetails.js
+import React, { useEffect, useState, useCallback } from 'react'
 import {
   Grid,
   Typography,
@@ -10,70 +10,47 @@ import {
   AccordionSummary,
   Accordion,
   AccordionDetails,
-  Box
+  Box,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select
 } from '@mui/material'
+import Radio from '@mui/material/Radio'
+import RadioGroup from '@mui/material/RadioGroup'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import FormLabel from '@mui/material/FormLabel'
+
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ProductCard from 'src/views/Home/card'
 import IconButton from '@mui/material/IconButton'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
-import ImageSlider from 'src/views/product_details/imgslider'
-import { useState } from 'react'
-
-const productsData = [
-  {
-    name: 'พระกายแก้ว',
-    description: 'เป็นตัวประหลาดสักอย่างนี้ละ',
-    price: 100,
-    image: '../../../img/2023-08-18 090802.png' // ตั้งค่า path รูปภาพ
-  },
-  {
-    name: 'นาฬิกาหยุดเวลา',
-    description: 'ไม่รู้ไม่ชี้',
-    price: 200,
-    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
-  },
-  {
-    name: 'ชิ้นที่ 3',
-    description: 'ไม่รู้ไม่ชี้',
-    price: 500,
-    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
-  },
-  {
-    name: 'ชิ้นที่ 4',
-    description: 'ไม่รู้ไม่ชี้',
-    price: 500,
-    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
-  },
-  {
-    name: 'ชิ้นที่ 5',
-    description: 'ไม่รู้ไม่ชี้',
-    price: 500,
-    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
-  },
-  {
-    name: 'ชิ้นที่ 6',
-    description: 'ไม่รู้ไม่ชี้',
-    price: 500,
-    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
-  },
-  {
-    name: 'ชิ้นที่ 7',
-    description: 'ไม่รู้ไม่ชี้',
-    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
-  },
-  {
-    name: 'ชิ้นที่ 8',
-    description: 'ไม่รู้ไม่ชี้',
-    price: 500,
-    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
-  }
-]
+import ImageSlider from './ImageSlider'
+import axios from 'axios'
 
 export default function ProductDetails() {
-  const [quantity, setQuantity] = useState(1)
+  // ตัวแปรเก็บค่าข้อมูล
+  const [quantity, setQuantity] = useState(1) // ตัวแปรเก็บค่าจำนวนสินค้า
+  const [productOption, setProductOption] = useState([]) // ตัวแปรเก็บค่าตัวเลือกสินค้า
+  const [options, setOptions] = useState([]) // ตัวแปรเก็บค่า ตัวเลือก
 
+  // เก็บค่าข้อมูลตัวเลือกจาก radio
+  const [selectedValues, setSelectedValues] = useState({})
+
+  // เก็บค่า option ราคา
+  const [price, setPrice] = useState({}) // ตัวแปรเก็บค่าทั้งหมด
+  const [priceoption, setPriceOption] = useState({}) // ตัวแปรกรองข้อมูลราคา
+  const [pricedisplay, setPriceDisplay] = useState('') // ตัวแปรเก็บค่า ที่ต้องจ่าย
+
+  // console.log('ข้อมูลตัวแปร Radio', selectedValues)
+  // console.log('ข้อมูลราคาสินค้า ', pricedisplay)
+
+  // console.log('ตัวเลือกราคา', price)
+  // console.log('ตัวเลือกราคากรอง', priceoption)
+
+  // ฟังก์ชันเพิ่มลดปริมาณสินค้า
   const increaseQuantity = () => {
     setQuantity(quantity + 1)
   }
@@ -83,6 +60,92 @@ export default function ProductDetails() {
       setQuantity(quantity - 1)
     }
   }
+
+  // ฟังก์ชันเก็บค่าข้อมูลจาก Radio
+  const handleRadioChange = (event, optionGroupName) => {
+    setSelectedValues({
+      ...selectedValues,
+      [optionGroupName]: event.target.value
+    })
+  }
+
+  // ปรับโครงสร้างข้อมูล ราคา
+  useEffect(() => {
+    if (price) {
+      const updatedPriceOption = {}
+
+      for (const optionKey in price) {
+        if (Object.hasOwnProperty.call(price, optionKey)) {
+          const option = price[optionKey]
+          const optionData = {}
+
+          for (const value of option) {
+            optionData[value.option_name] = value.value_name
+          }
+
+          updatedPriceOption[optionKey] = optionData
+        }
+      }
+
+      setPriceOption(updatedPriceOption)
+    }
+  }, [price])
+
+  // คำนวณราคาจากตัวเลือก
+  const calculateSelectedPrice = useCallback(() => {
+    const selectedOptionKeys = Object.keys(selectedValues)
+
+    // เช็คว่ามีตัวเลือกที่ยังไม่ได้ถูกเลือกหรือไม่
+    if (selectedOptionKeys.length < options.length - 2) {
+      return 'กรุณาระบุตัวเลือกสินค้า'
+    }
+
+    for (const optionKey in priceoption) {
+      const option = priceoption[optionKey]
+
+      const isMatching = selectedOptionKeys.every(key => {
+        return option[key] === selectedValues[key]
+      })
+
+      if (isMatching) {
+        return parseFloat(option.Price).toFixed(2)
+      }
+    }
+
+    return 'ไม่พบสินค้า'
+  }, [options.length, priceoption, selectedValues])
+
+  // ฟังก์ชันเก็บค่าราคาที่เลือก
+  useEffect(() => {
+    setPriceDisplay(calculateSelectedPrice()) // เก็บค่าราคาที่คำนวณได้ในตัวแปร pricedisplay
+  }, [selectedValues, calculateSelectedPrice])
+
+  // ดึงข้อมูลตัวเลือกสินค้า
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.product.productdetailv2`, {
+          params: {
+            product_id: 'PDI-44'
+          }
+        })
+
+        // console.log('product Detail', response.data.message.options)
+        setPrice(response.data.message.options)
+
+        // ทำการเก็บค่า options
+        const productOptions = response.data.message.AllOption
+        if (productOptions) {
+          const optionValues = Object.values(productOptions)
+          setOptions(optionValues)
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchData()
+  }, [])
 
   return (
     <Container maxWidth='lg'>
@@ -97,23 +160,59 @@ export default function ProductDetails() {
         <Grid item xs={12} sm={4}>
           <Card>
             <CardContent>
-              <Typography variant='h5' gutterBottom> Saru KX-75 Wireless Mechanical Keyboard </Typography>
-              <Typography variant='body1' style={{ color: 'gray' }} paragraph> GASKET MOUNTED DESIGN </Typography>
+              <Typography variant='h5' gutterBottom>
+                {' '}
+                Saru KX-75 Wireless Mechanical Keyboard{' '}
+              </Typography>
+              <Typography variant='body1' style={{ color: 'gray' }} paragraph>
+                {' '}
+                GASKET MOUNTED DESIGN{' '}
+              </Typography>
               <div style={{ display: 'flex', alignItems: 'baseline' }}>
-                <Typography variant='body1' style={{ color: 'gray', textDecoration: 'line-through' }}> 
-                  ฿8,660
-                </Typography>
                 <Typography variant='body1' style={{ marginLeft: '8px' }}>
-                  ฿8,270
+                  ราคา: {calculateSelectedPrice()}
                 </Typography>
               </div>
             </CardContent>
-            <br />
+
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <select id='color-select' style={{ width: '350px', height: '30px' }}>
-                <option value='black'>Black</option>
-                <option value='white'>White</option>
-              </select>
+              <Box sx={{ minWidth: 300 }}>
+                <FormControl component='fieldset'>
+                  <Typography variant='subtitle1' gutterBottom>
+                    Select an option:
+                  </Typography>
+                  {options
+                    .filter(
+                      optionGroup => optionGroup[0].option_name !== 'Price' && optionGroup[0].option_name !== 'Quantity'
+                    )
+                    .map(optionGroup => (
+                      <div key={optionGroup[0].option_name}>
+                        <Typography variant='body1' style={{ fontWeight: 'bold' }}>
+                          {optionGroup[0].option_name}:
+                        </Typography>
+                        <RadioGroup
+                          row
+                          defaultValue='null' // กำหนดค่าเริ่มต้นเป็นค่าว่าง
+                          value={selectedValues[optionGroup[0].option_name]}
+                          onChange={event => handleRadioChange(event, optionGroup[0].option_name)}
+                        >
+                          {optionGroup.map(option => {
+                            const label = option.value_name || 'ไม่มี'
+
+                            return (
+                              <FormControlLabel
+                                key={option.value_id}
+                                value={option.value_name}
+                                control={<Radio />}
+                                label={label}
+                              />
+                            )
+                          })}
+                        </RadioGroup>
+                      </div>
+                    ))}
+                </FormControl>
+              </Box>
             </div>
             <br />
 
@@ -170,7 +269,7 @@ export default function ProductDetails() {
                 </IconButton>
               </div>
             </div>
-            <br/>
+            <br />
 
             {/* ส่วนของปุ่ม Add To cart และ ซื้อสินค้า */}
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -197,7 +296,10 @@ export default function ProductDetails() {
                 จะจัดส่งภานในระยะเวลา 3-10 วัน
               </Typography>
             </div>
-            <br /><br /><br /><br />
+            <br />
+            <br />
+            <br />
+            <br />
           </Card>
         </Grid>
       </Grid>
@@ -277,3 +379,53 @@ export default function ProductDetails() {
     </Container>
   )
 }
+
+const productsData = [
+  {
+    name: 'พระกายแก้ว',
+    description: 'เป็นตัวประหลาดสักอย่างนี้ละ',
+    price: 100,
+    image: '../../../img/2023-08-18 090802.png' // ตั้งค่า path รูปภาพ
+  },
+  {
+    name: 'นาฬิกาหยุดเวลา',
+    description: 'ไม่รู้ไม่ชี้',
+    price: 200,
+    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
+  },
+  {
+    name: 'ชิ้นที่ 3',
+    description: 'ไม่รู้ไม่ชี้',
+    price: 500,
+    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
+  },
+  {
+    name: 'ชิ้นที่ 4',
+    description: 'ไม่รู้ไม่ชี้',
+    price: 500,
+    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
+  },
+  {
+    name: 'ชิ้นที่ 5',
+    description: 'ไม่รู้ไม่ชี้',
+    price: 500,
+    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
+  },
+  {
+    name: 'ชิ้นที่ 6',
+    description: 'ไม่รู้ไม่ชี้',
+    price: 500,
+    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
+  },
+  {
+    name: 'ชิ้นที่ 7',
+    description: 'ไม่รู้ไม่ชี้',
+    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
+  },
+  {
+    name: 'ชิ้นที่ 8',
+    description: 'ไม่รู้ไม่ชี้',
+    price: 500,
+    image: '/images/product2.jpg' // ตั้งค่า path รูปภาพ
+  }
+]
