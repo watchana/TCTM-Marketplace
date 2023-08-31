@@ -38,8 +38,6 @@ export default function ProductDetails() {
   const [productOption, setProductOption] = useState([]) // ตัวแปรเก็บค่าตัวเลือกสินค้า
   const [options, setOptions] = useState([]) // ตัวแปรเก็บค่า ตัวเลือก
 
-  console.log(options)
-
   // เก็บค่าข้อมูลตัวเลือกจาก radio
   const [selectedValues, setSelectedValues] = useState({})
 
@@ -57,7 +55,7 @@ export default function ProductDetails() {
   //console.log('ข้อมูลตัวแปร Radio', selectedValues)
   // console.log('ข้อมูลราคาสินค้า ', pricedisplay)
   // console.log('ตัวเลือกราคา', price)
-  // console.log('ตัวเลือกราคากรอง', priceoption)
+  //console.log('ตัวเลือกราคากรอง', priceoption)
 
   // ฟังก์ชันเพิ่มลดปริมาณสินค้า
   const increaseQuantity = () => {
@@ -194,32 +192,36 @@ export default function ProductDetails() {
                     .filter(
                       optionGroup => optionGroup[0].option_name !== 'Price' && optionGroup[0].option_name !== 'Quantity'
                     )
-                    .map(optionGroup => (
-                      <div key={optionGroup[0].option_name}>
-                        <Typography variant='body1' style={{ fontWeight: 'bold' }}>
-                          {optionGroup[0].option_name}:
-                        </Typography>
-                        <RadioGroup
-                          row
-                          defaultValue='null' // กำหนดค่าเริ่มต้นเป็นค่าว่าง
-                          value={selectedValues[optionGroup[0].option_name]}
-                          onChange={event => handleRadioChange(event, optionGroup[0].option_name)}
-                        >
-                          {optionGroup.map(option => {
-                            const label = option.value_name || 'ไม่มี'
+                    .map(optionGroup => {
+                      const uniqueOptions = Array.from(new Set(optionGroup.map(option => option.value_name))) // กรองค่าที่ไม่ซ้ำกัน
 
-                            return (
-                              <FormControlLabel
-                                key={option.value_id}
-                                value={option.value_name}
-                                control={<Radio />}
-                                label={label}
-                              />
-                            )
-                          })}
-                        </RadioGroup>
-                      </div>
-                    ))}
+                      return (
+                        <div key={optionGroup[0].option_name}>
+                          <Typography variant='body1' style={{ fontWeight: 'bold' }}>
+                            {optionGroup[0].option_name}:
+                          </Typography>
+                          <RadioGroup
+                            row
+                            defaultValue='null'
+                            value={selectedValues[optionGroup[0].option_name]}
+                            onChange={event => handleRadioChange(event, optionGroup[0].option_name)}
+                          >
+                            {uniqueOptions.map(optionName => {
+                              const label = optionName || 'ไม่มี'
+
+                              return (
+                                <FormControlLabel
+                                  key={optionName}
+                                  value={optionName}
+                                  control={<Radio />}
+                                  label={label}
+                                />
+                              )
+                            })}
+                          </RadioGroup>
+                        </div>
+                      )
+                    })}
                 </FormControl>
               </Box>
             </div>
