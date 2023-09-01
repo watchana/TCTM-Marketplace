@@ -58,6 +58,7 @@ const RegisterProductPage = ({ productCategories }) => {
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values())
       newSkipped.delete(activeStep)
+      console.log('123')
     } else if (activeStep === 0) {
       let hasOptionError = false
       let optionValidationIndex = null
@@ -124,6 +125,8 @@ const RegisterProductPage = ({ productCategories }) => {
   const handleReset = () => {
     setActiveStep(0)
   }
+
+  const handleSubmit = () => {}
 
   return (
     <Box sx={{ width: '100%' }}>
