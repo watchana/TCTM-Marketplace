@@ -72,16 +72,17 @@ const RequirementsDetail = () => {
                       continents except Antarctica
                     </Typography>
                   </Box>
-                  <Box
+                  <Grid
+                    container
+                    spacing={2}
+                    justifyContent='space-between'
+                    alignItems='center'
                     sx={{
                       width: '100%',
-                      marginTop: 6,
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center'
+                      marginTop: 6
                     }}
                   >
-                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                    <Grid item sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                       <Avatar
                         alt='John Doe'
                         sx={{ width: 40, height: 40, marginRight: 4 }}
@@ -90,14 +91,14 @@ const RequirementsDetail = () => {
                       <Typography variant='h6' fontSize='bold'>
                         John Doe
                       </Typography>
-                    </Box>
+                    </Grid>
                     {/* Desired Price */}
-                    <Box>
+                    <Grid>
                       <Typography variant='h5' fontSize='bold'>
                         $ 10,000
                       </Typography>
-                    </Box>
-                  </Box>
+                    </Grid>
+                  </Grid>
                 </CardContent>
               </Card>
 
@@ -121,16 +122,17 @@ const RequirementsDetail = () => {
                       continents except Antarctica
                     </Typography>
                   </Box>
-                  <Box
+                  <Grid
+                    container
+                    spacing={2}
+                    justifyContent='space-between'
+                    alignItems='center'
                     sx={{
                       width: '100%',
-                      marginTop: 6,
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center'
+                      marginTop: 6
                     }}
                   >
-                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                    <Grid item sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                       <Avatar
                         alt='John Doe'
                         sx={{ width: 40, height: 40, marginRight: 4 }}
@@ -139,14 +141,17 @@ const RequirementsDetail = () => {
                       <Typography variant='h6' fontSize='bold'>
                         Delete
                       </Typography>
-                    </Box>
+                    </Grid>
                     {/* Desired Price */}
-                    <Box>
-                      <Typography variant='h5' fontSize='bold'>
-                        $ 90,000
-                      </Typography>
-                    </Box>
-                  </Box>
+                    <Grid item>
+                      {/* เมื่อกดปุ่มนี้จะถามว่า ยืนยันที่จะซื้อใช่ไหม แล้วก็ไปหน้า Payment */}
+                      <Button variant='outlined' sx={{ bgcolor: '#fff' }}>
+                        <Typography variant='h5' fontSize='bold' color='primary'>
+                          $ 90,000
+                        </Typography>
+                      </Button>
+                    </Grid>
+                  </Grid>
                 </CardContent>
               </Card>
 
