@@ -66,14 +66,40 @@ const Product = () => {
       })
   }
 
-  const handleDeleteClick = (account_id, member_id) => {
-    // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Delete
-    console.log(`Delete account with ID ${account_id}`)
+  const handleActiveClick = product_id => {
+    // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Ban
+    console.log(`Active account with ID ${product_id}`)
+
+    axios
+      .post('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.home_page.product_active', {
+        product_id
+      })
+      .then(response => {
+        console.log('bill_id', response)
+        // ทำอย่างอื่นตามความต้องการ
+        fetchMarketData()
+      })
+      .catch(error => {
+        console.error('Error:', error)
+      })
   }
 
-  const handleUndeleteClick = (account_id, member_id) => {
-    // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Undelete
-    console.log(`Undelete account with ID ${account_id}`)
+  const handleUnactiveClick = product_id => {
+    // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Unban
+    console.log(`Unactive account with ID ${product_id}`)
+
+    axios
+      .post('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.home_page.product_unactive', {
+        product_id
+      })
+      .then(response => {
+        console.log('UserID', response)
+        // ทำอย่างอื่นตามความต้องการ
+        fetchMarketData()
+      })
+      .catch(error => {
+        console.error('Error:', error)
+      })
   }
 
   return (
@@ -101,6 +127,9 @@ const Product = () => {
             } else if (subStatus === '0') {
               chipColor = 'error'
               chipLabel = 'โดนแบน'
+            } else if (subStatus === '3') {
+              chipColor = 'info'
+              chipLabel = 'แนะนำ'
             }
 
             return <Chip label={chipLabel} color={chipColor} />
@@ -109,11 +138,10 @@ const Product = () => {
         { field: 'category_name', headerName: 'หมวดหมู่', width: 250 },
         { field: 'product_name', headerName: 'ชื่อสินค้า', width: 200 },
         { field: 'sub_name', headerName: 'ชื่อสมาชิก', width: 150 },
-        { field: 'product_price', headerName: 'ราคา', width: 120 },
         {
           field: 'actions',
           headerName: 'ปุ่ม',
-          width: 250, // ปรับขนาดตามความต้องการ
+          width: 400,
           renderCell: params => (
             <div>
               <Button
@@ -124,11 +152,11 @@ const Product = () => {
                 onClick={() => {
                   if (params.row.product_status !== '0') {
                     Swal.fire({
-                      title: 'ต้องการที่จะแบนรายการนี้ไหม?',
+                      title: 'ต้องการที่จะแบนร้านค้านี้ไหม?',
                       icon: 'question',
                       showCancelButton: true,
                       confirmButtonText: 'แบน',
-                      cancelButtonText: 'ปลดแบน'
+                      cancelButtonText: 'ยกเลิก'
                     }).then(result => {
                       if (result.isConfirmed) {
                         Swal.fire({
@@ -149,7 +177,7 @@ const Product = () => {
                     })
                   }
                 }}
-                disabled={params.row.product_status === '0'}
+                disabled={params.row.product_status === '0' || params.row.product_status === '3'}
               >
                 Ban
               </Button>
@@ -162,10 +190,10 @@ const Product = () => {
                 onClick={() => {
                   if (params.row.product_status !== '2') {
                     Swal.fire({
-                      title: 'คุณต้องการที่จะปลดแบนรายการนี้ไหม?',
+                      title: 'คุณต้องการที่จะปลดแบนร้านค้านี้ไหม?',
                       icon: 'question',
                       showCancelButton: true,
-                      confirmButtonText: 'แบน',
+                      confirmButtonText: 'ปลดแบน',
                       cancelButtonText: 'ยกเลิก'
                     }).then(result => {
                       if (result.isConfirmed) {
@@ -180,28 +208,81 @@ const Product = () => {
                     })
                   }
                 }}
-                disabled={params.row.product_status === '1' || params.row.product_status === '2'} // ปิดปุ่มถ้า account_status เป็น 1 หรือ 2
+                disabled={params.row.product_status === '1' || params.row.product_status === '2' || params.row.product_status === '3'}
               >
                 Unban
               </Button>
-              {/* <Button
-                  variant='contained'
-                  color='success'
-                  className='btn btn-info'
-                  style={{ marginRight: '5px' }}
-                  onClick={() => handleDeleteClick(params.row.account_id, params.row.member_id)}
-                >
-                  Delete
-                </Button>
-                <Button
-                  variant='contained'
-                  color='success'
-                  className='btn btn-info'
-                  style={{ marginRight: '5px' }}
-                  onClick={() => handleUndeleteClick(params.row.account_id, params.row.member_id)}
-                >
-                  Undelete
-                </Button> */}
+
+              <Button
+                variant='contained'
+                color='success'
+                className='btn btn-info'
+                style={{ marginRight: '5px' }}
+                onClick={() => {
+                  if (params.row.product_status !== '0' && params.row.product_status !== '1') {
+                    Swal.fire({
+                      title: 'ต้องการที่จะแสดงรายการนี้ไหม?',
+                      icon: 'question',
+                      showCancelButton: true,
+                      confirmButtonText: 'Active',
+                      cancelButtonText: 'ยกเลิก'
+                    }).then(result => {
+                      if (result.isConfirmed) {
+                        Swal.fire({
+                          position: 'center',
+                          icon: 'success',
+                          title: 'แสดงเรียบร้อย',
+                          showConfirmButton: false,
+                          timer: 1500
+                        })
+                        handleActiveClick(params.row.product_id)
+                      }
+                    })
+                  } else {
+                    Swal.fire({
+                      title: 'ไม่สามารถแสดงรายการได้',
+                      text: 'เนื่องจากสถานะถูกแบนหรือยืนยันแล้ว',
+                      icon: 'error'
+                    })
+                  }
+                }}
+                disabled={params.row.product_status === '0' || params.row.product_status === '1' || params.row.product_status === '3'}
+              >
+                Active
+              </Button>
+
+              <Button
+                variant='contained'
+                color='success'
+                className='btn btn-info'
+                style={{ marginRight: '5px' }}
+                onClick={() => {
+                  if (params.row.product_status !== '2') {
+                    Swal.fire({
+                      title: 'คุณต้องการที่จะหยุดแสดงรายการนี้ไหม?',
+                      icon: 'question',
+                      showCancelButton: true,
+                      confirmButtonText: 'Unactive',
+                      cancelButtonText: 'ยกเลิก'
+                    }).then(result => {
+                      if (result.isConfirmed) {
+                        handleUnactiveClick(params.row.product_id)
+                      }
+                    })
+                  } else {
+                    Swal.fire({
+                      title: 'ไม่สามารถยกเลิกการแบนได้',
+                      text: 'เนื่องจากสถานะยืนยันแล้ว',
+                      icon: 'error'
+                    })
+                  }
+                }}
+                disabled={
+                  params.row.product_status === '0' || params.row.product_status === '1' || params.row.product_status === '2'
+                }
+              >
+                Unactive
+              </Button>
             </div>
           )
         }
