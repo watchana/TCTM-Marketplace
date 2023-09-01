@@ -251,6 +251,30 @@ const RegisterProduct = ({ product, setProduct, productCategories }) => {
     setProduct({ ...product, items: updatedOptionGroups })
   }
 
+  // ** Change product Item price
+  const handleItemPriceChange = (e, optionGroupId) => {
+    const updatedOptionGroups = product.items.map(optionGroup => {
+      if (optionGroup.optionGroupId === optionGroupId) {
+        return { ...optionGroup, optionGroupPrice: e.target.value }
+      } else {
+        return optionGroup
+      }
+    })
+    setProduct({ ...product, items: updatedOptionGroups })
+  }
+
+  // ** Change product Item quantity
+  const handleItemQuantityChange = (e, optionGroupId) => {
+    const updatedOptionGroups = product.items.map(optionGroup => {
+      if (optionGroup.optionGroupId === optionGroupId) {
+        return { ...optionGroup, optionGroupQuantity: e.target.value }
+      } else {
+        return optionGroup
+      }
+    })
+    setProduct({ ...product, items: updatedOptionGroups })
+  }
+
   return (
     <Box>
       <Box sx={{ mb: 4 }}>
@@ -544,7 +568,7 @@ const RegisterProduct = ({ product, setProduct, productCategories }) => {
                           </Grid>
                         </Grid>
                       ))}
-                      {product && product.options && product.options.length < 5 ? (
+                      {product.options.length < 5 ? (
                         <Grid item xs>
                           <Button fullWidth variant='contained' sx={{ height: 55 }} onClick={handleAddOptionValue}>
                             +
@@ -561,7 +585,7 @@ const RegisterProduct = ({ product, setProduct, productCategories }) => {
           ))}
 
           <Grid container spacing={5}>
-            {product && product.options && product.options.length < 5 ? (
+            {product.options.length < 5 ? (
               <Grid item xs>
                 <Button fullWidth variant='outlined' sx={{ height: 55 }} onClick={e => handleAddOption(e)}>
                   +
@@ -574,13 +598,13 @@ const RegisterProduct = ({ product, setProduct, productCategories }) => {
         </CardContent>
       </Card>
 
-      {/* รายละเอียดสินค้าของแต่ละตัวเลือก */}
-      {/* <Card sx={{ padding: 8, marginBlock: 5 }}>
+      {/*  รายละเอียดสินค้าของแต่ละตัวเลือก */}
+      <Card sx={{ padding: 8, marginBlock: 5 }}>
         <Box sx={{ mb: 4 }}>
           <Typography variant='h5'>รายละเอียดสินค้าของแต่ละตัวเลือก</Typography>
         </Box>
-        {product.items.map((optionGroup, index) => (
-          <Box key={optionGroup.optionGroupId}>
+        {product.items.map((group, index) => (
+          <Box key={group.optionGroupId}>
             <Typography variant='body1'>สินค้าตัวเลือกที่ {index + 1}</Typography>
             <Box sx={{ my: 4 }} border={1} borderColor='rgba(0, 0, 0, 0.2)' borderRadius={1}>
               <Grid container spacing={5} sx={{ p: 4 }} alignItems={'flex-end'}>
@@ -594,19 +618,15 @@ const RegisterProduct = ({ product, setProduct, productCategories }) => {
                         {option.optionType === 1 ? (
                           <TextField
                             fullWidth
-                            id={`product-option-group-name-${option.optionId}`}
+                            id={`product-item-group-column-text-${option.optionId}`}
                             variant='outlined'
-                            value={optionGroup[`optionGroupColumn${index + 1}`]}
+                            value={group[`optionGroupColumn${index + 1}`]}
                             onChange={e =>
-                              handleProductOptionGroupChange(
-                                e,
-                                optionGroup.optionGroupId,
-                                `optionGroupColumn${index + 1}`
-                              )
+                              handleProductOptionGroupChange(e, group.optionGroupId, `optionGroupColumn${index + 1}`)
                             }
                           />
                         ) : (
-                          <Select fullWidth labelId='demo-simple-select-label' id='demo-simple-select'>
+                          <Select fullWidth id={`product-item-group-column-select-${option.optionId}`}>
                             {option.optionValue.map(value => (
                               <MenuItem key={value.valueId} value={value.valueName}>
                                 {value.valueName}
@@ -623,18 +643,10 @@ const RegisterProduct = ({ product, setProduct, productCategories }) => {
                   <TextField
                     fullWidth
                     type='number'
-                    id={`product-option-group-name-${optionGroup.optionGroupId}`}
+                    id={`product-item-group-price-${group.optionGroupId}`}
                     variant='outlined'
-                    value={optionGroup.optionGroupPrice}
-                    onChange={e =>
-                      setProduct(product =>
-                        product.items.map(group =>
-                          group.optionGroupId === optionGroup.optionGroupId
-                            ? { ...group, optionGroupPrice: e.target.value }
-                            : group
-                        )
-                      )
-                    }
+                    value={group.optionGroupPrice}
+                    onChange={e => handleItemPriceChange(e, group.optionGroupId)}
                   />
                 </Grid>
 
@@ -643,18 +655,10 @@ const RegisterProduct = ({ product, setProduct, productCategories }) => {
                   <TextField
                     fullWidth
                     type='number'
-                    id={`product-option-group-name-${optionGroup.optionGroupId}`}
+                    id={`product-item-group-price-${group.optionGroupId}`}
                     variant='outlined'
-                    value={optionGroup.optionGroupQuantity}
-                    onChange={e =>
-                      setProduct(product =>
-                        product.items.map(group =>
-                          group.optionGroupId === optionGroup.optionGroupId
-                            ? { ...group, optionGroupQuantity: e.target.value }
-                            : group
-                        )
-                      )
-                    }
+                    value={group.optionGroupQuantity}
+                    onChange={e => handleItemQuantityChange(e, group.optionGroupId)}
                   />
                 </Grid>
 
@@ -663,7 +667,7 @@ const RegisterProduct = ({ product, setProduct, productCategories }) => {
                     fullWidth
                     variant='contained'
                     sx={{ height: 55, bgcolor: 'red' }}
-                    onClick={e => handleDeleteOptionGroup(e, optionGroup.optionGroupId)}
+                    onClick={e => handleDeleteOptionGroup(e, group.optionGroupId)}
                   >
                     <DeleteIcon />
                   </Button>
@@ -684,7 +688,7 @@ const RegisterProduct = ({ product, setProduct, productCategories }) => {
             <Grid item xs={6}></Grid>
           )}
         </Grid>
-      </Card> */}
+      </Card>
 
       {/* show full image */}
       <Modal

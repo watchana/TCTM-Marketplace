@@ -50,8 +50,8 @@ const RegisterProductPage = ({ productCategories }) => {
         optionGroupColumn3: '',
         optionGroupColumn4: '',
         optionGroupColumn5: '',
-        optionGroupPrice: null,
-        optionGroupQuantity: null,
+        optionGroupPrice: '',
+        optionGroupQuantity: '',
         optionGroupValidation: 0
       }
     ]
