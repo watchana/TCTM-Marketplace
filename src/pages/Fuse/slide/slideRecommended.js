@@ -16,75 +16,91 @@ import axios from 'axios'
 const SlideRecommended = () => {
   // ตัวแปรเก็บค่าข้อมูล Api
   const [slidedata, setSlideData] = useState([]) // ตัวแปรเก็บค่าข้อมูล Slide
-  console.log('ข้อมูล slidedata', slidedata)
+
+  // เซตตัวแปร Loading
+  const [isLoading, setIsLoading] = useState(true)
 
   // ดึงข้อมูลรูปภาพสไลด์ออกมา
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.home_page.product_recommend`)
-
-        // console.log('ข้อมูลอิอิ', response.data.message.Data)
         setSlideData(response.data.message.Data)
+        setIsLoading(false)
       } catch (error) {
         console.error(error)
+        setIsLoading(false)
       }
     }
 
-    fetchData()
-  }, [])
+    if (isLoading) {
+      fetchData()
+    }
+  }, [isLoading])
+
+  // หากข้อมูลไม่มาให้ทำการโหลดข้อมูลใหม่
+  useEffect(() => {
+    if (!isLoading && (!slidedata || slidedata.length === 0)) {
+      setIsLoading(true)
+    }
+  }, [isLoading, slidedata])
 
   return (
     <Box sx={{ width: '100%' }}>
-      {/* เพิ่มสไลด์ของคุณที่นี่ */}
-      <Slide autoplay={false}>
-        <Grid spacing={10} container direction='row' justifyContent='center' alignItems='center'>
-          {slidedata.map((product, index) => (
-            <Grid item key={index}>
-              <Card>
-                <ButtonBase sx={{ width: '200px', height: '280px' }}>
-                  <Box sx={{ width: '100%', height: '100%' }}>
-                    <CardActionArea>
-                      <CardMedia
-                        component='img'
-                        image={`imgTctmProduct/${product.image_file_name}`}
-                        height='200px'
-                        sx={{ bgcolor: '#333', borderRadius: '6px' }}
-                      />
-                      <Box sx={{ width: '100%', padding: '10px' }}>
-                        <Typography
-                          variant='h6'
-                          sx={{
-                            fontWeight: 600,
-                            overflow: 'hidden',
-                            whiteSpace: 'nowrap',
-                            textOverflow: 'ellipsis'
-                          }}
-                        >
-                          {product.product_name} {/* แสดงชื่อสินค้า */}
-                        </Typography>
-                      </Box>
-                      <Box sx={{ width: '100%' }}>
-                        <Typography
-                          variant='h6'
-                          sx={{
-                            fontWeight: 500,
-                            overflow: 'hidden',
-                            whiteSpace: 'nowrap',
-                            textOverflow: 'ellipsis'
-                          }}
-                        >
-                          ${product.product_price} {/* แสดงราคาสินค้า */}
-                        </Typography>
-                      </Box>
-                    </CardActionArea>
-                  </Box>
-                </ButtonBase>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </Slide>
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : slidedata && slidedata.length > 0 ? (
+        <Slide autoplay={false}>
+          <Grid spacing={10} container direction='row' justifyContent='center' alignItems='center'>
+            {slidedata.map((product, index) => (
+              <Grid item key={index}>
+                <Card>
+                  <ButtonBase sx={{ width: '200px', height: '280px' }}>
+                    <Box sx={{ width: '100%', height: '100%' }}>
+                      <CardActionArea>
+                        <CardMedia
+                          component='img'
+                          image={`imgTctmProduct/${product.image_file_name}`}
+                          height='200px'
+                          sx={{ bgcolor: '#333', borderRadius: '6px' }}
+                        />
+                        <Box sx={{ width: '100%', padding: '10px' }}>
+                          <Typography
+                            variant='h6'
+                            sx={{
+                              fontWeight: 600,
+                              overflow: 'hidden',
+                              whiteSpace: 'nowrap',
+                              textOverflow: 'ellipsis'
+                            }}
+                          >
+                            {product.product_name}
+                          </Typography>
+                        </Box>
+                        <Box sx={{ width: '100%' }}>
+                          <Typography
+                            variant='h6'
+                            sx={{
+                              fontWeight: 500,
+                              overflow: 'hidden',
+                              whiteSpace: 'nowrap',
+                              textOverflow: 'ellipsis'
+                            }}
+                          >
+                            ${product.product_price}
+                          </Typography>
+                        </Box>
+                      </CardActionArea>
+                    </Box>
+                  </ButtonBase>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Slide>
+      ) : (
+        <div>No data available</div> // ถ้า slidedata ไม่มีค่าหรือไม่มีข้อมูลในอาร์เรย์
+      )}
     </Box>
   )
 }

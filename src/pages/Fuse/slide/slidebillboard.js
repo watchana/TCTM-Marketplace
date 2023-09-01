@@ -8,7 +8,7 @@ import axios from 'axios'
 
 const SlideshowWithCards = () => {
   const [slidedata, setSlideData] = useState([])
-  const [isLoading, setIsLoading] = useState(true) // เพิ่ม state ใหม่เพื่อติดตามสถานะการโหลดข้อมูล
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const fetchData = async () => {
