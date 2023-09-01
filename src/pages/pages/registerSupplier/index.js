@@ -140,8 +140,7 @@ const RegisterSupplier = () => {
     const file = event.target.files[0]
     if (file) {
       const fileName = file.name // ชื่อไฟล์
-      const fileExtension = fileName.split('.').pop() // นามสกุลไฟล์
-      setImageName(fileName + '.' + fileExtension) //ชื่อและนามสกุลไฟล์
+      setImageName(fileName) //ชื่อและนามสกุลไฟล์
     }
   }
 
