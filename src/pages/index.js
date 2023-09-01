@@ -28,10 +28,10 @@ const Dashboard = () => {
 
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginY: 5 }}>
           <Typography variant='h4' fontSize='bold'>
-            Products Brands
+            Recommended Shops
           </Typography>
           {/** ใส่ Link Product */}
-          <Link href='#'>SHOW ALL BRANDS</Link>
+          <Link href='#'>SHOW ALL SHOPS</Link>
         </Box>
         <Box sx={{ width: '100%' }}>
           {/** ส่วนของ Slide Products! */}
@@ -40,7 +40,7 @@ const Dashboard = () => {
 
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginY: 5 }}>
           <Typography variant='h4' fontSize='bold'>
-            Recommended
+            Recommended Products
           </Typography>
           {/** ใส่ Link Product */}
           <Link href='/pages/category'>SHOW ALL PRODUCTS</Link>

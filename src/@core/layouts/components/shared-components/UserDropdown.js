@@ -58,6 +58,7 @@ const UserDropdown = () => {
         localStorage.removeItem('name')
         localStorage.removeItem('Email')
         localStorage.removeItem('Member_Id')
+        localStorage.removeItem('User_Status')
 
         // Clear token from Cookies
         Cookies.remove('jwt')
@@ -82,10 +83,14 @@ const UserDropdown = () => {
   }
 
   // ** รับค่าจาก local Storage
-  let username = ''
+  let username = '' // ตัวแปรเก็บค่าชื่อผู้ใช้
+  let user_status = '' // ตัวแปรเก็บค่าสถานะ user
   if (typeof window !== 'undefined') {
     username = localStorage.getItem('name')
+    user_status = localStorage.getItem('User_Status')
   }
+
+  // console.log('สถานะ user', user_status)
 
   // ** ทำการถอดรหัส role
   let role = ''
@@ -99,8 +104,6 @@ const UserDropdown = () => {
       console.log('Invalid or expired token')
     }
   }
-
-  console.log('โรล', role)
 
   return (
     <Fragment>
@@ -160,7 +163,7 @@ const UserDropdown = () => {
         <MenuItem
           sx={{ p: 0 }}
           onClick={() => handleDropdownClose('/pages/registerSupplier/')}
-          style={{ display: role === 'USER' ? 'block' : 'none' }}
+          style={{ display: role === 'USER' && user_status === '1' ? 'block' : 'none' }}
         >
           <Box sx={styles}>
             <StorefrontPlusOutline sx={{ marginRight: 2 }} />
@@ -171,7 +174,7 @@ const UserDropdown = () => {
         <MenuItem
           sx={{ p: 0 }}
           onClick={() => handleDropdownClose('/pages/myMarket/')}
-          style={{ display: role === 'USER' ? 'block' : 'none' }}
+          style={{ display: role === 'USER' && user_status === '2' ? 'block' : 'none' }}
         >
           <Box sx={styles}>
             <CurrencyUsd sx={{ marginRight: 2 }} />

@@ -24,7 +24,12 @@ const SlideRecommended = () => {
                 <Box sx={{ width: '100%', height: '100%' }}>
                   {/* ใส่รูป */}
                   <Box sx={{ width: '100%', padding: '10px' }}>
-                    <CardMedia component='img' image='#' height='200px' sx={{ bgcolor: '#333', borderRadius: '6px' }} />
+                    <CardMedia
+                      component='img'
+                      image='/images/cards/TEST.jpg'
+                      height='200px'
+                      sx={{ bgcolor: '#333', borderRadius: '6px' }}
+                    />
                   </Box>
                   {/* ใส่ชื่อ */}
                   <Box sx={{ width: '100%' }}>
@@ -66,7 +71,12 @@ const SlideRecommended = () => {
                 <Box sx={{ width: '100%', height: '100%' }}>
                   {/* ใส่รูป */}
                   <Box sx={{ width: '100%', padding: '10px' }}>
-                    <CardMedia component='img' image='#' height='200px' sx={{ bgcolor: '#333', borderRadius: '6px' }} />
+                    <CardMedia
+                      component='img'
+                      image='/images/cards/TEST.jpg'
+                      height='200px'
+                      sx={{ bgcolor: '#333', borderRadius: '6px' }}
+                    />
                   </Box>
                   {/* ใส่ชื่อ */}
                   <Box sx={{ width: '100%' }}>
@@ -106,7 +116,12 @@ const SlideRecommended = () => {
                 <Box sx={{ width: '100%', height: '100%' }}>
                   {/* ใส่รูป */}
                   <Box sx={{ width: '100%', padding: '10px' }}>
-                    <CardMedia component='img' image='#' height='200px' sx={{ bgcolor: '#333', borderRadius: '6px' }} />
+                    <CardMedia
+                      component='img'
+                      image='/images/cards/TEST.jpg'
+                      height='200px'
+                      sx={{ bgcolor: '#333', borderRadius: '6px' }}
+                    />
                   </Box>
                   {/* ใส่ชื่อ */}
                   <Box sx={{ width: '100%' }}>
@@ -146,7 +161,12 @@ const SlideRecommended = () => {
                 <Box sx={{ width: '100%', height: '100%' }}>
                   {/* ใส่รูป */}
                   <Box sx={{ width: '100%', padding: '10px' }}>
-                    <CardMedia component='img' image='#' height='200px' sx={{ bgcolor: '#333', borderRadius: '6px' }} />
+                    <CardMedia
+                      component='img'
+                      image='/images/cards/TEST.jpg'
+                      height='200px'
+                      sx={{ bgcolor: '#333', borderRadius: '6px' }}
+                    />
                   </Box>
                   {/* ใส่ชื่อ */}
                   <Box sx={{ width: '100%' }}>
@@ -186,7 +206,12 @@ const SlideRecommended = () => {
                 <Box sx={{ width: '100%', height: '100%' }}>
                   {/* ใส่รูป */}
                   <Box sx={{ width: '100%', padding: '10px' }}>
-                    <CardMedia component='img' image='#' height='200px' sx={{ bgcolor: '#333', borderRadius: '6px' }} />
+                    <CardMedia
+                      component='img'
+                      image='/images/cards/TEST.jpg'
+                      height='200px'
+                      sx={{ bgcolor: '#333', borderRadius: '6px' }}
+                    />
                   </Box>
                   {/* ใส่ชื่อ */}
                   <Box sx={{ width: '100%' }}>

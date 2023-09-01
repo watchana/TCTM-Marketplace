@@ -22,6 +22,7 @@ import { Select, MenuItem } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 import axios from 'axios'
 import { get, set } from 'local-storage'
+import { useRouter } from 'next/router'
 
 // ** Icons Imports
 import Plus from 'mdi-material-ui/Plus'
@@ -37,14 +38,19 @@ const columns = [
 const MyMarket = () => {
   const [value, setValue] = useState('1')
 
+  // ** Switch Alert Import
+  const Swal = require('sweetalert2')
+  const router = useRouter()
+
   // ดึงข้อมูลจาก Local Storage
   const userId = get('Member_Id') // Id ผู้ใช้จาก local Storage
 
   // เซตข้อมูลลงตัวแปร
   const [productdata, setProductData] = useState([])
   const [selectedCategory, setSelectedCategory] = useState('')
+  const [storeStatus, setStoreStatus] = useState('')
 
-  // console.log('ข้อมูลสินค้า', productdata)
+  // console.log('สถานะร้านค้า', storeStatus)
 
   // ตัวแปรควบคุม State
   const [searchText, setSearchText] = useState('') //state สำหรับเก็บข้อมูลการค้นหา
@@ -59,6 +65,30 @@ const MyMarket = () => {
   const uniqueCategoryIds = Array.from(
     new Set(initialProductData.current ? initialProductData.current.map(category => category.category_id) : [])
   )
+
+  // ฟังก์ชันตรวจสอบสถานะร้านค้าก่อนใช้งานหน้านี้
+  useEffect(() => {
+    if (storeStatus === '0') {
+      Swal.fire({
+        icon: 'error',
+        title: 'คุณโดนแบน',
+        text: 'คุณถูกแบนการเข้าใช้งาน'
+      })
+
+      // Redirect ไปหน้า /
+      router.push('/')
+    } else if (storeStatus === '1') {
+      Swal.fire({
+        icon: 'info',
+        title: 'กรุณารอการดำเนินการ',
+        text: 'บัญชีของคุณกำลังรอการอนุมัติ'
+      })
+
+      // Redirect ไปหน้า /
+      router.push('/')
+    } else if (storeStatus === '2') {
+    }
+  }, [storeStatus, router, Swal])
 
   // ฟังก์ชันจัดการ Select Dropdown
   const handleCategoryChange = event => {
@@ -89,6 +119,8 @@ const MyMarket = () => {
             member_id: userId
           }
         })
+
+        setStoreStatus(response.data.message.MarketData[0].sub_status)
 
         initialProductData.current = response.data.message.Data
         setProductData(initialProductData.current)
@@ -193,7 +225,14 @@ const MyMarket = () => {
                   </Grid>
                   <Grid item xl={6} md={6} sm={12} xs={12}>
                     <Box sx={{ width: '90%' }}>
-                      <Button variant='contained' color='primary' startIcon={<Plus />}>
+                      <Button
+                        variant='contained'
+                        color='primary'
+                        startIcon={<Plus />}
+                        onClick={() => {
+                          router.push(`/pages/myMarket/supplier/register-product/`)
+                        }}
+                      >
                         Add Product
                       </Button>
                     </Box>

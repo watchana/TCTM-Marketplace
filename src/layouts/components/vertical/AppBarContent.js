@@ -10,6 +10,7 @@ import Button from '@mui/material/Button'
 import Hidden from '@mui/material/Hidden'
 import Tooltip from '@mui/material/Tooltip'
 import TextField from '@mui/material/TextField'
+import CardMedia from '@mui/material/CardMedia'
 import ButtonBase from '@mui/material/ButtonBase'
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
@@ -17,9 +18,10 @@ import InputAdornment from '@mui/material/InputAdornment'
 
 // ** Icons Imports
 import Menu from 'mdi-material-ui/Menu'
+import Send from 'mdi-material-ui/Send'
+import HelpBox from 'mdi-material-ui/HelpBox'
 import Magnify from 'mdi-material-ui/Magnify'
 import CartOutline from 'mdi-material-ui/CartOutline'
-import HelpBox from 'mdi-material-ui/HelpBox'
 
 // ** Theme Config Import
 import themeConfig from 'src/configs/themeConfig'
@@ -52,7 +54,87 @@ const AppBarContent = props => {
   }
 
   return (
-    <Grid container direction='row' justifyContent='space-between' alignItems='flex-start'>
+    <Grid container direction='row' justifyContent='space-between' alignItems='center'>
+      <Grid item xl={3} lg={3} md={4} sm={6} xs={6}>
+        <Box sx={{ width: '150px', height: '70px' }}>
+          <Tooltip title='Main Menu' placement='bottom'>
+            <Link href='/' passHref>
+              <CardMedia sx={{ height: '70px' }} image='/images/cards/LOGO_TCTM_3.png' />
+            </Link>
+          </Tooltip>
+        </Box>
+      </Grid>
+
+      <Hidden mdDown>
+        <Grid item xl={6} lg={6} md={4}>
+          <Box sx={{ width: '100%', padding: 1 }}>
+            <TextField
+              size='small'
+              placeholder='Search Product…'
+              value={searchValue}
+              onChange={e => handleSearch(e.target.value)}
+              onKeyPress={e => {
+                if (e.key === 'Enter') {
+                  handleSearchSubmit()
+                }
+              }}
+              sx={{ width: '100%', '& .MuiOutlinedInput-root': { borderRadius: '18px' } }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position='start'>
+                    <Magnify fontSize='small' />
+                  </InputAdornment>
+                )
+              }}
+            />
+          </Box>
+        </Grid>
+      </Hidden>
+
+      <Grid item xl={3} lg={3} md={4} sm={6} xs={6}>
+        <Grid
+          container
+          spacing={'15px'}
+          direction='row'
+          justifyContent='flex-end'
+          alignItems='center'
+          sx={{ width: '100%', height: '70px' }}
+        >
+          <Hidden mdDown>
+            <Grid item>
+              <Button
+                variant='outlined'
+                color='secondary'
+                endIcon={<Send />}
+                href='/designs/requirements'
+                style={{ borderRadius: '4px' }}
+              >
+                POST
+              </Button>
+            </Grid>
+          </Hidden>
+          <Grid item>
+            <IconButton>
+              {/* ต้องสร้าง components ใน src/@core/layouts/components/shared-components/ สำหรับปุ่ม ตะกร้า  */}
+              <CartOutline />
+            </IconButton>
+          </Grid>
+          <Grid item>
+            <NotificationDropdown />
+          </Grid>
+          <Grid item>
+            <UserDropdown />
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
+  )
+}
+
+export default AppBarContent
+
+{
+  /* <Grid container direction='row' justifyContent='space-between' alignItems='flex-start'>
       <Grid item display='grid' justifyContent='flex-start'>
         <Box display='flex' direction='row'>
           <Tooltip title='Main Menu' placement='bottom'>
@@ -110,61 +192,14 @@ const AppBarContent = props => {
           </Hidden>
           <ModeToggler settings={settings} saveSettings={saveSettings} />
           <IconButton>
-            {/* ต้องสร้าง components ใน src/@core/layouts/components/shared-components/ สำหรับปุ่ม ตะกร้า  */}
-            <CartOutline />
-          </IconButton>
-          <NotificationDropdown />
-          <UserDropdown />
-        </Box>
-      </Grid>
-    </Grid>
-  )
+            {/* ต้องสร้าง components ใน src/@core/layouts/components/shared-components/ สำหรับปุ่ม ตะกร้า  */
 }
-
-export default AppBarContent
-
-// {/* <Grid container>
-// <Hidden mdDown>
-//   <Grid item md={1} lg={1} xl={1} display='grid' justifyContent='flex-end'>
-//     <Box sx={{ width: '100%' }}>
-//       <IconButton color='inherit' onClick={toggleNavVisibility} sx={{ ml: -2.75 }}>
-//         <Menu />
-//       </IconButton>
-//     </Box>
-//   </Grid>
-// </Hidden>
-// <Grid item xs={4} sm={3} md={2} lg={2} xl={2}>
-//   <Box sx={{ width: '100%', paddingTop: '5px' }}>
-//  <Typography variant='h5'>{themeConfig.templateName}</Typography>
-//   </Box>
-// </Grid>
-// <Hidden smDown>
-//   <Grid item sm={5} md={6} lg={6} xl={6}>
-//     <Box sx={{ width: '100%' }}>
-//       <TextField
-//         size='small'
-//         placeholder='Search Product…'
-//         sx={{ width: '80%', '& .MuiOutlinedInput-root': { borderRadius: 4 } }}
-//         InputProps={{
-//           startAdornment: (
-//             <InputAdornment position='start'>
-//               <Magnify fontSize='small' />
-//             </InputAdornment>
-//           )
-//         }}
-//       />
-//     </Box>
-//   </Grid>
-// </Hidden>
-// <Grid item xs={8} sm={4} md={3} lg={2} xl={2} display='grid' justifyContent='flex-end'>
-//   <Box className='actions-right' sx={{ width: '100%' }}>
-//     <ModeToggler settings={settings} saveSettings={saveSettings} />
-//     <NotificationDropdown />
-//     <IconButton>
-//       {/* ต้องสร้าง components ใน src/@core/layouts/components/shared-components/ สำหรับปุ่ม ตะกร้า  */}
-//       <CartOutline />
-//     </IconButton>
-//     <UserDropdown />
-//   </Box>
-// </Grid>
-// </Grid> */}
+{
+  /* <CartOutline />
+      </IconButton>
+      <NotificationDropdown />
+      <UserDropdown />
+    </Box>
+  </Grid>
+</Grid> */
+}

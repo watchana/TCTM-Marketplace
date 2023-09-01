@@ -134,6 +134,7 @@ const LoginPage = () => {
       .then(response => {
         if (response.data.message) {
           const receivedStatus = response.data.message.Message
+          console.log('ข้อมูล Cabill', response.data.message.Data[0])
           if (receivedStatus === 'OK') {
             const userData = response.data.message.Data[0].user_role
 
@@ -141,6 +142,7 @@ const LoginPage = () => {
               response.data.message.Data[0].user_first_name + ' ' + response.data.message.Data[0].user_last_name
             const EmailData = response.data.message.Data[0].user_email
             const MemberId = response.data.message.Data[0].member_id
+            const UserStatus = response.data.message.Data[0].user_status
 
             setResponseData(userData)
 
@@ -156,6 +158,7 @@ const LoginPage = () => {
             localStorage.setItem('name', resNameData)
             localStorage.setItem('Email', EmailData)
             localStorage.setItem('Member_Id', MemberId)
+            localStorage.setItem('User_Status', UserStatus)
 
             // Store the token in a cookie
             Cookies.set('jwt', token)
