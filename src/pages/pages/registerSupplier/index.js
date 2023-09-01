@@ -15,6 +15,7 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
 import CardContent from '@mui/material/CardContent'
+import CloudUpload from 'mdi-material-ui/CloudUpload'
 
 // ** Icons Imports
 import Plus from 'mdi-material-ui/Plus'
@@ -74,12 +75,11 @@ const RegisterSupplier = () => {
     setAddress(event.target.value)
   }
 
-  const handleSubmitData = event => {
+  const handleSubmitData = async event => {
     event.preventDefault()
     setIsSubmitted(true)
 
-    // ตรวจสอบค่าว่างก่อนส่ง
-    const fieldsToCheck = [idcard, tel, email, storename, storedetails, address]
+    const fieldsToCheck = [idcard, tel, email, storename, storedetails, address, imageName]
     if (fieldsToCheck.some(field => field === '' || field === null || field === undefined)) {
       Swal.fire({
         icon: 'error',
@@ -90,36 +90,59 @@ const RegisterSupplier = () => {
       return
     }
 
-    const data = {
-      sub_bank_number: idcard,
-      sub_tel: tel,
-      sub_email: email,
-      sub_name: storename,
-      sub_description: storedetails,
-      sub_address: address,
-      sub_address_shop: '1',
-      sub_address_claim: '1',
-      member_id: localStorage.getItem('Member_Id')
-    }
+    const formData = new FormData()
+    formData.append('image', image)
 
-    axios
-      .post(`${process.env.NEXT_PUBLIC_API}TCTM.register.registerMarket`, data)
-      .then(response => {
-        Swal.fire({
-          icon: 'success',
-          title: 'ส่งข้อมูลสำเร็จ',
-          text: 'กรุณารอ การยืนยันจาก TCTM'
-        })
-        router.push('/')
+    try {
+      const response = await axios.post('/api/StoreimgUpload', formData)
+
+      const data = {
+        sub_bank_number: idcard,
+        sub_tel: tel,
+        sub_email: email,
+        sub_name: storename,
+        sub_description: storedetails,
+        sub_address: address,
+        sub_address_shop: '1',
+        sub_address_claim: '1',
+        member_id: localStorage.getItem('Member_Id'),
+        sub_image: imageName
+      }
+
+      console.log('ข้อมูลผู้สมัคร', data)
+
+      await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.register.registerMarket`, data)
+
+      Swal.fire({
+        icon: 'success',
+        title: 'ส่งข้อมูลสำเร็จ',
+        text: 'กรุณารอ การยืนยันจาก TCTM'
       })
-      .catch(error => {
-        console.error(error)
-        Swal.fire({
-          icon: 'error',
-          title: 'Log in ล้มเหลว...',
-          text: 'มีข้อผิดพลาดในการเรียก API'
-        })
+
+      router.push('/')
+    } catch (error) {
+      console.error(error)
+      Swal.fire({
+        icon: 'error',
+        title: 'Log in ล้มเหลว...',
+        text: 'มีข้อผิดพลาดในการเรียก API'
       })
+    }
+  }
+
+  // ฟังชันอัปโหลดรูปภาพ
+  const [image, setImage] = useState(null) // ตัวแปรเก็บข้อมูลรูปภาพ
+  const [imageName, setImageName] = useState(null) // ตัวแปรเก็บข้อมูลรูปภาพ
+
+  const handleImageChange = event => {
+    setImage(event.target.files[0])
+
+    const file = event.target.files[0]
+    if (file) {
+      const fileName = file.name // ชื่อไฟล์
+      const fileExtension = fileName.split('.').pop() // นามสกุลไฟล์
+      setImageName(fileName + '.' + fileExtension) //ชื่อและนามสกุลไฟล์
+    }
   }
 
   return (
@@ -297,6 +320,33 @@ const RegisterSupplier = () => {
                   </Box>
                 </Grid>
               </Grid>
+            </Box>
+            {/* อัปโหลดรูปภาพร้านค้า */}
+            <Box sx={{ width: '100%', marginBottom: 4 }}>
+              <Divider sx={{ marginY: 6, color: '#FE8C8C' }}>Upload Store Image</Divider>
+              <input
+                accept='image/*'
+                style={{ display: 'none' }}
+                id='upload-image'
+                type='file'
+                onChange={handleImageChange}
+              />
+
+              <label htmlFor='upload-image'>
+                <Button variant='outlined' component='span' startIcon={<CloudUpload />} sx={{ marginBottom: 4 }}>
+                  Upload Image
+                </Button>
+              </label>
+
+              {image && (
+                <div>
+                  <img
+                    src={URL.createObjectURL(image)}
+                    alt='Uploaded Preview'
+                    style={{ maxWidth: '100%', maxHeight: '300px' }}
+                  />
+                </div>
+              )}
             </Box>
             <Divider sx={{ marginY: 6 }} />
             <Button
