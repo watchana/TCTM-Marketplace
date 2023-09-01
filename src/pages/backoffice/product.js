@@ -77,7 +77,7 @@ const Product = () => {
       .then(response => {
         console.log('bill_id', response)
         // ทำอย่างอื่นตามความต้องการ
-        fetchMarketData()
+        fetchProductData()
       })
       .catch(error => {
         console.error('Error:', error)
@@ -95,7 +95,7 @@ const Product = () => {
       .then(response => {
         console.log('UserID', response)
         // ทำอย่างอื่นตามความต้องการ
-        fetchMarketData()
+        fetchProductData()
       })
       .catch(error => {
         console.error('Error:', error)
