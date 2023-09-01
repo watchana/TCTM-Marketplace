@@ -26,25 +26,11 @@ import DeleteIcon from '@mui/icons-material/Delete'
 // ** Switch Alert Import
 const Swal = require('sweetalert2')
 
-const RegisterProduct = ({
-  productOptions,
-  setProductOptions,
-  productOptionGroups,
-  setProductOptionGroups,
-  productCategories
-}) => {
+const RegisterProduct = ({ product, setProduct, productOptionGroups, setProductOptionGroups, productCategories }) => {
   const [uploadImages, setUploadImages] = useState([])
   const [uploadVideos, setUploadVideos] = useState({})
   const [openImagePreview, setOpenImagePreview] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
-
-  const [product, setProduct] = useState({
-    name: '',
-    category: '',
-    price: '',
-    quantity: '',
-    detail: ''
-  })
 
   const productOptionsInit = [
     {
@@ -135,7 +121,7 @@ const RegisterProduct = ({
 
   // ** add product options
   const handleAddOption = e => {
-    const MaxOptionId = Math.max(...productOptions.map(option => option.optionId))
+    const MaxOptionId = Math.max(...product.options.map(option => option.optionId))
 
     const newOption = {
       optionId: MaxOptionId + 1,
@@ -143,59 +129,59 @@ const RegisterProduct = ({
       optionType: 1,
       optionValue: [{}]
     }
-    setProductOptions([...productOptions, newOption])
+    setProduct({ ...product, options: [...productOptions, newOption] })
   }
 
   // ** delete product options
   const handleDeleteOption = (e, id) => {
-    if (productOptions.length === 1) return setProductOptions(productOptionsInit)
+    if (product.options.length === 1) return setProduct({ ...product, options: productOptionsInit })
 
-    const updatedOptions = productOptions.filter(option => option.optionId !== id)
-    setProductOptions(updatedOptions)
+    const updatedOptions = product.options.filter(option => option.optionId !== id)
+    setProduct({ ...product, options: updatedOptions })
   }
 
   const handleOptionTypeChange = (e, optionId) => {
     e.target.value === 1
-      ? setProductOptions(options =>
-          options.map(opt =>
+      ? setProduct(product =>
+          product.options.map(opt =>
             opt.optionId === optionId
               ? { ...opt, optionType: e.target.value, optionValue: [{ valueId: 1, valueName: '' }] }
               : opt
           )
         )
-      : setProductOptions(options =>
-          options.map(opt => (opt.optionId === optionId ? { ...opt, optionType: e.target.value } : opt))
+      : setProduct(product =>
+          product.options.map(opt => (opt.optionId === optionId ? { ...opt, optionType: e.target.value } : opt))
         )
   }
 
   // ** add product option value
   const handleAddOptionValue = e => {
-    const optionValueIds = productOptions[productOptions.length - 1].optionValue.map(value => value.valueId)
+    const optionValueIds = product.options[product.options.length - 1].optionValue.map(value => value.valueId)
     const maxId = Math.max(...optionValueIds)
 
     const newOptionValue = { valueId: maxId + 1, valueName: '' }
 
-    const updatedOptions = productOptions.map(option => {
-      if (option.optionId === productOptions[productOptions.length - 1].optionId) {
+    const updatedOptions = product.options.map(option => {
+      if (option.optionId === produc.options[product.options.length - 1].optionId) {
         return { ...option, optionValue: [...option.optionValue, newOptionValue] }
       } else {
         return option
       }
     })
 
-    setProductOptions(updatedOptions)
+    setProduct({ ...product, options: updatedOptions })
   }
 
   // ** delete product option value
   const handleDeleteOptionValue = (e, optionId, valueId) => {
-    if (productOptions[productOptions.length - 1].optionValue.length === 1)
-      return setProductOptions(options =>
-        options.map(option =>
+    if (product.options[product.options.length - 1].optionValue.length === 1)
+      return setProduct(product =>
+        product.options.map(option =>
           option.optionId === optionId ? { ...option, optionValue: [{ valueId: 1, valueName: '' }] } : option
         )
       )
 
-    const updatedOptions = productOptions.map(option => {
+    const updatedOptions = product.options.map(option => {
       if (option.optionId === optionId) {
         return { ...option, optionValue: option.optionValue.filter(value => value.valueId !== valueId) }
       } else {
@@ -203,7 +189,7 @@ const RegisterProduct = ({
       }
     })
 
-    setProductOptions(updatedOptions)
+    setProduct({ ...product, options: updatedOptions })
   }
 
   const handleAddOptionGroup = e => {
@@ -381,7 +367,7 @@ const RegisterProduct = ({
               <TextField
                 fullWidth
                 id='product-name'
-                value={product.name}
+                value={product.product_name}
                 onChange={e => setProduct({ ...product, name: e.target.value })}
               />
             </Grid>
@@ -445,7 +431,7 @@ const RegisterProduct = ({
             <Typography variant='h5'>เพิ่มตัวเลือกสินค้า</Typography>
             <Typography variant='body1'>หัวข้อตัวเลือกที่ต้องการ</Typography>
           </Box>
-          {productOptions.map((option, index) => (
+          {product.options.map((option, index) => (
             <Grid
               container
               key={option.optionId}
@@ -464,8 +450,8 @@ const RegisterProduct = ({
                     error={option.optionValidation === 1}
                     value={option.optionName}
                     onChange={e =>
-                      setProductOptions(options =>
-                        options.map(opt =>
+                      setProduct(product =>
+                        product.options.map(opt =>
                           opt.optionId === option.optionId
                             ? { ...opt, optionName: e.target.value, optionValidation: 0 }
                             : opt
@@ -511,8 +497,8 @@ const RegisterProduct = ({
                               id='product-option-name'
                               variant='outlined'
                               onChange={e =>
-                                setProductOptions(options =>
-                                  options.map(opt =>
+                                setProduct(product =>
+                                  product.options.map(opt =>
                                     opt.optionId === option.optionId
                                       ? {
                                           ...opt,
@@ -560,7 +546,7 @@ const RegisterProduct = ({
           ))}
 
           <Grid container spacing={5}>
-            {productOptions.length < 5 ? (
+            {product.options.length < 5 ? (
               <Grid item xs>
                 <Button fullWidth variant='outlined' sx={{ height: 55 }} onClick={e => handleAddOption(e)}>
                   +
@@ -583,7 +569,7 @@ const RegisterProduct = ({
             <Typography variant='body1'>สินค้าตัวเลือกที่ {index + 1}</Typography>
             <Box sx={{ my: 4 }} border={1} borderColor='rgba(0, 0, 0, 0.2)' borderRadius={1}>
               <Grid container spacing={5} sx={{ p: 4 }} alignItems={'flex-end'}>
-                {productOptions.map(
+                {product.options.map(
                   (option, index) =>
                     option.optionName.length > 0 && (
                       <Grid item key={option.optionId} xs={12} sm={6}>

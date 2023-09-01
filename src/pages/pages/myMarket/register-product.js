@@ -19,16 +19,55 @@ const RegisterProductPage = ({ productCategories }) => {
   const [activeStep, setActiveStep] = useState(0)
   const [skipped, setSkipped] = useState(new Set())
 
-  const productOptionsInit = [
-    {
-      optionId: 1,
-      optionName: '',
-      optionValidation: 0,
-      optionType: 1,
-      optionValue: [{ valueId: 1, valueName: '' }]
-    }
-  ]
-  const [productOptions, setProductOptions] = useState(productOptionsInit)
+  const [product, setProduct] = useState({
+    product_name: '',
+    product_price: '',
+    product_description: '',
+    product_count: '',
+    product_category: '',
+    product_brand: '',
+    product_weight: '',
+    product_country: '',
+    product_license_number: '',
+    product_amount: '',
+    product_size: '',
+    image_file_name: '',
+    video_file_name: '',
+    options: [
+      {
+        optionId: 1,
+        optionName: '',
+        optionValidation: 0,
+        optionType: 1,
+        optionValue: [{ valueId: 1, valueName: '' }]
+      }
+    ],
+    items: [
+      {
+        optionGroupId: 1,
+        optionGroupColumn1: '',
+        optionGroupColumn2: '',
+        optionGroupColumn3: '',
+        optionGroupColumn4: '',
+        optionGroupColumn5: '',
+        optionGroupPrice: null,
+        optionGroupQuantity: null,
+        optionGroupValidation: 0
+      }
+    ]
+  })
+
+  // !! ลบ
+  // const productOptionsInit = [
+  //   {
+  //     optionId: 1,
+  //     optionName: '',
+  //     optionValidation: 0,
+  //     optionType: 1,
+  //     optionValue: [{ valueId: 1, valueName: '' }]
+  //   }
+  // ]
+  // const [productOptions, setProductOptions] = useState(productOptionsInit)
 
   const productOptionGroupsInit = {
     optionGroupId: 1,
@@ -58,13 +97,12 @@ const RegisterProductPage = ({ productCategories }) => {
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values())
       newSkipped.delete(activeStep)
-      console.log('123')
     } else if (activeStep === 0) {
       let hasOptionError = false
       let optionValidationIndex = null
       let hasOptionGroupError = false
 
-      const newProductOptions = productOptions.map((option, index) => {
+      const newProductOptions = product.options.map((option, index) => {
         if (option.optionName === '') {
           hasOptionError = true
 
@@ -108,15 +146,27 @@ const RegisterProductPage = ({ productCategories }) => {
       }
 
       if (!hasOptionError && !hasOptionGroupError) {
-        setProductOptions(newProductOptions)
+        setProduct({ ...product, options: newProductOptions })
         setActiveStep(prevActiveStep => prevActiveStep + 1)
         setSkipped(newSkipped)
       }
+    } else if (activeStep === 1) {
+      console.log('test')
+      console.log()
+
+      axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.product.postnewproductv2`, {})
+
+      setActiveStep(prevActiveStep => prevActiveStep + 1)
+      setSkipped(newSkipped)
     } else {
       setActiveStep(prevActiveStep => prevActiveStep + 1)
       setSkipped(newSkipped)
     }
   }
+
+  useEffect(() => {
+    console.log(product), [product]
+  })
 
   const handleBack = () => {
     setActiveStep(prevActiveStep => prevActiveStep - 1)
@@ -125,8 +175,6 @@ const RegisterProductPage = ({ productCategories }) => {
   const handleReset = () => {
     setActiveStep(0)
   }
-
-  const handleSubmit = () => {}
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -160,15 +208,15 @@ const RegisterProductPage = ({ productCategories }) => {
         <React.Fragment>
           {activeStep === 0 && (
             <RegisterProduct
-              productOptions={productOptions}
-              setProductOptions={setProductOptions}
+              product={product}
+              setProduct={setProduct}
               productOptionGroups={productOptionGroups}
               setProductOptionGroups={setProductOptionGroups}
               productCategories={productCategories}
             />
           )}
           {activeStep === 1 && (
-            <ShowResults productOptions={productOptions} productOptionGroups={productOptionGroups} />
+            <ShowResults productOptions={product.options} productOptionGroups={productOptionGroups} />
           )}
           {activeStep === 2 && 'test'}
           {/* <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography> */}
