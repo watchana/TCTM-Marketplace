@@ -69,19 +69,19 @@ const RegisterProductPage = ({ productCategories }) => {
   // ]
   // const [productOptions, setProductOptions] = useState(productOptionsInit)
 
-  const productOptionGroupsInit = {
-    optionGroupId: 1,
-    optionGroupColumn1: '',
-    optionGroupColumn2: '',
-    optionGroupColumn3: '',
-    optionGroupColumn4: '',
-    optionGroupColumn5: '',
-    optionGroupPrice: null,
-    optionGroupQuantity: null,
-    optionGroupValidation: 0
-  }
+  // const productOptionGroupsInit = {
+  //   optionGroupId: 1,
+  //   optionGroupColumn1: '',
+  //   optionGroupColumn2: '',
+  //   optionGroupColumn3: '',
+  //   optionGroupColumn4: '',
+  //   optionGroupColumn5: '',
+  //   optionGroupPrice: null,
+  //   optionGroupQuantity: null,
+  //   optionGroupValidation: 0
+  // }
 
-  const [productOptionGroups, setProductOptionGroups] = useState([productOptionGroupsInit])
+  // const [productOptionGroups, setProductOptionGroups] = useState([productOptionGroupsInit])
 
   const isStepOptional = step => {
     return step === 1
@@ -197,29 +197,23 @@ const RegisterProductPage = ({ productCategories }) => {
         })}
       </Stepper>
       {activeStep === steps.length ? (
-        <React.Fragment>
+        <>
           <Typography sx={{ mt: 2, mb: 1 }}>All steps completed - you&apos;re finished</Typography>
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Box sx={{ flex: '1 1 auto' }} />
             <Button onClick={handleReset}>Reset</Button>
           </Box>
-        </React.Fragment>
+        </>
       ) : (
-        <React.Fragment>
+        <>
           {activeStep === 0 && (
-            <RegisterProduct
-              product={product}
-              setProduct={setProduct}
-              productOptionGroups={productOptionGroups}
-              setProductOptionGroups={setProductOptionGroups}
-              productCategories={productCategories}
-            />
+            <RegisterProduct product={product} setProduct={setProduct} productCategories={productCategories} />
           )}
-          {activeStep === 1 && (
+          {/* {activeStep === 1 && (
             <ShowResults productOptions={product.options} productOptionGroups={productOptionGroups} />
           )}
           {activeStep === 2 && 'test'}
-          {/* <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography> */}
+          <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography> */}
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Button color='inherit' disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
               Back
@@ -229,7 +223,7 @@ const RegisterProductPage = ({ productCategories }) => {
               {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
             </Button>
           </Box>
-        </React.Fragment>
+        </>
       )}
     </Box>
   )

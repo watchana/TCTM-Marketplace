@@ -26,7 +26,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 // ** Switch Alert Import
 const Swal = require('sweetalert2')
 
-const RegisterProduct = ({ product, setProduct, productOptionGroups, setProductOptionGroups, productCategories }) => {
+const RegisterProduct = ({ product, setProduct, productCategories }) => {
   const [uploadImages, setUploadImages] = useState([])
   const [uploadVideos, setUploadVideos] = useState({})
   const [openImagePreview, setOpenImagePreview] = useState(false)
@@ -129,7 +129,7 @@ const RegisterProduct = ({ product, setProduct, productOptionGroups, setProductO
       optionType: 1,
       optionValue: [{}]
     }
-    setProduct({ ...product, options: [...productOptions, newOption] })
+    setProduct({ ...product, options: [...product.options, newOption] })
   }
 
   // ** delete product options
@@ -141,17 +141,51 @@ const RegisterProduct = ({ product, setProduct, productOptionGroups, setProductO
   }
 
   const handleOptionTypeChange = (e, optionId) => {
-    e.target.value === 1
-      ? setProduct(product =>
-          product.options.map(opt =>
-            opt.optionId === optionId
-              ? { ...opt, optionType: e.target.value, optionValue: [{ valueId: 1, valueName: '' }] }
-              : opt
-          )
-        )
-      : setProduct(product =>
-          product.options.map(opt => (opt.optionId === optionId ? { ...opt, optionType: e.target.value } : opt))
-        )
+    setProduct(prevProduct => {
+      const updatedOptions = prevProduct.options.map(opt => {
+        if (opt.optionId === optionId) {
+          if (e.target.value === 1) {
+            return {
+              ...opt,
+              optionType: e.target.value,
+              optionValue: [{ valueId: 1, valueName: '' }]
+            }
+          } else {
+            return { ...opt, optionType: e.target.value }
+          }
+        }
+
+        return opt
+      })
+
+      return { ...prevProduct, options: updatedOptions }
+    })
+  }
+
+  // ** change product option name
+  const handleSubOptionChange = (e, optionId, valueId) => {
+    setProduct(prevProduct => ({
+      ...prevProduct,
+      options: prevProduct.options.map(opt => {
+        if (opt.optionId === optionId) {
+          return {
+            ...opt,
+            optionValue: opt.optionValue.map(val => {
+              if (val.valueId === valueId) {
+                return {
+                  ...val,
+                  valueName: e.target.value
+                }
+              }
+
+              return val
+            })
+          }
+        }
+
+        return opt
+      })
+    }))
   }
 
   // ** add product option value
@@ -162,7 +196,7 @@ const RegisterProduct = ({ product, setProduct, productOptionGroups, setProductO
     const newOptionValue = { valueId: maxId + 1, valueName: '' }
 
     const updatedOptions = product.options.map(option => {
-      if (option.optionId === produc.options[product.options.length - 1].optionId) {
+      if (option.optionId === product.options[product.options.length - 1].optionId) {
         return { ...option, optionValue: [...option.optionValue, newOptionValue] }
       } else {
         return option
@@ -193,28 +227,28 @@ const RegisterProduct = ({ product, setProduct, productOptionGroups, setProductO
   }
 
   const handleAddOptionGroup = e => {
-    const optionGroupIds = productOptionGroups.map(optionGroup => optionGroup.optionGroupId)
+    const optionGroupIds = product.items.map(optionGroup => optionGroup.optionGroupId)
     const maxId = Math.max(...optionGroupIds)
 
     const newOptionGroup = { ...productOptionGroupsInit, optionGroupId: maxId + 1 }
-    setProductOptionGroups([...productOptionGroups, newOptionGroup])
+    setProduct({ ...product, items: [...product.items, newOptionGroup] })
   }
 
   const handleDeleteOptionGroup = (e, id) => {
-    if (productOptionGroups.length === 1) return setProductOptionGroups([productOptionGroupsInit])
-    const updatedOptionGroups = productOptionGroups.filter(optionGroup => optionGroup.optionGroupId !== id)
-    setProductOptionGroups(updatedOptionGroups)
+    if (product.items.length === 1) return setProduct({ ...product, items: [productOptionGroupsInit] })
+    const updatedOptionGroups = product.items.filter(optionGroup => optionGroup.optionGroupId !== id)
+    setProduct({ ...product, items: updatedOptionGroups })
   }
 
   const handleProductOptionGroupChange = (e, optionGroupId, col) => {
-    const updatedOptionGroups = productOptionGroups.map(optionGroup => {
+    const updatedOptionGroups = product.items.map(optionGroup => {
       if (optionGroup.optionGroupId === optionGroupId) {
         return { ...optionGroup, [col]: e.target.value }
       } else {
         return optionGroup
       }
     })
-    setProductOptionGroups(updatedOptionGroups)
+    setProduct({ ...product, items: updatedOptionGroups })
   }
 
   return (
@@ -368,16 +402,13 @@ const RegisterProduct = ({ product, setProduct, productOptionGroups, setProductO
                 fullWidth
                 id='product-name'
                 value={product.product_name}
-                onChange={e => setProduct({ ...product, name: e.target.value })}
+                onChange={e => setProduct({ ...product, product_name: e.target.value })}
               />
             </Grid>
 
             <Grid item xs={12} sm={6}>
               <Typography>หมวดหมู่</Typography>
               <Select fullWidth defaultValue='' id='grouped-select' label='Grouping'>
-                <MenuItem value=''>
-                  <em>None</em>
-                </MenuItem>
                 {productCategories.map(category => (
                   <MenuItem key={category.category_id} value={1}>
                     {category.category_name}
@@ -445,19 +476,19 @@ const RegisterProduct = ({ product, setProduct, productOptionGroups, setProductO
                   <Typography>ตัวเลือกที่ {index + 1}</Typography>
                   <TextField
                     fullWidth
-                    id={`product-option-name-${option.optionId}`}
+                    id={`product-name-${option.optionId}`} // Unique ID
                     variant='outlined'
                     error={option.optionValidation === 1}
                     value={option.optionName}
-                    onChange={e =>
-                      setProduct(product =>
-                        product.options.map(opt =>
-                          opt.optionId === option.optionId
-                            ? { ...opt, optionName: e.target.value, optionValidation: 0 }
-                            : opt
-                        )
+                    onChange={e => {
+                      const updatedOptions = product.options.map(opt =>
+                        opt.optionId === option.optionId
+                          ? { ...opt, optionName: e.target.value, optionValidation: 0 }
+                          : opt
                       )
-                    }
+
+                      setProduct({ ...product, options: updatedOptions })
+                    }}
                   />
                 </Grid>
                 <Grid item key={option.optionId} xs={12} sm>
@@ -466,6 +497,7 @@ const RegisterProduct = ({ product, setProduct, productOptionGroups, setProductO
                     fullWidth
                     labelId='demo-simple-select-label'
                     id='demo-simple-select'
+                    defaultValue={0}
                     value={option.optionType}
                     onChange={e => handleOptionTypeChange(e, option.optionId)}
                   >
@@ -494,27 +526,10 @@ const RegisterProduct = ({ product, setProduct, productOptionGroups, setProductO
                             <Typography>ตัวเลือกย่อยที่ {index + 1}</Typography>
                             <TextField
                               fullWidth
-                              id='product-option-name'
+                              id={`product-option-name-${option.optionId}-${value.valueId}`} // Unique ID
                               variant='outlined'
-                              onChange={e =>
-                                setProduct(product =>
-                                  product.options.map(opt =>
-                                    opt.optionId === option.optionId
-                                      ? {
-                                          ...opt,
-                                          optionValue: opt.optionValue.map(val =>
-                                            val.valueId === value.valueId
-                                              ? {
-                                                  ...val,
-                                                  valueName: e.target.value
-                                                }
-                                              : val
-                                          )
-                                        }
-                                      : opt
-                                  )
-                                )
-                              }
+                              value={value.valueName}
+                              onChange={e => handleSubOptionChange(e, option.optionId, value.valueId)}
                             />
                           </Grid>
                           <Grid item xs sm={2}>
@@ -529,7 +544,7 @@ const RegisterProduct = ({ product, setProduct, productOptionGroups, setProductO
                           </Grid>
                         </Grid>
                       ))}
-                      {option.optionValue.length < 5 ? (
+                      {product && product.options && product.options.length < 5 ? (
                         <Grid item xs>
                           <Button fullWidth variant='contained' sx={{ height: 55 }} onClick={handleAddOptionValue}>
                             +
@@ -546,7 +561,7 @@ const RegisterProduct = ({ product, setProduct, productOptionGroups, setProductO
           ))}
 
           <Grid container spacing={5}>
-            {product.options.length < 5 ? (
+            {product && product.options && product.options.length < 5 ? (
               <Grid item xs>
                 <Button fullWidth variant='outlined' sx={{ height: 55 }} onClick={e => handleAddOption(e)}>
                   +
@@ -560,11 +575,11 @@ const RegisterProduct = ({ product, setProduct, productOptionGroups, setProductO
       </Card>
 
       {/* รายละเอียดสินค้าของแต่ละตัวเลือก */}
-      <Card sx={{ padding: 8, marginBlock: 5 }}>
+      {/* <Card sx={{ padding: 8, marginBlock: 5 }}>
         <Box sx={{ mb: 4 }}>
           <Typography variant='h5'>รายละเอียดสินค้าของแต่ละตัวเลือก</Typography>
         </Box>
-        {productOptionGroups.map((optionGroup, index) => (
+        {product.items.map((optionGroup, index) => (
           <Box key={optionGroup.optionGroupId}>
             <Typography variant='body1'>สินค้าตัวเลือกที่ {index + 1}</Typography>
             <Box sx={{ my: 4 }} border={1} borderColor='rgba(0, 0, 0, 0.2)' borderRadius={1}>
@@ -612,8 +627,8 @@ const RegisterProduct = ({ product, setProduct, productOptionGroups, setProductO
                     variant='outlined'
                     value={optionGroup.optionGroupPrice}
                     onChange={e =>
-                      setProductOptionGroups(prevGroups =>
-                        prevGroups.map(group =>
+                      setProduct(product =>
+                        product.items.map(group =>
                           group.optionGroupId === optionGroup.optionGroupId
                             ? { ...group, optionGroupPrice: e.target.value }
                             : group
@@ -632,8 +647,8 @@ const RegisterProduct = ({ product, setProduct, productOptionGroups, setProductO
                     variant='outlined'
                     value={optionGroup.optionGroupQuantity}
                     onChange={e =>
-                      setProductOptionGroups(prevGroups =>
-                        prevGroups.map(group =>
+                      setProduct(product =>
+                        product.items.map(group =>
                           group.optionGroupId === optionGroup.optionGroupId
                             ? { ...group, optionGroupQuantity: e.target.value }
                             : group
@@ -659,7 +674,7 @@ const RegisterProduct = ({ product, setProduct, productOptionGroups, setProductO
         ))}
 
         <Grid container spacing={5}>
-          {productOptionGroups.length < 5 ? (
+          {product.items.length < 5 ? (
             <Grid item xs>
               <Button fullWidth variant='outlined' sx={{ height: 55 }} onClick={handleAddOptionGroup}>
                 +
@@ -669,7 +684,7 @@ const RegisterProduct = ({ product, setProduct, productOptionGroups, setProductO
             <Grid item xs={6}></Grid>
           )}
         </Grid>
-      </Card>
+      </Card> */}
 
       {/* show full image */}
       <Modal
