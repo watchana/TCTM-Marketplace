@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 
 // ** MUI Imports
-import { Card, Button } from '@mui/material'
+import { Card, Button, FormControl, Select, InputLabel, MenuItem } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 
 // ** Axios
@@ -10,8 +10,29 @@ import axios from 'axios'
 
 const ProductTable = ({ rows }) => {
   const [tableRows, setTableRows] = useState(rows) //เก็บข้อมูล Row ใน table
+  const [SubId, setSubId] = useState(rows) //เก็บข้อมูล Sub id
 
-  //   console.log(tableRows)
+  // ตัวแปรเก็บ State Select ไว้ชั่วคราว
+  const [subIdSelected, setSubIdSelected] = useState(null)
+
+  // console.log(tableRows)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const Response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.approve.allsuppliername`, {
+          headers: {
+            Authorization: 'token 76dc8ec5e14d19c:a644317879022f2'
+          }
+        })
+        setSubId(Response.data.message.Data)
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    }
+
+    fetchData()
+  }, [])
 
   // นำเข้าตัวsweetalert2
   const Swal = require('sweetalert2')
@@ -21,27 +42,59 @@ const ProductTable = ({ rows }) => {
     { field: 'req_id', headerName: 'Req ID', width: 130 },
     {
       field: 'req_header',
-      headerName: 'header',
+      headerName: 'Header Req',
       width: 150
-    },
-    {
-      field: 'req_description',
-      headerName: 'Description',
-      width: 300
     },
     {
       field: 'approve',
       headerName: 'Approve',
+      width: 130,
       sortable: false,
       renderCell: params => {
+        const selectedSubId = subIdSelected && subIdSelected[params.row.req_id]
+
         return (
           <Button
             variant='contained'
             color='primary'
-            onClick={() => handleApproveSubmit(params.row.req_id, params.row.sub_id)}
+            onClick={() => handleApproveSubmit(params.row.req_id, selectedSubId)}
+            disabled={!selectedSubId}
           >
-            approve
+            Approve
           </Button>
+        )
+      }
+    },
+    {
+      field: 'select',
+      headerName: 'Select Sub_id Before Approve',
+      width: 280,
+      sortable: false,
+      renderCell: params => {
+        const selectedSubId = subIdSelected && subIdSelected[params.row.req_id]
+
+        return (
+          <FormControl fullWidth style={{ marginRight: '10px' }}>
+            <InputLabel id={`select-label-${params.row.req_id}`}>SubID</InputLabel>
+            <Select
+              labelId={`select-label-${params.row.req_id}`}
+              id={`select-${params.row.req_id}`}
+              value={selectedSubId || ''}
+              label='SubID'
+              onChange={event =>
+                setSubIdSelected({
+                  ...subIdSelected,
+                  [params.row.req_id]: event.target.value
+                })
+              }
+            >
+              {SubId.map(sub => (
+                <MenuItem key={sub.sub_id} value={sub.sub_id}>
+                  {sub.sub_name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         )
       }
     },
