@@ -9,7 +9,7 @@ import axios from 'axios'
 
 // ** Components
 import RegisterProduct from 'src/views/supplier/RegisterProduct'
-import ShowResults from 'src/views/supplier/show-results'
+import ShowResults from 'src/views/supplier/ShowResults'
 
 // ** Switch Alert Import
 const Swal = require('sweetalert2')
@@ -31,8 +31,8 @@ const RegisterProductPage = ({ productCategories }) => {
     product_license_number: '',
     product_amount: '',
     product_size: '',
-    image_file_name: '',
-    video_file_name: '',
+    image_file_name: '-',
+    video_file_name: '-',
     options: [
       {
         optionId: 1,
@@ -102,32 +102,15 @@ const RegisterProductPage = ({ productCategories }) => {
       let optionValidationIndex = null
       let hasOptionGroupError = false
 
-      const newProductOptions = product.options.map((option, index) => {
+      const newProductOptions = product.options.map(option => {
         if (option.optionName === '') {
           hasOptionError = true
 
           return { ...option, optionValidation: 1 }
+        } else {
+          return { ...option, optionValidation: 0 }
         }
-
-        optionValidationIndex = index + 1
-
-        return option
       })
-
-      if (optionValidationIndex !== null) {
-        const newProductOptionGroups = productOptionGroups.map(optionGroup => {
-          for (let i = 0; i < optionValidationIndex; i++) {
-            if (optionGroup[`optionGroupColumn${i + 1}`] === '') {
-              hasOptionGroupError = true
-              console.log('test')
-
-              return { ...optionGroup, optionGroupValidation: 1 }
-            }
-          }
-
-          return optionGroup
-        })
-      }
 
       if (hasOptionError) {
         Swal.fire({
@@ -154,7 +137,7 @@ const RegisterProductPage = ({ productCategories }) => {
       console.log('test')
       console.log()
 
-      axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.product.postnewproductv2`, {})
+      axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.product.postnewproductv2`, product)
 
       setActiveStep(prevActiveStep => prevActiveStep + 1)
       setSkipped(newSkipped)
@@ -177,55 +160,55 @@ const RegisterProductPage = ({ productCategories }) => {
   }
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Stepper activeStep={activeStep}>
-        {steps.map((label, index) => {
-          const stepProps = {}
-          const labelProps = {}
-          if (isStepOptional(index)) {
-            labelProps.optional = true
-          }
-          if (isStepSkipped(index)) {
-            stepProps.completed = false
-          }
+    <>
+      <Box sx={{ width: '100%' }}>
+        <Stepper activeStep={activeStep} sx={{ mb: 2 }}>
+          {steps.map((label, index) => {
+            const stepProps = {}
+            const labelProps = {}
+            if (isStepOptional(index)) {
+              labelProps.optional = true
+            }
+            if (isStepSkipped(index)) {
+              stepProps.completed = false
+            }
 
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          )
-        })}
-      </Stepper>
-      {activeStep === steps.length ? (
-        <>
-          <Typography sx={{ mt: 2, mb: 1 }}>All steps completed - you&apos;re finished</Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Box sx={{ flex: '1 1 auto' }} />
-            <Button onClick={handleReset}>Reset</Button>
-          </Box>
-        </>
-      ) : (
-        <>
-          {activeStep === 0 && (
-            <RegisterProduct product={product} setProduct={setProduct} productCategories={productCategories} />
-          )}
-          {/* {activeStep === 1 && (
-            <ShowResults productOptions={product.options} productOptionGroups={productOptionGroups} />
-          )}
-          {activeStep === 2 && 'test'}
-          <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography> */}
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Button color='inherit' disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
-              Back
-            </Button>
-            <Box sx={{ flex: '1 1 auto' }} />
-            <Button size='large' onClick={handleNext}>
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-            </Button>
-          </Box>
-        </>
-      )}
-    </Box>
+            return (
+              <Step key={label} {...stepProps}>
+                <StepLabel optional={isStepOptional(index) ? 'Optional' : null}>{label}</StepLabel>
+              </Step>
+            )
+          })}
+        </Stepper>
+        {activeStep === steps.length ? (
+          <>
+            <Typography sx={{ mt: 2, mb: 1 }}>All steps completed - you&apos;re finished</Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+              <Box sx={{ flex: '1 1 auto' }} />
+              <Button onClick={handleReset}>Reset</Button>
+            </Box>
+          </>
+        ) : (
+          <>
+            {activeStep === 0 && (
+              <RegisterProduct product={product} setProduct={setProduct} productCategories={productCategories} />
+            )}
+            {activeStep === 1 && <ShowResults productOptions={product.options} productOptionGroups={product.item} />}
+            {activeStep === 2 && 'test'}
+            <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+              <Button color='inherit' disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
+                Back
+              </Button>
+              <Box sx={{ flex: '1 1 auto' }} />
+              <Button size='large' onClick={handleNext}>
+                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+              </Button>
+            </Box>
+          </>
+        )}
+      </Box>
+    </>
   )
 }
 
