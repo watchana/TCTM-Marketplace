@@ -16,6 +16,15 @@ import ButtonBase from '@mui/material/ButtonBase'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
+import { DataGrid } from '@mui/x-data-grid'
+
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+import Paper from '@mui/material/Paper'
 
 // ** Icons MUI Imports
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -26,8 +35,20 @@ import ChevronRight from 'mdi-material-ui/ChevronRight'
 // ** Imports components 📨
 import DialogComments from './components/dialogComments'
 
+function createData(name, calories, fat, carbs, protein) {
+  return { name, calories, fat, carbs, protein }
+}
+
 const RequirementsDetail = () => {
   const [openDialogComments, setOpenDialogComments] = useState(false)
+
+  const rows = [
+    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+    createData('Eclair', 262, 16.0, 24, 6.0),
+    createData('Cupcake', 305, 3.7, 67, 4.3),
+    createData('Gingerbread', 356, 16.0, 49, 3.9)
+  ]
 
   return (
     <Container maxWidth='xl'>
@@ -55,52 +76,87 @@ const RequirementsDetail = () => {
           <Box sx={{ width: '100%', height: '100%' }}>
             <CardContent sx={{ paddingX: 6 }}>
               {/* ของคน Post */}
-              <Card sx={{ width: '100%', height: '100%', bgcolor: '#fff', borderRadius: '10px' }}>
-                <CardContent>
-                  <Box sx={{ width: '100%' }}>
-                    <Typography variant='h4' fontSize={36}>
-                      Title
-                    </Typography>
-                  </Box>
-                  <Box sx={{ width: '100%', height: '100%', marginTop: 2 }}>
-                    <Typography variant='body2'>
-                      Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all
-                      continents except Antarctica Lizards are a widespread group of squamate reptiles, with over 6,000
-                      species, ranging across all continents except Antarctica Lizards are a widespread group of
-                      squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica
-                      Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all
-                      continents except Antarctica
-                    </Typography>
-                  </Box>
-                  <Grid
-                    container
-                    spacing={2}
-                    justifyContent='space-between'
-                    alignItems='center'
-                    sx={{
-                      width: '100%',
-                      marginTop: 6
-                    }}
-                  >
-                    <Grid item sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                      <Avatar
-                        alt='John Doe'
-                        sx={{ width: 40, height: 40, marginRight: 4 }}
-                        src='/images/avatars/1.png'
-                      />
-                      <Typography variant='h6' fontSize='bold'>
-                        John Doe
+              <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%', height: '100%' }}>
+                <Card sx={{ width: '50%', height: '100%', bgcolor: '#fff', borderRadius: '10px', marginRight: 4 }}>
+                  <CardContent>
+                    <Box sx={{ width: '100%' }}>
+                      <Typography variant='h4' fontSize={36}>
+                        Title
                       </Typography>
-                    </Grid>
-                    {/* Desired Price */}
-                    <Grid>
-                      <Typography variant='h5' fontSize='bold'>
-                        $ 10,000
+                    </Box>
+                    <Box sx={{ width: '100%', height: '100%', marginTop: 2 }}>
+                      <Typography variant='body2'>
+                        Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all
+                        continents except Antarctica Lizards are a widespread group of squamate reptiles, with over
+                        6,000 species, ranging across all continents except Antarctica Lizards are a widespread group of
+                        squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica
+                        Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all
+                        continents except Antarctica
                       </Typography>
+                    </Box>
+                    <Grid
+                      container
+                      spacing={2}
+                      justifyContent='space-between'
+                      alignItems='center'
+                      sx={{
+                        width: '100%',
+                        marginTop: 6
+                      }}
+                    >
+                      <Grid item sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                        <Avatar
+                          alt='John Doe'
+                          sx={{ width: 40, height: 40, marginRight: 4 }}
+                          src='/images/avatars/1.png'
+                        />
+                        <Typography variant='h6' fontSize='bold'>
+                          John Doe
+                        </Typography>
+                      </Grid>
+                      {/* Desired Price */}
+                      <Grid>
+                        <Typography variant='h5' fontSize='bold'>
+                          $ 10,000
+                        </Typography>
+                      </Grid>
                     </Grid>
-                  </Grid>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+
+                <Card sx={{ width: '50%', height: '100%', bgcolor: '#fff', borderRadius: '10px' }}>
+                  <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 1000 }} size='small' aria-label='a dense table'>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Dessert (100g serving)</TableCell>
+                          <TableCell align='right'>Calories</TableCell>
+                          <TableCell align='right'>Fat&nbsp;(g)</TableCell>
+                          <TableCell align='right'>Carbs&nbsp;(g)</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {rows.map(row => (
+                          <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                            <TableCell component='th' scope='row'>
+                              {row.name}
+                            </TableCell>
+                            <TableCell align='right'>
+                              <Button variant='outlined'>{row.calories}</Button>
+                              <Button variant='outlined'>{row.calories}</Button>
+                              <Button variant='outlined'>{row.calories}</Button>
+                            </TableCell>
+
+                            <TableCell align='right'>{row.fat}</TableCell>
+                            <TableCell align='right'>{row.carbs}</TableCell>
+                            <TableCell align='right'>{row.protein}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Card>
+              </Box>
 
               <Divider>
                 <Typography variant='h6' fontSize='bold'>
