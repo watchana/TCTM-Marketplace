@@ -232,6 +232,8 @@ const RegisterProduct = ({ product, setProduct, productCategories }) => {
   }
 
   const handleProductOptionGroupChange = (e, optionGroupId, col) => {
+    console.log('col: ', col)
+
     const updatedOptionGroups = product.items.map(optionGroup => {
       if (optionGroup.optionGroupId === optionGroupId) {
         return { ...optionGroup, [col]: e.target.value }
@@ -520,7 +522,7 @@ const RegisterProduct = ({ product, setProduct, productCategories }) => {
       </Card>
 
       {/* ตัวเลือกสินค้า */}
-      <Card sx={{ marginBlock: 5, width: '100%' }}>
+      <Card sx={{ padding: 8, marginBlock: 5 }}>
         <CardContent>
           <Box sx={{ mb: 4, pb: 2 }}>
             <Typography variant='h5'>เพิ่มตัวเลือกสินค้า</Typography>
@@ -666,7 +668,14 @@ const RegisterProduct = ({ product, setProduct, productCategories }) => {
                         }
                       />
                     ) : (
-                      <Select fullWidth id={`product-item-group-column-select-${option.optionId}`}>
+                      <Select
+                        fullWidth
+                        id={`product-item-group-column-select-${option.optionId}`}
+                        value={group[`optionGroupColumn${index + 1}`]}
+                        onChange={e =>
+                          handleProductOptionGroupChange(e, group.optionGroupId, `optionGroupColumn${index + 1}`)
+                        }
+                      >
                         {option.optionValue.map(value => (
                           <MenuItem key={value.valueId} value={value.valueName}>
                             {value.valueName}

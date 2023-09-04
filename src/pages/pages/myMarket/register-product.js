@@ -7,23 +7,31 @@ import { Box, Stepper, Step, StepLabel, Button, Typography } from '@mui/material
 // ** axios
 import axios from 'axios'
 
+// ** Router
+import { useRouter } from 'next/router'
+
 // ** Components
 import RegisterProduct from 'src/views/supplier/RegisterProduct'
 import ShowResults from 'src/views/supplier/ShowResults'
+import ShowResultsAPI from 'src/views/supplier/ShowResultsAPI'
 
 // ** Switch Alert Import
 const Swal = require('sweetalert2')
 
 const RegisterProductPage = ({ productCategories }) => {
+  const router = useRouter()
+
   const steps = ['Register Product', 'Show Results']
   const [activeStep, setActiveStep] = useState(0)
   const [skipped, setSkipped] = useState(new Set())
+  const [resultAPIStatus, setResultAPIStatus] = useState('')
 
   const [product, setProduct] = useState({
+    sub_id: 'SUP-10',
     product_name: '',
-    product_price: '',
+    product_price: '-',
     product_description: '',
-    product_count: '',
+    product_count: '-',
     product_category: '',
     product_brand: '',
     product_weight: '',
@@ -56,32 +64,6 @@ const RegisterProductPage = ({ productCategories }) => {
       }
     ]
   })
-
-  // !! ลบ
-  // const productOptionsInit = [
-  //   {
-  //     optionId: 1,
-  //     optionName: '',
-  //     optionValidation: 0,
-  //     optionType: 1,
-  //     optionValue: [{ valueId: 1, valueName: '' }]
-  //   }
-  // ]
-  // const [productOptions, setProductOptions] = useState(productOptionsInit)
-
-  // const productOptionGroupsInit = {
-  //   optionGroupId: 1,
-  //   optionGroupColumn1: '',
-  //   optionGroupColumn2: '',
-  //   optionGroupColumn3: '',
-  //   optionGroupColumn4: '',
-  //   optionGroupColumn5: '',
-  //   optionGroupPrice: null,
-  //   optionGroupQuantity: null,
-  //   optionGroupValidation: 0
-  // }
-
-  // const [productOptionGroups, setProductOptionGroups] = useState([productOptionGroupsInit])
 
   const isStepOptional = step => {
     return step === 1
@@ -137,7 +119,16 @@ const RegisterProductPage = ({ productCategories }) => {
       console.log('test')
       console.log()
 
-      axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.product.postnewproductv2`, product)
+      axios
+        .post(`${process.env.NEXT_PUBLIC_API}TCTM.product.postnewproductv2`, product)
+        .then(response => {
+          const statusCode = response.data.message.StatusCode
+          setResultAPIStatus(statusCode)
+        })
+        .catch(error => {
+          console.error('Error:', error)
+          setResultAPIStatus(500)
+        })
 
       setActiveStep(prevActiveStep => prevActiveStep + 1)
       setSkipped(newSkipped)
@@ -182,10 +173,10 @@ const RegisterProductPage = ({ productCategories }) => {
         </Stepper>
         {activeStep === steps.length ? (
           <>
-            <Typography sx={{ mt: 2, mb: 1 }}>All steps completed - you&apos;re finished</Typography>
+            <ShowResultsAPI result={resultAPIStatus} />
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
               <Box sx={{ flex: '1 1 auto' }} />
-              <Button onClick={handleReset}>Reset</Button>
+              <Button onClick={() => router.push('/pages/myMarket')}>Dashboard</Button>
             </Box>
           </>
         ) : (
@@ -193,9 +184,7 @@ const RegisterProductPage = ({ productCategories }) => {
             {activeStep === 0 && (
               <RegisterProduct product={product} setProduct={setProduct} productCategories={productCategories} />
             )}
-            {activeStep === 1 && <ShowResults productOptions={product.options} productOptionGroups={product.item} />}
-            {activeStep === 2 && 'test'}
-            <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
+            {activeStep === 1 && <ShowResults columnsData={product.options} rowsData={product.items} />}
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
               <Button color='inherit' disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
                 Back
