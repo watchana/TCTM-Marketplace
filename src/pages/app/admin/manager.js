@@ -4,6 +4,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab'
 import MemberTable from './manager/MemberTable'
 import SupplierTable from './manager/SupplierTable'
 import ProductTable from './manager/ProductTable'
+import PostTable from './manager/PostTable'
 import axios from 'axios'
 
 const ManagerPage = () => {
@@ -11,8 +12,7 @@ const ManagerPage = () => {
   const [dataUser, setDataUser] = useState([])
   const [dataMarket, setDataMarket] = useState([])
   const [dataProduct, setDataProduct] = useState([])
-
-  // console.log('ข้อมูล product', dataProduct)
+  const [dataPost, setDataPost] = useState([])
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -39,9 +39,16 @@ const ManagerPage = () => {
           }
         })
 
+        const postResponse = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.approve.requirementqueue`, {
+          headers: {
+            Authorization: 'token 76dc8ec5e14d19c:a644317879022f2'
+          }
+        })
+
         setDataUser(userResponse.data.message.Data || [])
         setDataMarket(marketResponse.data.message.Data || [])
         setDataProduct(productResponse.data.message.Data || [])
+        setDataPost(postResponse.data.message.Data || [])
       } catch (error) {
         console.error('Error fetching data:', error)
       }
@@ -66,6 +73,7 @@ const ManagerPage = () => {
                 <Tab label='User' value='1' />
                 <Tab label='Marketplace' value='2' />
                 <Tab label='Product' value='3' />
+                <Tab label='Post' value='4' />
               </TabList>
             </Box>
             <TabPanel value='1'>
@@ -76,6 +84,9 @@ const ManagerPage = () => {
             </TabPanel>
             <TabPanel value='3'>
               <ProductTable rows={dataProduct} />
+            </TabPanel>
+            <TabPanel value='4'>
+              <PostTable rows={dataPost} />
             </TabPanel>
           </TabContext>
         </Box>
