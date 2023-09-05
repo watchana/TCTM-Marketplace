@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography'
 
 // ** Import components
 import { useRouter } from 'next/router'
-import { withAuth } from './pages/AuthCheck'
+import { withAuth } from '../@core/utils/AuthCheck'
 
 // ** custom components
 import SlideshowWithCards from './Fuse/slide/slidebillboard'
