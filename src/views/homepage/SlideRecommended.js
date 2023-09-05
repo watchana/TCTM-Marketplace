@@ -77,19 +77,6 @@ const SlideRecommended = () => {
                             {product.product_name}
                           </Typography>
                         </Box>
-                        <Box sx={{ width: '100%' }}>
-                          <Typography
-                            variant='h6'
-                            sx={{
-                              fontWeight: 500,
-                              overflow: 'hidden',
-                              whiteSpace: 'nowrap',
-                              textOverflow: 'ellipsis'
-                            }}
-                          >
-                            ${product.product_price}
-                          </Typography>
-                        </Box>
                       </CardActionArea>
                     </Box>
                   </ButtonBase>
