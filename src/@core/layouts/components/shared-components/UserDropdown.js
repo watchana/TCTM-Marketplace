@@ -28,7 +28,7 @@ import StorefrontPlusOutline from 'mdi-material-ui/StorefrontPlusOutline'
 import Cookies from 'js-cookie'
 
 // Import auth token Decode
-import { createToken, verifyToken } from '../../../../../utils/auth'
+import { createToken, verifyToken } from '../../../utils/auth'
 
 // ** Styled Components
 const BadgeContentSpan = styled('span')(({ theme }) => ({

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Cookies from 'js-cookie'
-import { verifyToken } from '../../../../utils/auth' // Your JWT utility function
+import { verifyToken } from '../auth' // Your JWT utility function
 
 export const withAuth = WrappedComponent => {
   const AuthComponent = props => {

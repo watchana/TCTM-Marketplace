@@ -33,7 +33,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 import axios from 'axios'
 
 // ** jwt
-import { createToken, verifyToken } from '../../../../utils/auth'
+import { createToken, verifyToken } from '../../@core/utils/auth'
 import Cookies from 'js-cookie'
 
 // ** Switch Alert Import
