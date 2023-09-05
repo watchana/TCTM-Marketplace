@@ -74,7 +74,7 @@ const ProductTable = ({ rows }) => {
         const selectedSubId = subIdSelected && subIdSelected[params.row.req_id]
 
         return (
-          <FormControl fullWidth style={{ marginRight: '10px' }}>
+          <FormControl fullWidth style={{ marginRight: '10px' }} size='small'>
             <InputLabel id={`select-label-${params.row.req_id}`}>SubID</InputLabel>
             <Select
               labelId={`select-label-${params.row.req_id}`}
