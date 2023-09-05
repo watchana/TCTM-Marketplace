@@ -1,18 +1,24 @@
+// ** React Imports
 import React, { useState, useEffect } from 'react'
+
+// ** MUI Imports
 import { Box, Tab, Card, Typography } from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import MemberTable from './manager/MemberTable'
-import SupplierTable from './manager/SupplierTable'
-import ProductTable from './manager/ProductTable'
+
+// ** Import axios
 import axios from 'axios'
 
-const ManagerPage = () => {
+import MemberTable from 'src/views/tctm/MemberTable'
+import SupplierTable from 'src/views/tctm/SupplierTable'
+import ProductTable from 'src/views/tctm/ProductTable'
+import PostTable from 'src/views/tctm/PostTable'
+
+const ManagementPage = () => {
   const [value, setValue] = useState('1')
   const [dataUser, setDataUser] = useState([])
   const [dataMarket, setDataMarket] = useState([])
   const [dataProduct, setDataProduct] = useState([])
-
-  // console.log('ข้อมูล product', dataProduct)
+  const [dataPost, setDataPost] = useState([])
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -39,9 +45,16 @@ const ManagerPage = () => {
           }
         })
 
+        const postResponse = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.approve.requirementqueue`, {
+          headers: {
+            Authorization: 'token 76dc8ec5e14d19c:a644317879022f2'
+          }
+        })
+
         setDataUser(userResponse.data.message.Data || [])
         setDataMarket(marketResponse.data.message.Data || [])
         setDataProduct(productResponse.data.message.Data || [])
+        setDataPost(postResponse.data.message.Data || [])
       } catch (error) {
         console.error('Error fetching data:', error)
       }
@@ -66,6 +79,7 @@ const ManagerPage = () => {
                 <Tab label='User' value='1' />
                 <Tab label='Marketplace' value='2' />
                 <Tab label='Product' value='3' />
+                <Tab label='Post' value='4' />
               </TabList>
             </Box>
             <TabPanel value='1'>
@@ -77,6 +91,9 @@ const ManagerPage = () => {
             <TabPanel value='3'>
               <ProductTable rows={dataProduct} />
             </TabPanel>
+            <TabPanel value='4'>
+              <PostTable rows={dataPost} />
+            </TabPanel>
           </TabContext>
         </Box>
       </Card>
@@ -84,4 +101,4 @@ const ManagerPage = () => {
   )
 }
 
-export default ManagerPage
+export default ManagementPage

@@ -42,19 +42,20 @@ export default function ProductDetails() {
   const [quantity, setQuantity] = useState(1) // ตัวแปรเก็บค่าจำนวนสินค้า
   const [productOption, setProductOption] = useState([]) // ตัวแปรเก็บค่าตัวเลือกสินค้า
   const [options, setOptions] = useState([]) // ตัวแปรเก็บค่า ตัวเลือก
+  const [selection, setSelection] = useState('') // ตัวแปร Selection เก็บค่าตัวเลือก (ข้อมูลที่ต้องส่ง)
 
-  // เก็บค่าข้อมูลตัวเลือกจาก radio
-  const [selectedValues, setSelectedValues] = useState({})
-
-  // เก็บค่า option ราคา
-  const [price, setPrice] = useState({}) // ตัวแปรเก็บค่าทั้งหมด
-  const [priceoption, setPriceOption] = useState({}) // ตัวแปรกรองข้อมูลราคา
-  const [pricedisplay, setPriceDisplay] = useState('') // ตัวแปรเก็บค่า ที่ต้องจ่าย
+  console.log('Option', options)
+  console.log('selection', selection)
 
   // รับค่า id product
   const router = useRouter() // เรียกใช้งาน Router
   const { product_id } = router.query
   const productId = product_id
+
+  // ฟังก์ชันจัดการการเปลี่ยนค่าของ Select
+  const handleSelectChange = event => {
+    setSelection(event.target.value)
+  }
 
   // ฟังก์ชันเพิ่มลดปริมาณสินค้า
   const increaseQuantity = () => {
@@ -67,65 +68,6 @@ export default function ProductDetails() {
     }
   }
 
-  // ฟังก์ชันเก็บค่าข้อมูลจาก Radio
-  const handleRadioChange = (event, optionGroupName) => {
-    setSelectedValues({
-      ...selectedValues,
-      [optionGroupName]: event.target.value
-    })
-  }
-
-  // ปรับโครงสร้างข้อมูล ราคา
-  useEffect(() => {
-    if (price) {
-      const updatedPriceOption = {}
-
-      for (const optionKey in price) {
-        if (Object.hasOwnProperty.call(price, optionKey)) {
-          const option = price[optionKey]
-          const optionData = {}
-
-          for (const value of option) {
-            optionData[value.option_name] = value.value_name
-          }
-
-          updatedPriceOption[optionKey] = optionData
-        }
-      }
-
-      setPriceOption(updatedPriceOption)
-    }
-  }, [price])
-
-  // คำนวณราคาจากตัวเลือก
-  const calculateSelectedPrice = useCallback(() => {
-    const selectedOptionKeys = Object.keys(selectedValues)
-
-    // เช็คว่ามีตัวเลือกที่ยังไม่ได้ถูกเลือกหรือไม่
-    if (selectedOptionKeys.length < options.length - 2) {
-      return 'กรุณาระบุตัวเลือกสินค้า'
-    }
-
-    for (const optionKey in priceoption) {
-      const option = priceoption[optionKey]
-
-      const isMatching = selectedOptionKeys.every(key => {
-        return option[key] === selectedValues[key]
-      })
-
-      if (isMatching) {
-        return parseFloat(option.Price).toFixed(2)
-      }
-    }
-
-    return 'ไม่พบสินค้า'
-  }, [options.length, priceoption, selectedValues])
-
-  // ฟังก์ชันเก็บค่าราคาที่เลือก
-  useEffect(() => {
-    setPriceDisplay(calculateSelectedPrice()) // เก็บค่าราคาที่คำนวณได้ในตัวแปร pricedisplay
-  }, [selectedValues, calculateSelectedPrice])
-
   // ดึงข้อมูลตัวเลือกสินค้า
   useEffect(() => {
     const fetchData = async () => {
@@ -137,14 +79,7 @@ export default function ProductDetails() {
         })
 
         // console.log('product Detail', response.data.message.options)
-        setPrice(response.data.message.options)
-
-        // ทำการเก็บค่า options
-        const productOptions = response.data.message.AllOption
-        if (productOptions) {
-          const optionValues = Object.values(productOptions)
-          setOptions(optionValues)
-        }
+        setOptions(response.data.message.options)
       } catch (error) {
         console.error(error)
       }
@@ -184,7 +119,12 @@ export default function ProductDetails() {
                     <Typography variant='body1' style={{ color: 'gray' }} paragraph>
                       GASKET MOUNTED DESIGN
                     </Typography>
-                    <Typography variant='h6'>฿{calculateSelectedPrice()}</Typography>
+                    <Typography variant='h6'>
+                      ฿
+                      {selection
+                        ? selection.find(option => option.option_name === 'Price')?.value_name
+                        : 'กรุณาระบุตัวเลือกสินค้า'}
+                    </Typography>
                   </CardContent>
                 </Card>
 
@@ -195,41 +135,35 @@ export default function ProductDetails() {
                       <Typography variant='h6' gutterBottom>
                         Select an option:
                       </Typography>
-                      {options
-                        .filter(
-                          optionGroup =>
-                            optionGroup[0].option_name !== 'Price' && optionGroup[0].option_name !== 'Quantity'
-                        )
-                        .map(optionGroup => {
-                          const uniqueOptions = Array.from(new Set(optionGroup.map(option => option.value_name))) // กรองค่าที่ไม่ซ้ำกัน
-
-                          return (
-                            <div key={optionGroup[0].option_name}>
-                              <Typography variant='body1' style={{ fontWeight: 'bold' }}>
-                                {optionGroup[0].option_name}:
-                              </Typography>
-                              <RadioGroup
-                                row
-                                defaultValue='null'
-                                value={selectedValues[optionGroup[0].option_name]}
-                                onChange={event => handleRadioChange(event, optionGroup[0].option_name)}
-                              >
-                                {uniqueOptions.map(optionName => {
-                                  const label = optionName || 'ไม่มี'
-
-                                  return (
-                                    <FormControlLabel
-                                      key={optionName}
-                                      value={optionName}
-                                      control={<Radio />}
-                                      label={label}
-                                    />
-                                  )
-                                })}
-                              </RadioGroup>
-                            </div>
-                          )
-                        })}
+                      {/* ตัวเลือกเก็บค่าราคา */}
+                      <FormControl fullWidth>
+                        <InputLabel id='label'>Option</InputLabel>
+                        <Select
+                          labelId='label'
+                          id='select'
+                          value={selection}
+                          label='Select'
+                          onChange={handleSelectChange}
+                        >
+                          {Object.values(options).map((optionArray, index) => (
+                            <MenuItem key={index} value={optionArray}>
+                              {optionArray.length === 0 ? (
+                                <MenuItem disabled>ไม่มีข้อมูล</MenuItem>
+                              ) : (
+                                optionArray.map(
+                                  (option, subIndex) =>
+                                    option.option_name !== 'Price' &&
+                                    option.option_name !== 'Quantity' && (
+                                      <span key={subIndex}>
+                                        {option.option_name}: {option.value_name}{' '}
+                                      </span>
+                                    )
+                                )
+                              )}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
                     </FormControl>
                   </CardContent>
                 </Card>

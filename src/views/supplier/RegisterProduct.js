@@ -26,25 +26,11 @@ import DeleteIcon from '@mui/icons-material/Delete'
 // ** Switch Alert Import
 const Swal = require('sweetalert2')
 
-const RegisterProduct = ({
-  productOptions,
-  setProductOptions,
-  productOptionGroups,
-  setProductOptionGroups,
-  productCategories
-}) => {
+const RegisterProduct = ({ product, setProduct, productCategories }) => {
   const [uploadImages, setUploadImages] = useState([])
   const [uploadVideos, setUploadVideos] = useState({})
   const [openImagePreview, setOpenImagePreview] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
-
-  const [product, setProduct] = useState({
-    name: '',
-    category: '',
-    price: '',
-    quantity: '',
-    detail: ''
-  })
 
   const productOptionsInit = [
     {
@@ -56,7 +42,7 @@ const RegisterProduct = ({
     }
   ]
 
-  const productOptionGroupsInit = {
+  const itemInit = {
     optionGroupId: 1,
     optionGroupColumn1: '',
     optionGroupColumn2: '',
@@ -134,101 +120,152 @@ const RegisterProduct = ({
   }
 
   // ** add product options
-  const handleAddOption = e => {
-    const MaxOptionId = Math.max(...productOptions.map(option => option.optionId))
+  const handleAddOption = () => {
+    const optionIds = product.options.map(option => option.optionId)
+    const maxId = Math.max(...optionIds)
 
-    const newOption = {
-      optionId: MaxOptionId + 1,
-      optionName: '',
-      optionType: 1,
-      optionValue: [{}]
-    }
-    setProductOptions([...productOptions, newOption])
+    const newOption = { ...productOptionsInit[0], optionId: maxId + 1 }
+
+    setProduct({ ...product, options: [...product.options, newOption] })
   }
 
   // ** delete product options
   const handleDeleteOption = (e, id) => {
-    if (productOptions.length === 1) return setProductOptions(productOptionsInit)
+    if (product.options.length === 1) return setProduct({ ...product, options: productOptionsInit })
 
-    const updatedOptions = productOptions.filter(option => option.optionId !== id)
-    setProductOptions(updatedOptions)
+    const updatedOptions = product.options.filter(option => option.optionId !== id)
+    setProduct({ ...product, options: updatedOptions })
   }
 
   const handleOptionTypeChange = (e, optionId) => {
-    e.target.value === 1
-      ? setProductOptions(options =>
-          options.map(opt =>
-            opt.optionId === optionId
-              ? { ...opt, optionType: e.target.value, optionValue: [{ valueId: 1, valueName: '' }] }
-              : opt
-          )
-        )
-      : setProductOptions(options =>
-          options.map(opt => (opt.optionId === optionId ? { ...opt, optionType: e.target.value } : opt))
-        )
+    const updatedOptions = product.options.map(option => {
+      if (option.optionId === optionId) {
+        return { ...option, optionType: e.target.value }
+      }
+
+      return option
+    })
+
+    setProduct({ ...product, options: updatedOptions })
+  }
+
+  // ** change product option name
+  const handleSubOptionChange = (e, optionId, valueId) => {
+    setProduct(prevProduct => ({
+      ...prevProduct,
+      options: prevProduct.options.map(opt => {
+        if (opt.optionId === optionId) {
+          return {
+            ...opt,
+            optionValue: opt.optionValue.map(val => {
+              if (val.valueId === valueId) {
+                return { ...val, valueName: e.target.value }
+              }
+
+              return val
+            })
+          }
+        }
+
+        return opt
+      })
+    }))
   }
 
   // ** add product option value
-  const handleAddOptionValue = e => {
-    const optionValueIds = productOptions[productOptions.length - 1].optionValue.map(value => value.valueId)
-    const maxId = Math.max(...optionValueIds)
+  const handleAddOptionValue = () => {
+    // Extract all valueIds from all options
+    const allValueIds = product.options.flatMap(option => option.optionValue.map(value => value.valueId))
 
+    // Calculate the maximum valueId
+    const maxId = Math.max(...allValueIds, 0)
+
+    console.log('test: ', maxId)
+
+    // Create a new option value with a unique valueId
     const newOptionValue = { valueId: maxId + 1, valueName: '' }
 
-    const updatedOptions = productOptions.map(option => {
-      if (option.optionId === productOptions[productOptions.length - 1].optionId) {
-        return { ...option, optionValue: [...option.optionValue, newOptionValue] }
-      } else {
-        return option
+    // Update the product state by adding the new option value to the last option
+    setProduct(prevProduct => {
+      const lastOptionIndex = prevProduct.options.length - 1
+      const updatedOptions = [...prevProduct.options]
+      updatedOptions[lastOptionIndex] = {
+        ...prevProduct.options[lastOptionIndex],
+        optionValue: [...prevProduct.options[lastOptionIndex].optionValue, newOptionValue]
       }
-    })
 
-    setProductOptions(updatedOptions)
+      return { ...prevProduct, options: updatedOptions }
+    })
   }
 
   // ** delete product option value
   const handleDeleteOptionValue = (e, optionId, valueId) => {
-    if (productOptions[productOptions.length - 1].optionValue.length === 1)
-      return setProductOptions(options =>
-        options.map(option =>
-          option.optionId === optionId ? { ...option, optionValue: [{ valueId: 1, valueName: '' }] } : option
-        )
-      )
-
-    const updatedOptions = productOptions.map(option => {
-      if (option.optionId === optionId) {
-        return { ...option, optionValue: option.optionValue.filter(value => value.valueId !== valueId) }
-      } else {
-        return option
-      }
+    // Create a function to remove the specified value from an option
+    const removeValueFromOption = option => ({
+      ...option,
+      optionValue: option.optionValue.filter(value => value.valueId !== valueId)
     })
 
-    setProductOptions(updatedOptions)
+    // Map over the options and remove the value from the specified option
+    const updatedOptions = product.options.map(option =>
+      option.optionId === optionId ? removeValueFromOption(option) : option
+    )
+
+    // Update the product state
+    setProduct({ ...product, options: updatedOptions })
   }
 
   const handleAddOptionGroup = e => {
-    const optionGroupIds = productOptionGroups.map(optionGroup => optionGroup.optionGroupId)
+    const optionGroupIds = product.items.map(optionGroup => optionGroup.optionGroupId)
     const maxId = Math.max(...optionGroupIds)
 
-    const newOptionGroup = { ...productOptionGroupsInit, optionGroupId: maxId + 1 }
-    setProductOptionGroups([...productOptionGroups, newOptionGroup])
+    const newOptionGroup = { ...itemInit, optionGroupId: maxId + 1 }
+    setProduct({ ...product, items: [...product.items, newOptionGroup] })
   }
 
   const handleDeleteOptionGroup = (e, id) => {
-    if (productOptionGroups.length === 1) return setProductOptionGroups([productOptionGroupsInit])
-    const updatedOptionGroups = productOptionGroups.filter(optionGroup => optionGroup.optionGroupId !== id)
-    setProductOptionGroups(updatedOptionGroups)
+    // Use Array.prototype.filter to remove the option group with the specified id
+    const updatedOptionGroups = product.items.filter(optionGroup => optionGroup.optionGroupId !== id)
+
+    // Update the product state
+    setProduct({ ...product, items: updatedOptionGroups })
   }
 
   const handleProductOptionGroupChange = (e, optionGroupId, col) => {
-    const updatedOptionGroups = productOptionGroups.map(optionGroup => {
+    console.log('col: ', col)
+
+    const updatedOptionGroups = product.items.map(optionGroup => {
       if (optionGroup.optionGroupId === optionGroupId) {
         return { ...optionGroup, [col]: e.target.value }
       } else {
         return optionGroup
       }
     })
-    setProductOptionGroups(updatedOptionGroups)
+    setProduct({ ...product, items: updatedOptionGroups })
+  }
+
+  // ** Change product Item price
+  const handleItemPriceChange = (e, optionGroupId) => {
+    const updatedOptionGroups = product.items.map(optionGroup => {
+      if (optionGroup.optionGroupId === optionGroupId) {
+        return { ...optionGroup, optionGroupPrice: e.target.value }
+      } else {
+        return optionGroup
+      }
+    })
+    setProduct({ ...product, items: updatedOptionGroups })
+  }
+
+  // ** Change product Item quantity
+  const handleItemQuantityChange = (e, optionGroupId) => {
+    const updatedOptionGroups = product.items.map(optionGroup => {
+      if (optionGroup.optionGroupId === optionGroupId) {
+        return { ...optionGroup, optionGroupQuantity: e.target.value }
+      } else {
+        return optionGroup
+      }
+    })
+    setProduct({ ...product, items: updatedOptionGroups })
   }
 
   return (
@@ -381,19 +418,21 @@ const RegisterProduct = ({
               <TextField
                 fullWidth
                 id='product-name'
-                value={product.name}
-                onChange={e => setProduct({ ...product, name: e.target.value })}
+                value={product.product_name}
+                onChange={e => setProduct({ ...product, product_name: e.target.value })}
               />
             </Grid>
 
             <Grid item xs={12} sm={6}>
               <Typography>หมวดหมู่</Typography>
-              <Select fullWidth defaultValue='' id='grouped-select' label='Grouping'>
-                <MenuItem value=''>
-                  <em>None</em>
-                </MenuItem>
+              <Select
+                fullWidth
+                value={product.product_category}
+                onChange={e => setProduct({ ...product, product_category: e.target.value })}
+                label='Grouping'
+              >
                 {productCategories.map(category => (
-                  <MenuItem key={category.category_id} value={1}>
+                  <MenuItem key={category.category_id} value={category.category_id}>
                     {category.category_name}
                   </MenuItem>
                 ))}
@@ -402,167 +441,197 @@ const RegisterProduct = ({
 
             <Grid item xs={12}>
               <Typography>รายละเอียดสินค้า</Typography>
-              <TextField fullWidth id='product-detail' multiline rows={4} variant='outlined' />
+              <TextField
+                fullWidth
+                id='product-detail'
+                multiline
+                rows={4}
+                variant='outlined'
+                value={product.product_description}
+                onChange={e => setProduct({ ...product, product_description: e.target.value })}
+              />
             </Grid>
 
             <Grid item xs={12} sm={6}>
               <Typography>แบรนด์</Typography>
-              <TextField fullWidth id='product-brand' variant='outlined' />
+              <TextField
+                fullWidth
+                id='product-brand'
+                variant='outlined'
+                value={product.product_brand}
+                onChange={e => setProduct({ ...product, product_brand: e.target.value })}
+              />
             </Grid>
 
             <Grid item xs={12} sm={6}>
               <Typography>น้ำหนัก</Typography>
-              <TextField fullWidth id='product-brand' variant='outlined' />
+              <TextField
+                fullWidth
+                id='product-brand'
+                variant='outlined'
+                value={product.product_weight}
+                onChange={e => setProduct({ ...product, product_weight: e.target.value })}
+              />
             </Grid>
 
             <Grid item xs={12} sm={6}>
               <Typography>หมายเลขใบอนุญาติ </Typography>
-              <TextField fullWidth id='product-brand' variant='outlined' />
+              <TextField
+                fullWidth
+                id='product-brand'
+                variant='outlined'
+                value={product.product_license_number}
+                onChange={e => setProduct({ ...product, product_license_number: e.target.value })}
+              />
             </Grid>
 
             <Grid item xs={12} sm={6}>
               <Typography>ประเทศต้นกำเนิดสินค้า</Typography>
-              <TextField fullWidth id='product-brand' variant='outlined' />
+              <TextField
+                fullWidth
+                id='product-brand'
+                variant='outlined'
+                value={product.product_country}
+                onChange={e => setProduct({ ...product, product_country: e.target.value })}
+              />
             </Grid>
 
             <Grid item xs={12} sm={6}>
               <Typography>ขนาดบรรจุ</Typography>
-              <TextField fullWidth id='product-brand' variant='outlined' />
+              <TextField
+                fullWidth
+                id='product-brand'
+                variant='outlined'
+                value={product.product_size}
+                onChange={e => setProduct({ ...product, product_size: e.target.value })}
+              />
             </Grid>
 
             <Grid item xs={12} sm={6}>
               <Typography>ปริมาณ</Typography>
-              <TextField fullWidth id='product-brand' variant='outlined' />
+              <TextField
+                fullWidth
+                id='product-brand'
+                variant='outlined'
+                value={product.product_amount}
+                onChange={e => setProduct({ ...product, product_amount: e.target.value })}
+              />
             </Grid>
           </Grid>
         </Box>
       </Card>
 
       {/* ตัวเลือกสินค้า */}
-      <Card sx={{ marginBlock: 5, width: '100%' }}>
+      <Card sx={{ padding: 8, marginBlock: 5 }}>
         <CardContent>
           <Box sx={{ mb: 4, pb: 2 }}>
             <Typography variant='h5'>เพิ่มตัวเลือกสินค้า</Typography>
             <Typography variant='body1'>หัวข้อตัวเลือกที่ต้องการ</Typography>
           </Box>
-          {productOptions.map((option, index) => (
+          {product.options.map((option, index) => (
             <Grid
               container
-              key={option.optionId}
+              key={`option-${option.optionId}`} // ใช้ค่าที่ไม่ซ้ำกันเป็น key
               border={1}
               borderColor='rgba(0, 0, 0, 0.2)'
               borderRadius={1}
               sx={{ p: 4, marginBlock: 4 }}
+              spacing={5}
             >
-              <Grid container spacing={5} alignItems={'flex-end'}>
-                <Grid item key={option.optionId} xs={12} sm>
-                  <Typography>ตัวเลือกที่ {index + 1}</Typography>
-                  <TextField
-                    fullWidth
-                    id={`product-option-name-${option.optionId}`}
-                    variant='outlined'
-                    error={option.optionValidation === 1}
-                    value={option.optionName}
-                    onChange={e =>
-                      setProductOptions(options =>
-                        options.map(opt =>
-                          opt.optionId === option.optionId
-                            ? { ...opt, optionName: e.target.value, optionValidation: 0 }
-                            : opt
-                        )
-                      )
-                    }
-                  />
-                </Grid>
-                <Grid item key={option.optionId} xs={12} sm>
-                  <Typography>แบบกรอกข้อมูล หรือ แบบเลือก</Typography>
-                  <Select
-                    fullWidth
-                    labelId='demo-simple-select-label'
-                    id='demo-simple-select'
-                    value={option.optionType}
-                    onChange={e => handleOptionTypeChange(e, option.optionId)}
-                  >
-                    <MenuItem value={1}>กรอกเอง</MenuItem>
-                    <MenuItem value={2}>เลือก</MenuItem>
-                  </Select>
-                </Grid>
+              <Grid item xs={12} sm={8}>
+                <Typography>ตัวเลือกที่ {index + 1}</Typography>
+                <TextField
+                  fullWidth
+                  id={`product-name-${option.optionId}-${index + 1}`} // Unique ID
+                  variant='outlined'
+                  error={option.optionValidation === 1}
+                  value={option.optionName}
+                  onChange={e => {
+                    const updatedOptions = product.options.map(opt =>
+                      opt.optionId === option.optionId
+                        ? { ...opt, optionName: e.target.value, optionValidation: 0 }
+                        : opt
+                    )
 
-                <Grid item xs={12} sm={1} alignSelf={'flex-end'}>
-                  <Button
-                    fullWidth
-                    variant='contained'
-                    sx={{ height: 55, bgcolor: 'red' }}
-                    onClick={e => handleDeleteOption(e, option.optionId)}
-                  >
-                    <DeleteIcon />
-                  </Button>
-                </Grid>
+                    setProduct({ ...product, options: updatedOptions })
+                  }}
+                />
+              </Grid>
+              <Grid item key={option.optionId} xs={12} sm={3}>
+                <Typography>แบบกรอกข้อมูล หรือ แบบเลือก</Typography>
+                <Select
+                  fullWidth
+                  id={`product-option-type-${option.optionId}-${index + 1}`}
+                  defaultValue={0}
+                  value={option.optionType}
+                  onChange={e => handleOptionTypeChange(e, option.optionId)}
+                >
+                  <MenuItem value={1}>กรอกเอง</MenuItem>
+                  <MenuItem value={2}>เลือก</MenuItem>
+                </Select>
+              </Grid>
 
-                <Grid item xs={12}>
-                  {option.optionType === 2 && (
-                    <Grid container spacing={5} alignItems={'flex-end'}>
-                      {option.optionValue.map((value, index) => (
-                        <Grid container spacing={5} alignItems={'flex-end'} key={value.valueId} sx={{ m: 0 }}>
-                          <Grid item xs={12} sm={10}>
-                            <Typography>ตัวเลือกย่อยที่ {index + 1}</Typography>
-                            <TextField
-                              fullWidth
-                              id='product-option-name'
-                              variant='outlined'
-                              onChange={e =>
-                                setProductOptions(options =>
-                                  options.map(opt =>
-                                    opt.optionId === option.optionId
-                                      ? {
-                                          ...opt,
-                                          optionValue: opt.optionValue.map(val =>
-                                            val.valueId === value.valueId
-                                              ? {
-                                                  ...val,
-                                                  valueName: e.target.value
-                                                }
-                                              : val
-                                          )
-                                        }
-                                      : opt
-                                  )
-                                )
-                              }
-                            />
-                          </Grid>
-                          <Grid item xs sm={2}>
-                            <Button
-                              fullWidth
-                              variant='contained'
-                              sx={{ height: 55, bgcolor: 'blue' }}
-                              onClick={e => handleDeleteOptionValue(e, option.optionId, value.valueId)}
-                            >
-                              <DeleteIcon />
-                            </Button>
-                          </Grid>
+              <Grid item xs={12} sm={1} alignSelf={'flex-end'}>
+                <Button
+                  fullWidth
+                  variant='contained'
+                  sx={{ height: 55, bgcolor: 'red' }}
+                  onClick={e => handleDeleteOption(e, option.optionId)}
+                >
+                  <DeleteIcon />
+                </Button>
+              </Grid>
+              <Grid item xs={12}>
+                {option.optionType === 2 && (
+                  <Grid container spacing={5} alignItems={'flex-end'}>
+                    {option.optionValue.map((value, subIndex) => (
+                      <Grid
+                        container
+                        spacing={5}
+                        alignItems={'flex-end'}
+                        key={`${value.valueId}-${subIndex}`} // ใช้ค่าที่ไม่ซ้ำกันเป็น key
+                        sx={{ m: 0 }}
+                      >
+                        <Grid item xs={12} sm={11}>
+                          <Typography>ตัวเลือกย่อยที่ {subIndex + 1}</Typography>
+                          <TextField
+                            fullWidth
+                            variant='outlined'
+                            value={value.valueName}
+                            onChange={e => handleSubOptionChange(e, option.optionId, value.valueId)}
+                          />
                         </Grid>
-                      ))}
-                      {option.optionValue.length < 5 ? (
-                        <Grid item xs>
-                          <Button fullWidth variant='contained' sx={{ height: 55 }} onClick={handleAddOptionValue}>
-                            +
+                        <Grid item xs sm={1}>
+                          <Button
+                            fullWidth
+                            variant='contained'
+                            sx={{ height: 55, bgcolor: 'blue' }}
+                            onClick={e => handleDeleteOptionValue(e, option.optionId, value.valueId)}
+                          >
+                            <DeleteIcon />
                           </Button>
                         </Grid>
-                      ) : (
-                        <Grid item xs={12} sm={12}></Grid>
-                      )}
-                    </Grid>
-                  )}
-                </Grid>
+                      </Grid>
+                    ))}
+                    {product.options.length < 5 ? (
+                      <Grid item xs>
+                        <Button fullWidth variant='contained' sx={{ height: 55 }} onClick={handleAddOptionValue}>
+                          +
+                        </Button>
+                      </Grid>
+                    ) : (
+                      <Grid item xs={12} sm={12}></Grid>
+                    )}
+                  </Grid>
+                )}
               </Grid>
             </Grid>
           ))}
 
           <Grid container spacing={5}>
-            {productOptions.length < 5 ? (
+            {product.options.length < 5 ? (
               <Grid item xs>
-                <Button fullWidth variant='outlined' sx={{ height: 55 }} onClick={e => handleAddOption(e)}>
+                <Button fullWidth variant='outlined' sx={{ height: 55 }} onClick={handleAddOption}>
                   +
                 </Button>
               </Grid>
@@ -573,67 +642,59 @@ const RegisterProduct = ({
         </CardContent>
       </Card>
 
-      {/* รายละเอียดสินค้าของแต่ละตัวเลือก */}
+      {/*  รายละเอียดสินค้าของแต่ละตัวเลือก */}
       <Card sx={{ padding: 8, marginBlock: 5 }}>
         <Box sx={{ mb: 4 }}>
           <Typography variant='h5'>รายละเอียดสินค้าของแต่ละตัวเลือก</Typography>
         </Box>
-        {productOptionGroups.map((optionGroup, index) => (
-          <Box key={optionGroup.optionGroupId}>
+        {product.items.map((group, index) => (
+          <Box key={`group-${group.optionGroupId}`}>
             <Typography variant='body1'>สินค้าตัวเลือกที่ {index + 1}</Typography>
             <Box sx={{ my: 4 }} border={1} borderColor='rgba(0, 0, 0, 0.2)' borderRadius={1}>
               <Grid container spacing={5} sx={{ p: 4 }} alignItems={'flex-end'}>
-                {productOptions.map(
-                  (option, index) =>
-                    option.optionName.length > 0 && (
-                      <Grid item key={option.optionId} xs={12} sm={6}>
-                        <Typography>
-                          {option.optionName} {index + 1}
-                        </Typography>
-                        {option.optionType === 1 ? (
-                          <TextField
-                            fullWidth
-                            id={`product-option-group-name-${option.optionId}`}
-                            variant='outlined'
-                            value={optionGroup[`optionGroupColumn${index + 1}`]}
-                            onChange={e =>
-                              handleProductOptionGroupChange(
-                                e,
-                                optionGroup.optionGroupId,
-                                `optionGroupColumn${index + 1}`
-                              )
-                            }
-                          />
-                        ) : (
-                          <Select fullWidth labelId='demo-simple-select-label' id='demo-simple-select'>
-                            {option.optionValue.map(value => (
-                              <MenuItem key={value.valueId} value={value.valueName}>
-                                {value.valueName}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        )}
-                      </Grid>
-                    )
-                )}
+                {product.options.map((option, index) => (
+                  <Grid item key={option.optionId} xs={12} sm={6}>
+                    <Typography>
+                      {option.optionName} {index + 1}
+                    </Typography>
+                    {option.optionType === 1 ? (
+                      <TextField
+                        fullWidth
+                        id={`product-item-group-column-text-${option.optionId}`}
+                        variant='outlined'
+                        value={group[`optionGroupColumn${index + 1}`]}
+                        onChange={e =>
+                          handleProductOptionGroupChange(e, group.optionGroupId, `optionGroupColumn${index + 1}`)
+                        }
+                      />
+                    ) : (
+                      <Select
+                        fullWidth
+                        id={`product-item-group-column-select-${option.optionId}`}
+                        value={group[`optionGroupColumn${index + 1}`]}
+                        onChange={e =>
+                          handleProductOptionGroupChange(e, group.optionGroupId, `optionGroupColumn${index + 1}`)
+                        }
+                      >
+                        {option.optionValue.map(value => (
+                          <MenuItem key={value.valueId} value={value.valueName}>
+                            {value.valueName}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    )}
+                  </Grid>
+                ))}
 
                 <Grid item xs sm={7}>
                   <Typography>ราคาสินค้า</Typography>
                   <TextField
                     fullWidth
                     type='number'
-                    id={`product-option-group-name-${optionGroup.optionGroupId}`}
+                    id={`product-item-group-price-${group.optionGroupId}`} // ราคาสินค้า
                     variant='outlined'
-                    value={optionGroup.optionGroupPrice}
-                    onChange={e =>
-                      setProductOptionGroups(prevGroups =>
-                        prevGroups.map(group =>
-                          group.optionGroupId === optionGroup.optionGroupId
-                            ? { ...group, optionGroupPrice: e.target.value }
-                            : group
-                        )
-                      )
-                    }
+                    value={group.optionGroupPrice}
+                    onChange={e => handleItemPriceChange(e, group.optionGroupId)}
                   />
                 </Grid>
 
@@ -642,18 +703,10 @@ const RegisterProduct = ({
                   <TextField
                     fullWidth
                     type='number'
-                    id={`product-option-group-name-${optionGroup.optionGroupId}`}
+                    id={`product-item-group-quantity-${group.optionGroupId}`} // จำนวนสินค้า
                     variant='outlined'
-                    value={optionGroup.optionGroupQuantity}
-                    onChange={e =>
-                      setProductOptionGroups(prevGroups =>
-                        prevGroups.map(group =>
-                          group.optionGroupId === optionGroup.optionGroupId
-                            ? { ...group, optionGroupQuantity: e.target.value }
-                            : group
-                        )
-                      )
-                    }
+                    value={group.optionGroupQuantity}
+                    onChange={e => handleItemQuantityChange(e, group.optionGroupId)}
                   />
                 </Grid>
 
@@ -662,7 +715,7 @@ const RegisterProduct = ({
                     fullWidth
                     variant='contained'
                     sx={{ height: 55, bgcolor: 'red' }}
-                    onClick={e => handleDeleteOptionGroup(e, optionGroup.optionGroupId)}
+                    onClick={e => handleDeleteOptionGroup(e, group.optionGroupId)}
                   >
                     <DeleteIcon />
                   </Button>
@@ -673,7 +726,7 @@ const RegisterProduct = ({
         ))}
 
         <Grid container spacing={5}>
-          {productOptionGroups.length < 5 ? (
+          {product.items.length < 5 ? (
             <Grid item xs>
               <Button fullWidth variant='outlined' sx={{ height: 55 }} onClick={handleAddOptionGroup}>
                 +
