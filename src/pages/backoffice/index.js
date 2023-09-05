@@ -1,11 +1,16 @@
+// ** React imports
 import React, { useState } from 'react'
-import { Button, AppBar, Toolbar, Tab, Tabs } from '@mui/material'
-import User from './user'
-import Market from './market'
-import Product from './product'
-import Billboard from './billboard'
 
-const Backoffice = () => {
+// ** MUI Imports
+import { Button, AppBar, Toolbar, Tab, Tabs } from '@mui/material'
+
+// ** Import custom components
+import User from 'src/views/backoffice/user'
+import Market from 'src/views/backoffice/market'
+import Product from 'src/views/backoffice/product'
+import Billboard from 'src/views/backoffice/billboard'
+
+const BackOffice = () => {
   const [activeTab, setActiveTab] = useState('user')
 
   const handleTabChange = (event, newValue) => {
@@ -33,4 +38,4 @@ const Backoffice = () => {
   )
 }
 
-export default Backoffice
+export default BackOffice

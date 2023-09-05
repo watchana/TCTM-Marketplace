@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Box, Card, Typography, Button } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
-import InsertCategory from './InsertCategory'
-import EditCategory from './EditCategory'
+
+// ** Import custom components
+import InsertCategory from 'src/views/backoffice/InsertCategory'
+import EditCategory from 'src/views/backoffice/EditCategory'
 
 import axios from 'axios'
 

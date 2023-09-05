@@ -40,6 +40,7 @@ const Product = () => {
       })
       .then(response => {
         console.log('UserID', response)
+
         // ทำอย่างอื่นตามความต้องการ
         fetchProductData()
       })
@@ -58,6 +59,7 @@ const Product = () => {
       })
       .then(response => {
         console.log('UserID', response)
+
         // ทำอย่างอื่นตามความต้องการ
         fetchProductData()
       })
@@ -76,6 +78,7 @@ const Product = () => {
       })
       .then(response => {
         console.log('bill_id', response)
+
         // ทำอย่างอื่นตามความต้องการ
         fetchProductData()
       })
@@ -94,6 +97,7 @@ const Product = () => {
       })
       .then(response => {
         console.log('UserID', response)
+
         // ทำอย่างอื่นตามความต้องการ
         fetchProductData()
       })
@@ -208,7 +212,11 @@ const Product = () => {
                     })
                   }
                 }}
-                disabled={params.row.product_status === '1' || params.row.product_status === '2' || params.row.product_status === '3'}
+                disabled={
+                  params.row.product_status === '1' ||
+                  params.row.product_status === '2' ||
+                  params.row.product_status === '3'
+                }
               >
                 Unban
               </Button>
@@ -246,7 +254,11 @@ const Product = () => {
                     })
                   }
                 }}
-                disabled={params.row.product_status === '0' || params.row.product_status === '1' || params.row.product_status === '3'}
+                disabled={
+                  params.row.product_status === '0' ||
+                  params.row.product_status === '1' ||
+                  params.row.product_status === '3'
+                }
               >
                 Active
               </Button>
@@ -278,7 +290,9 @@ const Product = () => {
                   }
                 }}
                 disabled={
-                  params.row.product_status === '0' || params.row.product_status === '1' || params.row.product_status === '2'
+                  params.row.product_status === '0' ||
+                  params.row.product_status === '1' ||
+                  params.row.product_status === '2'
                 }
               >
                 Unactive

@@ -42,6 +42,7 @@ const User = () => {
       .then(response => {
         console.log('UserID', response)
         fetchUserData()
+
         // ทำอย่างอื่นตามความต้องการ
       })
       .catch(error => {
@@ -61,6 +62,7 @@ const User = () => {
       .then(response => {
         console.log('UserID', response)
         fetchUserData()
+
         // ทำอย่างอื่นตามความต้องการ
       })
       .catch(error => {

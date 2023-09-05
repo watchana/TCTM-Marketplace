@@ -40,6 +40,7 @@ const Market = () => {
       })
       .then(response => {
         console.log('UserID', response)
+
         // หลังจากทำการ Ban สำเร็จ ให้เรียกฟังก์ชัน fetchMarketData เพื่ออัปเดตข้อมูลใหม่
         fetchMarketData()
       })
@@ -58,6 +59,7 @@ const Market = () => {
       })
       .then(response => {
         console.log('bill_id', response)
+
         // ทำอย่างอื่นตามความต้องการ
         fetchMarketData()
       })
@@ -76,6 +78,7 @@ const Market = () => {
       })
       .then(response => {
         console.log('UserID', response)
+
         // ทำอย่างอื่นตามความต้องการ
         fetchMarketData()
       })
@@ -93,6 +96,7 @@ const Market = () => {
       })
       .then(response => {
         console.log('UserID', response)
+
         // หลังจากทำการ Unban สำเร็จ ให้เรียกฟังก์ชัน fetchMarketData เพื่ออัปเดตข้อมูลใหม่
         fetchMarketData()
       })
@@ -209,7 +213,9 @@ const Market = () => {
                     })
                   }
                 }}
-                disabled={params.row.sub_status === '1' || params.row.sub_status === '2' || params.row.sub_status === '3'}
+                disabled={
+                  params.row.sub_status === '1' || params.row.sub_status === '2' || params.row.sub_status === '3'
+                }
               >
                 Unban
               </Button>
@@ -247,7 +253,9 @@ const Market = () => {
                     })
                   }
                 }}
-                disabled={params.row.sub_status === '0' || params.row.sub_status === '1' || params.row.sub_status === '3'}
+                disabled={
+                  params.row.sub_status === '0' || params.row.sub_status === '1' || params.row.sub_status === '3'
+                }
               >
                 Active
               </Button>

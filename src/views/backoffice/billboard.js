@@ -40,6 +40,7 @@ const Billboard = () => {
       })
       .then(response => {
         console.log('bill_id', response)
+
         // ทำอย่างอื่นตามความต้องการ
         fetchBillboardData()
       })
@@ -58,6 +59,7 @@ const Billboard = () => {
       })
       .then(response => {
         console.log('UserID', response)
+
         // ทำอย่างอื่นตามความต้องการ
         fetchBillboardData()
       })
@@ -66,12 +68,12 @@ const Billboard = () => {
       })
   }
 
-  const handleDeleteClick = (bill_id) => {
+  const handleDeleteClick = bill_id => {
     // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Delete
     console.log(`Delete account with ID ${bill_id}`)
   }
 
-  const handleUndeleteClick = (bill_id) => {
+  const handleUndeleteClick = bill_id => {
     // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Undelete
     console.log(`Undelete account with ID ${bill_id}`)
   }
