@@ -10,6 +10,8 @@ import Typography from '@mui/material/Typography'
 // ** Import components
 import { useRouter } from 'next/router'
 import { withAuth } from './pages/AuthCheck'
+
+// ** custom components
 import SlideshowWithCards from './Fuse/slide/slidebillboard'
 import SlideshowWithProduct from './Fuse/slide/slideproduct'
 import SlideRecommended from './Fuse/slide/slideRecommended'
