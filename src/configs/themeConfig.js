@@ -1,7 +1,7 @@
 const themeConfig = {
   // ** Layout Configs
   templateName: 'TCTM' /* App Name */,
-  mode: 'dark' /* light | dark */,
+  mode: 'light' /* light | dark */,
   contentWidth: 'boxed' /* full | boxed */,
   // ** Routing Configs
   routingLoader: true /* true | false */,
