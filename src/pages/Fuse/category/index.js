@@ -8,7 +8,7 @@ import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import axios from 'axios'
 import ProductImageCard from './category'
-import SlideshowWithCategory from '../slide/slidecategoer'
+import SlideshowWithCategory from 'src/views/homepage/SlideCategory'
 
 const Home = () => {
   // ตัวแปรเก็บค่าข้อมูล

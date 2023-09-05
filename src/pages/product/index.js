@@ -29,11 +29,11 @@ import IconButton from '@mui/material/IconButton'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
-import ProductCard from './Component/card'
+import ProductCard from '../../views/product/Component/card'
 
 import { Carousel } from 'react-responsive-carousel'
-import './Component/styled'
-import ImageSlider from './ImageSlider'
+import '../../views/product/Component/styled'
+import ImageSlider from '../../views/product/ImageSlider'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 

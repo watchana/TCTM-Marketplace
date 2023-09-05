@@ -12,9 +12,9 @@ import { useRouter } from 'next/router'
 import { withAuth } from '../@core/utils/AuthCheck'
 
 // ** custom components
-import SlideshowWithCards from './Fuse/slide/slidebillboard'
-import SlideshowWithProduct from './Fuse/slide/slideproduct'
-import SlideRecommended from './Fuse/slide/slideRecommended'
+import SlideshowWithCards from 'src/views/homepage/SlideBillboard'
+import SlideshowWithProduct from 'src/views/homepage/SideProduct'
+import SlideRecommended from 'src/views/homepage/SlideRecommended'
 
 // ** Import Cookies
 import Cookies from 'js-cookie'
