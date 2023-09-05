@@ -8,7 +8,6 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import Hidden from '@mui/material/Hidden'
-import Tooltip from '@mui/material/Tooltip'
 import TextField from '@mui/material/TextField'
 import CardMedia from '@mui/material/CardMedia'
 import ButtonBase from '@mui/material/ButtonBase'
@@ -57,11 +56,9 @@ const AppBarContent = props => {
     <Grid container direction='row' justifyContent='space-between' alignItems='center'>
       <Grid item xl={3} lg={3} md={4} sm={6} xs={6}>
         <Box sx={{ width: '150px', height: '70px' }}>
-          <Tooltip title='Main Menu' placement='bottom'>
-            <Link href='/' passHref>
-              <CardMedia sx={{ height: '70px' }} image='/images/cards/LOGO_TCTM_3.png' />
-            </Link>
-          </Tooltip>
+          <Link href='/' passHref>
+            <CardMedia sx={{ height: '70px' }} image='/images/cards/LOGO_TCTM_3.png' />
+          </Link>
         </Box>
       </Grid>
 

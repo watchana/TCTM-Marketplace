@@ -62,13 +62,13 @@ const VerticalLayout = props => {
   return (
     <>
       <VerticalLayoutWrapper className='layout-wrapper'>
-        <Navigation
+        {/* <Navigation
           navWidth={navWidth}
           navVisible={navVisible}
           setNavVisible={setNavVisible} // opens/closes the vertical nav
           toggleNavVisibility={toggleNavVisibility}
           {...props}
-        />
+        /> */}
         <MainContentWrapper className='layout-content-wrapper'>
           <AppBar toggleNavVisibility={toggleNavVisibility} {...props} />
 

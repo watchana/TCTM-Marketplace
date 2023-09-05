@@ -14,8 +14,6 @@ import Container from '@mui/material/Container'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
-import Autocomplete from '@mui/material/Autocomplete'
-import InputAdornment from '@mui/material/InputAdornment'
 
 import { CardActionArea } from '@mui/material'
 
@@ -34,7 +32,8 @@ const Category = ({ productData, SearchProduct, keyword }) => {
 
   // เก็บข้อมูลสินค้า
   const products = productData
-  console.log('สินค้า', products)
+
+  // console.log('สินค้า', products)
 
   // ** Router ของ Next.js
   const router = useRouter()
@@ -93,156 +92,150 @@ const Category = ({ productData, SearchProduct, keyword }) => {
         </Box>
 
         {/* >>>>> Category <<<<< */}
-        <Box item sx={{ width: '100%', marginY: 4 }}>
+        <Box sx={{ width: '100%', marginY: 4 }}>
           <Grid container spacing={2}>
             <Grid item xl={3} lg={3} md={3}>
-              <>
-                {/* ตัวกรอก เริ่ม */}
-                <Hidden mdDown>
-                  <Grid container direction='column' justifyContent='flex-start' alignItems='flex-start'>
-                    <Grid item xl={12}>
+              {/* ตัวกรอก เริ่ม */}
+              <Hidden mdDown>
+                <Grid container direction='column' justifyContent='flex-start' alignItems='flex-start'>
+                  <Grid item xl={12}>
+                    <Typography
+                      variant='h4'
+                      sx={{
+                        marginBottom: '29px',
+                        fontWeight: 600,
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis'
+                      }}
+                    >
+                      Category
+                    </Typography>
+                  </Grid>
+                  <Grid item xl={12} sx={{ width: '100%' }}>
+                    {products && products.length > 0 ? (
+                      uniqueCategories.map(category => (
+                        <Box key={category} sx={{ width: '90%', marginBottom: 1.5 }}>
+                          <Button
+                            variant='outlined'
+                            fullWidth
+                            key={category}
+                            sx={{
+                              backgroundColor: activeButton === category ? '#4287f5' : 'default'
+                            }}
+                            onClick={generateButtonClickHandler(category)}
+                          >
+                            {category}
+                          </Button>
+                        </Box>
+                      ))
+                    ) : (
+                      <p>No products available.</p>
+                    )}
+                  </Grid>
+                </Grid>
+              </Hidden>
+              {/* ตัวกรอก จบ */}
+            </Grid>
+
+            <Grid item xl={9} lg={9} md={9}>
+              {/* list Product เริ่ม */}
+              <Grid container direction='column' justifyContent='flex-start' alignItems='flex-start'>
+                <Grid item xl={12}>
+                  <Box
+                    sx={{
+                      width: '100%',
+                      marginBottom: '29px',
+                      display: 'flex',
+                      flexDirection: { sm: 'row', xs: 'column' },
+                      justifyContent: 'space-between'
+                    }}
+                  >
+                    <Box sx={{ width: { sm: '50%', xs: '100%' } }}>
                       <Typography
                         variant='h4'
                         sx={{
-                          marginBottom: '29px',
                           fontWeight: 600,
                           overflow: 'hidden',
                           whiteSpace: 'nowrap',
                           textOverflow: 'ellipsis'
                         }}
                       >
-                        Category
+                        All Product
                       </Typography>
-                    </Grid>
-                    <Grid item xl={12} sx={{ width: '100%' }}>
-                      {products && products.length > 0 ? (
-                        uniqueCategories.map(category => (
-                          <Box key={category} sx={{ width: '90%', marginBottom: 1.5 }}>
-                            <Button
-                              variant='outlined'
-                              fullWidth
-                              key={category}
-                              sx={{
-                                backgroundColor: activeButton === category ? '#4287f5' : 'default'
-                              }}
-                              onClick={generateButtonClickHandler(category)}
-                            >
-                              {category}
-                            </Button>
-                          </Box>
-                        ))
-                      ) : (
-                        <p>No products available.</p>
-                      )}
-                    </Grid>
-                  </Grid>
-                </Hidden>
-                {/* ตัวกรอก จบ */}
-              </>
-            </Grid>
-
-            <Grid item xl={9} lg={9} md={9}>
-              <>
-                {/* list Product เริ่ม */}
-                <Grid Container direction='column' justifyContent='flex-start' alignItems='flex-start'>
-                  <Grid item xl={12}>
-                    <Box
-                      sx={{
-                        width: '100%',
-                        marginBottom: '29px',
-                        display: 'flex',
-                        flexDirection: { sm: 'row', xs: 'column' },
-                        justifyContent: 'space-between'
-                      }}
-                    >
-                      <Box sx={{ width: { sm: '50%', xs: '100%' } }}>
-                        <Typography
-                          variant='h4'
-                          sx={{
-                            fontWeight: 600,
-                            overflow: 'hidden',
-                            whiteSpace: 'nowrap',
-                            textOverflow: 'ellipsis'
-                          }}
-                        >
-                          All Product
-                        </Typography>
-                      </Box>
                     </Box>
-                  </Grid>
+                  </Box>
+                </Grid>
 
-                  <Grid item xl={12}>
-                    <>
-                      {/* Product เริ่ม */}
-                      <Box sx={{ width: '100%' }}>
-                        <Grid container spacing={3}>
-                          {/* ======================================= map ========================================= */}
-                          {filteredProducts.length > 0 ? (
-                            filteredProducts.map((product, index) => (
-                              <Grid item key={product.product_id}>
-                                <Card
-                                  sx={{ width: '190px', height: '280px', bgcolor: '#fff', borderRadius: '10px' }}
-                                  onClick={() => {
-                                    router.push(`/product/?product_id=${product.product_id}`)
-                                  }}
-                                >
-                                  <CardActionArea>
-                                    <Box sx={{ width: '100%', height: '70%', padding: '10px 7px 3px' }}>
-                                      {/* ใส่รูป */}
-                                      <CardMedia
-                                        component='img'
-                                        height='200px'
-                                        image={`/imgTctmProduct/${product.image_file_name}`}
-                                        sx={{ borderRadius: '10px' }}
-                                      />
-                                    </Box>
-                                    <Box sx={{ width: '100%', height: '30%', paddingLeft: 2.5, paddingTop: 2 }}>
-                                      <Box>
-                                        <Typography
-                                          variant='h6'
-                                          sx={{
-                                            fontWeight: 600,
-                                            overflow: 'hidden',
-                                            whiteSpace: 'nowrap',
-                                            textOverflow: 'ellipsis'
-                                          }}
-                                        >
-                                          {product.product_name}
-                                        </Typography>
-                                      </Box>
-                                      {/* <Box>
+                <Grid item xl={12}>
+                  {/* Product เริ่ม */}
+                  <Box sx={{ width: '100%' }}>
+                    <Grid container spacing={3}>
+                      {/* ======================================= map ========================================= */}
+                      {filteredProducts.length > 0 ? (
+                        filteredProducts.map((product, index) => (
+                          <Grid item key={product.product_id}>
+                            <Card
+                              sx={{ width: '190px', height: '280px', bgcolor: '#fff', borderRadius: '10px' }}
+                              onClick={() => {
+                                router.push(`/product/?product_id=${product.product_id}`)
+                              }}
+                            >
+                              <CardActionArea>
+                                <Box sx={{ width: '100%', height: '70%', padding: '10px 7px 3px' }}>
+                                  {/* ใส่รูป */}
+                                  <CardMedia
+                                    component='img'
+                                    height='200px'
+                                    image={`/imgTctmProduct/${product.image_file_name}`}
+                                    sx={{ borderRadius: '10px' }}
+                                  />
+                                </Box>
+                                <Box sx={{ width: '100%', height: '30%', paddingLeft: 2.5, paddingTop: 2 }}>
+                                  <Box>
+                                    <Typography
+                                      variant='h6'
+                                      sx={{
+                                        fontWeight: 600,
+                                        overflow: 'hidden',
+                                        whiteSpace: 'nowrap',
+                                        textOverflow: 'ellipsis'
+                                      }}
+                                    >
+                                      {product.product_name}
+                                    </Typography>
+                                  </Box>
+                                  {/* <Box>
                                         <Typography variant='body1' sx={{ fontWeight: 600 }}>
                                           $ {product.product_price}
                                         </Typography>
                                       </Box> */}
-                                    </Box>
-                                  </CardActionArea>
-                                </Card>
-                              </Grid>
-                            ))
-                          ) : (
-                            <Grid item xs={12}>
-                              <Box
-                                sx={{
-                                  width: '100%',
-                                  display: 'flex',
-                                  justifyContent: 'center',
-                                  alignItems: 'center',
-                                  height: '200px'
-                                }}
-                              >
-                                <Typography variant='body1'>ไม่พบสินค้า</Typography>
-                              </Box>
-                            </Grid>
-                          )}
+                                </Box>
+                              </CardActionArea>
+                            </Card>
+                          </Grid>
+                        ))
+                      ) : (
+                        <Grid item xs={12}>
+                          <Box
+                            sx={{
+                              width: '100%',
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              height: '200px'
+                            }}
+                          >
+                            <Typography variant='body1'>ไม่พบสินค้า</Typography>
+                          </Box>
                         </Grid>
-                      </Box>
-                      {/* Product จบ */}
-                    </>
-                  </Grid>
+                      )}
+                    </Grid>
+                  </Box>
+                  {/* Product จบ */}
                 </Grid>
-                {/* list Product จบ */}
-              </>
+              </Grid>
+              {/* list Product จบ */}
             </Grid>
           </Grid>
         </Box>
