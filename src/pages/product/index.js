@@ -29,7 +29,7 @@ import IconButton from '@mui/material/IconButton'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
-import ProductCard from '../../views/product/Component/card'
+import ProductCard from 'src/@core/components/product/product-card'
 
 import { Carousel } from 'react-responsive-carousel'
 import '../../views/product/Component/styled'

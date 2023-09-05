@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Grid, Card, ButtonBase, CardContent, Typography } from '@mui/material'
 import { Slide } from 'react-slideshow-image' // นำเข้าไลบรารี Slide ที่คุณใช้
 import 'react-slideshow-image/dist/styles.css' // Import สไตล์ของไลบรารี Slide
-import ProductImageCard from '../category/category'
+import ProductImageCard from 'src/@core/components/product/product-image-card'
 
 const productsPreview = [
   {
@@ -40,7 +40,7 @@ const SlideshowWithCategory = () => {
             {productsPreview.map((product, index) => (
               <Grid item xs={12} sm={6} md={5} lg={3} key={index}>
                 {/** คือการส่ง Props ไปที่หน้า category */}
-                <ProductImageCard product={product} name={product.name} image={product.image} />  
+                <ProductImageCard product={product} name={product.name} image={product.image} />
               </Grid>
             ))}
           </Grid>
