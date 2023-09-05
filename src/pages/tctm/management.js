@@ -1,13 +1,19 @@
+// ** React Imports
 import React, { useState, useEffect } from 'react'
+
+// ** MUI Imports
 import { Box, Tab, Card, Typography } from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import MemberTable from './manager/MemberTable'
-import SupplierTable from './manager/SupplierTable'
-import ProductTable from './manager/ProductTable'
-import PostTable from './manager/PostTable'
+
+// ** Import axios
 import axios from 'axios'
 
-const ManagerPage = () => {
+import MemberTable from 'src/views/tctm/MemberTable'
+import SupplierTable from 'src/views/tctm/SupplierTable'
+import ProductTable from 'src/views/tctm/ProductTable'
+import PostTable from 'src/views/tctm/PostTable'
+
+const ManagementPage = () => {
   const [value, setValue] = useState('1')
   const [dataUser, setDataUser] = useState([])
   const [dataMarket, setDataMarket] = useState([])
@@ -95,4 +101,4 @@ const ManagerPage = () => {
   )
 }
 
-export default ManagerPage
+export default ManagementPage
