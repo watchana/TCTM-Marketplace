@@ -88,11 +88,15 @@ const ProductTable = ({ rows }) => {
                 })
               }
             >
-              {SubId.map(sub => (
-                <MenuItem key={sub.sub_id} value={sub.sub_id}>
-                  {sub.sub_name}
-                </MenuItem>
-              ))}
+              {SubId && SubId.length > 0 ? (
+                SubId.map(sub => (
+                  <MenuItem key={sub.sub_id} value={sub.sub_id}>
+                    {sub.sub_name}
+                  </MenuItem>
+                ))
+              ) : (
+                <MenuItem value=''>No data</MenuItem>
+              )}
             </Select>
           </FormControl>
         )
