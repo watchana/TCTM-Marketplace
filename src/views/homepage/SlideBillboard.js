@@ -31,32 +31,36 @@ const SlideshowWithCards = () => {
         <div>Loading...</div>
       ) : (
         <Slide>
-          {slidedata.map((billboard, index) => (
-            <Box
-              key={index}
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: '300px'
-              }}
-            >
-              <Card sx={{ width: '80%', height: '300px' }}>
-                <ButtonBase sx={{ width: '100%', height: '100%' }}>
-                  <img
-                    src={`imgBillboard/${billboard.bill_name}`}
-                    alt={billboard.bill_name}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      objectPosition: 'center'
-                    }}
-                  />
-                </ButtonBase>
-              </Card>
-            </Box>
-          ))}
+          {slidedata && slidedata.length > 0 ? (
+            slidedata.map((billboard, index) => (
+              <Box
+                key={index}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: '300px'
+                }}
+              >
+                <Card sx={{ width: '80%', height: '300px' }}>
+                  <ButtonBase sx={{ width: '100%', height: '100%' }}>
+                    <img
+                      src={`imgBillboard/${billboard.bill_name}`}
+                      alt={billboard.bill_name}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        objectPosition: 'center'
+                      }}
+                    />
+                  </ButtonBase>
+                </Card>
+              </Box>
+            ))
+          ) : (
+            <div>No data</div>
+          )}
         </Slide>
       )}
     </Box>

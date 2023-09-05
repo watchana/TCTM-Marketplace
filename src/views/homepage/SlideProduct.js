@@ -39,19 +39,31 @@ const SlideshowWithProduct = () => {
           <div>Loading...</div>
         ) : (
           <Grid spacing={10} container direction='row' justifyContent='center' alignItems='center'>
-            {slidedata.map((product, index) => (
-              <Grid item key={index}>
-                <Card sx={{ width: '200px', height: '280px' }}>
-                  <ButtonBase sx={{ width: '100%', height: '100%' }}>
-                    <img
-                      src={`imgStore/${product.sub_image}`}
-                      alt={product.sub_name}
-                      style={{ width: '100%', height: '70%', objectFit: 'cover' }}
-                    />
-                  </ButtonBase>
-                </Card>
-              </Grid>
-            ))}
+            <Slide autoplay={false}>
+              {isLoading ? (
+                <div>Loading...</div>
+              ) : (
+                <Grid spacing={10} container direction='row' justifyContent='center' alignItems='center'>
+                  {slidedata && slidedata.length > 0 ? (
+                    slidedata.map((product, index) => (
+                      <Grid item key={index}>
+                        <Card sx={{ width: '200px', height: '280px' }}>
+                          <ButtonBase sx={{ width: '100%', height: '100%' }}>
+                            <img
+                              src={`imgStore/${product.sub_image}`}
+                              alt={product.sub_name}
+                              style={{ width: '100%', height: '70%', objectFit: 'cover' }}
+                            />
+                          </ButtonBase>
+                        </Card>
+                      </Grid>
+                    ))
+                  ) : (
+                    <div>No Data</div>
+                  )}
+                </Grid>
+              )}
+            </Slide>
           </Grid>
         )}
       </Slide>
