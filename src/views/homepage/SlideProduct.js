@@ -1,6 +1,6 @@
 // ** React Imports
 import { React, useEffect, useState } from 'react'
-import { Slide } from 'react-slideshow-image' // นำเข้าไลบรารี Slide ที่คุณใช้
+import { Slide } from 'react-slideshow-image'
 import 'react-slideshow-image/dist/styles.css' // Import สไตล์ของไลบรารี Slide
 
 // ** MUI Imports
@@ -15,6 +15,8 @@ const SlideshowWithProduct = () => {
   // ตัวแปรเก็บค่าข้อมูล Api
   const [slidedata, setSlideData] = useState([]) // ตัวแปรเก็บค่าข้อมูล Slide
   const [isLoading, setIsLoading] = useState(true)
+
+  console.log('สไลด์ Data', slidedata)
 
   // ดึงข้อมูลรูปภาพสไลด์ออกมา
   useEffect(() => {
@@ -39,31 +41,29 @@ const SlideshowWithProduct = () => {
           <div>Loading...</div>
         ) : (
           <Grid spacing={10} container direction='row' justifyContent='center' alignItems='center'>
-            <Slide autoplay={false}>
-              {isLoading ? (
-                <div>Loading...</div>
-              ) : (
-                <Grid spacing={10} container direction='row' justifyContent='center' alignItems='center'>
-                  {slidedata && slidedata.length > 0 ? (
-                    slidedata.map((product, index) => (
-                      <Grid item key={index}>
-                        <Card sx={{ width: '200px', height: '280px' }}>
-                          <ButtonBase sx={{ width: '100%', height: '100%' }}>
-                            <img
-                              src={`imgStore/${product.sub_image}`}
-                              alt={product.sub_name}
-                              style={{ width: '100%', height: '70%', objectFit: 'cover' }}
-                            />
-                          </ButtonBase>
-                        </Card>
-                      </Grid>
-                    ))
-                  ) : (
-                    <div>No Data</div>
-                  )}
-                </Grid>
-              )}
-            </Slide>
+            {isLoading ? (
+              <div>Loading...</div>
+            ) : (
+              <Grid spacing={10} container direction='row' justifyContent='center' alignItems='center'>
+                {slidedata && slidedata.length > 0 ? (
+                  slidedata.map((product, index) => (
+                    <Grid item key={index}>
+                      <Card sx={{ width: '200px', height: '280px' }}>
+                        <ButtonBase sx={{ width: '100%', height: '100%' }}>
+                          <img
+                            src={`imgStore/${product.sub_image}`}
+                            alt={product.sub_name}
+                            style={{ width: '100%', height: '70%', objectFit: 'cover' }}
+                          />
+                        </ButtonBase>
+                      </Card>
+                    </Grid>
+                  ))
+                ) : (
+                  <div>No Data</div>
+                )}
+              </Grid>
+            )}
           </Grid>
         )}
       </Slide>
