@@ -49,8 +49,9 @@ const MyMarket = () => {
   const [productdata, setProductData] = useState([])
   const [selectedCategory, setSelectedCategory] = useState('')
   const [storeStatus, setStoreStatus] = useState('')
+  const [subId, setSubId] = useState('') // เก็บค่า Sub Id
 
-  // console.log('สถานะร้านค้า', storeStatus)
+  // console.log('สถานะร้านค้า', productdata)
 
   // ตัวแปรควบคุม State
   const [searchText, setSearchText] = useState('') //state สำหรับเก็บข้อมูลการค้นหา
@@ -120,6 +121,8 @@ const MyMarket = () => {
           }
         })
 
+        // console.log('หาค่า Sub_id', response.data.message.MarketData[0].sub_id)
+        setSubId(response.data.message.MarketData[0].sub_id)
         setStoreStatus(response.data.message.MarketData[0].sub_status)
 
         initialProductData.current = response.data.message.Data
@@ -230,7 +233,7 @@ const MyMarket = () => {
                         color='primary'
                         startIcon={<Plus />}
                         onClick={() => {
-                          router.push(`/market/add-product/`)
+                          router.push(`/market/add-product/?sub_id=${subId}`)
                         }}
                       >
                         Add Product

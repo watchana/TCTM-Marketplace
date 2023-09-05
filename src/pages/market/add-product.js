@@ -21,13 +21,17 @@ const Swal = require('sweetalert2')
 const AddProductPage = ({ productCategories }) => {
   const router = useRouter()
 
+  // รับค่า Sub_id
+  const { sub_id } = router.query
+  const SubId = sub_id
+
   const steps = ['Register Product', 'Show Results']
   const [activeStep, setActiveStep] = useState(0)
   const [skipped, setSkipped] = useState(new Set())
   const [resultAPIStatus, setResultAPIStatus] = useState('')
 
   const [product, setProduct] = useState({
-    sub_id: 'SUP-10',
+    sub_id: SubId,
     product_name: '',
     product_price: '-',
     product_description: '',

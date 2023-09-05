@@ -16,8 +16,6 @@ const SlideshowWithProduct = () => {
   const [slidedata, setSlideData] = useState([]) // ตัวแปรเก็บค่าข้อมูล Slide
   const [isLoading, setIsLoading] = useState(true)
 
-  console.log('สไลด์ Data', slidedata)
-
   // ดึงข้อมูลรูปภาพสไลด์ออกมา
   useEffect(() => {
     const fetchData = async () => {

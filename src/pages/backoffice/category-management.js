@@ -13,7 +13,7 @@ const CategoryManager = () => {
   const Swal = require('sweetalert2')
 
   // ตัวแปรเก็บข้อมูล
-  const [categorysdata, setCategorysData] = useState('')
+  const [categorysdata, setCategorysData] = useState([])
   const [selectedCategoryId, setSelectedCategoryId] = useState(null) // เก็บค่า category Id
   const [selectedCategoryName, setSelectedCategoryName] = useState('') // เก็บค่า category Name
 
@@ -167,7 +167,7 @@ const CategoryManager = () => {
                 }
               }
             }}
-            pageSizeOptions={[5]}
+            pageSizeOptions={[20]}
             disableRowSelectionOnClick
           />
         </Box>

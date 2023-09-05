@@ -44,8 +44,8 @@ export default function ProductDetails() {
   const [options, setOptions] = useState([]) // ตัวแปรเก็บค่า ตัวเลือก
   const [selection, setSelection] = useState('') // ตัวแปร Selection เก็บค่าตัวเลือก (ข้อมูลที่ต้องส่ง)
 
-  console.log('Option', options)
-  console.log('selection', selection)
+  // console.log('Option', options)
+  // console.log('selection', selection)
 
   // รับค่า id product
   const router = useRouter() // เรียกใช้งาน Router
