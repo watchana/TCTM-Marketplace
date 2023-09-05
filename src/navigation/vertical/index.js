@@ -34,7 +34,7 @@ const navigation = () => {
     {
       title: 'Register',
       icon: AccountPlusOutline,
-      path: '/pages/register',
+      path: '/member/register',
       openInNewTab: true
     },
     {

@@ -18,7 +18,7 @@ import ShowResultsAPI from 'src/views/supplier/ShowResultsAPI'
 // ** Switch Alert Import
 const Swal = require('sweetalert2')
 
-const RegisterProductPage = ({ productCategories }) => {
+const AddProductPage = ({ productCategories }) => {
   const router = useRouter()
 
   const steps = ['Register Product', 'Show Results']
@@ -218,4 +218,4 @@ export async function getServerSideProps() {
   }
 }
 
-export default RegisterProductPage
+export default AddProductPage

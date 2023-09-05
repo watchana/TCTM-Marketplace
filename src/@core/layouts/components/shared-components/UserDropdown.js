@@ -162,7 +162,7 @@ const UserDropdown = () => {
         {/* ปุ่ม registration-supplier */}
         <MenuItem
           sx={{ p: 0 }}
-          onClick={() => handleDropdownClose('/pages/registerSupplier/')}
+          onClick={() => handleDropdownClose('/market/register/')}
           style={{ display: role === 'USER' && user_status === '1' ? 'block' : 'none' }}
         >
           <Box sx={styles}>

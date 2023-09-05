@@ -267,7 +267,7 @@ const LoginPage = () => {
         </CardContent>
         <Divider />
         <Box sx={{ paddingX: 9, paddingTop: 3, paddingBottom: 5 }}>
-          <Link passHref href='/pages/register'>
+          <Link passHref href='/member/register'>
             <Button fullWidth variant='outlined' style={{ borderRadius: '10px' }}>
               Register
             </Button>

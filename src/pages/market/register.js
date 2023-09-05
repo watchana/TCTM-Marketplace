@@ -152,7 +152,7 @@ const RegisterSupplier = () => {
             <Link underline='hover' color='inherit' href='/'>
               Home
             </Link>
-            <Link underline='hover' color='inherit' href='/pages/registerSupplier/'>
+            <Link underline='hover' color='inherit' href='/market/register/'>
               Maker Register
             </Link>
           </Breadcrumbs>
