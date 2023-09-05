@@ -121,7 +121,7 @@ const Category = ({ productData, SearchProduct, keyword }) => {
                             fullWidth
                             key={category}
                             sx={{
-                              backgroundColor: activeButton === category ? '#4287f5' : 'default'
+                              backgroundColor: activeButton === category ? '#f9e2e5' : 'default'
                             }}
                             onClick={generateButtonClickHandler(category)}
                           >

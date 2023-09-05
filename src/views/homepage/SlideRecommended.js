@@ -57,27 +57,25 @@ const SlideRecommended = () => {
                 <Card>
                   <ButtonBase sx={{ width: '200px', height: '280px' }}>
                     <Box sx={{ width: '100%', height: '100%' }}>
-                      <CardActionArea>
-                        <CardMedia
-                          component='img'
-                          image={`imgTctmProduct/${product.image_file_name}`}
-                          height='200px'
-                          sx={{ bgcolor: '#333', borderRadius: '6px' }}
-                        />
-                        <Box sx={{ width: '100%', padding: '10px' }}>
-                          <Typography
-                            variant='h6'
-                            sx={{
-                              fontWeight: 600,
-                              overflow: 'hidden',
-                              whiteSpace: 'nowrap',
-                              textOverflow: 'ellipsis'
-                            }}
-                          >
-                            {product.product_name}
-                          </Typography>
-                        </Box>
-                      </CardActionArea>
+                      <CardMedia
+                        component='img'
+                        image={`imgTctmProduct/${product.image_file_name}`}
+                        height='200px'
+                        sx={{ bgcolor: '#333', borderRadius: '6px' }}
+                      />
+                      <Box sx={{ width: '100%', padding: '10px' }}>
+                        <Typography
+                          variant='h6'
+                          sx={{
+                            fontWeight: 600,
+                            overflow: 'hidden',
+                            whiteSpace: 'nowrap',
+                            textOverflow: 'ellipsis'
+                          }}
+                        >
+                          {product.product_name}
+                        </Typography>
+                      </Box>
                     </Box>
                   </ButtonBase>
                 </Card>
