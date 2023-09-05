@@ -19,14 +19,14 @@ export const withAuth = WrappedComponent => {
     useEffect(() => {
       if (!token) {
         // If not logged in, redirect to login page
-        router.push('pages/login/')
+        router.push('/login/')
       } else {
         // Verify the token
         const decodedToken = verifyToken(token) // Use your verification function
 
         if (!decodedToken) {
           // Invalid token, redirect to login page
-          router.push('pages/login/')
+          router.push('/login/')
           alert('แตกไปซะ')
           Cookies.remove('jwt') // Remove the token
         } else {

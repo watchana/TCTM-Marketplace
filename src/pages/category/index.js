@@ -86,7 +86,7 @@ const Category = ({ productData, SearchProduct, keyword }) => {
             <Link underline='hover' color='inherit' href='/'>
               Home
             </Link>
-            <Link underline='hover' color='inherit' href='/designs/category/'>
+            <Link underline='hover' color='inherit' href='/category/'>
               Category
             </Link>
           </Breadcrumbs>
@@ -168,26 +168,6 @@ const Category = ({ productData, SearchProduct, keyword }) => {
                           All Product
                         </Typography>
                       </Box>
-
-                      {/* Search เริ่ม */}
-                      <Box sx={{ width: { sm: '50%', xs: '100%' }, display: 'flex', justifyContent: 'flex-end' }}>
-                        <TextField
-                          size='small'
-                          placeholder='Search Product…'
-                          sx={{
-                            width: { xs: '100%', md: '40%' },
-                            '& .MuiOutlinedInput-root': { borderRadius: '18px' }
-                          }}
-                          InputProps={{
-                            startAdornment: (
-                              <InputAdornment position='start'>
-                                <Magnify fontSize='small' />
-                              </InputAdornment>
-                            )
-                          }}
-                        />
-                      </Box>
-                      {/* Search จบ */}
                     </Box>
                   </Grid>
 
@@ -203,7 +183,7 @@ const Category = ({ productData, SearchProduct, keyword }) => {
                                 <Card
                                   sx={{ width: '190px', height: '280px', bgcolor: '#fff', borderRadius: '10px' }}
                                   onClick={() => {
-                                    router.push(`productDetails?product_id=${product.product_id}`)
+                                    router.push(`/product/?product_id=${product.product_id}`)
                                   }}
                                 >
                                   <CardActionArea>

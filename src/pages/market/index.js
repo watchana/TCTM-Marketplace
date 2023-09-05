@@ -141,7 +141,7 @@ const MyMarket = () => {
             <Link underline='hover' color='inherit' href='/'>
               Home
             </Link>
-            <Link underline='hover' color='inherit' href='/designs/myMarket/'>
+            <Link underline='hover' color='inherit' href='/market/'>
               My Market
             </Link>
           </Breadcrumbs>
@@ -230,7 +230,7 @@ const MyMarket = () => {
                         color='primary'
                         startIcon={<Plus />}
                         onClick={() => {
-                          router.push(`/pages/myMarket/supplier/register-product/`)
+                          router.push(`/market/add-product/`)
                         }}
                       >
                         Add Product

@@ -13,7 +13,7 @@ import { withAuth } from '../@core/utils/AuthCheck'
 
 // ** custom components
 import SlideshowWithCards from 'src/views/homepage/SlideBillboard'
-import SlideshowWithProduct from 'src/views/homepage/SideProduct'
+import SlideshowWithProduct from 'src/views/homepage/SlideProduct'
 import SlideRecommended from 'src/views/homepage/SlideRecommended'
 
 // ** Import Cookies
@@ -45,7 +45,7 @@ const Dashboard = () => {
             Recommended Products
           </Typography>
           {/** ใส่ Link Product */}
-          <Link href='/pages/category'>SHOW ALL PRODUCTS</Link>
+          <Link href='/category'>SHOW ALL PRODUCTS</Link>
         </Box>
         <Box sx={{ width: '100%' }}>
           {/** ส่วนของ Slide Recommended! */}

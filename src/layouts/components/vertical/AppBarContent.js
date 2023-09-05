@@ -49,7 +49,7 @@ const AppBarContent = props => {
   // ** ฟังก์ชันสำหรับการดำเนินการเมื่อกดปุ่มค้นหา
   const handleSearchSubmit = () => {
     if (searchValue.trim() !== '') {
-      router.replace(`/pages/category?keyword=${encodeURIComponent(searchValue)}`)
+      router.replace(`/category?keyword=${encodeURIComponent(searchValue)}`)
     }
   }
 
@@ -102,13 +102,7 @@ const AppBarContent = props => {
         >
           <Hidden mdDown>
             <Grid item>
-              <Button
-                variant='outlined'
-                color='secondary'
-                endIcon={<Send />}
-                href='/designs/requirements'
-                style={{ borderRadius: '4px' }}
-              >
+              <Button variant='outlined' color='secondary' endIcon={<Send />} href='#' style={{ borderRadius: '4px' }}>
                 POST
               </Button>
             </Grid>

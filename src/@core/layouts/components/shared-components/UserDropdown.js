@@ -52,7 +52,7 @@ const UserDropdown = () => {
 
   const handleDropdownClose = url => {
     if (url) {
-      if (url === '/pages/login') {
+      if (url === '/login') {
         // Clear token from local storage
         localStorage.removeItem('jwt')
         localStorage.removeItem('name')
@@ -173,7 +173,7 @@ const UserDropdown = () => {
         {/* ปุ่มหน้า My Market */}
         <MenuItem
           sx={{ p: 0 }}
-          onClick={() => handleDropdownClose('/pages/myMarket/')}
+          onClick={() => handleDropdownClose('/market/')}
           style={{ display: role === 'USER' && user_status === '2' ? 'block' : 'none' }}
         >
           <Box sx={styles}>
@@ -184,7 +184,7 @@ const UserDropdown = () => {
         {/* ปุ่ม Approve */}
         <MenuItem
           sx={{ p: 0 }}
-          onClick={() => handleDropdownClose('/app/admin/manager/')}
+          onClick={() => handleDropdownClose('/tctm/management/')}
           style={{ display: role === 'TCTM' || role === 'ADMIN' ? 'block' : 'none' }}
         >
           <Box sx={styles}>
@@ -195,7 +195,7 @@ const UserDropdown = () => {
         {/* ปุ่ม Approve Category*/}
         <MenuItem
           sx={{ p: 0 }}
-          onClick={() => handleDropdownClose('/backoffice/category-manager')}
+          onClick={() => handleDropdownClose('/backoffice/category-management/')}
           style={{ display: role === 'ADMIN' ? 'block' : 'none' }}
         >
           <Box sx={styles}>
@@ -228,7 +228,7 @@ const UserDropdown = () => {
           </Box>
         </MenuItem>
         <Divider />
-        <MenuItem sx={{ py: 2 }} onClick={() => handleDropdownClose('/pages/login')}>
+        <MenuItem sx={{ py: 2 }} onClick={() => handleDropdownClose('/login')}>
           <LogoutVariant sx={{ marginRight: 2, fontSize: '1.375rem', color: 'text.secondary' }} />
           Logout
         </MenuItem>
