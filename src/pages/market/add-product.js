@@ -176,7 +176,7 @@ const AddProductPage = ({ productCategories }) => {
             <ShowResultsAPI result={resultAPIStatus} />
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
               <Box sx={{ flex: '1 1 auto' }} />
-              <Button onClick={() => router.push('/pages/myMarket')}>Dashboard</Button>
+              <Button onClick={() => router.push('/market')}>Dashboard</Button>
             </Box>
           </>
         ) : (

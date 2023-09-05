@@ -97,7 +97,7 @@ export default function ProductDetails() {
             <Link underline='hover' color='inherit' href='/'>
               Home
             </Link>
-            <Link underline='hover' color='inherit' href='/pages/category/'>
+            <Link underline='hover' color='inherit' href='/category'>
               Category
             </Link>
           </Breadcrumbs>
