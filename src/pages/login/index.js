@@ -201,8 +201,8 @@ const LoginPage = () => {
   }
 
   return (
-    <Box className='content-center' sx={{ display: 'flex', flexDirection: 'column' }}>
-      <img src='/images/cards/LOGO_TCTM_2.png' alt='logo' width='320px' />
+    <Box className='content-center' sx={{ display: 'flex', flexDirection: 'column', bgcolor: '#FFF8F9' }}>
+      <img src='/images/logos/LOGO.png' alt='logo' width='320px' />
       {/* <Typography variant='h4' sx={{ fontWeight: 'bold', marginTop: 2 }}>
         TCTM
       </Typography> */}

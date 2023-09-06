@@ -230,13 +230,13 @@ const RegisterPage = () => {
   }
 
   return (
-    <Box className='content-center'>
+    <Box className='content-center' sx={{ bgcolor: '#FFF8F9' }}>
       <Card sx={{ zIndex: 1, borderRadius: '34px' }}>
         <CardContent sx={{ padding: theme => `${theme.spacing(7, 9, 2)} !important` }}>
           <Box sx={{ mb: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Typography
               variant='h6'
-              color='#FE8C8C'
+              color='primary'
               sx={{
                 lineHeight: 1,
                 fontWeight: 600,
@@ -291,7 +291,7 @@ const RegisterPage = () => {
               {password === '' && isSubmitted && <FormHelperText>Please enter your password.</FormHelperText>}
             </FormControl>
 
-            <Divider sx={{ marginY: 3, color: '#FE8C8C' }}>AND</Divider>
+            <Divider sx={{ marginY: 3, color: '#EF5350' }}>AND</Divider>
             <Box sx={{ width: '100%', marginTop: 1 }}>
               <Box sx={{ width: '100%', marginBottom: 4, display: 'flex', justifyContent: 'space-between' }}>
                 {/* FirstName Input */}

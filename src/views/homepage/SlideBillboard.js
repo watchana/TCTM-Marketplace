@@ -39,10 +39,10 @@ const SlideshowWithCards = () => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  height: '300px'
+                  height: '600px'
                 }}
               >
-                <Card sx={{ width: '80%', height: '300px' }}>
+                <Card sx={{ width: '100%', height: '600px' }}>
                   <ButtonBase sx={{ width: '100%', height: '100%' }}>
                     <img
                       src={`imgBillboard/${billboard.bill_name}`}

@@ -29,11 +29,15 @@ const Dashboard = () => {
         <SlideshowWithCards />
 
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginY: 5 }}>
-          <Typography variant='h4' fontSize='bold'>
+          <Typography variant='h6' fontSize='bold'>
             Recommended Shops
           </Typography>
           {/** ใส่ Link Product */}
-          <Link href='#'>SHOW ALL SHOPS</Link>
+          <Link href='#'>
+            <Typography variant='body1' fontSize='bold'>
+              SHOW ALL
+            </Typography>
+          </Link>
         </Box>
         <Box sx={{ width: '100%' }}>
           {/** ส่วนของ Slide Products! */}
@@ -41,11 +45,15 @@ const Dashboard = () => {
         </Box>
 
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginY: 5 }}>
-          <Typography variant='h4' fontSize='bold'>
+          <Typography variant='h6' fontSize='bold'>
             Recommended Products
           </Typography>
           {/** ใส่ Link Product */}
-          <Link href='/category'>SHOW ALL PRODUCTS</Link>
+          <Link href='/category'>
+            <Typography variant='body1' fontSize='bold'>
+              SHOW ALL
+            </Typography>
+          </Link>
         </Box>
         <Box sx={{ width: '100%' }}>
           {/** ส่วนของ Slide Recommended! */}

@@ -99,9 +99,9 @@ const AppBarContent = props => {
         >
           <Hidden mdDown>
             <Grid item>
-              <Button variant='outlined' color='secondary' endIcon={<Send />} href='#' style={{ borderRadius: '4px' }}>
-                POST
-              </Button>
+              <IconButton>
+                <Send />
+              </IconButton>
             </Grid>
           </Hidden>
           <Grid item>
@@ -123,74 +123,3 @@ const AppBarContent = props => {
 }
 
 export default AppBarContent
-
-{
-  /* <Grid container direction='row' justifyContent='space-between' alignItems='flex-start'>
-      <Grid item display='grid' justifyContent='flex-start'>
-        <Box display='flex' direction='row'>
-          <Tooltip title='Main Menu' placement='bottom'>
-            <ButtonBase sx={{ width: '100%', height: '100%' }}>
-              <Link href='/' passHref>
-                <img src='/images/cards/TCTM_Group_3 (1).png' alt='logo' width='52px' />
-              </Link>
-              <Hidden smDown>
-                <Box sx={{ marginLeft: 3 }}>
-                  <Link href='/' passHref>
-                    <Typography ml={-8.1} variant='h5' sx={{ fontWeight: 'bold', marginBottom: '-10px' }}>
-                      TCTM
-                    </Typography>
-                  </Link>
-                  <Link href='/' passHref>
-                    <Typography variant='body1'>Marketplace</Typography>
-                  </Link>
-                </Box>
-              </Hidden>
-            </ButtonBase>
-          </Tooltip>
-        </Box>
-      </Grid>
-      <Hidden mdDown>
-        <Grid item md={4} lg={6}>
-          <Box sx={{ width: '100%', padding: 1 }}>
-            <TextField
-              size='small'
-              placeholder='Search Product…'
-              value={searchValue}
-              onChange={e => handleSearch(e.target.value)}
-              onKeyPress={e => {
-                if (e.key === 'Enter') {
-                  handleSearchSubmit()
-                }
-              }}
-              sx={{ width: '100%', '& .MuiOutlinedInput-root': { borderRadius: '18px' } }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position='start'>
-                    <Magnify fontSize='small' />
-                  </InputAdornment>
-                )
-              }}
-            />
-          </Box>
-        </Grid>
-      </Hidden>
-      <Grid item>
-        <Box className='actions-right' sx={{ width: '100%', height: '100%', padding: 1 }}>
-          <Hidden smDown>
-            <Button variant='outlined' startIcon={<HelpBox />} style={{ borderRadius: '10px' }}>
-              +Add Post
-            </Button>
-          </Hidden>
-          <ModeToggler settings={settings} saveSettings={saveSettings} />
-          <IconButton>
-            {/* ต้องสร้าง components ใน src/@core/layouts/components/shared-components/ สำหรับปุ่ม ตะกร้า  */
-}
-{
-  /* <CartOutline />
-      </IconButton>
-      <NotificationDropdown />
-      <UserDropdown />
-    </Box>
-  </Grid>
-</Grid> */
-}

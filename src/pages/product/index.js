@@ -16,18 +16,25 @@ import {
   FormControl,
   Select,
   Breadcrumbs,
-  Link
+  Link,
+  Stack,
+  Hidden
 } from '@mui/material'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormLabel from '@mui/material/FormLabel'
 
-// ** Icons Imports
-import ChevronRight from 'mdi-material-ui/ChevronRight'
+// ** MDI Icon Imports
+import Magnify from 'mdi-material-ui/Magnify'
+import CircleSmall from 'mdi-material-ui/CircleSmall'
+import ArrowLeftThin from 'mdi-material-ui/ArrowLeftThin'
+
+// ** Material-UI Icons Imports
 import IconButton from '@mui/material/IconButton'
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
+import LocalAtmIcon from '@mui/icons-material/LocalAtm'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 
 import ProductCard from 'src/@core/components/product/product-card'
 
@@ -92,18 +99,46 @@ export default function ProductDetails() {
     <Container maxWidth='xl'>
       <Box sx={{ height: '100%' }}>
         {/* แทบไปหน้าต่างๆ */}
-        <Box sx={{ width: '100%', marginBottom: '29px' }}>
-          <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb'>
-            <Link underline='hover' color='inherit' href='/'>
-              Home
-            </Link>
-            <Link underline='hover' color='inherit' href='/category'>
-              Category
-            </Link>
-          </Breadcrumbs>
+        <Box sx={{ width: '100%' }}>
+          <Card
+            sx={{
+              width: '100%',
+              height: '100px',
+              mb: '20px',
+              p: '20px 25px 20px',
+              bgcolor: '#FDEDE8',
+              border: '1px solid #FDEDE8'
+            }}
+          >
+            <Grid container alignItems='center'>
+              <Grid item xs={12} sm={8} md={8}>
+                <Typography variant='h4' fontSize='1.3rem bold' color='#FA896B'>
+                  Product
+                </Typography>
+                <Stack>
+                  <Breadcrumbs separator={<CircleSmall />} aria-label='breadcrumb'>
+                    <Link underline='none' color='inherit' href='/'>
+                      <Typography variant='body2'>Home</Typography>
+                    </Link>
+                    <Link underline='none' color='inherit' href='/category/'>
+                      <Typography variant='body2'>Category</Typography>
+                    </Link>
+                    <Link underline='none' color='inherit'>
+                      <Typography variant='body2'>Product</Typography>
+                    </Link>
+                  </Breadcrumbs>
+                </Stack>
+              </Grid>
+              <Hidden smDown>
+                <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <LocalAtmIcon sx={{ fontSize: 52, color: '#FA896B' }} />
+                </Grid>
+              </Hidden>
+            </Grid>
+          </Card>
         </Box>
 
-        <Box>
+        <Card sx={{ padding: 6, border: '1px solid rgb(229, 234, 239)' }}>
           <Grid container spacing={2}>
             <Grid item xl={7} lg={7} md={7} sm={12} xs={12}>
               <ImageSlider />
@@ -111,7 +146,7 @@ export default function ProductDetails() {
             <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
               <Box>
                 {/* ชื่อสินค้า */}
-                <Card sx={{ marginBottom: 2 }}>
+                <Card sx={{ marginBottom: 2, border: '1px solid rgb(229, 234, 239)' }}>
                   <CardContent>
                     <Typography variant='h5' gutterBottom>
                       Saru KX-75 Wireless Mechanical Keyboard
@@ -129,7 +164,7 @@ export default function ProductDetails() {
                 </Card>
 
                 {/* เลือกประเภทสินค้า */}
-                <Card sx={{ marginBottom: 2 }}>
+                <Card sx={{ marginBottom: 2, border: '1px solid rgb(229, 234, 239)' }}>
                   <CardContent>
                     <FormControl component='fieldset'>
                       <Typography variant='h6' gutterBottom>
@@ -169,7 +204,7 @@ export default function ProductDetails() {
                 </Card>
 
                 {/* ส่วนของปุ่ม เพิ่ม ลด สินค้า */}
-                <Card sx={{ marginBottom: 2 }}>
+                <Card sx={{ marginBottom: 2, border: '1px solid rgb(229, 234, 239)' }}>
                   <CardContent>
                     <Typography variant='h6' gutterBottom>
                       Quantity:
@@ -218,7 +253,7 @@ export default function ProductDetails() {
                 </Card>
 
                 {/* ปุ่ม add to cart AND buy now */}
-                <Card sx={{ marginBottom: 2 }}>
+                <Card sx={{ marginBottom: 2, border: '1px solid rgb(229, 234, 239)' }}>
                   <CardContent>
                     <Grid container spacing={4}>
                       <Grid item>
@@ -243,7 +278,7 @@ export default function ProductDetails() {
               </Box>
             </Grid>
           </Grid>
-        </Box>
+        </Card>
 
         {/* รายละเอียด */}
         <Box sx={{ marginY: 2 }}>
@@ -297,7 +332,7 @@ export default function ProductDetails() {
         </Box>
 
         {/* สินค้าอื่นๆ */}
-        <Box sx={{ marginBottom: 2 }}>
+        {/* <Box sx={{ marginBottom: 2 }}>
           <Typography variant='h5' gutterBottom>
             Other Products
           </Typography>
@@ -314,7 +349,7 @@ export default function ProductDetails() {
               </Grid>
             ))}
           </Grid>
-        </Box>
+        </Box> */}
       </Box>
     </Container>
   )

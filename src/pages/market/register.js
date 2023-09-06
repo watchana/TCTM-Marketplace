@@ -19,6 +19,7 @@ import CloudUpload from 'mdi-material-ui/CloudUpload'
 
 // ** Icons Imports
 import Plus from 'mdi-material-ui/Plus'
+import CircleSmall from 'mdi-material-ui/CircleSmall'
 import ChevronRight from 'mdi-material-ui/ChevronRight'
 
 // ** Switch Alert Import
@@ -145,15 +146,15 @@ const RegisterSupplier = () => {
   }
 
   return (
-    <>
+    <Box sx={{ bgcolor: '#FFF8F9' }}>
       <Box>
         <Box sx={{ width: '100%', marginTop: '15px', marginLeft: '15px' }}>
-          <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb'>
-            <Link underline='hover' color='inherit' href='/'>
-              Home
+          <Breadcrumbs separator={<CircleSmall />} aria-label='breadcrumb'>
+            <Link underline='none' color='inherit' href='/'>
+              <Typography variant='body2'>Home</Typography>
             </Link>
-            <Link underline='hover' color='inherit' href='/market/register/'>
-              Maker Register
+            <Link underline='none' color='inherit'>
+              <Typography variant='body2'>Register</Typography>
             </Link>
           </Breadcrumbs>
         </Box>
@@ -332,19 +333,25 @@ const RegisterSupplier = () => {
               />
 
               <label htmlFor='upload-image'>
-                <Button variant='outlined' component='span' startIcon={<CloudUpload />} sx={{ marginBottom: 4 }}>
+                <Button
+                  fullWidth
+                  variant='outlined'
+                  component='span'
+                  startIcon={<CloudUpload />}
+                  sx={{ marginBottom: 2 }}
+                >
                   Upload Image
                 </Button>
               </label>
 
               {image && (
-                <div>
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                   <img
                     src={URL.createObjectURL(image)}
                     alt='Uploaded Preview'
                     style={{ maxWidth: '100%', maxHeight: '300px' }}
                   />
-                </div>
+                </Box>
               )}
             </Box>
             <Divider sx={{ marginY: 6 }} />
@@ -361,7 +368,7 @@ const RegisterSupplier = () => {
           </CardContent>
         </Card>
       </Box>
-    </>
+    </Box>
   )
 }
 RegisterSupplier.getLayout = page => <BlankLayout>{page}</BlankLayout>

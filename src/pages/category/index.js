@@ -7,6 +7,8 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import Link from '@mui/material/Link'
+import Stack from '@mui/material/Stack'
+import Paper from '@mui/material/Paper'
 import Hidden from '@mui/material/Hidden'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
@@ -15,14 +17,26 @@ import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
 
+// ** MUI List Imports
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
+import ListItemButton from '@mui/material/ListItemButton'
+
 import { CardActionArea } from '@mui/material'
 
 import axios from 'axios'
 
 // ** MDI Icon Imports
 import Magnify from 'mdi-material-ui/Magnify'
-import ArrowLeftThin from 'mdi-material-ui/ArrowLeftThin'
 import ChevronRight from 'mdi-material-ui/ChevronRight'
+import CircleSmall from 'mdi-material-ui/CircleSmall'
+import ArrowLeftThin from 'mdi-material-ui/ArrowLeftThin'
+
+// ** Material-UI Icons Imports
+import PaymentsIcon from '@mui/icons-material/Payments'
+import LocalAtmIcon from '@mui/icons-material/LocalAtm'
 
 const Category = ({ productData, SearchProduct, keyword }) => {
   const [filteredProducts, setFilteredProducts] = useState(keyword ? SearchProduct || null : productData || null)
@@ -80,165 +94,172 @@ const Category = ({ productData, SearchProduct, keyword }) => {
   return (
     <Container maxWidth='xl'>
       <Box>
-        <Box sx={{ width: '100%', marginBottom: '29px' }}>
-          <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb'>
-            <Link underline='hover' color='inherit' href='/'>
-              Home
-            </Link>
-            <Link underline='hover' color='inherit' href='/category/'>
-              Category
-            </Link>
-          </Breadcrumbs>
+        <Box sx={{ width: '100%' }}>
+          <Card
+            sx={{
+              width: '100%',
+              height: '100px',
+              mb: '20px',
+              p: '20px 25px 20px',
+              bgcolor: '#FDEDE8',
+              border: '1px solid #FDEDE8'
+            }}
+          >
+            <Grid container alignItems='center'>
+              <Grid item xs={12} sm={8} md={8}>
+                <Typography variant='h4' fontSize='1.3rem bold' color='#FA896B'>
+                  Category
+                </Typography>
+                <Stack spacing={-3}>
+                  <Breadcrumbs separator={<CircleSmall />} aria-label='breadcrumb'>
+                    <Link underline='none' color='inherit' href='/'>
+                      <Typography variant='body2'>Home</Typography>
+                    </Link>
+                    <Link underline='none' color='inherit'>
+                      <Typography variant='body2'>Category</Typography>
+                    </Link>
+                  </Breadcrumbs>
+                </Stack>
+              </Grid>
+              <Hidden smDown>
+                <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <LocalAtmIcon sx={{ fontSize: 52, color: '#FA896B' }} />
+                </Grid>
+              </Hidden>
+            </Grid>
+          </Card>
         </Box>
 
         {/* >>>>> Category <<<<< */}
-        <Box sx={{ width: '100%', marginY: 4 }}>
-          <Grid container spacing={2}>
-            <Grid item xl={3} lg={3} md={3}>
-              {/* ตัวกรอก เริ่ม */}
-              <Hidden mdDown>
-                <Grid container direction='column' justifyContent='flex-start' alignItems='flex-start'>
-                  <Grid item xl={12}>
-                    <Typography
-                      variant='h4'
-                      sx={{
-                        marginBottom: '29px',
-                        fontWeight: 600,
-                        overflow: 'hidden',
-                        whiteSpace: 'nowrap',
-                        textOverflow: 'ellipsis'
-                      }}
-                    >
-                      Category
-                    </Typography>
-                  </Grid>
-                  <Grid item xl={12} sx={{ width: '100%' }}>
+        <Card>
+          <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
+            <Hidden mdDown>
+              <Box
+                sx={{
+                  width: { xs: '300px', md: '300px' },
+                  borderRight: { xs: 'none', sm: '1px solid rgb(229, 234, 239)' }
+                }}
+              >
+                <Box sx={{ p: '24px 24px 8px ' }}>
+                  <Typography
+                    variant='subtitle1'
+                    textAlign='center'
+                    sx={{
+                      fontWeight: 600,
+                      overflow: 'hidden',
+                      whiteSpace: 'nowrap',
+                      textOverflow: 'ellipsis'
+                    }}
+                  >
+                    Filter by Category
+                  </Typography>
+                </Box>
+                <Box sx={{ p: '8px 0px', position: 'relative' }}>
+                  <List sx={{ px: '24px' }}>
                     {products && products.length > 0 ? (
                       uniqueCategories.map(category => (
-                        <Box key={category} sx={{ width: '90%', marginBottom: 1.5 }}>
-                          <Button
-                            variant='outlined'
-                            fullWidth
-                            key={category}
+                        <ListItem disablePadding key={category}>
+                          <ListItemButton
                             sx={{
-                              backgroundColor: activeButton === category ? '#f9e2e5' : 'default'
+                              borderRadius: '7px',
+                              border: '1px solid #E5EAEF',
+                              mb: 2
                             }}
                             onClick={generateButtonClickHandler(category)}
                           >
-                            {category}
-                          </Button>
-                        </Box>
+                            <ListItemText primary={category} />
+                          </ListItemButton>
+                        </ListItem>
                       ))
                     ) : (
                       <p>No products available.</p>
                     )}
-                  </Grid>
-                </Grid>
-              </Hidden>
-              {/* ตัวกรอก จบ */}
-            </Grid>
+                  </List>
+                </Box>
+              </Box>
+            </Hidden>
 
-            <Grid item xl={9} lg={9} md={9}>
-              {/* list Product เริ่ม */}
-              <Grid container direction='column' justifyContent='flex-start' alignItems='flex-start'>
-                <Grid item xl={12}>
-                  <Box
-                    sx={{
-                      width: '100%',
-                      marginBottom: '29px',
-                      display: 'flex',
-                      flexDirection: { sm: 'row', xs: 'column' },
-                      justifyContent: 'space-between'
-                    }}
-                  >
-                    <Box sx={{ width: { sm: '50%', xs: '100%' } }}>
-                      <Typography
-                        variant='h4'
+            <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+              <Box sx={{ p: '24px 24px 8px ' }}>
+                <Typography
+                  variant='subtitle1'
+                  sx={{
+                    fontWeight: 600,
+                    overflow: 'hidden',
+                    whiteSpace: 'nowrap',
+                    textOverflow: 'ellipsis'
+                  }}
+                >
+                  Products
+                </Typography>
+              </Box>
+              <Box sx={{ width: '100%', padding: { xs: 0, sm: 4 } }}>
+                <Grid container spacing={3}>
+                  {/* ======================================= map ========================================= */}
+                  {filteredProducts.length > 0 ? (
+                    filteredProducts.map((product, index) => (
+                      <Grid item key={product.product_id}>
+                        <Paper
+                          elevation={5}
+                          sx={{ width: '350px', height: '350px' }}
+                          onClick={() => {
+                            router.push(`/product/?product_id=${product.product_id}`)
+                          }}
+                        >
+                          <Box sx={{ width: '100%', height: '100%' }}>
+                            <CardActionArea>
+                              <Box sx={{ width: '100%', height: '250px' }}>
+                                {/* ใส่รูป */}
+                                <CardMedia
+                                  component='img'
+                                  height='250px'
+                                  image={`/imgTctmProduct/${product.image_file_name}`}
+                                  sx={{ borderStartStartRadius: '10px' }}
+                                />
+                              </Box>
+                              <Box sx={{ width: '100%', height: '100px', p: '10px' }}>
+                                <Typography
+                                  variant='h6'
+                                  sx={{
+                                    fontWeight: 600,
+                                    overflow: 'hidden',
+                                    whiteSpace: 'nowrap',
+                                    textOverflow: 'ellipsis'
+                                  }}
+                                >
+                                  {product.product_name}
+                                </Typography>
+                                <Box>
+                                  <Typography variant='body1' sx={{ fontWeight: 600 }}>
+                                    $ {product.product_price}
+                                  </Typography>
+                                </Box>
+                              </Box>
+                            </CardActionArea>
+                          </Box>
+                        </Paper>
+                      </Grid>
+                    ))
+                  ) : (
+                    <Grid item xs={12}>
+                      <Box
                         sx={{
-                          fontWeight: 600,
-                          overflow: 'hidden',
-                          whiteSpace: 'nowrap',
-                          textOverflow: 'ellipsis'
+                          width: '100%',
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          height: '200px'
                         }}
                       >
-                        All Product
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Grid>
-
-                <Grid item xl={12}>
-                  {/* Product เริ่ม */}
-                  <Box sx={{ width: '100%' }}>
-                    <Grid container spacing={3}>
-                      {/* ======================================= map ========================================= */}
-                      {filteredProducts.length > 0 ? (
-                        filteredProducts.map((product, index) => (
-                          <Grid item key={product.product_id}>
-                            <Card
-                              sx={{ width: '190px', height: '280px', bgcolor: '#fff', borderRadius: '10px' }}
-                              onClick={() => {
-                                router.push(`/product/?product_id=${product.product_id}`)
-                              }}
-                            >
-                              <CardActionArea>
-                                <Box sx={{ width: '100%', height: '70%', padding: '10px 7px 3px' }}>
-                                  {/* ใส่รูป */}
-                                  <CardMedia
-                                    component='img'
-                                    height='200px'
-                                    image={`/imgTctmProduct/${product.image_file_name}`}
-                                    sx={{ borderRadius: '10px' }}
-                                  />
-                                </Box>
-                                <Box sx={{ width: '100%', height: '30%', paddingLeft: 2.5, paddingTop: 2 }}>
-                                  <Box>
-                                    <Typography
-                                      variant='h6'
-                                      sx={{
-                                        fontWeight: 600,
-                                        overflow: 'hidden',
-                                        whiteSpace: 'nowrap',
-                                        textOverflow: 'ellipsis'
-                                      }}
-                                    >
-                                      {product.product_name}
-                                    </Typography>
-                                  </Box>
-                                  {/* <Box>
-                                        <Typography variant='body1' sx={{ fontWeight: 600 }}>
-                                          $ {product.product_price}
-                                        </Typography>
-                                      </Box> */}
-                                </Box>
-                              </CardActionArea>
-                            </Card>
-                          </Grid>
-                        ))
-                      ) : (
-                        <Grid item xs={12}>
-                          <Box
-                            sx={{
-                              width: '100%',
-                              display: 'flex',
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                              height: '200px'
-                            }}
-                          >
-                            <Typography variant='body1'>ไม่พบสินค้า</Typography>
-                          </Box>
-                        </Grid>
-                      )}
+                        <Typography variant='body1'>ไม่พบสินค้า</Typography>
+                      </Box>
                     </Grid>
-                  </Box>
-                  {/* Product จบ */}
+                  )}
                 </Grid>
-              </Grid>
-              {/* list Product จบ */}
-            </Grid>
-          </Grid>
-        </Box>
+              </Box>
+            </Box>
+          </Box>
+        </Card>
       </Box>
     </Container>
   )

@@ -7,7 +7,8 @@ const DefaultPalette = (mode, themeColor) => {
   const primaryGradient = () => {
     if (themeColor === 'primary') {
       // return '#C6A7FE'
-      return '#e394b5'
+      // return '#e394b5'
+      return '#f44236'
     } else if (themeColor === 'secondary') {
       return '#9C9FA4'
     } else if (themeColor === 'success') {
@@ -25,7 +26,7 @@ const DefaultPalette = (mode, themeColor) => {
     customColors: {
       main: mainColor,
       primaryGradient: primaryGradient(),
-      tableHeaderBg: mode === 'light' ? '#F9FAFC' : '#3D3759'
+      tableHeaderBg: mode === 'light' ? '#FFF' : '#262626'
     },
     common: {
       black: '#000',
@@ -39,10 +40,16 @@ const DefaultPalette = (mode, themeColor) => {
     //   dark: '#804BDF',
     //   contrastText: '#FFF'
     // },
+    // primary: {
+    //   light: '#f7cac9',
+    //   main: '#dec2cb',
+    //   dark: '#c5b9cd',
+    //   contrastText: '#FFF'
+    // },
     primary: {
-      light: '#FF6166',
-      main: '#d74050 ',
-      dark: '#E04347',
+      light: '#ffcdd2',
+      main: '#EF5350',
+      dark: '#c62728',
       contrastText: '#FFF'
     },
     secondary: {
@@ -98,8 +105,8 @@ const DefaultPalette = (mode, themeColor) => {
     },
     divider: `rgba(${mainColor}, 0.12)`,
     background: {
-      paper: mode === 'light' ? '#FFF' : '#312D4B',
-      default: mode === 'light' ? '#F4F5FA' : '#28243D'
+      paper: mode === 'light' ? '#FFF' : '#262626',
+      default: mode === 'light' ? '#FFF' : '#262626'
     },
     action: {
       active: `rgba(${mainColor}, 0.54)`,

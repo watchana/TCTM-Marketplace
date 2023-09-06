@@ -4,10 +4,13 @@ import React, { useEffect, useState, useRef } from 'react'
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Tab from '@mui/material/Tab'
+import Card from '@mui/material/Card'
 import Link from '@mui/material/Link'
 import Grid from '@mui/material/Grid'
 import TabList from '@mui/lab/TabList'
+import Stack from '@mui/material/Stack'
 import TabPanel from '@mui/lab/TabPanel'
+import Hidden from '@mui/material/Hidden'
 import Button from '@mui/material/Button'
 import TabContext from '@mui/lab/TabContext'
 import Container from '@mui/material/Container'
@@ -26,7 +29,12 @@ import { useRouter } from 'next/router'
 
 // ** Icons Imports
 import Plus from 'mdi-material-ui/Plus'
+import CircleSmall from 'mdi-material-ui/CircleSmall'
 import ChevronRight from 'mdi-material-ui/ChevronRight'
+
+// ** Material-UI Icons Imports
+import LocalAtmIcon from '@mui/icons-material/LocalAtm'
+import StorefrontIcon from '@mui/icons-material/Storefront'
 
 // ** Data Grid Columns
 const columns = [
@@ -139,21 +147,40 @@ const MyMarket = () => {
     <Container maxWidth='xl'>
       <Box>
         {/* แทบไปหน้าต่างๆ */}
-        <Box sx={{ width: '100%', marginBottom: '29px' }}>
-          <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb'>
-            <Link underline='hover' color='inherit' href='/'>
-              Home
-            </Link>
-            <Link underline='hover' color='inherit' href='/market/'>
-              My Market
-            </Link>
-          </Breadcrumbs>
-        </Box>
-
         <Box sx={{ width: '100%' }}>
-          <Typography variant='h4' fontSize={36}>
-            My Market
-          </Typography>
+          <Card
+            sx={{
+              width: '100%',
+              height: '100px',
+              mb: '20px',
+              p: '20px 25px 20px',
+              bgcolor: '#FDEDE8',
+              border: '1px solid #FDEDE8'
+            }}
+          >
+            <Grid container alignItems='center'>
+              <Grid item xs={12} sm={8} md={8}>
+                <Typography variant='h4' fontSize='1.3rem bold' color='#FA896B'>
+                  My Market
+                </Typography>
+                <Stack spacing={-3}>
+                  <Breadcrumbs separator={<CircleSmall />} aria-label='breadcrumb'>
+                    <Link underline='none' color='inherit' href='/'>
+                      <Typography variant='body2'>Home</Typography>
+                    </Link>
+                    <Link underline='none' color='inherit'>
+                      <Typography variant='body2'>Market</Typography>
+                    </Link>
+                  </Breadcrumbs>
+                </Stack>
+              </Grid>
+              <Hidden smDown>
+                <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <StorefrontIcon sx={{ fontSize: 52, color: '#FA896B' }} />
+                </Grid>
+              </Hidden>
+            </Grid>
+          </Card>
         </Box>
 
         <Box sx={{ width: '100%', marginY: 8, paddingLeft: { xl: 6, lg: 6, md: 0 } }}>
