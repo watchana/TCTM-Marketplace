@@ -26,7 +26,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 // ** Switch Alert Import
 const Swal = require('sweetalert2')
 
-const RegisterProduct = ({ product, setProduct, productCategories }) => {
+const RegisterProduct = ({ product, setProduct, productCategories, onUploadImagesChange, onUploadVdoChange }) => {
   const [uploadImages, setUploadImages] = useState([])
   const [uploadVideos, setUploadVideos] = useState({})
   const [openImagePreview, setOpenImagePreview] = useState(false)
@@ -58,38 +58,44 @@ const RegisterProduct = ({ product, setProduct, productCategories }) => {
     const files = event.target.files
     if (files && files.length > 0) {
       const newImages = Array.from(files)
-        .filter(file => file.type.startsWith('image/') && file.size <= 10 * 1024 * 1024) // ตรวจสอบประเภทและขนาดของรูปภาพ
+        .filter(file => file.type.startsWith('image/') && file.size <= 10 * 1024 * 1024)
         .map(file => ({
           file: file,
-          name: file.name, // เก็บชื่อไฟล์
+          name: file.name,
           url: URL.createObjectURL(file)
         }))
 
       setUploadImages(prevImages => [...prevImages, ...newImages])
+      onUploadImagesChange([...uploadImages, ...newImages]) // ส่งค่าลงตัวแปร uploadImages ของหน้า add-product
     }
   }
 
   // ** upload videos
   const handleVideoChange = event => {
-    const files = event.target.files
-    if (files && files.length > 0) {
+    const file = event.target.files[0]
+    if (file) {
       const maxSize = 100 * 1024 * 1024 // 100 MB
-      if (files[0].size > maxSize) {
+      if (file.size > maxSize) {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
           text: 'The video size is too large. Please choose a video that is under 100MB.'
         })
-      } else {
-        const newVideos = Array.from(files)
-          .filter(file => file.type.startsWith('video/') && file.size <= maxSize)
-          .map(file => ({
-            file: file,
-            name: file.name,
-            url: URL.createObjectURL(file)
-          }))
+      } else if (file.type.startsWith('video/')) {
+        const newVideo = {
+          file: file,
+          name: file.name,
+          url: URL.createObjectURL(file)
+        }
 
-        setUploadVideos(prevVideos => [...prevVideos, ...newVideos])
+        setUploadVideos([newVideo]) // อัปเดตเพียงวิดีโอเดียว
+        onUploadVdoChange([newVideo]) // ส่งค่าลงตัวแปร upload Vdo ของหน้า add-product
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Please choose a valid video file.'
+        })
       }
     }
   }
@@ -110,10 +116,25 @@ const RegisterProduct = ({ product, setProduct, productCategories }) => {
   const handleDeleteMedia = (index, mediaType) => {
     if (mediaType === 'image') {
       const updatedImages = [...uploadImages]
-      updatedImages.splice(index, 1)
+      const deletedImage = updatedImages.splice(index, 1)[0] // ลบรูปภาพและเก็บค่าที่ถูกลบ
       setUploadImages(updatedImages)
+
+      // อัพเดท image_file_name โดยลบชื่อรูปที่ถูกลบออก
+      if (typeof product.image_file_name === 'string' && product.image_file_name) {
+        const currentImageFileNames = product.image_file_name
+          .split(', ')
+          .filter(fileName => fileName !== deletedImage.name)
+        setProduct(prevProduct => ({
+          ...prevProduct,
+          image_file_name: currentImageFileNames.join(', ')
+        }))
+      }
+
+      // อัพเดท onUploadImagesChange โดยลบชื่อรูปที่ถูกลบออก
+      onUploadImagesChange(updatedImages)
     } else if (mediaType === 'video') {
       const updatedVideos = [...uploadVideos]
+      onUploadVdoChange(updatedVideos)
       updatedVideos.splice(index, 1)
       setUploadVideos(updatedVideos)
     }
@@ -180,7 +201,7 @@ const RegisterProduct = ({ product, setProduct, productCategories }) => {
     // Calculate the maximum valueId
     const maxId = Math.max(...allValueIds, 0)
 
-    console.log('test: ', maxId)
+    // console.log('test: ', maxId)
 
     // Create a new option value with a unique valueId
     const newOptionValue = { valueId: maxId + 1, valueName: '' }
@@ -366,7 +387,7 @@ const RegisterProduct = ({ product, setProduct, productCategories }) => {
                   fullWidth
                 >
                   Upload Video
-                  <input type='file' accept='video/*' hidden multiple onChange={handleVideoChange} />
+                  <input type='file' accept='video/*' hidden onChange={handleVideoChange} />
                 </Button>
               </Box>
             </Grid>
@@ -378,7 +399,7 @@ const RegisterProduct = ({ product, setProduct, productCategories }) => {
                       <div key={index} style={{ position: 'relative', marginBottom: '20px' }}>
                         <video
                           key={index}
-                          src={video}
+                          src={video.url}
                           controls
                           style={{ display: 'block', maxWidth: '100%', maxHeight: '80vh', margin: 'auto' }} // ปรับขนาดและตำแหน่งให้แสดงตรงกลาง
                         />

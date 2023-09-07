@@ -109,8 +109,6 @@ const RegisterSupplier = () => {
         sub_image: imageName
       }
 
-      console.log('ข้อมูลผู้สมัคร', data)
-
       await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.register.registerMarket`, data)
 
       Swal.fire({

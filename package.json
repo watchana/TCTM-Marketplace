@@ -69,6 +69,7 @@
     "luxon": "^3.4.0",
     "mdi-material-ui": "^7.1.0",
     "moment": "^2.29.4",
+    "mv": "^2.1.1",
     "next": "12.0.4",
     "node-localstorage": "^3.0.5",
     "nprogress": "^0.2.0",
