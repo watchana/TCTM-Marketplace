@@ -13,12 +13,14 @@ import Divider from '@mui/material/Divider'
 import Container from '@mui/material/Container'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+import IconButton from '@mui/material/IconButton'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
 
 // ** MUI X Imports
 import { DataGrid } from '@mui/x-data-grid'
 
 // ** Material-UI Icons Imports
+import DeleteIcon from '@mui/icons-material/Delete'
 import MailOutlineIcon from '@mui/icons-material/MailOutline'
 
 // ** MDI Icon Imports
@@ -27,8 +29,18 @@ import CircleSmall from 'mdi-material-ui/CircleSmall'
 const columns = [
   { field: 'id', headerName: 'ID', minWidth: 100 },
   { field: 'markerName', headerName: 'Name Marker', minWidth: 160 },
-  { field: 'product', headerName: 'Product Name', minWidth: 100 },
+  { field: 'product', headerName: 'Product Name', minWidth: 200 },
   { field: 'status', headerName: 'Status', minWidth: 100 },
+  {
+    field: 'download',
+    headerName: 'Download',
+    minWidth: 120,
+    renderCell: rowCell => (
+      <Button variant='outlined' color='primary'>
+        Download
+      </Button>
+    )
+  },
   {
     field: 'action',
     headerName: 'Action',
@@ -120,9 +132,11 @@ const PosrtDetail = () => {
             </Box>
             <Divider />
             <Box sx={{ width: '100%', padding: '10px 20px 20px' }}>
-              <Typography variant='h5' fontSize='1.8rem bold' color='#222' sx={{ marginBottom: 2 }}>
-                Detail
-              </Typography>
+              <Box sx={{ width: '100%' }}>
+                <Typography variant='h5' fontSize='1.8rem bold' color='#222' sx={{ marginBottom: 2 }}>
+                  Detail
+                </Typography>
+              </Box>
               {/* เนื้อหาคน post */}
               <Typography variant='body2' fontSize='1rem' color='#222'>
                 But you cannot figure out what it is or what it can do. MTA web directory is the simplest way in which
@@ -163,10 +177,20 @@ const PosrtDetail = () => {
               {/* comments ต่างๆ */}
               <Card sx={{ width: '100%', height: '100%', mb: '20px', bgcolor: '#FDEDE8', border: '3px solid #FDEDE8' }}>
                 <Box sx={{ width: '100%', padding: '20px' }}>
-                  <Box sx={{ width: '100%', marginBottom: 2 }}>
+                  <Box
+                    sx={{
+                      width: '100%',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignContent: 'center'
+                    }}
+                  >
                     <Typography variant='h6' fontSize='2.2rem bold' color='#222'>
                       Name Marker
                     </Typography>
+                    <IconButton>
+                      <DeleteIcon sx={{ fontSize: 28, color: 'text.primary' }} />
+                    </IconButton>
                   </Box>
                 </Box>
                 <Box sx={{ width: '100%', padding: '0px 20px 20px' }}>
