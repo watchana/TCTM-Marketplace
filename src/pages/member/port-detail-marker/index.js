@@ -48,10 +48,13 @@ const columns = [
     renderCell: rowCell => (
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Button variant='contained' sx={{ marginRight: 2 }}>
-          interested
+          Upload
+        </Button>
+        <Button variant='outlined' sx={{ marginRight: 2 }}>
+          view
         </Button>
         <Button variant='contained' color='error'>
-          Not interested
+          Delete
         </Button>
       </Box>
     )
