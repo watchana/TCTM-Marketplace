@@ -112,7 +112,7 @@ const Payment = ({ storeName, productName, quantity, price, imgSrc, color }) => 
 
 const ProductDummy = () => {
   return (
-    <Container maxWidth='lg' style={{ backgroundColor: 'white', padding: '20px' }}>
+    <Container maxWidth='lg' style={{ padding: '20px' }}>
       <Box>
         <Grid container spacing={10}>
           {/* เพิ่มรายการสินค้าที่ต้องการ */}
