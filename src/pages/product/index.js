@@ -39,7 +39,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import ProductCard from 'src/@core/components/product/product-card'
 
 import { Carousel } from 'react-responsive-carousel'
-import '../../views/product/Component/styled'
+import '../../views/product/Components/styled'
 import ImageSlider from '../../views/product/ImageSlider'
 import { useRouter } from 'next/router'
 import axios from 'axios'

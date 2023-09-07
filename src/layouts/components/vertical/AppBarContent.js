@@ -99,7 +99,7 @@ const AppBarContent = props => {
         >
           <Hidden mdDown>
             <Grid item>
-              <IconButton>
+              <IconButton href='/member/ports/'>
                 <Send />
               </IconButton>
             </Grid>

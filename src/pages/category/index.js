@@ -16,6 +16,7 @@ import Container from '@mui/material/Container'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
+import CardActionArea from '@mui/material/CardActionArea'
 
 // ** MUI List Imports
 import List from '@mui/material/List'
@@ -23,8 +24,6 @@ import ListItem from '@mui/material/ListItem'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import ListItemButton from '@mui/material/ListItemButton'
-
-import { CardActionArea } from '@mui/material'
 
 import axios from 'axios'
 
