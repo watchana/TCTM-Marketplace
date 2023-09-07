@@ -17,6 +17,9 @@ import ButtonBase from '@mui/material/ButtonBase'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
 import CardActionArea from '@mui/material/CardActionArea'
 
+// ** MUI X Imports
+import { DataGrid } from '@mui/x-data-grid'
+
 // ** Material-UI Icons Imports
 import DeleteIcon from '@mui/icons-material/Delete'
 import MailOutlineIcon from '@mui/icons-material/MailOutline'
@@ -30,6 +33,24 @@ import axios from 'axios'
 
 // ** component Import
 import DialogPost from './DialogPost'
+
+const columns = [
+  { field: 'id', headerName: 'ID', minWidth: 100 },
+  { field: 'title', headerName: 'Title', minWidth: 160 },
+  { field: 'status', headerName: 'Status', minWidth: 100 },
+  {
+    field: 'action',
+    headerName: 'Action',
+    minWidth: 200,
+    renderCell: rowCell => <Button variant='contained'>Edit</Button>
+  }
+]
+
+const rows = [
+  { id: 1, title: 'Title 1', status: 'Active' },
+  { id: 2, title: 'Title 2', status: 'Active' },
+  { id: 3, title: 'Title 3', status: 'Active' }
+]
 
 const Posts = () => {
   // นำเข้าตัวsweetalert2
@@ -163,6 +184,9 @@ const Posts = () => {
                 </Box>
               </Grid>
               <Divider />
+              <Grid item sx={{ paddingX: 2, paddingBottom: 2 }}>
+                <DataGrid rows={rows} columns={columns} pageSize={5} rowsPerPageOptions={[5, 10, 20]} />
+              </Grid>
             </Grid>
           </Card>
         </Box>
