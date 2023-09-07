@@ -66,43 +66,28 @@ const Payment = ({ storeName, productName, quantity, price, imgSrc, color }) => 
             </Grid>
           </Box>
           <CardContent>
-            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-              {/* นี่คือ Box ที่ครอบส่วนของปุ่มและข้อความในล่าง */}
-              <Grid container sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Box sx={{ width: '35%', display: 'flex', justifyContent: 'flex-end' }}>
-                  {/* นี่คือ Box ที่ครอบข้อความสำหรับคำแนะนำ */}
-                  <div style={{ display: 'flex', justifyContent: 'center', margin: 'auto' }}>
-                    <Typography variant='body1' style={{ color: 'gray' }} paragraph>
-                      กรุณากดยืนยันหลังจากได้รับและตรวจสอบสินค้าแล้ว
-                    </Typography>
-                  </div>
-                </Box>
-                <Grid>
-                  <Box sx={{ width: '15%' }}>
-                    {/* นี่คือ Box ที่ครอบปุ่ม "ตรวจสอบสินค้าและยอมรับ" */}
-                    <Button sx={{ width: 200 }} variant='outlined' color='primary'>
-                      ตรวจสอบสินค้าและยอมรับ
-                    </Button>
-                  </Box>
-                </Grid>
-                <Grid>
-                  <Box sx={{ width: '15%' }}>
-                    {/* นี่คือ Box ที่ครอบปุ่ม "ขอคืนเงิน" */}
-                    <Button sx={{ width: 200 }} variant='contained' color='primary'>
-                      ขอคืนเงิน
-                    </Button>
-                  </Box>
-                </Grid>
-                <Grid>
-                  <Box sx={{ width: '18%' }}>
-                    {/* นี่คือ Box ที่ครอบปุ่ม "ติดต่อผู้ขาย" */}
-                    <Button sx={{ width: 200 }} variant='contained' color='inherit'>
-                      ติดต่อผู้ขาย
-                    </Button>
-                  </Box>
-                </Grid>
+            <Grid container spacing={6}>
+              <Grid item xs={4.5}>
+                <Typography variant='body1' style={{ color: 'gray' }} paragraph>
+                  กรุณากดยืนยันหลังจากได้รับและตรวจสอบสินค้าแล้ว
+                </Typography>
               </Grid>
-            </Box>
+              <Grid item xs={2.7}>
+                <Button sx={{ width: 200, marginBottom: '10px' }} variant='outlined' color='primary'>
+                  ตรวจสอบสินค้าและยอมรับ
+                </Button>
+              </Grid>
+              <Grid item xs={2.3}>
+                <Button sx={{ width: 165, marginBottom: '10px' }} variant='contained' color='primary'>
+                  ขอคืนเงิน
+                </Button>
+              </Grid>
+              <Grid item xs={2}>
+                <Button sx={{ width: 165, marginBottom: '10px' }} variant='contained' color='inherit'>
+                  ติดต่อผู้ขาย
+                </Button>
+              </Grid>
+            </Grid>
           </CardContent>
         </CardContent>
       </Card>
@@ -112,7 +97,7 @@ const Payment = ({ storeName, productName, quantity, price, imgSrc, color }) => 
 
 const ProductDummy = () => {
   return (
-    <Container maxWidth='lg' style={{ backgroundColor: 'white', padding: '20px' }}>
+    <Container maxWidth='lg' style={{ padding: '20px' }}>
       <Box>
         <Grid container spacing={10}>
           {/* เพิ่มรายการสินค้าที่ต้องการ */}
