@@ -38,7 +38,7 @@ const ShowOrder = ({ tabValue, orderList }) => {
                   </Box>
                 </Grid>
                 <Grid item xs={9} md={10}>
-                  <Grid container spacing={2} rowSpacing={2}>
+                  <Grid container spacing={2} rowSpacing={2} sx={{ pt: { md: 2 } }}>
                     <Grid item xs={12}>
                       <Typography variant='subtitle1'>ชื่อสินค้า : {item.productName}</Typography>
                     </Grid>
