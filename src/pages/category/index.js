@@ -18,6 +18,7 @@ import Breadcrumbs from '@mui/material/Breadcrumbs'
 import { CardActionArea } from '@mui/material'
 
 import axios from 'axios'
+import { withAuth } from 'src/@core/utils/AuthCheck'
 
 // ** MDI Icon Imports
 import Magnify from 'mdi-material-ui/Magnify'
@@ -288,4 +289,4 @@ export const getServerSideProps = async ({ query }) => {
   }
 }
 
-export default Category
+export default withAuth(Category)

@@ -23,6 +23,7 @@ import { DataGrid } from '@mui/x-data-grid'
 import axios from 'axios'
 import { get, set } from 'local-storage'
 import { useRouter } from 'next/router'
+import { withAuth } from 'src/@core/utils/AuthCheck'
 
 // ** Icons Imports
 import Plus from 'mdi-material-ui/Plus'
@@ -313,4 +314,4 @@ const MyMarket = () => {
   )
 }
 
-export default MyMarket
+export default withAuth(MyMarket)

@@ -35,9 +35,10 @@ import { Carousel } from 'react-responsive-carousel'
 import '../../views/product/Component/styled'
 import ImageSlider from '../../views/product/ImageSlider'
 import { useRouter } from 'next/router'
+import { withAuth } from 'src/@core/utils/AuthCheck'
 import axios from 'axios'
 
-export default function ProductDetails() {
+const ProductDetails = () => {
   // ตัวแปรเก็บค่าข้อมูล
   const [quantity, setQuantity] = useState(1) // ตัวแปรเก็บค่าจำนวนสินค้า
   const [productOption, setProductOption] = useState([]) // ตัวแปรเก็บค่าตัวเลือกสินค้า
@@ -319,6 +320,8 @@ export default function ProductDetails() {
     </Container>
   )
 }
+
+export default withAuth(ProductDetails)
 
 const productsData = [
   {

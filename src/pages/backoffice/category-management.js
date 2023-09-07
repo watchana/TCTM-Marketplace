@@ -7,6 +7,7 @@ import InsertCategory from 'src/views/backoffice/InsertCategory'
 import EditCategory from 'src/views/backoffice/EditCategory'
 
 import axios from 'axios'
+import { withAuth } from 'src/@core/utils/AuthCheck'
 
 const CategoryManager = () => {
   // นำเข้าตัวsweetalert2
@@ -184,4 +185,4 @@ const CategoryManager = () => {
   )
 }
 
-export default CategoryManager
+export default withAuth(CategoryManager)

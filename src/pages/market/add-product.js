@@ -10,6 +10,9 @@ import axios from 'axios'
 // ** Router
 import { useRouter } from 'next/router'
 
+// ** Auth Check Import
+import { withAuth } from 'src/@core/utils/AuthCheck'
+
 // ** Components
 import RegisterProduct from 'src/views/supplier/RegisterProduct'
 import ShowResults from 'src/views/supplier/ShowResults'
@@ -325,4 +328,4 @@ export async function getServerSideProps() {
   }
 }
 
-export default AddProductPage
+export default withAuth(AddProductPage)

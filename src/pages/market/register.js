@@ -27,6 +27,9 @@ const Swal = require('sweetalert2')
 // ** axios Imports
 import axios from 'axios'
 
+// ** Auth Check
+import { withAuth } from 'src/@core/utils/AuthCheck'
+
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 
@@ -364,4 +367,4 @@ const RegisterSupplier = () => {
 }
 RegisterSupplier.getLayout = page => <BlankLayout>{page}</BlankLayout>
 
-export default RegisterSupplier
+export default withAuth(RegisterSupplier)
