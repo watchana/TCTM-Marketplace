@@ -54,7 +54,7 @@ const AppBarContent = props => {
 
   return (
     <Grid container direction='row' justifyContent='space-between' alignItems='center'>
-      <Grid item xl={3} lg={3} md={4} sm={6} xs={6}>
+      <Grid item xl={3} lg={3} md={4} sm={4} xs={6}>
         <Box sx={{ width: '150px', height: '70px' }}>
           <Link href='/' passHref>
             <CardMedia sx={{ height: '70px' }} image='/images/cards/LOGO_TCTM_3.png' />
@@ -63,7 +63,7 @@ const AppBarContent = props => {
       </Grid>
 
       <Hidden mdDown>
-        <Grid item xl={6} lg={6} md={4}>
+        <Grid item xl={6} lg={6} md={4} sm={4}>
           <Box sx={{ width: '100%', padding: 1 }}>
             <TextField
               size='small'
@@ -88,7 +88,7 @@ const AppBarContent = props => {
         </Grid>
       </Hidden>
 
-      <Grid item xl={3} lg={3} md={4} sm={6} xs={6}>
+      <Grid item xl={3} lg={3} md={4} sm={4} xs={6}>
         <Grid
           container
           spacing={'15px'}
@@ -97,17 +97,15 @@ const AppBarContent = props => {
           alignItems='center'
           sx={{ width: '100%', height: '70px' }}
         >
-          <Hidden mdDown>
-            <Grid item>
-              <IconButton href='/member/ports/'>
-                <Send />
-              </IconButton>
-            </Grid>
-          </Hidden>
+          <Grid item>
+            <IconButton href='/member/ports/'>
+              <Send sx={{ color: 'text.primary' }} />
+            </IconButton>
+          </Grid>
           <Grid item>
             <IconButton>
               {/* ต้องสร้าง components ใน src/@core/layouts/components/shared-components/ สำหรับปุ่ม ตะกร้า  */}
-              <CartOutline />
+              <CartOutline sx={{ color: 'text.primary' }} />
             </IconButton>
           </Grid>
           <Grid item>
