@@ -217,7 +217,7 @@ const RegisterPage = () => {
           title: 'ส่งข้อมูลสำเร็จ',
           text: 'ข้อมูลถูกส่งไปยัง API แล้ว'
         })
-        router.push('/pages/login')
+        router.push('/login')
       })
       .catch(error => {
         console.error(error)
