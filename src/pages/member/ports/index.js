@@ -33,34 +33,19 @@ import axios from 'axios'
 
 // ** component Import
 import DialogPost from './DialogPost'
-
-const columns = [
-  { field: 'id', headerName: 'ID', minWidth: 100 },
-  { field: 'title', headerName: 'Title', minWidth: 160 },
-  { field: 'status', headerName: 'Status', minWidth: 100 },
-  {
-    field: 'action',
-    headerName: 'Action',
-    minWidth: 200,
-    renderCell: rowCell => <Button variant='contained'>Edit</Button>
-  }
-]
-
-const rows = [
-  { id: 1, title: 'Title 1', status: 'Active' },
-  { id: 2, title: 'Title 2', status: 'Active' },
-  { id: 3, title: 'Title 3', status: 'Active' }
-]
+import DialogEdit from './DialogEdit'
 
 const Posts = () => {
   // นำเข้าตัวsweetalert2
   const Swal = require('sweetalert2')
-
   const [openDialogPost, setOpenDialogPost] = useState(false)
+  const [openDialogEdit, setOpenDialogEdit] = useState(false)
 
   // ตัวแปรเก็บค่าข้อมูล
   const [userId, setUserId] = useState('') // ข้อมูล user_Id
   const [myPose, setMyPose] = useState('') // ข้อมูล My pose
+
+  console.log('myPose', myPose)
 
   // รับค่าข้อมูล จาก local Storage
   useEffect(() => {
@@ -71,21 +56,23 @@ const Posts = () => {
   }, [])
 
   // ดึงข้อมูล My pose จาก Api
-  const fetchData = useCallback(async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API}TCTM.requirements.allrequirement?user_id=${userId}`
-      )
-      setMyPose(response.data.message.Data)
-    } catch (error) {
-      console.error(error)
-    }
-  }, [userId])
-
-  // เรียกใช้ fetchData ทุกครั้งที่ User Id เปลียนแปลง
   useEffect(() => {
-    fetchData()
-  }, [userId, fetchData])
+    // ฟังก์ชันดึงข้อมูล
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}TCTM.requirements.allrequirement?user_id=${userId}`
+        )
+        setMyPose(response.data.message.Data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    if (!openDialogPost) {
+      fetchData()
+    }
+  }, [userId, openDialogPost])
 
   // ฟังก์ชันลบข้อมูล
   const handleDeleteSubmit = reqId => {
@@ -105,6 +92,7 @@ const Posts = () => {
           .put(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.deleterequirement`, data)
           .then(function (response) {
             console.log(response)
+            setMyPose(prevData => prevData.filter(myPose => myPose.req_id !== reqId))
 
             if (response.status === 200) {
               Swal.fire({
@@ -112,7 +100,6 @@ const Posts = () => {
                 title: 'ลบข้อมูลแล้วเสร็จ',
                 text: 'คุณไม่สามารถกู้คืนข้อมูลได้แล้ว'
               })
-              fetchData()
             } else {
               Swal.fire({
                 icon: 'error',
@@ -135,6 +122,46 @@ const Posts = () => {
       }
     })
   }
+
+  const columns = [
+    { field: 'req_id', headerName: 'ID', minWidth: 100 },
+    { field: 'req_header', headerName: 'Title', minWidth: 160 },
+    {
+      field: 'creation',
+      headerName: 'post time',
+      minWidth: 250,
+
+      // ตัดค่าข้างหลังให้แสดงถึงแค่เวลา
+      valueFormatter: params => {
+        const creation = params.value
+        const formattedCreation = creation.substr(0, 19)
+
+        return formattedCreation
+      }
+    },
+    {
+      field: 'Edit',
+      headerName: 'Edit Data',
+      minWidth: 100,
+      renderCell: rowCell => (
+        <Button variant='contained' onClick={() => setOpenDialogEdit(true)}>
+          Edit
+        </Button>
+      )
+    },
+    {
+      field: 'Delete',
+      headerName: 'Delete',
+      width: 100,
+      renderCell: cellValues => {
+        return (
+          <Button variant='text' onClick={() => handleDeleteSubmit(cellValues.row.req_id)}>
+            Delete
+          </Button>
+        )
+      }
+    }
+  ]
 
   return (
     <Container maxWidth='xl'>
@@ -185,7 +212,17 @@ const Posts = () => {
               </Grid>
               <Divider />
               <Grid item sx={{ paddingX: 2, paddingBottom: 2 }}>
-                <DataGrid rows={rows} columns={columns} pageSize={5} rowsPerPageOptions={[5, 10, 20]} />
+                {myPose && myPose.length > 0 ? (
+                  <DataGrid
+                    rows={myPose}
+                    columns={columns}
+                    getRowId={row => row.req_id}
+                    pageSize={5}
+                    rowsPerPageOptions={[5, 10, 20]}
+                  />
+                ) : (
+                  <div>No data</div>
+                )}
               </Grid>
             </Grid>
           </Card>
@@ -193,6 +230,7 @@ const Posts = () => {
       </Box>
       {/* 📨📨 Props 📨📨 */}
       <DialogPost open={openDialogPost} handleClose={() => setOpenDialogPost(false)} userId={userId} />
+      <DialogEdit open={openDialogEdit} handleClose={() => setOpenDialogEdit(false)} userId={userId} />
       {/* 📨📨 Props 📨📨 */}
     </Container>
   )
