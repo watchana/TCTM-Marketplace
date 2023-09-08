@@ -544,11 +544,12 @@ const RegisterProduct = ({ product, setProduct, productCategories, onUploadImage
 
       {/* ตัวเลือกสินค้า */}
       <Card sx={{ padding: 8, marginBlock: 5 }}>
-        <CardContent>
-          <Box sx={{ mb: 4, pb: 2 }}>
-            <Typography variant='h5'>เพิ่มตัวเลือกสินค้า</Typography>
-            <Typography variant='body1'>หัวข้อตัวเลือกที่ต้องการ</Typography>
-          </Box>
+        <Box>
+          <Typography variant='h5'>เพิ่มตัวเลือกสินค้า</Typography>
+          <Typography variant='body1'>หัวข้อตัวเลือกที่ต้องการ</Typography>
+        </Box>
+
+        <Box sx={{ ml: 5, marginBlock: 6 }}>
           {product.options.map((option, index) => (
             <Grid
               container
@@ -556,10 +557,10 @@ const RegisterProduct = ({ product, setProduct, productCategories, onUploadImage
               border={1}
               borderColor='rgba(0, 0, 0, 0.2)'
               borderRadius={1}
-              sx={{ p: 4, marginBlock: 4 }}
+              sx={{ mb: 4, marginBlock: 5, pr: 4, pb: 4 }}
               spacing={5}
             >
-              <Grid item xs={12} sm={8}>
+              <Grid item xs={12} sm={6} md={7} sx={{ alignSelf: 'flex-end' }}>
                 <Typography>ตัวเลือกที่ {index + 1}</Typography>
                 <TextField
                   fullWidth
@@ -578,7 +579,7 @@ const RegisterProduct = ({ product, setProduct, productCategories, onUploadImage
                   }}
                 />
               </Grid>
-              <Grid item key={option.optionId} xs={12} sm={3}>
+              <Grid item key={option.optionId} xs={12} sm={4}>
                 <Typography>แบบกรอกข้อมูล หรือ แบบเลือก</Typography>
                 <Select
                   fullWidth
@@ -592,7 +593,7 @@ const RegisterProduct = ({ product, setProduct, productCategories, onUploadImage
                 </Select>
               </Grid>
 
-              <Grid item xs={12} sm={1} alignSelf={'flex-end'}>
+              <Grid item xs={12} sm={2} md={1} alignSelf={'flex-end'}>
                 <Button
                   fullWidth
                   variant='contained'
@@ -648,19 +649,19 @@ const RegisterProduct = ({ product, setProduct, productCategories, onUploadImage
               </Grid>
             </Grid>
           ))}
+        </Box>
 
-          <Grid container spacing={5}>
-            {product.options.length < 5 ? (
-              <Grid item xs>
-                <Button fullWidth variant='outlined' sx={{ height: 55 }} onClick={handleAddOption}>
-                  +
-                </Button>
-              </Grid>
-            ) : (
-              <Grid item xs></Grid>
-            )}
-          </Grid>
-        </CardContent>
+        <Grid container spacing={5}>
+          {product.options.length < 5 ? (
+            <Grid item xs>
+              <Button fullWidth variant='outlined' sx={{ height: 55 }} onClick={handleAddOption}>
+                +
+              </Button>
+            </Grid>
+          ) : (
+            <Grid item xs></Grid>
+          )}
+        </Grid>
       </Card>
 
       {/*  รายละเอียดสินค้าของแต่ละตัวเลือก */}
@@ -673,73 +674,78 @@ const RegisterProduct = ({ product, setProduct, productCategories, onUploadImage
             <Typography variant='body1'>สินค้าตัวเลือกที่ {index + 1}</Typography>
             <Box sx={{ my: 4 }} border={1} borderColor='rgba(0, 0, 0, 0.2)' borderRadius={1}>
               <Grid container spacing={5} sx={{ p: 4 }} alignItems={'flex-end'}>
-                {product.options.map((option, index) => (
-                  <Grid item key={option.optionId} xs={12} sm={6}>
-                    <Typography>
-                      {option.optionName} {index + 1}
-                    </Typography>
-                    {option.optionType === 1 ? (
+                {product.options.map(
+                  (option, index) =>
+                    option.optionName !== '' && (
+                      <Grid item key={option.optionId} xs={6}>
+                        <Typography>{option.optionName}</Typography>
+                        {option.optionType === 1 ? (
+                          <TextField
+                            fullWidth
+                            id={`product-item-group-column-text-${option.optionId}`}
+                            variant='outlined'
+                            value={group[`optionGroupColumn${index + 1}`]}
+                            onChange={e =>
+                              handleProductOptionGroupChange(e, group.optionGroupId, `optionGroupColumn${index + 1}`)
+                            }
+                          />
+                        ) : (
+                          <Select
+                            fullWidth
+                            id={`product-item-group-column-select-${option.optionId}`}
+                            value={group[`optionGroupColumn${index + 1}`]}
+                            onChange={e =>
+                              handleProductOptionGroupChange(e, group.optionGroupId, `optionGroupColumn${index + 1}`)
+                            }
+                          >
+                            {option.optionValue.map(value => (
+                              <MenuItem key={value.valueId} value={value.valueName}>
+                                {value.valueName}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        )}
+                      </Grid>
+                    )
+                )}
+
+                <Grid item xs>
+                  <Grid container spacing={5}>
+                    <Grid item xs sm={4}>
+                      <Typography>ราคาสินค้า</Typography>
                       <TextField
                         fullWidth
-                        id={`product-item-group-column-text-${option.optionId}`}
+                        type='number'
+                        id={`product-item-group-price-${group.optionGroupId}`} // ราคาสินค้า
                         variant='outlined'
-                        value={group[`optionGroupColumn${index + 1}`]}
-                        onChange={e =>
-                          handleProductOptionGroupChange(e, group.optionGroupId, `optionGroupColumn${index + 1}`)
-                        }
+                        value={group.optionGroupPrice}
+                        onChange={e => handleItemPriceChange(e, group.optionGroupId)}
                       />
-                    ) : (
-                      <Select
+                    </Grid>
+
+                    <Grid item xs sm={4}>
+                      <Typography>จำนวนสินค้า</Typography>
+                      <TextField
                         fullWidth
-                        id={`product-item-group-column-select-${option.optionId}`}
-                        value={group[`optionGroupColumn${index + 1}`]}
-                        onChange={e =>
-                          handleProductOptionGroupChange(e, group.optionGroupId, `optionGroupColumn${index + 1}`)
-                        }
+                        type='number'
+                        id={`product-item-group-quantity-${group.optionGroupId}`} // จำนวนสินค้า
+                        variant='outlined'
+                        value={group.optionGroupQuantity}
+                        onChange={e => handleItemQuantityChange(e, group.optionGroupId)}
+                      />
+                    </Grid>
+
+                    <Grid item xs sm={4} alignSelf={'flex-end'}>
+                      <Button
+                        fullWidth
+                        variant='contained'
+                        sx={{ height: 55, bgcolor: 'red' }}
+                        onClick={e => handleDeleteOptionGroup(e, group.optionGroupId)}
                       >
-                        {option.optionValue.map(value => (
-                          <MenuItem key={value.valueId} value={value.valueName}>
-                            {value.valueName}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    )}
+                        <DeleteIcon />
+                      </Button>
+                    </Grid>
                   </Grid>
-                ))}
-
-                <Grid item xs sm={7}>
-                  <Typography>ราคาสินค้า</Typography>
-                  <TextField
-                    fullWidth
-                    type='number'
-                    id={`product-item-group-price-${group.optionGroupId}`} // ราคาสินค้า
-                    variant='outlined'
-                    value={group.optionGroupPrice}
-                    onChange={e => handleItemPriceChange(e, group.optionGroupId)}
-                  />
-                </Grid>
-
-                <Grid item xs sm={4}>
-                  <Typography>จำนวนสินค้า</Typography>
-                  <TextField
-                    fullWidth
-                    type='number'
-                    id={`product-item-group-quantity-${group.optionGroupId}`} // จำนวนสินค้า
-                    variant='outlined'
-                    value={group.optionGroupQuantity}
-                    onChange={e => handleItemQuantityChange(e, group.optionGroupId)}
-                  />
-                </Grid>
-
-                <Grid item xs sm={1} alignSelf={'flex-end'}>
-                  <Button
-                    fullWidth
-                    variant='contained'
-                    sx={{ height: 55, bgcolor: 'red' }}
-                    onClick={e => handleDeleteOptionGroup(e, group.optionGroupId)}
-                  >
-                    <DeleteIcon />
-                  </Button>
                 </Grid>
               </Grid>
             </Box>
