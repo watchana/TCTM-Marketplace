@@ -130,7 +130,7 @@ const LoginPage = () => {
     }
 
     axios
-      .post(`${process.env.NEXT_PUBLIC_API}TCTM.authen.login`, data)
+      .post(`http://111.223.38.19/api/method/frappe.API.TCTM.authen.login`, data)
       .then(response => {
         if (response.data.message) {
           const receivedStatus = response.data.message.Message
