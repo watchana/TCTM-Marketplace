@@ -3,7 +3,6 @@ import { Carousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 
 function ImageSlider({ img }) {
-  console.log('img', img)
 
   const responsive = {
     0: {
