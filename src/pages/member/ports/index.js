@@ -46,8 +46,6 @@ const Posts = () => {
   const [myPose, setMyPose] = useState('') // ข้อมูล My pose
   const [row, setRow] = useState('') // ข้อมูล My pose
 
-  console.log('myPose', myPose)
-
   // รับค่าข้อมูล จาก local Storage
   useEffect(() => {
     const userIdFromLocalStorage = localStorage.getItem('Member_Id')

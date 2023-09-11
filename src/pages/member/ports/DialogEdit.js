@@ -14,8 +14,6 @@ const DialogEdit = ({ open, handleClose, Data }) => {
   // นำเข้าตัวsweetalert2
   const Swal = require('sweetalert2')
 
-console.log('Data Svj', Data)
-
   // ตัวแปรเก็บค่าข้อมูล
   const [title, setTitle] = useState('') // ข้อมูล title
   const [description, setDescription] = useState('') // ข้อมูล description
@@ -58,8 +56,6 @@ console.log('Data Svj', Data)
       req_header: title,
       req_description: description
     }
-
-    console.log('ข้อมูลตอนส่ง',data)
 
     axios
       .post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.editrequirement`, data)
