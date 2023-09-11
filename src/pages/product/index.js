@@ -47,7 +47,6 @@ const ProductDetails = () => {
   const [productdata, setProductData] = useState([]) // ตัวแปรเก็บข้อมูลสินค่า
   const [productimg, setProductImg] = useState([]) // ตัวแปรเก็บข้อมูลรูปภาพ
 
-
   // console.log('productimg', productimg)
   // console.log('selection', selection)
 
