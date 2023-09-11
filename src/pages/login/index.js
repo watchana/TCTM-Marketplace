@@ -130,7 +130,14 @@ const LoginPage = () => {
     }
 
     axios
-      .post(`http://111.223.38.19/api/method/frappe.API.TCTM.authen.login`, data)
+      .post(`http://111.223.38.19/api/method/frappe.API.TCTM.authen.login`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+          'Access-Control-Allow-Origin': '*',
+          Authorization: 'token 76dc8ec5e14d19c:a644317879022f2'
+        }
+      })
       .then(response => {
         if (response.data.message) {
           const receivedStatus = response.data.message.Message
