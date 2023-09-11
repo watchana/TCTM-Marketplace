@@ -9,8 +9,15 @@ import { Avatar, Box, Button, Card, Divider, Grid, Radio, Stack, TextField, Typo
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { deepOrange } from '@mui/material/colors'
+import { useState } from 'react'
 
 const ShowOrder = ({}) => {
+  const [selectedOption, setSelectedOption] = useState('a') // เริ่มต้นด้วย 'a' หรือค่าเริ่มต้นที่คุณต้องการ
+
+  const handleOptionChange = event => {
+    setSelectedOption(event.target.value)
+  }
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'row' }}>
       <Box xs={12} sx={{ display: 'flex', flexDirection: 'column', marginLeft: 20, marginRight: 20 }}>
@@ -179,19 +186,179 @@ const ShowOrder = ({}) => {
                 {/** delivery */}
                 <Card xs={12} sx={{ marginTop: 3, width: '95%', p: 4 }}>
                   <Grid container spacing={2} rowSpacing={2}>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '83%' }}>
-                      <Box sx={{ width: '100%' }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                      <Box sx={{ width: '6%' }}>
                         <Grid item xs={9} md={10}>
-                          <Grid container spacing={2} rowSpacing={2} sx={{ pt: { md: 2 } }}>
-                            <Grid item xs={12}>
-                              <Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 28 }}} />
+                          <Grid container spacing={2} rowSpacing={2} sx={{ pt: { md: 4 } }}>
+                            <Grid container spacing={2} rowSpacing={1} sx={{ pt: { marginLeft: 10 } }}>
+                              <Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 28 }, justifyContent: 'space-between' }} />
                             </Grid>
+                          </Grid>
+                        </Grid>
+                      </Box>
+                      <Grid container spacing={2} rowSpacing={2} sx={{ pt: { md: 3, marginLeft: 4.4 } }}>
+                        <Grid item xs={12}>
+                          <Typography variant='subtitle1'> Pick-up point</Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Typography variant='subtitle2'> Shipping: 2-4 weeks </Typography>
+                        </Grid>
+                        <Grid
+                          sx={{ display: 'flex', widows: '100%', justifyContent: { xs: 'flex-start', sm: 'flex-end' } }}
+                        >
+                          <Typography sx={{ marginLeft: 45 }} variant='subtitle1'>
+                            {' '}
+                            150 THB{' '}
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                      <Box></Box>
+                    </Box>
+                    <Box sx={{ display: 'flex', width: '100%', marginTop: 6 }}>
+                      <Box sx={{ width: '6%', display: 'flex', justifyContent: 'space-between' }}>
+                        <Grid item xs={9} md={10}>
+                          <Grid container spacing={2} rowSpacing={2} sx={{ pt: { md: 4 } }}>
+                            <Grid container spacing={2} rowSpacing={1} sx={{ pt: { marginLeft: 10 } }}></Grid>
+                          </Grid>
+                        </Grid>
+                      </Box>
+                      <Grid container spacing={2} rowSpacing={1} sx={{ pt: { md: 3, marginLeft: 4.4 } }}>
+                        <Grid item xs={12}>
+                          <Typography variant='subtitle1'> Ship to </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Typography variant='subtitle2'> Groceries Kiosk, 35 Illinois St, Toronto </Typography>
+                        </Grid>
+                      </Grid>
+                    </Box>
+                    <hr />
+                    <Box sx={{ display: 'flex', width: '100%' }}>
+                      <Box sx={{ width: '6%', display: 'flex' }}>
+                        <Grid item xs={9} md={10}>
+                          <Grid container spacing={2} rowSpacing={2} sx={{ pt: { md: 4 } }}>
+                            <Grid container spacing={2} rowSpacing={1} sx={{ pt: { marginLeft: 10 } }}>
+                              <Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 28 }, justifyContent: 'space-between' }} />
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                      </Box>
+                      <Box>
+                        <Grid container spacing={2} rowSpacing={1} sx={{ pt: { md: 3, marginLeft: 4.4 } }}>
+                          <Grid item xs={12}>
+                            <Typography variant='subtitle1'> Pick-up point </Typography>
+                          </Grid>
+                          <Grid item xs={12} sm={6}>
+                            <Typography variant='subtitle2'> Shipping: 3-5 weeks </Typography>
+                          </Grid>
+                          <Grid
+                            sx={{
+                              display: 'flex',
+                              widows: '100%',
+                              justifyContent: { xs: 'flex-start', sm: 'flex-end' }
+                            }}
+                          >
+                            <Typography sx={{ marginLeft: 49 }} variant='subtitle1'>
+                              {' '}
+                              135 THB{' '}
+                            </Typography>
                           </Grid>
                         </Grid>
                       </Box>
                     </Box>
                   </Grid>
                 </Card>
+                <br />
+                <Typography variant='h5' sx={{ fontWeight: 'bold', marginBottom: 3 }}>
+                  Payment{' '}
+                </Typography>
+                <Card xs={12} sx={{ width: '95%', p: 4 }}>
+                  <Grid>
+                    <Box>
+                      <Grid item xs={9} md={10}>
+                        <Grid container spacing={2} rowSpacing={2} sx={{ pt: { md: 4 } }}>
+                          <Grid container spacing={2} rowSpacing={1} sx={{ pt: { marginLeft: 10 } }}>
+                            <Radio
+                              checked={selectedOption === 'a'}
+                              onChange={handleOptionChange}
+                              value='a'
+                              name='payment-option'
+                              sx={{
+                                '& .MuiSvgIcon-root': { fontSize: 28 },
+                                justifyContent: 'space-between',
+                                alignItems: 'center'
+                              }}
+                            />
+                            Debit / Credit Card
+                            <Grid container spacing={2} rowSpacing={1} sx={{ pt: { marginLeft: 10 } }}>
+                              <Box sx={{ height: '100%', width: '100%' }}>
+                                <Box sx={{ height: '33%', width: '70%' }}>
+                                  <TextField label='เลขบัตร' variant='outlined' fullWidth sx={{ marginLeft: 5 }} />
+                                </Box>
+                                <Box sx={{ height: '33%', width: '73%', display: 'flex', justifyContent: 'center' }}>
+                                  <TextField label='เดือน/ปี' variant='outlined' sx={{ marginLeft: 5, marginTop: 2 }} />
+                                  <TextField
+                                    label='เลข 3 ตัว'
+                                    variant='outlined'
+                                    sx={{ marginLeft: 5, marginTop: 2 }}
+                                  />
+                                </Box>
+                                <Box sx={{ height: '33%', width: '70%' }}>
+                                  <TextField
+                                    label='ชื่อบัตร'
+                                    variant='outlined'
+                                    fullWidth
+                                    sx={{ marginLeft: 5, marginTop: 4 }}
+                                  />
+                                </Box>
+                              </Box>
+                            </Grid>
+                            <Grid container spacing={2} rowSpacing={1} sx={{ pt: { marginLeft: 10, marginTop: 30 } }}>
+                              <Radio
+                                value='disabled'
+                                disabled
+                                sx={{
+                                  '& .MuiSvgIcon-root': { fontSize: 28 },
+                                  justifyContent: 'space-between',
+                                  alignItems: 'center'
+                                }}
+                              />
+                              PayPal
+                            </Grid>
+                            <hr /> {/* เพิ่มเส้น hr ตรงนี้ */}
+                            <Grid container spacing={2} rowSpacing={1} sx={{ pt: { marginLeft: 10 } }}>
+                              <Radio
+                                value='disabled'
+                                disabled
+                                sx={{
+                                  '& .MuiSvgIcon-root': { fontSize: 28 },
+                                  justifyContent: 'space-between',
+                                  alignItems: 'center'
+                                }}
+                              />
+                              ApplePay
+                            </Grid>
+                          </Grid>
+                          <br />
+                        </Grid>
+                      </Grid>
+                    </Box>
+                  </Grid>
+                </Card>
+                <br />
+                <Grid xs={12} sx={{ width: '95%', marginTop: 2 }}>
+                  <Box sx={{ height: '100%', width: '100%', display: 'flex', justifyContent: 'center' }}>
+                    <Button fullWidth sx={{ bgcolor: 'gray', color: 'red' }}>
+                      COMPLETE PURCHASE
+                    </Button>
+                  </Box>
+                  <br/>
+                  <Box sx={{ height: '100%', width: '100%' }}>
+                    <Typography variant='subtitle2'>
+                      By clicking "Complete purchase", I confirm that I am aware and accept that I am obliged to pay for
+                      my order. I accept the Terms and Conditions and confirm that I have read the Privacy Policy.
+                    </Typography>
+                  </Box>
+                </Grid>
               </Box>
             </Box>
             {/** Summary */}
