@@ -130,7 +130,7 @@ const LoginPage = () => {
     }
 
     axios
-      .post(`http://111.223.38.19/api/method/frappe.API.TCTM.authen.login`, data, {
+      .post(`https://111.223.38.19/api/method/frappe.API.TCTM.authen.login`, data, {
         headers: {
           'Content-Type': 'application/json',
           'X-Requested-With': 'XMLHttpRequest',
