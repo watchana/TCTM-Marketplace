@@ -10,11 +10,11 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import axios from 'axios'
 
-const DialogEdit = ({ open, handleClose, userId }) => {
+const DialogEdit = ({ open, handleClose, Data }) => {
   // นำเข้าตัวsweetalert2
   const Swal = require('sweetalert2')
 
-  // console.log('User Dialog', userId)
+console.log('Data Svj', Data)
 
   // ตัวแปรเก็บค่าข้อมูล
   const [title, setTitle] = useState('') // ข้อมูล title
@@ -23,8 +23,8 @@ const DialogEdit = ({ open, handleClose, userId }) => {
   // เซตค่า title และ description เมื่อ open มีการเปลี่ยนแปลง
   useEffect(() => {
     if (open) {
-      setTitle('')
-      setDescription('')
+      setTitle(Data.req_header)
+      setDescription(Data.req_description)
     }
   }, [open])
 
@@ -54,25 +54,25 @@ const DialogEdit = ({ open, handleClose, userId }) => {
     }
 
     const data = {
-      user_id: userId,
+      req_id: Data.req_id,
       req_header: title,
       req_description: description
     }
 
-    console.log(data)
+    console.log('ข้อมูลตอนส่ง',data)
 
-    // axios
-    //   .post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.postrequirement`, data)
-    //   .then(response => {
-    //     console.log(response)
-    //   })
-    //   .catch(error => {
-    //     console.log(error)
-    //   })
-    // Swal.fire({
-    //   icon: 'success',
-    //   title: 'เพิ่มข้อมูลแล้วเสร็จ กรุณารอการยืนยัน'
-    // })
+    axios
+      .post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.editrequirement`, data)
+      .then(response => {
+        console.log(response)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    Swal.fire({
+      icon: 'success',
+      title: 'แก้ไขข้อมูลแล้วเสร็จ'
+    })
 
     handleClose()
   }

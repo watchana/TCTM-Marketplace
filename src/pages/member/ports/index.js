@@ -44,6 +44,7 @@ const Posts = () => {
   // ตัวแปรเก็บค่าข้อมูล
   const [userId, setUserId] = useState('') // ข้อมูล user_Id
   const [myPose, setMyPose] = useState('') // ข้อมูล My pose
+  const [row, setRow] = useState('') // ข้อมูล My pose
 
   console.log('myPose', myPose)
 
@@ -69,10 +70,10 @@ const Posts = () => {
       }
     }
 
-    if (!openDialogPost) {
+    if (!openDialogPost || openDialogEdit) {
       fetchData()
     }
-  }, [userId, openDialogPost])
+  }, [userId, openDialogPost, openDialogEdit])
 
   // ฟังก์ชันลบข้อมูล
   const handleDeleteSubmit = reqId => {
@@ -123,6 +124,12 @@ const Posts = () => {
     })
   }
 
+  // ปุ่มควบคุมฟังชัน Edit
+  const handleEditButtonClick = (row) => {
+    setRow(row);
+    setOpenDialogEdit(true);
+  }; // นะโมมมมมมมมมมมมมมม!!
+
   const columns = [
     { field: 'req_id', headerName: 'ID', minWidth: 100 },
     { field: 'req_header', headerName: 'Title', minWidth: 160 },
@@ -144,7 +151,7 @@ const Posts = () => {
       headerName: 'Edit Data',
       minWidth: 100,
       renderCell: rowCell => (
-        <Button variant='contained' onClick={() => setOpenDialogEdit(true)}>
+        <Button variant='contained' onClick={() => handleEditButtonClick(rowCell.row)}>
           Edit
         </Button>
       )
@@ -230,7 +237,7 @@ const Posts = () => {
       </Box>
       {/* 📨📨 Props 📨📨 */}
       <DialogPost open={openDialogPost} handleClose={() => setOpenDialogPost(false)} userId={userId} />
-      <DialogEdit open={openDialogEdit} handleClose={() => setOpenDialogEdit(false)} userId={userId} />
+      <DialogEdit open={openDialogEdit} handleClose={() => setOpenDialogEdit(false)} Data={row} />
       {/* 📨📨 Props 📨📨 */}
     </Container>
   )
