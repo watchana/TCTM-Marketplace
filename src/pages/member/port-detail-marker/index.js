@@ -86,7 +86,7 @@ const PosrtDetail = () => {
             <Grid container alignItems='center'>
               <Grid item xs={12} sm={8} md={8}>
                 <Typography variant='h4' fontSize='1.3rem bold' color='#FA896B'>
-                  Blog Detail
+                  Blog Marker Detail
                 </Typography>
                 <Breadcrumbs separator={<CircleSmall />} aria-label='breadcrumb'>
                   <Link underline='none' color='inherit' href='/'>

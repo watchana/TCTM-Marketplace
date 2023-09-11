@@ -1,5 +1,6 @@
 // ** React Imports
 import React, { useEffect, useState, useCallback } from 'react'
+import { useRouter } from 'next/router'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -36,6 +37,8 @@ import DialogPost from './DialogPost'
 import DialogEdit from './DialogEdit'
 
 const Posts = () => {
+  // ** Router ของ Next.js
+  const router = useRouter()
   // นำเข้าตัวsweetalert2
   const Swal = require('sweetalert2')
   const [openDialogPost, setOpenDialogPost] = useState(false)
@@ -43,14 +46,19 @@ const Posts = () => {
 
   // ตัวแปรเก็บค่าข้อมูล
   const [userId, setUserId] = useState('') // ข้อมูล user_Id
+  const [userStatus, setUserStatus] = useState('') // ข้อมูล user Status
   const [myPose, setMyPose] = useState('') // ข้อมูล My pose
   const [row, setRow] = useState('') // ข้อมูล My pose
+
+  console.log('userStatus', userStatus);
 
   // รับค่าข้อมูล จาก local Storage
   useEffect(() => {
     const userIdFromLocalStorage = localStorage.getItem('Member_Id')
+    const userStatusFromLocalStorage = localStorage.getItem('User_Status')
     if (userIdFromLocalStorage) {
       setUserId(userIdFromLocalStorage)
+      setUserStatus(userStatusFromLocalStorage)
     }
   }, [])
 
@@ -142,6 +150,27 @@ const Posts = () => {
         const formattedCreation = creation.substr(0, 19)
 
         return formattedCreation
+      }
+    },
+    {
+      field: 'Detail',
+      headerName: 'Detail',
+      minWidth: 100,
+      renderCell: rowCell => {
+        const router = useRouter();
+        const handleDetailClick = () => {
+          if (userStatus === '1') {
+            router.push('/member/port-detail-member/');
+          } else if (userStatus === '2') {
+            router.push('/member/port-detail-marker/');
+          }
+        };
+    
+        return (
+          <Button variant='contained' onClick={handleDetailClick}>
+            Detail
+          </Button>
+        );
       }
     },
     {
