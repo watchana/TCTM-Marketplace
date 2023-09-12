@@ -32,47 +32,6 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline'
 // ** MDI Icon Imports
 import CircleSmall from 'mdi-material-ui/CircleSmall'
 
-const columns = [
-  { field: 'id', headerName: 'ID', minWidth: 100 },
-  { field: 'markerName', headerName: 'Name Marker', minWidth: 160 },
-  { field: 'product', headerName: 'Product Name', minWidth: 200 },
-  { field: 'status', headerName: 'Status', minWidth: 100 },
-  {
-    field: 'download',
-    headerName: 'Download',
-    minWidth: 120,
-    renderCell: rowCell => (
-      <Button variant='outlined' color='primary'>
-        Download
-      </Button>
-    )
-  },
-  {
-    field: 'action',
-    headerName: 'Action',
-    minWidth: 400,
-    renderCell: rowCell => (
-      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Button variant='contained' sx={{ marginRight: 2 }}>
-          Upload
-        </Button>
-        <Button variant='outlined' sx={{ marginRight: 2 }}>
-          view
-        </Button>
-        <Button variant='contained' color='error'>
-          Delete
-        </Button>
-      </Box>
-    )
-  }
-]
-
-const rows = [
-  { id: 1, markerName: 'Marker 1', product: 'Product 1', status: 'Active' },
-  { id: 2, markerName: 'Marker 2', product: 'Product 2', status: 'Active' },
-  { id: 3, markerName: 'Marker 3', product: 'Product 3', status: 'Active' }
-]
-
 const PosrtDetail = () => {
   // นำเข้าตัวsweetalert2
   const Swal = require('sweetalert2')
@@ -88,10 +47,11 @@ const PosrtDetail = () => {
   const [postData, setPostData] = useState('') // ข้อมูล header and post detail
   const [questionData, setQuestionData] = useState('') // ข้อมูล Question ผู้ส่ง ผู้รับ
   const [comments, setComment] = useState('') // ข้อมูล comments
+  const [poData, setPoData] = useState('') // ข้อมูล Po
 
   const [shouldFetchData, setShouldFetchData] = useState(false) // ตัวแปรควบคุมการดึงข้อมูลใหม่
 
-  console.log('questionData', questionData)
+  console.log('poData', poData)
 
   // รับค่าข้อมูล จาก local Storage
   useEffect(() => {
@@ -118,6 +78,7 @@ const PosrtDetail = () => {
           console.log('All Data', response.data.message)
           setPostData(response.data.message.Requirement_Data[0])
           setQuestionData(response.data.message.Question_List)
+          setPoData(response.data.message.Po_List)
         } catch (error) {
           console.error(error)
         }
@@ -229,6 +190,95 @@ const PosrtDetail = () => {
     })
   }
 
+  // ฟังชัน Member Approve
+  const handleApproveSubmit = async (e, po_id) => {
+    e.preventDefault()
+
+    const data = {
+      po_id: po_id,
+      req_id: reqID
+    }
+
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.approve_po`, data)
+      console.log(response)
+      Swal.fire({
+        icon: 'success',
+        title: 'Approve Success'
+      })
+      setShouldFetchData(!shouldFetchData)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  // ฟังชัน Member Reject
+  const handleRejectSubmit = async (e, po_id) => {
+    e.preventDefault()
+
+    const data = {
+      po_id: po_id,
+      req_id: reqID
+    }
+
+    console.log('data', data)
+
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.reject_po`, data)
+      console.log(response)
+      Swal.fire({
+        icon: 'success',
+        title: 'decline Success'
+      })
+      setShouldFetchData(!shouldFetchData)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  // หัวตาราง Data Gride
+  const columns = [
+    { field: 'po_id', headerName: 'ID', minWidth: 100 },
+    { field: 'po_file_name', headerName: 'po', minWidth: 160 },
+    {
+      field: 'status',
+      headerName: 'Status',
+      minWidth: 160,
+      renderCell: rowCell => {
+        if (rowCell.row.po_status === '1') {
+          return <span>Normol</span>
+        } else if (rowCell.row.po_status === '2') {
+          return <span>Approve Success</span>
+        } else if (rowCell.row.po_status === '0') {
+          return <span>decline</span>
+        } else {
+          return <span>Unknow</span>
+        }
+      }
+    },
+
+    {
+      field: 'Approve',
+      headerName: 'Approve',
+      minWidth: 120,
+      renderCell: rowCell => (
+        <Button variant='outlined' color='primary' onClick={e => handleApproveSubmit(e, rowCell.row.po_id)} disabled={rowCell.row.po_status === '2'}>
+          Approve
+        </Button>
+      )
+    },
+    {
+      field: 'Reject',
+      headerName: 'Reject',
+      minWidth: 120,
+      renderCell: rowCell => (
+        <Button variant='contained' sx={{ marginRight: 2 }} onClick={e => handleRejectSubmit(e, rowCell.row.po_id)} disabled={rowCell.row.po_status === '2' || rowCell.row.po_status === '0'}>
+          Reject
+        </Button>
+      )
+    }
+  ]
+
   return (
     <Container maxWidth='xl'>
       <Box>
@@ -315,7 +365,13 @@ const PosrtDetail = () => {
               </Typography>
               {/* ตาราง */}
               <Box sx={{ width: '100%', height: '300px' }}>
-                <DataGrid rows={rows} columns={columns} pageSize={5} rowsPerPageOptions={[5, 10, 20]} />
+                <DataGrid
+                  rows={poData}
+                  columns={columns}
+                  getRowId={row => row.po_id}
+                  pageSize={5}
+                  rowsPerPageOptions={[5, 10, 20]}
+                />
               </Box>
             </Box>
           </Card>
