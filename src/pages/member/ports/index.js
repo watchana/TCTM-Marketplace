@@ -50,8 +50,6 @@ const Posts = () => {
   const [myPose, setMyPose] = useState('') // ข้อมูล My pose
   const [row, setRow] = useState('') // ข้อมูล My pose
 
-  console.log('userStatus', userStatus);
-
   // รับค่าข้อมูล จาก local Storage
   useEffect(() => {
     const userIdFromLocalStorage = localStorage.getItem('Member_Id')
@@ -160,10 +158,10 @@ const Posts = () => {
         const router = useRouter();
         const handleDetailClick = () => {
           if (userStatus === '1') {
-            router.push('/member/port-detail-member/');
+            router.push(`/member/port-detail-member/?req_id=${rowCell.row.req_id}&sub_id=${rowCell.row.sub_id}`);
           } else if (userStatus === '2') {
-            router.push('/member/port-detail-marker/');
-          }
+            router.push(`/member/port-detail-marker/?req_id=${rowCell.row.req_id}&sub_id=${rowCell.row.sub_id}`);
+          }          
         };
     
         return (
