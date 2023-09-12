@@ -129,10 +129,10 @@ const Posts = () => {
   }
 
   // ปุ่มควบคุมฟังชัน Edit
-  const handleEditButtonClick = (row) => {
-    setRow(row);
-    setOpenDialogEdit(true);
-  }; // นะโมมมมมมมมมมมมมมม!!
+  const handleEditButtonClick = row => {
+    setRow(row)
+    setOpenDialogEdit(true)
+  } // นะโมมมมมมมมมมมมมมม!!
 
   const columns = [
     { field: 'req_id', headerName: 'ID', minWidth: 100 },
@@ -155,20 +155,16 @@ const Posts = () => {
       headerName: 'Detail',
       minWidth: 100,
       renderCell: rowCell => {
-        const router = useRouter();
+        const router = useRouter()
         const handleDetailClick = () => {
-          if (userStatus === '1') {
-            router.push(`/member/port-detail-member/?req_id=${rowCell.row.req_id}&sub_id=${rowCell.row.sub_id}`);
-          } else if (userStatus === '2') {
-            router.push(`/member/port-detail-marker/?req_id=${rowCell.row.req_id}&sub_id=${rowCell.row.sub_id}`);
-          }          
-        };
-    
+          router.push(`/member/port-detail-member/?req_id=${rowCell.row.req_id}&sub_id=${rowCell.row.sub_id}`)
+        }
+
         return (
           <Button variant='contained' onClick={handleDetailClick}>
             Detail
           </Button>
-        );
+        )
       }
     },
     {

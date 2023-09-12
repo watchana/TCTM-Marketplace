@@ -262,7 +262,12 @@ const PosrtDetail = () => {
       headerName: 'Approve',
       minWidth: 120,
       renderCell: rowCell => (
-        <Button variant='outlined' color='primary' onClick={e => handleApproveSubmit(e, rowCell.row.po_id)} disabled={rowCell.row.po_status === '2'}>
+        <Button
+          variant='outlined'
+          color='primary'
+          onClick={e => handleApproveSubmit(e, rowCell.row.po_id)}
+          disabled={rowCell.row.po_status === '2'}
+        >
           Approve
         </Button>
       )
@@ -272,7 +277,12 @@ const PosrtDetail = () => {
       headerName: 'Reject',
       minWidth: 120,
       renderCell: rowCell => (
-        <Button variant='contained' sx={{ marginRight: 2 }} onClick={e => handleRejectSubmit(e, rowCell.row.po_id)} disabled={rowCell.row.po_status === '2' || rowCell.row.po_status === '0'}>
+        <Button
+          variant='contained'
+          sx={{ marginRight: 2 }}
+          onClick={e => handleRejectSubmit(e, rowCell.row.po_id)}
+          disabled={rowCell.row.po_status === '2' || rowCell.row.po_status === '0'}
+        >
           Reject
         </Button>
       )
@@ -366,11 +376,14 @@ const PosrtDetail = () => {
               {/* ตาราง */}
               <Box sx={{ width: '100%', height: '300px' }}>
                 <DataGrid
-                  rows={poData}
+                  rows={poData || []}
                   columns={columns}
                   getRowId={row => row.po_id}
                   pageSize={5}
                   rowsPerPageOptions={[5, 10, 20]}
+                  components={{
+                    NoRowsOverlay: () => <div style={{ textAlign: 'center', padding: '16px' }}>No data</div>
+                  }}
                 />
               </Box>
             </Box>
