@@ -6,9 +6,9 @@ import { Avatar, Box, Button, Card, Divider, Grid, Radio, Stack, TextField, Typo
 
 const Cardemail = ({}) => {
   return (
-    <Card xs={12} sx={{ width: '95%', p: 4 }}>
+    <Card xs={12} sx={{ width: '80%', p: 2.5, marginTop: 3, marginLeft: 25 }}>
       <Grid item xs={9} md={10} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-        <Box sx={{ width: '100%' }}>
+        <Box sx={{ width: '80%' }}>
           <Grid container spacing={2} rowSpacing={2} sx={{ pt: { md: 2 } }}>
             <Grid item xs={12} sx={{ pt: { marginLeft: 20 } }}>
               <Typography variant='subtitle2'>Email</Typography>
