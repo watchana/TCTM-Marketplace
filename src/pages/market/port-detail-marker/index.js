@@ -15,6 +15,12 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import DialogTitle from '@mui/material/DialogTitle'
+import FileUploadIcon from '@mui/icons-material/FileUpload'
 
 // ** Next Router
 import { useRouter } from 'next/router'
@@ -48,10 +54,27 @@ const PosrtDetail = () => {
   const [questionData, setQuestionData] = useState('') // ข้อมูล Question ผู้ส่ง ผู้รับ
   const [comments, setComment] = useState('') // ข้อมูล comments
   const [poData, setPoData] = useState('') // ข้อมูล Po
+  const [poFile, setPoFile] = useState(null) // เก็บค่า Po File
+  const [poFileName, setPoFileName] = useState('') // เก็บค่าชื่อของ Po File
 
   const [shouldFetchData, setShouldFetchData] = useState(false) // ตัวแปรควบคุมการดึงข้อมูลใหม่
+  const [selectedFileName, setSelectedFileName] = useState('') // เก็บชื่อไฟล์ Po
+
+  console.log('poFileName', poFileName)
+
+  // dialo State Control
+  const [open, setOpen] = React.useState(false)
+  const handleClickOpen = () => {
+    setOpen(true)
+  }
+  const handleClose = () => {
+    setOpen(false)
+    setSelectedFileName('')
+    setPoFile(null)
+  }
 
   console.log('poData', poData)
+  console.log('File Data', poFile)
 
   // รับค่าข้อมูล จาก local Storage
   useEffect(() => {
@@ -214,6 +237,71 @@ const PosrtDetail = () => {
     }
   }
 
+  // ฟังก์ชัน อัปโหลดไฟล์ Po
+  const handleFileUpload = event => {
+    const selectedFile = event.target.files[0]
+    setPoFile(selectedFile)
+    setSelectedFileName(selectedFile ? selectedFile.name : '')
+
+    // ใช้ Date เพื่อสร้างเวลาปัจจุบัน
+    const currentTime = new Date()
+    // ดึงชื่อไฟล์จาก selectedFile
+    const fileName = selectedFile ? selectedFile.name : ''
+    // รวมชื่อไฟล์และเวลาเข้าด้วยกัน
+    const fileNameWithTime = `${currentTime.toISOString()}-${fileName}`
+
+    setPoFile(selectedFile)
+    setPoFileName(fileNameWithTime)
+  }
+
+  // Api Po_file local Keep
+  // const uploadPoFileToApi = () => {
+  //   return axios.post(`/api/Po_FileUpload`, poFile, {
+  //     headers: {
+  //       'Content-Type': 'multipart/form-data'
+  //     }
+  //   })
+  // }
+
+  // ฟังชัน Add Po Pdf (Not Save)
+  const handlePoSubmit = async (e, po_id) => {
+    e.preventDefault()
+
+    // เรียกใช้ฟังก์ชัน อัปโหลดไฟล์รูปภาพลงเครื่อง
+    const formData = new FormData()
+    formData.append('file', poFile)
+    formData.append('poFileName', poFileName)
+
+    // ส่งไฟล์ไปยัง API
+    try {
+      const response = await axios.post(`/api/Po_FileUpload`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      console.log('response Api', response)
+    } catch (error) {
+      console.log(error)
+    }
+
+    // const data = {
+    //   po_id: po_id,
+    //   req_id: reqID
+    // }
+
+    // try {
+    //   const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.approve_po`, data)
+    //   console.log(response)
+    //   Swal.fire({
+    //     icon: 'success',
+    //     title: 'Approve Success'
+    //   })
+    //   setShouldFetchData(!shouldFetchData)
+    // } catch (error) {
+    //   console.log(error)
+    // }
+  }
+
   // หัวตาราง Data Gride
   const columns = [
     { field: 'po_id', headerName: 'ID', minWidth: 100 },
@@ -234,20 +322,9 @@ const PosrtDetail = () => {
         }
       }
     },
-
     {
-      field: 'Approve',
-      headerName: 'Approve',
-      minWidth: 120,
-      renderCell: rowCell => (
-        <Button variant='outlined' color='primary' onClick={e => handleApproveSubmit(e, rowCell.row.po_id)}>
-          Add
-        </Button>
-      )
-    },
-    {
-      field: 'Reject',
-      headerName: 'Reject',
+      field: 'Delete',
+      headerName: 'Delete',
       minWidth: 120,
       renderCell: rowCell => (
         <Button variant='contained' sx={{ marginRight: 2 }} onClick={e => handlePo_FileDelete(e, rowCell.row.po_id)}>
@@ -342,6 +419,9 @@ const PosrtDetail = () => {
                 Offer
               </Typography>
               {/* ตาราง */}
+              <Button variant='outlined' color='primary' onClick={handleClickOpen} sx={{ mb: 1 }}>
+                Add Po
+              </Button>
               <Box sx={{ width: '100%', height: '300px' }}>
                 <DataGrid
                   rows={poData}
@@ -424,6 +504,45 @@ const PosrtDetail = () => {
           )}
         </Box>
       </Box>
+
+      {/* Dialog Data */}
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
+        maxWidth='md'
+        fullWidth
+        sx={{
+          '& .MuiDialogTitle-root': {
+            backgroundColor: '#f5f5f5',
+            padding: '16px 24px'
+          },
+          '& .MuiDialogContent-root': {
+            padding: '16px 24px'
+          },
+          '& .MuiDialogActions-root': {
+            padding: '16px 24px'
+          }
+        }}
+      >
+        <DialogTitle id='alert-dialog-title'>{'Add Po File'}</DialogTitle>
+        <DialogContent>
+          <label htmlFor='file-input'>
+            <input type='file' accept='.pdf' id='file-input' style={{ display: 'none' }} onChange={handleFileUpload} />
+            <IconButton component='span' color='primary' aria-label='upload file'>
+              <FileUploadIcon />
+            </IconButton>
+            <span>{selectedFileName || 'Select a PDF file'}</span>
+          </label>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Closs</Button>
+          <Button onClick={handlePoSubmit} autoFocus>
+            Send
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   )
 }
