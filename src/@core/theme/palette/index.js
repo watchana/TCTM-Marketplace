@@ -8,9 +8,9 @@ const DefaultPalette = (mode, themeColor) => {
     if (themeColor === 'primary') {
       // return '#C6A7FE'
       // return '#e394b5'
-      return '#f44236'
+      return '#20265B'
     } else if (themeColor === 'secondary') {
-      return '#9C9FA4'
+      return '#81782D'
     } else if (themeColor === 'success') {
       return '#93DD5C'
     } else if (themeColor === 'error') {
@@ -47,9 +47,9 @@ const DefaultPalette = (mode, themeColor) => {
     //   contrastText: '#FFF'
     // },
     primary: {
-      light: '#ffcdd2',
-      main: '#EF5350',
-      dark: '#c62728',
+      light: '#3A46A7',
+      main: '#2d2e81',
+      dark: '#20265B',
       contrastText: '#FFF'
     },
     secondary: {
