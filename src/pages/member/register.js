@@ -1,65 +1,61 @@
 // ** React Imports
 import { useState, Fragment } from 'react'
 
+// ** Next Imports
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+
 // ** MUI X Date picker Imports
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import dayjs from 'dayjs'
 
-// ** Next Imports
-import Link from 'next/link'
-import { useRouter } from 'next/router'
+// ** Material UI Imports
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Checkbox,
+  Divider,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  Switch,
+  TextField,
+  Typography
+} from '@mui/material'
 
-// ** Axios Import
-import axios from 'axios'
+// ** MUI System Imports
+import { styled } from '@mui/material/styles'
 
-// ** MUI Components
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Divider from '@mui/material/Divider'
-import Checkbox from '@mui/material/Checkbox'
-import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
-import InputLabel from '@mui/material/InputLabel'
-import IconButton from '@mui/material/IconButton'
-import CardContent from '@mui/material/CardContent'
-import FormControl from '@mui/material/FormControl'
-import OutlinedInput from '@mui/material/OutlinedInput'
-import { styled, useTheme } from '@mui/material/styles'
-import MuiCard from '@mui/material/Card'
-import InputAdornment from '@mui/material/InputAdornment'
-import MuiFormControlLabel from '@mui/material/FormControlLabel'
-import { FormHelperText } from '@mui/material'
-
-// ** Icons Imports
+// ** Material Design Icons Imports
 import EyeOutline from 'mdi-material-ui/EyeOutline'
 import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 
+// ** Axios Import
+import axios from 'axios'
+
+// ** jwt
+import { createToken, verifyToken } from '../../@core/utils/auth'
+import Cookies from 'js-cookie'
+
 // ** Switch Alert Import
-const Swal = require('sweetalert2')
+const SAlert = require('sweetalert2')
 
 // ** Styled Components
-const Card = styled(MuiCard)(({ theme }) => ({
-  [theme.breakpoints.up('sm')]: { width: '28rem' }
-}))
-
 const LinkStyled = styled('a')(({ theme }) => ({
   fontSize: '0.875rem',
   textDecoration: 'none',
   color: theme.palette.primary.main
-}))
-
-const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
-  marginTop: theme.spacing(1.5),
-  marginBottom: theme.spacing(4),
-  '& .MuiFormControlLabel-label': {
-    fontSize: '0.875rem',
-    color: theme.palette.text.secondary
-  }
 }))
 
 const RegisterPage = () => {
@@ -70,7 +66,6 @@ const RegisterPage = () => {
   })
 
   // ** Hook
-  const theme = useTheme()
   const router = useRouter()
 
   const handleClickShowPassword = () => {
@@ -81,7 +76,7 @@ const RegisterPage = () => {
     event.preventDefault()
   }
 
-  // ประกาศตัวแปรเก็บข้อมูล
+  // State values
   const [user, setUser] = useState('') // ตัวแปรเก็บค่า User
   const [password, setPassword] = useState('') // ตัวแปรเก็บค่า password
   const [firstname, setFirstname] = useState('') // ตัวแปรเก็บค่า firstname
@@ -172,10 +167,10 @@ const RegisterPage = () => {
     // ตรวจสอบค่าว่างก่อนส่ง
     const fieldsToCheck = [user, password, email, firstname, lastname, company, address, tel, date]
     if (fieldsToCheck.some(field => field === '' || field === null || field === undefined)) {
-      Swal.fire({
+      SAlert.fire({
         icon: 'error',
-        title: 'กรุณาระบุข้อมูลให้ครบ',
-        text: 'โปรดกรอกข้อมูลให้ครบทุกช่อง'
+        title: 'Please provide all information.',
+        text: 'Please fill in all fields.'
       })
 
       return
@@ -188,10 +183,10 @@ const RegisterPage = () => {
     }
 
     if (formattedDate === '') {
-      Swal.fire({
+      SAlert.fire({
         icon: 'error',
-        title: 'กรุณาระบุข้อมูลให้ครบ',
-        text: 'โปรดกรอกข้อมูลให้ครบทุกช่อง'
+        title: 'Please provide all information.',
+        text: 'Please fill in all fields.'
       })
 
       return
@@ -212,64 +207,73 @@ const RegisterPage = () => {
     axios
       .post(`${process.env.NEXT_PUBLIC_API}TCTM.register.register`, data)
       .then(response => {
-        Swal.fire({
+        SAlert.fire({
           icon: 'success',
-          title: 'ส่งข้อมูลสำเร็จ',
-          text: 'ข้อมูลถูกส่งไปยัง API แล้ว'
+          title: 'Sending succeeded',
+          text: 'Data is sent to API'
         })
-        router.push('/login')
+        router.push('/pages/login')
       })
       .catch(error => {
         console.error(error)
-        Swal.fire({
+        SAlert.fire({
           icon: 'error',
-          title: 'Log in ล้มเหลว...',
-          text: 'มีข้อผิดพลาดในการเรียก API'
+          title: 'Log in failed...',
+          text: 'Error calling API'
         })
       })
   }
 
   return (
-    <Box className='content-center'>
-      <Card sx={{ zIndex: 1, borderRadius: '34px' }}>
-        <CardContent sx={{ padding: theme => `${theme.spacing(7, 9, 2)} !important` }}>
-          <Box sx={{ mb: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <Box
+      className='content-center'
+      sx={{
+        backgroundColor: '#ebf3fe',
+        display: 'grid',
+        flexDirection: 'column'
+      }}
+    >
+      <Card
+        sx={{
+          display: 'grid',
+          placeItems: 'center',
+          width: '100%',
+          maxWidth: '28rem',
+          paddingX: { xs: '1rem', sm: '1.5rem' },
+          paddingY: '1rem',
+          borderRadius: '30px'
+        }}
+      >
+        <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+          <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
             <Typography
-              variant='h6'
-              color='#FE8C8C'
-              sx={{
-                lineHeight: 1,
-                fontWeight: 600,
-                textTransform: 'uppercase',
-                fontSize: '1.5rem !important'
-              }}
+              variant='h4'
+              color='primary'
+              textAlign='center'
+              sx={{ fontWeight: '600', marginBottom: '1rem' }}
             >
               Center Account
             </Typography>
-          </Box>
-          <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-            {/* User Input */}
+            {/* ---------- Username ---------- */}
             <TextField
-              autoFocus
               fullWidth
-              id='username'
               label='Username'
-              sx={{ marginBottom: 4 }}
+              variant='outlined'
               value={user}
               onChange={handleUserSet}
               error={user === '' && isSubmitted}
               helperText={user === '' && isSubmitted ? 'Please enter your username.' : ''}
+              sx={{ marginBottom: 4 }}
               InputProps={{
                 style: {
                   borderRadius: '10px'
                 }
               }}
             />
-            {/* Password Input */}
-            <FormControl fullWidth sx={{ marginBottom: 1 }} error={password === '' && isSubmitted}>
+            {/* ---------- Password ---------- */}
+            <FormControl fullWidth sx={{ marginBottom: 2 }} error={password === '' && isSubmitted}>
               <InputLabel htmlFor='auth-register-password'>Password</InputLabel>
               <OutlinedInput
-                style={{ borderRadius: '10px' }}
                 label='Password'
                 value={values.password}
                 id='auth-register-password'
@@ -287,149 +291,156 @@ const RegisterPage = () => {
                     </IconButton>
                   </InputAdornment>
                 }
+                style={{ borderRadius: '10px' }}
               />
               {password === '' && isSubmitted && <FormHelperText>Please enter your password.</FormHelperText>}
             </FormControl>
-
-            <Divider sx={{ marginY: 3, color: '#FE8C8C' }}>AND</Divider>
-            <Box sx={{ width: '100%', marginTop: 1 }}>
-              <Box sx={{ width: '100%', marginBottom: 4, display: 'flex', justifyContent: 'space-between' }}>
-                {/* FirstName Input */}
-                <TextField
-                  autoFocus
-                  id='FirstName'
-                  label='FirstName EN'
-                  sx={{ width: '48%' }}
-                  value={firstname}
-                  onChange={handleFirstnameSet}
-                  error={firstname === '' && isSubmitted}
-                  helperText={firstname === '' && isSubmitted ? 'Please enter your firstname.' : ''}
-                  InputProps={{
-                    style: {
-                      borderRadius: '10px'
-                    }
-                  }}
-                />
-
-                {/* LastName Input */}
-                <TextField
-                  autoFocus
-                  id='LastName'
-                  label='LastName EN'
-                  sx={{ width: '48%' }}
-                  value={lastname}
-                  onChange={handleLastnameSet}
-                  error={lastname === '' && isSubmitted}
-                  helperText={lastname === '' && isSubmitted ? 'Please enter your lastname.' : ''}
-                  InputProps={{
-                    style: {
-                      borderRadius: '10px'
-                    }
-                  }}
-                />
-              </Box>
-
-              {/* Company Input */}
+            <Divider sx={{ marginBottom: 2, color: '#2d2e81' }}>AND</Divider>
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%', marginBottom: 4 }}>
+              {/* ---------- First name ---------- */}
               <TextField
-                autoFocus
                 fullWidth
-                id='Company'
-                label='Company'
-                sx={{ marginBottom: 4 }}
-                value={company}
-                onChange={handleCompanySet}
-                error={company === '' && isSubmitted}
-                helperText={company === '' && isSubmitted ? 'Please enter your company.' : ''}
+                label='First name'
+                variant='outlined'
+                onChange={handleFirstnameSet}
+                error={firstname === '' && isSubmitted}
+                helperText={firstname === '' && isSubmitted ? 'Please enter your firstname.' : ''}
                 InputProps={{
                   style: {
                     borderRadius: '10px'
                   }
                 }}
+                sx={{ maxWidth: '48%', marginRight: '2%' }}
               />
-
-              {/* Address Input */}
+              {/* ---------- Last name ---------- */}
               <TextField
-                autoFocus
                 fullWidth
-                id='Address'
-                label='Address'
-                sx={{ marginBottom: 4 }}
-                value={address}
-                onChange={handleAddressSet}
-                error={address === '' && isSubmitted}
-                helperText={address === '' && isSubmitted ? 'Please enter your address.' : ''}
+                label='Last name'
+                variant='outlined'
+                onChange={handleLastnameSet}
+                error={lastname === '' && isSubmitted}
+                helperText={lastname === '' && isSubmitted ? 'Please enter your lastname.' : ''}
                 InputProps={{
                   style: {
                     borderRadius: '10px'
                   }
                 }}
-              />
-
-              <Box sx={{ width: '100%', marginBottom: 4, display: 'flex', justifyContent: 'space-between' }}>
-                {/* Tel Input */}
-                <TextField
-                  autoFocus
-                  fullWidth
-                  id='Tel'
-                  label='Tel'
-                  sx={{ width: '49%' }}
-                  value={tel}
-                  onChange={handleTelSet}
-                  error={tel === '' && isSubmitted}
-                  helperText={tel === '' && isSubmitted ? 'Please enter your tel.' : ''}
-                  InputProps={{
-                    style: {
-                      borderRadius: '10px'
-                    }
-                  }}
-                />
-
-                {/* Date Input */}
-                <Box sx={{ width: '49%' }}>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker value={date} onChange={handleDateSet} />
-                  </LocalizationProvider>
-                </Box>
-              </Box>
-              {/* Email Input */}
-              <TextField
-                fullWidth
-                type='email'
-                label='Email'
-                sx={{ marginBottom: 4 }}
-                value={email}
-                onChange={handleEmailSet}
-                error={email === '' && isSubmitted}
-                helperText={email === '' && isSubmitted ? 'Please enter your email.' : ''}
-                InputProps={{
-                  style: {
-                    borderRadius: '10px'
-                  }
-                }}
+                sx={{ maxWidth: '48%', marginLeft: '2%' }}
               />
             </Box>
+            {/* ---------- Company ---------- */}
+            <TextField
+              fullWidth
+              label='Company'
+              variant='outlined'
+              onChange={handleCompanySet}
+              value={company}
+              error={company === '' && isSubmitted}
+              helperText={company === '' && isSubmitted ? 'Please enter your company.' : ''}
+              InputProps={{
+                style: {
+                  borderRadius: '10px'
+                }
+              }}
+              sx={{ marginBottom: 4 }}
+            />
+            {/* ---------- Address ---------- */}
+            <TextField
+              fullWidth
+              label='Address'
+              variant='outlined'
+              onChange={handleAddressSet}
+              value={address}
+              error={address === '' && isSubmitted}
+              helperText={address === '' && isSubmitted ? 'Please enter your address.' : ''}
+              InputProps={{
+                style: {
+                  borderRadius: '10px'
+                }
+              }}
+              sx={{ marginBottom: 4 }}
+            />
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%', marginBottom: 4 }}>
+              {/* ---------- Tel ---------- */}
+              <TextField
+                fullWidth
+                label='Tel'
+                variant='outlined'
+                onChange={handleTelSet}
+                value={tel}
+                error={tel === '' && isSubmitted}
+                helperText={tel === '' && isSubmitted ? 'Please enter your tel.' : ''}
+                InputProps={{
+                  style: {
+                    borderRadius: '10px'
+                  }
+                }}
+                sx={{ maxWidth: '48%', marginRight: '2%' }}
+              />
+              {/* ---------- Date ---------- */}
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  label='Date'
+                  value={date}
+                  onChange={handleDateSet}
+                  renderInput={props => <TextField {...props} />}
+                  sx={{ maxWidth: '48%', marginLeft: '2%' }}
+                />
+              </LocalizationProvider>
+            </Box>
+            {/* ---------- Email ---------- */}
+            <TextField
+              fullWidth
+              label='Email'
+              variant='outlined'
+              onChange={handleEmailSet}
+              value={email}
+              error={email === '' && isSubmitted}
+              helperText={email === '' && isSubmitted ? 'Please enter your email.' : ''}
+              InputProps={{
+                style: {
+                  borderRadius: '10px'
+                }
+              }}
+              sx={{ marginBottom: 4 }}
+            />
+            {/* ---------- Checkbox ---------- */}
             <FormControlLabel
               control={<Checkbox />}
               label={
                 <Fragment>
                   <span>I agree to </span>
                   <Link href='/' passHref>
-                    <LinkStyled onClick={e => e.preventDefault()}>privacy policy & terms</LinkStyled>
+                    <LinkStyled underline='none' onClick={e => e.preventDefault()}>
+                      privacy policy & terms
+                    </LinkStyled>
                   </Link>
                 </Fragment>
               }
+              sx={{ marginBottom: 4 }}
             />
+            {/* ---------- Button ---------- */}
             <Button
               fullWidth
-              size='large'
-              type='submit'
               variant='contained'
-              sx={{ marginBottom: 5 }}
-              style={{ borderRadius: '10px' }}
               onClick={handleSubmitData}
+              sx={{
+                backgroundColor: 'primary.main',
+                color: '#fff',
+                borderRadius: '10px',
+                marginBottom: '1rem'
+              }}
             >
               Sign up
             </Button>
+            <Typography variant='body1' sx={{ fontWeight: '600', marginBottom: '1rem' }}>
+              Already have an account?
+            </Typography>
+            <Link href='/login' passHref>
+              <Button fullWidth variant='outlined' sx={{ borderRadius: '10px' }}>
+                Sign in
+              </Button>
+            </Link>
           </form>
         </CardContent>
       </Card>
