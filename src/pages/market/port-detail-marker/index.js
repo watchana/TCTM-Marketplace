@@ -190,30 +190,8 @@ const PosrtDetail = () => {
     })
   }
 
-  // ฟังชัน Member Approve
-  const handleApproveSubmit = async (e, po_id) => {
-    e.preventDefault()
-
-    const data = {
-      po_id: po_id,
-      req_id: reqID
-    }
-
-    try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.approve_po`, data)
-      console.log(response)
-      Swal.fire({
-        icon: 'success',
-        title: 'Approve Success'
-      })
-      setShouldFetchData(!shouldFetchData)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  // ฟังชัน Member Reject
-  const handleRejectSubmit = async (e, po_id) => {
+  // ฟังชัน Delete Po_pdf
+  const handlePo_FileDelete = async (e, po_id) => {
     e.preventDefault()
 
     const data = {
@@ -262,8 +240,8 @@ const PosrtDetail = () => {
       headerName: 'Approve',
       minWidth: 120,
       renderCell: rowCell => (
-        <Button variant='outlined' color='primary' onClick={e => handleApproveSubmit(e, rowCell.row.po_id)} disabled={rowCell.row.po_status === '2'}>
-          Approve
+        <Button variant='outlined' color='primary' onClick={e => handleApproveSubmit(e, rowCell.row.po_id)}>
+          Add
         </Button>
       )
     },
@@ -272,8 +250,8 @@ const PosrtDetail = () => {
       headerName: 'Reject',
       minWidth: 120,
       renderCell: rowCell => (
-        <Button variant='contained' sx={{ marginRight: 2 }} onClick={e => handleRejectSubmit(e, rowCell.row.po_id)} disabled={rowCell.row.po_status === '2' || rowCell.row.po_status === '0'}>
-          Reject
+        <Button variant='contained' sx={{ marginRight: 2 }} onClick={e => handlePo_FileDelete(e, rowCell.row.po_id)}>
+          Delete
         </Button>
       )
     }
@@ -378,7 +356,6 @@ const PosrtDetail = () => {
         </Box>
 
         {/* แสดงความคิดเห็น */}
-
         <Box sx={{ width: '100%' }}>
           {/* Post Comment */}
           <Box sx={{ width: '100%', padding: '20px' }}>

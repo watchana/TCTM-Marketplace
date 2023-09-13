@@ -47,6 +47,7 @@ const columns = [
 ]
 
 const MyMarket = () => {
+  // set tabpanel State
   const [value, setValue] = useState('1')
 
   // ** Switch Alert Import
@@ -62,7 +63,7 @@ const MyMarket = () => {
   const [storeStatus, setStoreStatus] = useState('')
   const [subId, setSubId] = useState('') // เก็บค่า Sub Id
 
-  // console.log('สถานะร้านค้า', productdata)
+  // console.log('หาค่า 555', subId)
 
   // ตัวแปรควบคุม State
   const [searchText, setSearchText] = useState('') //state สำหรับเก็บข้อมูลการค้นหา
@@ -306,7 +307,7 @@ const MyMarket = () => {
               </TabPanel>
               <TabPanel value='3'>
                 <SearchMenu />
-                {Requirement()}
+                <Requirement sub_id={subId} />
               </TabPanel>
             </TabContext>
           </Card>
