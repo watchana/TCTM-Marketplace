@@ -190,16 +190,6 @@ const PosrtDetail = () => {
     })
   }
 
-  // ฟังชัน Add Po Server
-  const handlePo_FileUpload = async (e, po_id) => {
-    e.preventDefault()
-  }
-
-  // ฟังชัน Add Po Server
-  const handlePo_FileSubmit = async (e, po_id) => {
-    e.preventDefault()
-  }
-
   // ฟังชัน Delete Po_pdf
   const handlePo_FileDelete = async (e, po_id) => {
     e.preventDefault()
@@ -366,7 +356,6 @@ const PosrtDetail = () => {
         </Box>
 
         {/* แสดงความคิดเห็น */}
-
         <Box sx={{ width: '100%' }}>
           {/* Post Comment */}
           <Box sx={{ width: '100%', padding: '20px' }}>
