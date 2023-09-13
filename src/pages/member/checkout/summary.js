@@ -6,61 +6,43 @@ import { Avatar, Box, Button, Card, Divider, Grid, Radio, Stack, TextField, Typo
 
 const Summary = ({}) => {
   return (
-    <Card sx={{ width: '80%', p: 4 }}>
-      <Grid container spacing={2} rowSpacing={2} sx={{ pt: { md: 2 } }}>
-        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Box>
-            <Typography variant='subtitle1'>Items in the Cart</Typography>
-          </Box>
-          <Box>
-            <Grid sx={{ display: 'flex', justifyContent: { xs: 'flex-start', sm: 'flex-end' } }}>
-              <Typography variant='subtitle2'> 250 </Typography>
-            </Grid>
-          </Box>
+    <Card sx={{ width: '100%', p: 2.5, marginTop: 1, marginLeft: -4  }}>
+      <Grid container spacing={3} rowSpacing={4} sx={{ pt: { md: 3 } }}>
+        <Grid item xs={6} sm={6}>
+          <Typography variant='subtitle1'>Items in the Cart</Typography>
         </Grid>
-        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Box>
-            <Typography variant='subtitle1'>Shipping </Typography>
-          </Box>
-          <Box>
-            <Grid sx={{ display: 'flex', justifyContent: { xs: 'flex-start', sm: 'flex-end' } }}>
-              <Typography variant='subtitle2'> 250 </Typography>
-            </Grid>
-          </Box>
+        <Grid item xs={6} sm={6} sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
+          <Typography variant='subtitle2'>250</Typography>
         </Grid>
-        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Box>
-            <Typography variant='subtitle2'>Savings applied </Typography>
-          </Box>
-          <Box>
-            <Grid sx={{ display: 'flex', justifyContent: { xs: 'flex-start', sm: 'flex-end' } }}>
-              <Typography variant='subtitle2'> -30 </Typography>
-            </Grid>
-          </Box>
+        <Grid item xs={6} sm={6}>
+          <Typography variant='subtitle1'>Shipping</Typography>
         </Grid>
-        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Box>
-            <Typography variant='subtitle2'>Discount Code MOQUPS </Typography>
-          </Box>
-          <Box>
-            <Grid sx={{ display: 'flex', justifyContent: { xs: 'flex-start', sm: 'flex-end' } }}>
-              <Typography variant='subtitle2'> -10 </Typography>
-            </Grid>
-          </Box>
+        <Grid item xs={6} sm={6} sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
+          <Typography variant='subtitle2'>250</Typography>
+        </Grid>
+        <Grid item xs={6} sm={6}>
+          <Typography variant='subtitle2'>Savings applied</Typography>
+        </Grid>
+        <Grid item xs={6} sm={6} sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
+          <Typography variant='subtitle2'>-30</Typography>
+        </Grid>
+        <Grid item xs={6} sm={6}>
+          <Typography variant='subtitle2'>Discount Code MOQUPS</Typography>
+        </Grid>
+        <Grid item xs={6} sm={6} sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
+          <Typography variant='subtitle2'>-10</Typography>
         </Grid>
       </Grid>
       <hr />
-      <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 3 }}>
-        <Box>
+      <Grid container sx={{ marginTop: 3 }}>
+        <Grid item xs={6} sm={6}>
           <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
             Total
           </Typography>
-        </Box>
-        <Box>
-          <Grid sx={{ display: 'flex', justifyContent: { xs: 'flex-start', sm: 'flex-end' } }}>
-            <Typography variant='h6'> 210 </Typography>
-          </Grid>
-        </Box>
+        </Grid>
+        <Grid item xs={6} sm={6} sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
+          <Typography variant='h6'>210</Typography>
+        </Grid>
       </Grid>
     </Card>
   )
