@@ -36,6 +36,9 @@ import ChevronRight from 'mdi-material-ui/ChevronRight'
 import LocalAtmIcon from '@mui/icons-material/LocalAtm'
 import StorefrontIcon from '@mui/icons-material/Storefront'
 
+// ** Components Imports
+import Requirement from './requirement'
+
 // ** Data Grid Columns
 const columns = [
   { field: 'product_id', headerName: 'ID  ', width: 90 },
@@ -248,9 +251,9 @@ const MyMarket = () => {
               <Box sx={{ borderBottom: 1, borderColor: '#ddd' }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <TabList onChange={handleChange} aria-label='lab API tabs example'>
-                    <Tab label='All' value='1' />
-                    <Tab label='Distribution' value='2' />
-                    <Tab label='Sell out' value='3' />
+                    <Tab label='Products' value='1' />
+                    <Tab label='Orders' value='2' />
+                    <Tab label='Requirement ' value='3' />
                   </TabList>
                   <Box>
                     <Button
@@ -303,7 +306,7 @@ const MyMarket = () => {
               </TabPanel>
               <TabPanel value='3'>
                 <SearchMenu />
-                Item Three
+                {Requirement()}
               </TabPanel>
             </TabContext>
           </Card>
