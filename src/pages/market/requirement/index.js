@@ -1,5 +1,6 @@
 // ** React Imports
 import React, { useEffect, useState, useRef } from 'react'
+import { useRouter } from 'next/router'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -25,40 +26,95 @@ import { Select, MenuItem } from '@mui/material'
 // ** MUI X Imports
 import { DataGrid } from '@mui/x-data-grid'
 
-// ** Data Grid Columns
+// ** Axios Import
+import axios from 'axios'
+
+
+const Requirement = SubID => {
+  // ตัวแปรเก็บค่าข้อมูล
+  const sub_id = SubID.sub_id
+  const [rowdata, setRowData] = useState('')
+
+  // console.log('row', rowdata)
+
+  // เก็บค่าข้อมูลลง Api
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}TCTM.requirements.allrequirement_inone_market`,
+          {
+            params: {
+              sub_id: sub_id
+            }
+          }
+        )
+
+        // console.log('Api', response.data.message.Data);
+        setRowData(response.data.message.Data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchData()
+  }, [])
+
+  // ** Data Grid Columns
 const columns = [
-  { field: 'id', headerName: 'ID  ', width: 90 },
-  { field: 'title', headerName: 'Title', width: 350 },
-  { field: 'name_member', headerName: 'Name Member', width: 300 },
-  { field: 'status', headerName: 'Status', width: 300 },
+  { field: 'req_id', headerName: 'ID  ', width: 90 },
+  { field: 'req_header', headerName: 'Title', width: 250 },
   {
-    field: 'action',
-    headerName: 'Action',
+    field: 'creation',
+    headerName: 'Post Time',
     width: 300,
-    renderCell: rowCell => (
-      <>
-        <Button variant='contained' onClick={() => handleEditButtonClick(rowCell.row)}>
-          view
+    valueGetter: params => {
+      return params.row.creation.substring(0, 19)
+    }
+  },
+  {
+    field: 'req_status',
+    headerName: 'Status',
+    width: 150,
+    valueGetter: params => {
+      const reqStatus = params.row.req_status
+      if (reqStatus === '2') {
+        return 'ปกติ'
+      } else if (reqStatus === '3') {
+        return 'สำเร็จ'
+      } else {
+        return 'Unknown'
+      }
+    }
+  },
+  {
+    field: 'Detail',
+    headerName: 'Detail',
+    minWidth: 100,
+    renderCell: rowCell => {
+      const router = useRouter()
+      const handleDetailClick = () => {
+        router.push(`/market/port-detail-marker/?req_id=${rowCell.row.req_id}&sub_id=${sub_id}`)
+      }
+
+      return (
+        <Button variant='contained' onClick={handleDetailClick}>
+          Detail
         </Button>
-        <Button variant='contained' onClick={() => handleEditButtonClick(rowCell.row)}>
-          Answer
-        </Button>
-        <Button variant='contained' onClick={() => handleEditButtonClick(rowCell.row)}>
-          refuse
-        </Button>
-      </>
-    )
-  }
+      )
+    }
+  },
 ]
 
-const rows = [
-  { id: 1, title: 'Snow', name_member: 'Jon', status: 'Active' },
-  { id: 2, title: 'Lannister', name_member: 'Cersei', status: 'Active' },
-  { id: 3, title: 'Lannister', name_member: 'Jaime', status: 'Active' }
-]
-
-const Requirement = () => {
-  return <DataGrid rows={rows} columns={columns} pageSize={5} />
+  return (
+    <>
+      {rowdata && rowdata.length > 0 ? (
+        <DataGrid rows={rowdata} columns={columns} getRowId={row => row.req_id} pageSize={5} />
+      ) : (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>No Data</div>
+      )}
+    </>
+  )
 }
 
 export default Requirement
