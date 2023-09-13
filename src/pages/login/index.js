@@ -5,24 +5,28 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-// ** MUI Components
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Switch from '@mui/material/Switch'
-import Divider from '@mui/material/Divider'
-import TextField from '@mui/material/TextField'
-import InputLabel from '@mui/material/InputLabel'
-import Typography from '@mui/material/Typography'
-import IconButton from '@mui/material/IconButton'
-import CardContent from '@mui/material/CardContent'
-import FormControl from '@mui/material/FormControl'
-import OutlinedInput from '@mui/material/OutlinedInput'
-import { styled, useTheme } from '@mui/material/styles'
-import MuiCard from '@mui/material/Card'
-import InputAdornment from '@mui/material/InputAdornment'
-import MuiFormControlLabel from '@mui/material/FormControlLabel'
+// ** Material UI Imports
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Divider,
+  FormControl,
+  FormControlLabel,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  Switch,
+  TextField,
+  Typography
+} from '@mui/material'
 
-// ** Icons Imports
+// ** MUI System Imports
+import { styled, useTheme } from '@mui/material/styles'
+
+// ** Material Design Icons Imports
 import EyeOutline from 'mdi-material-ui/EyeOutline'
 import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 
@@ -37,48 +41,23 @@ import { createToken, verifyToken } from '../../@core/utils/auth'
 import Cookies from 'js-cookie'
 
 // ** Switch Alert Import
-const Swal = require('sweetalert2')
-
-// ** Styled Components
-const Card = styled(MuiCard)(({ theme }) => ({
-  [theme.breakpoints.up('sm')]: { width: '28rem' }
-}))
-
-const LinkStyled = styled('a')(({ theme }) => ({
-  fontSize: '0.875rem',
-  textDecoration: 'none',
-  color: theme.palette.primary.main
-}))
-
-const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
-  '& .MuiFormControlLabel-label': {
-    fontSize: '0.875rem',
-    color: theme.palette.text.secondary
-  }
-}))
+const SAlert = require('sweetalert2')
 
 const LoginPage = () => {
-  // ประกาศตัวแปรเพื่อเก็บค่า
-  const [user, setUser] = useState('') //เก็บค่า User
-  const [password, setPassword] = useState('') //เก็บค่า Password
-  const [responsedata, setResponseData] = useState('') // เก็บค่า data ที่จะเอาไปฝังใน local Storage
+  // State values
+  const [user, setUser] = useState('') // User
+  const [password, setPassword] = useState('') // Password
+  const [responseData, setResponseData] = useState('') // เก็บค่า data ที่จะเอาไปฝังใน local Storage
 
-  // ** State
   const [values, setValues] = useState({
     password: '',
     showPassword: false
   })
 
   // ** Hook
-  const theme = useTheme()
   const router = useRouter()
 
-  // รีค่า token ทุกครั้งที่เข้ามาหน้านี้
-  // useEffect(() => {
-  //   Cookies.remove('jwt')
-  // }, [])
-
-  // เช็คค่า Cookie
+  // Check value Cookie
   const [verificationComplete, setVerificationComplete] = useState(false)
   useEffect(() => {
     const token = Cookies.get('jwt') // Get token from cookie or local storage
@@ -111,7 +90,7 @@ const LoginPage = () => {
     event.preventDefault()
   }
 
-  // ฟังก์ชันเก็บค่าตัวแปร
+  // Variable storage function
   const handleSetUser = event => {
     setUser(event.target.value)
   }
@@ -134,7 +113,7 @@ const LoginPage = () => {
       .then(response => {
         if (response.data.message) {
           const receivedStatus = response.data.message.Message
-          console.log('ข้อมูล Cabill', response.data.message.Data[0])
+          console.log('Data:', response.data.message.Data[0])
           if (receivedStatus === 'OK') {
             const userData = response.data.message.Data[0].user_role
 
@@ -162,29 +141,29 @@ const LoginPage = () => {
 
             // Store the token in a cookie
             Cookies.set('jwt', token)
-            Swal.fire({
+            SAlert.fire({
               icon: 'success',
               title: 'Login Success',
               showConfirmButton: false,
               timer: 1000
             }).then(router.push(`/`))
           } else if (receivedStatus === 'Banned') {
-            Swal.fire({
+            SAlert.fire({
               icon: 'error',
-              title: 'คุณโดนแบน',
-              text: 'คุณถูกแบนการเข้าใช้งาน'
+              title: 'You are Banned',
+              text: 'You have been Banned.'
             })
           } else if (receivedStatus === 'Wait approve') {
-            Swal.fire({
+            SAlert.fire({
               icon: 'info',
-              title: 'กรุณารอการดำเนินการ',
-              text: 'บัญชีของคุณกำลังรอการอนุมัติ'
+              title: 'Please wait',
+              text: 'Your account is waiting for approval.'
             })
           } else {
-            Swal.fire({
+            SAlert.fire({
               icon: 'error',
-              title: 'ไม่พบข้อมูล',
-              text: 'คุณกรอก User หรือ รหัสผ่านผิด'
+              title: 'No information found',
+              text: 'You entered the wrong Email or Password.'
             })
           }
         }
@@ -192,45 +171,60 @@ const LoginPage = () => {
       .catch(error => {
         console.error(error)
 
-        Swal.fire({
+        SAlert.fire({
           icon: 'error',
-          title: 'Log in ล้มเหลว...',
-          text: 'มีข้อผิดพลาดในการเรียก API'
+          title: 'Log in failed...',
+          text: 'Error calling API'
         })
       })
   }
 
   return (
-    <Box className='content-center' sx={{ display: 'flex', flexDirection: 'column', bgcolor: '#FFF8F9' }}>
-      <img src='/images/logos/LOGO.png' alt='logo' width='320px' />
-      {/* <Typography variant='h4' sx={{ fontWeight: 'bold', marginTop: 2 }}>
-        TCTM
-      </Typography> */}
-      <Card sx={{ zIndex: 1, marginTop: 3, borderRadius: '34px' }}>
-        <CardContent sx={{ padding: theme => `${theme.spacing(12, 9, 0)} !important` }}>
-          <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
+    <Box
+      className='content-center'
+      sx={{
+        backgroundColor: '#ebf3fe',
+        display: 'grid',
+        flexDirection: 'column'
+      }}
+    >
+      <Box sx={{ display: 'grid', placeItems: 'center', paddingY: '1rem' }}>
+        <img src='/images/logos/LOGO.png' alt='logo' width='260px' />
+      </Box>
+      <Card
+        sx={{
+          display: 'grid',
+          placeItems: 'center',
+          width: '100%',
+          maxWidth: '28rem',
+          paddingX: { xs: '1rem', sm: '1.5rem' },
+          paddingY: '1.5rem',
+          borderRadius: '30px'
+        }}
+      >
+        <CardContent>
+          <form>
             <TextField
-              autoFocus
               fullWidth
               id='email'
-              label='Email address'
-              sx={{ marginBottom: 4 }}
+              label='Email'
+              variant='outlined'
               onChange={handleSetUser}
+              sx={{ marginBottom: 4 }}
               InputProps={{
                 style: {
                   borderRadius: '10px'
                 }
               }}
             />
-            <FormControl fullWidth>
-              <InputLabel htmlFor='auth-login-password'>Password</InputLabel>
+            <FormControl fullWidth variant='outlined'>
+              <InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
               <OutlinedInput
+                id='outlined-adornment-password'
                 label='Password'
                 value={values.password}
-                id='auth-login-password'
-                onChange={handleSetPassword('password')}
                 type={values.showPassword ? 'text' : 'password'}
-                style={{ borderRadius: '10px' }}
+                onChange={handleSetPassword('password')}
                 endAdornment={
                   <InputAdornment position='end'>
                     <IconButton
@@ -243,36 +237,32 @@ const LoginPage = () => {
                     </IconButton>
                   </InputAdornment>
                 }
+                style={{ marginBottom: 4, borderRadius: '10px' }}
               />
             </FormControl>
-            <Box sx={{ mb: 4 }}>
-              <Link passHref href='/'>
-                <LinkStyled onClick={e => e.preventDefault()}>Forgot Password?</LinkStyled>
-              </Link>
-            </Box>
+            <FormControlLabel
+              control={<Switch defaultChecked color='primary' />}
+              label='Remember me'
+              sx={{ marginBottom: 4 }}
+            />
             <Button
-              fullWidth
-              size='large'
               variant='contained'
+              color='primary'
+              fullWidth
               sx={{ marginBottom: 2 }}
               style={{ borderRadius: '10px' }}
               onClick={handleSubmitData}
             >
               Sign in
             </Button>
-            <Box sx={{ mb: 4 }}>
-              <FormControlLabel control={<Switch />} label='Remember Me' />
-            </Box>
           </form>
-        </CardContent>
-        <Divider />
-        <Box sx={{ paddingX: 9, paddingTop: 3, paddingBottom: 5 }}>
-          <Link passHref href='/member/register'>
-            <Button fullWidth variant='outlined' style={{ borderRadius: '10px' }}>
+          <Divider sx={{ marginBottom: 3.5 }} />
+          <Link href='/member/register' passHref>
+            <Button variant='outlined' color='primary' fullWidth style={{ borderRadius: '10px' }}>
               Register
             </Button>
           </Link>
-        </Box>
+        </CardContent>
       </Card>
     </Box>
   )
