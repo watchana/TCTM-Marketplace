@@ -58,27 +58,27 @@ const AppBarContent = props => {
                     alignItems: 'center'
                   }}
                 >
-                  <FormControl
-                    fullWidth
-                    variant='outlined'
-                    sx={{ borderRadius: '12px', height: '40px', maxWidth: '250px', minWidth: '50px' }}
-                  >
-                    <OutlinedInput
-                      size='small'
-                      placeholder='Search Products...'
-                      onChange={e => handleSearch(e.target.value)}
-                      startAdornment={
-                        <Hidden smDown>
+                  <Hidden smDown>
+                    <FormControl
+                      fullWidth
+                      variant='outlined'
+                      sx={{ borderRadius: '12px', height: '40px', maxWidth: '250px', minWidth: '50px' }}
+                    >
+                      <OutlinedInput
+                        size='small'
+                        placeholder='Search Products...'
+                        onChange={e => handleSearch(e.target.value)}
+                        startAdornment={
                           <InputAdornment position='start'>
                             <IconButton onClick={handleSearchSubmit}>
                               <Magnify />
                             </IconButton>
                           </InputAdornment>
-                        </Hidden>
-                      }
-                      sx={{ borderRadius: '12px' }}
-                    />
-                  </FormControl>
+                        }
+                        sx={{ borderRadius: '12px' }}
+                      />
+                    </FormControl>
+                  </Hidden>
                   <IconButton href='#'>
                     <Send sx={{ color: 'text.primary' }} />
                   </IconButton>
