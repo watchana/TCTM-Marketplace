@@ -68,6 +68,11 @@ const AppBarContent = props => {
                         size='small'
                         placeholder='Search Products...'
                         onChange={e => handleSearch(e.target.value)}
+                        onKeyPress={e => {
+                          if (e.key === 'Enter') {
+                            handleSearchSubmit()
+                          }
+                        }}
                         startAdornment={
                           <InputAdornment position='start'>
                             <IconButton onClick={handleSearchSubmit}>
