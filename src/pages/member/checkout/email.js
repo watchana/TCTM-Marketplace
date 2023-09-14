@@ -9,8 +9,8 @@ const Cardemail = ({}) => {
     <Card sx={{ width: '95%', p: 2.5, marginTop: 3, marginLeft: 3 }}>
       <Grid container spacing={2} rowSpacing={5}>
         <Grid item xs={12} md={6}>
-          <Typography variant='subtitle2'>Email</Typography>
-          <Typography variant='subtitle1'>Jhon Doe@gmail.com</Typography>
+          <Typography variant='subtitle2'  sx={{ marginLeft: 3 }}>Email</Typography>
+          <Typography variant='subtitle1'  sx={{ marginLeft: 3 }}>Jhon Doe@gmail.com</Typography>
         </Grid>
         <Grid item xs={12} md={6}>
           <Typography variant='subtitle2'>Address</Typography>
@@ -19,8 +19,8 @@ const Cardemail = ({}) => {
           </Box>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Typography variant='subtitle2'>Mobile phone</Typography>
-          <Typography variant='subtitle1'>+66 89 919 9218</Typography>
+          <Typography variant='subtitle2' sx={{ marginLeft: 3 }}>Mobile phone</Typography>
+          <Typography variant='subtitle1' sx={{ marginLeft: 3 }}>+66 89 919 9218</Typography>
         </Grid>
       </Grid>
     </Card>

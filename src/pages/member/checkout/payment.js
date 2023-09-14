@@ -13,7 +13,18 @@ const Payment = ({}) => {
   }
 
   return (
-    <Card sx={{  width: '95%', p: 2.5, marginTop: 3, marginLeft: 3, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className="payment-container">
+    <Card
+      sx={{
+        width: '95%',
+        p: 2.5,
+        marginTop: 3,
+        marginLeft: 3,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+      }}
+      className='payment-container'
+    >
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 2 }}>
@@ -29,17 +40,18 @@ const Payment = ({}) => {
             />
             <Typography variant='subtitle1'>Debit / Credit Card</Typography>
           </Box>
-          <TextField label='Card Number' variant='outlined'  sx={{ width: '80%', marginLeft: 12 }} />
+          <TextField label='Card Number' variant='outlined' sx={{ width: '80%', marginLeft: 12 }} />
           <Box sx={{ display: 'flex', justifyContent: 'space-between', p: '10px 50px 10px' }}>
             <TextField label='Expiry Month/Year' variant='outlined' sx={{ width: '40%' }} />
             <TextField label='CVV' variant='outlined' sx={{ width: '40%', marginRight: 9 }} />
           </Box>
-          <TextField label='Cardholder Name' variant='outlined'  sx={{ width: '80%', marginLeft: 12 }} />
+          <TextField label='Cardholder Name' variant='outlined' sx={{ width: '80%', marginLeft: 12 }} />
         </Grid>
         <Divider sx={{ width: '100%' }} />
         <Grid item xs={12}>
           <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 2, marginTop: 2 }}>
             <Radio
+              disabled
               checked={selectedOption === 'b'}
               onChange={handleOptionChange}
               value='b'
@@ -56,6 +68,7 @@ const Payment = ({}) => {
         <Grid item xs={12}>
           <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 2, marginTop: 2 }}>
             <Radio
+              disabled
               checked={selectedOption === 'c'}
               onChange={handleOptionChange}
               value='c'

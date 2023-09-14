@@ -30,8 +30,6 @@ import Paymant from './payment'
 import Summary from './summary'
 
 const Checkout = ({}) => {
-  const [selectedOption, setSelectedOption] = useState('a') // เริ่มต้นด้วย 'a' หรือค่าเริ่มต้นที่คุณต้องการ
-
   return (
     <Container>
       <Box>
@@ -88,7 +86,7 @@ const Checkout = ({}) => {
           </Grid>
           <Grid container spacing={2} alignItems='center' sx={{ width: '96%', p: 2.5, marginTop: 3, marginLeft: 1 }}>
             <Box sx={{ width: '62%', display: 'flex', justifyContent: 'center' }}>
-              <Button sx={{ bgcolor: 'lightpink', color: 'black', width: '100%', p: '10px 10px 10px' }}>
+              <Button variant="contained" sx={{ bgcolor: 'red', width: '100%', p: '10px 10px 10px' }}>
                 COMPLETE PURCHASE
               </Button>
             </Box>
