@@ -63,8 +63,6 @@ const PosrtDetail = () => {
   // dialo State Control
   const [open, setOpen] = React.useState(false)
 
-  console.log('poData', poData)
-
   const handleClickOpen = () => {
     setOpen(true)
   }
