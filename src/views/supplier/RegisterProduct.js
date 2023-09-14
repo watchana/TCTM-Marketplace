@@ -747,7 +747,7 @@ const RegisterProduct = ({ product, setProduct, productCategories, onUploadImage
         ))}
 
         <Grid container spacing={5}>
-          {product.items.length < 5 ? (
+          {product.items.length < 9999 ? (
             <Grid item xs>
               <Button fullWidth variant='outlined' sx={{ height: 55 }} onClick={handleAddOptionGroup}>
                 +
