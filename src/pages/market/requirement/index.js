@@ -81,9 +81,9 @@ const Requirement = SubID => {
       valueGetter: params => {
         const reqStatus = params.row.req_status
         if (reqStatus === '2') {
-          return 'ปกติ'
+          return 'Normal'
         } else if (reqStatus === '3') {
-          return 'สำเร็จ'
+          return 'Success'
         } else {
           return 'Unknown'
         }

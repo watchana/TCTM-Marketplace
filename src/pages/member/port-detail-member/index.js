@@ -279,11 +279,11 @@ const PosrtDetail = () => {
       minWidth: 160,
       renderCell: rowCell => {
         if (rowCell.row.po_status === '1') {
-          return <span>Normol</span>
+          return <span>Normal</span>
         } else if (rowCell.row.po_status === '2') {
           return <span>Approve Success</span>
         } else if (rowCell.row.po_status === '0') {
-          return <span>decline</span>
+          return <span>Decline</span>
         } else {
           return <span>Unknow</span>
         }

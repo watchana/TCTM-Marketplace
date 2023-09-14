@@ -63,6 +63,8 @@ const PosrtDetail = () => {
   // dialo State Control
   const [open, setOpen] = React.useState(false)
 
+  console.log('poData', poData)
+
   const handleClickOpen = () => {
     setOpen(true)
   }
@@ -319,7 +321,7 @@ const PosrtDetail = () => {
         } else if (rowCell.row.po_status === '2') {
           return <span>Approve Success</span>
         } else if (rowCell.row.po_status === '0') {
-          return <span>decline</span>
+          return <span>Decline</span>
         } else {
           return <span>Unknow</span>
         }
@@ -422,9 +424,16 @@ const PosrtDetail = () => {
                 Offer
               </Typography>
               {/* ตาราง */}
-              <Button variant='outlined' color='primary' onClick={handleClickOpen} sx={{ mb: 1 }}>
+              <Button
+                variant='outlined'
+                color='primary'
+                onClick={handleClickOpen}
+                sx={{ mb: 1 }}
+                disabled={poData && poData.some(item => item.po_status === '2') ? true : false}
+              >
                 Add Po
               </Button>
+
               <Box sx={{ width: '100%', height: '300px' }}>
                 <DataGrid
                   rows={poData}
