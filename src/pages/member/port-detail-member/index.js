@@ -51,7 +51,7 @@ const PosrtDetail = () => {
 
   const [shouldFetchData, setShouldFetchData] = useState(false) // ตัวแปรควบคุมการดึงข้อมูลใหม่
 
-  console.log('poData', poData)
+  // console.log('poData', poData)
 
   // รับค่าข้อมูล จาก local Storage
   useEffect(() => {
@@ -75,7 +75,6 @@ const PosrtDetail = () => {
           const response = await axios.get(
             `${process.env.NEXT_PUBLIC_API}TCTM.requirements.requirement_detail?req_id=${reqID}`
           )
-          console.log('All Data', response.data.message)
           setPostData(response.data.message.Requirement_Data[0])
           setQuestionData(response.data.message.Question_List)
           setPoData(response.data.message.Po_List)
@@ -124,8 +123,6 @@ const PosrtDetail = () => {
       recipient: recipient,
       query_description: comments
     }
-
-    console.log('data', data)
 
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.postchat`, data)
@@ -239,8 +236,6 @@ const PosrtDetail = () => {
   // ฟังชัน Po dowload Doc
   const handleDownload = async FileName => {
     const fileName = FileName
-
-    console.log('ชื่อไฟล์', fileName)
 
     try {
       const downloadResponse = await fetch('/api/Po_FileDownload', {
