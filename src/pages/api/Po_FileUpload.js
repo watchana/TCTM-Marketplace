@@ -1,6 +1,5 @@
 import { IncomingForm } from 'formidable'
-import fs from 'fs'
-import path from 'path'
+import mv from 'mv'
 
 export const config = {
   api: {
@@ -11,53 +10,26 @@ export const config = {
 export default async (req, res) => {
   const form = new IncomingForm()
 
-  const newPath = 'public/Po_File' // กำหนดตำแหน่งที่ต้องการเก็บไฟล์ให้กับ newPath
-
-  form.parse(req, async (err, fields, files) => {
+  form.parse(req, (err, fields, files) => {
     if (err) {
       res.status(500).json({ error: 'Error parsing form data.' })
+
       return
     }
 
-    const filepaths = []
+    const newFilename = fields.poFileName[0]
 
-    Object.values(files).forEach(fileArray => {
-      fileArray.forEach(file => {
-        const originalFilename = file.originalFilename
-        const newPathWithFilename = path.join(newPath, originalFilename)
-        filepaths.push({ oldPath: file.filepath, newPath: newPathWithFilename })
-      })
-    })
+    var oldPath = files.file[0].filepath
+    var newPath = `public/Po_File/${newFilename}`
 
-    const moveFile = index => {
-      if (index < filepaths.length) {
-        const { oldPath, newPath } = filepaths[index]
-        fs.copyFile(oldPath, newPath, err => {
-          if (err) {
-            console.error('Error moving file.', err)
-            res.status(500).json({ error: 'Error moving file.' })
+    mv(oldPath, newPath, function (err) {
+      if (err) {
+        res.status(500).json({ error: 'Error moving file.' })
 
-            return
-          }
-
-          // ลบไฟล์เดิมหลังจากคัดลอกเสร็จสิ้น
-          fs.unlink(oldPath, err => {
-            if (err) {
-              console.error('Error deleting old file.', err)
-            }
-
-            if (index === filepaths.length - 1) {
-              res.status(200).json({
-                message: 'File(s) moved and temporary files deleted successfully.'
-              })
-            } else {
-              moveFile(index + 1)
-            }
-          })
-        })
+        return
       }
-    }
 
-    moveFile(0)
+      res.status(200).json({ message: 'File moved successfully.' })
+    })
   })
 }

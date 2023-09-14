@@ -64,9 +64,11 @@ const PosrtDetail = () => {
 
   // dialo State Control
   const [open, setOpen] = React.useState(false)
+
   const handleClickOpen = () => {
     setOpen(true)
   }
+
   const handleClose = () => {
     setOpen(false)
     setSelectedFileName('')
@@ -240,28 +242,25 @@ const PosrtDetail = () => {
   // ฟังก์ชัน อัปโหลดไฟล์ Po
   const handleFileUpload = event => {
     const selectedFile = event.target.files[0]
-    setPoFile(selectedFile)
     setSelectedFileName(selectedFile ? selectedFile.name : '')
 
     // ใช้ Date เพื่อสร้างเวลาปัจจุบัน
     const currentTime = new Date()
+
     // ดึงชื่อไฟล์จาก selectedFile
     const fileName = selectedFile ? selectedFile.name : ''
+
+    // แยกนามสกุลไฟล์ออกมา
+    const fileExtension = fileName.split('.').pop()
+    const fileNameWithoutExtension = fileName.replace(`.${fileExtension}`, '')
+
     // รวมชื่อไฟล์และเวลาเข้าด้วยกัน
-    const fileNameWithTime = `${currentTime.toISOString()}-${fileName}`
+    const fileNameWithTime = `${currentTime.toISOString()}_${fileNameWithoutExtension}`
+    const sanitizedFileName = fileNameWithTime.replace(/[^a-z0-9.]/gi, '_') // แทนที่อักขระที่ไม่ใช่ a-z, 0-9, หรือ . ด้วย "_"
 
     setPoFile(selectedFile)
-    setPoFileName(fileNameWithTime)
+    setPoFileName(`${sanitizedFileName}.${fileExtension}`) // ชื่อไฟล์ใหม่
   }
-
-  // Api Po_file local Keep
-  // const uploadPoFileToApi = () => {
-  //   return axios.post(`/api/Po_FileUpload`, poFile, {
-  //     headers: {
-  //       'Content-Type': 'multipart/form-data'
-  //     }
-  //   })
-  // }
 
   // ฟังชัน Add Po Pdf (Not Save)
   const handlePoSubmit = async (e, po_id) => {
