@@ -60,8 +60,6 @@ const PosrtDetail = () => {
   const [shouldFetchData, setShouldFetchData] = useState(false) // ตัวแปรควบคุมการดึงข้อมูลใหม่
   const [selectedFileName, setSelectedFileName] = useState('') // เก็บชื่อไฟล์ Po
 
-  console.log('poFileName', poFileName)
-
   // dialo State Control
   const [open, setOpen] = React.useState(false)
 
@@ -74,9 +72,6 @@ const PosrtDetail = () => {
     setSelectedFileName('')
     setPoFile(null)
   }
-
-  console.log('poData', poData)
-  console.log('File Data', poFile)
 
   // รับค่าข้อมูล จาก local Storage
   useEffect(() => {
@@ -100,7 +95,6 @@ const PosrtDetail = () => {
           const response = await axios.get(
             `${process.env.NEXT_PUBLIC_API}TCTM.requirements.requirement_detail?req_id=${reqID}`
           )
-          console.log('All Data', response.data.message)
           setPostData(response.data.message.Requirement_Data[0])
           setQuestionData(response.data.message.Question_List)
           setPoData(response.data.message.Po_List)
@@ -149,8 +143,6 @@ const PosrtDetail = () => {
       recipient: recipient,
       query_description: comments
     }
-
-    console.log('data', data)
 
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.postchat`, data)
@@ -219,15 +211,24 @@ const PosrtDetail = () => {
   const handlePo_FileDelete = async (e, po_id) => {
     e.preventDefault()
 
-    const data = {
-      po_id: po_id,
-      req_id: reqID
+    const confirmed = await Swal.fire({
+      title: 'คุณต้องการลบข้อมูลนี้ใช่หรือไม่?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'ใช่',
+      cancelButtonText: 'ไม่'
+    })
+
+    if (!confirmed.isConfirmed) {
+      return
     }
 
-    console.log('data', data)
+    const data = {
+      po_id: po_id
+    }
 
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.reject_po`, data)
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.delete_po`, data)
       console.log(response)
       Swal.fire({
         icon: 'success',
@@ -263,48 +264,51 @@ const PosrtDetail = () => {
   }
 
   // ฟังชัน Add Po Pdf (Not Save)
-  const handlePoSubmit = async (e, po_id) => {
+  const handlePoSubmit = async e => {
     e.preventDefault()
 
-    // เรียกใช้ฟังก์ชัน อัปโหลดไฟล์รูปภาพลงเครื่อง
-    const formData = new FormData()
-    formData.append('file', poFile)
-    formData.append('poFileName', poFileName)
+    const data = {
+      member_id: userId,
+      sub_id: recipient,
+      po_requirement: reqID,
+      po_file_name: poFileName
+    }
 
-    // ส่งไฟล์ไปยัง API
     try {
-      const response = await axios.post(`/api/Po_FileUpload`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.addnew_po`, data)
+      console.log(response)
+      handleClose()
+      Swal.fire({
+        icon: 'success',
+        title: 'Approve Success'
       })
-      console.log('response Api', response)
+      setShouldFetchData(!shouldFetchData)
+
+      // เรียกใช้ฟังก์ชัน อัปโหลดไฟล์รูปภาพลงเครื่อง
+      const formData = new FormData()
+      formData.append('file', poFile)
+      formData.append('poFileName', poFileName)
+
+      // ส่งไฟล์ไปยัง API
+      try {
+        const response = await axios.post(`/api/Po_FileUpload`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        console.log('response Api', response)
+      } catch (error) {
+        console.log(error)
+      }
     } catch (error) {
       console.log(error)
     }
-
-    // const data = {
-    //   po_id: po_id,
-    //   req_id: reqID
-    // }
-
-    // try {
-    //   const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.approve_po`, data)
-    //   console.log(response)
-    //   Swal.fire({
-    //     icon: 'success',
-    //     title: 'Approve Success'
-    //   })
-    //   setShouldFetchData(!shouldFetchData)
-    // } catch (error) {
-    //   console.log(error)
-    // }
   }
 
   // หัวตาราง Data Gride
   const columns = [
     { field: 'po_id', headerName: 'ID', minWidth: 100 },
-    { field: 'po_file_name', headerName: 'po', minWidth: 160 },
+    { field: 'po_file_name', headerName: 'po', minWidth: 250 },
     {
       field: 'status',
       headerName: 'Status',

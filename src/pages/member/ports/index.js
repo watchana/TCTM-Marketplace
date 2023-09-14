@@ -39,6 +39,7 @@ import DialogEdit from './DialogEdit'
 const Posts = () => {
   // ** Router ของ Next.js
   const router = useRouter()
+
   // นำเข้าตัวsweetalert2
   const Swal = require('sweetalert2')
   const [openDialogPost, setOpenDialogPost] = useState(false)
@@ -49,6 +50,8 @@ const Posts = () => {
   const [userStatus, setUserStatus] = useState('') // ข้อมูล user Status
   const [myPose, setMyPose] = useState('') // ข้อมูล My pose
   const [row, setRow] = useState('') // ข้อมูล My pose
+
+  // console.log('myPose', myPose)
 
   // รับค่าข้อมูล จาก local Storage
   useEffect(() => {
@@ -138,6 +141,24 @@ const Posts = () => {
     { field: 'req_id', headerName: 'ID', minWidth: 100 },
     { field: 'req_header', headerName: 'Title', minWidth: 160 },
     {
+      field: 'req_status',
+      headerName: 'Po Status',
+      minWidth: 125,
+      valueFormatter: params => {
+        const reqStatus = params.value
+
+        if (reqStatus === '1') {
+          return 'wait'
+        } else if (reqStatus === '2') {
+          return 'Normal'
+        } else if (reqStatus === '3') {
+          return 'Success'
+        } else {
+          return 'Unknow'
+        }
+      }
+    },
+    {
       field: 'creation',
       headerName: 'post time',
       minWidth: 250,
@@ -155,7 +176,6 @@ const Posts = () => {
       headerName: 'Detail',
       minWidth: 100,
       renderCell: rowCell => {
-        const router = useRouter()
         const handleDetailClick = () => {
           router.push(`/member/port-detail-member/?req_id=${rowCell.row.req_id}&sub_id=${rowCell.row.sub_id}`)
         }

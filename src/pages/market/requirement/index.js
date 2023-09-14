@@ -29,8 +29,10 @@ import { DataGrid } from '@mui/x-data-grid'
 // ** Axios Import
 import axios from 'axios'
 
-
 const Requirement = SubID => {
+  // next Router
+  const router = useRouter()
+
   // ตัวแปรเก็บค่าข้อมูล
   const sub_id = SubID.sub_id
   const [rowdata, setRowData] = useState('')
@@ -58,53 +60,52 @@ const Requirement = SubID => {
     }
 
     fetchData()
-  }, [])
+  }, [sub_id])
 
   // ** Data Grid Columns
-const columns = [
-  { field: 'req_id', headerName: 'ID  ', width: 90 },
-  { field: 'req_header', headerName: 'Title', width: 250 },
-  {
-    field: 'creation',
-    headerName: 'Post Time',
-    width: 300,
-    valueGetter: params => {
-      return params.row.creation.substring(0, 19)
-    }
-  },
-  {
-    field: 'req_status',
-    headerName: 'Status',
-    width: 150,
-    valueGetter: params => {
-      const reqStatus = params.row.req_status
-      if (reqStatus === '2') {
-        return 'ปกติ'
-      } else if (reqStatus === '3') {
-        return 'สำเร็จ'
-      } else {
-        return 'Unknown'
+  const columns = [
+    { field: 'req_id', headerName: 'ID  ', width: 90 },
+    { field: 'req_header', headerName: 'Title', width: 250 },
+    {
+      field: 'creation',
+      headerName: 'Post Time',
+      width: 300,
+      valueGetter: params => {
+        return params.row.creation.substring(0, 19)
       }
-    }
-  },
-  {
-    field: 'Detail',
-    headerName: 'Detail',
-    minWidth: 100,
-    renderCell: rowCell => {
-      const router = useRouter()
-      const handleDetailClick = () => {
-        router.push(`/market/port-detail-marker/?req_id=${rowCell.row.req_id}&sub_id=${sub_id}`)
+    },
+    {
+      field: 'req_status',
+      headerName: 'Status',
+      width: 150,
+      valueGetter: params => {
+        const reqStatus = params.row.req_status
+        if (reqStatus === '2') {
+          return 'ปกติ'
+        } else if (reqStatus === '3') {
+          return 'สำเร็จ'
+        } else {
+          return 'Unknown'
+        }
       }
+    },
+    {
+      field: 'Detail',
+      headerName: 'Detail',
+      minWidth: 100,
+      renderCell: rowCell => {
+        const handleDetailClick = () => {
+          router.push(`/market/port-detail-marker/?req_id=${rowCell.row.req_id}&sub_id=${sub_id}`)
+        }
 
-      return (
-        <Button variant='contained' onClick={handleDetailClick}>
-          Detail
-        </Button>
-      )
+        return (
+          <Button variant='contained' onClick={handleDetailClick}>
+            Detail
+          </Button>
+        )
+      }
     }
-  },
-]
+  ]
 
   return (
     <>

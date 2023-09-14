@@ -236,6 +236,44 @@ const PosrtDetail = () => {
     }
   }
 
+  // ฟังชัน Po dowload Doc
+  const handleDownload = async FileName => {
+    const fileName = FileName
+
+    console.log('ชื่อไฟล์', fileName)
+
+    try {
+      const downloadResponse = await fetch('/api/Po_FileDownload', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ fileName }),
+        responseType: 'blob' // Indicate that the response should be treated as binary data
+      })
+
+      if (downloadResponse.ok) {
+        const blob = await downloadResponse.blob()
+        const blobUrl = URL.createObjectURL(blob)
+
+        // Create a download link and initiate the download
+        const downloadLink = document.createElement('a')
+        downloadLink.href = blobUrl
+        downloadLink.download = fileName
+        downloadLink.click()
+
+        // Clean up the object URL after the download is initiated
+        URL.revokeObjectURL(blobUrl)
+
+        console.log('Download initiated')
+      } else {
+        console.error('Error downloading document:', downloadResponse.statusText)
+      }
+    } catch (error) {
+      console.error('An error occurred:', error)
+    }
+  }
+
   // หัวตาราง Data Gride
   const columns = [
     { field: 'po_id', headerName: 'ID', minWidth: 100 },
@@ -256,7 +294,16 @@ const PosrtDetail = () => {
         }
       }
     },
-
+    {
+      field: 'download_button',
+      headerName: 'Download',
+      width: 120,
+      renderCell: rowCell => (
+        <Button variant='outlined' onClick={() => handleDownload(rowCell.row.po_file_name)}>
+          Download
+        </Button>
+      )
+    },
     {
       field: 'Approve',
       headerName: 'Approve',
@@ -266,7 +313,7 @@ const PosrtDetail = () => {
           variant='outlined'
           color='primary'
           onClick={e => handleApproveSubmit(e, rowCell.row.po_id)}
-          disabled={rowCell.row.po_status === '2'}
+          disabled={rowCell.row.po_status === '2' || rowCell.row.po_status === '0'}
         >
           Approve
         </Button>
