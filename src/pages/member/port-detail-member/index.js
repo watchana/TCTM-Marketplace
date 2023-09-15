@@ -16,6 +16,12 @@ import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
 
+// ** Next Router
+import { useRouter } from 'next/router'
+
+// ** Axios Import
+import axios from 'axios'
+
 // ** MUI X Imports
 import { DataGrid } from '@mui/x-data-grid'
 
@@ -26,45 +32,305 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline'
 // ** MDI Icon Imports
 import CircleSmall from 'mdi-material-ui/CircleSmall'
 
-const columns = [
-  { field: 'id', headerName: 'ID', minWidth: 100 },
-  { field: 'markerName', headerName: 'Name Marker', minWidth: 160 },
-  { field: 'product', headerName: 'Product Name', minWidth: 200 },
-  { field: 'status', headerName: 'Status', minWidth: 100 },
-  {
-    field: 'download',
-    headerName: 'Download',
-    minWidth: 120,
-    renderCell: rowCell => (
-      <Button variant='outlined' color='primary'>
-        Download
-      </Button>
-    )
-  },
-  {
-    field: 'action',
-    headerName: 'Action',
-    minWidth: 400,
-    renderCell: rowCell => (
-      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Button variant='contained' sx={{ marginRight: 2 }}>
-          interested
-        </Button>
-        <Button variant='contained' color='error'>
-          Not interested
-        </Button>
-      </Box>
-    )
-  }
-]
-
-const rows = [
-  { id: 1, markerName: 'Marker 1', product: 'Product 1', status: 'Active' },
-  { id: 2, markerName: 'Marker 2', product: 'Product 2', status: 'Active' },
-  { id: 3, markerName: 'Marker 3', product: 'Product 3', status: 'Active' }
-]
-
 const PosrtDetail = () => {
+  // นำเข้าตัวsweetalert2
+  const Swal = require('sweetalert2')
+
+  // เรียกใช้งาน router
+  const router = useRouter()
+  const { req_id, sub_id } = router.query
+  const reqID = req_id // เก็บค่า req_id
+  const recipient = sub_id // เก็บค่า sub_id (ค่านี้อาจเป็น Null)
+
+  // ตัวแปรเก็บค่าข้อมูล
+  const [userId, setUserId] = useState('') // ข้อมูล user_Id
+  const [postData, setPostData] = useState('') // ข้อมูล header and post detail
+  const [questionData, setQuestionData] = useState('') // ข้อมูล Question ผู้ส่ง ผู้รับ
+  const [comments, setComment] = useState('') // ข้อมูล comments
+  const [poData, setPoData] = useState('') // ข้อมูล Po
+
+  const [shouldFetchData, setShouldFetchData] = useState(false) // ตัวแปรควบคุมการดึงข้อมูลใหม่
+
+  // console.log('poData', poData)
+
+  // รับค่าข้อมูล จาก local Storage
+  useEffect(() => {
+    const userIdFromLocalStorage = localStorage.getItem('Member_Id')
+    if (userIdFromLocalStorage) {
+      setUserId(userIdFromLocalStorage)
+    }
+  }, [])
+
+  // เก็บค่าข้อมูลแชทจาก Api
+  useEffect(() => {
+    const fetchData = async () => {
+      const userIdFromLocalStorage = localStorage.getItem('Member_Id')
+      if (userIdFromLocalStorage) {
+        setUserId(userIdFromLocalStorage)
+      }
+
+      if (reqID) {
+        // ตรวจสอบว่า reqID มีค่าหรือไม่
+        try {
+          const response = await axios.get(
+            `${process.env.NEXT_PUBLIC_API}TCTM.requirements.requirement_detail?req_id=${reqID}`
+          )
+          setPostData(response.data.message.Requirement_Data[0])
+          setQuestionData(response.data.message.Question_List)
+          setPoData(response.data.message.Po_List)
+        } catch (error) {
+          console.error(error)
+        }
+      }
+    }
+
+    fetchData()
+  }, [reqID, shouldFetchData])
+
+  // เก็บค่าข้อมูลจาก คอมเม้นต์
+  const handleComment = event => {
+    setComment(event.target.value)
+  }
+
+  // Comment Submit
+  const handleCommentSubmit = async e => {
+    e.preventDefault()
+
+    // ตรวจสอบค่าว่างใน TextField
+    if (reqID === 'null' || userId === 'null' || recipient === 'null') {
+      Swal.fire({
+        icon: 'error',
+        title: 'ข้อมูลผิดพลาด...',
+        text: 'ยังไม่มีคนตอบแชท !'
+      })
+
+      return
+    }
+
+    if (!comments) {
+      Swal.fire({
+        icon: 'error',
+        title: 'ข้อมูลผืดพลาด...',
+        text: 'กรุณากรอกข้อมูลก่อน Comment !'
+      })
+
+      return
+    }
+
+    const data = {
+      req_id: reqID,
+      sender: userId,
+      recipient: recipient,
+      query_description: comments
+    }
+
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.postchat`, data)
+      console.log(response)
+      Swal.fire({
+        icon: 'success',
+        title: 'โพสข้อความสำเร็จ'
+      })
+      setComment('')
+      setShouldFetchData(!shouldFetchData)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  // ฟังก์ชันลบข้อมูล
+  const handleDeleteSubmit = query_id => {
+    Swal.fire({
+      title: 'คุณต้องการลบข้อมูลหรือไม่?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'ใช่',
+      cancelButtonText: 'ไม่'
+    }).then(result => {
+      if (result.isConfirmed) {
+        const data = {
+          query_id: query_id
+        }
+
+        axios
+          .put(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.deletechat`, data)
+          .then(function (response) {
+            console.log(response)
+
+            if (response.status === 200) {
+              Swal.fire({
+                icon: 'success',
+                title: 'ลบข้อมูลแล้วเสร็จ',
+                text: 'คุณไม่สามารถกู้คืนข้อมูลได้แล้ว'
+              })
+              setShouldFetchData(!shouldFetchData)
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อผิดพลาด',
+                text: 'ไม่สามารถลบข้อมูลได้'
+              })
+            }
+          })
+          .catch(function (error) {
+            console.log(error)
+
+            Swal.fire({
+              icon: 'error',
+              title: 'เกิดข้อผิดพลาด',
+              text: 'ไม่สามารถลบข้อมูลได้'
+            })
+          })
+      } else if (result.isDenied) {
+        console.log('cancelled delete')
+      }
+    })
+  }
+
+  // ฟังชัน Member Approve
+  const handleApproveSubmit = async (e, po_id) => {
+    e.preventDefault()
+
+    const data = {
+      po_id: po_id,
+      req_id: reqID
+    }
+
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.approve_po`, data)
+      console.log(response)
+      Swal.fire({
+        icon: 'success',
+        title: 'Approve Success'
+      })
+      setShouldFetchData(!shouldFetchData)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  // ฟังชัน Member Reject
+  const handleRejectSubmit = async (e, po_id) => {
+    e.preventDefault()
+
+    const data = {
+      po_id: po_id,
+      req_id: reqID
+    }
+
+    console.log('data', data)
+
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.reject_po`, data)
+      console.log(response)
+      Swal.fire({
+        icon: 'success',
+        title: 'decline Success'
+      })
+      setShouldFetchData(!shouldFetchData)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  // ฟังชัน Po dowload Doc
+  const handleDownload = async FileName => {
+    const fileName = FileName
+
+    try {
+      const downloadResponse = await fetch('/api/Po_FileDownload', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ fileName }),
+        responseType: 'blob' // Indicate that the response should be treated as binary data
+      })
+
+      if (downloadResponse.ok) {
+        const blob = await downloadResponse.blob()
+        const blobUrl = URL.createObjectURL(blob)
+
+        // Create a download link and initiate the download
+        const downloadLink = document.createElement('a')
+        downloadLink.href = blobUrl
+        downloadLink.download = fileName
+        downloadLink.click()
+
+        // Clean up the object URL after the download is initiated
+        URL.revokeObjectURL(blobUrl)
+
+        console.log('Download initiated')
+      } else {
+        console.error('Error downloading document:', downloadResponse.statusText)
+      }
+    } catch (error) {
+      console.error('An error occurred:', error)
+    }
+  }
+
+  // หัวตาราง Data Gride
+  const columns = [
+    { field: 'po_id', headerName: 'ID', minWidth: 100 },
+    { field: 'po_file_name', headerName: 'po', minWidth: 160 },
+    {
+      field: 'status',
+      headerName: 'Status',
+      minWidth: 160,
+      renderCell: rowCell => {
+        if (rowCell.row.po_status === '1') {
+          return <span>Normal</span>
+        } else if (rowCell.row.po_status === '2') {
+          return <span>Approve Success</span>
+        } else if (rowCell.row.po_status === '0') {
+          return <span>Decline</span>
+        } else {
+          return <span>Unknow</span>
+        }
+      }
+    },
+    {
+      field: 'download_button',
+      headerName: 'Download',
+      width: 120,
+      renderCell: rowCell => (
+        <Button variant='outlined' onClick={() => handleDownload(rowCell.row.po_file_name)}>
+          Download
+        </Button>
+      )
+    },
+    {
+      field: 'Approve',
+      headerName: 'Approve',
+      minWidth: 120,
+      renderCell: rowCell => (
+        <Button
+          variant='outlined'
+          color='primary'
+          onClick={e => handleApproveSubmit(e, rowCell.row.po_id)}
+          disabled={rowCell.row.po_status === '2' || rowCell.row.po_status === '0'}
+        >
+          Approve
+        </Button>
+      )
+    },
+    {
+      field: 'Reject',
+      headerName: 'Reject',
+      minWidth: 120,
+      renderCell: rowCell => (
+        <Button
+          variant='contained'
+          sx={{ marginRight: 2 }}
+          onClick={e => handleRejectSubmit(e, rowCell.row.po_id)}
+          disabled={rowCell.row.po_status === '2' || rowCell.row.po_status === '0'}
+        >
+          Reject
+        </Button>
+      )
+    }
+  ]
+
   return (
     <Container maxWidth='xl'>
       <Box>
@@ -83,7 +349,7 @@ const PosrtDetail = () => {
             <Grid container alignItems='center'>
               <Grid item xs={12} sm={8} md={8}>
                 <Typography variant='h4' fontSize='1.3rem bold' color='#FA896B'>
-                  Blog Detail
+                  Blog Member Detail
                 </Typography>
                 <Breadcrumbs separator={<CircleSmall />} aria-label='breadcrumb'>
                   <Link underline='none' color='inherit' href='/'>
@@ -121,13 +387,15 @@ const PosrtDetail = () => {
               >
                 <Avatar alt='John Doe' sx={{ width: 40, height: 40, marginRight: 4 }} src='/images/avatars/1.png' />
                 {/* ชื่อคน post */}
-                <Typography variant='body1' fontSize='1.2rem bold' textAlign='center' color='#222'>
-                  Name member
-                </Typography>
+                {postData && (
+                  <Typography variant='body1' fontSize='1.2rem bold' textAlign='center' color='#222'>
+                    Post By : {postData.user_first_name} {postData.user_last_name}
+                  </Typography>
+                )}
               </Box>
               {/* หัวข้อ */}
               <Typography variant='h4' fontSize='2.2rem bold' color='#222'>
-                Title
+                Title {postData.req_header}
               </Typography>
             </Box>
             <Divider />
@@ -139,12 +407,7 @@ const PosrtDetail = () => {
               </Box>
               {/* เนื้อหาคน post */}
               <Typography variant='body2' fontSize='1rem' color='#222'>
-                But you cannot figure out what it is or what it can do. MTA web directory is the simplest way in which
-                one can bid on a link, or a few links if they wish to do so. The link directory on MTA displays all of
-                the links it currently has, and does so in alphabetical order, which makes it much easier for someone to
-                find what they are looking for if it is something specific and they do not want to go through all the
-                other sites and links as well. It allows you to start your bid at the bottom and slowly work your way to
-                the top of the list.
+                {postData.req_description}
               </Typography>
               <Divider />
             </Box>
@@ -154,28 +417,54 @@ const PosrtDetail = () => {
               </Typography>
               {/* ตาราง */}
               <Box sx={{ width: '100%', height: '300px' }}>
-                <DataGrid rows={rows} columns={columns} pageSize={5} rowsPerPageOptions={[5, 10, 20]} />
+                <DataGrid
+                  rows={poData || []}
+                  columns={columns}
+                  getRowId={row => row.po_id}
+                  pageSize={5}
+                  rowsPerPageOptions={[5, 10, 20]}
+                  components={{
+                    NoRowsOverlay: () => <div style={{ textAlign: 'center', padding: '16px' }}>No data</div>
+                  }}
+                />
               </Box>
             </Box>
           </Card>
         </Box>
 
         {/* แสดงความคิดเห็น */}
+
         <Box sx={{ width: '100%' }}>
-          <Card sx={{ width: '100%', height: '100%', mb: '20px', border: '1px solid #FDEDE8' }}>
-            <Box sx={{ width: '100%', padding: '20px' }}>
-              <Typography variant='h6' fontSize='2.2rem bold' color='#222' sx={{ marginBottom: 2 }}>
-                Post Comments
-              </Typography>
-              <TextField fullWidth multiline rows={4} sx={{ marginBottom: 4 }}></TextField>
-              <Button variant='contained'>Post Comment</Button>
-            </Box>
-            <Box sx={{ width: '100%', padding: '20px' }}>
-              <Typography variant='h6' fontSize='2.2rem bold' color='#222' sx={{ marginBottom: 2 }}>
-                Comments
-              </Typography>
-              {/* comments ต่างๆ */}
-              <Card sx={{ width: '100%', height: '100%', mb: '20px', bgcolor: '#FDEDE8', border: '3px solid #FDEDE8' }}>
+          {/* Post Comment */}
+          <Box sx={{ width: '100%', padding: '20px' }}>
+            <Typography variant='h6' fontSize='2.2rem bold' color='#222' sx={{ marginBottom: 2 }}>
+              Post Comments
+            </Typography>
+            <TextField
+              fullWidth
+              multiline
+              rows={4}
+              sx={{ marginBottom: 4 }}
+              onChange={handleComment}
+              value={comments}
+            ></TextField>
+            <Button variant='contained' onClick={handleCommentSubmit}>
+              Post Comment
+            </Button>
+          </Box>
+
+          {questionData && questionData.length > 0 ? (
+            questionData.map((question, index) => (
+              <Card
+                key={index}
+                sx={{
+                  width: '100%',
+                  height: '100%',
+                  mb: '20px',
+                  bgcolor: question.sender === userId ? 'blue' : '#FDEDE8', // ตั้งสีพื้นหลังตามเงื่อนไข ไปเปลี่ยนสี blue เป็นสีอื่น
+                  border: '3px solid #FDEDE8'
+                }}
+              >
                 <Box sx={{ width: '100%', padding: '20px' }}>
                   <Box
                     sx={{
@@ -185,27 +474,32 @@ const PosrtDetail = () => {
                       alignContent: 'center'
                     }}
                   >
-                    <Typography variant='h6' fontSize='2.2rem bold' color='#222'>
-                      Name Marker
-                    </Typography>
-                    <IconButton>
-                      <DeleteIcon sx={{ fontSize: 28, color: 'text.primary' }} />
-                    </IconButton>
+                    {question.sender === userId ? (
+                      <Typography variant='h6' fontSize='2.2rem bold' color='white'>
+                        {question.user_first_name} {question.user_last_name}
+                      </Typography>
+                    ) : (
+                      <Typography variant='h6' fontSize='2.2rem bold' color='#222'>
+                        ร้านค้า
+                      </Typography>
+                    )}
+                    {question.sender === userId && ( // เช็คว่า sender เท่ากับ userId ก่อนแสดง IconButton
+                      <IconButton onClick={() => handleDeleteSubmit(question.query_id)}>
+                        <DeleteIcon sx={{ fontSize: 28, color: 'text.primary' }} />
+                      </IconButton>
+                    )}
                   </Box>
                 </Box>
                 <Box sx={{ width: '100%', padding: '0px 20px 20px' }}>
-                  <Typography variant='body2' fontSize='1rem' color='#222'>
-                    But you cannot figure out what it is or what it can do. MTA web directory is the simplest way in
-                    which one can bid on a link, or a few links if they wish to do so. The link directory on MTA
-                    displays all of the links it currently has, and does so in alphabetical order, which makes it much
-                    easier for someone to find what they are looking for if it is something specific and they do not
-                    want to go through all the other sites and links as well. It allows you to start your bid at the
-                    bottom and slowly work your way to the top of the list.
+                  <Typography variant='body2' fontSize='1rem' color={question.sender === userId ? 'white' : '#222'}>
+                    {question.query_description}
                   </Typography>
                 </Box>
               </Card>
-            </Box>
-          </Card>
+            ))
+          ) : (
+            <Typography variant='body2'>No data</Typography>
+          )}
         </Box>
       </Box>
     </Container>
