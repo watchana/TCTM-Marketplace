@@ -44,9 +44,10 @@ const PosrtDetail = () => {
 
   // เรียกใช้งาน router
   const router = useRouter()
-  const { req_id, sub_id } = router.query
+  const { req_id, sub_id, member_id2 } = router.query
   const reqID = req_id // เก็บค่า req_id
   const recipient = sub_id // เก็บค่า sub_id (ค่านี้อาจเป็น Null)
+  const userId2 = member_id2 // ข้อมูล user_Id เปรียบเทียบคนคุย
 
   // ตัวแปรเก็บค่าข้อมูล
   const [userId, setUserId] = useState('') // ข้อมูล user_Id
@@ -153,8 +154,24 @@ const PosrtDetail = () => {
       query_description: comments
     }
 
+    const Senddata = userId2 === userId ? recipient : member_id2 // เก็บค่าผู้ส่ง
+
+    const dataNotification = {
+      sub_id: recipient,
+      req_id: reqID,
+      sendto: Senddata,
+      compare_id: userId2
+    }
+
+    // console.log('dataNotification', dataNotification)
+
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.postchat`, data)
+
+      const responseNotification = await axios.post(
+        `${process.env.NEXT_PUBLIC_API}TCTM.notifications.post_new_chat`,
+        dataNotification
+      )
       console.log(response)
       Swal.fire({
         icon: 'success',
