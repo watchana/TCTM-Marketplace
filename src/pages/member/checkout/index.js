@@ -67,14 +67,14 @@ const Checkout = ({}) => {
               </Grid>
               <Shipping />
             </Grid>
-            <Grid container spacing={2} alignItems='center' sx={{ p: '10px 10px 2px' }}>
+            {/* <Grid container spacing={2} alignItems='center' sx={{ p: '10px 10px 2px' }}>
               <Grid item>
                 <Typography variant='h5' sx={{ p: '5px 7px 5px' }}>
                   Payment
                 </Typography>
               </Grid>
               <Paymant />
-            </Grid>
+            </Grid> */}
           </Grid>
           <Grid item xs={12} md={4}>
             <Grid item>
@@ -86,8 +86,8 @@ const Checkout = ({}) => {
           </Grid>
           <Grid container spacing={2} alignItems='center' sx={{ width: '96%', p: 2.5, marginTop: 3, marginLeft: 1 }}>
             <Box sx={{ width: '62%', display: 'flex', justifyContent: 'center' }}>
-              <Button variant="contained" sx={{ bgcolor: 'red', width: '100%', p: '10px 10px 10px' }}>
-                COMPLETE PURCHASE
+              <Button href='/member/order/payment/' variant="contained" sx={{ bgcolor: 'red', width: '100%', p: '10px 10px 10px' }}>
+                NEXT STEP
               </Button>
             </Box>
             <br />
