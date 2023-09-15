@@ -42,7 +42,11 @@ const AppBarContent = props => {
         <Grid item xl={2} xs={2}>
           <Box sx={{ width: '42px' }}>
             <Link href='/' passHref>
-              <CardMedia component='img' image='images/cards/tctm-logo.png' alt='logo' />
+              <CardMedia
+                component='img'
+                image='https://media.discordapp.net/attachments/1143783715877703833/1152162375529676861/tctm-logo.png?width=711&height=702'
+                alt='logo'
+              />
             </Link>
           </Box>
         </Grid>
@@ -79,9 +83,11 @@ const AppBarContent = props => {
                       sx={{ borderRadius: '12px' }}
                     />
                   </FormControl>
-                  <IconButton href='/member/ports/'>
-                    <Send sx={{ color: 'text.primary' }} />
-                  </IconButton>
+                  <Link href='/member/ports/' passHref>
+                    <IconButton>
+                      <Send sx={{ color: 'text.primary' }} />
+                    </IconButton>
+                  </Link>
                   <IconButton>
                     <CartOutline sx={{ color: 'text.primary' }} />
                   </IconButton>

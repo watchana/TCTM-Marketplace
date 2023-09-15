@@ -1,3 +1,10 @@
+// ** Next Import
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+
+// ** Utils Imports
+import { withAuth } from '../@core/utils/AuthCheck'
+
 // ** Material UI Imports
 import {
   Box,
@@ -13,16 +20,11 @@ import {
   IconButton,
   InputAdornment,
   InputLabel,
-  Link,
   OutlinedInput,
   Switch,
   TextField,
   Typography
 } from '@mui/material'
-
-// ** Import Next components
-import { useRouter } from 'next/router'
-import { withAuth } from '../@core/utils/AuthCheck'
 
 // ** custom components
 import Billboard from 'src/views/homepage/Billboard'
@@ -43,6 +45,9 @@ const Dashboard = () => {
       <Box sx={{ width: '100%' }}>
         <Billboard />
         <Category />
+        <Link href='/category' passHref>
+          <h1>Category</h1>
+        </Link>
       </Box>
     </Container>
   )

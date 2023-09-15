@@ -1,51 +1,26 @@
-// ** React Imports
 import { useState, useEffect } from 'react'
-
-// ** Next Import
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-
-// ** Utils Imports
-import { withAuth } from 'src/@core/utils/AuthCheck'
-
-// ** Material UI Imports
 import {
   Box,
-  Button,
   Breadcrumbs,
   Card,
   CardActionArea,
-  CardContent,
   CardMedia,
   Container,
-  Divider,
   Drawer,
-  FormControl,
-  FormControlLabel,
   Grid,
   Hidden,
   IconButton,
-  InputAdornment,
-  InputLabel,
   Paper,
-  OutlinedInput,
-  Switch,
-  TextField,
   Typography
 } from '@mui/material'
-
-// ** Material UI List Imports
-import { List, ListItem, ListItemIcon, ListItemText, ListItemButton } from '@mui/material'
-
-// ** Material Design Icons Imports
+import { List, ListItem, ListItemText, ListItemButton } from '@mui/material'
 import ChevronRight from 'mdi-material-ui/ChevronRight'
 import Shopping from 'mdi-material-ui/Shopping'
 import Menu from 'mdi-material-ui/Menu'
 
-// ** Axios Imports
-import axios from 'axios'
-
-const Category = ({ productData, SearchProduct, keyword }) => {
+export const Category = ({ productData, SearchProduct, keyword }) => {
   const [filteredProducts, setFilteredProducts] = useState(keyword ? SearchProduct || null : productData || null)
   const [activeButton, setActiveButton] = useState(null) // เช็คสถานะปุ่มที่ถูกกด
   const [searchValue, setSearchValue] = useState('') // State เพื่อเก็บคำค้นหา
@@ -91,7 +66,7 @@ const Category = ({ productData, SearchProduct, keyword }) => {
     router.replace('category', undefined, { shallow: true })
   }
 
-  const MenuCategory = () => (
+  const MenuCategory = category => (
     <>
       <Box sx={{ width: '240px', paddingLeft: { xs: 4, md: 0 } }}>
         <Box sx={{ padding: { xs: '20px 25px 8px', md: '0px 25px 8px' } }}>
@@ -120,9 +95,7 @@ const Category = ({ productData, SearchProduct, keyword }) => {
                       border: '1px solid #E5EAEF',
                       marginBottom: 2
                     }}
-                    onClick={() => {
-                      generateButtonClickHandler(category)(), setOpenDrawerLeftMenu(false)
-                    }}
+                    onClick={(generateButtonClickHandler(category), () => setOpenDrawerLeftMenu(false))}
                   >
                     <ListItemText sx={{ textAlign: 'center' }} primary={category} />
                   </ListItemButton>
@@ -178,7 +151,6 @@ const Category = ({ productData, SearchProduct, keyword }) => {
         <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
           {/* ---------- Filter by Category ---------- */}
           <Hidden mdDown>{MenuCategory()}</Hidden>
-          {/* ---------- Products ---------- */}
           <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
             <Box sx={{ padding: { md: '0px 25px 8px ', sm: '0px' }, display: 'flex', alignItems: 'center' }}>
               <Hidden mdUp>
@@ -203,54 +175,50 @@ const Category = ({ productData, SearchProduct, keyword }) => {
               </Typography>
             </Box>
             <Box sx={{ paddingLeft: { xs: '10px', md: '25px' } }}>
-              <Grid container spacing={8}>
+              <Grid container spacing={3}>
                 {/* ======================================= map ========================================= */}
                 {filteredProducts.length > 0 ? (
                   filteredProducts.map((product, index) => (
                     <Grid item key={product.product_id}>
-                      <CardActionArea>
-                        <Card sx={{ width: '200px', height: '280px', boxShadow: 1, border: '0.25px solid #c0c0c0' }}>
-                          <Box sx={{ width: '100%', height: '200px' }}>
-                            <CardMedia
-                              component='img'
-                              image={`/imgTctmProduct/${product.image_file_name}`}
-                              alt={product.product_name}
-                              onClick={() => {
-                                router.push(`/product/?product_id=${product.product_id}`)
-                              }}
-                            />
-                          </Box>
-                          <CardContent>
-                            <Typography
-                              variant='body1'
-                              fontSize='14px'
-                              fontWeight='600'
-                              sx={{
-                                overflow: 'hidden',
-                                whiteSpace: 'nowrap',
-                                textOverflow: 'ellipsis'
-                              }}
-                            >
-                              {product.product_name}
-                            </Typography>
-                            <Typography
-                              variant='body1'
-                              fontSize='14px'
-                              fontWeight='600'
-                              textAlign='end'
-                              sx={{
-                                marginTop: '10px',
-                                color: '#c0c0c0',
-                                overflow: 'hidden',
-                                whiteSpace: 'nowrap',
-                                textOverflow: 'ellipsis'
-                              }}
-                            >
-                              {product.sub_name}
-                            </Typography>
-                          </CardContent>
-                        </Card>
-                      </CardActionArea>
+                      <Paper
+                        elevation={5}
+                        sx={{ width: '350px', height: '350px' }}
+                        onClick={() => {
+                          router.push(`/product/?product_id=${product.product_id}`)
+                        }}
+                      >
+                        <Box sx={{ width: '100%', height: '100%' }}>
+                          <CardActionArea>
+                            <Box sx={{ width: '100%', height: '250px' }}>
+                              {/* ใส่รูป */}
+                              <CardMedia
+                                component='img'
+                                height='250px'
+                                image={`/imgTctmProduct/${product.image_file_name}`}
+                                sx={{ borderStartStartRadius: '10px' }}
+                              />
+                            </Box>
+                            <Box sx={{ width: '100%', height: '100px', p: '10px' }}>
+                              <Typography
+                                variant='h6'
+                                sx={{
+                                  fontWeight: 600,
+                                  overflow: 'hidden',
+                                  whiteSpace: 'nowrap',
+                                  textOverflow: 'ellipsis'
+                                }}
+                              >
+                                {product.product_name}
+                              </Typography>
+                              <Box>
+                                <Typography variant='body1' sx={{ fontWeight: 600 }}>
+                                  $ {product.product_price}
+                                </Typography>
+                              </Box>
+                            </Box>
+                          </CardActionArea>
+                        </Box>
+                      </Paper>
                     </Grid>
                   ))
                 ) : (
@@ -276,46 +244,3 @@ const Category = ({ productData, SearchProduct, keyword }) => {
     </Container>
   )
 }
-
-export const getServerSideProps = async ({ query }) => {
-  try {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.product.allproducts`)
-    const productData = response.data.message.Data || []
-
-    if (!query.keyword) {
-      // ถ้าไม่มี keyword ใน query parameters ให้ส่งข้อมูลสินค้าทั้งหมดกลับไป
-      return {
-        props: {
-          productData: productData
-        }
-      }
-    }
-
-    // ถ้ามี keyword ใน query parameters
-    const keyword = query.keyword
-
-    const filteredProducts = productData.filter(product =>
-      product.product_name.toLowerCase().includes(keyword.toLowerCase())
-    )
-
-    return {
-      props: {
-        productData: productData,
-        SearchProduct: filteredProducts,
-        keyword: keyword
-      }
-    }
-  } catch (error) {
-    console.error(error)
-
-    return {
-      props: {
-        productData: [],
-        SearchProduct: [],
-        keyword: ''
-      }
-    }
-  }
-}
-
-export default withAuth(Category)
