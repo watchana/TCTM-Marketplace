@@ -19,8 +19,7 @@ import {
   InputLabel,
   OutlinedInput,
   Switch,
-  TextField,
-  Typography
+  TextField
 } from '@mui/material'
 
 // ** Material Design Icons Imports

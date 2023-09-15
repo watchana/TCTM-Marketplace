@@ -6,13 +6,14 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 // ** Material UI Imports
-import { Box, FormControl, Grid, Hidden, IconButton, InputAdornment, OutlinedInput } from '@mui/material'
+import { Box, CardMedia, FormControl, Grid, IconButton, InputAdornment, OutlinedInput } from '@mui/material'
 
 // ** Material Design Icons Imports
 import Send from 'mdi-material-ui/Send'
 import Magnify from 'mdi-material-ui/Magnify'
 import CartOutline from 'mdi-material-ui/CartOutline'
 
+// ** Layouts Imports
 import UserDropdown from 'src/@core/layouts/components/shared-components/UserDropdown'
 import NotificationDropdown from 'src/@core/layouts/components/shared-components/NotificationDropdown'
 
@@ -37,53 +38,47 @@ const AppBarContent = props => {
 
   return (
     <Box sx={{ width: '100%', height: '90px' }}>
-      <Grid container direction='row' justifyContent='space-between' alignItems='center' sx={{ height: '100%' }}>
+      <Grid container justifyContent='space-between' alignItems='center' sx={{ height: '100%' }}>
         <Grid item xl={2} xs={2}>
-          <Box sx={{ width: '100%' }}>
+          <Box sx={{ width: '42px' }}>
             <Link href='/' passHref>
-              <img src='images/cards/tctm-logo.png' alt='logo' width='42px' height='42px' />
+              <CardMedia component='img' image='images/cards/tctm-logo.png' alt='logo' />
             </Link>
           </Box>
         </Grid>
         <Grid item xl={10} xs={10}>
           <Box sx={{ width: '100%' }}>
-            <Grid container direction='row' justifyContent='flex-end' alignItems='center' spacing={2}>
+            <Grid container justifyContent='flex-end' alignItems='center' spacing={2}>
               <Grid item>
                 <Box
                   sx={{
-                    width: '100%',
                     display: 'flex',
                     flexDirection: 'row',
-                    justifyContent: 'center',
                     alignItems: 'center'
                   }}
                 >
-                  <Hidden smDown>
-                    <FormControl
-                      fullWidth
-                      variant='outlined'
-                      sx={{ borderRadius: '12px', height: '40px', maxWidth: '250px', minWidth: '50px' }}
-                    >
-                      <OutlinedInput
-                        size='small'
-                        placeholder='Search Products...'
-                        onChange={e => handleSearch(e.target.value)}
-                        onKeyPress={e => {
-                          if (e.key === 'Enter') {
-                            handleSearchSubmit()
-                          }
-                        }}
-                        startAdornment={
-                          <InputAdornment position='start'>
-                            <IconButton onClick={handleSearchSubmit}>
-                              <Magnify />
-                            </IconButton>
-                          </InputAdornment>
-                        }
-                        sx={{ borderRadius: '12px' }}
-                      />
-                    </FormControl>
-                  </Hidden>
+                  <FormControl
+                    fullWidth
+                    variant='outlined'
+                    sx={{ borderRadius: '12px', height: '40px', maxWidth: '250px', minWidth: '50px' }}
+                  >
+                    <OutlinedInput
+                      size='small'
+                      placeholder='Search Products...'
+                      onChange={e => handleSearch(e.target.value)}
+                      onKeyPress={e => {
+                        if (e.key === 'Enter') handleSearchSubmit()
+                      }}
+                      startAdornment={
+                        <InputAdornment position='start'>
+                          <IconButton onClick={handleSearchSubmit} sx={{ marginLeft: { xs: -3 } }}>
+                            <Magnify sx={{ color: 'text.primary' }} />
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      sx={{ borderRadius: '12px' }}
+                    />
+                  </FormControl>
                   <IconButton href='/member/ports/'>
                     <Send sx={{ color: 'text.primary' }} />
                   </IconButton>
