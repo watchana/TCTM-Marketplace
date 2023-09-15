@@ -104,7 +104,16 @@ const PosrtDetail = () => {
       }
     }
 
-    fetchData()
+    fetchData() // เรียกใช้ fetchData() ครั้งแรกที่เปิดหน้า
+
+    const intervalId = setInterval(() => {
+      fetchData() // เรียกใช้ fetchData ทุกๆ 1 วินาที
+    }, 1000)
+
+    // เมื่อ component unmount ให้เคลียร์ interval
+    return () => {
+      clearInterval(intervalId)
+    }
   }, [reqID, shouldFetchData])
 
   // เก็บค่าข้อมูลจาก คอมเม้นต์
