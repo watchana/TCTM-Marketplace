@@ -42,16 +42,19 @@ import { Carousel } from 'react-responsive-carousel'
 import '../../views/product/Components/styled'
 import ImageSlider from '../../views/product/ImageSlider'
 import { useRouter } from 'next/router'
+import { withAuth } from 'src/@core/utils/AuthCheck'
 import axios from 'axios'
 
-export default function ProductDetails() {
+const ProductDetails = () => {
   // ตัวแปรเก็บค่าข้อมูล
   const [quantity, setQuantity] = useState(1) // ตัวแปรเก็บค่าจำนวนสินค้า
   const [productOption, setProductOption] = useState([]) // ตัวแปรเก็บค่าตัวเลือกสินค้า
   const [options, setOptions] = useState([]) // ตัวแปรเก็บค่า ตัวเลือก
   const [selection, setSelection] = useState('') // ตัวแปร Selection เก็บค่าตัวเลือก (ข้อมูลที่ต้องส่ง)
+  const [productdata, setProductData] = useState([]) // ตัวแปรเก็บข้อมูลสินค่า
+  const [productimg, setProductImg] = useState([]) // ตัวแปรเก็บข้อมูลรูปภาพ
 
-  // console.log('Option', options)
+  // console.log('productimg', productimg)
   // console.log('selection', selection)
 
   // รับค่า id product
@@ -85,7 +88,9 @@ export default function ProductDetails() {
           }
         })
 
-        // console.log('product Detail', response.data.message.options)
+        // console.log('หาข้อมูล', response.data.message.images.Result)
+        setProductImg(response.data.message.images.Result)
+        setProductData(response.data.message.data[0])
         setOptions(response.data.message.options)
       } catch (error) {
         console.error(error)
@@ -141,7 +146,7 @@ export default function ProductDetails() {
         <Card sx={{ padding: 6, border: '1px solid rgb(229, 234, 239)' }}>
           <Grid container spacing={2}>
             <Grid item xl={7} lg={7} md={7} sm={12} xs={12}>
-              <ImageSlider />
+              <ImageSlider img={productimg} />
             </Grid>
             <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
               <Box>
@@ -149,10 +154,10 @@ export default function ProductDetails() {
                 <Card sx={{ marginBottom: 2, border: '1px solid rgb(229, 234, 239)' }}>
                   <CardContent>
                     <Typography variant='h5' gutterBottom>
-                      Saru KX-75 Wireless Mechanical Keyboard
+                      {productdata.product_name}
                     </Typography>
                     <Typography variant='body1' style={{ color: 'gray' }} paragraph>
-                      GASKET MOUNTED DESIGN
+                      Brand : {productdata.product_brand}
                     </Typography>
                     <Typography variant='h6'>
                       ฿
@@ -289,10 +294,7 @@ export default function ProductDetails() {
               </AccordionSummary>
               <AccordionDetails>
                 <Typography>
-                  - Mechanical keyboard with a sleek design Use like a 100% keyboard with 82 keys. but still compact
-                  Provides a great user experience There are no screws to drill on the top case, so it's easy to take
-                  apart the custom parts. There is a volume control button to use more conveniently. and can also adjust
-                  the brightness of the keyboard
+                  - {productdata.product_description}
                 </Typography>
               </AccordionDetails>
             </Accordion>
@@ -302,7 +304,7 @@ export default function ProductDetails() {
               </AccordionSummary>
               <AccordionDetails>
                 <Typography>
-                  - Dimension : 33x14x4 cm <br />
+                  {/* - Dimension : 33x14x4 cm <br />
                   - Weight : 981 g <br />
                   - Form Factor : 75% (82 Keys with Knob) <br />
                   - Body Material :Plastic ABS <br />
@@ -316,7 +318,7 @@ export default function ProductDetails() {
                   - Connectivity : USB-C , USB Dongle(Wireless) , Bluetooth 5.0 <br />
                   - Mounting : Gasket Mount <br />
                   - Battery Capacity: 2,500 mAh - Cable Length : 140 cm <br />- Package Dimension : 38x23x7 cm - Package
-                  Weight : 1.4 kg
+                  Weight : 1.4 kg */}
                 </Typography>
               </AccordionDetails>
             </Accordion>
@@ -354,6 +356,8 @@ export default function ProductDetails() {
     </Container>
   )
 }
+
+export default withAuth(ProductDetails)
 
 const productsData = [
   {

@@ -10,6 +10,9 @@ import axios from 'axios'
 // ** Router
 import { useRouter } from 'next/router'
 
+// ** Auth Check Import
+import { withAuth } from 'src/@core/utils/AuthCheck'
+
 // ** Components
 import RegisterProduct from 'src/views/supplier/RegisterProduct'
 import ShowResults from 'src/views/supplier/ShowResults'
@@ -26,9 +29,54 @@ const AddProductPage = ({ productCategories }) => {
   const SubId = sub_id
 
   const steps = ['Register Product', 'Show Results']
-  const [activeStep, setActiveStep] = useState(0)
+  const [activeStep, setActiveStep] = useState(0) // ตัวเก็บค่าก่อนส่ง
   const [skipped, setSkipped] = useState(new Set())
   const [resultAPIStatus, setResultAPIStatus] = useState('')
+
+  // เก็บค่าเซฟรูป
+  const [uploadImages, setUploadImages] = useState([])
+  const [imagesName, setImagesName] = useState([])
+
+  // เก็บค่าเซฟวิดิโอ
+  const [uploadVdo, setUploadVdo] = useState([])
+
+  // จัดการตัวแปรชื่อไฟล์ภาพ
+  const handleUploadImagesChange = newImages => {
+    setUploadImages(newImages)
+
+    const imageFileNames = newImages.map(image => image.name)
+
+    setProduct(prevProduct => ({
+      ...prevProduct,
+      image_file_name: imageFileNames
+    }))
+  }
+
+  // จัดการตัวแปรชื่อไฟล์วิดิโอ
+  const handleUploadVdoChange = newVdo => {
+    if (newVdo[0].name) {
+      setUploadVdo(newVdo)
+      setProduct(prevProduct => ({
+        ...prevProduct,
+        video_file_name: newVdo && newVdo[0] ? newVdo[0].name : ''
+      }))
+    } else {
+      // ถ้า newVdo มีค่าและ newVdo[0] มีค่า และ newVdo[0].name มีค่า
+      setProduct(prevProduct => ({
+        ...prevProduct,
+        video_file_name: ''
+      }))
+    }
+  }
+
+  useEffect(() => {
+    const imageNames = uploadImages.map(image => image.name)
+
+    // ตรวจสอบว่าค่า imageNames ไม่เหมือนกับค่าปัจจุบันของ imagesName ก่อนที่จะเรียก setImagesName
+    if (JSON.stringify(imageNames) !== JSON.stringify(imagesName)) {
+      setImagesName(imageNames)
+    }
+  }, [uploadImages, imagesName])
 
   const [product, setProduct] = useState({
     sub_id: SubId,
@@ -43,8 +91,8 @@ const AddProductPage = ({ productCategories }) => {
     product_license_number: '',
     product_amount: '',
     product_size: '',
-    image_file_name: '-',
-    video_file_name: '-',
+    image_file_name: '',
+    video_file_name: '',
     options: [
       {
         optionId: 1,
@@ -75,6 +123,24 @@ const AddProductPage = ({ productCategories }) => {
 
   const isStepSkipped = step => {
     return skipped.has(step)
+  }
+
+  // Api ฟังชันอัปโหลดรูปภาพ
+  const uploadImagesToApi = () => {
+    return axios.post(`/api/ProductimgUpload`, uploadImages, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+  }
+
+  // Api ฟังชันอัปโหลดวิดิโอ
+  const uploadVdoToApi = () => {
+    return axios.post(`/api/ProductimgUpload`, uploadVdo, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
   }
 
   const handleNext = () => {
@@ -118,16 +184,50 @@ const AddProductPage = ({ productCategories }) => {
         setProduct({ ...product, options: newProductOptions })
         setActiveStep(prevActiveStep => prevActiveStep + 1)
         setSkipped(newSkipped)
+        setResultAPIStatus(500)
       }
     } else if (activeStep === 1) {
       console.log('test')
-      console.log()
 
       axios
         .post(`${process.env.NEXT_PUBLIC_API}TCTM.product.postnewproductv2`, product)
         .then(response => {
           const statusCode = response.data.message.StatusCode
           setResultAPIStatus(statusCode)
+
+          // console.log('ข้อมูลก่อนส่ง', product)
+
+          // เรียกใช้ฟังก์ชัน อัปโหลดไฟล์รูปภาพลงเครื่อง
+          uploadImagesToApi()
+            .then(response => {
+              const statusCode = response.status
+              if (statusCode === 200) {
+                // อัปโหลดสำเร็จ
+                console.log('File uploaded successfully.')
+              } else {
+                // อัปโหลดไม่สำเร็จ
+                console.error('File upload failed.')
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error)
+            })
+
+          // เรียกใช้ฟังก์ชัน อัปโหลดไฟล์วิดิโอลงเครื่อง
+          uploadVdoToApi()
+            .then(response => {
+              const statusCode = response.status
+              if (statusCode === 200) {
+                // อัปโหลดสำเร็จ
+                console.log('File uploaded successfully.')
+              } else {
+                // อัปโหลดไม่สำเร็จ
+                console.error('File upload failed.')
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error)
+            })
         })
         .catch(error => {
           console.error('Error:', error)
@@ -186,7 +286,13 @@ const AddProductPage = ({ productCategories }) => {
         ) : (
           <>
             {activeStep === 0 && (
-              <RegisterProduct product={product} setProduct={setProduct} productCategories={productCategories} />
+              <RegisterProduct
+                product={product}
+                setProduct={setProduct}
+                productCategories={productCategories}
+                onUploadImagesChange={handleUploadImagesChange}
+                onUploadVdoChange={handleUploadVdoChange}
+              />
             )}
             {activeStep === 1 && <ShowResults columnsData={product.options} rowsData={product.items} />}
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
@@ -222,4 +328,4 @@ export async function getServerSideProps() {
   }
 }
 
-export default AddProductPage
+export default withAuth(AddProductPage)

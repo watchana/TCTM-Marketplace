@@ -423,6 +423,7 @@ const RegisterPage = () => {
             <Button
               fullWidth
               variant='contained'
+              onClick={handleSubmitData}
               sx={{
                 backgroundColor: 'primary.main',
                 color: '#fff',

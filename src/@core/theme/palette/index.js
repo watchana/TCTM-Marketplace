@@ -105,8 +105,8 @@ const DefaultPalette = (mode, themeColor) => {
     },
     divider: `rgba(${mainColor}, 0.12)`,
     background: {
-      paper: mode === 'light' ? '#FFF' : '#262626',
-      default: mode === 'light' ? '#FFF' : '#262626'
+      paper: mode === 'light' ? '#FFF' : '#312D4B',
+      default: mode === 'light' ? '#FEFEFE' : '#28243D'
     },
     action: {
       active: `rgba(${mainColor}, 0.54)`,

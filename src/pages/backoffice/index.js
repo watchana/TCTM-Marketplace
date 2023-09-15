@@ -10,6 +10,9 @@ import Market from 'src/views/backoffice/market'
 import Product from 'src/views/backoffice/product'
 import Billboard from 'src/views/backoffice/billboard'
 
+// ** Auth Check import
+import { withAuth } from 'src/@core/utils/AuthCheck'
+
 const BackOffice = () => {
   const [activeTab, setActiveTab] = useState('user')
 
@@ -38,4 +41,4 @@ const BackOffice = () => {
   )
 }
 
-export default BackOffice
+export default withAuth(BackOffice)

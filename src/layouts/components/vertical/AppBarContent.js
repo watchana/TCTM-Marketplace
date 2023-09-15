@@ -1,39 +1,22 @@
+// ** React Imports
+import { useState } from 'react'
+
 // ** Next Import
 import Link from 'next/link'
-import { useState } from 'react'
 import { useRouter } from 'next/router'
 
-// ** MUI Imports
-import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
-import Button from '@mui/material/Button'
-import Hidden from '@mui/material/Hidden'
-import TextField from '@mui/material/TextField'
-import CardMedia from '@mui/material/CardMedia'
-import ButtonBase from '@mui/material/ButtonBase'
-import Typography from '@mui/material/Typography'
-import IconButton from '@mui/material/IconButton'
-import InputAdornment from '@mui/material/InputAdornment'
+// ** Material UI Imports
+import { Box, FormControl, Grid, Hidden, IconButton, InputAdornment, OutlinedInput } from '@mui/material'
 
-// ** Icons Imports
-import Menu from 'mdi-material-ui/Menu'
+// ** Material Design Icons Imports
 import Send from 'mdi-material-ui/Send'
-import HelpBox from 'mdi-material-ui/HelpBox'
 import Magnify from 'mdi-material-ui/Magnify'
 import CartOutline from 'mdi-material-ui/CartOutline'
 
-// ** Theme Config Import
-import themeConfig from 'src/configs/themeConfig'
-
-// ** Components
-import ModeToggler from 'src/@core/layouts/components/shared-components/ModeToggler'
 import UserDropdown from 'src/@core/layouts/components/shared-components/UserDropdown'
 import NotificationDropdown from 'src/@core/layouts/components/shared-components/NotificationDropdown'
 
 const AppBarContent = props => {
-  // ** Props
-  const { settings, saveSettings, toggleNavVisibility } = props
-
   // ** State สำหรับการค้นหา
   const [searchValue, setSearchValue] = useState('')
 
@@ -53,70 +36,69 @@ const AppBarContent = props => {
   }
 
   return (
-    <Grid container direction='row' justifyContent='space-between' alignItems='center'>
-      <Grid item xl={3} lg={3} md={4} sm={4} xs={6}>
-        <Box sx={{ width: '150px', height: '70px' }}>
-          <Link href='/' passHref>
-            <CardMedia sx={{ height: '70px' }} image='/images/cards/LOGO_TCTM_3.png' />
-          </Link>
-        </Box>
-      </Grid>
-
-      <Hidden mdDown>
-        <Grid item xl={6} lg={6} md={4} sm={4}>
-          <Box sx={{ width: '100%', padding: 1 }}>
-            <TextField
-              size='small'
-              placeholder='Search Product…'
-              value={searchValue}
-              onChange={e => handleSearch(e.target.value)}
-              onKeyPress={e => {
-                if (e.key === 'Enter') {
-                  handleSearchSubmit()
-                }
-              }}
-              sx={{ width: '100%', '& .MuiOutlinedInput-root': { borderRadius: '18px' } }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position='start'>
-                    <Magnify fontSize='small' />
-                  </InputAdornment>
-                )
-              }}
-            />
+    <Box sx={{ width: '100%', height: '90px' }}>
+      <Grid container direction='row' justifyContent='space-between' alignItems='center' sx={{ height: '100%' }}>
+        <Grid item xl={2} xs={2}>
+          <Box sx={{ width: '100%' }}>
+            <Link href='/' passHref>
+              <img src='images/cards/tctm-logo.png' alt='logo' width='42px' height='42px' />
+            </Link>
           </Box>
         </Grid>
-      </Hidden>
-
-      <Grid item xl={3} lg={3} md={4} sm={4} xs={6}>
-        <Grid
-          container
-          spacing={'15px'}
-          direction='row'
-          justifyContent='flex-end'
-          alignItems='center'
-          sx={{ width: '100%', height: '70px' }}
-        >
-          <Grid item>
-            <IconButton href='/member/ports/'>
-              <Send sx={{ color: 'text.primary' }} />
-            </IconButton>
-          </Grid>
-          <Grid item>
-            <IconButton>
-              {/* ต้องสร้าง components ใน src/@core/layouts/components/shared-components/ สำหรับปุ่ม ตะกร้า  */}
-              <CartOutline sx={{ color: 'text.primary' }} />
-            </IconButton>
-          </Grid>
-          <Grid item>
-            <NotificationDropdown />
-          </Grid>
-          <Grid item>
-            <UserDropdown />
-          </Grid>
+        <Grid item xl={10} xs={10}>
+          <Box sx={{ width: '100%' }}>
+            <Grid container direction='row' justifyContent='flex-end' alignItems='center' spacing={2}>
+              <Grid item>
+                <Box
+                  sx={{
+                    width: '100%',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}
+                >
+                  <Hidden smDown>
+                    <FormControl
+                      fullWidth
+                      variant='outlined'
+                      sx={{ borderRadius: '12px', height: '40px', maxWidth: '250px', minWidth: '50px' }}
+                    >
+                      <OutlinedInput
+                        size='small'
+                        placeholder='Search Products...'
+                        onChange={e => handleSearch(e.target.value)}
+                        onKeyPress={e => {
+                          if (e.key === 'Enter') {
+                            handleSearchSubmit()
+                          }
+                        }}
+                        startAdornment={
+                          <InputAdornment position='start'>
+                            <IconButton onClick={handleSearchSubmit}>
+                              <Magnify />
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                        sx={{ borderRadius: '12px' }}
+                      />
+                    </FormControl>
+                  </Hidden>
+                  <IconButton href='/member/ports/'>
+                    <Send sx={{ color: 'text.primary' }} />
+                  </IconButton>
+                  <IconButton>
+                    <CartOutline sx={{ color: 'text.primary' }} />
+                  </IconButton>
+                  <NotificationDropdown />
+                  <UserDropdown />
+                </Box>
+              </Grid>
+            </Grid>
+          </Box>
         </Grid>
       </Grid>
-    </Grid>
+    </Box>
   )
 }
 

@@ -28,6 +28,9 @@ const Swal = require('sweetalert2')
 // ** axios Imports
 import axios from 'axios'
 
+// ** Auth Check
+import { withAuth } from 'src/@core/utils/AuthCheck'
+
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 
@@ -109,8 +112,6 @@ const RegisterSupplier = () => {
         member_id: localStorage.getItem('Member_Id'),
         sub_image: imageName
       }
-
-      console.log('ข้อมูลผู้สมัคร', data)
 
       await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.register.registerMarket`, data)
 
@@ -373,4 +374,4 @@ const RegisterSupplier = () => {
 }
 RegisterSupplier.getLayout = page => <BlankLayout>{page}</BlankLayout>
 
-export default RegisterSupplier
+export default withAuth(RegisterSupplier)

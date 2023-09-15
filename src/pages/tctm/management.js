@@ -14,6 +14,9 @@ import LocalAtmIcon from '@mui/icons-material/LocalAtm'
 // ** Import axios
 import axios from 'axios'
 
+// ** Import Auth Check
+import { withAuth } from 'src/@core/utils/AuthCheck'
+
 import MemberTable from 'src/views/tctm/MemberTable'
 import SupplierTable from 'src/views/tctm/SupplierTable'
 import ProductTable from 'src/views/tctm/ProductTable'
@@ -107,4 +110,4 @@ const ManagementPage = () => {
   )
 }
 
-export default ManagementPage
+export default withAuth(ManagementPage)
