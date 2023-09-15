@@ -7,25 +7,29 @@ import DeleteIcon from '@mui/icons-material/Delete'
 
 const Shipping = ({}) => {
   return (
-    <Card sx={{ width: '95%', p: 2.5, marginTop: 3, marginLeft: 3 }}>
+    <Card sx={{ width: '95%', p: 3, marginTop: 1, marginLeft: 3 }}>
       <Grid container spacing={2} rowSpacing={5}>
-        <Grid item xs={12} md={2}>
+        <Grid item xs={12} md={1.6}>
           <Box
             sx={{
-              mx: 2,
-              mt: 2.2,
-              width: { xs: '80px', sm: '100%', md: '100%' },
-              height: { xs: '80px', sm: '100%', md: '100%' },
-              position: 'relative',
+              width: { xs: '100px', sm: '100%', md: '100%' },
+              height: { xs: '100px', sm: '100%', md: '100%' },
               justifyContent: 'center',
               alignItems: 'center'
             }}
           >
-            <img src='https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg' alt='Product' style={{ maxWidth: '100%', maxHeight: '100%' }} />
+            <img
+              src='/imgTctmProduct/550x6002.jpg'
+              alt='Product'
+              style={{
+                maxWidth: '100px', // กำหนดให้ความกว้างสูงสุดเท่ากับขนาดจริงของรูป
+                maxHeight: '100px' // กำหนดให้ความสูงสูงสุดเท่ากับขนาดจริงของรูป
+              }}
+            />
           </Box>
         </Grid>
-        <Grid item xs={12} md={10}>
-          <Grid container spacing={2} rowSpacing={2} sx={{ pt: { md: 2 }, marginLeft: 3 }}>
+        <Grid item xs={12} md={10.4}>
+          <Grid container spacing={1} rowSpacing={3} sx={{ pt: { md: 1 }, marginLeft: 3 }}>
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between' }}>
               <Typography variant='subtitle1'>Product Name </Typography>
               <Button startIcon={<DeleteIcon />} sx={{ alignItems: 'center' }}>
