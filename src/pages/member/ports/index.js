@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 // ** Material UI Imports
-import { Box, Breadcrumbs, Button, Card, Container, Chip, Divider, Grid, Hidden, Typography } from '@mui/material'
+import { Box, Breadcrumbs, Button, Card, Container, Divider, Grid, Hidden, Typography } from '@mui/material'
 
 // ** MUI X Imports
 import { DataGrid } from '@mui/x-data-grid'
@@ -134,17 +134,18 @@ const Posts = () => {
     {
       field: 'req_status',
       headerName: 'Po Status',
-      minWidth: 200,
-      renderCell: rowCell => {
-        const reqStatus = rowCell.value
+      minWidth: 125,
+      valueFormatter: params => {
+        const reqStatus = params.value
+
         if (reqStatus === '1') {
-          return <Chip label='wait' color='warning' />
+          return 'wait'
         } else if (reqStatus === '2') {
-          return <Chip label='Waiting for approval' color='primary' />
+          return 'Normal'
         } else if (reqStatus === '3') {
-          return <Chip label='Success' color='success' />
+          return 'Success'
         } else {
-          return <Chip label='Unknow' color='secondary' />
+          return 'Unknow'
         }
       }
     },
