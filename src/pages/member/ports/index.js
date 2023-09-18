@@ -165,7 +165,9 @@ const Posts = () => {
       minWidth: 150,
       renderCell: rowCell => {
         const handleDetailClick = () => {
-          router.push(`/member/port-detail-member/?req_id=${rowCell.row.req_id}&sub_id=${rowCell.row.sub_id}`)
+          router.push(
+            `/member/port-detail-member/?req_id=${rowCell.row.req_id}&sub_id=${rowCell.row.sub_id}&member_id2=${rowCell.row.member_id}`
+          )
         }
 
         return (

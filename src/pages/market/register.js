@@ -83,7 +83,9 @@ const RegisterSupplier = () => {
     event.preventDefault()
     setIsSubmitted(true)
 
-    const fieldsToCheck = [idcard, tel, email, storename, storedetails, address, imageName]
+    const member_id = localStorage.getItem('Member_Id')
+
+    const fieldsToCheck = [idcard, tel, email, storename, storedetails, address, imageName, member_id]
     if (fieldsToCheck.some(field => field === '' || field === null || field === undefined)) {
       Swal.fire({
         icon: 'error',
@@ -109,9 +111,11 @@ const RegisterSupplier = () => {
         sub_address: address,
         sub_address_shop: '1',
         sub_address_claim: '1',
-        member_id: localStorage.getItem('Member_Id'),
+        member_id: member_id,
         sub_image: imageName
       }
+
+      console.log('data', data)
 
       await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.register.registerMarket`, data)
 
@@ -374,4 +378,4 @@ const RegisterSupplier = () => {
 }
 RegisterSupplier.getLayout = page => <BlankLayout>{page}</BlankLayout>
 
-export default withAuth(RegisterSupplier)
+export default RegisterSupplier
