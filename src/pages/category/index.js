@@ -11,38 +11,28 @@ import { withAuth } from 'src/@core/utils/AuthCheck'
 // ** Material UI Imports
 import {
   Box,
-  Button,
   Breadcrumbs,
   Card,
   CardActionArea,
   CardContent,
   CardMedia,
   Container,
-  Divider,
   Drawer,
-  FormControl,
-  FormControlLabel,
   Grid,
   Hidden,
   IconButton,
-  InputAdornment,
-  InputLabel,
-  Paper,
-  OutlinedInput,
-  Switch,
-  TextField,
   Typography
 } from '@mui/material'
 
 // ** Material UI List Imports
-import { List, ListItem, ListItemIcon, ListItemText, ListItemButton } from '@mui/material'
+import { List, ListItem, ListItemText, ListItemButton } from '@mui/material'
 
 // ** Material Design Icons Imports
-import ChevronRight from 'mdi-material-ui/ChevronRight'
-import Shopping from 'mdi-material-ui/Shopping'
 import Menu from 'mdi-material-ui/Menu'
+import Shopping from 'mdi-material-ui/Shopping'
+import ChevronRight from 'mdi-material-ui/ChevronRight'
 
-// ** Axios Imports
+// ** Axios Import
 import axios from 'axios'
 
 const Category = ({ productData, SearchProduct, keyword }) => {
@@ -145,7 +135,7 @@ const Category = ({ productData, SearchProduct, keyword }) => {
             sx={{
               height: '100px',
               marginBottom: '30px',
-              padding: '20px 25px 20px',
+              padding: '15px 25px 20px',
               backgroundColor: '#2d2e81',
               border: '1px solid #primary.main'
             }}
@@ -203,14 +193,21 @@ const Category = ({ productData, SearchProduct, keyword }) => {
               </Typography>
             </Box>
             <Box sx={{ paddingLeft: { xs: '10px', md: '25px' } }}>
-              <Grid container spacing={8}>
+              <Grid container spacing={{ xs: 2, sm: 10, md: 8 }}>
                 {/* ======================================= map ========================================= */}
                 {filteredProducts.length > 0 ? (
                   filteredProducts.map((product, index) => (
                     <Grid item key={product.product_id}>
                       <CardActionArea>
-                        <Card sx={{ width: '200px', height: '280px', boxShadow: 1, border: '0.25px solid #c0c0c0' }}>
-                          <Box sx={{ width: '100%', height: '200px' }}>
+                        <Card
+                          sx={{
+                            width: { xs: '150px', sm: '200px' },
+                            height: { xs: '200px', sm: '280px' },
+                            boxShadow: 1,
+                            border: '0.25px solid #c0c0c0'
+                          }}
+                        >
+                          <Box sx={{ width: '100%', height: '70%' }}>
                             <CardMedia
                               component='img'
                               image={`/imgTctmProduct/${product.image_file_name}`}
@@ -220,7 +217,7 @@ const Category = ({ productData, SearchProduct, keyword }) => {
                               }}
                             />
                           </Box>
-                          <CardContent>
+                          <Box sx={{ padding: 1.5, width: '100%', height: '30%' }}>
                             <Typography
                               variant='body1'
                               fontSize='14px'
@@ -233,22 +230,27 @@ const Category = ({ productData, SearchProduct, keyword }) => {
                             >
                               {product.product_name}
                             </Typography>
-                            <Typography
-                              variant='body1'
-                              fontSize='14px'
-                              fontWeight='600'
-                              textAlign='end'
-                              sx={{
-                                marginTop: '10px',
-                                color: '#c0c0c0',
-                                overflow: 'hidden',
-                                whiteSpace: 'nowrap',
-                                textOverflow: 'ellipsis'
-                              }}
-                            >
-                              {product.sub_name}
+                            <Typography variant='body1' fontSize='14px' fontWeight='600' textAlign='start'>
+                              $ {product.min_price}-{product.max_price}
                             </Typography>
-                          </CardContent>
+                            <Hidden smDown>
+                              <Typography
+                                variant='body1'
+                                fontSize='14px'
+                                fontWeight='600'
+                                textAlign='end'
+                                sx={{
+                                  marginTop: '10px',
+                                  color: '#c0c0c0',
+                                  overflow: 'hidden',
+                                  whiteSpace: 'nowrap',
+                                  textOverflow: 'ellipsis'
+                                }}
+                              >
+                                {product.sub_name}
+                              </Typography>
+                            </Hidden>
+                          </Box>
                         </Card>
                       </CardActionArea>
                     </Grid>

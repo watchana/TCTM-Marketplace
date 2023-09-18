@@ -1,16 +1,18 @@
 // ** React Imports
-import React, { useEffect, useState, useRef } from 'react'
+import { useState, useEffect } from 'react'
 
-// ** MUI Imports
-import Paper from '@mui/material/Paper'
-import Dialog from '@mui/material/Dialog'
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
+// ** Next Import
+import { useRouter } from 'next/router'
+
+// ** Material UI Imports
+import { Box, Button, Dialog, Card, CardContent, Divider, Grid, TextField, Typography } from '@mui/material'
+
+// ** Axios import
 import axios from 'axios'
 
 const DialogEdit = ({ open, handleClose, Data }) => {
+  const Route = useRouter()
+
   // นำเข้าตัวsweetalert2
   const Swal = require('sweetalert2')
 
@@ -44,8 +46,8 @@ const DialogEdit = ({ open, handleClose, Data }) => {
       handleClose()
       Swal.fire({
         icon: 'error',
-        title: 'คุณกรอกข้อมูลไม่ครบ...',
-        text: 'กรุณาระบุข้อมูลให้ครบถ้วน!'
+        title: 'You did not fill in all the information...',
+        text: 'Please fill in all the information.!'
       })
 
       return
@@ -61,13 +63,19 @@ const DialogEdit = ({ open, handleClose, Data }) => {
       .post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.editrequirement`, data)
       .then(response => {
         console.log(response)
+
+        // ปิด Dialog
+        handleClose(false)
+
+        // reset display หลังจากส่งข้อมูลเสร็จ
+        Route.replace(Route.asPath, undefined, { scroll: false })
       })
       .catch(error => {
         console.log(error)
       })
     Swal.fire({
       icon: 'success',
-      title: 'แก้ไขข้อมูลแล้วเสร็จ'
+      title: 'Editing completed'
     })
 
     handleClose()
@@ -76,51 +84,64 @@ const DialogEdit = ({ open, handleClose, Data }) => {
   return (
     <div>
       <Dialog open={open} onClose={handleClose}>
-        <Paper sx={{ width: '100%', height: '100%' }}>
-          <Box sx={{ width: '100%', padding: 4 }}>
-            <Typography variant='h4' fontSize={'36 bold'}>
+        <Card variant='outlined' sx={{ maxWidth: '600px' }}>
+          <CardContent>
+            <Typography variant='h5' sx={{ fontWeight: 'bold' }}>
               Edit Post
             </Typography>
-          </Box>
-          <Box sx={{ width: '600px', padding: 4 }}>
-            <TextField
-              fullWidth
-              label='Title'
-              value={title}
-              onChange={handleTitleChange}
-              variant='outlined'
-              InputProps={{
-                style: {
-                  borderRadius: '7px'
-                }
-              }}
-            />
-          </Box>
-          <Box sx={{ width: '600px', paddingX: 4 }}>
-            <TextField
-              fullWidth
-              multiline
-              rows={5}
-              value={description}
-              onChange={handleDesChange}
-              label='Description'
-              variant='outlined'
-              InputProps={{
-                style: {
-                  borderRadius: '7px'
-                }
-              }}
-            />
-          </Box>
-          <Box sx={{ width: '100%', padding: 4, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-            <Button variant='contained' color='primary' sx={{ marginRight: 4 }} onClick={handleEditSubmit}>
-              Edit
-            </Button>
-            <Button variant='outlined' color='secondary' onClick={handleClose}>
-              CANCEL
-            </Button>
-          </Box>
-        </Paper>
+            <Divider sx={{ marginY: '10px' }} />
+            <form onSubmit={handleEditSubmit}>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    label='Title'
+                    value={title}
+                    onChange={handleTitleChange}
+                    variant='outlined'
+                    InputProps={{
+                      style: {
+                        borderRadius: '10px'
+                      }
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    multiline
+                    rows={3}
+                    value={description}
+                    onChange={handleDesChange}
+                    label='Description'
+                    variant='outlined'
+                    InputProps={{
+                      style: {
+                        borderRadius: '10px'
+                      }
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Button
+                      variant='contained'
+                      color='primary'
+                      type='submit'
+                      onClick={handleEditSubmit}
+                      sx={{ marginRight: 2 }}
+                    >
+                      Edit
+                    </Button>
+                    <Button variant='contained' color='secondary' onClick={handleClose}>
+                      Cancel
+                    </Button>
+                  </Box>
+                </Grid>
+              </Grid>
+            </form>
+          </CardContent>
+        </Card>
       </Dialog>
     </div>
   )
