@@ -162,21 +162,166 @@ const ProductDetails = () => {
                   </Typography>
                 </Breadcrumbs>
               </Grid>
-              <Grid item xs={12} sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <Hidden smDown>
-                  <Grid
-                    item
-                    sm={4}
-                    md={4}
-                    sx={{ display: 'flex', justifyContent: 'flex-end' }}
-                    onClick={handleBuyNowClick}
-                  >
-                    <Shopping sx={{ fontSize: 72, color: '#fff' }} />
-                  </Grid>
-                </Hidden>
-              </Grid>
+              <Hidden smDown>
+                <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <Shopping sx={{ fontSize: 72, color: '#fff' }} />
+                </Grid>
+              </Hidden>
             </Grid>
-          </Card>
+=========
+      <Box sx={{ height: '100%' }}>
+        {/* แทบไปหน้าต่างๆ */}
+        <Box sx={{ width: '100%', marginBottom: '29px' }}>
+          <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb'>
+            <Link underline='hover' color='inherit' href='/'>
+              Home
+            </Link>
+            <Link underline='hover' color='inherit' href='/category'>
+              Category
+            </Link>
+          </Breadcrumbs>
+        </Box>
+
+        <Box>
+          <Grid container spacing={2}>
+            <Grid item xl={7} lg={7} md={7} sm={12} xs={12}>
+              <ImageSlider img={productimg} />
+            </Grid>
+            <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
+              <Box>
+                {/* ชื่อสินค้า */}
+                <Card sx={{ marginBottom: 2 }}>
+                  <CardContent>
+                    <Typography variant='h5' gutterBottom>
+                      {productdata.product_name}
+                    </Typography>
+                    <Typography variant='body1' style={{ color: 'gray' }} paragraph>
+                      Brand : {productdata.product_brand}
+                    </Typography>
+                    <Typography variant='h6'>
+                      ฿
+                      {selection
+                        ? selection.find(option => option.option_name === 'Price')?.value_name
+                        : 'กรุณาระบุตัวเลือกสินค้า'}
+                    </Typography>
+                  </CardContent>
+                </Card>
+
+                {/* เลือกประเภทสินค้า */}
+                <Card sx={{ marginBottom: 2 }}>
+                  <CardContent>
+                    <FormControl component='fieldset'>
+                      <Typography variant='h6' gutterBottom>
+                        Select an option:
+                      </Typography>
+                      {/* ตัวเลือกเก็บค่าราคา */}
+                      <FormControl fullWidth>
+                        <InputLabel id='label'>Option</InputLabel>
+                        <Select
+                          labelId='label'
+                          id='select'
+                          value={selection}
+                          label='Select'
+                          onChange={handleSelectChange}
+                        >
+                          {Object.values(options).map((optionArray, index) => (
+                            <MenuItem key={index} value={optionArray}>
+                              {optionArray.length === 0 ? (
+                                <MenuItem disabled>ไม่มีข้อมูล</MenuItem>
+                              ) : (
+                                optionArray.map(
+                                  (option, subIndex) =>
+                                    option.option_name !== 'Price' &&
+                                    option.option_name !== 'Quantity' && (
+                                      <span key={subIndex}>
+                                        {option.option_name}: {option.value_name}{' '}
+                                      </span>
+                                    )
+                                )
+                              )}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </FormControl>
+                  </CardContent>
+                </Card>
+
+                {/* ส่วนของปุ่ม เพิ่ม ลด สินค้า */}
+                <Card sx={{ marginBottom: 2 }}>
+                  <CardContent>
+                    <Typography variant='h6' gutterBottom>
+                      Quantity:
+                    </Typography>
+                    <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                      <IconButton
+                        style={{
+                          width: '30px',
+                          height: '30px',
+                          backgroundColor: '#f0f0f0',
+                          borderRadius: '5px',
+                          color: 'black'
+                        }}
+                        onClick={decreaseQuantity}
+                      >
+                        -
+                      </IconButton>
+                      <Box
+                        style={{
+                          width: '50px',
+                          height: '30px',
+                          border: '1px solid #ccc',
+                          borderRadius: '5px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: 'black'
+                        }}
+                      >
+                        {quantity}
+                      </Box>
+                      <IconButton
+                        style={{
+                          width: '30px',
+                          height: '30px',
+                          backgroundColor: '#f0f0f0',
+                          borderRadius: '5px',
+                          color: 'black'
+                        }}
+                        onClick={increaseQuantity}
+                      >
+                        +
+                      </IconButton>
+                    </Box>
+                  </CardContent>
+                </Card>
+
+                {/* ปุ่ม add to cart AND buy now */}
+                <Card sx={{ marginBottom: 2 }}>
+                  <CardContent>
+                    <Grid container spacing={4}>
+                      <Grid item>
+                        <Button sx={{ width: 175 }} variant='outlined' startIcon={<ShoppingCartIcon />}>
+                          add to cart
+                        </Button>
+                      </Grid>
+                      <Grid item>
+                        <Button sx={{ width: 175 }} variant='contained' color='primary' onClick={handleBuyNowClick}>
+                          buy now
+                        </Button>
+                      </Grid>
+                    </Grid>
+                    <Typography variant='body1' style={{ color: 'gray' }}>
+                      Delivery time :
+                    </Typography>
+                    <Typography variant='body1' style={{ color: 'gray' }}>
+                      Will be delivered within 3-10 days.
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Box>
+            </Grid>
+          </Grid>
         </Box>
 
         {/* รายละเอียด */}
