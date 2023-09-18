@@ -5,7 +5,9 @@ import React from 'react'
 import { Avatar, Box, Button, Card, Divider, Grid, Radio, Stack, TextField, Typography } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 
-const Shipping = ({}) => {
+const Shipping = ({ productName, price, quantity, parsedSelection }) => {
+  // console.log('bill', parsedSelection)
+
   return (
     <Card sx={{ width: '95%', p: 3, marginTop: 1, marginLeft: 3 }}>
       <Grid container spacing={2} rowSpacing={5}>
@@ -31,23 +33,32 @@ const Shipping = ({}) => {
         <Grid item xs={12} md={10.4}>
           <Grid container spacing={1} rowSpacing={3} sx={{ pt: { md: 1 }, marginLeft: 3 }}>
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Typography variant='subtitle1'>Product Name </Typography>
+              <Typography variant='subtitle1'>Product Name: {productName} </Typography>
               <Button startIcon={<DeleteIcon />} sx={{ alignItems: 'center' }}>
                 {' '}
               </Button>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Typography variant='subtitle2'>Description, color, size </Typography>
+              <Typography variant='subtitle2'>Option: </Typography>
+              {parsedSelection && parsedSelection.length > 0 ? (
+                parsedSelection.map((option, index) => {
+                  if (option.option_name !== 'Price' && option.option_name !== 'Quantity') {
+                    return (
+                      <Typography key={index} variant='body2'>
+                        {option.option_name}: {option.value_name}
+                      </Typography>
+                    )
+                  }
+
+                  return null // ไม่แสดงข้อมูลเมื่อ option_name เป็น "Price" หรือ "Quantity"
+                })
+              ) : (
+                <Typography variant='body2'>No data</Typography>
+              )}
             </Grid>
+
             <Grid item xs={12}>
-              <TextField
-                id='outlined-number'
-                label='Number'
-                type='number'
-                InputLabelProps={{
-                  shrink: true
-                }}
-              />
+              <Typography variant='subtitle2'>Total amount: x{quantity} </Typography>
             </Grid>
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center' }}>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>

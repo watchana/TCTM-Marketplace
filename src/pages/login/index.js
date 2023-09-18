@@ -110,7 +110,6 @@ const LoginPage = () => {
       .then(response => {
         if (response.data.message) {
           const receivedStatus = response.data.message.Message
-          console.log('Data:', response.data.message.Data[0])
           if (receivedStatus === 'OK') {
             const userData = response.data.message.Data[0].user_role
 

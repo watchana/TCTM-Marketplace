@@ -61,7 +61,7 @@ const PosrtDetail = () => {
   const [shouldFetchData, setShouldFetchData] = useState(false) // ตัวแปรควบคุมการดึงข้อมูลใหม่
   const [selectedFileName, setSelectedFileName] = useState('') // เก็บชื่อไฟล์ Po
 
-  // dialo State Control
+  // dialog State Control
   const [open, setOpen] = React.useState(false)
 
   const handleClickOpen = () => {
@@ -356,7 +356,12 @@ const PosrtDetail = () => {
       headerName: 'Delete',
       minWidth: 120,
       renderCell: rowCell => (
-        <Button variant='contained' sx={{ marginRight: 2 }} onClick={e => handlePo_FileDelete(e, rowCell.row.po_id)}>
+        <Button
+          variant='contained'
+          sx={{ marginRight: 2 }}
+          onClick={e => handlePo_FileDelete(e, rowCell.row.po_id)}
+          disabled={rowCell.row.po_status === '2'}
+        >
           Delete
         </Button>
       )

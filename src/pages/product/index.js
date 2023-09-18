@@ -41,14 +41,18 @@ import axios from 'axios'
 const ProductDetails = () => {
   // ตัวแปรเก็บค่าข้อมูล
   const [quantity, setQuantity] = useState(1) // ตัวแปรเก็บค่าจำนวนสินค้า
-  const [productOption, setProductOption] = useState([]) // ตัวแปรเก็บค่าตัวเลือกสินค้า
   const [options, setOptions] = useState([]) // ตัวแปรเก็บค่า ตัวเลือก
   const [selection, setSelection] = useState('') // ตัวแปร Selection เก็บค่าตัวเลือก (ข้อมูลที่ต้องส่ง)
   const [productdata, setProductData] = useState([]) // ตัวแปรเก็บข้อมูลสินค่า
   const [productimg, setProductImg] = useState([]) // ตัวแปรเก็บข้อมูลรูปภาพ
+  const [price, setPrice] = useState('') // ตัวแปรเก็บค่าข้อมูลราคาสินค้า
+  const [productName, setProductName] = useState('') // ตัวแปรเก็บค่าชื่อสินค้า
+
+  // นำเข้าตัวsweetalert2
+  const Swal = require('sweetalert2')
 
   // console.log('productimg', productimg)
-  // console.log('selection', selection)
+  console.log('productdata', productdata.product_id)
 
   // รับค่า id product
   const router = useRouter() // เรียกใช้งาน Router
@@ -57,7 +61,19 @@ const ProductDetails = () => {
 
   // ฟังก์ชันจัดการการเปลี่ยนค่าของ Select
   const handleSelectChange = event => {
-    setSelection(event.target.value)
+    const selectedValue = event.target.value
+    setSelection(selectedValue)
+
+    // หาค่า Price จากตัวเลือกที่เลือก
+    const selectedPrice = selectedValue
+      ? selectedValue.find(option => option.option_name === 'Price')?.value_name
+      : null
+
+    // อัปเดตค่า price
+    setPrice(selectedPrice)
+
+    // เก็บชื่อ product Name
+    setProductName(productdata.product_name)
   }
 
   // ฟังก์ชันเพิ่มลดปริมาณสินค้า
@@ -80,8 +96,7 @@ const ProductDetails = () => {
             product_id: productId
           }
         })
-
-        // console.log('หาข้อมูล', response.data.message.images.Result)
+        console.log('data Fuck', response.data.message)
         setProductImg(response.data.message.images.Result)
         setProductData(response.data.message.data[0])
         setOptions(response.data.message.options)
@@ -92,6 +107,22 @@ const ProductDetails = () => {
 
     fetchData()
   }, [productId])
+
+  // ฟังชัน ย้ายไปหน้า checkout
+  const handleBuyNowClick = () => {
+    if (!selection) {
+      Swal.fire({
+        icon: 'error',
+        title: 'ระบุตัวเลือกสินค้า'
+      })
+    } else {
+      // แปลงออบเจ็กต์ selection เป็นสตริง JSON
+      const selectionString = JSON.stringify(selection)
+      router.push(
+        `/member/checkout/?productName=${productName}&price=${price}&quantity=${quantity}&selection=${selectionString}&sub_id=${productdata.sub_id}&product_id=${productdata.product_id}`
+      )
+    }
+  }
 
   return (
     <Container maxWidth='xl'>
@@ -232,7 +263,7 @@ const ProductDetails = () => {
                         </Button>
                       </Grid>
                       <Grid item>
-                        <Button sx={{ width: 175 }} variant='contained' color='primary'>
+                        <Button sx={{ width: 175 }} variant='contained' color='primary' onClick={handleBuyNowClick}>
                           buy now
                         </Button>
                       </Grid>
@@ -258,9 +289,7 @@ const ProductDetails = () => {
                 <Typography> Product details </Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Typography>
-                  - {productdata.product_description}
-                </Typography>
+                <Typography>- {productdata.product_description}</Typography>
               </AccordionDetails>
             </Accordion>
             <Accordion>

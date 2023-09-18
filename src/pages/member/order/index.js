@@ -4,7 +4,21 @@ import Total from './total'
 import Payment from './payment'
 import Tablepayment from './tablepayment'
 
-const indexpayment = () => {
+//**  Next Import
+import { useRouter } from 'next/router'
+
+const Indexpayment = () => {
+  const router = useRouter() // use router
+
+  // ตัวแปรเก็บค่าข้อมูล
+  const { product_id, price, sub_id, member_id, selection } = router.query
+
+  // ตัวแปรเก็บค่าตัวเลือกก่อนส่ง
+  let parsedSelection = null
+  if (selection && selection !== 'null' && selection !== 'undefined') {
+    parsedSelection = JSON.parse(selection) // แปลงค่า selection เป็นออบเจ็กต์
+  }
+
   return (
     <Container>
       <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', flexDirection: 'row' }}>
@@ -14,7 +28,7 @@ const indexpayment = () => {
               <Total />
             </Grid>
             <Grid item xs={12} md={12} sx={{ p: '10px' }}>
-              <Payment />
+              <Payment product_id={product_id} sub_id={sub_id} member_id={member_id} selection={parsedSelection} />
             </Grid>
           </Grid>
         </Box>
@@ -26,4 +40,4 @@ const indexpayment = () => {
   )
 }
 
-export default indexpayment
+export default Indexpayment
