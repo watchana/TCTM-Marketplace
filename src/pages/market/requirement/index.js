@@ -52,7 +52,7 @@ const Requirement = SubID => {
           }
         )
 
-        // console.log('Api', response.data.message.Data);
+        // console.log('Api', response.data.message.Data[0].member_id)
         setRowData(response.data.message.Data)
       } catch (error) {
         console.error(error)
@@ -95,7 +95,9 @@ const Requirement = SubID => {
       minWidth: 100,
       renderCell: rowCell => {
         const handleDetailClick = () => {
-          router.push(`/market/port-detail-marker/?req_id=${rowCell.row.req_id}&sub_id=${sub_id}`)
+          router.push(
+            `/market/port-detail-marker/?req_id=${rowCell.row.req_id}&sub_id=${sub_id}&member_id2=${rowCell.row.member_id}`
+          )
         }
 
         return (

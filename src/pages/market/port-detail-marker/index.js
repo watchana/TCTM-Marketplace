@@ -47,9 +47,10 @@ const PosrtDetail = () => {
 
   // เรียกใช้งาน router
   const router = useRouter()
-  const { req_id, sub_id } = router.query
+  const { req_id, sub_id, member_id2 } = router.query
   const reqID = req_id // เก็บค่า req_id
   const recipient = sub_id // เก็บค่า sub_id (ค่านี้อาจเป็น Null)
+  const userId2 = member_id2 // ข้อมูล user_Id เปรียบเทียบคนคุย
 
   // ตัวแปรเก็บค่าข้อมูล
   const [userId, setUserId] = useState('') // ข้อมูล user_Id
@@ -63,7 +64,7 @@ const PosrtDetail = () => {
   const [shouldFetchData, setShouldFetchData] = useState(false) // ตัวแปรควบคุมการดึงข้อมูลใหม่
   const [selectedFileName, setSelectedFileName] = useState('') // เก็บชื่อไฟล์ Po
 
-  // dialo State Control
+  // dialog State Control
   const [open, setOpen] = React.useState(false)
 
   const handleClickOpen = () => {
@@ -107,8 +108,16 @@ const PosrtDetail = () => {
       }
     }
 
-    fetchData()
-  }, [reqID, shouldFetchData])
+    fetchData() // เรียกใช้ fetchData() ครั้งแรกที่เปิดหน้า
+
+    const intervalId = setInterval(() => {
+      fetchData() // เรียกใช้ fetchData ทุกๆ 1 วินาที
+    }, 1000)
+
+    // เมื่อ component unmount ให้เคลียร์ interval
+    return () => {
+      clearInterval(intervalId)
+    }
 
   // เก็บค่าข้อมูลจาก คอมเม้นต์
   const handleComment = event => {
@@ -147,8 +156,24 @@ const PosrtDetail = () => {
       query_description: comments
     }
 
+    const Senddata = userId2 === userId ? recipient : member_id2 // เก็บค่าผู้ส่ง
+
+    const dataNotification = {
+      sub_id: recipient,
+      req_id: reqID,
+      sendto: Senddata,
+      compare_id: userId2
+    }
+
+    // console.log('dataNotification', dataNotification)
+
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.postchat`, data)
+
+      const responseNotification = await axios.post(
+        `${process.env.NEXT_PUBLIC_API}TCTM.notifications.post_new_chat`,
+        dataNotification
+      )
       console.log(response)
       SAlert.fire({
         icon: 'success',
@@ -335,9 +360,9 @@ const PosrtDetail = () => {
       renderCell: rowCell => (
         <Button
           variant='contained'
-          color='error'
+          sx={{ marginRight: 2 }}
           onClick={e => handlePo_FileDelete(e, rowCell.row.po_id)}
-          startIcon={<DeleteIcon />}
+          disabled={rowCell.row.po_status === '2'}
         >
           Delete
         </Button>

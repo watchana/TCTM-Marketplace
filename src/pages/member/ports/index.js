@@ -42,6 +42,8 @@ const Posts = () => {
   const [myPose, setMyPose] = useState('') // ข้อมูล My pose
   const [row, setRow] = useState('') // ข้อมูล My pose
 
+  console.log('myPose', myPose)
+
   // รับค่าข้อมูล จาก local Storage
   useEffect(() => {
     const userIdFromLocalStorage = localStorage.getItem('Member_Id')
@@ -165,7 +167,9 @@ const Posts = () => {
       minWidth: 150,
       renderCell: rowCell => {
         const handleDetailClick = () => {
-          router.push(`/member/port-detail-member/?req_id=${rowCell.row.req_id}&sub_id=${rowCell.row.sub_id}`)
+          router.push(
+            `/member/port-detail-member/?req_id=${rowCell.row.req_id}&sub_id=${rowCell.row.sub_id}&member_id2=${rowCell.row.member_id}`
+          )
         }
 
         return (
