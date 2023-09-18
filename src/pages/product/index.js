@@ -46,11 +46,18 @@ import { withAuth } from 'src/@core/utils/AuthCheck'
 const ProductDetails = () => {
   // ตัวแปรเก็บค่าข้อมูล
   const [quantity, setQuantity] = useState(1) // ตัวแปรเก็บค่าจำนวนสินค้า
-  const [productOption, setProductOption] = useState([]) // ตัวแปรเก็บค่าตัวเลือกสินค้า
   const [options, setOptions] = useState([]) // ตัวแปรเก็บค่า ตัวเลือก
   const [selection, setSelection] = useState('') // ตัวแปร Selection เก็บค่าตัวเลือก (ข้อมูลที่ต้องส่ง)
   const [productdata, setProductData] = useState([]) // ตัวแปรเก็บข้อมูลสินค่า
   const [productimg, setProductImg] = useState([]) // ตัวแปรเก็บข้อมูลรูปภาพ
+  const [price, setPrice] = useState('') // ตัวแปรเก็บค่าข้อมูลราคาสินค้า
+  const [productName, setProductName] = useState('') // ตัวแปรเก็บค่าชื่อสินค้า
+
+  // นำเข้าตัวsweetalert2
+  const Swal = require('sweetalert2')
+
+  // console.log('productimg', productimg)
+  console.log('productdata', productdata.product_id)
 
   // รับค่า id product
   const router = useRouter() // เรียกใช้งาน Router
@@ -59,7 +66,19 @@ const ProductDetails = () => {
 
   // ฟังก์ชันจัดการการเปลี่ยนค่าของ Select
   const handleSelectChange = event => {
-    setSelection(event.target.value)
+    const selectedValue = event.target.value
+    setSelection(selectedValue)
+
+    // หาค่า Price จากตัวเลือกที่เลือก
+    const selectedPrice = selectedValue
+      ? selectedValue.find(option => option.option_name === 'Price')?.value_name
+      : null
+
+    // อัปเดตค่า price
+    setPrice(selectedPrice)
+
+    // เก็บชื่อ product Name
+    setProductName(productdata.product_name)
   }
 
   // ฟังก์ชันเพิ่มลดปริมาณสินค้า
@@ -82,6 +101,8 @@ const ProductDetails = () => {
             product_id: productId
           }
         })
+
+        // console.log('หาข้อมูล', response.data.message.images.Result)
         setProductImg(response.data.message.images.Result)
         setProductData(response.data.message.data[0])
         setOptions(response.data.message.options)
@@ -92,6 +113,22 @@ const ProductDetails = () => {
 
     fetchData()
   }, [productId])
+
+  // ฟังชัน ย้ายไปหน้า checkout
+  const handleBuyNowClick = () => {
+    if (!selection) {
+      Swal.fire({
+        icon: 'error',
+        title: 'ระบุตัวเลือกสินค้า'
+      })
+    } else {
+      // แปลงออบเจ็กต์ selection เป็นสตริง JSON
+      const selectionString = JSON.stringify(selection)
+      router.push(
+        `/member/checkout/?productName=${productName}&price=${price}&quantity=${quantity}&selection=${selectionString}&sub_id=${productdata.sub_id}&product_id=${productdata.product_id}`
+      )
+    }
+  }
 
   return (
     <Container maxWidth='xl'>
@@ -121,18 +158,169 @@ const ProductDetails = () => {
                     <Typography color='#fff' variant='h6' fontSize='14px'>
                       Shop
                     </Typography>
-                  </Link>
-                  <Typography color='#fff' variant='h6' fontSize='14px'>
-                    Product
-                  </Typography>
-                </Breadcrumbs>
-              </Grid>
-              <Hidden smDown>
-                <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <Shopping sx={{ fontSize: 72, color: '#fff' }} />
-                </Grid>
-              </Hidden>
+                  </CardContent>
+                </Card>
+
+                {/* เลือกประเภทสินค้า */}
+                <Card sx={{ marginBottom: 2 }}>
+                  <CardContent>
+                    <FormControl component='fieldset'>
+                      <Typography variant='h6' gutterBottom>
+                        Select an option:
+                      </Typography>
+                      {/* ตัวเลือกเก็บค่าราคา */}
+                      <FormControl fullWidth>
+                        <InputLabel id='label'>Option</InputLabel>
+                        <Select
+                          labelId='label'
+                          id='select'
+                          value={selection}
+                          label='Select'
+                          onChange={handleSelectChange}
+                        >
+                          {Object.values(options).map((optionArray, index) => (
+                            <MenuItem key={index} value={optionArray}>
+                              {optionArray.length === 0 ? (
+                                <MenuItem disabled>ไม่มีข้อมูล</MenuItem>
+                              ) : (
+                                optionArray.map(
+                                  (option, subIndex) =>
+                                    option.option_name !== 'Price' &&
+                                    option.option_name !== 'Quantity' && (
+                                      <span key={subIndex}>
+                                        {option.option_name}: {option.value_name}{' '}
+                                      </span>
+                                    )
+                                )
+                              )}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </FormControl>
+                  </CardContent>
+                </Card>
+
+                {/* ส่วนของปุ่ม เพิ่ม ลด สินค้า */}
+                <Card sx={{ marginBottom: 2 }}>
+                  <CardContent>
+                    <Typography variant='h6' gutterBottom>
+                      Quantity:
+                    </Typography>
+                    <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                      <IconButton
+                        style={{
+                          width: '30px',
+                          height: '30px',
+                          backgroundColor: '#f0f0f0',
+                          borderRadius: '5px',
+                          color: 'black'
+                        }}
+                        onClick={decreaseQuantity}
+                      >
+                        -
+                      </IconButton>
+                      <Box
+                        style={{
+                          width: '50px',
+                          height: '30px',
+                          border: '1px solid #ccc',
+                          borderRadius: '5px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: 'black'
+                        }}
+                      >
+                        {quantity}
+                      </Box>
+                      <IconButton
+                        style={{
+                          width: '30px',
+                          height: '30px',
+                          backgroundColor: '#f0f0f0',
+                          borderRadius: '5px',
+                          color: 'black'
+                        }}
+                        onClick={increaseQuantity}
+                      >
+                        +
+                      </IconButton>
+                    </Box>
+                  </CardContent>
+                </Card>
+
+                {/* ปุ่ม add to cart AND buy now */}
+                <Card sx={{ marginBottom: 2 }}>
+                  <CardContent>
+                    <Grid container spacing={4}>
+                      <Grid item>
+                        <Button sx={{ width: 175 }} variant='outlined' startIcon={<ShoppingCartIcon />}>
+                          add to cart
+                        </Button>
+                      </Grid>
+                      <Grid item>
+                        <Button sx={{ width: 175 }} variant='contained' color='primary' onClick={handleBuyNowClick}>
+                          buy now
+                        </Button>
+                      </Grid>
+                    </Grid>
+                    <Typography variant='body1' style={{ color: 'gray' }}>
+                      Delivery time :
+                    </Typography>
+                    <Typography variant='body1' style={{ color: 'gray' }}>
+                      Will be delivered within 3-10 days.
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Box>
             </Grid>
+          </Grid>
+        </Box>
+
+        {/* รายละเอียด */}
+        <Box sx={{ marginY: 2 }}>
+          <Card>
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls='panel1a-content' id='panel1a-header'>
+                <Typography> Product details </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography>- {productdata.product_description}</Typography>
+              </AccordionDetails>
+            </Accordion>
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls='panel2a-content' id='panel2a-header'>
+                <Typography> Product specification </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography>
+                  {/* - Dimension : 33x14x4 cm <br />
+                  - Weight : 981 g <br />
+                  - Form Factor : 75% (82 Keys with Knob) <br />
+                  - Body Material :Plastic ABS <br />
+                  - Plate Material : Aluminium <br />
+                  - Keycap : PBT Doubleshot <br />
+                  - Switch : Gateron Pro Yellow (Pre-Lubed) <br />
+                  - Stabilizer : Plate mount Stabilizer (Pre-lubed) <br />
+                  - Backlight : South Facing RGB <br />
+                  - HotSwapplable : Support 3 pin & 5 pin MX Switch <br />
+                  - Lighting : 16.8 Million Color (22 Style Color mode) <br />
+                  - Connectivity : USB-C , USB Dongle(Wireless) , Bluetooth 5.0 <br />
+                  - Mounting : Gasket Mount <br />
+                  - Battery Capacity: 2,500 mAh - Cable Length : 140 cm <br />- Package Dimension : 38x23x7 cm - Package
+                  Weight : 1.4 kg */}
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls='panel1a-content' id='panel1a-header'>
+                <Typography> Product Ratings </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography>-</Typography>
+              </AccordionDetails>
+            </Accordion>
           </Card>
         </Box>
         {/* ---------------------------------------------------------------------------------- */}

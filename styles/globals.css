@@ -22,3 +22,11 @@ code:not([class*='language-']):after {
 code[class*='language-'] {
   padding: 0;
 }
+
+@media (max-width: 600px) { /* เปลี่ยนขนาดของหน้าจอตามที่คุณต้องการ */
+  /* จัดรูปแบบของ Payment component เมื่อหน้าจอเล็กลง */
+  .payment-container {
+    flex-direction: column; /* เรียงลงด้านล่างเมื่อหน้าจอเล็กลง */
+    align-items: center; /* จัดให้อยู่กึ่งกลาง */
+  }
+}
