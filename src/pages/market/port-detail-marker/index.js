@@ -355,12 +355,7 @@ const PosrtDetail = () => {
       headerName: 'Delete',
       minWidth: 120,
       renderCell: rowCell => (
-        <Button
-          variant='contained'
-          color='error'
-          onClick={e => handlePo_FileDelete(e, rowCell.row.po_id)}
-          startIcon={<DeleteIcon />}
-        >
+        <Button variant='contained' sx={{ marginRight: 2 }} onClick={e => handlePo_FileDelete(e, rowCell.row.po_id)}>
           Delete
         </Button>
       )
