@@ -357,9 +357,9 @@ const PosrtDetail = () => {
       renderCell: rowCell => (
         <Button
           variant='contained'
-          sx={{ marginRight: 2 }}
+          color='error'
           onClick={e => handlePo_FileDelete(e, rowCell.row.po_id)}
-          disabled={rowCell.row.po_status === '2'}
+          startIcon={<DeleteIcon />}
         >
           Delete
         </Button>
