@@ -1,40 +1,44 @@
 // ** React Imports
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState } from 'react'
 
-// ** MUI Imports
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import Grid from '@mui/material/Grid'
-import Link from '@mui/material/Link'
-import Avatar from '@mui/material/Avatar'
-import Hidden from '@mui/material/Hidden'
-import Button from '@mui/material/Button'
-import Divider from '@mui/material/Divider'
-import Container from '@mui/material/Container'
-import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
-import IconButton from '@mui/material/IconButton'
-import Breadcrumbs from '@mui/material/Breadcrumbs'
-
-// ** Next Router
+// ** Next Import
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-// ** Axios Import
-import axios from 'axios'
+// ** Material UI Imports
+import {
+  Avatar,
+  Box,
+  Breadcrumbs,
+  Button,
+  Card,
+  Chip,
+  Container,
+  Divider,
+  Grid,
+  Hidden,
+  IconButton,
+  TextField,
+  Typography
+} from '@mui/material'
 
 // ** MUI X Imports
 import { DataGrid } from '@mui/x-data-grid'
 
-// ** Material-UI Icons Imports
-import DeleteIcon from '@mui/icons-material/Delete'
-import MailOutlineIcon from '@mui/icons-material/MailOutline'
+// ** Axios Import
+import axios from 'axios'
 
-// ** MDI Icon Imports
-import CircleSmall from 'mdi-material-ui/CircleSmall'
+// ** Material-UI Icons Imports
+import TaskIcon from '@mui/icons-material/Task'
+import CloseIcon from '@mui/icons-material/Close'
+import DeleteIcon from '@mui/icons-material/Delete'
+import ChevronRight from 'mdi-material-ui/ChevronRight'
+import DownloadIcon from '@mui/icons-material/Download'
+import MailOutlineIcon from '@mui/icons-material/MailOutline'
 
 const PosrtDetail = () => {
   // นำเข้าตัวsweetalert2
-  const Swal = require('sweetalert2')
+  const SAlert = require('sweetalert2')
 
   // เรียกใช้งาน router
   const router = useRouter()
@@ -98,20 +102,20 @@ const PosrtDetail = () => {
 
     // ตรวจสอบค่าว่างใน TextField
     if (reqID === 'null' || userId === 'null' || recipient === 'null') {
-      Swal.fire({
+      SAlert.fire({
         icon: 'error',
-        title: 'ข้อมูลผิดพลาด...',
-        text: 'ยังไม่มีคนตอบแชท !'
+        title: 'Error information',
+        text: 'No one has answered yet!'
       })
 
       return
     }
 
     if (!comments) {
-      Swal.fire({
+      SAlert.fire({
         icon: 'error',
-        title: 'ข้อมูลผืดพลาด...',
-        text: 'กรุณากรอกข้อมูลก่อน Comment !'
+        title: 'Error information',
+        text: 'Please fill in information before commenting!'
       })
 
       return
@@ -127,9 +131,9 @@ const PosrtDetail = () => {
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.postchat`, data)
       console.log(response)
-      Swal.fire({
+      SAlert.fire({
         icon: 'success',
-        title: 'โพสข้อความสำเร็จ'
+        title: 'Posted a successful message'
       })
       setComment('')
       setShouldFetchData(!shouldFetchData)
@@ -140,12 +144,12 @@ const PosrtDetail = () => {
 
   // ฟังก์ชันลบข้อมูล
   const handleDeleteSubmit = query_id => {
-    Swal.fire({
-      title: 'คุณต้องการลบข้อมูลหรือไม่?',
+    SAlert.fire({
+      title: 'Do you want to delete the data?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'ใช่',
-      cancelButtonText: 'ไม่'
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No, keep it'
     }).then(result => {
       if (result.isConfirmed) {
         const data = {
@@ -158,27 +162,27 @@ const PosrtDetail = () => {
             console.log(response)
 
             if (response.status === 200) {
-              Swal.fire({
+              SAlert.fire({
                 icon: 'success',
-                title: 'ลบข้อมูลแล้วเสร็จ',
-                text: 'คุณไม่สามารถกู้คืนข้อมูลได้แล้ว'
+                title: 'Delete completed',
+                text: 'You are unable to recover data.'
               })
               setShouldFetchData(!shouldFetchData)
             } else {
-              Swal.fire({
+              SAlert.fire({
                 icon: 'error',
-                title: 'เกิดข้อผิดพลาด',
-                text: 'ไม่สามารถลบข้อมูลได้'
+                title: 'An error occurred.',
+                text: 'Unable to delete data'
               })
             }
           })
           .catch(function (error) {
             console.log(error)
 
-            Swal.fire({
+            SAlert.fire({
               icon: 'error',
-              title: 'เกิดข้อผิดพลาด',
-              text: 'ไม่สามารถลบข้อมูลได้'
+              title: 'An error occurred.',
+              text: 'Unable to delete data'
             })
           })
       } else if (result.isDenied) {
@@ -199,7 +203,7 @@ const PosrtDetail = () => {
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.approve_po`, data)
       console.log(response)
-      Swal.fire({
+      SAlert.fire({
         icon: 'success',
         title: 'Approve Success'
       })
@@ -223,7 +227,7 @@ const PosrtDetail = () => {
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.reject_po`, data)
       console.log(response)
-      Swal.fire({
+      SAlert.fire({
         icon: 'success',
         title: 'decline Success'
       })
@@ -272,29 +276,33 @@ const PosrtDetail = () => {
   // หัวตาราง Data Gride
   const columns = [
     { field: 'po_id', headerName: 'ID', minWidth: 100 },
-    { field: 'po_file_name', headerName: 'po', minWidth: 160 },
+    { field: 'po_file_name', headerName: 'PO', minWidth: 200 },
     {
       field: 'status',
       headerName: 'Status',
-      minWidth: 160,
+      minWidth: 200,
       renderCell: rowCell => {
         if (rowCell.row.po_status === '1') {
-          return <span>Normal</span>
+          return <Chip label='Waiting for approval' color='primary' />
         } else if (rowCell.row.po_status === '2') {
-          return <span>Approve Success</span>
+          return <Chip label='Approve Success' color='success' />
         } else if (rowCell.row.po_status === '0') {
-          return <span>Decline</span>
+          return <Chip label='Decline' color='error' />
         } else {
-          return <span>Unknow</span>
+          return <Chip label='Unknow' color='secondary' />
         }
       }
     },
     {
       field: 'download_button',
       headerName: 'Download',
-      width: 120,
+      width: 150,
       renderCell: rowCell => (
-        <Button variant='outlined' onClick={() => handleDownload(rowCell.row.po_file_name)}>
+        <Button
+          variant='outlined'
+          onClick={() => handleDownload(rowCell.row.po_file_name)}
+          startIcon={<DownloadIcon />}
+        >
           Download
         </Button>
       )
@@ -302,13 +310,14 @@ const PosrtDetail = () => {
     {
       field: 'Approve',
       headerName: 'Approve',
-      minWidth: 120,
+      minWidth: 150,
       renderCell: rowCell => (
         <Button
-          variant='outlined'
-          color='primary'
+          variant='contained'
+          color='success'
           onClick={e => handleApproveSubmit(e, rowCell.row.po_id)}
           disabled={rowCell.row.po_status === '2' || rowCell.row.po_status === '0'}
+          startIcon={<TaskIcon />}
         >
           Approve
         </Button>
@@ -317,13 +326,14 @@ const PosrtDetail = () => {
     {
       field: 'Reject',
       headerName: 'Reject',
-      minWidth: 120,
+      minWidth: 150,
       renderCell: rowCell => (
         <Button
           variant='contained'
-          sx={{ marginRight: 2 }}
+          color='error'
           onClick={e => handleRejectSubmit(e, rowCell.row.po_id)}
           disabled={rowCell.row.po_status === '2' || rowCell.row.po_status === '0'}
+          startIcon={<CloseIcon />}
         >
           Reject
         </Button>
@@ -334,173 +344,184 @@ const PosrtDetail = () => {
   return (
     <Container maxWidth='xl'>
       <Box>
-        {/* แทบไปหน้าต่างๆ */}
         <Box sx={{ width: '100%' }}>
           <Card
             sx={{
-              width: '100%',
               height: '100px',
-              mb: '20px',
-              p: '20px 25px 20px',
-              bgcolor: '#FDEDE8',
-              border: '1px solid #FDEDE8'
+              marginBottom: '30px',
+              padding: '15px 25px 20px',
+              backgroundColor: '#2d2e81',
+              border: '1px solid #primary.main'
             }}
           >
             <Grid container alignItems='center'>
               <Grid item xs={12} sm={8} md={8}>
-                <Typography variant='h4' fontSize='1.3rem bold' color='#FA896B'>
-                  Blog Member Detail
+                <Typography variant='h4' fontSize='21px bold' color='#fff'>
+                  Shop
                 </Typography>
-                <Breadcrumbs separator={<CircleSmall />} aria-label='breadcrumb'>
-                  <Link underline='none' color='inherit' href='/'>
-                    <Typography variant='body2'>Home</Typography>
+                <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
+                  <Link href='/' passHref>
+                    <Typography color='#fff' variant='h6' fontSize='14px'>
+                      Home
+                    </Typography>
                   </Link>
-                  <Link underline='none' color='inherit' href='/member/ports/'>
-                    <Typography variant='body2'>Posts</Typography>
+                  <Link href='/member/ports/' passHref>
+                    <Typography color='#fff' variant='h6' fontSize='14px'>
+                      Post
+                    </Typography>
                   </Link>
-                  <Link underline='none' color='inherit'>
-                    <Typography variant='body2'>Blog post</Typography>
-                  </Link>
+                  <Typography color='#fff' variant='h6' fontSize='14px'>
+                    Details
+                  </Typography>
                 </Breadcrumbs>
               </Grid>
               <Hidden smDown>
                 <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <MailOutlineIcon sx={{ fontSize: 52, color: '#FA896B' }} />
+                  <MailOutlineIcon sx={{ fontSize: 72, color: '#fff' }} />
                 </Grid>
               </Hidden>
             </Grid>
           </Card>
         </Box>
-        {/* เนื้อหา */}
-        <Box sx={{ width: '100%' }}>
-          <Card sx={{ width: '100%', height: '100%', mb: '20px', border: '1px solid #FDEDE8' }}>
-            <Box sx={{ width: '100%', padding: '20px' }}>
-              <Box
-                sx={{
-                  width: '100%',
-                  marginBottom: 4,
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'flex-start',
-                  alignItems: 'center'
-                }}
-              >
-                <Avatar alt='John Doe' sx={{ width: 40, height: 40, marginRight: 4 }} src='/images/avatars/1.png' />
-                {/* ชื่อคน post */}
-                {postData && (
-                  <Typography variant='body1' fontSize='1.2rem bold' textAlign='center' color='#222'>
-                    Post By : {postData.user_first_name} {postData.user_last_name}
-                  </Typography>
-                )}
-              </Box>
-              {/* หัวข้อ */}
-              <Typography variant='h4' fontSize='2.2rem bold' color='#222'>
-                Title {postData.req_header}
-              </Typography>
-            </Box>
-            <Divider />
-            <Box sx={{ width: '100%', padding: '10px 20px 20px' }}>
-              <Box sx={{ width: '100%' }}>
-                <Typography variant='h5' fontSize='1.8rem bold' color='#222' sx={{ marginBottom: 2 }}>
-                  Detail
+        {/* ---------- content ---------- */}
+        <Card variant='outlined' sx={{ width: '100%', height: '100%', marginBottom: '20px', boxShadow: 2 }}>
+          <Box sx={{ width: '100%', padding: '20px 20px 8px' }}>
+            <Box
+              sx={{
+                width: '100%',
+                marginBottom: 4,
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'flex-start',
+                alignItems: 'center'
+              }}
+            >
+              <Avatar alt='John Doe' sx={{ width: 40, height: 40, marginRight: 4 }} src='/images/avatars/1.png' />
+              {/* ชื่อคน post */}
+              {postData && (
+                <Typography variant='h6' fontSize='24px bold' textAlign='center' color='#222'>
+                  {postData.user_first_name} {postData.user_last_name}
                 </Typography>
-              </Box>
-              {/* เนื้อหาคน post */}
-              <Typography variant='body2' fontSize='1rem' color='#222'>
-                {postData.req_description}
-              </Typography>
-              <Divider />
+              )}
             </Box>
-            <Box sx={{ width: '100%', padding: '0px 20px 20px' }}>
-              <Typography variant='h5' fontSize='1.8rem bold' color='#222' sx={{ marginBottom: 2 }}>
-                Offer
-              </Typography>
-              {/* ตาราง */}
-              <Box sx={{ width: '100%', height: '300px' }}>
-                <DataGrid
-                  rows={poData || []}
-                  columns={columns}
-                  getRowId={row => row.po_id}
-                  pageSize={5}
-                  rowsPerPageOptions={[5, 10, 20]}
-                  components={{
-                    NoRowsOverlay: () => <div style={{ textAlign: 'center', padding: '16px' }}>No data</div>
-                  }}
-                />
-              </Box>
-            </Box>
-          </Card>
-        </Box>
-
-        {/* แสดงความคิดเห็น */}
-
-        <Box sx={{ width: '100%' }}>
-          {/* Post Comment */}
-          <Box sx={{ width: '100%', padding: '20px' }}>
-            <Typography variant='h6' fontSize='2.2rem bold' color='#222' sx={{ marginBottom: 2 }}>
-              Post Comments
+            {/* หัวข้อ */}
+            <Typography variant='h4' fontSize='24px bold' color='#222'>
+              Title: {postData.req_header}
             </Typography>
-            <TextField
-              fullWidth
-              multiline
-              rows={4}
-              sx={{ marginBottom: 4 }}
-              onChange={handleComment}
-              value={comments}
-            ></TextField>
-            <Button variant='contained' onClick={handleCommentSubmit}>
-              Post Comment
-            </Button>
           </Box>
-
-          {questionData && questionData.length > 0 ? (
-            questionData.map((question, index) => (
-              <Card
-                key={index}
-                sx={{
-                  width: '100%',
-                  height: '100%',
-                  mb: '20px',
-                  bgcolor: question.sender === userId ? 'blue' : '#FDEDE8', // ตั้งสีพื้นหลังตามเงื่อนไข ไปเปลี่ยนสี blue เป็นสีอื่น
-                  border: '3px solid #FDEDE8'
+          <Divider />
+          <Box sx={{ width: '100%', padding: '10px 20px 20px' }}>
+            <Box sx={{ width: '100%' }}>
+              <Typography variant='h5' fontSize='24px bold' color='#222' sx={{ marginBottom: 2 }}>
+                Detail
+              </Typography>
+            </Box>
+            {/* เนื้อหาคน post */}
+            <Typography variant='body2' fontSize='18px' color='#222'>
+              {postData.req_description}
+            </Typography>
+            <Divider sx={{ marginTop: 4 }} />
+          </Box>
+          <Box sx={{ width: '100%', padding: '0px 20px 20px' }}>
+            <Typography variant='h4' fontSize='24px bold' color='#000' sx={{ marginBottom: 2 }}>
+              Offer
+            </Typography>
+            {/* ตาราง */}
+            <Box sx={{ width: '100%', height: '300px' }}>
+              <DataGrid
+                rows={poData || []}
+                columns={columns}
+                getRowId={row => row.po_id}
+                pageSize={5}
+                rowsPerPageOptions={[5, 10, 20]}
+                components={{
+                  NoRowsOverlay: () => <div style={{ textAlign: 'center', padding: '16px' }}>No data</div>
                 }}
-              >
-                <Box sx={{ width: '100%', padding: '20px' }}>
-                  <Box
+              />
+            </Box>
+          </Box>
+        </Card>
+        {/* ---------- Comment ---------- */}
+        <Card variant='outlined' sx={{ width: '100%', height: '100%', marginBottom: '20px', boxShadow: 2 }}>
+          <Box sx={{ width: '100%', padding: '20px 20px 8px' }}>
+            <Box sx={{ width: '100%' }}>
+              <Typography variant='h5' fontSize='24px bold' color='#222' sx={{ marginBottom: 2 }}>
+                Post Comments
+              </Typography>
+              <TextField
+                fullWidth
+                multiline
+                rows={4}
+                sx={{ marginBottom: 4 }}
+                onChange={handleComment}
+                value={comments}
+              ></TextField>
+              <Button variant='contained' onClick={handleCommentSubmit}>
+                Post Comment
+              </Button>
+            </Box>
+          </Box>
+          <Divider />
+          <Box sx={{ width: '100%', padding: '10px 20px 20px' }}>
+            <Box sx={{ width: '100%' }}>
+              <Typography variant='h6' fontSize='18px bold' color='#222' sx={{ marginBottom: 2 }}>
+                Comment
+              </Typography>
+              {questionData && questionData.length > 0 ? (
+                questionData.map((question, index) => (
+                  <Card
+                    key={index}
+                    variant='outlined'
                     sx={{
                       width: '100%',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignContent: 'center'
+                      height: '100%',
+                      marginBottom: '20px',
+                      boxShadow: 2,
+                      backgroundColor: question.sender === userId ? '#3A46A7' : '#FFCA64 ' // ตั้งสีพื้นหลังตามเงื่อนไข ไปเปลี่ยนสี blue เป็นสีอื่น
                     }}
                   >
-                    {question.sender === userId ? (
-                      <Typography variant='h6' fontSize='2.2rem bold' color='white'>
-                        {question.user_first_name} {question.user_last_name}
+                    <Box sx={{ width: '100%', padding: '20px' }}>
+                      <Box
+                        sx={{
+                          width: '100%',
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignContent: 'center'
+                        }}
+                      >
+                        {question.sender === userId ? (
+                          <Typography variant='h6' fontSize='2.2rem bold' color='#fff'>
+                            {question.user_first_name} {question.user_last_name}
+                          </Typography>
+                        ) : (
+                          <Typography variant='h6' fontSize='2.2rem bold' color='#000'>
+                            Market
+                          </Typography>
+                        )}
+                        {question.sender === userId && ( // เช็คว่า sender เท่ากับ userId ก่อนแสดง IconButton
+                          <IconButton onClick={() => handleDeleteSubmit(question.query_id)}>
+                            <DeleteIcon sx={{ fontSize: 28, color: '#fff' }} />
+                          </IconButton>
+                        )}
+                      </Box>
+                    </Box>
+                    <Box sx={{ width: '100%', padding: '0px 20px 20px' }}>
+                      <Typography variant='body2' fontSize='1rem' color={question.sender === userId ? '#fff' : '#000'}>
+                        {question.query_description}
                       </Typography>
-                    ) : (
-                      <Typography variant='h6' fontSize='2.2rem bold' color='#222'>
-                        ร้านค้า
-                      </Typography>
-                    )}
-                    {question.sender === userId && ( // เช็คว่า sender เท่ากับ userId ก่อนแสดง IconButton
-                      <IconButton onClick={() => handleDeleteSubmit(question.query_id)}>
-                        <DeleteIcon sx={{ fontSize: 28, color: 'text.primary' }} />
-                      </IconButton>
-                    )}
-                  </Box>
-                </Box>
-                <Box sx={{ width: '100%', padding: '0px 20px 20px' }}>
-                  <Typography variant='body2' fontSize='1rem' color={question.sender === userId ? 'white' : '#222'}>
-                    {question.query_description}
+                    </Box>
+                  </Card>
+                ))
+              ) : (
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <Typography variant='h6' fontSize='24px bold'>
+                    No one has commented yet.
                   </Typography>
                 </Box>
-              </Card>
-            ))
-          ) : (
-            <Typography variant='body2'>No data</Typography>
-          )}
-        </Box>
+              )}
+            </Box>
+          </Box>
+        </Card>
       </Box>
     </Container>
   )
