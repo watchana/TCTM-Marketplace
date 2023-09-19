@@ -90,6 +90,40 @@ const Checkout = ({}) => {
     // )
   }
 
+  const handleSubmitData = async event => {
+    event.preventDefault()
+    try {
+      const data = {
+        sub_bank_number: idcard,
+        sub_tel: tel,
+        sub_email: email,
+        sub_name: storename,
+        sub_description: storedetails,
+        sub_address: address,
+        sub_address_shop: '1',
+        sub_address_claim: '1',
+        member_id: member_id,
+        sub_image: imageName
+      }
+
+      await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.register.registerMarket`, data)
+
+      Swal.fire({
+        icon: 'success',
+        title: 'ส่งข้อมูลสำเร็จ',
+        text: 'กรุณารอ การยืนยันจาก TCTM'
+      })
+
+      router.push('/')
+    } catch (error) {
+      console.error(error)
+      Swal.fire({
+        icon: 'error',
+        title: 'Error'
+      })
+    }
+  }
+
   return (
     <Container>
       <Box>
