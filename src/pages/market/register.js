@@ -157,7 +157,7 @@ const RegisterSupplier = () => {
         sub_pay_number: paypalnumber
       }
 
-      console.log('data', data)
+      // console.log('data', data)
 
       await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.register.registerMarket`, data)
 

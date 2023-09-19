@@ -49,6 +49,12 @@ const Checkout = ({}) => {
   const tax = 12 / 100 // ภาษี
   const discount = 150 // ส่วนลด
 
+  // คำนวณค่ารวม
+  // ตัวแปรคำนวณค่าก่อนแสดง
+  const RealPrice = price * quantity // ราคาสินค้า
+  const Realtex = parseFloat((tax * RealPrice).toFixed(2))
+  const total = RealPrice + Shipping_cost + Realtex - discount
+
   // ตัวแปรเก็บค่าตัวเลือก
   let parsedSelection = null
 
@@ -103,10 +109,12 @@ const Checkout = ({}) => {
       member_id: userId,
       sub_id: sub_id,
       type: 'product',
-      option: parsedSelection
+      option: parsedSelection,
+      amount: quantity,
+      total: total
     }
 
-    // console.log('data', data)
+    console.log('Bill data', data)
 
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.gen_invoice`, data)
