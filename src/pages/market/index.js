@@ -301,9 +301,7 @@ const MyMarket = () => {
               </Box>
             </TabPanel>
             <TabPanel value='2'>
-              <Box sx={{ padding: '10px 10px 15px' }}>
-                <Orders />
-              </Box>
+              <Orders />
             </TabPanel>
             <TabPanel value='3'>
               <Requirement sub_id={subId} />

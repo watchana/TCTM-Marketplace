@@ -74,11 +74,11 @@ const columns = [
     }
   },
   {
-    field: 'view',
-    headerName: 'View',
+    field: 'Detail',
+    headerName: 'Detail',
     width: 150,
     renderCell: rowCell => (
-      <Button variant='contained' endIcon={<EyeOutline />}>
+      <Button variant='outlined' endIcon={<EyeOutline />}>
         View
       </Button>
     )
@@ -107,7 +107,7 @@ const columns = [
 
 const Orders = () => {
   return (
-    <Box>
+    <Box sx={{ padding: '10px 10px 15px' }}>
       <Grid container spacing={3}>
         <Grid item xl={2} lg={2} md={2} sm={12} xs={12}>
           <FormControl fullWidth size='small' variant='outlined' sx={{ maxHeight: '42px', height: '42px' }}>
