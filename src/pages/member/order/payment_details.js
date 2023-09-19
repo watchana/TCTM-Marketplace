@@ -68,32 +68,37 @@ const Payment = () => {
         border: '2px solid #primary.main'
       }}
     >
-      <Grid container spacing={3} rowSpacing={2} sx={{ pt: { md: 3 } }}>
-        <Grid item xs={6} sm={12}>
+      <Grid container spacing={3} rowSpacing={2}>
+        <Grid item xs={12} sm={12} md={12}>
           <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
             Payment Details
           </Typography>
         </Grid>
-        <Grid item xs={6} sm={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Grid item xs={12} sm={12} md={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <img
             src='https://inex.co.th/home/wp-content/uploads/2022/11/%E0%B8%AA%E0%B8%A5%E0%B8%B4%E0%B8%9B%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B9%82%E0%B8%AD%E0%B8%99%E0%B9%80%E0%B8%87%E0%B8%B4%E0%B8%99-1.jpg'
-            style={{ maxWidth: '300px' }} // จำกัดความกว้างเป็น 50%
+            style={{ maxWidth: '40%', height: 'auto' }}
             alt='Payment Details'
           />
         </Grid>
       </Grid>
       <hr />
-      <Grid container alignItems={'center'} spacing={3} rowSpacing={2} sx={{ pt: { md: 3 } }}>
-        <Grid item xs={6} sm={12}>
+      <Grid container alignItems='center' spacing={3} rowSpacing={2}>
+        <Grid item xs={12} sm={12} md={6}>
           <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
             Management
           </Typography>
         </Grid>
-        <Grid item xs={6} sm={6}>
-          <Typography variant='subtitle1'>Status </Typography>
+        <Grid item xs={12} sm={9}>
+          <Typography variant='subtitle1' sx={{ textAlign: 'start' }}>
+            Status
+          </Typography>
         </Grid>
-        <Grid item xs={6} sm={6} sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
-          <FormControl sx={{ m: 1, minWidth: 120 }} size='small'>
+        <Grid item xs={6} sm={3}>
+          <FormControl
+            sx={{ m: 1, minWidth: 120, width: '100%', display: 'flex', justifyContent: 'flex-end' }}
+            size='small'
+          >
             <InputLabel id='demo-select-small-label'>Status</InputLabel>
             <Select
               labelId='demo-select-small-label'
@@ -110,30 +115,34 @@ const Payment = () => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={6} sm={12}>
+        <Grid item xs={12} sm={12} md={12}>
           <Typography variant='subtitle1'>Tracking Number</Typography>
         </Grid>
-        <Grid item xs={6} sm={10}>
+        <Grid item xs={12} sm={12} md={9}>
           <TextField sx={{ width: '100%' }} />
         </Grid>
-        <Grid item xs={6} sm={1.8} sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
+        <Grid item xs={12} sm={12} md={3} sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
           <Button variant='contained' sx={{ width: '100%' }}>
             Submit
           </Button>
         </Grid>
-        <Grid item xs={6} sm={12}>
+        <Grid item xs={12} sm={12} md={6}>
           <Box>
-            <Grid item xs={6} sm={3.5} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <Button variant='contained' sx={{ width: '100%' }}>
-                Upload Image
-              </Button>
+            <Grid container spacing={2}>
               <Grid
                 item
-                xs={6}
-                sm={4}
-                sx={{ textAlign: { xs: 'left', sm: 'right' }, p: '0px 15px 0px', width: '100%' }}
+                xs={12}
+                sm={12}
+                md={6}
+                sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
               >
+                <Button variant='contained' sx={{ width: '100%' }}>
+                  Upload Image
+                </Button>
+              </Grid>
+              <Grid item xs={12} sm={12} md={3} sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
                 <label htmlFor='file-input'>
+                <span>{selectedFileName || 'Select_Image_File '}</span>
                   <input
                     type='file'
                     accept='image/*'
@@ -141,7 +150,6 @@ const Payment = () => {
                     style={{ display: 'none' }}
                     onChange={handleFileUpload}
                   />
-                  <span>{selectedFileName || 'Select_Image_File '}</span>
                 </label>
               </Grid>
             </Grid>

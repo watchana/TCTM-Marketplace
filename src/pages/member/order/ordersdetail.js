@@ -96,14 +96,14 @@ const Orders_Detail = () => {
         </Box>
 
         <Grid container>
-          <Grid item sm={8} md={5}>
+          <Grid item sm={12} md={5}>
             <Grid container spacing={2}>
-              <Grid item sm={6} md={11} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+              <Grid item sm={12} md={11} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
                 <Box sx={{ width: '100%' }}>
                   <Total />
                 </Box>
               </Grid>
-              <Grid item sm={6} md={11} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+              <Grid item sm={12} md={11} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
                 <Box sx={{ width: '100%' }}>
                   <Delivery />
                 </Box>
@@ -111,7 +111,7 @@ const Orders_Detail = () => {
             </Grid>
           </Grid>
 
-          <Grid item sm={4} md={7} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+          <Grid item sm={12} md={7} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
             <Box sx={{ width: '100%' }}>
               <Paymant />
             </Box>
