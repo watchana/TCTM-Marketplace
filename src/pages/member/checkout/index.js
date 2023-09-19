@@ -114,7 +114,7 @@ const Checkout = ({}) => {
       total: total
     }
 
-    console.log('Bill data', data)
+    // console.log('Bill data', data)
 
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.gen_invoice`, data)
@@ -181,7 +181,15 @@ const Checkout = ({}) => {
                 summary
               </Typography>
             </Grid>
-            <Summary price={price} quantity={quantity} Shipping_cost={Shipping_cost} tax={tax} discount={discount} />
+            <Summary
+              price={price}
+              quantity={quantity}
+              Shipping_cost={Shipping_cost}
+              tax={tax}
+              discount={discount}
+              total={total}
+              Realtex={Realtex}
+            />
           </Grid>
           <Grid container spacing={2} alignItems='center' sx={{ width: '96%', p: 2.5, marginTop: 3, marginLeft: 1 }}>
             <Box sx={{ width: '62%', display: 'flex', justifyContent: 'center' }}>

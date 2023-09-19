@@ -4,12 +4,7 @@ import React from 'react'
 // ** MUI Imports
 import { Avatar, Box, Button, Card, Divider, Grid, Radio, Stack, TextField, Typography } from '@mui/material'
 
-const Summary = ({ price, quantity, Shipping_cost, tax, discount }) => {
-  // ตัวแปรคำนวณค่าก่อนแสดง
-  const RealPrice = price * quantity // ราคาสินค้า
-  const Realtex = parseFloat((tax * RealPrice).toFixed(2))
-  const total = RealPrice + Shipping_cost + Realtex - discount
-
+const Summary = ({ price, quantity, Shipping_cost, tax, discount, total, Realtex }) => {
   // console.log('Real Price', RealPrice)
 
   return (
