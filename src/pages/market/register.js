@@ -46,6 +46,11 @@ const RegisterSupplier = () => {
   const [idcard, setIdCard] = useState('') // ตัวแปรเก็บค่า Id Card
   const [address, setAddress] = useState('') // ตัวแปรเก็บค่า ที่อยู่
 
+  const [bankname, setBankName] = useState('') // ตัวแปรเก็บค่า ชื่อธนาคาร
+  const [bookbankname, setBookBankName] = useState('') // ตัวแปรเก็บค่า ชื่อหน้าสมุดธนาคาร
+  const [paypalname, setpaypalName] = useState('') // ตัวแปรเก็บค่า ชื่อ paypal
+  const [paypalnumber, setPaypalNumber] = useState('') // ตัวแปรเก็บค่าเลข paypal
+
   // ตัวแปรเช็คสถานะการส่งข้อมูล
   const [isSubmitted, setIsSubmitted] = useState(false)
 
@@ -79,13 +84,46 @@ const RegisterSupplier = () => {
     setAddress(event.target.value)
   }
 
+  // ฟังก์ชันบัณทึกค่าของ BankName
+  const handleBankNameSet = event => {
+    setBankName(event.target.value)
+  }
+
+  // ฟังก์ชันบัณทึกค่าของ BookBankName
+  const handleBookBankNameSet = event => {
+    setBookBankName(event.target.value)
+  }
+
+  // ฟังก์ชันบัณทึกค่าของ paypalName
+  const handlepaypalNameSet = event => {
+    setpaypalName(event.target.value)
+  }
+
+  // ฟังก์ชันบัณทึกค่าของ PaypalNumber
+  const handlePaypalNumberSet = event => {
+    setPaypalNumber(event.target.value)
+  }
+
   const handleSubmitData = async event => {
     event.preventDefault()
     setIsSubmitted(true)
 
     const member_id = localStorage.getItem('Member_Id')
 
-    const fieldsToCheck = [idcard, tel, email, storename, storedetails, address, imageName, member_id]
+    const fieldsToCheck = [
+      idcard,
+      tel,
+      email,
+      storename,
+      storedetails,
+      address,
+      imageName,
+      member_id,
+      bankname,
+      bookbankname,
+      paypalname,
+      paypalnumber
+    ]
     if (fieldsToCheck.some(field => field === '' || field === null || field === undefined)) {
       Swal.fire({
         icon: 'error',
@@ -112,10 +150,14 @@ const RegisterSupplier = () => {
         sub_address_shop: '1',
         sub_address_claim: '1',
         member_id: member_id,
-        sub_image: imageName
+        sub_image: imageName,
+        sub_bank_name: bankname,
+        sub_book_bank_name: bookbankname,
+        sub_pay_name: paypalname,
+        sub_pay_number: paypalnumber
       }
 
-      console.log('data', data)
+      // console.log('data', data)
 
       await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.register.registerMarket`, data)
 
@@ -321,6 +363,99 @@ const RegisterSupplier = () => {
                       onChange={handleAddressSet}
                       error={address === '' && isSubmitted}
                       helperText={address === '' && isSubmitted ? 'Please enter your address.' : ''}
+                    ></TextField>
+                  </Box>
+                </Grid>
+              </Grid>
+            </Box>
+            <Divider sx={{ marginY: 6, color: '#FE8C8C' }}>Bank Detail</Divider>
+            {/* ชื่อธนาคารธนาคาร */}
+            <Box sx={{ width: '100%', marginBottom: 4 }}>
+              <Grid container>
+                <Grid item md={4}>
+                  <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
+                    Bank Name
+                  </Typography>
+                </Grid>
+                <Grid item md={8}>
+                  <Box sx={{ width: '100%' }}>
+                    <TextField
+                      fullWidth
+                      size='small'
+                      label='Bank Name *'
+                      value={bankname}
+                      onChange={handleBankNameSet}
+                      error={bankname === '' && isSubmitted}
+                      helperText={bankname === '' && isSubmitted ? 'Please enter your bank name.' : ''}
+                    ></TextField>
+                  </Box>
+                </Grid>
+              </Grid>
+            </Box>
+            {/* ชื่อคนหน้าสมุด */}
+            <Box sx={{ width: '100%', marginBottom: 4 }}>
+              <Grid container>
+                <Grid item md={4}>
+                  <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
+                    Book Bank Name
+                  </Typography>
+                </Grid>
+                <Grid item md={8}>
+                  <Box sx={{ width: '100%' }}>
+                    <TextField
+                      fullWidth
+                      size='small'
+                      label='Book Bank Name *'
+                      value={bookbankname}
+                      onChange={handleBookBankNameSet}
+                      error={bookbankname === '' && isSubmitted}
+                      helperText={bookbankname === '' && isSubmitted ? 'Please enter your book bank name.' : ''}
+                    ></TextField>
+                  </Box>
+                </Grid>
+              </Grid>
+            </Box>
+            {/* ชื่อ paypal */}
+            <Box sx={{ width: '100%', marginBottom: 4 }}>
+              <Grid container>
+                <Grid item md={4}>
+                  <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
+                    paypal Name
+                  </Typography>
+                </Grid>
+                <Grid item md={8}>
+                  <Box sx={{ width: '100%' }}>
+                    <TextField
+                      fullWidth
+                      size='small'
+                      label='Paypal *'
+                      value={paypalname}
+                      onChange={handlepaypalNameSet}
+                      error={paypalname === '' && isSubmitted}
+                      helperText={paypalname === '' && isSubmitted ? 'Please enter your paypal.' : ''}
+                    ></TextField>
+                  </Box>
+                </Grid>
+              </Grid>
+            </Box>
+            {/* เลข paypal */}
+            <Box sx={{ width: '100%', marginBottom: 4 }}>
+              <Grid container>
+                <Grid item md={4}>
+                  <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
+                    Paypal Number
+                  </Typography>
+                </Grid>
+                <Grid item md={8}>
+                  <Box sx={{ width: '100%' }}>
+                    <TextField
+                      fullWidth
+                      size='small'
+                      label='Paypal *'
+                      value={paypalnumber}
+                      onChange={handlePaypalNumberSet}
+                      error={paypalnumber === '' && isSubmitted}
+                      helperText={paypalnumber === '' && isSubmitted ? 'Please enter your paypal number.' : ''}
                     ></TextField>
                   </Box>
                 </Grid>

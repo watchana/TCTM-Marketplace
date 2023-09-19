@@ -1,42 +1,52 @@
 // ** React Imports
 import React, { useEffect, useState, useRef } from 'react'
 
-// ** MUI Imports
-import Box from '@mui/material/Box'
-import Tab from '@mui/material/Tab'
-import Card from '@mui/material/Card'
-import Link from '@mui/material/Link'
-import Grid from '@mui/material/Grid'
-import TabList from '@mui/lab/TabList'
-import Stack from '@mui/material/Stack'
-import TabPanel from '@mui/lab/TabPanel'
-import Hidden from '@mui/material/Hidden'
-import Button from '@mui/material/Button'
-import TabContext from '@mui/lab/TabContext'
-import Container from '@mui/material/Container'
-import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
-import InputLabel from '@mui/material/InputLabel'
-import FormControl from '@mui/material/FormControl'
-import Breadcrumbs from '@mui/material/Breadcrumbs'
-import Autocomplete from '@mui/material/Autocomplete'
-import { Select, MenuItem } from '@mui/material'
-
-import { DataGrid } from '@mui/x-data-grid'
-import axios from 'axios'
-import { get, set } from 'local-storage'
+// ** Next Import
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-// ** Icons Imports
-import Plus from 'mdi-material-ui/Plus'
-import CircleSmall from 'mdi-material-ui/CircleSmall'
-import ChevronRight from 'mdi-material-ui/ChevronRight'
+// ** Material UI Imports
+import {
+  Box,
+  Breadcrumbs,
+  Button,
+  Card,
+  Container,
+  FormControl,
+  Grid,
+  Hidden,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  Tab,
+  TextField,
+  Typography
+} from '@mui/material'
+
+// ** Material UI Tabs Imports
+import { TabContext, TabList, TabPanel } from '@mui/lab'
 
 // ** Material-UI Icons Imports
 import LocalAtmIcon from '@mui/icons-material/LocalAtm'
 import StorefrontIcon from '@mui/icons-material/Storefront'
 
+// ** Material Design Icons Imports
+import Plus from 'mdi-material-ui/Plus'
+import CircleSmall from 'mdi-material-ui/CircleSmall'
+import ChevronRight from 'mdi-material-ui/ChevronRight'
+
+// ** MUI X Imports
+import { DataGrid } from '@mui/x-data-grid'
+
+// ** Axios Import
+import axios from 'axios'
+
+// ** Local Storage Import
+import { get } from 'local-storage'
+
 // ** Components Imports
+import Orders from './orders'
 import Requirement from './requirement'
 
 // ** Data Grid Columns
@@ -63,8 +73,6 @@ const MyMarket = () => {
   const [storeStatus, setStoreStatus] = useState('')
   const [subId, setSubId] = useState('') // เก็บค่า Sub Id
 
-  // console.log('หาค่า 555', subId)
-
   // ตัวแปรควบคุม State
   const [searchText, setSearchText] = useState('') //state สำหรับเก็บข้อมูลการค้นหา
 
@@ -84,8 +92,8 @@ const MyMarket = () => {
     if (storeStatus === '0') {
       Swal.fire({
         icon: 'error',
-        title: 'คุณโดนแบน',
-        text: 'คุณถูกแบนการเข้าใช้งาน'
+        title: 'You are banned.',
+        text: 'You are prohibited from accessing.'
       })
 
       // Redirect ไปหน้า /
@@ -93,8 +101,8 @@ const MyMarket = () => {
     } else if (storeStatus === '1') {
       Swal.fire({
         icon: 'info',
-        title: 'กรุณารอการดำเนินการ',
-        text: 'บัญชีของคุณกำลังรอการอนุมัติ'
+        title: 'Please wait for processing.',
+        text: 'Your account is waiting for approval.'
       })
 
       // Redirect ไปหน้า /
@@ -125,61 +133,66 @@ const MyMarket = () => {
 
   const SearchMenu = () => {
     return (
-      <>
-        <Grid container spacing={2}>
-          <Grid item xl={2} lg={2} md={2} sm={3} xs={12}>
-            <FormControl fullWidth>
-              <InputLabel id='demo-simple-select-label'>Category</InputLabel>
-              <Select
-                labelId='demo-simple-select-label'
-                id='demo-simple-select'
-                value={selectedCategory}
-                label='Category'
-                onChange={handleCategoryChange}
-              >
-                {uniqueCategoryIds.map(categoryId => (
-                  <MenuItem key={categoryId} value={categoryId}>
-                    {categoryId}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xl={9} lg={9} md={9} sm={7} xs={9}>
-            <FormControl fullWidth>
-              <TextField
-                id='outlined-basic'
-                label='Search'
-                variant='outlined'
-                value={searchText}
-                onChange={e => setSearchText(e.target.value)}
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xl={1} lg={1} md={1} sm={2} xs={3}>
-            <Button fullWidth variant='contained' color='primary' sx={{ height: '100%' }} onClick={handleSearch}>
-              Search
-            </Button>
-          </Grid>
+      <Grid container spacing={3}>
+        <Grid item xl={2} lg={2} md={2} sm={12} xs={12}>
+          <FormControl fullWidth size='small' variant='outlined' sx={{ maxHeight: '42px', height: '42px' }}>
+            <InputLabel id='demo-simple-select-outlined-label'>Category</InputLabel>
+            <Select
+              labelId='demo-simple-select-outlined-label'
+              id='demo-simple-select-outlined'
+              value={selectedCategory}
+              onChange={handleCategoryChange}
+              label='Category'
+            >
+              {uniqueCategoryIds.map(category => (
+                <MenuItem key={category} value={category}>
+                  {category}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </Grid>
-        <Box sx={{ marginY: 4 }}>
-          <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-              <Typography variant='body1' fontSize='1.5rem bold' color='#111'>
-                {productdata && productdata.length > 0 ? productdata.length : 0}
-              </Typography>
-              <Typography variant='body2' fontSize='1rem' color='#333' sx={{ marginLeft: 1 }}>
-                Products
-              </Typography>
-            </Box>
-            <Box>
-              <Button size='small' variant='outlined' color='primary' onClick={handleReset}>
-                Reset
-              </Button>
-            </Box>
+        <Grid item xl={3} lg={3} md={3} sm={8} xs={8}>
+          <TextField
+            fullWidth
+            size='small'
+            label='Search'
+            variant='outlined'
+            value={searchText}
+            onChange={e => {
+              handleSearch(e.target.value)
+              setSearchText(e.target.value)
+            }}
+          />
+        </Grid>
+        <Grid item xl={1} lg={1} md={1} sm={4} xs={4}>
+          <Button fullWidth size='small' variant='outlined' onClick={handleReset} sx={{ height: '100%' }}>
+            Reset
+          </Button>
+        </Grid>
+        <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
+          <Stack direction='row' spacing={2} justifyContent='flex-end'>
+            <Button
+              variant='contained'
+              color='primary'
+              startIcon={<Plus />}
+              onClick={() => {
+                router.push(`/market/add-product/?sub_id=${subId}`)
+              }}
+              sx={{ width: { xs: '100%', md: '180px' }, height: '100%' }}
+            >
+              Add Product
+            </Button>
+          </Stack>
+        </Grid>
+        <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+          <Box sx={{ display: 'flex', flexDirection: 'row', paddingLeft: 1 }}>
+            <Typography variant='body1' fontSize='1.5rem bold' color='#000'>
+              {productdata && productdata.length > 0 ? productdata.length : 0} Products
+            </Typography>
           </Box>
-        </Box>
-      </>
+        </Grid>
+      </Grid>
     )
   }
 
@@ -210,167 +223,94 @@ const MyMarket = () => {
   return (
     <Container maxWidth='xl'>
       <Box>
-        {/* แทบไปหน้าต่างๆ */}
         <Box sx={{ width: '100%' }}>
           <Card
             sx={{
-              width: '100%',
               height: '100px',
-              mb: '20px',
-              p: '20px 25px 20px',
-              bgcolor: '#FDEDE8',
-              border: '1px solid #FDEDE8'
+              marginBottom: '30px',
+              padding: '15px 25px 20px',
+              backgroundColor: '#2d2e81',
+              border: '1px solid #primary.main'
             }}
           >
             <Grid container alignItems='center'>
               <Grid item xs={12} sm={8} md={8}>
-                <Typography variant='h4' fontSize='1.3rem bold' color='#FA896B'>
-                  Market
+                <Typography variant='h4' fontSize='21px bold' color='#fff'>
+                  Management
                 </Typography>
-                <Stack spacing={-3}>
-                  <Breadcrumbs separator={<CircleSmall />} aria-label='breadcrumb'>
-                    <Link underline='none' color='inherit' href='/'>
-                      <Typography variant='body2'>Home</Typography>
-                    </Link>
-                    <Link underline='none' color='inherit'>
-                      <Typography variant='body2'>My Market</Typography>
-                    </Link>
-                  </Breadcrumbs>
-                </Stack>
+                <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
+                  <Link href='/' passHref>
+                    <Typography color='#fff' variant='h6' fontSize='14px'>
+                      Home
+                    </Typography>
+                  </Link>
+                  <Typography color='#fff' variant='h6' fontSize='14px'>
+                    Market Management
+                  </Typography>
+                </Breadcrumbs>
               </Grid>
               <Hidden smDown>
                 <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <StorefrontIcon sx={{ fontSize: 52, color: '#FA896B' }} />
+                  <StorefrontIcon sx={{ fontSize: 72, color: '#fff' }} />
                 </Grid>
               </Hidden>
             </Grid>
           </Card>
-
-          {/* เนื้อหา */}
-          <Card sx={{ border: '1px solid #ddd' }}>
-            <TabContext value={value}>
-              <Box sx={{ borderBottom: 1, borderColor: '#ddd' }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <TabList onChange={handleChange} aria-label='lab API tabs example'>
-                    <Tab label='Products' value='1' />
-                    <Tab label='Orders' value='2' />
-                    <Tab label='Requirement ' value='3' />
-                  </TabList>
-                  <Box>
-                    <Button
-                      variant='text'
-                      color='primary'
-                      startIcon={<Plus />}
-                      onClick={() => {
-                        router.push(`/market/add-product/?sub_id=${subId}`)
-                      }}
-                    >
-                      Add Product
-                    </Button>
-                  </Box>
-                </Box>
-              </Box>
-              <TabPanel value='1'>
-                <Box sx={{ width: '100%' }}>
-                  <Box sx={{ width: '100%' }}>
-                    <SearchMenu />
-                    <Box sx={{ width: '100%', height: '100%' }}>
-                      {initialProductData.current && initialProductData.current.length > 0 ? (
-                        <DataGrid
-                          rows={productdata}
-                          columns={columns}
-                          getRowId={row => row.product_id}
-                          initialState={{
-                            pagination: {
-                              paginationModel: {
-                                pageSize: 5
-                              }
-                            }
-                          }}
-                          pageSizeOptions={[5]}
-                          disableRowSelectionOnClick
-                        />
-                      ) : (
-                        <div
-                          style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}
-                        >
-                          No Data
-                        </div>
-                      )}
-                    </Box>
-                  </Box>
-                </Box>
-              </TabPanel>
-              <TabPanel value='2'>
-                <SearchMenu />
-                Item Two
-              </TabPanel>
-              <TabPanel value='3'>
-                <SearchMenu />
-                <Requirement sub_id={subId} />
-              </TabPanel>
-            </TabContext>
-          </Card>
         </Box>
+        {/* ---------- content ---------- */}
+        <Card variant='outlined'>
+          <TabContext value={value}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <TabList onChange={handleChange} aria-label='lab API tabs example'>
+                <Tab label='Products' value='1' />
+                <Tab label='Orders' value='2' />
+                <Tab label='Requirement ' value='3' />
+              </TabList>
+            </Box>
+            <TabPanel value='1'>
+              <Box sx={{ padding: '10px 10px 15px' }}>
+                <Grid container direction='columns' spacing={4}>
+                  <Grid item sx={{ width: '100%' }}>
+                    {SearchMenu()}
+                  </Grid>
+                  <Grid item sx={{ width: '100%' }}>
+                    {initialProductData.current && initialProductData.current.length > 0 ? (
+                      <DataGrid
+                        rows={productdata}
+                        columns={columns}
+                        getRowId={row => row.product_id}
+                        initialState={{
+                          pagination: {
+                            paginationModel: {
+                              pageSize: 5
+                            }
+                          }
+                        }}
+                        pageSizeOptions={[5]}
+                        disableRowSelectionOnClick
+                      />
+                    ) : (
+                      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <Typography variant='h6' fontSize='24px bold'>
+                          There are no products.
+                        </Typography>
+                      </Box>
+                    )}
+                  </Grid>
+                </Grid>
+              </Box>
+            </TabPanel>
+            <TabPanel value='2'>
+              <Orders />
+            </TabPanel>
+            <TabPanel value='3'>
+              <Requirement sub_id={subId} />
+            </TabPanel>
+          </TabContext>
+        </Card>
       </Box>
     </Container>
   )
 }
 
 export default MyMarket
-
-{
-  /* <Grid container spacing={2}>
-<Grid item xl={2} lg={2} md={2} sm={3} xs={12}>
-  <FormControl fullWidth>
-    <InputLabel id='demo-simple-select-label'>Category</InputLabel>
-    <Select
-      labelId='demo-simple-select-label'
-      id='demo-simple-select'
-      value={selectedCategory}
-      label='Category'
-      onChange={handleCategoryChange}
-    >
-      <MenuItem value=''>
-        <em>None</em>
-      </MenuItem>
-      {uniqueCategoryIds.map(categoryId => (
-        <MenuItem key={categoryId} value={categoryId}>
-          {categoryId}
-        </MenuItem>
-      ))}
-    </Select>
-  </FormControl>
-</Grid>
-<Grid item xl={9} lg={9} md={9} sm={7} xs={9}>
-  <FormControl fullWidth>
-    <TextField
-      id='outlined-basic'
-      label='Search'
-      variant='outlined'
-      value={searchText}
-      onChange={e => setSearchText(e.target.value)}
-    />
-  </FormControl>
-</Grid>
-<Grid item xl={1} lg={1} md={1} sm={2} xs={3}>
-  <Button
-    fullWidth
-    variant='outlined'
-    color='primary'
-    sx={{ height: '100%' }}
-    onClick={handleSearch}
-  >
-    Search
-  </Button>
-</Grid>
-</Grid>
-<Box sx={{ marginY: 4, display: 'flex', flexDirection: 'row' }}>
-<Typography variant='body1' fontSize='1.5rem bold' color='#111'>
-  {productdata && productdata.length > 0 ? productdata.length : 0}
-</Typography>
-<Typography variant='body2' fontSize='1rem' color='#333' sx={{ marginLeft: 1 }}>
-  Products
-</Typography>
-</Box> */
-}

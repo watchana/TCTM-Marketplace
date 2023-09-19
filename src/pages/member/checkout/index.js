@@ -34,6 +34,8 @@ import Summary from './summary'
 import axios from 'axios'
 
 const Checkout = ({}) => {
+  // นำเข้าตัวsweetalert2
+  const Swal = require('sweetalert2')
   const router = useRouter() // เรียกใช้งาน Router
   const { productName, price, quantity, selection, sub_id, product_id } = router.query // รับค่าข้อมูล จาก Router
 
@@ -46,6 +48,12 @@ const Checkout = ({}) => {
   const Shipping_cost = 50 // ค่าขนส่ง
   const tax = 12 / 100 // ภาษี
   const discount = 150 // ส่วนลด
+
+  // คำนวณค่ารวม
+  // ตัวแปรคำนวณค่าก่อนแสดง
+  const RealPrice = price * quantity // ราคาสินค้า
+  const Realtex = parseFloat((tax * RealPrice).toFixed(2))
+  const total = RealPrice + Shipping_cost + Realtex - discount
 
   // ตัวแปรเก็บค่าตัวเลือก
   let parsedSelection = null
@@ -81,13 +89,44 @@ const Checkout = ({}) => {
     fetchData()
   }, [userId])
 
-  // ฟังชัน ย้ายไปหน้า order
-  const handleOrderClick = () => {
-    alert('แตก')
+  // const handleOrderClick = () => {
+  //   alert('แตก')
 
-    // router.push(
-    //   `order/?product_id=${product_id}&price=${price},&sub_id=${sub_id},&member_id=${userId},&selection=${selection}`
-    // )
+  //   router.push(
+  //     `order/?product_id=${product_id}&price=${price},&sub_id=${sub_id},&member_id=${userId},&selection=${selection}`
+  //   )
+  // }
+
+  // ฟังชัน ย้ายไปหน้า order
+  const handleOrderClick = async e => {
+    e.preventDefault()
+
+    const data = {
+      po_id: '-',
+      invoice_filename: '-',
+      descritp_tion: '-',
+      product_id: product_id,
+      member_id: userId,
+      sub_id: sub_id,
+      type: 'product',
+      option: parsedSelection,
+      amount: quantity,
+      total: total
+    }
+
+    // console.log('Bill data', data)
+
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.gen_invoice`, data)
+      console.log(response)
+      Swal.fire({
+        icon: 'success',
+        title: 'Send Data Success'
+      })
+      router.push(`/category`)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -142,7 +181,15 @@ const Checkout = ({}) => {
                 summary
               </Typography>
             </Grid>
-            <Summary price={price} quantity={quantity} Shipping_cost={Shipping_cost} tax={tax} discount={discount} />
+            <Summary
+              price={price}
+              quantity={quantity}
+              Shipping_cost={Shipping_cost}
+              tax={tax}
+              discount={discount}
+              total={total}
+              Realtex={Realtex}
+            />
           </Grid>
           <Grid container spacing={2} alignItems='center' sx={{ width: '96%', p: 2.5, marginTop: 3, marginLeft: 1 }}>
             <Box sx={{ width: '62%', display: 'flex', justifyContent: 'center' }}>
