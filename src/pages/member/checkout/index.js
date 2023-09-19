@@ -34,6 +34,8 @@ import Summary from './summary'
 import axios from 'axios'
 
 const Checkout = ({}) => {
+  // นำเข้าตัวsweetalert2
+  const Swal = require('sweetalert2')
   const router = useRouter() // เรียกใช้งาน Router
   const { productName, price, quantity, selection, sub_id, product_id } = router.query // รับค่าข้อมูล จาก Router
 
@@ -81,46 +83,41 @@ const Checkout = ({}) => {
     fetchData()
   }, [userId])
 
+  // const handleOrderClick = () => {
+  //   alert('แตก')
+
+  //   router.push(
+  //     `order/?product_id=${product_id}&price=${price},&sub_id=${sub_id},&member_id=${userId},&selection=${selection}`
+  //   )
+  // }
+
   // ฟังชัน ย้ายไปหน้า order
-  const handleOrderClick = () => {
-    alert('แตก')
+  const handleOrderClick = async e => {
+    e.preventDefault()
 
-    // router.push(
-    //   `order/?product_id=${product_id}&price=${price},&sub_id=${sub_id},&member_id=${userId},&selection=${selection}`
-    // )
-  }
+    const data = {
+      po_id: '-',
+      invoice_filename: '-',
+      descritp_tion: '-',
+      product_id: product_id,
+      member_id: userId,
+      sub_id: sub_id,
+      type: 'product',
+      option: parsedSelection
+    }
 
-  const handleSubmitData = async event => {
-    event.preventDefault()
+    // console.log('data', data)
+
     try {
-      const data = {
-        sub_bank_number: idcard,
-        sub_tel: tel,
-        sub_email: email,
-        sub_name: storename,
-        sub_description: storedetails,
-        sub_address: address,
-        sub_address_shop: '1',
-        sub_address_claim: '1',
-        member_id: member_id,
-        sub_image: imageName
-      }
-
-      await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.register.registerMarket`, data)
-
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.gen_invoice`, data)
+      console.log(response)
       Swal.fire({
         icon: 'success',
-        title: 'ส่งข้อมูลสำเร็จ',
-        text: 'กรุณารอ การยืนยันจาก TCTM'
+        title: 'Send Data Success'
       })
-
-      router.push('/')
+      router.push(`/category`)
     } catch (error) {
-      console.error(error)
-      Swal.fire({
-        icon: 'error',
-        title: 'Error'
-      })
+      console.log(error)
     }
   }
 
