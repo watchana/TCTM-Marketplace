@@ -76,7 +76,7 @@ const Payment = () => {
         </Grid>
         <Grid item xs={12} sm={12} md={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <img
-            src='https://inex.co.th/home/wp-content/uploads/2022/11/%E0%B8%AA%E0%B8%A5%E0%B8%B4%E0%B8%9B%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B9%82%E0%B8%AD%E0%B8%99%E0%B9%80%E0%B8%87%E0%B8%B4%E0%B8%99-1.jpg'
+            src='/Po_File/sleep.jpg'
             style={{ maxWidth: '40%', height: 'auto' }}
             alt='Payment Details'
           />
