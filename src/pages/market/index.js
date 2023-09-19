@@ -46,6 +46,7 @@ import axios from 'axios'
 import { get } from 'local-storage'
 
 // ** Components Imports
+import Orders from './orders'
 import Requirement from './requirement'
 
 // ** Data Grid Columns
@@ -299,7 +300,11 @@ const MyMarket = () => {
                 </Grid>
               </Box>
             </TabPanel>
-            <TabPanel value='2'>Item Two</TabPanel>
+            <TabPanel value='2'>
+              <Box sx={{ padding: '10px 10px 15px' }}>
+                <Orders />
+              </Box>
+            </TabPanel>
             <TabPanel value='3'>
               <Requirement sub_id={subId} />
             </TabPanel>
