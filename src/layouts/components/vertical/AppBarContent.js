@@ -90,9 +90,11 @@ const AppBarContent = props => {
                       <QuestionAnswerIcon sx={{ color: 'text.primary' }} />
                     </IconButton>
                   </Link>
-                  <IconButton>
-                    <ShoppingBagIcon sx={{ color: 'text.primary' }} />
-                  </IconButton>
+                  <Link href='/member/order/myoder/' passHref>
+                    <IconButton>
+                      <ShoppingBagIcon sx={{ color: 'text.primary' }} />
+                    </IconButton>
+                  </Link>
                   <NotificationDropdown />
                   <UserDropdown />
                 </Box>
