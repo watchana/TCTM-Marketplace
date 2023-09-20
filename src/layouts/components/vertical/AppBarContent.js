@@ -88,9 +88,11 @@ const AppBarContent = props => {
                       <Send sx={{ color: 'text.primary' }} />
                     </IconButton>
                   </Link>
-                  <IconButton>
-                    <CartOutline sx={{ color: 'text.primary' }} />
-                  </IconButton>
+                  <Link href='/member/order/myoder/' passHref>
+                    <IconButton>
+                      <CartOutline sx={{ color: 'text.primary' }} />
+                    </IconButton>
+                  </Link>
                   <NotificationDropdown />
                   <UserDropdown />
                 </Box>
