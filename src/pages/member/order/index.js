@@ -21,13 +21,13 @@ const Indexpayment = () => {
 
   return (
     <Container>
-      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', flexDirection: 'row' }}>
-        <Box sx={{ width: '40%', p: '20px' }}>
-          <Grid container spacing={5}>
-            <Grid item xs={12} md={12} sx={{ p: '10px' }}>
+      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
+        <Box sx={{ width: '100%', p: '20px' }}>
+          <Grid container spacing={6}>
+            <Grid item xs={12} md={6} sx={{ p: '10px' }}>
               <Total />
             </Grid>
-            <Grid item xs={12} md={12} sx={{ p: '10px' }}>
+            <Grid item xs={12} md={6} sx={{ p: '10px' }}>
               <Payment product_id={product_id} sub_id={sub_id} member_id={member_id} selection={parsedSelection} />
             </Grid>
           </Grid>
