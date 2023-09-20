@@ -21,20 +21,29 @@ const Indexpayment = () => {
 
   return (
     <Container>
-      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', flexDirection: 'row' }}>
-        <Box sx={{ width: '40%', p: '20px' }}>
-          <Grid container spacing={5}>
-            <Grid item xs={12} md={12} sx={{ p: '10px' }}>
-              <Total />
-            </Grid>
-            <Grid item xs={12} md={12} sx={{ p: '10px' }}>
-              <Payment product_id={product_id} sub_id={sub_id} member_id={member_id} selection={parsedSelection} />
+      <Box>
+        <Grid container>
+          <Grid item xs={12} sm={12} md={4}>
+            <Grid container spacing={8}>
+              <Grid item xs={12} sm={12} md={11} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+                <Box sx={{ width: '100%' }}>
+                  <Total />
+                </Box>
+              </Grid>
+              <Grid item xs={12} sm={12} md={11} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+                <Box sx={{ width: '100%' }}>
+                  <Payment product_id={product_id} sub_id={sub_id} member_id={member_id} selection={parsedSelection} />
+                </Box>
+              </Grid>
             </Grid>
           </Grid>
-        </Box>
-        <Box sx={{ width: '100%', p: '18px 10px 10px' }}>
-          <Tablepayment />
-        </Box>
+
+          <Grid item xs={12} sm={12} md={8} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+            <Box sx={{ width: '100%' }}>
+              <Tablepayment />
+            </Box>
+          </Grid>
+        </Grid>
       </Box>
     </Container>
   )
