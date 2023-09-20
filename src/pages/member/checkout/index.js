@@ -125,6 +125,10 @@ const Checkout = ({}) => {
       })
       router.push(`/category`)
     } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'error'
+      })
       console.log(error)
     }
   }

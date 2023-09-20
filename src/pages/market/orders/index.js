@@ -41,71 +41,193 @@ import { DataGrid } from '@mui/x-data-grid'
 // ** Axios Import
 import axios from 'axios'
 
-const rows = [
-  { id: 1, Order_id: 1, Order_date: '2021-10-10', Order_Name: 'Order 1', amount: 1000, status: '1' },
-  { id: 2, Order_id: 2, Order_date: '2021-10-10', Order_Name: 'Order 2', amount: 2000, status: '2' },
-  { id: 3, Order_id: 3, Order_date: '2021-10-10', Order_Name: 'Order 3', amount: 3000, status: '3' },
-  { id: 4, Order_id: 4, Order_date: '2021-10-10', Order_Name: 'Order 4', amount: 4000, status: '4' },
-  { id: 5, Order_id: 5, Order_date: '2021-10-10', Order_Name: 'Order 5', amount: 5000, status: '5' }
-]
+const Orders = ({ subId }) => {
+  // ตัวแปรเก็บค่าข้อมูล
+  const [rows, setRows] = useState([]) // เก็บค่า Sub Id
+  const [shouldFetchData, setShouldFetchData] = useState(true)
 
-const columns = [
-  { field: 'Order_id', headerName: 'ID', width: 100 },
-  { field: 'Order_date', headerName: 'Date', width: 200 },
-  { field: 'Order_Name', headerName: 'Order Name', width: 280 },
-  { field: 'amount', headerName: 'Amount', width: 150 },
-  {
-    field: 'status',
-    headerName: 'Status',
-    width: 180,
-    renderCell: rowCell => {
-      const reqStatus = rowCell.value
-      if (reqStatus === '1') {
-        return <Chip label='Waiting for payment' color='warning' />
-      } else if (reqStatus === '2') {
-        return <Chip label='Send payment' color='primary' />
-      } else if (reqStatus === '3') {
-        return <Chip label='Success' color='success' />
-      } else if (reqStatus === '4') {
-        return <Chip label='have a problem' color='error' />
-      } else {
-        return <Chip label='Unknow' color='secondary' />
+  // ** Switch Alert Import
+  const Swal = require('sweetalert2')
+
+  // เก็บค่าข้อมูลลง Api
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.market_order`, {
+          params: {
+            sub_id: subId
+          }
+        })
+
+        // console.log('data', response.data.message.Data)
+        setRows(response.data.message.Data)
+      } catch (error) {
+        console.error(error)
       }
     }
-  },
-  {
-    field: 'Detail',
-    headerName: 'Detail',
-    width: 150,
-    renderCell: rowCell => (
-      <Button variant='outlined' endIcon={<EyeOutline />}>
-        View
-      </Button>
-    )
-  },
-  {
-    field: 'Approve',
-    headerName: 'Approve',
-    minWidth: 150,
-    renderCell: rowCell => (
-      <Button variant='contained' color='success' startIcon={<TaskIcon />}>
-        Approve
-      </Button>
-    )
-  },
-  {
-    field: 'Reject',
-    headerName: 'Reject',
-    minWidth: 150,
-    renderCell: rowCell => (
-      <Button variant='contained' color='error' startIcon={<CloseIcon />}>
-        Reject
-      </Button>
-    )
-  }
-]
 
-const Orders = () => {
+    fetchData()
+    if (shouldFetchData) {
+      fetchData()
+      setShouldFetchData(false)
+    }
+  }, [subId, shouldFetchData])
+
+  // ประกาศ Colum
+  const columns = [
+    { field: 'invoice_id', headerName: 'ID', width: 100 },
+    {
+      field: 'creation',
+      headerName: 'Date',
+      width: 200,
+      renderCell: rowCell => {
+        const dateString = new Date(rowCell.value).toLocaleString()
+
+        return <span>{dateString}</span>
+      }
+    },
+    { field: 'product_name', headerName: 'Order Name', width: 280 },
+    { field: 'amount', headerName: 'Amount', width: 100 },
+    {
+      field: 'invoice_status',
+      headerName: 'Status',
+      width: 180,
+      renderCell: rowCell => {
+        const reqStatus = rowCell.row.invoice_status
+        if (reqStatus === '1') {
+          return <Chip label='Waiting Comfirm' color='warning' />
+        } else if (reqStatus === '2') {
+          return <Chip label='Waiting payment' color='primary' />
+        } else if (reqStatus === '3') {
+          return <Chip label='Waiting verify' color='warning' />
+        } else if (reqStatus === '4') {
+          return <Chip label='Delivery' color='primary' />
+        } else if (reqStatus === '5') {
+          return <Chip label='Complete' color='success' />
+        } else if (reqStatus === '0') {
+          return <Chip label='Reject' color='secondary' />
+        } else {
+          return <Chip label='Unknow' color='secondary' />
+        }
+      }
+    },
+    {
+      field: 'Detail',
+      headerName: 'Detail',
+      width: 150,
+      renderCell: rowCell => (
+        <Button variant='outlined' endIcon={<EyeOutline />}>
+          View
+        </Button>
+      )
+    },
+    {
+      field: 'Approve',
+      headerName: 'Approve',
+      minWidth: 150,
+      renderCell: rowCell => (
+        <Button
+          variant='contained'
+          color='success'
+          startIcon={<TaskIcon />}
+          disabled={rowCell.row.invoice_status !== '1'}
+          onClick={e => handleApproveClick(e, rowCell.row.invoice_id, rowCell.row.member_id)}
+        >
+          Approve
+        </Button>
+      )
+    },
+    {
+      field: 'Reject',
+      headerName: 'Reject',
+      minWidth: 150,
+      renderCell: rowCell => (
+        <Button
+          variant='contained'
+          color='error'
+          startIcon={<CloseIcon />}
+          disabled={rowCell.row.invoice_status !== '1'}
+          onClick={e => handleDeleteSubmit(e, rowCell.row.invoice_id, rowCell.row.member_id)}
+        >
+          Reject
+        </Button>
+      )
+    }
+  ]
+
+  // Approve Data
+  const handleApproveClick = async (e, invoice_id, member_id) => {
+    e.preventDefault()
+
+    const data = {
+      invoice_id: invoice_id,
+      member_id: member_id
+    }
+
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.confirm`, data)
+      console.log(response)
+      Swal.fire({
+        icon: 'success',
+        title: 'Send Data Success'
+      })
+      setShouldFetchData(true)
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error'
+      })
+      console.log(error)
+    }
+  }
+
+  // Delete Data
+  const handleDeleteSubmit = (e, invoice_id, member_id) => {
+    e.preventDefault()
+
+    Swal.fire({
+      title: 'You Want to Reject Data?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No'
+    }).then(result => {
+      if (result.isConfirmed) {
+        const data = {
+          invoice_id: invoice_id,
+          member_id: member_id
+        }
+
+        if (invoice_id !== '' && member_id !== '') {
+          axios
+            .put(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.reject`, data)
+            .then(function (response) {
+              console.log(response)
+
+              Swal.fire({
+                icon: 'success',
+                title: 'Reject Success'
+              })
+
+              setShouldFetchData(true)
+            })
+            .catch(function (error) {
+              console.log(error)
+
+              Swal.fire({
+                icon: 'error',
+                title: 'Erroe'
+              })
+            })
+        } else {
+          console.log('Error')
+        }
+      } else if (result.isDenied) {
+        console.log('cancelled Error')
+      }
+    })
+  }
+
   return (
     <Box sx={{ padding: '10px 10px 15px' }}>
       <Grid container spacing={3}>
@@ -134,7 +256,13 @@ const Orders = () => {
         </Grid>
       </Grid>
       <Box sx={{ width: '100%', marginTop: 4 }}>
-        <DataGrid rows={rows} columns={columns} />
+        {rows ? (
+          <DataGrid rows={rows} columns={columns} getRowId={row => row.invoice_id} />
+        ) : (
+          <Typography variant='body1' fontSize='1.0rem' color='#000'>
+            No data
+          </Typography>
+        )}
       </Box>
     </Box>
   )
