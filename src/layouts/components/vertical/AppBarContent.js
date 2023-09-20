@@ -8,10 +8,12 @@ import { useRouter } from 'next/router'
 // ** Material UI Imports
 import { Box, CardMedia, FormControl, Grid, IconButton, InputAdornment, OutlinedInput } from '@mui/material'
 
+// ** Material-UI Icons Imports
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag'
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer'
+
 // ** Material Design Icons Imports
-import Send from 'mdi-material-ui/Send'
 import Magnify from 'mdi-material-ui/Magnify'
-import CartOutline from 'mdi-material-ui/CartOutline'
 
 // ** Layouts Imports
 import UserDropdown from 'src/@core/layouts/components/shared-components/UserDropdown'
@@ -85,14 +87,12 @@ const AppBarContent = props => {
                   </FormControl>
                   <Link href='/member/ports/' passHref>
                     <IconButton>
-                      <Send sx={{ color: 'text.primary' }} />
+                      <QuestionAnswerIcon sx={{ color: 'text.primary' }} />
                     </IconButton>
                   </Link>
-                  <Link href='/member/order/myoder/' passHref>
-                    <IconButton>
-                      <CartOutline sx={{ color: 'text.primary' }} />
-                    </IconButton>
-                  </Link>
+                  <IconButton>
+                    <ShoppingBagIcon sx={{ color: 'text.primary' }} />
+                  </IconButton>
                   <NotificationDropdown />
                   <UserDropdown />
                 </Box>

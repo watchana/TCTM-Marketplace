@@ -1,14 +1,33 @@
 // ** React Imports
 import React, { useState, useEffect } from 'react'
 
-// ** MUI Imports
-import { Box, Stepper, Step, StepLabel, Button, Typography } from '@mui/material'
-
-// ** axios
-import axios from 'axios'
-
-// ** Router
+// ** Next Import
+import Link from 'next/link'
 import { useRouter } from 'next/router'
+
+// ** Material UI Imports
+import {
+  Box,
+  Breadcrumbs,
+  Button,
+  Card,
+  Container,
+  Grid,
+  Hidden,
+  Step,
+  StepLabel,
+  Stepper,
+  Typography
+} from '@mui/material'
+
+// ** Material-UI Icons Imports
+import StorefrontIcon from '@mui/icons-material/Storefront'
+
+// ** Material Design Icons Imports
+import ChevronRight from 'mdi-material-ui/ChevronRight'
+
+// ** Axios Import
+import axios from 'axios'
 
 // ** Auth Check Import
 import { withAuth } from 'src/@core/utils/AuthCheck'
@@ -255,59 +274,109 @@ const AddProductPage = ({ productCategories }) => {
   }
 
   return (
-    <>
-      <Box sx={{ width: '100%' }}>
-        <Stepper activeStep={activeStep} sx={{ mb: 2 }}>
-          {steps.map((label, index) => {
-            const stepProps = {}
-            const labelProps = {}
-            if (isStepOptional(index)) {
-              labelProps.optional = true
-            }
-            if (isStepSkipped(index)) {
-              stepProps.completed = false
-            }
+    <Box sx={{ width: '100%' }}>
+      <Container maxWidth='xl'>
+        <Box>
+          <Box sx={{ width: '100%' }}>
+            <Card
+              sx={{
+                height: '100px',
+                marginBottom: '30px',
+                padding: '15px 25px 20px',
+                backgroundColor: '#2d2e81',
+                border: '1px solid #primary.main'
+              }}
+            >
+              <Grid container alignItems='center'>
+                <Grid item xs={12} sm={8} md={8}>
+                  <Typography variant='h4' fontSize='21px bold' color='#fff'>
+                    Management
+                  </Typography>
+                  <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
+                    <Link href='/' passHref>
+                      <Typography color='#fff' variant='h6' fontSize='14px'>
+                        Home
+                      </Typography>
+                    </Link>
+                    <Link href='/market/' passHref>
+                      <Typography color='#fff' variant='h6' fontSize='14px'>
+                        Market Management
+                      </Typography>
+                    </Link>
+                    <Typography color='#fff' variant='h6' fontSize='14px'>
+                      Create product
+                    </Typography>
+                  </Breadcrumbs>
+                </Grid>
+                <Hidden smDown>
+                  <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <StorefrontIcon sx={{ fontSize: 72, color: '#fff' }} />
+                  </Grid>
+                </Hidden>
+              </Grid>
+            </Card>
+          </Box>
+          <Stepper activeStep={activeStep} sx={{ mb: 2 }}>
+            {steps.map((label, index) => {
+              const stepProps = {}
+              const labelProps = {}
+              if (isStepOptional(index)) {
+                labelProps.optional = true
+              }
+              if (isStepSkipped(index)) {
+                stepProps.completed = false
+              }
 
-            return (
-              <Step key={label} {...stepProps}>
-                <StepLabel optional={isStepOptional(index) ? 'Optional' : null}>{label}</StepLabel>
-              </Step>
-            )
-          })}
-        </Stepper>
-        {activeStep === steps.length ? (
-          <>
-            <ShowResultsAPI result={resultAPIStatus} />
-            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-              <Box sx={{ flex: '1 1 auto' }} />
-              <Button onClick={() => router.push('/market')}>Dashboard</Button>
-            </Box>
-          </>
-        ) : (
-          <>
-            {activeStep === 0 && (
-              <RegisterProduct
-                product={product}
-                setProduct={setProduct}
-                productCategories={productCategories}
-                onUploadImagesChange={handleUploadImagesChange}
-                onUploadVdoChange={handleUploadVdoChange}
-              />
-            )}
-            {activeStep === 1 && <ShowResults columnsData={product.options} rowsData={product.items} />}
-            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-              <Button color='inherit' disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
-                Back
-              </Button>
-              <Box sx={{ flex: '1 1 auto' }} />
-              <Button size='large' onClick={handleNext}>
-                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-              </Button>
-            </Box>
-          </>
-        )}
-      </Box>
-    </>
+              return (
+                <Step key={label} {...stepProps}>
+                  <StepLabel optional={isStepOptional(index) ? '' : null}>{label}</StepLabel>
+                </Step>
+              )
+            })}
+          </Stepper>
+          {activeStep === steps.length ? (
+            <>
+              <ShowResultsAPI result={resultAPIStatus} />
+              <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                <Box sx={{ flex: '1 1 auto' }} />
+                <Button variant='outlined' onClick={() => router.push('/market')}>
+                  Dashboard
+                </Button>
+              </Box>
+            </>
+          ) : (
+            <>
+              {activeStep === 0 && (
+                <RegisterProduct
+                  product={product}
+                  setProduct={setProduct}
+                  productCategories={productCategories}
+                  onUploadImagesChange={handleUploadImagesChange}
+                  onUploadVdoChange={handleUploadVdoChange}
+                />
+              )}
+              {activeStep === 1 && <ShowResults columnsData={product.options} rowsData={product.items} />}
+              <Box
+                sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
+              >
+                <Button
+                  variant='outlined'
+                  color='inherit'
+                  disabled={activeStep === 0}
+                  onClick={handleBack}
+                  sx={{ mr: 1 }}
+                >
+                  Back
+                </Button>
+                <Button variant='contained' size='large' onClick={handleNext}>
+                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                </Button>
+              </Box>
+            </>
+          )}
+        </Box>
+      </Container>
+    </Box>
   )
 }
 
