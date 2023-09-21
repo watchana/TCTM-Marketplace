@@ -9,15 +9,22 @@ import { useRouter } from 'next/router'
 import { Box, Button, Card, Divider, Grid, Typography } from '@mui/material'
 
 const ShowOrder = ({ productdata }) => {
-  // console.log('bill', productdata)
-  const router = useRouter()
+  const router = useRouter() //use router
+
   if (!productdata || productdata.length === 0) {
     return <Typography>No Product</Typography>
   }
 
+  const usertype = '1' // usertype = '1'(member) usertype = '2'(marker)
+
   // ฟังชัน ย้ายไปหน้า แนบบหลักฐาน
   const handleApprovePage = (sub_id, invoice_id) => {
     router.push(`/member/order/?sub_id=${sub_id}&invoice_id=${invoice_id}`)
+  }
+
+  // ฟังชัน ย้ายไปหน้า ดูรายละเอียดผลิตภัณ
+  const handleDetailPage = invoice_id => {
+    router.push(`/member/order/ordersdetail/?invoice_id=${invoice_id}&usertype=${usertype}`)
   }
 
   return (
@@ -119,6 +126,7 @@ const ShowOrder = ({ productdata }) => {
                                 item.invoice_status === '1' ||
                                 item.invoice_status === '2'
                               }
+                              onClick={() => handleDetailPage(item.invoice_id)}
                             >
                               ดูรายละเอียด
                             </Button>

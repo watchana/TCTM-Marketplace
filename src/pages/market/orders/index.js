@@ -42,9 +42,15 @@ import { DataGrid } from '@mui/x-data-grid'
 import axios from 'axios'
 
 const Orders = ({ subId }) => {
+  const router = useRouter() //use router
+
   // ตัวแปรเก็บค่าข้อมูล
   const [rows, setRows] = useState([]) // เก็บค่า Sub Id
   const [shouldFetchData, setShouldFetchData] = useState(true)
+
+  const usertype = '2' // usertype = '1'(member) usertype = '2'(marker)
+
+  // console.log('rows', rows)
 
   // ** Switch Alert Import
   const Swal = require('sweetalert2')
@@ -72,6 +78,11 @@ const Orders = ({ subId }) => {
       setShouldFetchData(false)
     }
   }, [subId, shouldFetchData])
+
+  // ฟังชัน ย้ายไปหน้า ดูรายละเอียดผลิตภัณ
+  const handleDetailPage = invoice_id => {
+    router.push(`/member/order/ordersdetail/?invoice_id=${invoice_id}&usertype=${usertype}`)
+  }
 
   // ประกาศ Colum
   const columns = [
@@ -116,7 +127,7 @@ const Orders = ({ subId }) => {
       headerName: 'Detail',
       width: 150,
       renderCell: rowCell => (
-        <Button variant='outlined' endIcon={<EyeOutline />}>
+        <Button variant='outlined' endIcon={<EyeOutline />} onClick={() => handleDetailPage(rowCell.row.invoice_id)}>
           View
         </Button>
       )

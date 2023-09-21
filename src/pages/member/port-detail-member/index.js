@@ -35,6 +35,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import ChevronRight from 'mdi-material-ui/ChevronRight'
 import DownloadIcon from '@mui/icons-material/Download'
 import MailOutlineIcon from '@mui/icons-material/MailOutline'
+import LocalMallIcon from '@mui/icons-material/LocalMall'
 
 const PosrtDetail = () => {
   // นำเข้าตัวsweetalert2
@@ -79,6 +80,7 @@ const PosrtDetail = () => {
           const response = await axios.get(
             `${process.env.NEXT_PUBLIC_API}TCTM.requirements.requirement_detail?req_id=${reqID}`
           )
+
           setPostData(response.data.message.Requirement_Data[0])
           setQuestionData(response.data.message.Question_List)
           setPoData(response.data.message.Po_List)
@@ -273,6 +275,40 @@ const PosrtDetail = () => {
     }
   }
 
+  // ฟังชัน Shipping Approve
+  const handleShippingSubmit = async (e, po_id) => {
+    e.preventDefault()
+
+    const data = {
+      po_id: po_id,
+      invoice_filename: '-',
+      descritp_tion: '-',
+      product_id: '-',
+      member_id: userId,
+      sub_id: recipient,
+      amount: '-',
+      total: '-',
+      type: 'requirement',
+      option: '-'
+    }
+
+    console.log('Mega Cabill City', data)
+
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.gen_invoice`, data)
+      console.log(response)
+      SAlert.fire({
+        icon: 'success',
+        title: 'Approve Success'
+      })
+      setShouldFetchData(!shouldFetchData)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  console.log('Mega cabill city', postData)
+
   // หัวตาราง Data Gride
   const columns = [
     { field: 'po_id', headerName: 'ID', minWidth: 100 },
@@ -426,6 +462,15 @@ const PosrtDetail = () => {
             <Typography variant='h4' fontSize='24px bold' color='#000' sx={{ marginBottom: 2 }}>
               Offer
             </Typography>
+            <Button
+              variant='outlined'
+              color='primary'
+              disabled={poData && poData.some(item => item.po_status === '2') ? true : false}
+              startIcon={<LocalMallIcon />}
+              onClick={handleShippingSubmit}
+            >
+              Shipping
+            </Button>
             {/* ตาราง */}
             <Box sx={{ width: '100%', height: '300px' }}>
               <DataGrid
