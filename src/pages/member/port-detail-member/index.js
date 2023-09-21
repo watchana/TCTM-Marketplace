@@ -53,10 +53,11 @@ const PosrtDetail = () => {
   const [questionData, setQuestionData] = useState('') // ข้อมูล Question ผู้ส่ง ผู้รับ
   const [comments, setComment] = useState('') // ข้อมูล comments
   const [poData, setPoData] = useState('') // ข้อมูล Po
+  const [poDataApprove, setPoDataApprove] = useState('') // ข้อมูล Po ที่ถูก Approve
 
   const [shouldFetchData, setShouldFetchData] = useState(false) // ตัวแปรควบคุมการดึงข้อมูลใหม่
 
-  // console.log('poData', poData)
+  console.log('poDataApprove', poDataApprove)
 
   // รับค่าข้อมูล จาก local Storage
   useEffect(() => {
@@ -84,6 +85,15 @@ const PosrtDetail = () => {
           setPostData(response.data.message.Requirement_Data[0])
           setQuestionData(response.data.message.Question_List)
           setPoData(response.data.message.Po_List)
+
+          // ตรวจสอบและดักจับ po_status เป็น 2 และเก็บ po_id ที่เป็น '2' ในตัวแปร poDataApprove
+          const poList = response.data.message.Po_List
+
+          const approvedPoIds = poList
+            .filter(po => po.po_status === '2')
+            .map(po => po.po_id)
+            .join(', ') // รวม po_id เป็น string
+          setPoDataApprove(approvedPoIds)
         } catch (error) {
           console.error(error)
         }
@@ -92,6 +102,21 @@ const PosrtDetail = () => {
 
     fetchData()
   }, [reqID, shouldFetchData])
+
+  //===========================ฟังชัน ดึงข้อมูลทุกๆวินาที=============================//
+
+  // ใช้ setInterval ใน useEffect เพื่อเปลี่ยนค่า shouldFetchData ทุกๆ 1 วินาที
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setShouldFetchData(!shouldFetchData) // สลับค่า shouldFetchData เพื่อเรียก fetchData ใหม่
+  //   }, 1000) // 1 วินาที
+
+  //   return () => {
+  //     clearInterval(interval) // ยกเลิก interval เมื่อ Component ถูก unmount
+  //   }
+  // }, [shouldFetchData])
+
+  //===========================ฟังชัน ดึงข้อมูลทุกๆวินาที=============================//
 
   // เก็บค่าข้อมูลจาก คอมเม้นต์
   const handleComment = event => {
@@ -280,12 +305,12 @@ const PosrtDetail = () => {
     e.preventDefault()
 
     const data = {
-      po_id: po_id,
+      po_id: poDataApprove,
       invoice_filename: '-',
       descritp_tion: '-',
       product_id: '-',
       member_id: userId,
-      sub_id: recipient,
+      sub_id: postData.sub_id,
       amount: '-',
       total: '-',
       type: 'requirement',
@@ -352,7 +377,12 @@ const PosrtDetail = () => {
           variant='contained'
           color='success'
           onClick={e => handleApproveSubmit(e, rowCell.row.po_id)}
-          disabled={rowCell.row.po_status === '2' || rowCell.row.po_status === '0'}
+          disabled={
+            rowCell.row.po_status === '2' ||
+            rowCell.row.po_status === '0' ||
+            postData.req_status === '3' ||
+            postData.req_status === '4'
+          }
           startIcon={<TaskIcon />}
         >
           Approve
@@ -368,7 +398,12 @@ const PosrtDetail = () => {
           variant='contained'
           color='error'
           onClick={e => handleRejectSubmit(e, rowCell.row.po_id)}
-          disabled={rowCell.row.po_status === '2' || rowCell.row.po_status === '0'}
+          disabled={
+            rowCell.row.po_status === '2' ||
+            rowCell.row.po_status === '0' ||
+            postData.req_status === '3' ||
+            postData.req_status === '4'
+          }
           startIcon={<CloseIcon />}
         >
           Reject
@@ -465,7 +500,7 @@ const PosrtDetail = () => {
             <Button
               variant='outlined'
               color='primary'
-              disabled={poData && poData.some(item => item.po_status === '2') ? true : false}
+              disabled={!poDataApprove || poDataApprove.trim() === '' || postData.req_status === '4'}
               startIcon={<LocalMallIcon />}
               onClick={handleShippingSubmit}
             >

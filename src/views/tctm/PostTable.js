@@ -169,7 +169,7 @@ const ProductTable = ({ rows }) => {
         }
 
         axios
-          .put(`${process.env.NEXT_PUBLIC_API}TCTM.approve.requirementreject`, data)
+          .put(`${process.env.NEXT_PUBLIC_API}TCTM.approve.deleterequirement`, data)
           .then(function (response) {
             // หลังจากที่แตะเสร็จ ลบแถวที่ถูก แตะ ออกจากข้อมูล
             const updatedRows = tableRows.filter(row => row.req_id !== reqId)

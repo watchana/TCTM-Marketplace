@@ -338,6 +338,7 @@ const PosrtDetail = () => {
           color='error'
           onClick={e => handlePo_FileDelete(e, rowCell.row.po_id)}
           startIcon={<DeleteIcon />}
+          disabled={postData.req_status === '3' || postData.req_status === '4'}
         >
           Delete
         </Button>
