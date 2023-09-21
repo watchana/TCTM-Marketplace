@@ -57,8 +57,6 @@ const PosrtDetail = () => {
 
   const [shouldFetchData, setShouldFetchData] = useState(false) // ตัวแปรควบคุมการดึงข้อมูลใหม่
 
-  console.log('poDataApprove', poDataApprove)
-
   // รับค่าข้อมูล จาก local Storage
   useEffect(() => {
     const userIdFromLocalStorage = localStorage.getItem('Member_Id')
@@ -317,8 +315,6 @@ const PosrtDetail = () => {
       option: '-'
     }
 
-    console.log('Mega Cabill City', data)
-
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.gen_invoice`, data)
       console.log(response)
@@ -331,8 +327,6 @@ const PosrtDetail = () => {
       console.log(error)
     }
   }
-
-  console.log('Mega cabill city', postData)
 
   // หัวตาราง Data Gride
   const columns = [
