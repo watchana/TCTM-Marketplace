@@ -239,25 +239,82 @@ const Orders = ({ subId }) => {
     })
   }
 
+  //==================================ฟังชันค้นหาข้อมูล==================================//
+  const [selectedInvoiceStatus, setSelectedInvoiceStatus] = useState('')
+  const [searchText, setSearchText] = useState('') // ฟังก์ชัน Search
+
+  const filteredRows = rows
+    .filter(row => {
+      if (selectedInvoiceStatus === '') {
+        return true
+      }
+
+      return row.invoice_status === selectedInvoiceStatus
+    })
+    .filter(row => {
+      // กรองข้อมูลตาม product_name ที่มี searchText
+      return row.product_name.toLowerCase().includes(searchText.toLowerCase())
+    })
+
   return (
     <Box sx={{ padding: '10px 10px 15px' }}>
       <Grid container spacing={3}>
         <Grid item xl={2} lg={2} md={2} sm={12} xs={12}>
           <FormControl fullWidth size='small' variant='outlined' sx={{ maxHeight: '42px', height: '42px' }}>
-            <InputLabel id='demo-simple-select-outlined-label'>Category</InputLabel>
-            <Select labelId='demo-simple-select-outlined-label' id='demo-simple-select-outlined' label='Category'>
-              <MenuItem>1</MenuItem>
+            <InputLabel id='demo-simple-select-outlined-label'>Invoice Status</InputLabel>
+            <Select
+              labelId='demo-simple-select-outlined-label'
+              id='demo-simple-select-outlined'
+              label='Invoice Status'
+              value={selectedInvoiceStatus}
+              onChange={e => setSelectedInvoiceStatus(e.target.value)}
+            >
+              <MenuItem value=''>All</MenuItem>
+              {Array.from(new Set(rows.map(row => row.invoice_status))).map(invoiceStatus => (
+                <MenuItem key={invoiceStatus} value={invoiceStatus}>
+                  {invoiceStatus === '1'
+                    ? 'Waiting Confirm'
+                    : invoiceStatus === '2'
+                    ? 'Waiting payment'
+                    : invoiceStatus === '3'
+                    ? 'Waiting verify'
+                    : invoiceStatus === '4'
+                    ? 'Delivery'
+                    : invoiceStatus === '5'
+                    ? 'Complete'
+                    : invoiceStatus === '0'
+                    ? 'Reject'
+                    : 'Unknown'}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Grid>
         <Grid item xl={9} lg={9} md={9} sm={8} xs={8}>
-          <TextField fullWidth size='small' label='Search' variant='outlined' />
+          <TextField
+            fullWidth
+            size='small'
+            label='Search'
+            variant='outlined'
+            value={searchText}
+            onChange={e => setSearchText(e.target.value)}
+          />
         </Grid>
         <Grid item xl={1} lg={1} md={1} sm={4} xs={4}>
-          <Button fullWidth size='small' variant='outlined' sx={{ height: '100%' }}>
+          <Button
+            fullWidth
+            size='small'
+            variant='outlined'
+            sx={{ height: '100%' }}
+            onClick={() => {
+              setSelectedInvoiceStatus('')
+              setSearchText('')
+            }}
+          >
             Reset
           </Button>
         </Grid>
+
         <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
           <Box sx={{ display: 'flex', flexDirection: 'row', paddingLeft: 1 }}>
             <Typography variant='body1' fontSize='1.5rem bold' color='#000'>
@@ -268,7 +325,7 @@ const Orders = ({ subId }) => {
       </Grid>
       <Box sx={{ width: '100%', marginTop: 4 }}>
         {rows ? (
-          <DataGrid rows={rows} columns={columns} getRowId={row => row.invoice_id} />
+          <DataGrid rows={filteredRows} columns={columns} getRowId={row => row.invoice_id} />
         ) : (
           <Typography variant='body1' fontSize='1.0rem' color='#000'>
             No data

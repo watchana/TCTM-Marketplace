@@ -51,7 +51,7 @@ import Requirement from './requirement'
 
 // ** Data Grid Columns
 const columns = [
-  { field: 'product_id', headerName: 'ID  ', width: 90 },
+  { field: 'category_name', headerName: 'Category  ', width: 90 },
   { field: 'product_name', headerName: 'Name ', width: 350 },
   { field: 'product_count', headerName: 'amount ', width: 180 }
 ]
@@ -82,10 +82,22 @@ const MyMarket = () => {
 
   const initialProductData = useRef([]) // เก็บค่าเริ่มต้นของข้อมูลสินค้า
 
-  // เก็บค่าข้อมูลประเภทสินค้าที่ไม่ซํ้ากัน
-  const uniqueCategoryIds = Array.from(
-    new Set(initialProductData.current ? initialProductData.current.map(category => category.category_id) : [])
-  )
+  //-------------------------------------------ฟังก์ชันจัดการค่าซํ้าใน Select Search--------------------------------------//
+
+  // สร้าง Map สำหรับเก็บ category_id และ category_name
+  const categoryMap = new Map()
+
+  initialProductData.current.forEach(product => {
+    categoryMap.set(product.category_id, product.category_name)
+  })
+
+  // แปลงค่า Map เป็นอาร์เรย์ของอ็อบเจ็กต์
+  const uniqueCategoryIds = Array.from(categoryMap.entries()).map(([category_id, category_name]) => ({
+    category_id,
+    category_name
+  }))
+
+  //-------------------------------------------จบฟังก์ชันจัดการค่าซํ้าใน Select Search--------------------------------------//
 
   // ฟังก์ชันตรวจสอบสถานะร้านค้าก่อนใช้งานหน้านี้
   useEffect(() => {
@@ -114,7 +126,10 @@ const MyMarket = () => {
   // ฟังก์ชันจัดการ Select Dropdown
   const handleCategoryChange = event => {
     setSelectedCategory(event.target.value)
-    const filteredData = initialProductData.current.filter(product => product.category_id === event.target.value)
+
+    // ค้นหาข้อมูลโดยใช้ selectedCategory (เป็น category_id)
+    const categoryId = event.target.value
+    const filteredData = initialProductData.current.filter(product => product.category_id === categoryId)
     setProductData(filteredData)
   }
 
@@ -145,8 +160,8 @@ const MyMarket = () => {
               label='Category'
             >
               {uniqueCategoryIds.map(category => (
-                <MenuItem key={category} value={category}>
-                  {category}
+                <MenuItem key={category.category_id} value={category.category_id}>
+                  {category.category_name}
                 </MenuItem>
               ))}
             </Select>

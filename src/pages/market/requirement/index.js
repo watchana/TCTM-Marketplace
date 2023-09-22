@@ -45,11 +45,14 @@ const Requirement = SubID => {
   // next Router
   const router = useRouter()
 
+  // นำเข้าตัวsweetalert2
+  const Swal = require('sweetalert2')
+
   // ตัวแปรเก็บค่าข้อมูล
   const sub_id = SubID.sub_id
-  const [rowdata, setRowData] = useState('')
+  const [rowdata, setRowData] = useState([])
 
-  // console.log('row', rowdata)
+  console.log('row', rowdata)
 
   // เก็บค่าข้อมูลลง Api
   useEffect(() => {
@@ -74,6 +77,54 @@ const Requirement = SubID => {
     fetchData()
   }, [sub_id])
 
+  // ฟังก์ชันสำหรับ  Band User
+  const handleRejectSubmit = reqId => {
+    console.log('reqId', reqId)
+
+    // แสดงกล่องข้อความยืนยัน
+    Swal.fire({
+      title: 'Confirm Reject',
+      text: 'Are you sure you want to reject this submission?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Reject'
+    }).then(result => {
+      // ถ้าผู้ใช้กดปุ่ม Confirm (Yes)
+      if (result.isConfirmed) {
+        const data = {
+          req_id: reqId
+        }
+
+        axios
+          .put(`${process.env.NEXT_PUBLIC_API}TCTM.approve.requirementreject`, data)
+          .then(function (response) {
+            // หลังจากที่แตะเสร็จ ลบแถวที่ถูก แตะ ออกจากข้อมูล
+            const updatedRows = rowdata.filter(row => row.req_id !== reqId)
+
+            setRowData(updatedRows)
+
+            Swal.fire({
+              icon: 'success',
+              title: 'Reject success',
+              text: 'Your work has been saved',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          })
+          .catch(function (error) {
+            console.log(error)
+            Swal.fire({
+              icon: 'error',
+              title: 'Reject Error',
+              text: 'Something went wrong!'
+            })
+          })
+      }
+    })
+  }
+
   // ** Data Grid Columns
   const columns = [
     { field: 'req_id', headerName: 'ID  ', width: 90 },
@@ -90,11 +141,14 @@ const Requirement = SubID => {
       field: 'req_status',
       headerName: 'Status',
       width: 150,
+
       renderCell: params => {
         const reqStatus = params.row.req_status
         if (reqStatus === '2') {
           return <Chip label='Pending' color='warning' />
         } else if (reqStatus === '3') {
+          return <Chip label='Success' color='success' />
+        } else if (reqStatus === '4') {
           return <Chip label='Success' color='success' />
         } else {
           return <Chip label='Unknow' color='secondary' />
@@ -120,26 +174,45 @@ const Requirement = SubID => {
       }
     },
     {
-      field: 'Approve',
-      headerName: 'Approve',
-      minWidth: 150,
-      renderCell: rowCell => (
-        <Button variant='contained' color='success' startIcon={<TaskIcon />}>
-          Approve
-        </Button>
-      )
-    },
-    {
       field: 'Reject',
       headerName: 'Reject',
       minWidth: 150,
-      renderCell: rowCell => (
-        <Button variant='contained' color='error' startIcon={<CloseIcon />}>
-          Reject
-        </Button>
-      )
+      renderCell: rowCell => {
+        const reqStatus = rowCell.row.req_status
+
+        return (
+          <Button
+            variant='contained'
+            color='error'
+            startIcon={<CloseIcon />}
+            onClick={() => handleRejectSubmit(rowCell.row.req_id)}
+            disabled={reqStatus === '3' || reqStatus === '4' || reqStatus === '5'}
+          >
+            Reject
+          </Button>
+        )
+      }
     }
   ]
+
+  //==================================ฟังชันค้นหาข้อมูล==================================//
+  const [selectedReqStatus, setSelectedReqStatus] = useState('')
+  const [searchTerm, setSearchTerm] = useState('')
+
+  const getUniqueReqStatus = () => {
+    const uniqueReqStatus = [...new Set(rowdata.map(row => row.req_status))]
+
+    return uniqueReqStatus
+  }
+
+  const handleChange = event => {
+    const { name, value } = event.target
+    if (name === 'searchTerm') {
+      setSearchTerm(value)
+    } else if (name === 'selectedReqStatus') {
+      setSelectedReqStatus(value)
+    }
+  }
 
   return (
     <Box sx={{ padding: '10px 10px 15px' }}>
@@ -147,13 +220,39 @@ const Requirement = SubID => {
         <Grid item xl={2} lg={2} md={2} sm={12} xs={12}>
           <FormControl fullWidth size='small' variant='outlined' sx={{ maxHeight: '42px', height: '42px' }}>
             <InputLabel id='demo-simple-select-outlined-label'>Category</InputLabel>
-            <Select labelId='demo-simple-select-outlined-label' id='demo-simple-select-outlined' label='Category'>
-              <MenuItem>1</MenuItem>
+            <Select
+              labelId='demo-simple-select-outlined-label'
+              id='demo-simple-select-outlined'
+              label='Category'
+              name='selectedReqStatus'
+              value={selectedReqStatus}
+              onChange={handleChange}
+            >
+              <MenuItem value=''>All</MenuItem>
+              {getUniqueReqStatus().map(status => (
+                <MenuItem key={status} value={status}>
+                  {status === '2'
+                    ? 'Pending'
+                    : status === '3'
+                    ? 'Success'
+                    : status === '4'
+                    ? 'Success Nissan'
+                    : 'Unknown'}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Grid>
         <Grid item xl={9} lg={9} md={9} sm={8} xs={8}>
-          <TextField fullWidth size='small' label='Search' variant='outlined' />
+          <TextField
+            fullWidth
+            size='small'
+            label='Search'
+            variant='outlined'
+            name='searchTerm'
+            value={searchTerm}
+            onChange={handleChange}
+          />
         </Grid>
         <Grid item xl={1} lg={1} md={1} sm={4} xs={4}>
           <Button fullWidth size='small' variant='outlined' sx={{ height: '100%' }}>
@@ -170,7 +269,16 @@ const Requirement = SubID => {
       </Grid>
       <Box sx={{ width: '100%', marginTop: 4 }}>
         {rowdata && rowdata.length > 0 ? (
-          <DataGrid rows={rowdata} columns={columns} getRowId={row => row.req_id} pageSize={5} />
+          <DataGrid
+            rows={rowdata.filter(
+              row =>
+                (searchTerm === '' || row.req_header.toLowerCase().includes(searchTerm.toLowerCase())) &&
+                (selectedReqStatus === '' || row.req_status === selectedReqStatus)
+            )}
+            columns={columns}
+            getRowId={row => row.req_id}
+            pageSize={5}
+          />
         ) : (
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Typography variant='h6' fontSize='24px bold'>
