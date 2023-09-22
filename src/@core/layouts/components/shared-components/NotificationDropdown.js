@@ -266,11 +266,12 @@ const NotificationDropdown = () => {
                     }}
                   ></div>
                 )}
-
                 <Box sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
                   <Avatar alt='message' src='/images/avatars/5.png' />
-                  <Box sx={{ mx: 4, flex: '1 1', display: 'flex', overflow: 'hidden', flexDirection: 'column' }}>
-                    <MenuItemTitle>{item.title}</MenuItemTitle>
+                  <Box sx={{ mx: 4, flex: '1 1', display: 'flex', flexDirection: 'column' }}>
+                    <MenuItemTitle style={{ whiteSpace: 'normal', overflowWrap: 'break-word', maxWidth: '100%' }}>
+                      {item.title}
+                    </MenuItemTitle>
                     <MenuItemSubtitle variant='body2'>
                       {item.creation.split(' ')[1].split('.')[0]} date {item.creation.split(' ')[0]}
                     </MenuItemSubtitle>

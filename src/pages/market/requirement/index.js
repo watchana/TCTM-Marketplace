@@ -52,7 +52,7 @@ const Requirement = SubID => {
   const sub_id = SubID.sub_id
   const [rowdata, setRowData] = useState([])
 
-  console.log('row', rowdata)
+  // console.log('row', rowdata)
 
   // เก็บค่าข้อมูลลง Api
   useEffect(() => {
