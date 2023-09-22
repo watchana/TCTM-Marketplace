@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { Container, Grid, Typography, Card, CardContent, Button, Box } from '@mui/material'
 
-const Tablepayment = () => {
+const Tablepayment = ({ productdata }) => {
   return (
     <Card>
       <CardContent>
@@ -20,15 +20,15 @@ const Tablepayment = () => {
             <tbody>
               <tr>
                 <td style={{ border: '1px solid black', padding: '8px' }}>ชื่อบัญชี</td>
-                <td style={{ border: '1px solid black', padding: '8px' }}>บริษัท ดิจิตอล (ไทยแลนด์) จำกัด</td>
+                <td style={{ border: '1px solid black', padding: '8px' }}>{productdata.sub_bank_name}</td>
               </tr>
               <tr>
                 <td style={{ border: '1px solid black', padding: '8px' }}>บัญชีอออมทรัพย์เลขที่</td>
-                <td style={{ border: '1px solid black', padding: '8px' }}>101-203214-9</td>
+                <td style={{ border: '1px solid black', padding: '8px' }}>{productdata.sub_bank_number}</td>
               </tr>
               <tr>
                 <td style={{ border: '1px solid black', padding: '8px' }}>ธนาคารไทยพาณิชย์</td>
-                <td style={{ border: '1px solid black', padding: '8px' }}>สาขาถนนสาทร</td>
+                <td style={{ border: '1px solid black', padding: '8px' }}>{productdata.sub_book_bank_name}</td>
               </tr>
             </tbody>
           </table>
@@ -39,11 +39,11 @@ const Tablepayment = () => {
             <tbody>
               <tr>
                 <td style={{ border: '1px solid black', padding: '8px' }}>ชื่อบัญชี</td>
-                <td style={{ border: '1px solid black', padding: '8px' }}>บริษัท ดิจิตอล (ไทยแลนด์) จำกัด</td>
+                <td style={{ border: '1px solid black', padding: '8px' }}>{productdata.sub_pay_name}</td>
               </tr>
               <tr>
                 <td style={{ border: '1px solid black', padding: '8px' }}>เลขประจำตัวเสียภาษี</td>
-                <td style={{ border: '1px solid black', padding: '8px' }}>01055400088324</td>
+                <td style={{ border: '1px solid black', padding: '8px' }}>{productdata.sub_pay_number}</td>
               </tr>
             </tbody>
           </table>

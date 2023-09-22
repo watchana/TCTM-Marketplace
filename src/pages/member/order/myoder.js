@@ -1,15 +1,47 @@
 // ** React Imports
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 //  ** MUI Imports
 import { Box, Divider, Tab, Tabs, Typography } from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import ShowOrder from './showorder'
 
-// ** Components
+// ** Axios Imports
+import axios from 'axios'
 
+const MyOrderPage = ({ MyOrderMenu }) => {
+  // ตัวแปรเก็บค่าข้อมูล
+  const [userId, setUserId] = useState('') // ข้อมูล user_Id
+  const [productdata, setProductData] = useState('') // product data
 
-const MyOrderPage = ({ MyOrderMenu, MyOrderProduct }) => {
+  // รับค่าข้อมูล จาก local Storage
+  useEffect(() => {
+    const userIdFromLocalStorage = localStorage.getItem('Member_Id')
+    if (userIdFromLocalStorage) {
+      setUserId(userIdFromLocalStorage)
+    }
+  }, [])
+
+  // เก็บค่าข้อมูลลง Api
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.member_order`, {
+          params: {
+            member_id: userId
+          }
+        })
+
+        // console.log('Api', response.data.message)
+        setProductData(response.data.message.Data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchData()
+  }, [userId])
+
   const [tabValue, setTabValue] = useState('1')
 
   const handleTabChange = (event, newValue) => {
@@ -42,8 +74,7 @@ const MyOrderPage = ({ MyOrderMenu, MyOrderProduct }) => {
               '& .MuiTabs-scrollButtons': {
                 '&.Mui-disabled': { opacity: 0.3 },
                 '@media (min-width: 960px)': {
-                  // จุดของ breakpoint md คือ 960px ใน Material-UI
-                  display: 'none' // ซ่อน scrollButtons
+                  display: 'none'
                 }
               }
             }}
@@ -54,7 +85,7 @@ const MyOrderPage = ({ MyOrderMenu, MyOrderProduct }) => {
           </TabList>
           {MyOrderMenu.map(item => (
             <TabPanel value={item.value.toString()} key={item.value} sx={{ m: -3 }}>
-              <ShowOrder tabValue={item.value} orderList={MyOrderProduct} />
+              <ShowOrder productdata={productdata} />
             </TabPanel>
           ))}
         </TabContext>
@@ -131,8 +162,7 @@ export async function getServerSideProps() {
 
   return {
     props: {
-      MyOrderMenu,
-      MyOrderProduct
+      MyOrderMenu
     }
   }
 }

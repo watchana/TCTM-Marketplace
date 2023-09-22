@@ -4,7 +4,9 @@ import React from 'react'
 // ** MUI Imports
 import { Avatar, Box, Button, Card, Divider, Grid, Radio, Stack, TextField, Typography } from '@mui/material'
 
-const Delivery = () => {
+const Delivery = ({ orderdata }) => {
+  const addressdata = orderdata.orderdata // เก็บค่าข้อมูล
+
   return (
     <Card
       sx={{
@@ -24,39 +26,39 @@ const Delivery = () => {
           <Typography variant='subtitle1'>Name </Typography>
         </Grid>
         <Grid item xs={6} sm={6} sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
-          <Typography variant='subtitle2'>Koravin Innanchai</Typography>
+          <Typography variant='subtitle2'>
+            {addressdata.user_first_name} {addressdata.user_last_name}
+          </Typography>
         </Grid>
         <Grid item xs={6} sm={6}>
           <Typography variant='subtitle1'>Phone Number</Typography>
         </Grid>
         <Grid item xs={6} sm={6} sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
-          <Typography variant='subtitle2'>000-000-0000</Typography>
+          <Typography variant='subtitle2'>{addressdata.user_tel}</Typography>
         </Grid>
       </Grid>
       <hr />
       <Grid container spacing={3} rowSpacing={2} sx={{ pt: { md: 3 } }}>
-        <Grid item xs={6} sm={12}>
-        </Grid>
+        <Grid item xs={6} sm={12}></Grid>
         <Grid item xs={6} sm={12}>
           <Typography variant='subtitle1'>Address</Typography>
         </Grid>
         <Grid item xs={6} sm={12}>
-          <Typography variant='subtitle2'>Kelly Williams 777 Brockton Avenue, Abington MA 2351</Typography>
+          <Typography variant='subtitle2'>{addressdata.user_address}</Typography>
         </Grid>
       </Grid>
       <hr />
       <Grid container spacing={3} rowSpacing={2} sx={{ pt: { md: 3 } }}>
         <Grid item xs={6} sm={12}>
-        </Grid>
-        <Grid item xs={6} sm={12}>
           <Typography variant='subtitle1'>Notes</Typography>
         </Grid>
         <Grid item xs={6} sm={12}>
-          <Typography variant='subtitle2'>a long time ago in a galaxy far far away</Typography>
+          <Typography variant='subtitle2'> -</Typography>
         </Grid>
       </Grid>
       <hr />
     </Card>
   )
 }
+
 export default Delivery

@@ -27,6 +27,36 @@ import Delivery from './delivery_address'
 import Paymant from './payment_details'
 
 const Orders_Detail = () => {
+  // ใช้งาน Router
+  const router = useRouter() // use router
+  const { invoice_id, usertype } = router.query
+
+  //ตัวแปรเก็บค่าข้อมูล
+  const [orderdata, setOrderData] = useState('') // Order Data
+  const [productoption, setProductOption] = useState('') // Product Option
+
+  // เก็บค่าข้อมูลจาก Api
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.invoice_detail`, {
+          params: {
+            invoice_id: invoice_id
+          }
+        })
+
+        // console.log('Api', response.data.message.Option_List)
+
+        setOrderData(response.data.message.Data[0])
+        setProductOption(response.data.message.Option_List)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchData()
+  }, [invoice_id])
+
   return (
     <Container maxWidth='xl'>
       <Box>
@@ -44,6 +74,7 @@ const Orders_Detail = () => {
               <Grid item xs={12} sm={8} md={8}>
                 <Typography variant='h4' fontSize='21px bold' color='#fff'>
                   Orders Detail
+                  {usertype === '2' ? <span> (Marker)</span> : usertype === '1' ? <span> (User)</span> : null}
                 </Typography>
                 <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
                   <Link href='/' passHref>
@@ -80,7 +111,7 @@ const Orders_Detail = () => {
             <Grid container alignItems='center'>
               <Grid item xs={12} sm={8} md={8}>
                 <Typography variant='h5' fontSize='18px bold'>
-                  Orders #425455245
+                  Product Id: {orderdata.product_id}
                 </Typography>
                 <Typography variant='subtitle2' fontSize='14px' sx={{ p: '0px 4px 0px' }}>
                   Below are the details order
@@ -100,12 +131,12 @@ const Orders_Detail = () => {
             <Grid container spacing={2}>
               <Grid item sm={12} md={11} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
                 <Box sx={{ width: '100%' }}>
-                  <Total />
+                  <Total productoption={productoption} orderdata={orderdata} />
                 </Box>
               </Grid>
               <Grid item sm={12} md={11} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
                 <Box sx={{ width: '100%' }}>
-                  <Delivery />
+                  <Delivery orderdata={{ orderdata }} />
                 </Box>
               </Grid>
             </Grid>
@@ -113,7 +144,7 @@ const Orders_Detail = () => {
 
           <Grid item sm={12} md={7} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
             <Box sx={{ width: '100%' }}>
-              <Paymant />
+              <Paymant usertype={usertype} orderdata={orderdata} invoice_id={invoice_id} />
             </Box>
           </Grid>
         </Grid>

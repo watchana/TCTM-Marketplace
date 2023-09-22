@@ -136,10 +136,12 @@ const Posts = () => {
       renderCell: rowCell => {
         const reqStatus = rowCell.value
         if (reqStatus === '1') {
-          return <Chip label='wait' color='warning' />
+          return <Chip label='Wait TCTM Approve' color='warning' />
         } else if (reqStatus === '2') {
-          return <Chip label='Waiting for approval' color='primary' />
+          return <Chip label='Wait for Po Approve' color='primary' />
         } else if (reqStatus === '3') {
+          return <Chip label='Wait for Shipping' color='primary' />
+        } else if (reqStatus === '4') {
           return <Chip label='Success' color='success' />
         } else {
           return <Chip label='Unknow' color='secondary' />

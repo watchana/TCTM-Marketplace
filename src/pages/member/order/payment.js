@@ -6,7 +6,16 @@ import FileUploadIcon from '@mui/icons-material/FileUpload'
 //** axios Import
 import axios from 'axios'
 
-const Payment = () => {
+//**  Next Import
+import { useRouter } from 'next/router'
+
+const Payment = ({ invoice_id, sub_id }) => {
+  // ใช้งาน Router
+  const router = useRouter() // use router
+
+  // นำเข้าตัวsweetalert2
+  const SAlert = require('sweetalert2')
+
   // ตัวแปรเก็บค่าข้อมูล
   const [selectedFileName, setSelectedFileName] = useState('') // เก็บชื่อไฟล์
   const [File, setFile] = useState(null) // เก็บค่า  File
@@ -42,47 +51,51 @@ const Payment = () => {
   const handleImgSubmit = async e => {
     e.preventDefault()
 
-    // const data = {
-    //   po_id: '-',
-    //   invoice_filename: recipient,
-    //   descritp_tion: '-',
-    //   product_id: poFileName,
-    //   member_id: poFileName,
-    //   sub_id: poFileName,
-    //   type: 'product',
-    //   option: 'product'
-    // }
+    const data = {
+      invoice_id: invoice_id,
+      invoice_file_name: FileName,
+      sub_id: sub_id
+    }
 
-    // console.log("data",data);
+    // ตรวจสอบค่าว่างใน TextField
+    if (FileName === '') {
+      SAlert.fire({
+        icon: 'error',
+        title: 'Please attach a proof of payment/transfer slip.'
+      })
 
-    // try {
-    //   const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.addnew_po`, data)
-    //   console.log(response)
-    //   handleClose()
-    //   Swal.fire({
-    //     icon: 'success',
-    //     title: 'Approve Success'
-    //   })
+      return
+    }
 
-    //   // เรียกใช้ฟังก์ชัน อัปโหลดไฟล์รูปภาพลงเครื่อง
-    //   const formData = new FormData()
-    //   formData.append('file', File)
-    //   formData.append('FileName', FileName)
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.send_proof`, data)
+      console.log(response)
+      SAlert.fire({
+        icon: 'success',
+        title: 'Success'
+      })
 
-    //   // ส่งไฟล์ไปยัง API
-    //   try {
-    //     const response = await axios.post(`/api/payment_FileUpload`, formData, {
-    //       headers: {
-    //         'Content-Type': 'multipart/form-data'
-    //       }
-    //     })
-    //     console.log('response Api', response)
-    //   } catch (error) {
-    //     console.log(error)
-    //   }
-    // } catch (error) {
-    //   console.log(error)
-    // }
+      // เรียกใช้ฟังก์ชัน อัปโหลดไฟล์รูปภาพลงเครื่อง
+      const formData = new FormData()
+      formData.append('file', File)
+      formData.append('FileName', FileName)
+
+      // ส่งไฟล์ไปยัง API
+      try {
+        const response = await axios.post(`/api/payment_FileUpload`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        console.log('response Api', response)
+      } catch (error) {
+        console.log(error)
+      }
+
+      router.push(`/member/order/myoder/`)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (

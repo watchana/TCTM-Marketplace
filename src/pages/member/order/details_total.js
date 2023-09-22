@@ -1,10 +1,31 @@
 // ** React Imports
-import React from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 
 // ** MUI Imports
 import { Avatar, Box, Button, Card, Divider, Grid, Radio, Stack, TextField, Typography } from '@mui/material'
 
-const Total = () => {
+const Total = ({ productoption, orderdata }) => {
+  const [optiondata, setOptionData] = useState('') // Option Data
+
+  // ฟังชันแปลงค่า option เป็น text
+  const extractOptionData = useCallback(() => {
+    if (Array.isArray(productoption)) {
+      const extractedData = productoption.map(item => {
+        if (item && item.option_name && item.value_name) {
+          return `${item.option_name}: ${item.value_name}`
+        } else {
+          return ''
+        }
+      })
+      const optionDataString = extractedData.join(', ')
+      setOptionData(optionDataString)
+    }
+  }, [productoption])
+
+  useEffect(() => {
+    extractOptionData()
+  }, [productoption, extractOptionData])
+
   return (
     <Card
       sx={{
@@ -24,19 +45,21 @@ const Total = () => {
           <Typography variant='subtitle1'>Product Name</Typography>
         </Grid>
         <Grid item xs={6} sm={6} sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
-          <Typography variant='subtitle2'>VALVE STEAM DECK</Typography>
+          <Typography variant='subtitle2'>{orderdata.product_name}</Typography>
         </Grid>
         <Grid item xs={6} sm={6}>
           <Typography variant='subtitle1'>Option</Typography>
         </Grid>
-        <Grid item xs={6} sm={6} sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
-          <Typography variant='subtitle2'>256 GB</Typography>
+        {/* ข้อมูล option */}
+        <Grid sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
+          <Typography variant='subtitle2'>{optiondata}</Typography>
         </Grid>
+
         <Grid item xs={6} sm={6}>
           <Typography variant='subtitle1'>Amount</Typography>
         </Grid>
         <Grid item xs={6} sm={6} sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
-          <Typography variant='subtitle2'>x 1</Typography>
+          <Typography variant='subtitle2'>x {orderdata.amount}</Typography>
         </Grid>
       </Grid>
       <hr />
@@ -50,11 +73,12 @@ const Total = () => {
           <Typography variant='subtitle1'>Total</Typography>
         </Grid>
         <Grid item xs={6} sm={6} sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
-          <Typography variant='subtitle2'>$ 737.81</Typography>
+          <Typography variant='subtitle2'>$ {orderdata.price_total}</Typography>
         </Grid>
       </Grid>
       <hr />
     </Card>
   )
 }
+
 export default Total
