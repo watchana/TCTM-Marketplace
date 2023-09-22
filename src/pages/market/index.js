@@ -159,11 +159,15 @@ const MyMarket = () => {
               onChange={handleCategoryChange}
               label='Category'
             >
-              {uniqueCategoryIds.map(category => (
-                <MenuItem key={category.category_id} value={category.category_id}>
-                  {category.category_name}
-                </MenuItem>
-              ))}
+              {uniqueCategoryIds && uniqueCategoryIds.length > 0 ? (
+                uniqueCategoryIds.map(category => (
+                  <MenuItem key={category.category_id} value={category.category_id}>
+                    {category.category_name}
+                  </MenuItem>
+                ))
+              ) : (
+                <MenuItem disabled>No Data</MenuItem>
+              )}
             </Select>
           </FormControl>
         </Grid>

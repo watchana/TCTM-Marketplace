@@ -244,17 +244,19 @@ const Orders = ({ subId }) => {
   const [searchText, setSearchText] = useState('') // ฟังก์ชัน Search
 
   const filteredRows = rows
-    .filter(row => {
-      if (selectedInvoiceStatus === '') {
-        return true
-      }
+    ? rows
+        .filter(row => {
+          if (selectedInvoiceStatus === '') {
+            return true
+          }
 
-      return row.invoice_status === selectedInvoiceStatus
-    })
-    .filter(row => {
-      // กรองข้อมูลตาม product_name ที่มี searchText
-      return row.product_name.toLowerCase().includes(searchText.toLowerCase())
-    })
+          return row.invoice_status === selectedInvoiceStatus
+        })
+        .filter(row => {
+          // กรองข้อมูลตาม product_name ที่มี searchText
+          return row.product_name.toLowerCase().includes(searchText.toLowerCase())
+        })
+    : []
 
   return (
     <Box sx={{ padding: '10px 10px 15px' }}>
@@ -270,23 +272,27 @@ const Orders = ({ subId }) => {
               onChange={e => setSelectedInvoiceStatus(e.target.value)}
             >
               <MenuItem value=''>All</MenuItem>
-              {Array.from(new Set(rows.map(row => row.invoice_status))).map(invoiceStatus => (
-                <MenuItem key={invoiceStatus} value={invoiceStatus}>
-                  {invoiceStatus === '1'
-                    ? 'Waiting Confirm'
-                    : invoiceStatus === '2'
-                    ? 'Waiting payment'
-                    : invoiceStatus === '3'
-                    ? 'Waiting verify'
-                    : invoiceStatus === '4'
-                    ? 'Delivery'
-                    : invoiceStatus === '5'
-                    ? 'Complete'
-                    : invoiceStatus === '0'
-                    ? 'Reject'
-                    : 'Unknown'}
-                </MenuItem>
-              ))}
+              {rows && rows.length > 0 ? (
+                Array.from(new Set(rows.map(row => row.invoice_status))).map(invoiceStatus => (
+                  <MenuItem key={invoiceStatus} value={invoiceStatus}>
+                    {invoiceStatus === '1'
+                      ? 'Waiting Confirm'
+                      : invoiceStatus === '2'
+                      ? 'Waiting payment'
+                      : invoiceStatus === '3'
+                      ? 'Waiting verify'
+                      : invoiceStatus === '4'
+                      ? 'Delivery'
+                      : invoiceStatus === '5'
+                      ? 'Complete'
+                      : invoiceStatus === '0'
+                      ? 'Reject'
+                      : 'Unknown'}
+                  </MenuItem>
+                ))
+              ) : (
+                <MenuItem disabled>No Data</MenuItem>
+              )}
             </Select>
           </FormControl>
         </Grid>

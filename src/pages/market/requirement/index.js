@@ -200,6 +200,9 @@ const Requirement = SubID => {
   const [searchTerm, setSearchTerm] = useState('')
 
   const getUniqueReqStatus = () => {
+    if (!rowdata) {
+      return []
+    }
     const uniqueReqStatus = [...new Set(rowdata.map(row => row.req_status))]
 
     return uniqueReqStatus
@@ -214,32 +217,44 @@ const Requirement = SubID => {
     }
   }
 
+  // ฟังก์ชันสำหรับรีเซตข้อมูลค้นหา
+  const handleReset = () => {
+    setSelectedReqStatus('') // รีเซตค่า selectedReqStatus เป็นค่าว่าง
+    setSearchTerm('') // รีเซตค่า searchTerm เป็นค่าว่าง
+  }
+
   return (
     <Box sx={{ padding: '10px 10px 15px' }}>
       <Grid container spacing={3}>
         <Grid item xl={2} lg={2} md={2} sm={12} xs={12}>
           <FormControl fullWidth size='small' variant='outlined' sx={{ maxHeight: '42px', height: '42px' }}>
-            <InputLabel id='demo-simple-select-outlined-label'>Category</InputLabel>
+            <InputLabel id='demo-simple-select-outlined-label'>Status</InputLabel>
             <Select
               labelId='demo-simple-select-outlined-label'
               id='demo-simple-select-outlined'
-              label='Category'
+              label='Status'
               name='selectedReqStatus'
               value={selectedReqStatus}
               onChange={handleChange}
             >
               <MenuItem value=''>All</MenuItem>
-              {getUniqueReqStatus().map(status => (
-                <MenuItem key={status} value={status}>
-                  {status === '2'
-                    ? 'Pending'
-                    : status === '3'
-                    ? 'Success'
-                    : status === '4'
-                    ? 'Success Nissan'
-                    : 'Unknown'}
+              {getUniqueReqStatus().length === 0 ? (
+                <MenuItem value='NoData' disabled>
+                  No Data
                 </MenuItem>
-              ))}
+              ) : (
+                getUniqueReqStatus().map(status => (
+                  <MenuItem key={status} value={status}>
+                    {status === '2'
+                      ? 'Pending'
+                      : status === '3'
+                      ? 'Success'
+                      : status === '4'
+                      ? 'Success Nissan'
+                      : 'Unknown'}
+                  </MenuItem>
+                ))
+              )}
             </Select>
           </FormControl>
         </Grid>
@@ -255,7 +270,13 @@ const Requirement = SubID => {
           />
         </Grid>
         <Grid item xl={1} lg={1} md={1} sm={4} xs={4}>
-          <Button fullWidth size='small' variant='outlined' sx={{ height: '100%' }}>
+          <Button
+            fullWidth
+            size='small'
+            variant='outlined'
+            sx={{ height: '100%' }}
+            onClick={handleReset} // เรียกใช้ฟังก์ชัน handleReset เมื่อคลิกปุ่ม "Reset"
+          >
             Reset
           </Button>
         </Grid>
