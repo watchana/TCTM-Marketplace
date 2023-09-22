@@ -282,7 +282,7 @@ const MyMarket = () => {
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <TabList onChange={handleChange} aria-label='lab API tabs example'>
                 <Tab label='Products' value='1' />
-                <Tab label='Orders' value='2' />
+                <Tab label='Product Orders' value='2' />
                 <Tab label='Requirement ' value='3' />
               </TabList>
             </Box>
