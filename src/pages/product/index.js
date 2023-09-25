@@ -461,7 +461,12 @@ const ProductDetails = () => {
               </Box>
               {/* ========== Button ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
-                <Button sx={{ width: 175 }} variant='contained' startIcon={<ShoppingCartIcon />}>
+                <Button
+                  sx={{ width: 175 }}
+                  variant='contained'
+                  startIcon={<ShoppingCartIcon />}
+                  onClick={handleBuyNowClick}
+                >
                   add to cart
                 </Button>
               </Box>

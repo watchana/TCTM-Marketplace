@@ -10,9 +10,13 @@ import EyeOutline from 'mdi-material-ui/EyeOutline'
 //** axios Import
 import axios from 'axios'
 
+//** Next Import */
+import { useRouter } from 'next/router'
+
 const ShowOrderReq = ({ userId }) => {
   // นำเข้าตัวsweetalert2
   const Swal = require('sweetalert2')
+  const router = useRouter() //use router
 
   // ตัวแปรเก็บค่าข้อมูล
   const [rows, setRows] = useState([]) // ข้อมูล row
@@ -80,6 +84,11 @@ const ShowOrderReq = ({ userId }) => {
     }
   }
 
+  // ฟังชัน ย้ายไปหน้า แนบบหลักฐาน
+  const handleApprovePage = (sub_id, invoice_id) => {
+    router.push(`/member/order/orderReq/?sub_id=${sub_id}&invoice_id=${invoice_id}`)
+  }
+
   // colum
   const columns = [
     { field: 'po_id', headerName: 'PO ID', width: 120 },
@@ -102,12 +111,6 @@ const ShowOrderReq = ({ userId }) => {
       renderCell: rowCell => {
         const invoiceStatus = rowCell.row.invoice_status
 
-        const handleDetailClick = () => {
-          router.push(
-            `/market/port-detail-marker/?req_id=${rowCell.row.req_id}&sub_id=${sub_id}&member_id2=${rowCell.row.member_id}`
-          )
-        }
-
         const isDisabled =
           invoiceStatus === '0' ||
           invoiceStatus === '1' ||
@@ -116,13 +119,37 @@ const ShowOrderReq = ({ userId }) => {
           invoiceStatus === '5'
 
         return (
-          <Button variant='outlined' onClick={handleConfirmProduct} disabled={isDisabled}>
+          <Button
+            variant='outlined'
+            onClick={() => handleApprovePage(rowCell.row.sub_id, rowCell.row.invoice_id)}
+            disabled={isDisabled}
+          >
             แนบหลักฐาน
           </Button>
         )
       }
     },
 
+    {
+      field: 'Detail_Approve',
+      headerName: 'Detail Approve',
+      minWidth: 100,
+      renderCell: rowCell => {
+        const invoiceStatus = rowCell.row.invoice_status
+
+        const handleDetailClick = () => {
+          router.push(`/member/order/ordersdetailReq/?invoice_id=${rowCell.row.invoice_id}&usertype=1`)
+        }
+
+        const isDisabled = invoiceStatus === '0' || invoiceStatus === '1' || invoiceStatus === '2'
+
+        return (
+          <Button variant='outlined' onClick={handleDetailClick} disabled={isDisabled}>
+            ดูรายละเอียด
+          </Button>
+        )
+      }
+    },
     {
       field: 'Detail',
       headerName: 'Detail',
@@ -132,7 +159,7 @@ const ShowOrderReq = ({ userId }) => {
 
         const handleDetailClick = () => {
           router.push(
-            `/market/port-detail-marker/?req_id=${rowCell.row.req_id}&sub_id=${sub_id}&member_id2=${rowCell.row.member_id}`
+            `/market/port-detail-marker/?req_id=${rowCell.row.po_requirement}&sub_id=${rowCell.row.sub_id}&member_id2=${rowCell.row.member_id}`
           )
         }
 
@@ -151,12 +178,6 @@ const ShowOrderReq = ({ userId }) => {
       minWidth: 100,
       renderCell: rowCell => {
         const invoiceStatus = rowCell.row.invoice_status
-
-        const handleDetailClick = () => {
-          router.push(
-            `/market/port-detail-marker/?req_id=${rowCell.row.req_id}&sub_id=${sub_id}&member_id2=${rowCell.row.member_id}`
-          )
-        }
 
         const isDisabled =
           invoiceStatus === '0' ||

@@ -14,19 +14,19 @@ const Total = ({ megaProductdata }) => {
           }}
         >
           <Typography variant='subtitle1' gutterBottom>
-            Product Name : {megaProductdata.product_name}
+            Product Name : {megaProductdata.product_name || ''}
           </Typography>
         </div>
         <div style={{ marginLeft: '15px', display: 'flex', alignItems: 'baseline' }}>
           <Typography variant='body1' style={{ color: 'gray' }} paragraph>
-            Count : {megaProductdata.product_amount}
+            Count : {megaProductdata.product_amount || ''}
           </Typography>
         </div>
       </CardContent>
 
       {/* ส่วนของ Total */}
       <div style={{ display: 'flex', alignItems: 'baseline' }}>
-        <Box style={{ marginLeft: '36px' }}> Total: {megaProductdata.price_total} </Box>
+        <Box style={{ marginLeft: '36px' }}> Total: {megaProductdata.price_total || ''} </Box>
       </div>
       <br />
       <hr />

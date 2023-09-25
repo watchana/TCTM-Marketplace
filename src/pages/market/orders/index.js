@@ -324,7 +324,7 @@ const Orders = ({ subId }) => {
         <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
           <Box sx={{ display: 'flex', flexDirection: 'row', paddingLeft: 1 }}>
             <Typography variant='body1' fontSize='1.5rem bold' color='#000'>
-              0 Orders
+              {filteredRows.length} Orders
             </Typography>
           </Box>
         </Grid>
