@@ -11,6 +11,7 @@ import {
   Button,
   Card,
   CardContent,
+  CardMedia,
   Divider,
   FormControl,
   FormControlLabel,
@@ -184,7 +185,18 @@ const LoginPage = () => {
       }}
     >
       <Box sx={{ display: 'grid', placeItems: 'center', paddingY: '1rem' }}>
-        <img src='/images/logos/LOGO.png' alt='logo' width='260px' />
+        <CardMedia
+          component='img'
+          image='/images/logos/LOGO.png'
+          alt='logo'
+          sx={{
+            width: '260px',
+            '&:hover': {
+              transform: 'scale(1.1)',
+              transition: 'all 0.3s ease'
+            }
+          }}
+        />
       </Box>
       <Card
         sx={{
