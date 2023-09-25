@@ -104,6 +104,7 @@ const RegisterSupplier = () => {
     setPaypalNumber(event.target.value)
   }
 
+  // ฟังชันส่งข้อมูล Register
   const handleSubmitData = async event => {
     event.preventDefault()
     setIsSubmitted(true)

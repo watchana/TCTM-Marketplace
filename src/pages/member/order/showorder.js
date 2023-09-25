@@ -8,8 +8,16 @@ import { useRouter } from 'next/router'
 // ** MUI Imports
 import { Box, Button, Card, Divider, Grid, Typography } from '@mui/material'
 
-const ShowOrder = ({ productdata }) => {
+// ** axios Import
+import axios from 'axios'
+
+const ShowOrder = ({ productdata, updateProductData }) => {
   const router = useRouter() //use router
+
+  // นำเข้าตัวsweetalert2
+  const Swal = require('sweetalert2')
+
+  console.log('productdata', productdata)
 
   if (!productdata || productdata.length === 0) {
     return <Typography>No Product</Typography>
@@ -25,6 +33,43 @@ const ShowOrder = ({ productdata }) => {
   // ฟังชัน ย้ายไปหน้า ดูรายละเอียดผลิตภัณ
   const handleDetailPage = invoice_id => {
     router.push(`/member/order/ordersdetail/?invoice_id=${invoice_id}&usertype=${usertype}`)
+  }
+
+  // ฟังชันยืนยันข้อมูล
+  const handleConfirmProduct = async (event, invoice_id) => {
+    event.preventDefault()
+
+    try {
+      const data = {
+        invoice_id: invoice_id
+      }
+
+      console.log('data', data)
+
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.member_confirm_product`, data)
+      if (response.status === 200) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Success'
+        })
+        console.log(response.status)
+        updateProductData()
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Api Has a Problem'
+        })
+      }
+    } catch (error) {
+      console.error(error)
+      console.log(error)
+      Swal.fire({
+        icon: 'error',
+        title: 'การส่งข้อมูลล้มเหลว',
+        text: 'มีข้อผิดพลาดในการเรียก API'
+      })
+    }
   }
 
   return (
@@ -142,6 +187,7 @@ const ShowOrder = ({ productdata }) => {
                                 item.invoice_status === '3' ||
                                 item.invoice_status === '5'
                               }
+                              onClick={event => handleConfirmProduct(event, item.invoice_id)}
                             >
                               ยอมรับสินค้า
                             </Button>
