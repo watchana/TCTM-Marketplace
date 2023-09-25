@@ -48,6 +48,13 @@ const AppBarContent = props => {
                 component='img'
                 image='https://media.discordapp.net/attachments/1143783715877703833/1152162375529676861/tctm-logo.png?width=711&height=702'
                 alt='logo'
+                sx={{
+                  cursor: 'pointer',
+                  '&:hover': {
+                    transform: 'scale(1.1)',
+                    transition: 'all 0.3s ease'
+                  }
+                }}
               />
             </Link>
           </Box>
