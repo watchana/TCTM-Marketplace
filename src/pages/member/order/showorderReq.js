@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import Chip from '@mui/material/Chip'
 import { DataGrid } from '@mui/x-data-grid'
 
 // ** Material Design Icons Imports
@@ -21,10 +22,10 @@ const ShowOrderReq = ({ userId }) => {
   // ตัวแปรเก็บค่าข้อมูล
   const [rows, setRows] = useState([]) // ข้อมูล row
 
+  console.log('rows: ', rows)
+
   // State Control
   const [shouldFetchData, setShouldFetchData] = useState(true) // ควบคุมการดึงข้อมูล Api
-
-  console.log('rows: ', rows)
 
   // เก็บค่าข้อมูลลง Api
   useEffect(() => {
@@ -105,6 +106,38 @@ const ShowOrderReq = ({ userId }) => {
     },
     { field: 'descritp_tion', headerName: 'Description', width: 320 },
     {
+      field: 'invoice_status',
+      headerName: 'PO Status',
+      width: 200,
+      renderCell: params => {
+        const { value } = params
+
+        let statusElement
+        switch (value) {
+          case '1':
+            statusElement = <div style={{ color: 'red' }}>Wait Market Approve</div>
+            break
+          case '2':
+            statusElement = <div style={{ color: 'blue' }}>Wait Member send proof</div>
+            break
+          case '3':
+            statusElement = <div style={{ color: 'green' }}>Wait Market verify</div>
+            break
+          case '4':
+            statusElement = <div style={{ color: 'purple' }}>Delivery</div>
+            break
+          case '5':
+            statusElement = <div style={{ color: 'orange' }}>Complete</div>
+            break
+          default:
+            statusElement = <div>Unknown</div>
+        }
+
+        return statusElement
+      }
+    },
+
+    {
       field: 'payment',
       headerName: 'payment',
       minWidth: 100,
@@ -124,7 +157,7 @@ const ShowOrderReq = ({ userId }) => {
             onClick={() => handleApprovePage(rowCell.row.sub_id, rowCell.row.invoice_id)}
             disabled={isDisabled}
           >
-            แนบหลักฐาน
+            Attach file
           </Button>
         )
       }
@@ -145,7 +178,7 @@ const ShowOrderReq = ({ userId }) => {
 
         return (
           <Button variant='outlined' onClick={handleDetailClick} disabled={isDisabled}>
-            ดูรายละเอียด
+            Detail
           </Button>
         )
       }
@@ -167,7 +200,7 @@ const ShowOrderReq = ({ userId }) => {
 
         return (
           <Button variant='outlined' onClick={handleDetailClick} disabled={isDisabled}>
-            ดูรายละเอียด
+            Detail
           </Button>
         )
       }
@@ -192,7 +225,7 @@ const ShowOrderReq = ({ userId }) => {
             onClick={event => handleConfirmProduct(event, rowCell.row.invoice_id)}
             disabled={isDisabled}
           >
-            ยอมรับสินค้า
+            Confirm
           </Button>
         )
       }

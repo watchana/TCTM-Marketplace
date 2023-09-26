@@ -65,9 +65,14 @@ const ProductDetails = () => {
   const [options, setOptions] = useState([]) // ตัวแปรเก็บค่า ตัวเลือก
   const [selection, setSelection] = useState('') // ตัวแปร Selection เก็บค่าตัวเลือก (ข้อมูลที่ต้องส่ง)
   const [productdata, setProductData] = useState([]) // ตัวแปรเก็บข้อมูลสินค่า
-  const [productimg, setProductImg] = useState([]) // ตัวแปรเก็บข้อมูลรูปภาพ
   const [price, setPrice] = useState('') // ตัวแปรเก็บค่าข้อมูลราคาสินค้า
   const [productName, setProductName] = useState('') // ตัวแปรเก็บค่าชื่อสินค้า
+  const [productimg, setProductImg] = useState([]) // ตัวแปรเก็บข้อมูลรูปภาพ
+
+  const FirstImage = productimg && productimg[0] ? productimg[0].image_file_name : null // ตัวแปรเก็บข้อมูลรูปภาพตัวอย่าง
+
+  // ตัวแปรเก็บการแสดงราคา
+  const totalPrice = price * quantity
 
   const [valueTabs, setValueTabs] = useState('1')
 
@@ -138,7 +143,7 @@ const ProductDetails = () => {
       // แปลงออบเจ็กต์ selection เป็นสตริง JSON
       const selectionString = JSON.stringify(selection)
       router.push(
-        `/member/checkout/?productName=${productName}&price=${price}&quantity=${quantity}&selection=${selectionString}&sub_id=${productdata.sub_id}&product_id=${productdata.product_id}`
+        `/member/checkout/?productName=${productName}&price=${price}&quantity=${quantity}&selection=${selectionString}&sub_id=${productdata.sub_id}&product_id=${productdata.product_id}&FirstImage=${FirstImage}`
       )
     }
   }
@@ -453,10 +458,12 @@ const ProductDetails = () => {
               {/* ========== Price ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
                 <Typography variant='h3' fontSize='32px' color='#2d2e81'>
-                  ${' '}
+                  {/* ${' '}
                   {selection
                     ? selection.find(option => option.option_name === 'Price')?.value_name
-                    : 'Please specify product options.'}
+                    : 'Please specify product options.'} */}
+
+                  {totalPrice || 'Please specify product options.'}
                 </Typography>
               </Box>
               {/* ========== Button ========== */}

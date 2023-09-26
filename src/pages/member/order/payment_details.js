@@ -19,6 +19,7 @@ import {
   Box
 } from '@mui/material'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
+import DownloadIcon from '@mui/icons-material/Download'
 
 import Paymant from './payment'
 import { useState } from 'react'
@@ -26,7 +27,7 @@ import { useState } from 'react'
 //** axios Imort */
 import axios from 'axios'
 
-const Payment = ({ usertype, invoice_id, orderdata }) => {
+const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
   // ** Switch Alert Import
   const Swal = require('sweetalert2')
 
@@ -147,6 +148,44 @@ const Payment = ({ usertype, invoice_id, orderdata }) => {
     setTracking(event.target.value)
   }
 
+  // ฟังชัน download ใบเสร็จ
+  const handleDownload = async FileName => {
+    const fileName = FileName
+
+    console.log('fileName', fileName)
+
+    try {
+      const downloadResponse = await fetch('/api/receipt_FileDownload', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ fileName }),
+        responseType: 'blob' // Indicate that the response should be treated as binary data
+      })
+
+      if (downloadResponse.ok) {
+        const blob = await downloadResponse.blob()
+        const blobUrl = URL.createObjectURL(blob)
+
+        // Create a download link and initiate the download
+        const downloadLink = document.createElement('a')
+        downloadLink.href = blobUrl
+        downloadLink.download = fileName
+        downloadLink.click()
+
+        // Clean up the object URL after the download is initiated
+        URL.revokeObjectURL(blobUrl)
+
+        console.log('Download initiated')
+      } else {
+        console.error('Error downloading document:', downloadResponse.statusText)
+      }
+    } catch (error) {
+      console.error('An error occurred:', error)
+    }
+  }
+
   return (
     <Card
       sx={{
@@ -247,6 +286,24 @@ const Payment = ({ usertype, invoice_id, orderdata }) => {
           <Grid item xs={12} sm={9}>
             <Typography variant='subtitle1' sx={{ textAlign: 'start' }}>
               {orderdata.tracking_number || '-'}
+            </Typography>
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={6}>
+            <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
+              Receipt Download
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={9}>
+            <Typography variant='subtitle1' sx={{ textAlign: 'start' }}>
+              <Button
+                variant='outlined'
+                onClick={() => handleDownload(receipt)}
+                startIcon={<DownloadIcon />}
+                disabled={!receipt}
+              >
+                Download
+              </Button>
             </Typography>
           </Grid>
         </Grid>

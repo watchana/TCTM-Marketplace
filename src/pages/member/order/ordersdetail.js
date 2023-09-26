@@ -35,6 +35,8 @@ const Orders_Detail = () => {
   const [orderdata, setOrderData] = useState('') // Order Data
   const [productoption, setProductOption] = useState('') // Product Option
 
+  // console.log('orderdata', orderdata.receipt_file_name)
+
   // เก็บค่าข้อมูลจาก Api
   useEffect(() => {
     console.log('invoice_id', invoice_id)
@@ -58,8 +60,6 @@ const Orders_Detail = () => {
 
     fetchData()
   }, [invoice_id])
-
-  // console.log('orderdata Bil', orderdata)
 
   return (
     <Container maxWidth='xl'>
@@ -148,7 +148,12 @@ const Orders_Detail = () => {
 
           <Grid item sm={12} md={7} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
             <Box sx={{ width: '100%' }}>
-              <Paymant usertype={usertype} orderdata={orderdata} invoice_id={invoice_id} />
+              <Paymant
+                usertype={usertype}
+                orderdata={orderdata}
+                invoice_id={invoice_id}
+                receipt={orderdata.receipt_file_name}
+              />
             </Box>
           </Grid>
         </Grid>

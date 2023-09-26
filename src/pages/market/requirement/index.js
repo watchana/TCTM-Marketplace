@@ -282,12 +282,14 @@ const Requirement = SubID => {
         </Grid>
         <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
           <Box sx={{ display: 'flex', flexDirection: 'row', paddingLeft: 1 }}>
-            <Typography variant='body1' fontSize='1.5rem bold' color='#000'>
-              {rowdata.filter(
-                row =>
-                  (searchTerm === '' || row.req_header.toLowerCase().includes(searchTerm.toLowerCase())) &&
-                  (selectedReqStatus === '' || row.req_status === selectedReqStatus)
-              ).length || '-'}
+            <Typography variant='body1' fontWeight='' fontSize='1.0rem' color='#000'>
+              {(rowdata &&
+                rowdata.filter(
+                  row =>
+                    (searchTerm === '' || row.req_header.toLowerCase().includes(searchTerm.toLowerCase())) &&
+                    (selectedReqStatus === '' || row.req_status === selectedReqStatus)
+                ).length) ||
+                '0 '}
               Requirements
             </Typography>
           </Box>

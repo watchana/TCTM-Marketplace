@@ -37,7 +37,7 @@ const Checkout = ({}) => {
   // นำเข้าตัวsweetalert2
   const Swal = require('sweetalert2')
   const router = useRouter() // เรียกใช้งาน Router
-  const { productName, price, quantity, selection, sub_id, product_id } = router.query // รับค่าข้อมูล จาก Router
+  const { productName, price, quantity, selection, sub_id, product_id, FirstImage } = router.query // รับค่าข้อมูล จาก Router
 
   // ตัวแปรรับค่าข้อมูล
   const [userId, setUserId] = useState('') // ข้อมูล user_Id
@@ -114,8 +114,6 @@ const Checkout = ({}) => {
       total: total
     }
 
-    // console.log('Bill data', data)
-
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.gen_invoice`, data)
       console.log(response)
@@ -168,7 +166,13 @@ const Checkout = ({}) => {
                   Shipping Details
                 </Typography>
               </Grid>
-              <Shipping productName={productName} price={price} quantity={quantity} parsedSelection={parsedSelection} />
+              <Shipping
+                productName={productName}
+                price={price}
+                quantity={quantity}
+                parsedSelection={parsedSelection}
+                FirstImage={FirstImage}
+              />
             </Grid>
             {/* <Grid container spacing={2} alignItems='center' sx={{ p: '10px 10px 2px' }}>
               <Grid item>

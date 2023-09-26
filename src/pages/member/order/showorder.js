@@ -17,8 +17,6 @@ const ShowOrder = ({ productdata, updateProductData }) => {
   // นำเข้าตัวsweetalert2
   const Swal = require('sweetalert2')
 
-  console.log('productdata', productdata)
-
   if (!productdata || productdata.length === 0) {
     return <Typography>No Product</Typography>
   }
@@ -159,7 +157,7 @@ const ShowOrder = ({ productdata, updateProductData }) => {
                               }
                               onClick={() => handleApprovePage(item.sub_id, item.invoice_id)}
                             >
-                              แนบหลักฐาน
+                              Attach file
                             </Button>{' '}
                           </Grid>
                           <Grid item xs={12} sm={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -173,7 +171,7 @@ const ShowOrder = ({ productdata, updateProductData }) => {
                               }
                               onClick={() => handleDetailPage(item.invoice_id)}
                             >
-                              ดูรายละเอียด
+                              Detail
                             </Button>
                           </Grid>
                           <Grid item xs={12} sm={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -189,7 +187,7 @@ const ShowOrder = ({ productdata, updateProductData }) => {
                               }
                               onClick={event => handleConfirmProduct(event, item.invoice_id)}
                             >
-                              ยอมรับสินค้า
+                              Confirm
                             </Button>
                           </Grid>
                         </Grid>
