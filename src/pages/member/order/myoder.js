@@ -78,7 +78,7 @@ const MyOrderPage = () => {
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleChange} aria-label='lab API tabs example'>
             <Tab label='Product Order' value='1' />
-            <Tab label='Product Requirment Order' value='2' />
+            <Tab label='Requirment Order' value='2' />
             <Tab label='Item Three' value='3' />
           </TabList>
         </Box>

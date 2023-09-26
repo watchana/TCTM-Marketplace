@@ -47,6 +47,7 @@ import { get } from 'local-storage'
 
 // ** Components Imports
 import Orders from './orders'
+import OrdersReq from './ordersReq'
 import Requirement from './requirement'
 
 // ** Data Grid Columns
@@ -283,7 +284,8 @@ const MyMarket = () => {
               <TabList onChange={handleChange} aria-label='lab API tabs example'>
                 <Tab label='Products' value='1' />
                 <Tab label='Product Orders' value='2' />
-                <Tab label='Requirement ' value='3' />
+                <Tab label='Product Requirement Orders' value='3' />
+                <Tab label='Requirement ' value='4' />
               </TabList>
             </Box>
             <TabPanel value='1'>
@@ -323,6 +325,9 @@ const MyMarket = () => {
               <Orders subId={subId} />
             </TabPanel>
             <TabPanel value='3'>
+              <OrdersReq subId={subId} />
+            </TabPanel>
+            <TabPanel value='4'>
               <Requirement sub_id={subId} />
             </TabPanel>
           </TabContext>

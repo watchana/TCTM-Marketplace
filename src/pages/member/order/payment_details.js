@@ -19,6 +19,7 @@ import {
   Box
 } from '@mui/material'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
+import DownloadIcon from '@mui/icons-material/Download'
 
 import Paymant from './payment'
 import { useState } from 'react'
@@ -26,7 +27,7 @@ import { useState } from 'react'
 //** axios Imort */
 import axios from 'axios'
 
-const Payment = ({ usertype, invoice_id, orderdata }) => {
+const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
   // ** Switch Alert Import
   const Swal = require('sweetalert2')
 
@@ -34,7 +35,7 @@ const Payment = ({ usertype, invoice_id, orderdata }) => {
   const [isConfirmed, setIsConfirmed] = useState(false) // ควบคุมการกด submit ฟังก์ชัน handleInvoiceClick
 
   // console.log('555', orderdata)
-  console.log('666', orderdata.invoice_file_name)
+  // console.log('666', orderdata.invoice_file_name)
 
   const [status, setStatus] = React.useState('')
   const [Tracking, setTracking] = useState('') //Tracking Number set
@@ -80,6 +81,7 @@ const Payment = ({ usertype, invoice_id, orderdata }) => {
         title: 'Confirm Data Success'
       })
       setIsConfirmed(true)
+      window.location.reload()
     } catch (error) {
       Swal.fire({
         icon: 'error',
@@ -136,8 +138,6 @@ const Payment = ({ usertype, invoice_id, orderdata }) => {
       } catch (error) {
         console.log(error)
       }
-
-      // router.push(`/member/order/myoder/`)
     } catch (error) {
       console.log(error)
     }
@@ -146,6 +146,44 @@ const Payment = ({ usertype, invoice_id, orderdata }) => {
   // ฟังชันเก็บค่าตัวแปร Tracking
   const handleTracking = event => {
     setTracking(event.target.value)
+  }
+
+  // ฟังชัน download ใบเสร็จ
+  const handleDownload = async FileName => {
+    const fileName = FileName
+
+    console.log('fileName', fileName)
+
+    try {
+      const downloadResponse = await fetch('/api/receipt_FileDownload', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ fileName }),
+        responseType: 'blob' // Indicate that the response should be treated as binary data
+      })
+
+      if (downloadResponse.ok) {
+        const blob = await downloadResponse.blob()
+        const blobUrl = URL.createObjectURL(blob)
+
+        // Create a download link and initiate the download
+        const downloadLink = document.createElement('a')
+        downloadLink.href = blobUrl
+        downloadLink.download = fileName
+        downloadLink.click()
+
+        // Clean up the object URL after the download is initiated
+        URL.revokeObjectURL(blobUrl)
+
+        console.log('Download initiated')
+      } else {
+        console.error('Error downloading document:', downloadResponse.statusText)
+      }
+    } catch (error) {
+      console.error('An error occurred:', error)
+    }
   }
 
   return (
@@ -169,7 +207,7 @@ const Payment = ({ usertype, invoice_id, orderdata }) => {
               orderdata.invoice_file_name === null ||
               orderdata.invoice_file_name === undefined ||
               orderdata.invoice_file_name === '-'
-                ? '/payment/Nodata/Nodata.jpg'
+                ? '/payment/Nodata/Nodata.jpeg'
                 : `/payment/${orderdata.invoice_file_name}`
             }
             style={{ maxWidth: '40%', height: 'auto' }}
@@ -211,7 +249,12 @@ const Payment = ({ usertype, invoice_id, orderdata }) => {
             <TextField sx={{ width: '100%' }} onChange={handleTracking} value={Tracking} />
           </Grid>
           <Grid item xs={12} sm={12} md={3} sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
-            <Button variant='contained' sx={{ width: '100%' }} onClick={handleReceiptSubmit}>
+            <Button
+              variant='contained'
+              sx={{ width: '100%' }}
+              onClick={handleReceiptSubmit}
+              disabled={orderdata.invoice_status !== '4'}
+            >
               Submit
             </Button>
           </Grid>
@@ -229,6 +272,39 @@ const Payment = ({ usertype, invoice_id, orderdata }) => {
                 </Grid>
               </Grid>
             </Box>
+          </Grid>
+        </Grid>
+      )}
+
+      {usertype !== '2' && (
+        <Grid container alignItems='center' spacing={3} rowSpacing={2}>
+          <Grid item xs={12} sm={12} md={6}>
+            <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
+              Tracking Number
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={9}>
+            <Typography variant='subtitle1' sx={{ textAlign: 'start' }}>
+              {orderdata.tracking_number || '-'}
+            </Typography>
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={6}>
+            <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
+              Receipt Download
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={9}>
+            <Typography variant='subtitle1' sx={{ textAlign: 'start' }}>
+              <Button
+                variant='outlined'
+                onClick={() => handleDownload(receipt)}
+                startIcon={<DownloadIcon />}
+                disabled={!receipt}
+              >
+                Download
+              </Button>
+            </Typography>
           </Grid>
         </Grid>
       )}

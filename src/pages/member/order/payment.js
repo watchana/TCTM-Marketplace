@@ -70,10 +70,20 @@ const Payment = ({ invoice_id, sub_id }) => {
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.send_proof`, data)
       console.log(response)
-      SAlert.fire({
-        icon: 'success',
-        title: 'Success'
-      })
+      const RedirectStatus = response.data.message.RedirectStatus
+
+      if (RedirectStatus === true) {
+        SAlert.fire({
+          icon: 'error',
+          title: 'You have sent the receipt.'
+        })
+        router.push(`/`)
+      } else {
+        SAlert.fire({
+          icon: 'success',
+          title: 'Receipt Success.'
+        })
+      }
 
       // เรียกใช้ฟังก์ชัน อัปโหลดไฟล์รูปภาพลงเครื่อง
       const formData = new FormData()
@@ -87,7 +97,6 @@ const Payment = ({ invoice_id, sub_id }) => {
             'Content-Type': 'multipart/form-data'
           }
         })
-        console.log('response Api', response)
       } catch (error) {
         console.log(error)
       }

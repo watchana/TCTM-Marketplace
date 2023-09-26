@@ -35,8 +35,12 @@ const Orders_Detail = () => {
   const [orderdata, setOrderData] = useState('') // Order Data
   const [productoption, setProductOption] = useState('') // Product Option
 
+  // console.log('orderdata', orderdata.receipt_file_name)
+
   // เก็บค่าข้อมูลจาก Api
   useEffect(() => {
+    console.log('invoice_id', invoice_id)
+
     const fetchData = async () => {
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.invoice_detail`, {
@@ -45,7 +49,7 @@ const Orders_Detail = () => {
           }
         })
 
-        // console.log('Api', response.data.message.Option_List)
+        console.log('Api', response.data.message.Data[0])
 
         setOrderData(response.data.message.Data[0])
         setProductOption(response.data.message.Option_List)
@@ -144,7 +148,12 @@ const Orders_Detail = () => {
 
           <Grid item sm={12} md={7} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
             <Box sx={{ width: '100%' }}>
-              <Paymant usertype={usertype} orderdata={orderdata} invoice_id={invoice_id} />
+              <Paymant
+                usertype={usertype}
+                orderdata={orderdata}
+                invoice_id={invoice_id}
+                receipt={orderdata.receipt_file_name}
+              />
             </Box>
           </Grid>
         </Grid>

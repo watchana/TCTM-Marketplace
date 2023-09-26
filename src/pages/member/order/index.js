@@ -19,8 +19,6 @@ const Indexpayment = () => {
   const [productdata, setProductData] = useState('') // ข้อมูล ธนาคาร
   const [megaProductdata, setMegaProductData] = useState('') // ข้อมูล สินค้า
 
-  // console.log('invoice_id', invoice_id)
-
   // เก็บค่าข้อมูลจาก Api
   useEffect(() => {
     const fetchData = async () => {
@@ -32,7 +30,8 @@ const Indexpayment = () => {
           }
         })
 
-        // console.log('Api', response.data.message.Invoice[0])
+        console.log('Api', response.data.message)
+
         setProductData(response.data.message.Data[0])
         setMegaProductData(response.data.message.Invoice[0])
       } catch (error) {

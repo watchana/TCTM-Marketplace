@@ -5,9 +5,7 @@ import React from 'react'
 import { Avatar, Box, Button, Card, Divider, Grid, Radio, Stack, TextField, Typography } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 
-const Shipping = ({ productName, price, quantity, parsedSelection }) => {
-  // console.log('bill', parsedSelection)
-
+const Shipping = ({ productName, price, quantity, parsedSelection, FirstImage }) => {
   return (
     <Card sx={{ width: '95%', p: 3, marginTop: 1, marginLeft: 3 }}>
       <Grid container spacing={2} rowSpacing={5}>
@@ -21,11 +19,11 @@ const Shipping = ({ productName, price, quantity, parsedSelection }) => {
             }}
           >
             <img
-              src='/imgTctmProduct/550x6002.jpg'
+              src={`/imgTctmProduct/${FirstImage}`}
               alt='Product'
               style={{
-                maxWidth: '100px', // กำหนดให้ความกว้างสูงสุดเท่ากับขนาดจริงของรูป
-                maxHeight: '100px' // กำหนดให้ความสูงสูงสุดเท่ากับขนาดจริงของรูป
+                maxWidth: '100px',
+                maxHeight: '100px'
               }}
             />
           </Box>
