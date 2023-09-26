@@ -22,8 +22,6 @@ const ShowOrderReq = ({ userId }) => {
   // ตัวแปรเก็บค่าข้อมูล
   const [rows, setRows] = useState([]) // ข้อมูล row
 
-  console.log('rows: ', rows)
-
   // State Control
   const [shouldFetchData, setShouldFetchData] = useState(true) // ควบคุมการดึงข้อมูล Api
 
@@ -92,7 +90,7 @@ const ShowOrderReq = ({ userId }) => {
 
   // colum
   const columns = [
-    { field: 'po_id', headerName: 'PO ID', width: 120 },
+    { field: 'invoice_id', headerName: 'invoice ID', width: 120 },
     {
       field: 'modified',
       headerName: 'Created Time',
@@ -104,10 +102,10 @@ const ShowOrderReq = ({ userId }) => {
         return date.toLocaleString()
       }
     },
-    { field: 'descritp_tion', headerName: 'Description', width: 320 },
+    { field: 'req_header', headerName: 'Header', width: 320 },
     {
       field: 'invoice_status',
-      headerName: 'PO Status',
+      headerName: 'Order Status',
       width: 200,
       renderCell: params => {
         const { value } = params
@@ -115,22 +113,25 @@ const ShowOrderReq = ({ userId }) => {
         let statusElement
         switch (value) {
           case '1':
-            statusElement = <div style={{ color: 'red' }}>Wait Market Approve</div>
+            statusElement = <Chip label='Wait Market Approve' color='warning' />
             break
           case '2':
-            statusElement = <div style={{ color: 'blue' }}>Wait Member send proof</div>
+            statusElement = <Chip label='Wait Member send proof' color='primary' />
             break
           case '3':
-            statusElement = <div style={{ color: 'green' }}>Wait Market verify</div>
+            statusElement = <Chip label='Wait Market verify' color='warning' />
             break
           case '4':
-            statusElement = <div style={{ color: 'purple' }}>Delivery</div>
+            statusElement = <Chip label='Delivery' color='primary' />
             break
           case '5':
-            statusElement = <div style={{ color: 'orange' }}>Complete</div>
+            statusElement = <Chip label='Complete' color='success' />
+            break
+          case '0':
+            statusElement = <Chip label='Reject' color='error' />
             break
           default:
-            statusElement = <div>Unknown</div>
+            statusElement = <Chip label='Unknow' color='secondary' />
         }
 
         return statusElement

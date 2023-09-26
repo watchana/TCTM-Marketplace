@@ -70,6 +70,8 @@ const ShowOrder = ({ productdata, updateProductData }) => {
     }
   }
 
+  // console.log('productdata 999', productdata)
+
   return (
     <Box>
       {productdata.length === 0 ? (

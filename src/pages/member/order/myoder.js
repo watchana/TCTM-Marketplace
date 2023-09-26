@@ -35,7 +35,7 @@ const MyOrderPage = () => {
           }
         })
 
-        // console.log('Api', response.data.message)
+        console.log('Api', response.data)
         setProductData(response.data.message.Data)
       } catch (error) {
         console.error(error)

@@ -104,15 +104,15 @@ const PosrtDetail = () => {
   //===========================ฟังชัน ดึงข้อมูลทุกๆวินาที=============================//
 
   // ใช้ setInterval ใน useEffect เพื่อเปลี่ยนค่า shouldFetchData ทุกๆ 1 วินาที
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setShouldFetchData(!shouldFetchData) // สลับค่า shouldFetchData เพื่อเรียก fetchData ใหม่
-  //   }, 1000) // 1 วินาที
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShouldFetchData(!shouldFetchData) // สลับค่า shouldFetchData เพื่อเรียก fetchData ใหม่
+    }, 1000) // 1 วินาที
 
-  //   return () => {
-  //     clearInterval(interval) // ยกเลิก interval เมื่อ Component ถูก unmount
-  //   }
-  // }, [shouldFetchData])
+    return () => {
+      clearInterval(interval) // ยกเลิก interval เมื่อ Component ถูก unmount
+    }
+  }, [shouldFetchData])
 
   //===========================ฟังชัน ดึงข้อมูลทุกๆวินาที=============================//
 

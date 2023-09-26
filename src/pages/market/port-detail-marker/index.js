@@ -63,6 +63,8 @@ const PosrtDetail = () => {
   const [shouldFetchData, setShouldFetchData] = useState(false) // ตัวแปรควบคุมการดึงข้อมูลใหม่
   const [selectedFileName, setSelectedFileName] = useState('') // เก็บชื่อไฟล์ Po
 
+  // console.log('postData', questionData)
+
   // dialo State Control
   const [open, setOpen] = React.useState(false)
 
@@ -110,6 +112,21 @@ const PosrtDetail = () => {
     fetchData()
   }, [reqID, shouldFetchData])
 
+  //===========================ฟังชัน ดึงข้อมูลทุกๆวินาที=============================//
+
+  // ใช้ setInterval ใน useEffect เพื่อเปลี่ยนค่า shouldFetchData ทุกๆ 1 วินาที
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShouldFetchData(!shouldFetchData) // สลับค่า shouldFetchData เพื่อเรียก fetchData ใหม่
+    }, 1000) // 1 วินาที
+
+    return () => {
+      clearInterval(interval) // ยกเลิก interval เมื่อ Component ถูก unmount
+    }
+  }, [shouldFetchData])
+
+  //===========================ฟังชัน ดึงข้อมูลทุกๆวินาที=============================//
+
   // เก็บค่าข้อมูลจาก คอมเม้นต์
   const handleComment = event => {
     setComment(event.target.value)
@@ -142,7 +159,7 @@ const PosrtDetail = () => {
 
     const data = {
       req_id: reqID,
-      sender: userId,
+      sender: recipient,
       recipient: recipient,
       query_description: comments
     }
@@ -499,7 +516,7 @@ const PosrtDetail = () => {
                       height: '100%',
                       marginBottom: '20px',
                       boxShadow: 2,
-                      backgroundColor: question.sender === userId ? '#3A46A7' : '#FFCA64 ' // ตั้งสีพื้นหลังตามเงื่อนไข ไปเปลี่ยนสี blue เป็นสีอื่น
+                      backgroundColor: question.sender.startsWith('SUP') ? '#3A46A7' : '#FFCA64' // ตั้งสีพื้นหลังตามเงื่อนไข ไปเปลี่ยนสี blue เป็นสีอื่น
                     }}
                   >
                     <Box sx={{ width: '100%', padding: '20px' }}>
@@ -511,16 +528,16 @@ const PosrtDetail = () => {
                           alignContent: 'center'
                         }}
                       >
-                        {question.sender === userId ? (
+                        {question.sender.startsWith('SUP') ? (
                           <Typography variant='h6' fontSize='2.2rem bold' color='#fff'>
-                            {question.user_first_name} {question.user_last_name}
+                            Market
                           </Typography>
                         ) : (
                           <Typography variant='h6' fontSize='2.2rem bold' color='#000'>
-                            Customer
+                            {question.user_first_name} {question.user_last_name}
                           </Typography>
                         )}
-                        {question.sender === userId && ( // เช็คว่า sender เท่ากับ userId ก่อนแสดง IconButton
+                        {question.sender.startsWith('SUP') && ( // เช็คว่า sender ขึ้นต้นด้วย 'SUP' ก่อนแสดง IconButton
                           <IconButton onClick={() => handleDeleteSubmit(question.query_id)}>
                             <DeleteIcon sx={{ fontSize: 28, color: '#fff' }} />
                           </IconButton>
@@ -528,7 +545,11 @@ const PosrtDetail = () => {
                       </Box>
                     </Box>
                     <Box sx={{ width: '100%', padding: '0px 20px 20px' }}>
-                      <Typography variant='body2' fontSize='1rem' color={question.sender === userId ? '#fff' : '#000'}>
+                      <Typography
+                        variant='body2'
+                        fontSize='1rem'
+                        color={question.sender.startsWith('SUP') ? '#fff' : '#000'}
+                      >
                         {question.query_description}
                       </Typography>
                     </Box>
