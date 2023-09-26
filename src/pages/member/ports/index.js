@@ -42,8 +42,6 @@ const Posts = () => {
   const [myPose, setMyPose] = useState('') // ข้อมูล My pose
   const [row, setRow] = useState('') // ข้อมูล My pose
 
-  console.log('myPose', myPose)
-
   // รับค่าข้อมูล จาก local Storage
   useEffect(() => {
     const userIdFromLocalStorage = localStorage.getItem('Member_Id')
@@ -173,7 +171,12 @@ const Posts = () => {
         }
 
         return (
-          <Button variant='outlined' onClick={handleDetailClick} endIcon={<EyeOutline />}>
+          <Button
+            variant='outlined'
+            onClick={handleDetailClick}
+            endIcon={<EyeOutline />}
+            disabled={rowCell.row.req_status === '1'}
+          >
             View
           </Button>
         )
