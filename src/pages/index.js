@@ -1,9 +1,9 @@
+// ** React Imports
+import { React } from 'react'
+
 // ** Next Import
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-
-// ** Utils Imports
-import { withAuth } from '../@core/utils/AuthCheck'
 
 // ** Material UI Imports
 import {
@@ -28,27 +28,24 @@ import {
 
 // ** custom components
 import Billboard from 'src/views/homepage/Billboard'
-import Category from 'src/views/homepage/Category'
-import SlideshowWithCards from 'src/views/homepage/SlideBillboard'
-import SlideshowWithProduct from 'src/views/homepage/SlideProduct'
-import SlideRecommended from 'src/views/homepage/SlideRecommended'
+import NameMarket from 'src/views/homepage/NameMarket'
+import ShowProducts from 'src/views/homepage/ShowProducts'
+import ShowProducts2 from 'src/views/homepage/ShowProducts2'
 
-// ** Import Cookies
-import Cookies from 'js-cookie'
+// ** Utils Imports
+import { withAuth } from '../@core/utils/AuthCheck'
 
 const Dashboard = () => {
-  const router = useRouter()
-
   return (
     <Container maxWidth='xl'>
       {/* ---------- Billboard ---------- */}
-      <Box sx={{ width: '100%' }}>
-        <Billboard />
-        <Category />
-        <Link href='/category' passHref>
-          <h1>Category</h1>
-        </Link>
-      </Box>
+      <Billboard />
+      {/* ---------- Category ---------- */}
+      <NameMarket />
+      {/* ---------- Show Products ---------- */}
+      <ShowProducts />
+      {/* ---------- Show Products2 ---------- */}
+      <ShowProducts2 />
     </Container>
   )
 }
