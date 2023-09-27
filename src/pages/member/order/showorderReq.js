@@ -141,7 +141,7 @@ const ShowOrderReq = ({ userId }) => {
     {
       field: 'payment',
       headerName: 'payment',
-      minWidth: 100,
+      minWidth: 140,
       renderCell: rowCell => {
         const invoiceStatus = rowCell.row.invoice_status
 
@@ -167,7 +167,7 @@ const ShowOrderReq = ({ userId }) => {
     {
       field: 'Detail_Approve',
       headerName: 'Detail Approve',
-      minWidth: 100,
+      minWidth: 140,
       renderCell: rowCell => {
         const invoiceStatus = rowCell.row.invoice_status
 
@@ -187,7 +187,7 @@ const ShowOrderReq = ({ userId }) => {
     {
       field: 'Detail',
       headerName: 'Detail',
-      minWidth: 100,
+      minWidth: 140,
       renderCell: rowCell => {
         const invoiceStatus = rowCell.row.invoice_status
 
@@ -209,7 +209,7 @@ const ShowOrderReq = ({ userId }) => {
     {
       field: 'Coonfirm',
       headerName: 'Coonfirm',
-      minWidth: 100,
+      minWidth: 140,
       renderCell: rowCell => {
         const invoiceStatus = rowCell.row.invoice_status
 

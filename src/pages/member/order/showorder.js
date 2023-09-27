@@ -5,8 +5,26 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 
-// ** MUI Imports
-import { Box, Button, Card, Divider, Grid, Typography } from '@mui/material'
+// ** Material UI Imports
+import {
+  Box,
+  Breadcrumbs,
+  Button,
+  Card,
+  CardMedia,
+  Container,
+  Divider,
+  FormControl,
+  Grid,
+  Hidden,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  Tab,
+  TextField,
+  Typography
+} from '@mui/material'
 
 // ** axios Import
 import axios from 'axios'
@@ -70,139 +88,159 @@ const ShowOrder = ({ productdata, updateProductData }) => {
     }
   }
 
-  // console.log('productdata 999', productdata)
+  console.log('productdata 999', productdata)
 
   return (
-    <Box>
+    <Container maxWidth='xl'>
       {productdata.length === 0 ? (
         <Typography>No Data</Typography>
       ) : (
-        <>
+        <Grid container spacing={4}>
           {productdata.map((item, index) => (
-            <div key={index}>
-              <Box sx={{ marginBlock: 4 }}>
-                <Typography>แทบ: {index + 1}</Typography>
-              </Box>
-              <Grid container>
-                <Grid item xs={12} sx={{ marginBlock: 4 }}>
-                  <Card sx={{ p: 4 }}>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <Typography variant='subtitle1'>ชื่อร้านค้า : {item.sub_name}</Typography>
-                      <Typography
-                        variant='subtitle1'
-                        sx={{ display: 'flex', justifyContent: 'flex-end', width: '40vw' }}
-                      >
+            <>
+              <Grid item key={index.id}>
+                <Typography variant='body1' fontWeight='' fontSize='1.0rem' color='#000'>
+                  Product: {index + 1}
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Card variant='outlined'>
+                  <Grid container justifyContent='space-between' sx={{ padding: '14px 14px 0px' }}>
+                    <Grid item xs={12} sm={6}>
+                      <Typography variant='body1' fontSize='1.0rem' color='#000'>
+                        Market Name: {item.sub_name}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <Typography variant='body1' fontSize='1.0rem' color='#000' textAlign='end'>
                         ORDER ID : {item.invoice_id}
                       </Typography>
-                    </Box>
-                    <Divider />
-                    <Grid container spacing={2} rowSpacing={2}>
-                      <Grid item xs={3} md={2}>
+                    </Grid>
+                  </Grid>
+                  <Divider />
+                  <Box sx={{ width: '100%' }}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} sm={2}>
                         <Box
                           sx={{
-                            mx: 4,
-                            width: { xs: '10vw', sm: 100, md: 100, lg: 150 },
-                            height: { xs: '10vh', sm: 100, md: 100, lg: 150 },
-                            position: 'relative'
+                            display: 'flex',
+                            justifyContent: 'center',
+                            padding: '7px 14px 0px',
+                            maxWidth: '250px',
+                            maxHeight: '250px'
                           }}
                         >
-                          <Image
+                          <CardMedia
+                            component='img'
                             src={`/imgTctmProduct/${item.image_file_name}`}
                             alt={`image`}
-                            layout='fill'
-                            objectFit='cover'
-                            loader={({ src }) => src}
+                            height='auto'
+                            sx={{ minWidth: '100px', minHeight: '100px' }}
                           />
                         </Box>
                       </Grid>
-                      <Grid item xs={9} md={10}>
-                        <Grid container spacing={2} rowSpacing={2} sx={{ pt: { md: 2 } }}>
-                          <Grid item xs={12}>
-                            <Typography variant='subtitle1'>ชื่อสินค้า : {item.product_name}</Typography>
-                          </Grid>
-                          <Grid item xs={12} sm={6}>
-                            <Typography variant='subtitle1'>จำนวน : {item.amount}</Typography>
-                          </Grid>
-                          <Grid
-                            item
-                            xs={12}
-                            sm={6}
-                            sx={{ display: 'flex', justifyContent: { xs: 'flex-start', sm: 'flex-end' } }}
+                      <Grid item xs={12} sm={7}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', padding: '7px 14px 0px' }}>
+                          <Typography variant='body1' fontWeight='' fontSize='1.0rem' color='#000'>
+                            Product: {item.product_name}
+                          </Typography>
+                          <Typography variant='body1' fontWeight='' fontSize='1.0rem' color='#000'>
+                            Amount: {item.amount}
+                          </Typography>
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} sm={3}>
+                        <Box
+                          sx={{
+                            width: '100%',
+                            height: '100%',
+                            display: 'flex',
+                            justifyContent: 'flex-end',
+                            alignItems: 'center',
+                            padding: '7px 14px 0px'
+                          }}
+                        >
+                          <Typography variant='body1' fontSize='1.0rem' textAlign='end' color='#e61610'>
+                            ฿ {item.price_total}
+                          </Typography>
+                        </Box>
+                      </Grid>
+                    </Grid>
+                  </Box>
+                  <Divider />
+                  <Grid container spacing={2} rowSpacing={2}>
+                    <Grid item xs={12}>
+                      <Grid container justifyContent='space-between' sx={{ paddingX: 4 }}>
+                        <Grid item xs={12} sm={6}>
+                          <Typography variant='caption'>
+                            Please press confirm after receiving and inspecting the product.
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Typography variant='h6' fontSize='24px bold' color='#2d2e81' textAlign='end'>
+                            total Price: {item.price_total}
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                    <Box sx={{ width: '100%', padding: 4 }}>
+                      <Grid container spacing={2} justifyContent='flex-end'>
+                        <Grid item xs={12} md={2}>
+                          <Button
+                            fullWidth
+                            variant='contained'
+                            color='primary'
+                            disabled={
+                              item.invoice_status === '0' ||
+                              item.invoice_status === '1' ||
+                              item.invoice_status === '3' ||
+                              item.invoice_status === '4' ||
+                              item.invoice_status === '5'
+                            }
+                            onClick={() => handleApprovePage(item.sub_id, item.invoice_id)}
                           >
-                            <Typography variant='subtitle1'>ราคา : {item.price_total} บาท</Typography>
-                          </Grid>
-                          <Grid item xs={12}></Grid>
+                            Attach file
+                          </Button>
+                        </Grid>
+                        <Grid item xs={12} md={2}>
+                          <Button
+                            fullWidth
+                            variant='outlined'
+                            disabled={
+                              item.invoice_status === '0' || item.invoice_status === '1' || item.invoice_status === '2'
+                            }
+                            onClick={() => handleDetailPage(item.invoice_id)}
+                          >
+                            Detail
+                          </Button>
+                        </Grid>
+                        <Grid item xs={12} md={2}>
+                          <Button
+                            fullWidth
+                            variant='contained'
+                            color='success'
+                            disabled={
+                              item.invoice_status === '0' ||
+                              item.invoice_status === '1' ||
+                              item.invoice_status === '2' ||
+                              item.invoice_status === '3' ||
+                              item.invoice_status === '5'
+                            }
+                            onClick={event => handleConfirmProduct(event, item.invoice_id)}
+                          >
+                            Confirm
+                          </Button>
                         </Grid>
                       </Grid>
-                    </Grid>
-
-                    <Divider sx={{ marginBlock: 4 }} />
-                    <Grid container spacing={2} rowSpacing={2}>
-                      <Grid item xs={12}>
-                        <Typography variant='body1'>รวมการสั่งซื้อ: ฿{item.price_total}</Typography>
-                      </Grid>
-                      <Grid item xs={12} sm={4} sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Typography variant='caption'>กรุณากดยืนยันหลังจากได้รับและตรวจสอบสินค้าแล้ว</Typography>
-                      </Grid>
-                      <Grid item xs={12} sm={8}>
-                        <Grid container spacing={2} rowSpacing={2}>
-                          <Grid item xs={12} sm={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                            <Button
-                              fullWidth
-                              variant='contained'
-                              disabled={
-                                item.invoice_status === '0' ||
-                                item.invoice_status === '1' ||
-                                item.invoice_status === '3' ||
-                                item.invoice_status === '4' ||
-                                item.invoice_status === '5'
-                              }
-                              onClick={() => handleApprovePage(item.sub_id, item.invoice_id)}
-                            >
-                              Attach file
-                            </Button>{' '}
-                          </Grid>
-                          <Grid item xs={12} sm={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                            <Button
-                              fullWidth
-                              variant='contained'
-                              disabled={
-                                item.invoice_status === '0' ||
-                                item.invoice_status === '1' ||
-                                item.invoice_status === '2'
-                              }
-                              onClick={() => handleDetailPage(item.invoice_id)}
-                            >
-                              Detail
-                            </Button>
-                          </Grid>
-                          <Grid item xs={12} sm={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                            <Button
-                              fullWidth
-                              variant='contained'
-                              disabled={
-                                item.invoice_status === '0' ||
-                                item.invoice_status === '1' ||
-                                item.invoice_status === '2' ||
-                                item.invoice_status === '3' ||
-                                item.invoice_status === '5'
-                              }
-                              onClick={event => handleConfirmProduct(event, item.invoice_id)}
-                            >
-                              Confirm
-                            </Button>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Card>
-                </Grid>
+                    </Box>
+                  </Grid>
+                </Card>
               </Grid>
-            </div>
+            </>
           ))}
-        </>
+        </Grid>
       )}
-    </Box>
+    </Container>
   )
 }
 

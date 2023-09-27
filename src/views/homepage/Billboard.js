@@ -224,7 +224,7 @@ const Billboard = () => {
                         height: '170px',
                         maxHeight: '170px',
                         borderRadius: '6px',
-                        backgroundImage: 'url(/imgBillboard/003.jpeg)',
+                        backgroundImage: 'url(/imgBillboard/001.jpg)',
                         backgroundSize: '100% 100%',
                         backgroundPosition: 'center',
                         display: 'flex',
