@@ -73,7 +73,27 @@ const AppBarContent = props => {
                   <FormControl
                     fullWidth
                     variant='outlined'
-                    sx={{ borderRadius: '12px', height: '40px', maxWidth: '250px', minWidth: '50px' }}
+                    sx={{
+                      height: '40px',
+                      maxWidth: '250px',
+                      minWidth: '50px',
+                      borderRadius: '12px',
+                      border: '1.5px solid lightgray',
+                      outline: 'none',
+                      transition: 'all 0.3s cubic-bezier(.25,.8,.25,1)',
+                      boxShadow: '0 0 0 0 rgba(0,0,0,0)',
+                      '&:hover': {
+                        boxShadow: '0 0 0 0 rgba(0,0,0,0)',
+                        border: '1.5px solid lightgray'
+                      },
+                      '&:active': {
+                        transform: 'scale(0.98)'
+                      },
+                      '&:focus': {
+                        boxShadow: '0 0 0 0 rgba(0,0,0,0)',
+                        border: '1.5px solid lightgray'
+                      }
+                    }}
                   >
                     <OutlinedInput
                       size='small'

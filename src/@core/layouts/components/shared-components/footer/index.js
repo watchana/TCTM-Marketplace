@@ -24,7 +24,8 @@ const Footer = props => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        backgroundColor: '#3A46A7'
       }}
     >
       <Box
@@ -34,7 +35,6 @@ const Footer = props => {
           borderTopLeftRadius: 2,
           borderTopRightRadius: 2,
           padding: theme.spacing(4, 6),
-          backgroundColor: '#3A46A7',
           ...(contentWidth === 'boxed' && { '@media (min-width:1440px)': { maxWidth: 1440 } })
         }}
       >
