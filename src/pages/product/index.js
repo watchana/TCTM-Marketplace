@@ -53,7 +53,6 @@ const ProductDetails = () => {
   const [price, setPrice] = useState('') // ตัวแปรเก็บค่าข้อมูลราคาสินค้า
   const [productName, setProductName] = useState('') // ตัวแปรเก็บค่าชื่อสินค้า
   const [productimg, setProductImg] = useState([]) // ตัวแปรเก็บข้อมูลรูปภาพ
-
   const FirstImage = productimg && productimg[0] ? productimg[0].image_file_name : null // ตัวแปรเก็บข้อมูลรูปภาพตัวอย่าง
 
   // ตัวแปรเก็บการแสดงราคา
@@ -139,31 +138,12 @@ const ProductDetails = () => {
 
   //-----------------------------Slide Control Function------------------------//
 
-  // img dummy
-  const images = [
-    '/images/Image-Test.png',
-    '/images/test/1.png',
-    '/images/test/2.png',
-    '/images/test/3.png',
-    '/images/test/4.png',
-    '/images/test/5.png',
-    '/images/test/6.png',
-    '/images/test/7.png'
-  ]
-
   // Slide Controls Variable
   const [stateImages, setStateImages] = useState(0) // Images
   const [firstImage, setFirstImage] = useState(0) // FirstImage
   const [endImage, setEndImage] = useState(productimg.length) // EndImage
   const MaxLengthImages = productimg.length // MaxLengthImages
   const [presentState, setPresentState] = useState(0) // presentState
-
-  // console.log('productimg', productimg)
-  // console.log('stateImages', stateImages)
-  // console.log('MaxLengthImages', MaxLengthImages)
-  // console.log('presentState', presentState)
-
-  console.log('presentState', presentState)
 
   // Button Slide Left
   const leftSlide = () => {
@@ -548,21 +528,12 @@ const ProductDetails = () => {
               <TabPanel value='1'>
                 <Box sx={{ width: '100%', marginTop: '10px' }}>
                   <Typography variant='body1' fontSize='16px' color='#606060'>
-                    {productdata.product_detail ? productdata.product_detail : 'No information'}
+                    {productdata.product_description}
                   </Typography>
                 </Box>
               </TabPanel>
               <TabPanel value='2'>
-                <Box sx={{ width: '100%', marginTop: '10px' }}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec,
-                  mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed
-                  eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui. Quisque nec mauris sit
-                  amet elit iaculis pretium sit amet quis magna. Aenean velit odio, elementum in tempus ut, vehicula eu
-                  diam. Pellentesque rhoncus aliquam mattis. Ut vulputate eros sed felis sodales nec vulputate justo
-                  hendrerit. Vivamus varius pretium ligula, a aliquam odio euismod sit amet. Quisque laoreet sem sit
-                  amet orci ullamcorper at ultricies metus viverra. Pellentesque arcu mauris, malesuada quis ornare
-                  accumsan, blandit sed diam.
-                </Box>
+                {productdata.product_detail ? productdata.product_detail : 'No information'}
               </TabPanel>
               <TabPanel value='3'>
                 {' '}
