@@ -245,59 +245,57 @@ const Billboard = () => {
       </Box>
       {/* ---------- Advert ---------- */}
       <Hidden mdDown>
-        <Box sx={{ width: '100%', height: '100px' }}>
-          <Card variant='outlined'>
-            <CardContent>
-              <Grid container direction='row' justifyContent='space-around'>
-                <Grid item>
-                  <BoxAdvert>
-                    <Truck sx={{ fontSize: '50px', color: '#000', marginRight: 3 }} />
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                      <Typography variant='h6' color='#000'>
-                        Fast Delivery
-                      </Typography>
-                      <Typography variant='body1'>Start from $ 10</Typography>
-                    </Box>
-                  </BoxAdvert>
-                </Grid>
-                <Divider orientation='vertical' flexItem sx={{ border: 1 }} />
-                <Grid item>
-                  <BoxAdvert>
-                    <MonetizationOnIcon sx={{ fontSize: '50px', color: '#000', marginRight: 3 }} />
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                      <Typography variant='h6' color='#000'>
-                        Money Guarantee
-                      </Typography>
-                      <Typography variant='body1'>7 Days Back</Typography>
-                    </Box>
-                  </BoxAdvert>
-                </Grid>
-                <Divider orientation='vertical' flexItem sx={{ border: 1 }} />
-                <Grid item>
-                  <BoxAdvert>
-                    <ClockTimeFour sx={{ fontSize: '50px', color: '#000', marginRight: 3 }} />
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                      <Typography variant='h6' color='#000'>
-                        365 Days
-                      </Typography>
-                      <Typography variant='body1'>For free return</Typography>
-                    </Box>
-                  </BoxAdvert>
-                </Grid>
-                <Divider orientation='vertical' flexItem sx={{ border: 1 }} />
-                <Grid item>
-                  <BoxAdvert>
-                    <PaymentIcon sx={{ fontSize: '50px', color: '#000', marginRight: 3 }} />
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                      <Typography variant='h6' color='#000'>
-                        Payment
-                      </Typography>
-                      <Typography variant='body1'>Secure system</Typography>
-                    </Box>
-                  </BoxAdvert>
-                </Grid>
+        <Box sx={{ width: '100%', height: '100%' }}>
+          <Card variant='outlined' sx={{ height: '100px' }}>
+            <Grid container direction='row' justifyContent='space-around'>
+              <Grid item>
+                <BoxAdvert>
+                  <Truck sx={{ fontSize: '50px', color: '#000', marginRight: 3 }} />
+                  <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                    <Typography variant='h6' color='#000'>
+                      Fast Delivery
+                    </Typography>
+                    <Typography variant='body1'>Start from $ 10</Typography>
+                  </Box>
+                </BoxAdvert>
               </Grid>
-            </CardContent>
+              <Divider orientation='vertical' flexItem sx={{ border: 1 }} />
+              <Grid item>
+                <BoxAdvert>
+                  <MonetizationOnIcon sx={{ fontSize: '50px', color: '#000', marginRight: 3 }} />
+                  <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                    <Typography variant='h6' color='#000'>
+                      Money Guarantee
+                    </Typography>
+                    <Typography variant='body1'>7 Days Back</Typography>
+                  </Box>
+                </BoxAdvert>
+              </Grid>
+              <Divider orientation='vertical' flexItem sx={{ border: 1 }} />
+              <Grid item>
+                <BoxAdvert>
+                  <ClockTimeFour sx={{ fontSize: '50px', color: '#000', marginRight: 3 }} />
+                  <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                    <Typography variant='h6' color='#000'>
+                      365 Days
+                    </Typography>
+                    <Typography variant='body1'>For free return</Typography>
+                  </Box>
+                </BoxAdvert>
+              </Grid>
+              <Divider orientation='vertical' flexItem sx={{ border: 1 }} />
+              <Grid item>
+                <BoxAdvert>
+                  <PaymentIcon sx={{ fontSize: '50px', color: '#000', marginRight: 3 }} />
+                  <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                    <Typography variant='h6' color='#000'>
+                      Payment
+                    </Typography>
+                    <Typography variant='body1'>Secure system</Typography>
+                  </Box>
+                </BoxAdvert>
+              </Grid>
+            </Grid>
           </Card>
         </Box>
       </Hidden>
