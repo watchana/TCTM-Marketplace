@@ -12,6 +12,7 @@ import { withAuth } from 'src/@core/utils/AuthCheck'
 import {
   Box,
   Breadcrumbs,
+  ButtonBase,
   Card,
   CardActionArea,
   CardContent,
@@ -196,51 +197,59 @@ const Category = ({ productData, SearchProduct, keyword }) => {
               <Grid container spacing={{ xs: 2, sm: 10, md: 8 }}>
                 {/* ======================================= map ========================================= */}
                 {filteredProducts.length > 0 ? (
-                  filteredProducts.map((product, index) => (
+                  filteredProducts.map(product => (
                     <Grid item key={product.product_id}>
-                      <CardActionArea>
-                        <Card
-                          sx={{
-                            width: { xs: '150px', sm: '200px' },
-                            height: { xs: '200px', sm: '280px' },
-                            boxShadow: 1,
-                            border: '0.25px solid #c0c0c0'
-                          }}
-                        >
-                          <Box sx={{ width: '100%', height: '70%' }}>
-                            <CardMedia
-                              component='img'
-                              image={`/imgTctmProduct/${product.image_file_name}`}
-                              alt={product.product_name}
-                              onClick={() => {
-                                router.push(`/product/?product_id=${product.product_id}`)
-                              }}
-                            />
-                          </Box>
-                          <Box sx={{ padding: 1.5, width: '100%', height: '30%' }}>
-                            <Typography
-                              variant='body1'
-                              fontSize='14px'
-                              fontWeight='600'
-                              sx={{
-                                overflow: 'hidden',
-                                whiteSpace: 'nowrap',
-                                textOverflow: 'ellipsis'
-                              }}
-                            >
-                              {product.product_name}
-                            </Typography>
-                            <Typography variant='body1' fontSize='14px' fontWeight='600' textAlign='start'>
-                              $ {product.min_price}-{product.max_price}
-                            </Typography>
-                            <Hidden smDown>
+                      <Card
+                        variant='outlined'
+                        onClick={() => {
+                          router.push(`/product/?product_id=${product.product_id}`)
+                        }}
+                        sx={{
+                          border: '0.5px solid lightgray',
+                          width: { xs: '150px', sm: '200px' },
+                          height: { xs: '200px', sm: '280px' },
+                          boxShadow: 3,
+                          cursor: 'pointer',
+                          '&:hover': { boxShadow: 10, border: '2px solid #2d2e81' }
+                        }}
+                      >
+                        <CardMedia
+                          component='img'
+                          height='70%'
+                          image={`/imgTctmProduct/${product.image_file_name}`}
+                          alt={product.product_name}
+                        />
+                        <Box sx={{ padding: 1, height: '30%' }}>
+                          <Typography
+                            variant='h5'
+                            fontSize='18px'
+                            sx={{
+                              fontWeight: 'bold',
+                              overflow: 'hidden',
+                              whiteSpace: 'nowrap',
+                              textOverflow: 'ellipsis'
+                            }}
+                          >
+                            {product.product_name}
+                          </Typography>
+                          <Typography
+                            variant='h5'
+                            fontSize='16px'
+                            sx={{
+                              color: '#2d2e81',
+                              overflow: 'hidden',
+                              whiteSpace: 'nowrap',
+                              textOverflow: 'ellipsis'
+                            }}
+                          >
+                            $ {product.min_price} - {product.max_price}
+                          </Typography>
+                          <Hidden smDown>
+                            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
                               <Typography
                                 variant='body1'
                                 fontSize='14px'
-                                fontWeight='600'
-                                textAlign='end'
                                 sx={{
-                                  marginTop: '10px',
                                   color: '#c0c0c0',
                                   overflow: 'hidden',
                                   whiteSpace: 'nowrap',
@@ -249,10 +258,10 @@ const Category = ({ productData, SearchProduct, keyword }) => {
                               >
                                 {product.sub_name}
                               </Typography>
-                            </Hidden>
-                          </Box>
-                        </Card>
-                      </CardActionArea>
+                            </Box>
+                          </Hidden>
+                        </Box>
+                      </Card>
                     </Grid>
                   ))
                 ) : (

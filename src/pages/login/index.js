@@ -217,7 +217,25 @@ const LoginPage = () => {
               label='Email'
               variant='outlined'
               onChange={handleSetUser}
-              sx={{ marginBottom: 4 }}
+              sx={{
+                marginBottom: 4,
+                borderRadius: '10px',
+                border: '1.5px solid lightgray',
+                outline: 'none',
+                transition: 'all 0.3s cubic-bezier(.25,.8,.25,1)',
+                boxShadow: '0 0 0 0 rgba(0,0,0,0)',
+                '&:hover': {
+                  boxShadow: '0 0 0 0 rgba(0,0,0,0)',
+                  border: '1.5px solid lightgray'
+                },
+                '&:active': {
+                  transform: 'scale(0.98)'
+                },
+                '&:focus': {
+                  boxShadow: '0 0 0 0 rgba(0,0,0,0)',
+                  border: '1.5px solid lightgray'
+                }
+              }}
               InputProps={{
                 style: {
                   borderRadius: '10px'
@@ -245,6 +263,24 @@ const LoginPage = () => {
                   </InputAdornment>
                 }
                 style={{ marginBottom: 4, borderRadius: '10px' }}
+                sx={{
+                  borderRadius: '10px',
+                  border: '1.5px solid lightgray',
+                  outline: 'none',
+                  transition: 'all 0.3s cubic-bezier(.25,.8,.25,1)',
+                  boxShadow: '0 0 0 0 rgba(0,0,0,0)',
+                  '&:hover': {
+                    boxShadow: '0 0 0 0 rgba(0,0,0,0)',
+                    border: '1.5px solid lightgray'
+                  },
+                  '&:active': {
+                    transform: 'scale(0.98)'
+                  },
+                  '&:focus': {
+                    boxShadow: '0 0 0 0 rgba(0,0,0,0)',
+                    border: '1.5px solid lightgray'
+                  }
+                }}
               />
             </FormControl>
             <FormControlLabel
