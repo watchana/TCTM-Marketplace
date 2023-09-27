@@ -21,7 +21,8 @@ import {
   Stack,
   Tab,
   TextField,
-  Typography
+  Typography,
+  Chip
 } from '@mui/material'
 
 // ** Material UI Tabs Imports
@@ -54,7 +55,43 @@ import Requirement from './requirement'
 const columns = [
   { field: 'category_name', headerName: 'Category  ', width: 90 },
   { field: 'product_name', headerName: 'Name ', width: 350 },
-  { field: 'product_count', headerName: 'amount ', width: 180 }
+  { field: 'product_count', headerName: 'Amount ', width: 180 },
+  {
+    field: 'product_status',
+    headerName: 'Status ',
+    width: 180,
+    renderCell: params => {
+      const subStatus = params.value // ค่าที่อยู่ในช่อง "สถานะไอดี"
+      let chipColor = 'default'
+      let chipLabel = ''
+
+      if (subStatus === '2') {
+        chipColor = 'success'
+        chipLabel = 'Nomal'
+      } else if (subStatus === '3') {
+        chipColor = 'info'
+        chipLabel = 'Promote'
+      }
+
+      return <Chip label={chipLabel} color={chipColor} />
+    }
+  },
+  {
+    field: 'actions',
+    headerName: 'ปุ่ม',
+    width: 180,
+    renderCell: params => (
+      <Button
+        variant='contained'
+        color='error'
+        className='btn btn-danger'
+        style={{ marginRight: '5px' }}
+        onClick={() => handleDelete(params.row.id)}
+      >
+        Delete
+      </Button>
+    )
+  }
 ]
 
 const MyMarket = () => {
@@ -72,6 +109,7 @@ const MyMarket = () => {
   const [productdata, setProductData] = useState([])
   const [selectedCategory, setSelectedCategory] = useState('')
   const [storeStatus, setStoreStatus] = useState('')
+  const [marketname, setMarketname] = useState('')
   const [subId, setSubId] = useState('') // เก็บค่า Sub Id
 
   // ตัวแปรควบคุม State
@@ -146,6 +184,23 @@ const MyMarket = () => {
     setSearchText('')
     setSelectedCategory('')
   }
+
+  // ฟังก์ชันลบข้อมูล
+  // const handleDelete = sub_id => {
+  //   axios
+  //     .post('path', {
+  //       sub_id
+  //     })
+  //     .then(response => {
+  //       console.log('UserID', response)
+
+  //       // หลังจากทำการ Ban สำเร็จ ให้เรียกฟังก์ชัน fetchMarketData เพื่ออัปเดตข้อมูลใหม่
+  //       fetchMarketData()
+  //     })
+  //     .catch(error => {
+  //       console.error('Error:', error)
+  //     })
+  // }
 
   const SearchMenu = () => {
     return (
@@ -229,6 +284,7 @@ const MyMarket = () => {
         // console.log('หาค่า Sub_id', response.data.message.MarketData[0].sub_id)
         setSubId(response.data.message.MarketData[0].sub_id)
         setStoreStatus(response.data.message.MarketData[0].sub_status)
+        setMarketname(response.data.message.MarketData[0].sub_name)
 
         initialProductData.current = response.data.message.Data
         setProductData(initialProductData.current)
@@ -256,7 +312,7 @@ const MyMarket = () => {
             <Grid container alignItems='center'>
               <Grid item xs={12} sm={8} md={8}>
                 <Typography variant='h4' fontSize='21px bold' color='#fff'>
-                  Management
+                  Management : {marketname}
                 </Typography>
                 <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
                   <Link href='/' passHref>
