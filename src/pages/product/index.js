@@ -121,7 +121,7 @@ const ProductDetails = () => {
     if (!selection) {
       Swal.fire({
         icon: 'error',
-        title: 'ระบุตัวเลือกสินค้า'
+        title: 'Please specify product options'
       })
     } else {
       // แปลงออบเจ็กต์ selection เป็นสตริง JSON

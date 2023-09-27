@@ -129,7 +129,7 @@ const NameMarket = () => {
   return (
     <Container maxWidth='xl'>
       {/* ---------- NameMarket ---------- */}
-      <Box sx={{ width: '100%', marginTop: { sm: '0px', md: '70px' }, paddingX: '10px' }}>
+      <Box sx={{ width: '100%', marginTop: { sm: '0px', md: '30px' }, paddingX: '10px' }}>
         {slidedata && slidedata.length > 0 ? (
           <Carousel arrows={false} responsive={responsive}>
             {slidedata.map((product, index) => (
