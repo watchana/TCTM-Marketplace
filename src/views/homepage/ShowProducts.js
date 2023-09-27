@@ -5,28 +5,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 // ** Material UI Imports
-import {
-  Box,
-  Button,
-  ButtonBase,
-  Card,
-  CardContent,
-  Container,
-  CardActionArea,
-  CardMedia,
-  Divider,
-  FormControl,
-  FormControlLabel,
-  Grid,
-  Hidden,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Switch,
-  TextField,
-  Typography
-} from '@mui/material'
+import { Box, Card, Container, CardMedia, Grid, Hidden, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 
 // ** Axios Import
@@ -183,12 +162,28 @@ const ShowProducts = () => {
                 <Carousel responsive={responsive} infinite={false}>
                   {/* ========================== Map ========================== */}
                   {slidedata.map((product, index) => (
-                    <Card key={index} variant='outlined' sx={{ width: '200px', height: '280px', boxShadow: 3 }}>
+                    <Card
+                      key={index}
+                      variant='outlined'
+                      sx={{
+                        border: '0.5px solid lightgray',
+                        width: { xs: '150px', sm: '200px' },
+                        height: { xs: '200px', sm: '280px' },
+                        boxShadow: 3,
+                        cursor: 'pointer',
+                        '&:hover': { boxShadow: 10, border: '2px solid #2d2e81' }
+                      }}
+                      onClick={() => {
+                        window.location.href = `product/?product_id=${product.product_id}`
+                      }}
+                    >
                       <CardMedia
+                        href={`/product/${product.product_id}`}
                         component='img'
                         height='70%'
                         image={`/imgTctmProduct/${product.image_file_name}`}
                         alt='Product Image'
+                        sx={{ objectFit: 'contain' }}
                       />
                       <Box sx={{ padding: 1, height: '30%' }}>
                         <Typography
@@ -203,7 +198,11 @@ const ShowProducts = () => {
                         >
                           {product.product_name}
                         </Typography>
-                        <Typography variant='h5' fontSize='16px' sx={{ color: '#000' }}>
+                        <Typography
+                          variant='h5'
+                          fontSize='16px'
+                          sx={{ color: '#BD1620', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
+                        >
                           $ {product.min_price} - {product.max_price}
                         </Typography>
                         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>

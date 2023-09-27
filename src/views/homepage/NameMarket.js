@@ -141,8 +141,9 @@ const NameMarket = () => {
                     alt='NameMarket'
                     sx={{
                       width: '170px',
-                      height: '200px',
-                      borderRadius: '6px'
+                      height: 'auto',
+                      borderRadius: '6px',
+                      objectFit: 'cover'
                     }}
                   />
                   <ImageBackdrop className='MuiImageBackdrop-root' />

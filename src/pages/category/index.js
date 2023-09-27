@@ -109,13 +109,22 @@ const Category = ({ productData, SearchProduct, keyword }) => {
                     sx={{
                       borderRadius: '7px',
                       border: '1px solid #E5EAEF',
-                      marginBottom: 2
+                      marginBottom: 2,
+                      backgroundColor: '#fff'
                     }}
                     onClick={() => {
                       generateButtonClickHandler(category)(), setOpenDrawerLeftMenu(false)
                     }}
                   >
-                    <ListItemText sx={{ textAlign: 'center' }} primary={category} />
+                    <ListItemText
+                      primary={category}
+                      sx={{
+                        textAlign: 'center',
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis'
+                      }}
+                    />
                   </ListItemButton>
                 </ListItem>
               ))
@@ -218,6 +227,7 @@ const Category = ({ productData, SearchProduct, keyword }) => {
                           height='70%'
                           image={`/imgTctmProduct/${product.image_file_name}`}
                           alt={product.product_name}
+                          sx={{ objectFit: 'contain' }}
                         />
                         <Box sx={{ padding: 1, height: '30%' }}>
                           <Typography
@@ -236,7 +246,7 @@ const Category = ({ productData, SearchProduct, keyword }) => {
                             variant='h5'
                             fontSize='16px'
                             sx={{
-                              color: '#2d2e81',
+                              color: '#BD1620',
                               overflow: 'hidden',
                               whiteSpace: 'nowrap',
                               textOverflow: 'ellipsis'
