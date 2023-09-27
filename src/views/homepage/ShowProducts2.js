@@ -450,14 +450,28 @@ const ShowProducts2 = () => {
           </Grid>
           <Hidden mdDown>
             <Grid item md={2}>
-              <Box sx={{ width: '220px', height: '280px', borderRadius: '6px', backgroundColor: '#FFCA64' }}>
-                <Typography
+              <Box
+                sx={{
+                  width: '220px',
+                  height: '280px',
+                  borderRadius: '6px',
+                  backgroundImage: 'url(/imgBillboard/CaBill2.png)',
+                  backgroundSize: '220px 280px',
+                  backgroundPosition: 'center',
+                  padding: '12px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+              >
+                {/* <Typography
                   variant='h5'
                   fontSize='24px'
                   sx={{ fontWeight: 'bold', textAlign: 'center', padding: '12px' }}
                 >
                   Recommended products
-                </Typography>
+                </Typography> */}
               </Box>
             </Grid>
           </Hidden>

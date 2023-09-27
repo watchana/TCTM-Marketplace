@@ -183,29 +183,24 @@ const Billboard = () => {
                       backgroundColor: '#3A46A7'
                     }}
                   >
-                    <Carousel arrows={false} autoPlaySpeed={5000} infinite responsive={responsive}>
-                      {/* ##### Image ##### */}
-                      {slidedata && slidedata.length > 0 ? (
-                        <>{/* ##### Map Image height: '170px' ##### */}</>
-                      ) : (
-                        <Box
-                          sx={{
-                            width: '100%',
-                            height: '170px',
-                            maxHeight: '170px',
-                            borderRadius: '6px',
-                            backgroundColor: '#3A46A7',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                          }}
-                        >
-                          <Typography variant='h6' color='#fff'>
-                            No Image
-                          </Typography>
-                        </Box>
-                      )}
-                    </Carousel>
+                    <Box
+                      sx={{
+                        width: '100%',
+                        height: '170px',
+                        maxHeight: '170px',
+                        borderRadius: '6px',
+                        backgroundImage: 'url(/imgBillboard/000.jpg)',
+                        backgroundSize: '100% 100%',
+                        backgroundPosition: 'center',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                      }}
+                    >
+                      {/* <Typography variant='h6' color='#fff'>
+                        No Image
+                      </Typography> */}
+                    </Box>
                   </Box>
                 )}
               </Grid>
@@ -223,29 +218,24 @@ const Billboard = () => {
                       backgroundColor: '#3A46A7'
                     }}
                   >
-                    <Carousel arrows={false} autoPlaySpeed={5000} infinite responsive={responsive}>
-                      {/* ##### Image ##### */}
-                      {slidedata && slidedata.length > 0 ? (
-                        <>{/* ##### Map Image height: '170px' ##### */}</>
-                      ) : (
-                        <Box
-                          sx={{
-                            width: '100%',
-                            height: '170px',
-                            maxHeight: '170px',
-                            borderRadius: '6px',
-                            backgroundColor: '#3A46A7',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                          }}
-                        >
-                          <Typography variant='h6' color='#fff'>
-                            No Image
-                          </Typography>
-                        </Box>
-                      )}
-                    </Carousel>
+                    <Box
+                      sx={{
+                        width: '100%',
+                        height: '170px',
+                        maxHeight: '170px',
+                        borderRadius: '6px',
+                        backgroundImage: 'url(/imgBillboard/003.jpeg)',
+                        backgroundSize: '100% 100%',
+                        backgroundPosition: 'center',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                      }}
+                    >
+                      {/* <Typography variant='h6' color='#fff'>
+                        No Image
+                      </Typography> */}
+                    </Box>
                   </Box>
                 )}
               </Grid>
