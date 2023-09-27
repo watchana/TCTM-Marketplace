@@ -36,17 +36,17 @@ import axios from 'axios'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 
-const images = [
-  'https://imagen.research.google/main_gallery_images/cactus.jpg',
-  'https://imagen.research.google/main_gallery_images/an-alien-octopus-floats.jpg',
-  'https://imagen.research.google/main_gallery_images/android-mascot-made-from-bamboo.jpg',
-  'https://imagen.research.google/main_gallery_images/a-robot-couple-fine-dining.jpg',
-  'https://imagen.research.google/main_gallery_images/teddy-bear-swimming-butterfly.jpg',
-  'https://imagen.research.google/main_gallery_images/a-brain-riding-a-rocketship.jpg',
-  'https://imagen.research.google/main_gallery_images/a-dog-looking-curiously.jpg',
-  'https://imagen.research.google/main_gallery_images/the-toronto-skyline-with-google-brain-logo.jpg',
-  'https://gweb-research-imagen.web.app/compositional/A%20photo%20of%20a%20fuzzy%20panda%20wearing%20a%20sunglasses%20and%20black%20leather%20jacket%20skateboarding%20on%20a%20beach./0_.jpeg'
-]
+// const images = [
+//   'https://imagen.research.google/main_gallery_images/cactus.jpg',
+//   'https://imagen.research.google/main_gallery_images/an-alien-octopus-floats.jpg',
+//   'https://imagen.research.google/main_gallery_images/android-mascot-made-from-bamboo.jpg',
+//   'https://imagen.research.google/main_gallery_images/a-robot-couple-fine-dining.jpg',
+//   'https://imagen.research.google/main_gallery_images/teddy-bear-swimming-butterfly.jpg',
+//   'https://imagen.research.google/main_gallery_images/a-brain-riding-a-rocketship.jpg',
+//   'https://imagen.research.google/main_gallery_images/a-dog-looking-curiously.jpg',
+//   'https://imagen.research.google/main_gallery_images/the-toronto-skyline-with-google-brain-logo.jpg',
+//   'https://gweb-research-imagen.web.app/compositional/A%20photo%20of%20a%20fuzzy%20panda%20wearing%20a%20sunglasses%20and%20black%20leather%20jacket%20skateboarding%20on%20a%20beach./0_.jpeg'
+// ]
 
 // ** Styles Components
 const DividerBox1 = styled(Box)(({ theme }) => ({
@@ -70,6 +70,9 @@ const DividerBox2 = styled(Box)(({ theme }) => ({
 }))
 
 const ShowProducts = () => {
+  // set data and state
+  const [slidedata, setSlideData] = useState([])
+
   // React Multi Carousel Responsive
   const responsive = {
     desktop: {
@@ -94,6 +97,20 @@ const ShowProducts = () => {
       items: 1
     }
   }
+
+  // Call Api
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.home_page.best_selling`)
+        setSlideData(response.data.message.Data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchData()
+  }, [])
 
   return (
     <Container maxWidth='xl'>
@@ -162,317 +179,56 @@ const ShowProducts = () => {
           </Hidden>
           <Grid item xs={12} md={10}>
             <Box sx={{ width: '100%', height: '280px', borderRadius: '6px' }}>
-              <Carousel responsive={responsive} infinite={false}>
-                {/* ========================== Map ========================== */}
-                <Card variant='outlined' sx={{ width: '200px', height: '280px', boxShadow: 3 }}>
-                  <CardMedia component='img' height='70%' image={images[0]} alt='green iguana' />
-                  <Box sx={{ padding: 1, height: '30%' }}>
-                    <Typography
-                      variant='h5'
-                      fontSize='18px'
-                      sx={{
-                        fontWeight: 'bold',
-                        overflow: 'hidden',
-                        whiteSpace: 'nowrap',
-                        textOverflow: 'ellipsis'
-                      }}
-                    >
-                      Product Name
-                    </Typography>
-                    <Typography variant='h5' fontSize='16px' sx={{ color: '#000' }}>
-                      $ 100.00
-                    </Typography>
-                    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-                      <Typography
-                        variant='body1'
-                        fontSize='14px'
-                        sx={{
-                          color: '#c0c0c0',
-                          overflow: 'hidden',
-                          whiteSpace: 'nowrap',
-                          textOverflow: 'ellipsis'
-                        }}
-                      >
-                        Name Market
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Card>
-                {/* 00000000000000000000000000000000000 ลบได้ 00000000000000000000000000000000000 */}
-                <Card variant='outlined' sx={{ width: '200px', height: '280px', boxShadow: 3 }}>
-                  <CardMedia component='img' height='70%' image={images[1]} alt='green iguana' />
-                  <Box sx={{ padding: 1, height: '30%' }}>
-                    <Typography
-                      variant='h5'
-                      fontSize='18px'
-                      sx={{
-                        fontWeight: 'bold',
-                        overflow: 'hidden',
-                        whiteSpace: 'nowrap',
-                        textOverflow: 'ellipsis'
-                      }}
-                    >
-                      Product Name
-                    </Typography>
-                    <Typography variant='h5' fontSize='16px' sx={{ color: '#000' }}>
-                      $ 100.00
-                    </Typography>
-                    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-                      <Typography
-                        variant='body1'
-                        fontSize='14px'
-                        sx={{
-                          color: '#c0c0c0',
-                          overflow: 'hidden',
-                          whiteSpace: 'nowrap',
-                          textOverflow: 'ellipsis'
-                        }}
-                      >
-                        Name Market
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Card>
-                <Card variant='outlined' sx={{ width: '200px', height: '280px', boxShadow: 3 }}>
-                  <CardMedia component='img' height='70%' image={images[7]} alt='green iguana' />
-                  <Box sx={{ padding: 1, height: '30%' }}>
-                    <Typography
-                      variant='h5'
-                      fontSize='18px'
-                      sx={{
-                        fontWeight: 'bold',
-                        overflow: 'hidden',
-                        whiteSpace: 'nowrap',
-                        textOverflow: 'ellipsis'
-                      }}
-                    >
-                      Product Name
-                    </Typography>
-                    <Typography variant='h5' fontSize='16px' sx={{ color: '#000' }}>
-                      $ 100.00
-                    </Typography>
-                    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-                      <Typography
-                        variant='body1'
-                        fontSize='14px'
-                        sx={{
-                          color: '#c0c0c0',
-                          overflow: 'hidden',
-                          whiteSpace: 'nowrap',
-                          textOverflow: 'ellipsis'
-                        }}
-                      >
-                        Name Market
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Card>
-                <Card variant='outlined' sx={{ width: '200px', height: '280px', boxShadow: 3 }}>
-                  <CardMedia component='img' height='70%' image={images[6]} alt='green iguana' />
-                  <Box sx={{ padding: 1, height: '30%' }}>
-                    <Typography
-                      variant='h5'
-                      fontSize='18px'
-                      sx={{
-                        fontWeight: 'bold',
-                        overflow: 'hidden',
-                        whiteSpace: 'nowrap',
-                        textOverflow: 'ellipsis'
-                      }}
-                    >
-                      Product Name
-                    </Typography>
-                    <Typography variant='h5' fontSize='16px' sx={{ color: '#000' }}>
-                      $ 100.00
-                    </Typography>
-                    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-                      <Typography
-                        variant='body1'
-                        fontSize='14px'
-                        sx={{
-                          color: '#c0c0c0',
-                          overflow: 'hidden',
-                          whiteSpace: 'nowrap',
-                          textOverflow: 'ellipsis'
-                        }}
-                      >
-                        Name Market
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Card>
-                <Card variant='outlined' sx={{ width: '200px', height: '280px', boxShadow: 3 }}>
-                  <CardMedia component='img' height='70%' image={images[5]} alt='green iguana' />
-                  <Box sx={{ padding: 1, height: '30%' }}>
-                    <Typography
-                      variant='h5'
-                      fontSize='18px'
-                      sx={{
-                        fontWeight: 'bold',
-                        overflow: 'hidden',
-                        whiteSpace: 'nowrap',
-                        textOverflow: 'ellipsis'
-                      }}
-                    >
-                      Product Name
-                    </Typography>
-                    <Typography variant='h5' fontSize='16px' sx={{ color: '#000' }}>
-                      $ 100.00
-                    </Typography>
-                    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-                      <Typography
-                        variant='body1'
-                        fontSize='14px'
-                        sx={{
-                          color: '#c0c0c0',
-                          overflow: 'hidden',
-                          whiteSpace: 'nowrap',
-                          textOverflow: 'ellipsis'
-                        }}
-                      >
-                        Name Market
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Card>
-                <Card variant='outlined' sx={{ width: '200px', height: '280px', boxShadow: 3 }}>
-                  <CardMedia component='img' height='70%' image={images[4]} alt='green iguana' />
-                  <Box sx={{ padding: 1, height: '30%' }}>
-                    <Typography
-                      variant='h5'
-                      fontSize='18px'
-                      sx={{
-                        fontWeight: 'bold',
-                        overflow: 'hidden',
-                        whiteSpace: 'nowrap',
-                        textOverflow: 'ellipsis'
-                      }}
-                    >
-                      Product Name
-                    </Typography>
-                    <Typography variant='h5' fontSize='16px' sx={{ color: '#000' }}>
-                      $ 100.00
-                    </Typography>
-                    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-                      <Typography
-                        variant='body1'
-                        fontSize='14px'
-                        sx={{
-                          color: '#c0c0c0',
-                          overflow: 'hidden',
-                          whiteSpace: 'nowrap',
-                          textOverflow: 'ellipsis'
-                        }}
-                      >
-                        Name Market
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Card>
-                <Card variant='outlined' sx={{ width: '200px', height: '280px', boxShadow: 3 }}>
-                  <CardMedia component='img' height='70%' image={images[3]} alt='green iguana' />
-                  <Box sx={{ padding: 1, height: '30%' }}>
-                    <Typography
-                      variant='h5'
-                      fontSize='18px'
-                      sx={{
-                        fontWeight: 'bold',
-                        overflow: 'hidden',
-                        whiteSpace: 'nowrap',
-                        textOverflow: 'ellipsis'
-                      }}
-                    >
-                      Product Name
-                    </Typography>
-                    <Typography variant='h5' fontSize='16px' sx={{ color: '#000' }}>
-                      $ 100.00
-                    </Typography>
-                    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-                      <Typography
-                        variant='body1'
-                        fontSize='14px'
-                        sx={{
-                          color: '#c0c0c0',
-                          overflow: 'hidden',
-                          whiteSpace: 'nowrap',
-                          textOverflow: 'ellipsis'
-                        }}
-                      >
-                        Name Market
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Card>
-                <Card variant='outlined' sx={{ width: '200px', height: '280px', boxShadow: 3 }}>
-                  <CardMedia component='img' height='70%' image={images[2]} alt='green iguana' />
-                  <Box sx={{ padding: 1, height: '30%' }}>
-                    <Typography
-                      variant='h5'
-                      fontSize='18px'
-                      sx={{
-                        fontWeight: 'bold',
-                        overflow: 'hidden',
-                        whiteSpace: 'nowrap',
-                        textOverflow: 'ellipsis'
-                      }}
-                    >
-                      Product Name
-                    </Typography>
-                    <Typography variant='h5' fontSize='16px' sx={{ color: '#000' }}>
-                      $ 100.00
-                    </Typography>
-                    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-                      <Typography
-                        variant='body1'
-                        fontSize='14px'
-                        sx={{
-                          color: '#c0c0c0',
-                          overflow: 'hidden',
-                          whiteSpace: 'nowrap',
-                          textOverflow: 'ellipsis'
-                        }}
-                      >
-                        Name Market
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Card>
-                <Card variant='outlined' sx={{ width: '200px', height: '280px', boxShadow: 3 }}>
-                  <CardMedia component='img' height='70%' image={images[1]} alt='green iguana' />
-                  <Box sx={{ padding: 1, height: '30%' }}>
-                    <Typography
-                      variant='h5'
-                      fontSize='18px'
-                      sx={{
-                        fontWeight: 'bold',
-                        overflow: 'hidden',
-                        whiteSpace: 'nowrap',
-                        textOverflow: 'ellipsis'
-                      }}
-                    >
-                      Product Name
-                    </Typography>
-                    <Typography variant='h5' fontSize='16px' sx={{ color: '#000' }}>
-                      $ 100.00
-                    </Typography>
-                    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-                      <Typography
-                        variant='body1'
-                        fontSize='14px'
-                        sx={{
-                          color: '#c0c0c0',
-                          overflow: 'hidden',
-                          whiteSpace: 'nowrap',
-                          textOverflow: 'ellipsis'
-                        }}
-                      >
-                        Name Market
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Card>
-                {/* 00000000000000000000000000000000000 ลบได้ 00000000000000000000000000000000000 */}
-              </Carousel>
+              {slidedata && slidedata.length > 0 ? (
+                <Carousel responsive={responsive} infinite={false}>
+                  {/* ========================== Map ========================== */}
+                  {slidedata.map((product, index) => (
+                    <Card key={index} variant='outlined' sx={{ width: '200px', height: '280px', boxShadow: 3 }}>
+                      <CardMedia
+                        component='img'
+                        height='70%'
+                        image={`/imgTctmProduct/${product.image_file_name}`}
+                        alt='Product Image'
+                      />
+                      <Box sx={{ padding: 1, height: '30%' }}>
+                        <Typography
+                          variant='h5'
+                          fontSize='18px'
+                          sx={{
+                            fontWeight: 'bold',
+                            overflow: 'hidden',
+                            whiteSpace: 'nowrap',
+                            textOverflow: 'ellipsis'
+                          }}
+                        >
+                          {product.product_name}
+                        </Typography>
+                        <Typography variant='h5' fontSize='16px' sx={{ color: '#000' }}>
+                          $ {product.min_price} - {product.max_price}
+                        </Typography>
+                        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+                          <Typography
+                            variant='body1'
+                            fontSize='14px'
+                            sx={{
+                              color: '#c0c0c0',
+                              overflow: 'hidden',
+                              whiteSpace: 'nowrap',
+                              textOverflow: 'ellipsis'
+                            }}
+                          >
+                            {product.sub_name}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </Card>
+                  ))}
+                </Carousel>
+              ) : (
+                <Typography variant='h6' sx={{ color: '#999', fontStyle: 'italic', textAlign: 'center' }}>
+                  No data
+                </Typography>
+              )}
             </Box>
           </Grid>
         </Grid>
