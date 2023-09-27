@@ -44,22 +44,7 @@ import axios from 'axios'
 // ** Components Imports
 import { withAuth } from 'src/@core/utils/AuthCheck'
 
-const images = [
-  '/images/Image-Test.png',
-  '/images/test/1.png',
-  '/images/test/2.png',
-  '/images/test/3.png',
-  '/images/test/4.png',
-  '/images/test/5.png',
-  '/images/test/6.png',
-  '/images/test/7.png'
-]
-
 const ProductDetails = () => {
-  const [stateImages, setStateImages] = useState(0) // Images
-  const [firstImage, setFirstImage] = useState(0) // FirstImage
-  const [endImage, setEndImage] = useState(images.length) // EndImage
-  const MaxLengthImages = images.length // MaxLengthImages
   // ตัวแปรเก็บค่าข้อมูล
   const [quantity, setQuantity] = useState(1) // ตัวแปรเก็บค่าจำนวนสินค้า
   const [options, setOptions] = useState([]) // ตัวแปรเก็บค่า ตัวเลือก
@@ -152,6 +137,34 @@ const ProductDetails = () => {
     setValueTabs(newValue)
   }
 
+  //-----------------------------Slide Control Function------------------------//
+
+  // img dummy
+  const images = [
+    '/images/Image-Test.png',
+    '/images/test/1.png',
+    '/images/test/2.png',
+    '/images/test/3.png',
+    '/images/test/4.png',
+    '/images/test/5.png',
+    '/images/test/6.png',
+    '/images/test/7.png'
+  ]
+
+  // Slide Controls Variable
+  const [stateImages, setStateImages] = useState(0) // Images
+  const [firstImage, setFirstImage] = useState(0) // FirstImage
+  const [endImage, setEndImage] = useState(productimg.length) // EndImage
+  const MaxLengthImages = productimg.length // MaxLengthImages
+  const [presentState, setPresentState] = useState(0) // presentState
+
+  // console.log('productimg', productimg)
+  // console.log('stateImages', stateImages)
+  // console.log('MaxLengthImages', MaxLengthImages)
+  // console.log('presentState', presentState)
+
+  console.log('presentState', presentState)
+
   // Button Slide Left
   const leftSlide = () => {
     if (firstImage !== 0) {
@@ -172,19 +185,41 @@ const ProductDetails = () => {
     }
   }
 
+  const indexCount = (index, firstImage) => {
+    const total = index + firstImage
+    setStateImages(index)
+    setPresentState(total)
+  }
+
   const slideLeftImage = () => {
     if (stateImages !== 0) {
       setStateImages(stateImages - 1)
+      let newFirstImage = firstImage - 1
+      let newEndImage = endImage - 1
+      if (newEndImage < MaxLengthImages) {
+        setFirstImage(newFirstImage)
+        setEndImage(newEndImage)
+      }
     } else {
       setStateImages(MaxLengthImages - 1)
+      setFirstImage(MaxLengthImages - 4)
+      setEndImage(MaxLengthImages)
     }
   }
 
   const slideRightImage = () => {
     if (stateImages !== MaxLengthImages - 1) {
       setStateImages(stateImages + 1)
+      let newFirstImage = firstImage + 1
+      let newEndImage = endImage + 1
+      if (newEndImage <= MaxLengthImages) {
+        setFirstImage(newFirstImage)
+        setEndImage(newEndImage)
+      }
     } else {
       setStateImages(0)
+      setFirstImage(0)
+      setEndImage(4)
     }
   }
 
@@ -196,6 +231,8 @@ const ProductDetails = () => {
       setEndImage(MaxLengthImages)
     }
   }, [MaxLengthImages])
+
+  //-----------------------------Slide Control Function------------------------//
 
   return (
     <Container maxWidth='xl'>
@@ -270,8 +307,12 @@ const ProductDetails = () => {
               </Hidden>
               <CardMedia
                 component='img'
-                image={images[stateImages]}
-                alt={`Image ${stateImages}`}
+                image={
+                  productimg[stateImages]?.image_file_name
+                    ? `/imgTctmProduct/${productimg[presentState].image_file_name}`
+                    : ''
+                }
+                alt={`Image ${stateImages + 1}`}
                 height='100%'
                 sx={{ width: '90%', objectFit: 'contain' }}
               />
@@ -308,52 +349,62 @@ const ProductDetails = () => {
                     }}
                   />
                 </IconButton>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    width: '100% ',
-                    height: '100px',
-                    objectFit: 'cover',
-                    cursor: 'pointer'
-                  }}
-                >
-                  {images.slice(firstImage, endImage).map((image, index) => (
-                    <Box
-                      key={index}
-                      sx={{
-                        display: 'flex',
-                        alignContent: 'center',
-                        width: '100px',
-                        height: '100px',
-                        objectFit: 'cover',
-                        scrollSnapType: 'x mandatory',
-                        border: '1px solid #aaa',
-                        borderRadius: '10px',
-                        marginLeft: '15px'
-                      }}
-                    >
-                      <CardMedia
-                        component='img'
-                        src={image}
-                        alt={`Image ${index + 1}`}
-                        onClick={() => setStateImages(index)}
+
+                {/*----------------------- EZ ------------------------------------------ */}
+                {productimg && productimg.length > 0 ? (
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      width: '100% ',
+                      height: '100px',
+                      objectFit: 'cover',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {productimg.slice(firstImage, endImage).map((image, index) => (
+                      <Box
+                        key={index}
                         sx={{
+                          display: 'flex',
+                          alignContent: 'center',
                           width: '100px',
-                          display: 'inline-block',
-                          cursor: 'pointer',
-                          '&:hover': {
-                            opacity: [0.9, 0.8, 0.7],
-                            transition: 'opacity 0.3s ease-in-out',
-                            transform: 'scale(1.1)',
-                            transition: 'transform 0.3s ease-in-out'
-                          }
+                          height: '100px',
+                          objectFit: 'cover',
+                          scrollSnapType: 'x mandatory',
+                          border: '1px solid #aaa',
+                          borderRadius: '10px',
+                          marginLeft: '15px'
                         }}
-                      />
-                    </Box>
-                  ))}
-                </Box>
+                      >
+                        <CardMedia
+                          component='img'
+                          src={`/imgTctmProduct/${image.image_file_name}`}
+                          alt={`Image ${index + 1}`}
+                          onClick={() => indexCount(index, firstImage)}
+                          sx={{
+                            width: '100px',
+                            display: 'inline-block',
+                            cursor: 'pointer',
+                            '&:hover': {
+                              opacity: [0.9, 0.8, 0.7],
+                              transition: 'opacity 0.3s ease-in-out',
+                              transform: 'scale(1.1)',
+                              transition: 'transform 0.3s ease-in-out'
+                            }
+                          }}
+                        />
+                      </Box>
+                    ))}
+                  </Box>
+                ) : (
+                  <Typography variant='h6' sx={{ color: '#999', fontStyle: 'italic', textAlign: 'center' }}>
+                    No data
+                  </Typography>
+                )}
+                {/*----------------------- END EZ ------------------------------------------ */}
+
                 <IconButton onClick={rightSlide} sx={{ backgroundColor: '#ddd' }}>
                   <KeyboardArrowRight
                     sx={{
@@ -370,6 +421,7 @@ const ProductDetails = () => {
               </Box>
             </Hidden>
           </Grid>
+
           {/* --------------- เลือกสินค้า --------------- */}
           <Grid item xs={12} md={5}>
             <Box sx={{ width: '100%' }}>
