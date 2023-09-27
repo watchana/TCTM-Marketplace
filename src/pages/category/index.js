@@ -235,7 +235,12 @@ const Category = ({ productData, SearchProduct, keyword }) => {
                           <Typography
                             variant='h5'
                             fontSize='16px'
-                            sx={{ color: '#000', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
+                            sx={{
+                              color: '#2d2e81',
+                              overflow: 'hidden',
+                              whiteSpace: 'nowrap',
+                              textOverflow: 'ellipsis'
+                            }}
                           >
                             $ {product.min_price} - {product.max_price}
                           </Typography>
