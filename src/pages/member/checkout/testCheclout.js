@@ -1,50 +1,40 @@
 // ** React Imports
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 // ** Next Imports
-import Link from 'next/link'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
 
-// ** Material UI Imports
+// ** MUI Imports
 import {
+  Avatar,
   Box,
   Breadcrumbs,
   Button,
   Card,
-  CardMedia,
   Container,
-  FormControl,
-  Grid,
-  Hidden,
-  InputLabel,
-  MenuItem,
-  Select,
-  Typography,
-  Tab,
-  Avatar,
   Divider,
+  Grid,
   Radio,
   Stack,
-  TextField
+  TextField,
+  Typography
 } from '@mui/material'
-
-// ** Material-UI Icons Imports
-
-// ** Material Design Icons Imports
-import PaymentIcon from '@mui/icons-material/Payment'
-import ChevronRight from 'mdi-material-ui/ChevronRight'
-
-// ** Custom Components
-import CardEmail from './email'
+import EditIcon from '@mui/icons-material/Edit'
+import DeleteIcon from '@mui/icons-material/Delete'
+import { deepOrange } from '@mui/material/colors'
+import { useState, useEffect } from 'react'
+import Cardemail from './email'
 import Shipping from './shipping'
-import Delivery from './delivery'
-import Payment from './payment'
+import Deriverry from './delivery'
+import Paymant from './payment'
 import Summary from './summary'
 
-// ** Axios Import
+// ** axios imports
 import axios from 'axios'
+import Requirement from 'src/pages/market/requirement'
 
-const Checkout = () => {
+const Checkout = ({}) => {
   // นำเข้าตัวsweetalert2
   const Swal = require('sweetalert2')
   const router = useRouter() // เรียกใช้งาน Router
@@ -143,46 +133,74 @@ const Checkout = () => {
   }
 
   return (
-    <Container maxWidth='xl'>
-      <Box sx={{ height: '100%' }}>
-        <Box sx={{ width: '100%' }}>
-          <Card
-            sx={{
-              height: '100px',
-              marginBottom: '30px',
-              padding: '15px 25px 20px',
-              backgroundColor: '#2d2e81',
-              border: '1px solid #primary.main'
-            }}
-          >
-            <Grid container alignItems='center'>
-              <Grid item xs={12} sm={8} md={8}>
-                <Typography variant='h4' fontSize='21px bold' color='#fff'>
-                  Checkout
+    <Container>
+      <Box>
+        <Box sx={{ textAlign: 'center' }}>
+          <Typography variant='h4' fontSize='1.3rem' fontWeight='bold' sx={{ textAlign: 'center', mb: 2 }}>
+            Checkout
+          </Typography>
+          <Typography variant='caption' sx={{ textAlign: 'center', mb: 2 }}>
+            Shipping charges and discount codes applied at checkout.
+          </Typography>
+        </Box>
+        <Grid container spacing={1} justifyContent='space-between'>
+          <Grid item xs={12} md={7.5}>
+            {/** Avatar, Change */}
+            <Grid container spacing={0} alignItems='center' sx={{ p: '10px 8px 2px' }}>
+              <Grid item>
+                <Avatar src='/broken-image.jpg' />
+              </Grid>
+              <Grid item>
+                <Typography>{name}</Typography>
+              </Grid>
+              {/* <Grid item xs={6} md={9.4} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+                <Typography variant='subtitle1' style={{ marginRight: '5px' }}>
+                  <EditIcon />
                 </Typography>
-                <Typography color='#fff' variant='h6' fontSize='14px'>
-                  Shipping charges and discount codes applied at checkout.
+                <Typography>Change address</Typography>
+              </Grid> */}
+              <Cardemail userData={userData} />
+            </Grid>
+            <Grid container spacing={2} alignItems='center' sx={{ p: '10px 10px 2px' }}>
+              <Grid item>
+                <Typography variant='h5' sx={{ p: '5px 5px 5px' }}>
+                  Shipping Details
                 </Typography>
               </Grid>
-              <Hidden smDown>
-                <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <PaymentIcon sx={{ fontSize: 72, color: '#fff' }} />
-                </Grid>
-              </Hidden>
+              <Shipping
+                productName={productName}
+                price={price}
+                quantity={quantity}
+                parsedSelection={parsedSelection}
+                FirstImage={FirstImage}
+              />
             </Grid>
-          </Card>
-        </Box>
-
-        <Grid container spacing={4}>
-          <Grid item xs={12} md={8}>
-            <CardEmail userData={userData} />
-            <Shipping
-              productName={productName}
+            {/* <Grid container spacing={2} alignItems='center' sx={{ p: '10px 10px 2px' }}>
+              <Grid item>
+                <Typography variant='h5' sx={{ p: '5px 7px 5px' }}>
+                  Payment
+                </Typography>
+              </Grid>
+              <Paymant />
+            </Grid> */}
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Grid item>
+              <Typography variant='h6' sx={{ p: '20px 0px 5px', width: '100%' }}>
+                summary
+              </Typography>
+            </Grid>
+            <Summary
               price={price}
               quantity={quantity}
-              parsedSelection={parsedSelection}
-              FirstImage={FirstImage}
+              Shipping_cost={Shipping_cost}
+              tax={tax}
+              discount={discount}
+              total={total}
+              Realtex={Realtex}
             />
+          </Grid>
+          <Grid container spacing={2} alignItems='center' sx={{ width: '96%', p: 2.5, marginTop: 3, marginLeft: 1 }}>
             <Box sx={{ width: '62%', display: 'flex', justifyContent: 'center' }}>
               <Button
                 onClick={handleOrderClick}
@@ -199,17 +217,6 @@ const Checkout = () => {
                 order. I accept the Terms and Conditions and confirm that I have read the Privacy Policy.
               </Typography>
             </Box>
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <Summary
-              price={price}
-              quantity={quantity}
-              Shipping_cost={Shipping_cost}
-              tax={tax}
-              discount={discount}
-              total={total}
-              Realtex={Realtex}
-            />
           </Grid>
         </Grid>
       </Box>

@@ -6,7 +6,7 @@ import { Avatar, Box, Button, Card, Divider, Grid, Radio, Stack, TextField, Typo
 
 const Cardemail = ({ userData }) => {
   return (
-    <Card sx={{ width: '95%', p: 2.5, marginTop: 3, marginLeft: 3 }}>
+    <Card sx={{ width: '95%', p: 2.5, marginLeft: 3 }}>
       <Grid container spacing={2} rowSpacing={5}>
         <Grid item xs={12} md={6}>
           <Typography variant='subtitle2' sx={{ marginLeft: 3 }}>
