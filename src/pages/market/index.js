@@ -191,6 +191,75 @@ const MyMarket = () => {
     })
   }
 
+  // ฟังก์ชันเปลี่ยนสถานะ - ขาย
+  const handleSellingClick = async (e, product_id) => {
+    e.preventDefault()
+
+    console.log('product_id', product_id)
+
+    const data = {
+      product_id: product_id
+    }
+
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.product.active_sell_product`, data)
+      console.log(response)
+      Swal.fire({
+        icon: 'success',
+        title: 'Send Data Success'
+      })
+      setShouldFetchData(true)
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error'
+      })
+      console.log(error)
+    }
+  }
+
+  // ฟังก์ชันเปลี่ยนสถานะ - ยกเลิกการขาย
+  const handleUnsellingClick = (e, product_id) => {
+    e.preventDefault()
+
+    Swal.fire({
+      title: 'You Want to Unselling This Product?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No'
+    }).then(result => {
+      if (result.isConfirmed) {
+        const data = {
+          product_id: product_id
+        }
+        if (product_id !== '') {
+          axios
+            .put(`${process.env.NEXT_PUBLIC_API}TCTM.product.active_not_sell_product`, data)
+            .then(function (response) {
+              console.log(response)
+              Swal.fire({
+                icon: 'success',
+                title: 'Unselling Success'
+              })
+              setShouldFetchData(true)
+            })
+            .catch(function (error) {
+              console.log(error)
+              Swal.fire({
+                icon: 'error',
+                title: 'Erroe'
+              })
+            })
+        } else {
+          console.log('Error')
+        }
+      } else if (result.isDenied) {
+        console.log('cancelled Error')
+      }
+    })
+  }
+
   // ** Data Grid Columns
   const columns = [
     { field: 'category_name', headerName: 'Category  ', width: 90 },
@@ -207,13 +276,16 @@ const MyMarket = () => {
 
         if (subStatus === '2') {
           chipColor = 'success'
-          chipLabel = 'Nomal'
+          chipLabel = 'Selling'
         } else if (subStatus === '3') {
           chipColor = 'info'
           chipLabel = 'Promote'
         } else if (subStatus === '1') {
           chipColor = 'warning'
-          chipLabel = 'wait..'
+          chipLabel = 'Wait TCTM Approve'
+        } else if (subStatus === '4') {
+          chipColor = 'default'
+          chipLabel = 'UnSelling..'
         } else {
           chipColor = 'default'
           chipLabel = 'Unknown'
@@ -225,7 +297,7 @@ const MyMarket = () => {
     {
       field: 'Detail',
       headerName: 'Detail',
-      width: 180,
+      width: 120,
       renderCell: params => (
         <Button
           variant='contained'
@@ -241,9 +313,42 @@ const MyMarket = () => {
       )
     },
     {
+      field: 'Selling',
+      headerName: 'Selling',
+      width: 120,
+      renderCell: params => (
+        <Button
+          variant='contained'
+          color='success'
+          className='btn btn-danger'
+          style={{ marginRight: '5px' }}
+          onClick={e => handleSellingClick(e, params.row.product_id)}
+          disabled={params.row.product_status !== '4'}
+        >
+          Selling
+        </Button>
+      )
+    },
+    {
+      field: 'UnSelling',
+      headerName: 'UnSelling',
+      width: 120,
+      renderCell: params => (
+        <Button
+          variant='contained'
+          color='warning'
+          className='btn btn-danger'
+          style={{ marginRight: '5px' }}
+          onClick={e => handleUnsellingClick(e, params.row.product_id)}
+        >
+          Unselling
+        </Button>
+      )
+    },
+    {
       field: 'actions',
       headerName: 'Delete',
-      width: 180,
+      width: 120,
       renderCell: params => (
         <Button
           variant='contained'
