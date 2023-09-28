@@ -223,6 +223,24 @@ const MyMarket = () => {
       }
     },
     {
+      field: 'Detail',
+      headerName: 'Detail',
+      width: 180,
+      renderCell: params => (
+        <Button
+          variant='contained'
+          color='success'
+          className='btn btn-danger'
+          style={{ marginRight: '5px' }}
+          onClick={() => {
+            router.push(`/market/product_detail/?product_id=${params.row.product_id}`)
+          }}
+        >
+          Detail
+        </Button>
+      )
+    },
+    {
       field: 'actions',
       headerName: 'Delete',
       width: 180,
