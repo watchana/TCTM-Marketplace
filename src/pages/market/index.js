@@ -214,6 +214,9 @@ const MyMarket = () => {
         } else if (subStatus === '1') {
           chipColor = 'warning'
           chipLabel = 'wait..'
+        } else {
+          chipColor = 'default'
+          chipLabel = 'Unknown'
         }
 
         return <Chip label={chipLabel} color={chipColor} />
