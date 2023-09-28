@@ -46,15 +46,9 @@ const Category = ({ productData, SearchProduct, keyword }) => {
   // เก็บข้อมูลสินค้า
   const products = productData
 
-  //   console.log('products', products)
-
   // ** Router ของ Next.js
   const router = useRouter()
   const { sub_id, sub_name } = router.query
-
-  console.log('sub_name', sub_name)
-
-  //   console.log('filteredProducts0', filteredProducts)
 
   // ดึงค่าสินค้ามาแสดงทันทีที่ทำการค้นหา
   useEffect(() => {

@@ -75,8 +75,6 @@ const NameMarket = () => {
   // set data and state
   const [slidedata, setSlideData] = useState([])
 
-  console.log('slidedata', slidedata)
-
   // ** Router ของ Next.js
   const router = useRouter()
 
