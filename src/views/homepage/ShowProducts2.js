@@ -175,7 +175,10 @@ const ShowProducts2 = () => {
                           fontSize='16px'
                           sx={{ color: '#BD1620', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
                         >
-                          $ {product.min_price} - {product.max_price}
+                          $
+                          {product.min_price === product.max_price
+                            ? `${product.min_price}`
+                            : `${product.min_price} - ${product.max_price}`}
                         </Typography>
                         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
                           <Typography
