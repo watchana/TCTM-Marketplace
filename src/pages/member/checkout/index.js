@@ -6,39 +6,16 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 // ** Material UI Imports
-import {
-  Box,
-  Breadcrumbs,
-  Button,
-  Card,
-  CardMedia,
-  Container,
-  FormControl,
-  Grid,
-  Hidden,
-  InputLabel,
-  MenuItem,
-  Select,
-  Typography,
-  Tab,
-  Avatar,
-  Divider,
-  Radio,
-  Stack,
-  TextField
-} from '@mui/material'
+import { Box, Button, Card, Container, Grid, Hidden, Typography } from '@mui/material'
 
 // ** Material-UI Icons Imports
 
 // ** Material Design Icons Imports
 import PaymentIcon from '@mui/icons-material/Payment'
-import ChevronRight from 'mdi-material-ui/ChevronRight'
 
 // ** Custom Components
 import CardEmail from './email'
 import Shipping from './shipping'
-import Delivery from './delivery'
-import Payment from './payment'
 import Summary from './summary'
 
 // ** Axios Import
@@ -102,14 +79,6 @@ const Checkout = () => {
 
     fetchData()
   }, [userId])
-
-  // const handleOrderClick = () => {
-  //   alert('แตก')
-
-  //   router.push(
-  //     `order/?product_id=${product_id}&price=${price},&sub_id=${sub_id},&member_id=${userId},&selection=${selection}`
-  //   )
-  // }
 
   // ฟังชัน ย้ายไปหน้า order
   const handleOrderClick = async e => {
@@ -176,9 +145,9 @@ const Checkout = () => {
           </Card>
         </Box>
 
-        <Grid container spacing={4}>
-          <Grid item xs={12} md={8}>
-            <CardEmail userData={userData} />
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={7}>
+            <CardEmail userName={name} userData={userData} />
             <Shipping
               productName={productName}
               price={price}
@@ -186,24 +155,8 @@ const Checkout = () => {
               parsedSelection={parsedSelection}
               FirstImage={FirstImage}
             />
-            <Box sx={{ width: '62%', display: 'flex', justifyContent: 'center' }}>
-              <Button
-                onClick={handleOrderClick}
-                variant='contained'
-                sx={{ bgcolor: 'red', width: '100%', p: '10px 10px 10px' }}
-              >
-                NEXT STEP
-              </Button>
-            </Box>
-            <br />
-            <Box sx={{ width: '62%', p: '10px 10px 10px', textAlign: 'center' }}>
-              <Typography variant='subtitle2'>
-                By clicking "Complete purchase", I confirm that I am aware and accept that I am obliged to pay for my
-                order. I accept the Terms and Conditions and confirm that I have read the Privacy Policy.
-              </Typography>
-            </Box>
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={5}>
             <Summary
               price={price}
               quantity={quantity}
@@ -213,6 +166,35 @@ const Checkout = () => {
               total={total}
               Realtex={Realtex}
             />
+            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <Button
+                fullWidth
+                variant='contained'
+                onClick={handleOrderClick}
+                sx={{
+                  backgroundColor: '#2d2e81',
+                  outline: '3px solid #2d2e81',
+                  outlineOffset: '-2px',
+                  transition: '400ms',
+                  '&:text': {
+                    color: '#fff',
+                    transition: '400ms'
+                  },
+                  '&:hover': {
+                    backgroundColor: '#fff',
+                    color: '#2d2e81',
+                    transition: '400ms'
+                  }
+                }}
+              >
+                NEXT STEP
+              </Button>
+            </Box>
+            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <Typography variant='body2' sx={{ marginTop: '10px' }}>
+                By placing your order, you agree to TCTM's privacy notice and conditions of use.
+              </Typography>
+            </Box>
           </Grid>
         </Grid>
       </Box>
