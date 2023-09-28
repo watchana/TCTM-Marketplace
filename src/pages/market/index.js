@@ -51,6 +51,9 @@ import Orders from './orders'
 import OrdersReq from './ordersReq'
 import Requirement from './requirement'
 
+// ** Auth Check
+import { withAuth } from 'src/@core/utils/AuthCheck'
+
 const MyMarket = () => {
   // set tabpanel State
   const [value, setValue] = useState('1')
@@ -68,8 +71,6 @@ const MyMarket = () => {
   const [storeStatus, setStoreStatus] = useState('')
   const [marketname, setMarketname] = useState('')
   const [subId, setSubId] = useState('') // เก็บค่า Sub Id
-
-  console.log('productdata', productdata)
 
   // ตัวแปรควบคุม State
   const [searchText, setSearchText] = useState('') //state สำหรับเก็บข้อมูลการค้นหา
@@ -429,4 +430,4 @@ const MyMarket = () => {
   )
 }
 
-export default MyMarket
+export default withAuth(MyMarket)

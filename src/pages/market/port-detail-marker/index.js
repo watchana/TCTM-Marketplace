@@ -41,6 +41,9 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline'
 // ** Material Design Icons Imports
 import ChevronRight from 'mdi-material-ui/ChevronRight'
 
+// ** Auth Check
+import { withAuth } from 'src/@core/utils/AuthCheck'
+
 const PosrtDetail = () => {
   // นำเข้าตัวsweetalert2
   const SAlert = require('sweetalert2')
@@ -611,4 +614,4 @@ const PosrtDetail = () => {
   )
 }
 
-export default PosrtDetail
+export default withAuth(PosrtDetail)

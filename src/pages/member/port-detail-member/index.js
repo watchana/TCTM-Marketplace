@@ -37,6 +37,9 @@ import DownloadIcon from '@mui/icons-material/Download'
 import MailOutlineIcon from '@mui/icons-material/MailOutline'
 import LocalMallIcon from '@mui/icons-material/LocalMall'
 
+// ** Auth Check
+import { withAuth } from 'src/@core/utils/AuthCheck'
+
 const PosrtDetail = () => {
   // นำเข้าตัวsweetalert2
   const SAlert = require('sweetalert2')
@@ -601,4 +604,4 @@ const PosrtDetail = () => {
   )
 }
 
-export default PosrtDetail
+export default withAuth(PosrtDetail)

@@ -26,6 +26,9 @@ import Total from './details_total'
 import Delivery from './delivery_address'
 import Paymant from './payment_details'
 
+//** Auth check
+import { withAuth } from 'src/@core/utils/AuthCheck'
+
 const Orders_Detail = () => {
   // ใช้งาน Router
   const router = useRouter() // use router
@@ -162,4 +165,4 @@ const Orders_Detail = () => {
   )
 }
 
-export default Orders_Detail
+export default withAuth(Orders_Detail)

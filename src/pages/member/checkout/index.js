@@ -44,6 +44,9 @@ import Summary from './summary'
 // ** Axios Import
 import axios from 'axios'
 
+// ** Utils Imports
+import { withAuth } from 'src/@core/utils/AuthCheck'
+
 const Checkout = () => {
   // นำเข้าตัวsweetalert2
   const Swal = require('sweetalert2')
@@ -217,4 +220,4 @@ const Checkout = () => {
   )
 }
 
-export default Checkout
+export default withAuth(Checkout)

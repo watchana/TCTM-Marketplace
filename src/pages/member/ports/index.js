@@ -27,6 +27,9 @@ import axios from 'axios'
 import DialogPost from './DialogPost'
 import DialogEdit from './DialogEdit'
 
+// ** Auth Check
+import { withAuth } from 'src/@core/utils/AuthCheck'
+
 const Posts = () => {
   // ** Router ของ Next.js
   const router = useRouter()
@@ -299,4 +302,4 @@ const Posts = () => {
   )
 }
 
-export default Posts
+export default withAuth(Posts)

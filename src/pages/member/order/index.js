@@ -10,6 +10,9 @@ import { useRouter } from 'next/router'
 //** Axios Import
 import axios from 'axios'
 
+//** Auth Check
+import { withAuth } from 'src/@core/utils/AuthCheck'
+
 const Indexpayment = () => {
   // ใช้งาน Router
   const router = useRouter() // use router
@@ -72,4 +75,4 @@ const Indexpayment = () => {
   )
 }
 
-export default Indexpayment
+export default withAuth(Indexpayment)

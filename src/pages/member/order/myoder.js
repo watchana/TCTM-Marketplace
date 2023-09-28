@@ -19,6 +19,9 @@ import ShowOrderReq from './showorderReq'
 // ** Axios Imports
 import axios from 'axios'
 
+// ** Auth Check
+import { withAuth } from 'src/@core/utils/AuthCheck'
+
 const MyOrderPage = () => {
   // ตัวแปรเก็บค่าข้อมูล
   const [userId, setUserId] = useState('') // ข้อมูล user_Id
@@ -136,4 +139,4 @@ const MyOrderPage = () => {
   )
 }
 
-export default MyOrderPage
+export default withAuth(MyOrderPage)
