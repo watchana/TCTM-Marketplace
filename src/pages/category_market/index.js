@@ -46,8 +46,15 @@ const Category = ({ productData, SearchProduct, keyword }) => {
   // เก็บข้อมูลสินค้า
   const products = productData
 
+  //   console.log('products', products)
+
   // ** Router ของ Next.js
   const router = useRouter()
+  const { sub_id, sub_name } = router.query
+
+  console.log('sub_name', sub_name)
+
+  //   console.log('filteredProducts0', filteredProducts)
 
   // ดึงค่าสินค้ามาแสดงทันทีที่ทำการค้นหา
   useEffect(() => {
@@ -79,7 +86,17 @@ const Category = ({ productData, SearchProduct, keyword }) => {
       setActiveButton(category)
       setSearchResults([])
     }
-    router.replace('category', undefined, { shallow: true })
+    router.replace(
+      {
+        pathname: 'category_market',
+        query: {
+          sub_id: sub_id,
+          sub_name: sub_name
+        }
+      },
+      undefined,
+      { shallow: true }
+    )
   }
 
   const MenuCategory = () => (
@@ -153,7 +170,7 @@ const Category = ({ productData, SearchProduct, keyword }) => {
             <Grid container alignItems='center'>
               <Grid item xs={12} sm={8} md={8}>
                 <Typography variant='h4' fontSize='21px bold' color='#fff'>
-                  Shop
+                  Shop ({sub_name})
                 </Typography>
                 <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
                   <Link href='/' passHref>
@@ -302,7 +319,8 @@ const Category = ({ productData, SearchProduct, keyword }) => {
 
 export const getServerSideProps = async ({ query }) => {
   try {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.product.allproducts`)
+    const sub_id = query.sub_id
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.product.allproducts_market?sup_id=${sub_id}`)
     const productData = response.data.message.Data || []
 
     if (!query.keyword) {

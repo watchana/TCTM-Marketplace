@@ -152,7 +152,7 @@ const NameMarket = () => {
                         pb: theme => `calc(${theme.spacing(1)} + 6px)`
                       }}
                       onClick={() => {
-                        router.push(`/category_market/?sub_pay_name=${product.sub_pay_name}`)
+                        router.push(`/category_market/?sub_id=${product.sub_id}&sub_name=${product.sub_name}`)
                       }}
                     >
                       {product.sub_name}
