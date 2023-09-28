@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 
 // ** MUI Imports
-import { Card, Button, FormControl, Select, InputLabel, MenuItem } from '@mui/material'
+import { Box, Typography, Card, Button, FormControl, Select, InputLabel, MenuItem } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 
 // ** Axios
@@ -198,7 +198,13 @@ const ProductTable = ({ rows }) => {
 
   // ** when rows is empty, show loading
   if (rows.length === 0) {
-    return <div>Loading...</div>
+    return (
+      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+        <Typography variant='h6' fontSize='16px bold' color='#000'>
+          No data
+        </Typography>
+      </Box>
+    )
   }
 
   return (

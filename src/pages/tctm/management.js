@@ -5,11 +5,8 @@ import React, { useState, useEffect } from 'react'
 import { Box, Tab, Card, Typography, Grid, Link, Stack, Breadcrumbs, Hidden } from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 
-// ** MDI Icon Imports
-import CircleSmall from 'mdi-material-ui/CircleSmall'
-
-// ** Material-UI Icons Imports
-import LocalAtmIcon from '@mui/icons-material/LocalAtm'
+// ** Material Design Icons Imports
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 
 // ** Import axios
 import axios from 'axios'
@@ -74,12 +71,35 @@ const ManagementPage = () => {
 
   return (
     <>
-      <Box sx={{ mb: 5 }}>
-        <Typography variant='h5' color='primary'>
-          TCTM Manager
-        </Typography>
-        <Typography variant='body2'>Membership approval management page</Typography>
+      <Box sx={{ width: '100%' }}>
+        <Card
+          sx={{
+            height: '100px',
+            marginBottom: '30px',
+            padding: '15px 25px 20px',
+            backgroundColor: '#2d2e81',
+            border: '1px solid #primary.main'
+          }}
+        >
+          <Grid container alignItems='center'>
+            <Grid item xs={12} sm={8} md={8}>
+              <Typography variant='h4' fontSize='21px bold' color='#fff'>
+                TCTM Management
+              </Typography>
+
+              <Typography color='#fff' variant='h6' fontSize='14px'>
+                Membership approval management page
+              </Typography>
+            </Grid>
+            <Hidden smDown>
+              <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <ManageAccountsIcon sx={{ fontSize: 72, color: '#fff' }} />
+              </Grid>
+            </Hidden>
+          </Grid>
+        </Card>
       </Box>
+
       <Card sx={{ width: '100%' }}>
         <Box>
           <TabContext value={value}>

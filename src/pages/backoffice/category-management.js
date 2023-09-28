@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Box, Card, Typography, Button } from '@mui/material'
+import { Grid, Hidden, Box, Card, CardContent, Typography, Button } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
+
+// ** Material Design Icons Imports
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 
 // ** Import custom components
 import InsertCategory from 'src/views/backoffice/InsertCategory'
@@ -135,7 +138,7 @@ const CategoryManager = () => {
       sortable: false,
       renderCell: params => {
         return (
-          <Button variant='contained' color='primary' onClick={() => handleDelSubmit(params.row.category_id)}>
+          <Button variant='contained' color='error' onClick={() => handleDelSubmit(params.row.category_id)}>
             Delete
           </Button>
         )
@@ -145,41 +148,67 @@ const CategoryManager = () => {
 
   return (
     <>
-      <Box sx={{ mb: 5 }}>
-        <Typography variant='h5' color='primary'>
-          Admin Manager
-        </Typography>
-        <Typography variant='body2'>category manager</Typography>
+      <Box sx={{ width: '100%' }}>
+        <Card
+          sx={{
+            height: '100px',
+            marginBottom: '30px',
+            padding: '15px 25px 20px',
+            backgroundColor: '#2d2e81',
+            border: '1px solid #primary.main'
+          }}
+        >
+          <Grid container alignItems='center'>
+            <Grid item xs={12} sm={8} md={8}>
+              <Typography variant='h4' fontSize='21px bold' color='#fff'>
+                Admin Management
+              </Typography>
+            </Grid>
+            <Hidden smDown>
+              <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <ManageAccountsIcon sx={{ fontSize: 72, color: '#fff' }} />
+              </Grid>
+            </Hidden>
+          </Grid>
+        </Card>
       </Box>
-      <Button sx={{ mb: '3px' }} variant='contained' color='success' onClick={handleOpenInsDialog}>
-        Insert
-      </Button>
-      <Card sx={{ width: '100%' }}>
-        <Box>
-          <DataGrid
-            sx={{ paddingX: '10px' }}
-            rows={categorysdata}
-            columns={columns}
-            getRowId={row => row.category_id}
-            initialState={{
-              pagination: {
-                paginationModel: {
-                  pageSize: 20
+
+      <Card variant='outlined' sx={{ width: '100%' }}>
+        <CardContent>
+          <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+            <Typography color='#000' variant='h6' fontSize='21px'>
+              Category Management
+            </Typography>
+            <Button variant='contained' color='success' onClick={handleOpenInsDialog}>
+              Insert
+            </Button>
+          </Box>
+          <Box>
+            <DataGrid
+              sx={{ paddingX: '10px' }}
+              rows={categorysdata}
+              columns={columns}
+              getRowId={row => row.category_id}
+              initialState={{
+                pagination: {
+                  paginationModel: {
+                    pageSize: 20
+                  }
                 }
-              }
-            }}
-            pageSizeOptions={[20]}
-            disableRowSelectionOnClick
+              }}
+              pageSizeOptions={[20]}
+              disableRowSelectionOnClick
+            />
+          </Box>
+          <InsertCategory open={openIns} onClose={handleCloseInsDialog} updateData={handleUpdateData} />
+          <EditCategory
+            open={openEdit}
+            onClose={handleCloseEdit}
+            initialCategoryName={selectedCategoryName}
+            categoryId={selectedCategoryId}
+            updateData={handleUpdateData}
           />
-        </Box>
-        <InsertCategory open={openIns} onClose={handleCloseInsDialog} updateData={handleUpdateData} />
-        <EditCategory
-          open={openEdit}
-          onClose={handleCloseEdit}
-          initialCategoryName={selectedCategoryName}
-          categoryId={selectedCategoryId}
-          updateData={handleUpdateData}
-        />
+        </CardContent>
       </Card>
     </>
   )
