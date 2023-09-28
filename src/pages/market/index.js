@@ -211,6 +211,9 @@ const MyMarket = () => {
         } else if (subStatus === '3') {
           chipColor = 'info'
           chipLabel = 'Promote'
+        } else if (subStatus === '1') {
+          chipColor = 'warning'
+          chipLabel = 'wait..'
         }
 
         return <Chip label={chipLabel} color={chipColor} />
