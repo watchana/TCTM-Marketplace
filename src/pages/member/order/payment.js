@@ -1,13 +1,18 @@
-import React, { useState, useRef } from 'react'
-import { Container, Grid, Typography, Card, CardContent, Button, Box } from '@mui/material'
+// ** React Imports
+import { useState } from 'react'
+
+//**  Next Import
+import { useRouter } from 'next/router'
+
+// ** Material UI Imports
+import { Divider, Typography, Card, CardContent, Button, Box } from '@mui/material'
+
+// ** Material-UI Icons Imports
 import IconButton from '@mui/material/IconButton'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 
 //** axios Import
 import axios from 'axios'
-
-//**  Next Import
-import { useRouter } from 'next/router'
 
 const Payment = ({ invoice_id, sub_id }) => {
   // ใช้งาน Router
@@ -20,10 +25,6 @@ const Payment = ({ invoice_id, sub_id }) => {
   const [selectedFileName, setSelectedFileName] = useState('') // เก็บชื่อไฟล์
   const [File, setFile] = useState(null) // เก็บค่า  File
   const [FileName, setFileName] = useState('') // เก็บค่าชื่อของ File
-
-  // console.log('File', File)
-  // console.log('FileName', FileName)
-  // console.log('selectedFileName', selectedFileName)
 
   // ฟังก์ชัน อัปโหลดไฟล์
   const handleFileUpload = event => {
@@ -108,21 +109,15 @@ const Payment = ({ invoice_id, sub_id }) => {
   }
 
   return (
-    <Card>
+    <Card variant='outlined' sx={{ width: '100%', boxShadow: 3 }}>
       <CardContent>
-        <div
-          style={{
-            marginTop: '5px',
-            marginLeft: '15px',
-            marginRight: '15px',
-            marginRight: '5px',
-            display: 'flex',
-            flexDirection: 'column'
-          }}
-        >
-          <Typography variant='subtitle1' gutterBottom>
-            แสดงหลักฐานการโอนเงิน
+        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+          <Typography variant='h6' sx={{ color: '#000' }}>
+            Upload proof of money transfer
           </Typography>
+        </Box>
+        <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
+        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
           <label htmlFor='file-input'>
             <input
               type='file'
@@ -136,16 +131,13 @@ const Payment = ({ invoice_id, sub_id }) => {
             </IconButton>
             <span>{selectedFileName || 'Select a PDF file'}</span>
           </label>
-          <br />
-          {/* {selectedFile && (
-            <Box mt={2}>
-              <Typography variant='body1'>{selectedFile.name}</Typography>
-            </Box>
-          )} */}
-          <Button variant='contained' color='primary' mt={2} onClick={handleImgSubmit}>
-            อัพโหลด
+        </Box>
+        <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
+        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+          <Button fullWidth variant='contained' onClick={handleImgSubmit} color='primary'>
+            Submit
           </Button>
-        </div>
+        </Box>
       </CardContent>
     </Card>
   )

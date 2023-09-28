@@ -1,36 +1,38 @@
 import React, { useState, useRef } from 'react'
-import { Container, Grid, Typography, Card, CardContent, Button, Box } from '@mui/material'
+import { Container, Grid, Divider, Typography, Card, CardContent, Button, Box } from '@mui/material'
 
-const Total = ({ megaProductdata }) => {
+const Total = ({ megaProductData }) => {
   return (
-    <Card>
+    <Card variant='outlined' sx={{ width: '100%', boxShadow: 3, marginBottom: 4 }}>
       <CardContent>
-        <div
-          style={{
-            marginTop: '10px',
-            marginLeft: '15px',
-            display: 'flex',
-            alignItems: 'column'
-          }}
-        >
-          <Typography variant='subtitle1' gutterBottom>
-            Product Name : {megaProductdata.product_name || ''}
+        <Box sx={{ width: '100%' }}>
+          <Typography
+            variant='body1'
+            sx={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+              whiteSpace: 'normal'
+            }}
+          >
+            Product: {megaProductData.product_name || ''}
           </Typography>
-        </div>
-        <div style={{ marginLeft: '15px', display: 'flex', alignItems: 'baseline' }}>
-          <Typography variant='body1' style={{ color: 'gray' }} paragraph>
-            Count : {megaProductdata.product_amount || ''}
+        </Box>
+        <Box sx={{ width: '100%' }}>
+          <Typography variant='body1'>Count : {megaProductData.product_amount || ''}</Typography>
+        </Box>
+        <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
+        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
+          <Typography variant='h6' fontSize='21px' color='#000'>
+            Total:
           </Typography>
-        </div>
+          <Typography variant='h6' fontSize='21px' color='#000'>
+            $ {megaProductData.price_total || ''}
+          </Typography>
+        </Box>
       </CardContent>
-
-      {/* ส่วนของ Total */}
-      <div style={{ display: 'flex', alignItems: 'baseline' }}>
-        <Box style={{ marginLeft: '36px' }}> Total: {megaProductdata.price_total || ''} </Box>
-      </div>
-      <br />
-      <hr />
-      <br />
     </Card>
   )
 }

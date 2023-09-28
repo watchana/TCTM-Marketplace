@@ -1,11 +1,18 @@
-import React, { useEffect, useState } from 'react'
-import { Container, Grid, Typography, Card, CardContent, Button, Box } from '@mui/material'
-import Total from './total'
-import Payment from './payment'
-import Tablepayment from './tablepayment'
+// ** React Imports
+import { useState, useEffect } from 'react'
 
-//**  Next Import
+// ** Next Import
+import Link from 'next/link'
 import { useRouter } from 'next/router'
+
+// ** Material UI Imports
+import { Breadcrumbs, Container, Grid, Typography, Card, CardContent, Button, Box, Hidden } from '@mui/material'
+
+// ** Material-UI Icons Imports
+import CreditCardIcon from '@mui/icons-material/CreditCard'
+
+// ** Material Design Icons Imports
+import ChevronRight from 'mdi-material-ui/ChevronRight'
 
 //** Axios Import
 import axios from 'axios'
@@ -13,14 +20,19 @@ import axios from 'axios'
 //** Auth Check
 import { withAuth } from 'src/@core/utils/AuthCheck'
 
+// ** Component Imports
+import Total from './total'
+import Payment from './payment'
+import TablePayment from './TablePayment'
+
 const Indexpayment = () => {
   // ใช้งาน Router
   const router = useRouter() // use router
   const { sub_id, invoice_id } = router.query
 
   // ตัวแปรเก็บค่าข้อมูล
-  const [productdata, setProductData] = useState('') // ข้อมูล ธนาคาร
-  const [megaProductdata, setMegaProductData] = useState('') // ข้อมูล สินค้า
+  const [productData, setProductData] = useState('') // ข้อมูล ธนาคาร
+  const [megaProductData, setMegaProductData] = useState('') // ข้อมูล สินค้า
 
   // เก็บค่าข้อมูลจาก Api
   useEffect(() => {
@@ -46,31 +58,56 @@ const Indexpayment = () => {
   }, [sub_id, invoice_id])
 
   return (
-    <Container>
-      <Box>
-        <Grid container>
-          <Grid item xs={12} sm={12} md={4}>
-            <Grid container spacing={8}>
-              <Grid item xs={12} sm={12} md={11} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                <Box sx={{ width: '100%' }}>
-                  <Total megaProductdata={megaProductdata} />
-                </Box>
-              </Grid>
-              <Grid item xs={12} sm={12} md={11} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                <Box sx={{ width: '100%' }}>
-                  <Payment invoice_id={invoice_id} sub_id={sub_id} />
-                </Box>
-              </Grid>
+    <Container maxWidth='xl'>
+      <Box sx={{ width: '100%' }}>
+        <Card
+          sx={{
+            height: '100px',
+            marginBottom: '30px',
+            padding: '15px 25px 20px',
+            backgroundColor: '#2d2e81',
+            border: '1px solid #primary.main'
+          }}
+        >
+          <Grid container alignItems='center'>
+            <Grid item xs={12} sm={8} md={8}>
+              <Typography variant='h4' fontSize='21px bold' color='#fff'>
+                Payment
+              </Typography>
+              <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
+                <Link href='/' passHref>
+                  <Typography color='#fff' variant='h6' fontSize='14px' sx={{ cursor: 'pointer' }}>
+                    Home
+                  </Typography>
+                </Link>
+                <Link href='/member/order/myoder/' passHref>
+                  <Typography color='#fff' variant='h6' fontSize='14px' sx={{ cursor: 'pointer' }}>
+                    my order
+                  </Typography>
+                </Link>
+                <Typography color='#fff' variant='h6' fontSize='14px'>
+                  Payment
+                </Typography>
+              </Breadcrumbs>
             </Grid>
+            <Hidden smDown>
+              <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <CreditCardIcon sx={{ fontSize: 72, color: '#fff' }} />
+              </Grid>
+            </Hidden>
           </Grid>
-
-          <Grid item xs={12} sm={12} md={8} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-            <Box sx={{ width: '100%' }}>
-              <Tablepayment productdata={productdata} />
-            </Box>
-          </Grid>
-        </Grid>
+        </Card>
       </Box>
+
+      <Grid container spacing={4}>
+        <Grid item xs={12} md={4}>
+          <Total productData={productData} megaProductData={megaProductData} />
+          <Payment megaProductData={megaProductData} />
+        </Grid>
+        <Grid item xs={12} md={8}>
+          <TablePayment productData={productData} />
+        </Grid>
+      </Grid>
     </Container>
   )
 }
