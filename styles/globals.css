@@ -22,35 +22,3 @@ code:not([class*='language-']):after {
 code[class*='language-'] {
   padding: 0;
 }
-
-@media (max-width: 600px) { /* เปลี่ยนขนาดของหน้าจอตามที่คุณต้องการ */
-  /* จัดรูปแบบของ Payment component เมื่อหน้าจอเล็กลง */
-  .payment-container {
-    flex-direction: column; /* เรียงลงด้านล่างเมื่อหน้าจอเล็กลง */
-    align-items: center; /* จัดให้อยู่กึ่งกลาง */
-  }
-}
-
-/* หน้าจอขนาดเล็ก (ตั้งแต่ 0px ถึง 767px) */
-@media screen and (max-width: 767px) {
-  /* ปรับแต่งสไตล์ที่คุณต้องการสำหรับหน้าจอขนาดเล็ก */
-  .your-class-name {
-    /* สไตล์ที่คุณต้องการ */
-  }
-}
-
-/* หน้าจอขนาดกลาง (ตั้งแต่ 768px ถึง 991px) */
-@media screen and (min-width: 768px) and (max-width: 991px) {
-  /* ปรับแต่งสไตล์ที่คุณต้องการสำหรับหน้าจอขนาดกลาง */
-  .your-class-name {
-    /* สไตล์ที่คุณต้องการ */
-  }
-}
-
-/* หน้าจอขนาดใหญ่ (มากกว่า 992px) */
-@media screen and (min-width: 992px) {
-  /* ปรับแต่งสไตล์ที่คุณต้องการสำหรับหน้าจอขนาดใหญ่ */
-  .your-class-name {
-    /* สไตล์ที่คุณต้องการ */
-  }
-}
