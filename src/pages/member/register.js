@@ -212,7 +212,7 @@ const RegisterPage = () => {
           title: 'Sending succeeded',
           text: 'Data is sent to API'
         })
-        router.push('/pages/login')
+        router.push('/login')
       })
       .catch(error => {
         console.error(error)

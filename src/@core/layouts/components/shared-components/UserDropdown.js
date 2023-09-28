@@ -147,6 +147,14 @@ const UserDropdown = () => {
           </Box>
         </Box>
         <Divider sx={{ mt: 0, mb: 1 }} />
+        {/* ปุ่ม User */}
+        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/')}>
+          <Box sx={styles}>
+            <AccountOutline sx={{ marginRight: 2 }} />
+            User
+          </Box>
+        </MenuItem>
+
         {/* ปุ่ม registration-supplier */}
         <MenuItem
           sx={{ p: 0 }}
@@ -203,7 +211,13 @@ const UserDropdown = () => {
           </Box>
         </MenuItem>
         <Divider />
-
+        {/* ปุ่ม contact */}
+        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/')}>
+          <Box sx={styles}>
+            <MessageOutline sx={{ marginRight: 2 }} />
+            Contact
+          </Box>
+        </MenuItem>
         <MenuItem sx={{ py: 2 }} onClick={() => handleDropdownClose('/login')}>
           <LogoutVariant sx={{ marginRight: 2, fontSize: '1.375rem', color: 'text.secondary' }} />
           Logout
