@@ -491,18 +491,20 @@ const PosrtDetail = () => {
             <Divider sx={{ marginTop: 4 }} />
           </Box>
           <Box sx={{ width: '100%', padding: '0px 20px 20px' }}>
-            <Typography variant='h4' fontSize='24px bold' color='#000' sx={{ marginBottom: 2 }}>
-              Offer
-            </Typography>
-            <Button
-              variant='outlined'
-              color='primary'
-              disabled={!poDataApprove || poDataApprove.trim() === '' || postData.req_status === '4'}
-              startIcon={<LocalMallIcon />}
-              onClick={handleShippingSubmit}
-            >
-              Shipping
-            </Button>
+            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', marginBottom: 2 }}>
+              <Typography variant='h4' fontSize='24px bold' color='#000'>
+                Offer
+              </Typography>
+              <Button
+                variant='outlined'
+                color='primary'
+                disabled={!poDataApprove || poDataApprove.trim() === '' || postData.req_status === '4'}
+                startIcon={<LocalMallIcon />}
+                onClick={handleShippingSubmit}
+              >
+                Shipping
+              </Button>
+            </Box>
             {/* ตาราง */}
             <Box sx={{ width: '100%', height: '300px' }}>
               <DataGrid
