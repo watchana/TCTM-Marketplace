@@ -252,7 +252,9 @@ const Category = ({ productData, SearchProduct, keyword }) => {
                               textOverflow: 'ellipsis'
                             }}
                           >
-                            $ {product.min_price} - {product.max_price}
+                            {product.min_price === product.max_price
+                              ? `${product.min_price}`
+                              : `${product.min_price} - ${product.max_price}`}
                           </Typography>
                           <Hidden smDown>
                             <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>

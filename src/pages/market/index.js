@@ -51,49 +51,6 @@ import Orders from './orders'
 import OrdersReq from './ordersReq'
 import Requirement from './requirement'
 
-// ** Data Grid Columns
-const columns = [
-  { field: 'category_name', headerName: 'Category  ', width: 90 },
-  { field: 'product_name', headerName: 'Name ', width: 350 },
-  { field: 'product_count', headerName: 'Amount ', width: 180 },
-  {
-    field: 'product_status',
-    headerName: 'Status ',
-    width: 180,
-    renderCell: params => {
-      const subStatus = params.value // ค่าที่อยู่ในช่อง "สถานะไอดี"
-      let chipColor = 'default'
-      let chipLabel = ''
-
-      if (subStatus === '2') {
-        chipColor = 'success'
-        chipLabel = 'Nomal'
-      } else if (subStatus === '3') {
-        chipColor = 'info'
-        chipLabel = 'Promote'
-      }
-
-      return <Chip label={chipLabel} color={chipColor} />
-    }
-  },
-  {
-    field: 'actions',
-    headerName: 'ปุ่ม',
-    width: 180,
-    renderCell: params => (
-      <Button
-        variant='contained'
-        color='error'
-        className='btn btn-danger'
-        style={{ marginRight: '5px' }}
-        onClick={() => handleDelete(params.row.id)}
-      >
-        Delete
-      </Button>
-    )
-  }
-]
-
 const MyMarket = () => {
   // set tabpanel State
   const [value, setValue] = useState('1')
@@ -112,8 +69,11 @@ const MyMarket = () => {
   const [marketname, setMarketname] = useState('')
   const [subId, setSubId] = useState('') // เก็บค่า Sub Id
 
+  console.log('productdata', productdata)
+
   // ตัวแปรควบคุม State
   const [searchText, setSearchText] = useState('') //state สำหรับเก็บข้อมูลการค้นหา
+  const [shouldFetchData, setShouldFetchData] = useState(true) // state control fate data
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -186,21 +146,92 @@ const MyMarket = () => {
   }
 
   // ฟังก์ชันลบข้อมูล
-  // const handleDelete = sub_id => {
-  //   axios
-  //     .post('path', {
-  //       sub_id
-  //     })
-  //     .then(response => {
-  //       console.log('UserID', response)
+  const handleDelete = primary => {
+    Swal.fire({
+      title: 'You Want to Delete Data?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No'
+    }).then(result => {
+      if (result.isConfirmed) {
+        const data = {
+          table: 'tabproducts',
+          primary: primary
+        }
 
-  //       // หลังจากทำการ Ban สำเร็จ ให้เรียกฟังก์ชัน fetchMarketData เพื่ออัปเดตข้อมูลใหม่
-  //       fetchMarketData()
-  //     })
-  //     .catch(error => {
-  //       console.error('Error:', error)
-  //     })
-  // }
+        if (primary !== '') {
+          axios
+            .put(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.delete.ban`, data)
+            .then(function (response) {
+              console.log(response)
+
+              Swal.fire({
+                icon: 'success',
+                title: 'Delete Success'
+              })
+
+              setShouldFetchData(true)
+            })
+            .catch(function (error) {
+              console.log(error)
+
+              Swal.fire({
+                icon: 'error',
+                title: 'Erroe'
+              })
+            })
+        } else {
+          console.log('Error')
+        }
+      } else if (result.isDenied) {
+        console.log('cancelled Error')
+      }
+    })
+  }
+
+  // ** Data Grid Columns
+  const columns = [
+    { field: 'category_name', headerName: 'Category  ', width: 90 },
+    { field: 'product_name', headerName: 'Name ', width: 350 },
+    { field: 'product_count', headerName: 'Amount ', width: 180 },
+    {
+      field: 'product_status',
+      headerName: 'Status ',
+      width: 180,
+      renderCell: params => {
+        const subStatus = params.value // ค่าที่อยู่ในช่อง "สถานะไอดี"
+        let chipColor = 'default'
+        let chipLabel = ''
+
+        if (subStatus === '2') {
+          chipColor = 'success'
+          chipLabel = 'Nomal'
+        } else if (subStatus === '3') {
+          chipColor = 'info'
+          chipLabel = 'Promote'
+        }
+
+        return <Chip label={chipLabel} color={chipColor} />
+      }
+    },
+    {
+      field: 'actions',
+      headerName: 'Delete',
+      width: 180,
+      renderCell: params => (
+        <Button
+          variant='contained'
+          color='error'
+          className='btn btn-danger'
+          style={{ marginRight: '5px' }}
+          onClick={e => handleDelete(params.row.product_id, e)}
+        >
+          Delete
+        </Button>
+      )
+    }
+  ]
 
   const SearchMenu = () => {
     return (
@@ -294,7 +325,12 @@ const MyMarket = () => {
     }
 
     fetchData()
-  }, [userId])
+
+    if (shouldFetchData) {
+      fetchData()
+      setShouldFetchData(false)
+    }
+  }, [userId, shouldFetchData])
 
   return (
     <Container maxWidth='xl'>
