@@ -1,38 +1,50 @@
 // ** React Imports
 import React from 'react'
 
-// ** MUI Imports
-import { Avatar, Box, Button, Card, Divider, Grid, Radio, Stack, TextField, Typography } from '@mui/material'
+// ** Material UI Imports
+import { Box, Card, CardContent, Divider, Grid, Typography } from '@mui/material'
 
-const Cardemail = ({ userData }) => {
+const CardEmail = ({ userData, userName }) => {
   return (
-    <Card sx={{ width: '95%', p: 2.5, marginLeft: 3 }}>
-      <Grid container spacing={2} rowSpacing={5}>
-        <Grid item xs={12} md={6}>
-          <Typography variant='subtitle2' sx={{ marginLeft: 3 }}>
-            Email
+    <Card variant='outlined' sx={{ width: '100%', boxShadow: 3, marginBottom: 4 }}>
+      <CardContent>
+        <Box sx={{ width: '100%' }}>
+          <Typography variant='h6' sx={{ color: '#000' }}>
+            {userName}
           </Typography>
-          <Typography variant='subtitle1' sx={{ marginLeft: 3 }}>
-            {userData.user_email}
-          </Typography>
+        </Box>
+        <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
+        <Grid container spacing={2} rowSpacing={5}>
+          <Grid item xs={12} md={6}>
+            <Typography variant='h6' fontSize='18px' sx={{ color: '#404040' }}>
+              Email
+            </Typography>
+            <Typography variant='body1' fontSize='16 px'>
+              {userData.user_email}
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Typography variant='h6' fontSize='18px' sx={{ color: '#404040' }}>
+              Address
+            </Typography>
+            <Box sx={{ width: '75%' }}>
+              <Typography variant='body1' fontSize='16 px'>
+                {userData.user_address}
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Typography variant='h6' fontSize='18px' sx={{ color: '#404040' }}>
+              Mobile phone
+            </Typography>
+            <Typography variant='body1' fontSize='16 px'>
+              {userData.user_tel}
+            </Typography>
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <Typography variant='subtitle2'>Address</Typography>
-          <Box sx={{ width: '75%' }}>
-            <Typography variant='subtitle1'>{userData.user_address}</Typography>
-          </Box>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Typography variant='subtitle2' sx={{ marginLeft: 3 }}>
-            Mobile phone
-          </Typography>
-          <Typography variant='subtitle1' sx={{ marginLeft: 3 }}>
-            {userData.user_tel}
-          </Typography>
-        </Grid>
-      </Grid>
+      </CardContent>
     </Card>
   )
 }
 
-export default Cardemail
+export default CardEmail

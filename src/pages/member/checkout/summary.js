@@ -1,63 +1,116 @@
 // ** React Imports
 import React from 'react'
 
-// ** MUI Imports
-import { Avatar, Box, Button, Card, Divider, Grid, Radio, Stack, TextField, Typography } from '@mui/material'
+// ** Material UI Imports
+import { Box, Card, CardContent, Divider, Grid, Typography } from '@mui/material'
 
-const Summary = ({ price, quantity, Shipping_cost, tax, discount, total, Realtex }) => {
-  // console.log('Real Price', RealPrice)
-
+const Summary = ({ price, quantity, Shipping_cost, discount, total, Realtex }) => {
   return (
-    <Card sx={{ width: '100%', p: 2.5, marginTop: 1, marginLeft: -4 }}>
-      <Grid container spacing={3} rowSpacing={4} sx={{ pt: { md: 3 } }}>
-        {/* <Grid item xs={6} sm={6}>
-          <Typography variant='subtitle1'>Items in the Cart</Typography>
-        </Grid>
-        <Grid item xs={6} sm={6} sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
-          <Typography variant='subtitle2'>250</Typography>
-        </Grid> */}
-        <Grid item xs={6} sm={6}>
-          <Typography variant='subtitle1'>Shipping</Typography>
-        </Grid>
-        <Grid item xs={6} sm={6} sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
-          <Typography variant='subtitle2'>{price}</Typography>
-        </Grid>
-        <Grid item xs={6} sm={6}>
-          <Typography variant='subtitle1'>quantity</Typography>
-        </Grid>
-        <Grid item xs={6} sm={6} sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
-          <Typography variant='subtitle2'>x{quantity}</Typography>
-        </Grid>
-        <Grid item xs={6} sm={6}>
-          <Typography variant='subtitle2'>Shipping cost</Typography>
-        </Grid>
-        <Grid item xs={6} sm={6} sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
-          <Typography variant='subtitle2'>{Shipping_cost}</Typography>
-        </Grid>
-        <Grid item xs={6} sm={6}>
-          <Typography variant='subtitle2'>tax</Typography>
-        </Grid>
-        <Grid item xs={6} sm={6} sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
-          <Typography variant='subtitle2'>{Realtex}</Typography>
-        </Grid>
-        <Grid item xs={6} sm={6}>
-          <Typography variant='subtitle2'>Discount Code MOQUPS</Typography>
-        </Grid>
-        <Grid item xs={6} sm={6} sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
-          <Typography variant='subtitle2'>-{discount}</Typography>
-        </Grid>
-      </Grid>
-      <hr />
-      <Grid container sx={{ marginTop: 3 }}>
-        <Grid item xs={6} sm={6}>
-          <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
-            Total
+    <Card variant='outlined' sx={{ width: '100%', boxShadow: 3, marginBottom: 4 }}>
+      <CardContent>
+        <Box sx={{ width: '100%' }}>
+          <Typography variant='h6' sx={{ color: '#000' }}>
+            Summary
           </Typography>
+        </Box>
+        <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
+        <Grid container spacing={2}>
+          <Grid item xs={6} sm={6}>
+            <Typography variant='subtitle1' fontSize='16px'>
+              Shipping
+            </Typography>
+          </Grid>
+          <Grid item xs={6} sm={6}>
+            <Typography
+              variant='subtitle1'
+              fontSize='16px'
+              textAlign='end'
+              sx={{ fontWeight: 'bold', overflow: 'hidden', textOverflow: 'ellipsis' }}
+            >
+              {price}
+            </Typography>
+          </Grid>
+          <Grid item xs={6} sm={6}>
+            <Typography variant='subtitle1' fontSize='16px'>
+              Quantity
+            </Typography>
+          </Grid>
+          <Grid item xs={6} sm={6}>
+            <Typography
+              variant='subtitle1'
+              fontSize='16px'
+              textAlign='end'
+              sx={{ fontWeight: 'bold', overflow: 'hidden', textOverflow: 'ellipsis' }}
+            >
+              x{quantity}
+            </Typography>
+          </Grid>
+          <Grid item xs={6} sm={6}>
+            <Typography variant='subtitle1' fontSize='16px'>
+              Shipping cost
+            </Typography>
+          </Grid>
+          <Grid item xs={6} sm={6}>
+            <Typography
+              variant='subtitle1'
+              fontSize='16px'
+              textAlign='end'
+              sx={{ fontWeight: 'bold', overflow: 'hidden', textOverflow: 'ellipsis' }}
+            >
+              {Shipping_cost}
+            </Typography>
+          </Grid>
+          <Grid item xs={6} sm={6}>
+            <Typography variant='subtitle1' fontSize='16px'>
+              tax
+            </Typography>
+          </Grid>
+          <Grid item xs={6} sm={6}>
+            <Typography
+              variant='subtitle1'
+              fontSize='16px'
+              textAlign='end'
+              sx={{ fontWeight: 'bold', overflow: 'hidden', textOverflow: 'ellipsis' }}
+            >
+              {Realtex}
+            </Typography>
+          </Grid>
+          <Grid item xs={6} sm={6}>
+            <Typography variant='subtitle1' fontSize='16px'>
+              Discount Code MOQUPS
+            </Typography>
+          </Grid>
+          <Grid item xs={6} sm={6}>
+            <Typography
+              variant='subtitle1'
+              fontSize='16px'
+              textAlign='end'
+              sx={{ fontWeight: 'bold', overflow: 'hidden', textOverflow: 'ellipsis' }}
+            >
+              -{discount}
+            </Typography>
+          </Grid>
         </Grid>
-        <Grid item xs={6} sm={6} sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
-          <Typography variant='h6'>{total}</Typography>
+        <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
+        <Grid container>
+          <Grid item xs={6} sm={6}>
+            <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
+              Total
+            </Typography>
+          </Grid>
+          <Grid item xs={6} sm={6}>
+            <Typography
+              variant='subtitle1'
+              fontSize='16px'
+              textAlign='end'
+              color='success.main'
+              sx={{ fontWeight: 'bold', overflow: 'hidden', textOverflow: 'ellipsis' }}
+            >
+              {total}
+            </Typography>
+          </Grid>
         </Grid>
-      </Grid>
+      </CardContent>
     </Card>
   )
 }
