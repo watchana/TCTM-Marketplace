@@ -194,10 +194,10 @@ const RegisterSupplier = () => {
   }
 
   return (
-    <Box sx={{ bgcolor: '#FFF8F9' }}>
+    <Box sx={{ bgcolor: '#ebf3fe' }}>
       <Box>
         <Box sx={{ width: '100%', marginTop: '15px', marginLeft: '15px' }}>
-          <Breadcrumbs separator={<CircleSmall />} aria-label='breadcrumb'>
+          <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb'>
             <Link underline='none' color='inherit' href='/'>
               <Typography variant='body2'>Home</Typography>
             </Link>
@@ -214,7 +214,7 @@ const RegisterSupplier = () => {
             <Box sx={{ mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Typography
                 variant='h6'
-                color='#FE8C8C'
+                color='#3A46A7'
                 sx={{
                   lineHeight: 1,
                   fontWeight: 600,
@@ -225,7 +225,7 @@ const RegisterSupplier = () => {
                 Maker Register
               </Typography>
             </Box>
-            <Divider sx={{ marginTop: 3, color: '#FE8C8C' }}>Store</Divider>
+            <Divider sx={{ marginTop: 3, color: '#3A46A7' }}>Store</Divider>
             {/* ชื่อร้านค้า */}
             <Box sx={{ width: '100%', marginBottom: 4 }}>
               <Grid container>
@@ -320,7 +320,7 @@ const RegisterSupplier = () => {
                 </Grid>
               </Grid>
             </Box>
-            <Divider sx={{ marginY: 6, color: '#FE8C8C' }}>Address</Divider>
+            <Divider sx={{ marginY: 6, color: '#3A46A7' }}>Address</Divider>
             {/* บัญชีธนาคาร */}
             <Box sx={{ width: '100%', marginBottom: 4 }}>
               <Grid container>
@@ -369,7 +369,7 @@ const RegisterSupplier = () => {
                 </Grid>
               </Grid>
             </Box>
-            <Divider sx={{ marginY: 6, color: '#FE8C8C' }}>Bank Detail</Divider>
+            <Divider sx={{ marginY: 6, color: '#3A46A7' }}>Bank Detail</Divider>
             {/* ชื่อธนาคารธนาคาร */}
             <Box sx={{ width: '100%', marginBottom: 4 }}>
               <Grid container>
@@ -464,7 +464,7 @@ const RegisterSupplier = () => {
             </Box>
             {/* อัปโหลดรูปภาพร้านค้า */}
             <Box sx={{ width: '100%', marginBottom: 4 }}>
-              <Divider sx={{ marginY: 6, color: '#FE8C8C' }}>Upload Store Image</Divider>
+              <Divider sx={{ marginY: 6, color: '#3A46A7' }}>Upload Store Image</Divider>
               <input
                 accept='image/*'
                 style={{ display: 'none' }}

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Container, Grid, Typography, Card, CardContent, Button, Box } from '@mui/material'
 import Total from './total'
 import Payment from './payment'
-import Tablepayment from './tablepayment'
+import Tablepayment from './TablePayment'
 
 //**  Next Import
 import { useRouter } from 'next/router'
