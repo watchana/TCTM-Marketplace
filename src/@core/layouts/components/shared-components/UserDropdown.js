@@ -148,7 +148,11 @@ const UserDropdown = () => {
         </Box>
         <Divider sx={{ mt: 0, mb: 1 }} />
         {/* ปุ่ม User */}
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/')}>
+        <MenuItem
+          sx={{ p: 0 }}
+          onClick={() => handleDropdownClose('/member/account-settings')}
+          style={{ display: role === 'USER' ? 'block' : 'none' }}
+        >
           <Box sx={styles}>
             <AccountOutline sx={{ marginRight: 2 }} />
             User

@@ -3,101 +3,118 @@ import { useState } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import TabList from '@mui/lab/TabList'
-import TabPanel from '@mui/lab/TabPanel'
-import TabContext from '@mui/lab/TabContext'
+import Grid from '@mui/material/Grid'
+import Link from '@mui/material/Link'
+import Alert from '@mui/material/Alert'
+import Select from '@mui/material/Select'
 import { styled } from '@mui/material/styles'
-import MuiTab from '@mui/material/Tab'
+import MenuItem from '@mui/material/MenuItem'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
+import InputLabel from '@mui/material/InputLabel'
+import AlertTitle from '@mui/material/AlertTitle'
+import IconButton from '@mui/material/IconButton'
+import CardContent from '@mui/material/CardContent'
+import FormControl from '@mui/material/FormControl'
+import Button from '@mui/material/Button'
 
 // ** Icons Imports
-import AccountOutline from 'mdi-material-ui/AccountOutline'
-import LockOpenOutline from 'mdi-material-ui/LockOpenOutline'
-import InformationOutline from 'mdi-material-ui/InformationOutline'
+import Close from 'mdi-material-ui/Close'
 
-// ** Demo Tabs Imports
-import TabInfo from 'src/views/account-settings/TabInfo'
-import TabAccount from 'src/views/account-settings/TabAccount'
-import TabSecurity from 'src/views/account-settings/TabSecurity'
-
-// ** Third Party Styles Imports
-import 'react-datepicker/dist/react-datepicker.css'
-
-const Tab = styled(MuiTab)(({ theme }) => ({
-  [theme.breakpoints.down('md')]: {
-    minWidth: 100
-  },
-  [theme.breakpoints.down('sm')]: {
-    minWidth: 67
-  }
+const ImgStyled = styled('img')(({ theme }) => ({
+  width: 120,
+  height: 120,
+  marginRight: theme.spacing(6.25),
+  borderRadius: theme.shape.borderRadius
 }))
 
-const TabName = styled('span')(({ theme }) => ({
-  lineHeight: 1.71,
-  fontSize: '0.875rem',
-  marginLeft: theme.spacing(2.4),
-  [theme.breakpoints.down('md')]: {
-    display: 'none'
-  }
-}))
-
-const AccountSettings = () => {
+const Account = () => {
   // ** State
-  const [value, setValue] = useState('account')
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue)
-  }
+  const [openAlert, setOpenAlert] = useState(true)
+  const [imgSrc, setImgSrc] = useState('/images/avatars/1.png')
 
   return (
-    <Card>
-      <TabContext value={value}>
-        <TabList
-          onChange={handleChange}
-          aria-label='account-settings tabs'
-          sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
-        >
-          <Tab
-            value='account'
-            label={
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <AccountOutline />
-                <TabName>Account</TabName>
-              </Box>
-            }
-          />
-          <Tab
-            value='security'
-            label={
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <LockOpenOutline />
-                <TabName>Security</TabName>
-              </Box>
-            }
-          />
-          <Tab
-            value='info'
-            label={
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <InformationOutline />
-                <TabName>Info</TabName>
-              </Box>
-            }
-          />
-        </TabList>
+    <CardContent>
+      <form>
+        <Grid container spacing={7}>
+          <Grid item xs={12} sx={{ marginTop: 4.8, marginBottom: 3 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <ImgStyled src={imgSrc} alt='Profile Pic' />
+            </Box>
+          </Grid>
 
-        <TabPanel sx={{ p: 0 }} value='account'>
-          <TabAccount />
-        </TabPanel>
-        <TabPanel sx={{ p: 0 }} value='security'>
-          <TabSecurity />
-        </TabPanel>
-        <TabPanel sx={{ p: 0 }} value='info'>
-          <TabInfo />
-        </TabPanel>
-      </TabContext>
-    </Card>
+          <Grid item xs={12} sm={6}>
+            <TextField fullWidth label='Username' placeholder='johnDoe' defaultValue='johnDoe' />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField fullWidth label='Name' placeholder='John Doe' defaultValue='John Doe' />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              type='email'
+              label='Email'
+              placeholder='johnDoe@example.com'
+              defaultValue='johnDoe@example.com'
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth>
+              <InputLabel>Role</InputLabel>
+              <Select label='Role' defaultValue='admin'>
+                <MenuItem value='admin'>Admin</MenuItem>
+                <MenuItem value='author'>Author</MenuItem>
+                <MenuItem value='editor'>Editor</MenuItem>
+                <MenuItem value='maintainer'>Maintainer</MenuItem>
+                <MenuItem value='subscriber'>Subscriber</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth>
+              <InputLabel>Status</InputLabel>
+              <Select label='Status' defaultValue='active'>
+                <MenuItem value='active'>Active</MenuItem>
+                <MenuItem value='inactive'>Inactive</MenuItem>
+                <MenuItem value='pending'>Pending</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField fullWidth label='Company' placeholder='ABC Pvt. Ltd.' defaultValue='ABC Pvt. Ltd.' />
+          </Grid>
+
+          {openAlert ? (
+            <Grid item xs={12} sx={{ mb: 3 }}>
+              <Alert
+                severity='warning'
+                sx={{ '& a': { fontWeight: 400 } }}
+                action={
+                  <IconButton size='small' color='inherit' aria-label='close' onClick={() => setOpenAlert(false)}>
+                    <Close fontSize='inherit' />
+                  </IconButton>
+                }
+              >
+                <AlertTitle>Your email is not confirmed. Please check your inbox.</AlertTitle>
+                <Link href='/' onClick={e => e.preventDefault()}>
+                  Resend Confirmation
+                </Link>
+              </Alert>
+            </Grid>
+          ) : null}
+
+          <Grid item xs={12}>
+            <Button variant='contained' sx={{ marginRight: 3.5 }}>
+              Save Changes
+            </Button>
+            <Button type='reset' variant='outlined' color='secondary'>
+              Reset
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
+    </CardContent>
   )
 }
 
-export default AccountSettings
+export default Account
