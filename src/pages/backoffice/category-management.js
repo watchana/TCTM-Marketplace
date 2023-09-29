@@ -184,21 +184,27 @@ const CategoryManager = () => {
             </Button>
           </Box>
           <Box>
-            <DataGrid
-              sx={{ paddingX: '10px' }}
-              rows={categorysdata}
-              columns={columns}
-              getRowId={row => row.category_id}
-              initialState={{
-                pagination: {
-                  paginationModel: {
-                    pageSize: 20
+            {categorysdata && categorysdata.length > 0 ? (
+              <DataGrid
+                sx={{ paddingX: '10px' }}
+                rows={categorysdata}
+                columns={columns}
+                getRowId={row => row.category_id}
+                initialState={{
+                  pagination: {
+                    paginationModel: {
+                      pageSize: 20
+                    }
                   }
-                }
-              }}
-              pageSizeOptions={[20]}
-              disableRowSelectionOnClick
-            />
+                }}
+                pageSizeOptions={[20]}
+                disableRowSelectionOnClick
+              />
+            ) : (
+              <Typography variant='body1' fontSize='1.0rem' color='#000'>
+                No data
+              </Typography>
+            )}
           </Box>
           <InsertCategory open={openIns} onClose={handleCloseInsDialog} updateData={handleUpdateData} />
           <EditCategory

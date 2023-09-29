@@ -9,7 +9,7 @@ const User = () => {
   const [Userlist, setUserlist] = useState([])
 
   useEffect(() => {
-    axios.get('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.users.alluser').then(response => {
+    axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.users.alluser`).then(response => {
       // console.log('setUser:', response.data.message.Data)
       setUserlist(response.data.message.Data)
     })
@@ -21,7 +21,7 @@ const User = () => {
 
   const fetchUserData = () => {
     axios
-      .get('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.users.alluser')
+      .get(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.users.alluser`)
       .then(response => {
         setUserlist(response.data.message.Data)
       })
@@ -35,7 +35,7 @@ const User = () => {
     console.log(`Ban account with ID ${account_id}`)
 
     axios
-      .post('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.users.banuser', {
+      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.users.banuser`, {
         account_id,
         user_id: member_id // ส่ง account_id ไปที่ API
       })
@@ -55,7 +55,7 @@ const User = () => {
     console.log(`Unban account with ID ${account_id}`)
 
     axios
-      .post('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.users.unbanuser', {
+      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.users.unbanuser`, {
         account_id,
         user_id: member_id // ส่ง account_id ไปที่ API
       })

@@ -90,11 +90,11 @@ const ShowOrderReq = ({ userId }) => {
 
   // colum
   const columns = [
-    { field: 'invoice_id', headerName: 'invoice ID', width: 120 },
+    { field: 'invoice_id', headerName: 'invoice ID', width: 90 },
     {
       field: 'modified',
       headerName: 'Created Time',
-      width: 250,
+      width: 160,
       editable: true,
       valueFormatter: params => {
         const date = new Date(params.value)
@@ -102,11 +102,11 @@ const ShowOrderReq = ({ userId }) => {
         return date.toLocaleString()
       }
     },
-    { field: 'req_header', headerName: 'Header', width: 320 },
+    { field: 'req_header', headerName: 'Header', width: 300 },
     {
       field: 'invoice_status',
       headerName: 'Order Status',
-      width: 200,
+      width: 130,
       renderCell: params => {
         const { value } = params
 
@@ -166,7 +166,7 @@ const ShowOrderReq = ({ userId }) => {
 
     {
       field: 'Detail_Approve',
-      headerName: 'Detail Approve',
+      headerName: 'Order Detail',
       minWidth: 140,
       renderCell: rowCell => {
         const invoiceStatus = rowCell.row.invoice_status
@@ -179,15 +179,15 @@ const ShowOrderReq = ({ userId }) => {
 
         return (
           <Button variant='outlined' onClick={handleDetailClick} disabled={isDisabled}>
-            Detail
+            view
           </Button>
         )
       }
     },
     {
       field: 'Detail',
-      headerName: 'Detail',
-      minWidth: 140,
+      headerName: 'Requirement Detail',
+      minWidth: 180,
       renderCell: rowCell => {
         const invoiceStatus = rowCell.row.invoice_status
 
@@ -201,7 +201,7 @@ const ShowOrderReq = ({ userId }) => {
 
         return (
           <Button variant='outlined' onClick={handleDetailClick} disabled={isDisabled}>
-            Detail
+            view
           </Button>
         )
       }

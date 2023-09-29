@@ -10,7 +10,7 @@ const Market = () => {
   const [Marketlist, setMarketlist] = useState([])
 
   useEffect(() => {
-    axios.get('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.market.allmarket').then(response => {
+    axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.market.allmarket`).then(response => {
       console.log('setMarket:', response.data.message.Data)
       setMarketlist(response.data.message.Data)
     })
@@ -22,7 +22,7 @@ const Market = () => {
 
   const fetchMarketData = () => {
     axios
-      .get('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.market.allmarket')
+      .get(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.market.allmarket`)
       .then(response => {
         setMarketlist(response.data.message.Data)
       })
@@ -35,7 +35,7 @@ const Market = () => {
     console.log(`Ban account with ID ${sub_id}`)
 
     axios
-      .post('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.market.banmarket', {
+      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.market.banmarket`, {
         sub_id
       })
       .then(response => {
@@ -54,7 +54,7 @@ const Market = () => {
     console.log(`Active account with ID ${sub_id}`)
 
     axios
-      .post('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.home_page.market_active', {
+      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.market_active`, {
         sub_id
       })
       .then(response => {
@@ -73,7 +73,7 @@ const Market = () => {
     console.log(`Unactive account with ID ${sub_id}`)
 
     axios
-      .post('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.home_page.market_unactive', {
+      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.market_unactive`, {
         sub_id
       })
       .then(response => {
@@ -91,7 +91,7 @@ const Market = () => {
     console.log(`Unban account with ID ${sub_id}`)
 
     axios
-      .post('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.market.unbanmarket', {
+      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.market.unbanmarket`, {
         sub_id
       })
       .then(response => {
