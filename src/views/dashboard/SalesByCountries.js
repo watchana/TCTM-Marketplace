@@ -14,54 +14,34 @@ import DotsVertical from 'mdi-material-ui/DotsVertical'
 
 const data = [
   {
-    sales: '894k',
-    trendDir: 'up',
-    subtitle: 'USA',
-    title: '$8,656k',
-    avatarText: 'US',
-    trendNumber: '25.8%',
-    avatarColor: 'success',
-    trend: <ChevronUp sx={{ color: 'success.main', fontWeight: 600 }} />
+    sales: 'Number of each state',
+    title: 'Name status',
+    avatarText: '',
+    avatarColor: 'success'
   },
   {
-    sales: '645k',
-    subtitle: 'UK',
-    trendDir: 'down',
-    title: '$2,415k',
-    avatarText: 'UK',
-    trendNumber: '6.2%',
-    avatarColor: 'error',
-    trend: <ChevronDown sx={{ color: 'error.main', fontWeight: 600 }} />
+    sales: 'Number of each state',
+    title: 'Name status',
+    avatarText: '',
+    avatarColor: 'error'
   },
   {
-    sales: '148k',
-    title: '$865k',
-    trendDir: 'up',
-    avatarText: 'IN',
-    subtitle: 'India',
-    trendNumber: '12.4%',
-    avatarColor: 'warning',
-    trend: <ChevronUp sx={{ color: 'success.main', fontWeight: 600 }} />
+    sales: 'Number of each state',
+    title: 'Name status',
+    avatarText: '',
+    avatarColor: 'warning'
   },
   {
-    sales: '86k',
-    title: '$745k',
-    trendDir: 'down',
-    avatarText: 'JA',
-    subtitle: 'Japan',
-    trendNumber: '11.9%',
-    avatarColor: 'secondary',
-    trend: <ChevronDown sx={{ color: 'error.main', fontWeight: 600 }} />
+    sales: 'Number of each state',
+    title: 'Name status',
+    avatarText: '',
+    avatarColor: 'primary'
   },
   {
-    sales: '42k',
-    title: '$45k',
-    trendDir: 'up',
-    avatarText: 'KO',
-    subtitle: 'Korea',
-    trendNumber: '16.2%',
-    avatarColor: 'error',
-    trend: <ChevronUp sx={{ color: 'success.main', fontWeight: 600 }} />
+    sales: 'Number of each state',
+    title: 'Name status',
+    avatarText: '',
+    avatarColor: 'secondary'
   }
 ]
 
@@ -69,7 +49,7 @@ const SalesByCountries = () => {
   return (
     <Card>
       <CardHeader
-        title='Sales by Countries'
+        title='System status'
         titleTypographyProps={{ sx: { lineHeight: '1.2 !important', letterSpacing: '0.31px !important' } }}
         action={
           <IconButton size='small' aria-label='settings' className='card-more-options' sx={{ color: 'text.secondary' }}>
@@ -135,9 +115,6 @@ const SalesByCountries = () => {
                 <Box sx={{ display: 'flex', textAlign: 'end', flexDirection: 'column' }}>
                   <Typography sx={{ fontWeight: 600, fontSize: '0.875rem', lineHeight: 1.72, letterSpacing: '0.22px' }}>
                     {item.sales}
-                  </Typography>
-                  <Typography variant='caption' sx={{ lineHeight: 1.5 }}>
-                    Sales
                   </Typography>
                 </Box>
               </Box>

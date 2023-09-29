@@ -19,8 +19,8 @@ import {
   InputAdornment,
   InputLabel,
   OutlinedInput,
-  Typography,
-  TextField
+  TextField,
+  Typography
 } from '@mui/material'
 import { styled } from '@mui/system'
 
@@ -36,7 +36,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 // ** Axios Import
 import axios from 'axios'
 
-// ** JSON Web Token
+// ** JSON Web Token Imports
 import Cookies from 'js-cookie'
 import { createToken, verifyToken } from '../../@core/utils/auth'
 
@@ -51,7 +51,20 @@ const Background = styled(Box)(() => ({
   width: '100%',
   height: '100%',
   background: '#EBF3FE',
-  background: 'radial-gradient(circle, rgba(172,193,255,1) 0%, rgba(213,224,255,1) 0%, rgba(32,46,90,1) 100%);'
+  background: 'linear-gradient(90deg, #244270 0%, #FFFFFF 0%, #afc7e1 100%);',
+  backgroundSize: '200% 200%',
+  animation: 'background 6s ease infinite',
+  '@keyframes background': {
+    '0%': {
+      backgroundPosition: '0% 50%'
+    },
+    '50%': {
+      backgroundPosition: '100% 50%'
+    },
+    '100%': {
+      backgroundPosition: '0% 50%'
+    }
+  }
 }))
 
 const CardStyled = styled(Card)(({ theme }) => ({
