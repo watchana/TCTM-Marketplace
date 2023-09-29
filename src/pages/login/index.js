@@ -12,16 +12,19 @@ import {
   Card,
   CardContent,
   CardMedia,
-  Divider,
   FormControl,
-  FormControlLabel,
+  Grid,
+  Hidden,
   IconButton,
   InputAdornment,
   InputLabel,
   OutlinedInput,
-  Switch,
-  TextField
+  TextField,
+  Typography
 } from '@mui/material'
+import { styled } from '@mui/system'
+
+// ** Material UI Icons Imports
 
 // ** Material Design Icons Imports
 import EyeOutline from 'mdi-material-ui/EyeOutline'
@@ -33,18 +36,53 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 // ** Axios Import
 import axios from 'axios'
 
-// ** jwt
-import { createToken, verifyToken } from '../../@core/utils/auth'
+// ** JSON Web Token Imports
 import Cookies from 'js-cookie'
+import { createToken, verifyToken } from '../../@core/utils/auth'
+
+// ** Components view Import
+import LoadingLogin from 'src/views/login/Loading'
 
 // ** Switch Alert Import
-const SAlert = require('sweetalert2')
+const SwitchAlert = require('sweetalert2')
+
+// ** Styled Components
+const Background = styled(Box)(() => ({
+  width: '100%',
+  height: '100%',
+  background: '#EBF3FE',
+  background: 'linear-gradient(90deg, #244270 0%, #FFFFFF 0%, #afc7e1 100%);',
+  backgroundSize: '200% 200%',
+  animation: 'background 6s ease infinite',
+  '@keyframes background': {
+    '0%': {
+      backgroundPosition: '0% 50%'
+    },
+    '50%': {
+      backgroundPosition: '100% 50%'
+    },
+    '100%': {
+      backgroundPosition: '0% 50%'
+    }
+  }
+}))
+
+const CardStyled = styled(Card)(({ theme }) => ({
+  [theme.breakpoints.up('sm')]: { width: '38rem' }
+}))
+
+const LinkStyled = styled('a')(({ theme }) => ({
+  fontSize: '0.875rem',
+  textDecoration: 'none',
+  color: theme.palette.primary.main
+}))
 
 const LoginPage = () => {
-  // State values
+  // ** State
   const [user, setUser] = useState('') // User
   const [password, setPassword] = useState('') // Password
-  const [responseData, setResponseData] = useState('') // เก็บค่า data ที่จะเอาไปฝังใน local Storage
+  const [responseData, setResponseData] = useState('') // เก็บค่า Data ที่จะเอาไปฝังใน Local Storage
+  const [verificationComplete, setVerificationComplete] = useState(false)
 
   const [values, setValues] = useState({
     password: '',
@@ -55,19 +93,15 @@ const LoginPage = () => {
   const router = useRouter()
 
   // Check value Cookie
-  const [verificationComplete, setVerificationComplete] = useState(false)
   useEffect(() => {
-    const token = Cookies.get('jwt') // Get token from cookie or local storage
+    const token = Cookies.get('jwt')
 
     if (token) {
-      // If not logged in, redirect to login page
       router.push('/')
     } else {
-      // Verify the token
-      const decodedToken = verifyToken(token) // Use your verification function
+      const decodedToken = verifyToken(token)
 
       if (decodedToken) {
-        // Invalid token, redirect to login page
         router.push('/')
       } else {
         setVerificationComplete(true)
@@ -75,10 +109,12 @@ const LoginPage = () => {
     }
   }, [router])
 
+  // Loading page
   if (!verificationComplete) {
-    return <div>Loading...</div>
+    return <LoadingLogin />
   }
 
+  // ** Function
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword })
   }
@@ -87,7 +123,6 @@ const LoginPage = () => {
     event.preventDefault()
   }
 
-  // Variable storage function
   const handleSetUser = event => {
     setUser(event.target.value)
   }
@@ -121,12 +156,12 @@ const LoginPage = () => {
 
             setResponseData(userData)
 
-            const Roledata = {
+            const RoleData = {
               Role: userData
             }
 
             // Create a JWT
-            const token = createToken(Roledata)
+            const token = createToken(RoleData)
 
             // Store the token in local storage
             localStorage.setItem('jwt', token)
@@ -137,26 +172,26 @@ const LoginPage = () => {
 
             // Store the token in a cookie
             Cookies.set('jwt', token)
-            SAlert.fire({
+            SwitchAlert.fire({
               icon: 'success',
               title: 'Login Success',
               showConfirmButton: false,
               timer: 1000
             }).then(router.push(`/`))
           } else if (receivedStatus === 'Banned') {
-            SAlert.fire({
+            SwitchAlert.fire({
               icon: 'error',
               title: 'You are Banned',
               text: 'You have been Banned.'
             })
           } else if (receivedStatus === 'Wait approve') {
-            SAlert.fire({
+            SwitchAlert.fire({
               icon: 'info',
               title: 'Please wait',
               text: 'Your account is waiting for approval.'
             })
           } else {
-            SAlert.fire({
+            SwitchAlert.fire({
               icon: 'error',
               title: 'No information found',
               text: 'You entered the wrong Email or Password.'
@@ -167,7 +202,7 @@ const LoginPage = () => {
       .catch(error => {
         console.error(error)
 
-        SAlert.fire({
+        SwitchAlert.fire({
           icon: 'error',
           title: 'Log in failed...',
           text: 'Error calling API'
@@ -176,138 +211,106 @@ const LoginPage = () => {
   }
 
   return (
-    <Box
-      className='content-center'
-      sx={{
-        backgroundColor: '#ebf3fe',
-        display: 'grid',
-        flexDirection: 'column'
-      }}
-    >
-      <Box sx={{ display: 'grid', placeItems: 'center', paddingY: '1rem' }}>
-        <CardMedia
-          component='img'
-          image='/images/logos/LOGO.png'
-          alt='logo'
-          sx={{
-            width: '260px',
-            '&:hover': {
-              transform: 'scale(1.1)',
-              transition: 'all 0.3s ease'
-            }
-          }}
-        />
-      </Box>
-      <Card
-        sx={{
-          display: 'grid',
-          placeItems: 'center',
-          width: '100%',
-          maxWidth: '28rem',
-          paddingX: { xs: '1rem', sm: '1.5rem' },
-          paddingY: '1.5rem',
-          borderRadius: '30px'
-        }}
-      >
+    <Background className='content-center'>
+      <CardStyled sx={{ zIndex: 1 }}>
         <CardContent>
-          <form>
-            <TextField
-              fullWidth
-              id='email'
-              label='Email'
-              variant='outlined'
-              onChange={handleSetUser}
-              sx={{
-                marginBottom: 4,
-                borderRadius: '10px',
-                border: '1.5px solid lightgray',
-                outline: 'none',
-                transition: 'all 0.3s cubic-bezier(.25,.8,.25,1)',
-                boxShadow: '0 0 0 0 rgba(0,0,0,0)',
-                '&:hover': {
-                  boxShadow: '0 0 0 0 rgba(0,0,0,0)',
-                  border: '1.5px solid lightgray'
-                },
-                '&:active': {
-                  transform: 'scale(0.98)'
-                },
-                '&:focus': {
-                  boxShadow: '0 0 0 0 rgba(0,0,0,0)',
-                  border: '1.5px solid lightgray'
-                }
-              }}
-              InputProps={{
-                style: {
-                  borderRadius: '10px'
-                }
-              }}
-            />
-            <FormControl fullWidth variant='outlined'>
-              <InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
-              <OutlinedInput
-                id='outlined-adornment-password'
-                label='Password'
-                value={values.password}
-                type={values.showPassword ? 'text' : 'password'}
-                onChange={handleSetPassword('password')}
-                endAdornment={
-                  <InputAdornment position='end'>
-                    <IconButton
-                      edge='end'
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      aria-label='toggle password visibility'
-                    >
-                      {values.showPassword ? <EyeOutline /> : <EyeOffOutline />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                style={{ marginBottom: 4, borderRadius: '10px' }}
-                sx={{
-                  borderRadius: '10px',
-                  border: '1.5px solid lightgray',
-                  outline: 'none',
-                  transition: 'all 0.3s cubic-bezier(.25,.8,.25,1)',
-                  boxShadow: '0 0 0 0 rgba(0,0,0,0)',
-                  '&:hover': {
-                    boxShadow: '0 0 0 0 rgba(0,0,0,0)',
-                    border: '1.5px solid lightgray'
-                  },
-                  '&:active': {
-                    transform: 'scale(0.98)'
-                  },
-                  '&:focus': {
-                    boxShadow: '0 0 0 0 rgba(0,0,0,0)',
-                    border: '1.5px solid lightgray'
-                  }
-                }}
-              />
-            </FormControl>
-            <FormControlLabel
-              control={<Switch defaultChecked color='primary' />}
-              label='Remember me'
-              sx={{ marginBottom: 4 }}
-            />
-            <Button
-              variant='contained'
-              color='primary'
-              fullWidth
-              sx={{ marginBottom: 2 }}
-              style={{ borderRadius: '10px' }}
-              onClick={handleSubmitData}
-            >
-              Sign in
-            </Button>
-          </form>
-          <Divider sx={{ marginBottom: 3.5 }} />
-          <Link href='/member/register' passHref>
-            <Button variant='outlined' color='primary' fullWidth style={{ borderRadius: '10px' }}>
-              Register
-            </Button>
-          </Link>
+          <Grid container spacing={3} justifyContent='center' alignItems='center'>
+            <Grid item xs={12}>
+              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <CardMedia
+                  component='img'
+                  image='https://media.discordapp.net/attachments/1143783715877703833/1152162375529676861/tctm-logo.png?width=711&height=702'
+                  alt='logo'
+                  sx={{ width: '80px' }}
+                />
+              </Box>
+            </Grid>
+            <Hidden only='xs'>
+              <Grid item xs={12}>
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <Typography variant='h4' color='#2D2E81' sx={{ fontWeight: 600 }}>
+                    Welcome to <span style={{ color: '#BF1522' }}>TCTM</span> marketplace
+                  </Typography>
+                </Box>
+              </Grid>
+            </Hidden>
+            <Grid item xs={12}>
+              <Box sx={{ width: '100%', marginBottom: 2 }}>
+                <Typography variant='h5' textAlign='center' sx={{ fontWeight: 600 }}>
+                  Login to your account
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12}>
+              <Box sx={{ width: '100%' }}>
+                <TextField
+                  fullWidth
+                  id='email'
+                  label='Email'
+                  variant='outlined'
+                  onChange={handleSetUser}
+                  InputProps={{
+                    style: {
+                      borderRadius: '10px'
+                    }
+                  }}
+                />
+              </Box>
+            </Grid>
+            <Grid item xs={12}>
+              <Box sx={{ width: '100%' }}>
+                <FormControl fullWidth variant='outlined'>
+                  <InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
+                  <OutlinedInput
+                    id='outlined-adornment-password'
+                    label='Password'
+                    value={values.password}
+                    type={values.showPassword ? 'text' : 'password'}
+                    onChange={handleSetPassword('password')}
+                    endAdornment={
+                      <InputAdornment position='end'>
+                        <IconButton
+                          edge='end'
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          aria-label='toggle password visibility'
+                        >
+                          {values.showPassword ? <EyeOutline /> : <EyeOffOutline />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    sx={{ marginBottom: 4, borderRadius: '10px' }}
+                  />
+                </FormControl>
+              </Box>
+            </Grid>
+            <Grid item xs={12}>
+              <Box sx={{ width: '100%' }}>
+                <Button
+                  fullWidth
+                  variant='contained'
+                  color='primary'
+                  onClick={handleSubmitData}
+                  sx={{ borderRadius: '10px' }}
+                >
+                  Sign In
+                </Button>
+              </Box>
+            </Grid>
+            <Grid item xs={12}>
+              <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
+                <Typography variant='body2' sx={{ marginRight: 2 }}>
+                  Not a member?{' '}
+                </Typography>
+                <Link href='/member/register' passHref>
+                  <LinkStyled> Register</LinkStyled>
+                </Link>
+              </Box>
+            </Grid>
+          </Grid>
         </CardContent>
-      </Card>
-    </Box>
+      </CardStyled>
+    </Background>
   )
 }
 LoginPage.getLayout = page => <BlankLayout>{page}</BlankLayout>

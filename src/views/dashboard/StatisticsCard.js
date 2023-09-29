@@ -17,28 +17,28 @@ import AccountOutline from 'mdi-material-ui/AccountOutline'
 
 const salesData = [
   {
-    stats: '245k',
-    title: 'Sales',
+    stats: 'Product',
+    title: 'Name Market',
     color: 'primary',
-    icon: <TrendingUp sx={{ fontSize: '1.75rem' }} />
+    icon: '1'
   },
   {
-    stats: '12.5k',
-    title: 'Customers',
+    stats: 'Product',
+    title: 'Name Market',
     color: 'success',
-    icon: <AccountOutline sx={{ fontSize: '1.75rem' }} />
+    icon: '2'
   },
   {
-    stats: '1.54k',
+    stats: 'Product',
     color: 'warning',
-    title: 'Products',
-    icon: <CellphoneLink sx={{ fontSize: '1.75rem' }} />
+    title: 'Name Market',
+    icon: '3'
   },
   {
-    stats: '$88k',
+    stats: 'Product',
     color: 'info',
-    title: 'Revenue',
-    icon: <CurrencyUsd sx={{ fontSize: '1.75rem' }} />
+    title: 'Name Market',
+    icon: '4'
   }
 ]
 
@@ -70,20 +70,15 @@ const renderStats = () => {
 
 const StatisticsCard = () => {
   return (
-    <Card>
+    <Card variant='outlined' sx={{ position: 'relative', boxShadow: 3 }}>
       <CardHeader
-        title='Statistics Card'
-        action={
-          <IconButton size='small' aria-label='settings' className='card-more-options' sx={{ color: 'text.secondary' }}>
-            <DotsVertical />
-          </IconButton>
-        }
+        title='Best selling products'
         subheader={
           <Typography variant='body2'>
             <Box component='span' sx={{ fontWeight: 600, color: 'text.primary' }}>
-              Total 48.5% growth
+              Best seller of the month
             </Box>{' '}
-            😎 this month
+            😎
           </Typography>
         }
         titleTypographyProps={{
