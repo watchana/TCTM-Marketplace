@@ -23,6 +23,7 @@ import { withAuth } from 'src/@core/utils/AuthCheck'
 // ** Component Imports
 import Total from './total'
 import Payment from './payment'
+
 import TablePayment from './TablePayment'
 
 const Indexpayment = () => {
@@ -102,7 +103,7 @@ const Indexpayment = () => {
       <Grid container spacing={4}>
         <Grid item xs={12} md={4}>
           <Total productData={productData} megaProductData={megaProductData} />
-          <Payment megaProductData={megaProductData} />
+          <Payment invoice_id={invoice_id} sub_id={sub_id} />
         </Grid>
         <Grid item xs={12} md={8}>
           <TablePayment productData={productData} />

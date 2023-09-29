@@ -26,7 +26,7 @@ const DialogEdit = ({ open, handleClose, Data }) => {
       setTitle(Data.req_header)
       setDescription(Data.req_description)
     }
-  }, [open])
+  }, [open, Data.req_description, Data.req_header])
 
   // ฟังชันเก็บค่าข้อมูล
   const handleTitleChange = event => {

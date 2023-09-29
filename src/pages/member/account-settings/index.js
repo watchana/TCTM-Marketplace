@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -17,9 +17,16 @@ import IconButton from '@mui/material/IconButton'
 import CardContent from '@mui/material/CardContent'
 import FormControl from '@mui/material/FormControl'
 import Button from '@mui/material/Button'
+import { Divider } from '@mui/material'
 
 // ** Icons Imports
 import Close from 'mdi-material-ui/Close'
+
+// ** Axios Imports
+import axios from 'axios'
+
+// ** Switch Alert Import
+const Swal = require('sweetalert2')
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 120,
@@ -31,7 +38,157 @@ const ImgStyled = styled('img')(({ theme }) => ({
 const Account = () => {
   // ** State
   const [openAlert, setOpenAlert] = useState(true)
-  const [imgSrc, setImgSrc] = useState('/images/avatars/1.png')
+  const [imgSrc, setImgSrc] = useState('/images/avatars/7.png')
+  const [shouldFetchData, setShouldFetchData] = useState(true) // state control fate data
+
+  // data state
+  const [userId, setUserId] = useState('') //  user Id
+  const [userdata, setUserData] = useState('') // user data
+
+  // console.log('userdata', userdata)
+
+  // data user state
+  const [userName, setUserName] = useState('')
+  const [userLastName, setUserLastName] = useState('')
+  const [userEmail, setUserEmail] = useState('')
+  const [userAddress, setUserAddress] = useState('')
+  const [userPhone, setUserPhone] = useState('')
+  const [userCompany, setUserCompany] = useState('')
+
+  // local Storagec Variables
+  useEffect(() => {
+    const userIdFromLocalStorage = localStorage.getItem('Member_Id')
+    if (userIdFromLocalStorage) {
+      setUserId(userIdFromLocalStorage)
+    }
+  }, [])
+
+  // Set Begining data State
+  useEffect(() => {
+    setUserName(userdata.user_first_name || '')
+    setUserLastName(userdata.user_last_name || '')
+    setUserEmail(userdata.user_email || '')
+    setUserAddress(userdata.user_address || '')
+    setUserPhone(userdata.user_tel || '')
+    setUserCompany(userdata.user_company || '')
+  }, [
+    userdata.user_first_name,
+    userdata.user_last_name,
+    userdata.user_email,
+    userdata.user_address,
+    userdata.user_tel,
+    userdata.user_company
+  ])
+
+  // Reset data function
+  const handleResetData = () => {
+    setUserName('')
+    setUserLastName('')
+    setUserEmail('')
+    setUserAddress('')
+    setUserPhone('')
+    setUserCompany('')
+  }
+
+  // Chang user data function
+  const handleChangUserData = async e => {
+    e.preventDefault()
+
+    const data = {
+      member_id: userId,
+      email: userEmail,
+      address: userAddress,
+      phone: userPhone,
+      company: userCompany
+    }
+
+    try {
+      const data = {
+        member_id: userId,
+        email: userEmail,
+        address: userAddress,
+        phone: userPhone,
+        company: userCompany
+      }
+
+      const fieldsToCheck = [userId, userEmail, userAddress, userPhone, userCompany]
+
+      if (fieldsToCheck.some(field => field === '' || field === null || field === undefined)) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Please fill in complete information.',
+          text: 'Please fill out all fields.'
+        })
+
+        return
+      }
+
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.profile.update_profile`, data)
+      console.log(response.data)
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Chang data success'
+      })
+
+      setShouldFetchData(true)
+    } catch (error) {
+      console.error(error)
+      Swal.fire({
+        icon: 'error',
+        title: 'Log in fail...',
+        text: 'There was an error calling the API.'
+      })
+    }
+  }
+
+  // Api Call Data
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.profile.display_profile`, {
+          params: {
+            member_id: userId
+          }
+        })
+        setUserData(response.data.message.Data[0])
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchData()
+
+    if (shouldFetchData) {
+      fetchData()
+      setShouldFetchData(false)
+    }
+  }, [userId, shouldFetchData])
+
+  // Data Control
+  const handleUserNameSet = event => {
+    setUserName(event.target.value)
+  }
+
+  const handleLastNameSet = event => {
+    setUserLastName(event.target.value)
+  }
+
+  const handleEmailSet = event => {
+    setUserEmail(event.target.value)
+  }
+
+  const handleAddressSet = event => {
+    setUserAddress(event.target.value)
+  }
+
+  const handlePhoneSet = event => {
+    setUserPhone(event.target.value)
+  }
+
+  const handleCompanySet = event => {
+    setUserCompany(event.target.value)
+  }
 
   return (
     <CardContent>
@@ -44,47 +201,57 @@ const Account = () => {
           </Grid>
 
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Username' placeholder='johnDoe' defaultValue='johnDoe' />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Name' placeholder='John Doe' defaultValue='John Doe' />
+            <TextField fullWidth label='Name' placeholder='Name' value={userName} onChange={handleUserNameSet} />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
-              type='email'
-              label='Email'
-              placeholder='johnDoe@example.com'
-              defaultValue='johnDoe@example.com'
+              label='Last Name'
+              placeholder='Last Name'
+              value={userLastName}
+              onChange={handleLastNameSet}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <InputLabel>Role</InputLabel>
-              <Select label='Role' defaultValue='admin'>
-                <MenuItem value='admin'>Admin</MenuItem>
-                <MenuItem value='author'>Author</MenuItem>
-                <MenuItem value='editor'>Editor</MenuItem>
-                <MenuItem value='maintainer'>Maintainer</MenuItem>
-                <MenuItem value='subscriber'>Subscriber</MenuItem>
-              </Select>
-            </FormControl>
+            <TextField fullWidth type='email' label='Email' value={userEmail} onChange={handleEmailSet} />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <InputLabel>Status</InputLabel>
-              <Select label='Status' defaultValue='active'>
-                <MenuItem value='active'>Active</MenuItem>
-                <MenuItem value='inactive'>Inactive</MenuItem>
-                <MenuItem value='pending'>Pending</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Company' placeholder='ABC Pvt. Ltd.' defaultValue='ABC Pvt. Ltd.' />
+            <TextField
+              fullWidth
+              type='Phone'
+              label='Phone'
+              placeholder='Phone'
+              defaultValue='Phone'
+              value={userPhone}
+              onChange={handlePhoneSet}
+            />
           </Grid>
 
-          {openAlert ? (
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              type='Company'
+              label='Company'
+              placeholder='Company'
+              defaultValue='Company'
+              value={userCompany}
+              onChange={handleCompanySet}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              type='Address'
+              label='Address'
+              placeholder='Address'
+              defaultValue='Address'
+              value={userAddress}
+              onChange={handleAddressSet}
+            />
+          </Grid>
+
+          {/* {openAlert ? (
             <Grid item xs={12} sx={{ mb: 3 }}>
               <Alert
                 severity='warning'
@@ -101,13 +268,14 @@ const Account = () => {
                 </Link>
               </Alert>
             </Grid>
-          ) : null}
+          ) : null} */}
 
           <Grid item xs={12}>
-            <Button variant='contained' sx={{ marginRight: 3.5 }}>
+            <Button variant='contained' sx={{ marginRight: 3.5 }} onClick={e => handleChangUserData(e)}>
               Save Changes
             </Button>
-            <Button type='reset' variant='outlined' color='secondary'>
+
+            <Button type='reset' variant='outlined' color='secondary' onClick={handleResetData}>
               Reset
             </Button>
           </Grid>

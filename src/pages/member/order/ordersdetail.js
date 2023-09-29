@@ -38,12 +38,8 @@ const Orders_Detail = () => {
   const [orderdata, setOrderData] = useState('') // Order Data
   const [productoption, setProductOption] = useState('') // Product Option
 
-  // console.log('orderdata', orderdata.receipt_file_name)
-
   // เก็บค่าข้อมูลจาก Api
   useEffect(() => {
-    console.log('invoice_id', invoice_id)
-
     const fetchData = async () => {
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.invoice_detail`, {
@@ -51,9 +47,6 @@ const Orders_Detail = () => {
             invoice_id: invoice_id
           }
         })
-
-        console.log('Api', response.data.message.Data[0])
-
         setOrderData(response.data.message.Data[0])
         setProductOption(response.data.message.Option_List)
       } catch (error) {

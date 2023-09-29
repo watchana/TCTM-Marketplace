@@ -60,8 +60,6 @@ const ShowOrder = ({ productdata, updateProductData }) => {
         invoice_id: invoice_id
       }
 
-      console.log('data', data)
-
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.member_confirm_product`, data)
       if (response.status === 200) {
         Swal.fire({
@@ -87,8 +85,6 @@ const ShowOrder = ({ productdata, updateProductData }) => {
       })
     }
   }
-
-  console.log('productdata 999', productdata)
 
   return (
     <Container maxWidth='xl'>
