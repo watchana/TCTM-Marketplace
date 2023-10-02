@@ -10,7 +10,7 @@ export default async function DownloadDocument(req, res) {
     const fileStream = fs.createReadStream(filePath)
 
     // Set the appropriate Content-Type header for a PDF
-    res.setHeader('Content-Type', 'application/pdf')
+    // res.setHeader('Content-Type', 'application/pdf')
 
     // Pipe the file stream to the response
     fileStream.pipe(res)
