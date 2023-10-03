@@ -124,28 +124,28 @@ const Market = () => {
 
             if (subStatus === '1') {
               chipColor = 'warning'
-              chipLabel = 'รอการยืนยัน'
+              chipLabel = 'Waiting for confirmation'
             } else if (subStatus === '2') {
               chipColor = 'success'
-              chipLabel = 'ปกติ'
+              chipLabel = 'normal'
             } else if (subStatus === '0') {
               chipColor = 'error'
-              chipLabel = 'โดนแบน'
+              chipLabel = 'Banned'
             } else if (subStatus === '3') {
               chipColor = 'info'
-              chipLabel = 'แนะนำ'
+              chipLabel = 'recommend'
             }
 
             return <Chip label={chipLabel} color={chipColor} />
           }
         },
-        { field: 'sub_name', headerName: 'ชื่อร้าน', width: 130 },
-        { field: 'user_company', headerName: 'บริษัท', width: 150 },
-        { field: 'user_first_name', headerName: 'ชื่อ', width: 150 },
-        { field: 'user_last_name', headerName: 'นามสกุล', width: 80 },
+        { field: 'sub_name', headerName: 'Shop name', width: 130 },
+        { field: 'user_company', headerName: 'company', width: 150 },
+        { field: 'user_first_name', headerName: 'name', width: 150 },
+        { field: 'user_last_name', headerName: 'last name', width: 80 },
         {
           field: 'actions',
-          headerName: 'ปุ่ม',
+          headerName: 'Button',
           width: 400,
           renderCell: params => (
             <div>
@@ -157,17 +157,17 @@ const Market = () => {
                 onClick={() => {
                   if (params.row.sub_status !== '0') {
                     Swal.fire({
-                      title: 'ต้องการที่จะแบนร้านค้านี้ไหม?',
+                      title: 'Want to ban this store??',
                       icon: 'question',
                       showCancelButton: true,
-                      confirmButtonText: 'แบน',
-                      cancelButtonText: 'ยกเลิก'
+                      confirmButtonText: 'band',
+                      cancelButtonText: 'cancle'
                     }).then(result => {
                       if (result.isConfirmed) {
                         Swal.fire({
                           position: 'center',
                           icon: 'success',
-                          title: 'แบนเรียบร้อย',
+                          title: 'band success',
                           showConfirmButton: false,
                           timer: 1500
                         })
@@ -176,8 +176,8 @@ const Market = () => {
                     })
                   } else {
                     Swal.fire({
-                      title: 'ไม่สามารถแบนได้',
-                      text: 'เนื่องจากสถานะถูกแบนแล้ว',
+                      title: 'cannot be banned',
+                      text: 'Because the status has been banned.',
                       icon: 'error'
                     })
                   }
@@ -195,11 +195,11 @@ const Market = () => {
                 onClick={() => {
                   if (params.row.sub_status !== '2') {
                     Swal.fire({
-                      title: 'คุณต้องการที่จะปลดแบนร้านค้านี้ไหม?',
+                      title: 'Do you want to unban this store??',
                       icon: 'question',
                       showCancelButton: true,
-                      confirmButtonText: 'ปลดแบน',
-                      cancelButtonText: 'ยกเลิก'
+                      confirmButtonText: 'unband',
+                      cancelButtonText: 'cancle'
                     }).then(result => {
                       if (result.isConfirmed) {
                         handleUnbanClick(params.row.sub_id)
@@ -207,8 +207,8 @@ const Market = () => {
                     })
                   } else {
                     Swal.fire({
-                      title: 'ไม่สามารถยกเลิกการแบนได้',
-                      text: 'เนื่องจากสถานะยืนยันแล้ว',
+                      title: 'Unable to unban.',
+                      text: 'Due to confirmed status',
                       icon: 'error'
                     })
                   }
@@ -228,17 +228,17 @@ const Market = () => {
                 onClick={() => {
                   if (params.row.sub_status !== '0' && params.row.sub_status !== '1') {
                     Swal.fire({
-                      title: 'ต้องการที่จะแสดงรายการนี้ไหม?',
+                      title: 'Want to show this item??',
                       icon: 'question',
                       showCancelButton: true,
                       confirmButtonText: 'Active',
-                      cancelButtonText: 'ยกเลิก'
+                      cancelButtonText: 'cancle'
                     }).then(result => {
                       if (result.isConfirmed) {
                         Swal.fire({
                           position: 'center',
                           icon: 'success',
-                          title: 'แสดงเรียบร้อย',
+                          title: 'show data successfully',
                           showConfirmButton: false,
                           timer: 1500
                         })
@@ -247,8 +247,8 @@ const Market = () => {
                     })
                   } else {
                     Swal.fire({
-                      title: 'ไม่สามารถแสดงรายการได้',
-                      text: 'เนื่องจากสถานะถูกแบนหรือยืนยันแล้ว',
+                      title: 'Unable to display items',
+                      text: 'Due to banned or verified status',
                       icon: 'error'
                     })
                   }
@@ -268,11 +268,11 @@ const Market = () => {
                 onClick={() => {
                   if (params.row.sub_status !== '2') {
                     Swal.fire({
-                      title: 'คุณต้องการที่จะหยุดแสดงรายการนี้ไหม?',
+                      title: 'Do you want to stop showing this show?',
                       icon: 'question',
                       showCancelButton: true,
                       confirmButtonText: 'Unactive',
-                      cancelButtonText: 'ยกเลิก'
+                      cancelButtonText: 'cancle'
                     }).then(result => {
                       if (result.isConfirmed) {
                         handleUnactiveClick(params.row.sub_id)
@@ -280,8 +280,8 @@ const Market = () => {
                     })
                   } else {
                     Swal.fire({
-                      title: 'ไม่สามารถยกเลิกการแบนได้',
-                      text: 'เนื่องจากสถานะยืนยันแล้ว',
+                      title: 'Unable to unban.',
+                      text: 'Due to confirmed status',
                       icon: 'error'
                     })
                   }

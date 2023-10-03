@@ -87,7 +87,7 @@ const Billboard = () => {
         { field: 'bill_id', headerName: 'ID', width: 120 },
         {
           field: 'bill_status',
-          headerName: 'สถานะ',
+          headerName: 'status',
           width: 120,
           renderCell: params => {
             const subStatus = params.value // ค่าที่อยู่ในช่อง "สถานะไอดี"
@@ -105,12 +105,12 @@ const Billboard = () => {
             return <Chip label={chipLabel} color={chipColor} />
           }
         },
-        { field: 'bill_name', headerName: 'ชื่อป้าย', width: 200 },
-        { field: 'name', headerName: 'คนสร้าง', width: 150 },
-        { field: 'owner', headerName: 'ตำแหน่ง', width: 120 },
+        { field: 'bill_name', headerName: 'billboard', width: 200 },
+        { field: 'name', headerName: 'creator', width: 150 },
+        { field: 'owner', headerName: 'position', width: 120 },
         {
           field: 'actions',
-          headerName: 'ปุ่ม',
+          headerName: 'Button',
           width: 250, // ปรับขนาดตามความต้องการ
           renderCell: params => (
             <div>
@@ -122,17 +122,17 @@ const Billboard = () => {
                 onClick={() => {
                   if (params.row.bill_status !== '1') {
                     Swal.fire({
-                      title: 'ต้องการที่จะแสดงรายการนี้ไหม?',
+                      title: 'Want to show this item?',
                       icon: 'question',
                       showCancelButton: true,
                       confirmButtonText: 'Active',
-                      cancelButtonText: 'ยกเลิก'
+                      cancelButtonText: 'cancle'
                     }).then(result => {
                       if (result.isConfirmed) {
                         Swal.fire({
                           position: 'center',
                           icon: 'success',
-                          title: 'แสดงเรียบร้อย',
+                          title: 'Show success',
                           showConfirmButton: false,
                           timer: 1500
                         })
@@ -141,8 +141,8 @@ const Billboard = () => {
                     })
                   } else {
                     Swal.fire({
-                      title: 'ไม่สามารถแบนได้',
-                      text: 'เนื่องจากสถานะถูกแบนแล้ว',
+                      title: 'cannot be banned',
+                      text: 'Because the status has been banned.',
                       icon: 'error'
                     })
                   }
@@ -160,11 +160,11 @@ const Billboard = () => {
                 onClick={() => {
                   if (params.row.bill_status !== '2') {
                     Swal.fire({
-                      title: 'คุณต้องการที่จะหยุดแสดงรายการนี้ไหม?',
+                      title: 'Do you want to stop showing this show??',
                       icon: 'question',
                       showCancelButton: true,
                       confirmButtonText: 'Unactive',
-                      cancelButtonText: 'ยกเลิก'
+                      cancelButtonText: 'cancle'
                     }).then(result => {
                       if (result.isConfirmed) {
                         handleUnactiveClick(params.row.bill_id)
@@ -172,8 +172,8 @@ const Billboard = () => {
                     })
                   } else {
                     Swal.fire({
-                      title: 'ไม่สามารถยกเลิกการแบนได้',
-                      text: 'เนื่องจากสถานะยืนยันแล้ว',
+                      title: 'Unable to unban.',
+                      text: 'Due to confirmed status',
                       icon: 'error'
                     })
                   }
