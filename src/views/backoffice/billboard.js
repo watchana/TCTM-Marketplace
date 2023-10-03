@@ -81,7 +81,7 @@ const Billboard = () => {
   return (
     <StyledDataGrid
       autoHeight
-      rows={Billboardlist.map(val => ({ ...val, id: val.bill_id }))} // เพิ่มคุณสมบัติ id ในแต่ละแถว
+      rows={Billboardlist?.map(val => ({ ...val, id: val.bill_id })) || []}
       getRowId={bill_id => bill_id.id} // กำหนดให้ใช้คุณสมบัติ id เป็น id ของแถว
       columns={[
         { field: 'bill_id', headerName: 'ID', width: 120 },

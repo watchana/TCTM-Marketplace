@@ -108,14 +108,14 @@ const Market = () => {
   return (
     <StyledDataGrid
       autoHeight
-      rows={Marketlist.map(val => ({ ...val, id: val.member_id }))} // เพิ่มคุณสมบัติ id ในแต่ละแถว
+      rows={Marketlist && Array.isArray(Marketlist) ? Marketlist.map(val => ({ ...val, id: val.member_id })) : []}
       getRowId={member_id => member_id.id} // กำหนดให้ใช้คุณสมบัติ id เป็น id ของแถว
       columns={[
         { field: 'sub_id', headerName: 'ID', width: 80 },
-        { field: 'member_id', headerName: 'รหัสสมาชิก', width: 80 },
+        { field: 'member_id', headerName: 'member id', width: 80 },
         {
           field: 'sub_status',
-          headerName: 'สถานะไอดี',
+          headerName: 'id status',
           width: 120,
           renderCell: params => {
             const subStatus = params.value // ค่าที่อยู่ในช่อง "สถานะไอดี"

@@ -73,7 +73,7 @@ const User = () => {
   return (
     <StyledDataGrid
       autoHeight
-      rows={Userlist.map(val => ({ ...val, id: val.account_id, sub_status: val.account_status.toString() }))} // เพิ่มคุณสมบัติ id ในแต่ละแถว
+      rows={Userlist?.map(val => ({ ...val, id: val.account_id, sub_status: val.account_status.toString() })) || []} // เพิ่มคุณสมบัติ id ในแต่ละแถว
       getRowId={account_id => account_id.id} // กำหนดให้ใช้คุณสมบัติ id เป็น id ของแถว
       columns={[
         { field: 'account_id', headerName: 'ID', width: 120 },
