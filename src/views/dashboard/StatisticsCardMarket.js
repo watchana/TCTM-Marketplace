@@ -42,14 +42,14 @@ import AccountOutline from 'mdi-material-ui/AccountOutline'
 //   }
 // ]
 
-const StatisticsCard = ({ data }) => {
+const StatisticsCardMarket = ({ data }) => {
   // Define an array of colors
   const colors = ['primary.main', 'secondary.main', 'error.main', 'info.main', 'success.main']
 
   // set render State
   const renderMarketStats = () => {
-    if (data.top_product_selling && data.top_product_selling.length > 0) {
-      return data.top_product_selling.map((market, index) => (
+    if (data.best_market_selling && data.best_market_selling.length > 0) {
+      return data.best_market_selling.map((market, index) => (
         <Grid item xs={12} sm={6} key={index}>
           <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
             <Avatar
@@ -66,9 +66,8 @@ const StatisticsCard = ({ data }) => {
               {index + 1}
             </Avatar>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Typography variant='caption'>Market sale : {market.sub_name}</Typography>
-              <Typography variant='caption'>Count for sale : {market.product_count}</Typography>
-              <Typography variant='h6'>{market.product_name}</Typography>
+              <Typography variant='caption'>Count for sale : {market.invoice_count}</Typography>
+              <Typography variant='h6'>{market.sub_name}</Typography>
             </Box>
           </Box>
         </Grid>
@@ -83,7 +82,7 @@ const StatisticsCard = ({ data }) => {
         subheader={
           <Typography variant='body2'>
             <Box component='span' sx={{ fontWeight: 600, color: 'text.primary' }}>
-              Best seller of the month
+              Best Market seller of the month
             </Box>{' '}
             😎
           </Typography>
@@ -105,4 +104,4 @@ const StatisticsCard = ({ data }) => {
   )
 }
 
-export default StatisticsCard
+export default StatisticsCardMarket

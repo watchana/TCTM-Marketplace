@@ -21,7 +21,7 @@ const TrophyImg = styled('img')({
   position: 'absolute'
 })
 
-const Trophy = () => {
+const Trophy = ({ data }) => {
   // ** Hook
   const theme = useTheme()
   const imageSrc = theme.palette.mode === 'light' ? 'triangle-light.png' : 'triangle-dark.png'
@@ -34,7 +34,11 @@ const Trophy = () => {
           Best seller of the month
         </Typography>
         <Typography variant='h5' sx={{ my: 4, color: 'primary.main' }}>
-          $42.8k
+          {data.all_selling_in_month && data.all_selling_in_month.length > 0 ? (
+            <>{data.all_selling_in_month[0].total_price} BTH</>
+          ) : (
+            <span>No data available</span>
+          )}
         </Typography>
         <Button size='small' variant='contained'>
           View Sales

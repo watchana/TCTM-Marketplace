@@ -58,8 +58,27 @@ import StatisticsCard from 'src/views/dashboard/StatisticsCard'
 import WeeklyOverview from 'src/views/dashboard/WeeklyOverview'
 import DepositWithdraw from 'src/views/dashboard/DepositWithdraw'
 import SalesByCountries from 'src/views/dashboard/SalesByCountries'
+import StatisticsCardMarket from 'src/views/dashboard/StatisticsCardMarket'
 
 const DashboardTCTM = () => {
+  // Set data
+  const [data, setData] = useState('')
+
+  // Api Call Data
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.dashboard.get_data_in_dashboard`)
+
+        setData(response.data.message)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchData()
+  }, [])
+
   return (
     <Container maxWidth='xl'>
       <Box>
@@ -94,31 +113,35 @@ const DashboardTCTM = () => {
         <Grid container spacing={6}>
           {/* ---------- Best seller of the month ---------- */}
           <Grid item xs={12} md={4}>
-            <Trophy />
+            <Trophy data={data} />
           </Grid>
 
-          {/* ---------- Best seller of the month Top 4 ---------- */}
+          {/* ---------- Best seller Product of the month Top 4 ---------- */}
           <Grid item xs={12} md={8}>
-            <StatisticsCard />
+            <StatisticsCard data={data} />
+          </Grid>
+
+          {/* ---------- Best seller Market of the month Top 4 ---------- */}
+          <Grid item xs={12} md={8}>
+            <StatisticsCardMarket data={data} />
           </Grid>
           {/* ----- รายได้แต่ละเดือน ----- */}
           <Grid item xs={12} md={6} lg={4}>
-            <WeeklyOverview />
+            <WeeklyOverview data={data} />
           </Grid>
 
           {/* ----- สถานะแต่ละสถานะ ----- */}
           <Grid item xs={12} md={6} lg={4}>
-            <SalesByCountries />
+            <SalesByCountries Data={data} />
           </Grid>
           <Grid item xs={12} md={6} lg={4}>
             <Grid container spacing={6}>
               {/* ----- ขายสินค้าทั้งหมดที่วางขาย ----- */}
               <Grid item xs={6}>
                 <CardStatisticsVerticalComponent
-                  stats='$25.6k'
+                  stats={(data.all_product_active_in_system || 0).toString()}
                   icon={<Poll />}
                   color='success'
-                  trendNumber='+42%'
                   title='Total Product'
                   subtitle='all time'
                 />
@@ -126,17 +149,19 @@ const DashboardTCTM = () => {
               {/* ----- ขายสินค้าไปแล้วทั้งหมด ----- */}
               <Grid item xs={6}>
                 <CardStatisticsVerticalComponent
-                  stats='$78'
+                  stats={(
+                    (data.all_selling_in_system && data.all_selling_in_system[0]?.count_invoices) ||
+                    0
+                  ).toString()}
                   title='All for sale'
                   color='success'
-                  trendNumber='+15%'
                   subtitle='Total price'
                   icon={<CurrencyUsd />}
                 />
               </Grid>
               <Grid item xs={6}>
                 <CardStatisticsVerticalComponent
-                  stats='15'
+                  stats={(data?.all_member_in_system?.length || 0).toString()}
                   color='warning'
                   subtitle='all members'
                   title='Total Member'
@@ -145,7 +170,7 @@ const DashboardTCTM = () => {
               </Grid>
               <Grid item xs={6}>
                 <CardStatisticsVerticalComponent
-                  stats='15'
+                  stats={(data?.all_market_in_system?.[0]?.market_count || 0).toString()}
                   color='warning'
                   subtitle='all market'
                   title='Total Market'
