@@ -136,7 +136,7 @@ const ShowProducts = () => {
                   width: '220px',
                   height: '280px',
                   borderRadius: '6px',
-                  backgroundImage: 'url(/imgBillboard/CaBill.png)',
+                  backgroundImage: 'url(/imgBillboard/Nodata2.png)',
                   backgroundSize: '220px 280px',
                   backgroundPosition: 'center',
                   padding: '12px',
