@@ -15,75 +15,77 @@ import DotsVertical from 'mdi-material-ui/DotsVertical'
 import CellphoneLink from 'mdi-material-ui/CellphoneLink'
 import AccountOutline from 'mdi-material-ui/AccountOutline'
 
-const salesData = [
-  {
-    stats: '245k',
-    title: 'Sales',
-    color: 'primary',
-    icon: <TrendingUp sx={{ fontSize: '1.75rem' }} />
-  },
-  {
-    stats: '12.5k',
-    title: 'Customers',
-    color: 'success',
-    icon: <AccountOutline sx={{ fontSize: '1.75rem' }} />
-  },
-  {
-    stats: '1.54k',
-    color: 'warning',
-    title: 'Products',
-    icon: <CellphoneLink sx={{ fontSize: '1.75rem' }} />
-  },
-  {
-    stats: '$88k',
-    color: 'info',
-    title: 'Revenue',
-    icon: <CurrencyUsd sx={{ fontSize: '1.75rem' }} />
+// const salesData = [
+//   {
+//     stats: 'Product',
+//     title: 'Name Market',
+//     color: 'primary',
+//     icon: '1'
+//   },
+//   {
+//     stats: 'Product',
+//     title: 'Name Market',
+//     color: 'success',
+//     icon: '2'
+//   },
+//   {
+//     stats: 'Product',
+//     color: 'warning',
+//     title: 'Name Market',
+//     icon: '3'
+//   },
+//   {
+//     stats: 'Product',
+//     color: 'info',
+//     title: 'Name Market',
+//     icon: '4'
+//   }
+// ]
+
+const StatisticsCard = ({ data }) => {
+  // Define an array of colors
+  const colors = ['primary.main', 'secondary.main', 'error.main', 'info.main', 'success.main']
+
+  // set render State
+  const renderMarketStats = () => {
+    if (data.top_product_selling && data.top_product_selling.length > 0) {
+      return data.top_product_selling.map((market, index) => (
+        <Grid item xs={12} sm={6} key={index}>
+          <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
+            <Avatar
+              variant='rounded'
+              sx={{
+                mr: 3,
+                width: 44,
+                height: 44,
+                boxShadow: 3,
+                color: 'common.white',
+                backgroundColor: colors[index % colors.length]
+              }}
+            >
+              {index + 1}
+            </Avatar>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Typography variant='caption'>Market sale : {market.sub_name}</Typography>
+              <Typography variant='caption'>Count for sale : {market.product_count}</Typography>
+              <Typography variant='h6'>{market.product_name}</Typography>
+            </Box>
+          </Box>
+        </Grid>
+      ))
+    }
   }
-]
 
-const renderStats = () => {
-  return salesData.map((item, index) => (
-    <Grid item xs={12} sm={3} key={index}>
-      <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
-        <Avatar
-          variant='rounded'
-          sx={{
-            mr: 3,
-            width: 44,
-            height: 44,
-            boxShadow: 3,
-            color: 'common.white',
-            backgroundColor: `${item.color}.main`
-          }}
-        >
-          {item.icon}
-        </Avatar>
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography variant='caption'>{item.title}</Typography>
-          <Typography variant='h6'>{item.stats}</Typography>
-        </Box>
-      </Box>
-    </Grid>
-  ))
-}
-
-const StatisticsCard = () => {
   return (
-    <Card>
+    <Card variant='outlined' sx={{ position: 'relative', boxShadow: 3 }}>
       <CardHeader
-        title='Statistics Card'
-        action={
-          <IconButton size='small' aria-label='settings' className='card-more-options' sx={{ color: 'text.secondary' }}>
-            <DotsVertical />
-          </IconButton>
-        }
+        title='Best selling Products'
         subheader={
           <Typography variant='body2'>
             <Box component='span' sx={{ fontWeight: 600, color: 'text.primary' }}>
-              Total 48.5% growth
+              Best seller of the month
             </Box>{' '}
-            😎 this month
+            😎
           </Typography>
         }
         titleTypographyProps={{
@@ -96,7 +98,7 @@ const StatisticsCard = () => {
       />
       <CardContent sx={{ pt: theme => `${theme.spacing(3)} !important` }}>
         <Grid container spacing={[5, 0]}>
-          {renderStats()}
+          {renderMarketStats()}
         </Grid>
       </CardContent>
     </Card>

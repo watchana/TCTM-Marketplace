@@ -9,7 +9,7 @@ const Product = () => {
   const [Productlist, setProductlist] = useState([])
 
   useEffect(() => {
-    axios.get('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.product.allproduct').then(response => {
+    axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.product.allproduct`).then(response => {
       console.log('setProduxt:', response.data.message.Data)
       setProductlist(response.data.message.Data)
     })
@@ -21,7 +21,7 @@ const Product = () => {
 
   const fetchProductData = () => {
     axios
-      .get('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.product.allproduct')
+      .get(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.product.allproduct`)
       .then(response => {
         setProductlist(response.data.message.Data)
       })
@@ -35,7 +35,7 @@ const Product = () => {
     console.log(`Ban account with ID ${product_id}`)
 
     axios
-      .post('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.product.ban', {
+      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.product.ban`, {
         product_id
       })
       .then(response => {
@@ -54,7 +54,7 @@ const Product = () => {
     console.log(`Unban account with ID ${product_id}`)
 
     axios
-      .post('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.product.unban', {
+      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.product.unban`, {
         product_id
       })
       .then(response => {
@@ -73,12 +73,10 @@ const Product = () => {
     console.log(`Active account with ID ${product_id}`)
 
     axios
-      .post('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.home_page.product_active', {
+      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.product_active`, {
         product_id
       })
       .then(response => {
-        console.log('bill_id', response)
-
         // ทำอย่างอื่นตามความต้องการ
         fetchProductData()
       })
@@ -92,7 +90,7 @@ const Product = () => {
     console.log(`Unactive account with ID ${product_id}`)
 
     axios
-      .post('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.home_page.product_unactive', {
+      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.product_unactive`, {
         product_id
       })
       .then(response => {
@@ -109,8 +107,8 @@ const Product = () => {
   return (
     <StyledDataGrid
       autoHeight
-      rows={Productlist.map(val => ({ ...val, id: val.product_id }))} // เพิ่มคุณสมบัติ id ในแต่ละแถว
-      getRowId={product_id => product_id.id} // กำหนดให้ใช้คุณสมบัติ id เป็น id ของแถว
+      rows={Productlist && Productlist.length > 0 ? Productlist.map(val => ({ ...val, id: val.product_id })) : []}
+      getRowId={product_id => product_id.id}
       columns={[
         { field: 'product_id', headerName: 'ID', width: 120 },
         {
@@ -118,7 +116,7 @@ const Product = () => {
           headerName: 'สถานะ',
           width: 120,
           renderCell: params => {
-            const subStatus = params.value // ค่าที่อยู่ในช่อง "สถานะไอดี"
+            const subStatus = params.value
             let chipColor = 'default'
             let chipLabel = ''
 

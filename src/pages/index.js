@@ -1,57 +1,51 @@
 // ** React Imports
-import { React, useEffect, useState } from 'react'
+import { React } from 'react'
 
-// ** MUI Imports
-import Box from '@mui/material/Box'
-import Link from '@mui/material/Link'
-import Container from '@mui/material/Container'
-import Typography from '@mui/material/Typography'
-
-// ** Import components
+// ** Next Import
+import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { withAuth } from '../@core/utils/AuthCheck'
+
+// ** Material UI Imports
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Container,
+  Divider,
+  FormControl,
+  FormControlLabel,
+  Grid,
+  Hidden,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  Switch,
+  TextField,
+  Typography
+} from '@mui/material'
 
 // ** custom components
-import SlideshowWithCards from 'src/views/homepage/SlideBillboard'
-import SlideshowWithProduct from 'src/views/homepage/SlideProduct'
-import SlideRecommended from 'src/views/homepage/SlideRecommended'
+import Billboard from 'src/views/homepage/Billboard'
+import NameMarket from 'src/views/homepage/NameMarket'
+import ShowProducts from 'src/views/homepage/ShowProducts'
+import ShowProducts2 from 'src/views/homepage/ShowProducts2'
 
-// ** Import Cookies
-import Cookies from 'js-cookie'
+// ** Utils Imports
+import { withAuth } from '../@core/utils/AuthCheck'
 
 const Dashboard = () => {
-  const router = useRouter()
-
   return (
     <Container maxWidth='xl'>
-      <Box sx={{ height: '100%' }}>
-        {/** ส่วนของ Billboard */}
-        <SlideshowWithCards />
-
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginY: 5 }}>
-          <Typography variant='h4' fontSize='bold'>
-            Recommended Shops
-          </Typography>
-          {/** ใส่ Link Product */}
-          <Link href='#'>SHOW ALL SHOPS</Link>
-        </Box>
-        <Box sx={{ width: '100%' }}>
-          {/** ส่วนของ Slide Products! */}
-          <SlideshowWithProduct />
-        </Box>
-
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginY: 5 }}>
-          <Typography variant='h4' fontSize='bold'>
-            Recommended Products
-          </Typography>
-          {/** ใส่ Link Product */}
-          <Link href='/category'>SHOW ALL PRODUCTS</Link>
-        </Box>
-        <Box sx={{ width: '100%' }}>
-          {/** ส่วนของ Slide Recommended! */}
-          <SlideRecommended />
-        </Box>
-      </Box>
+      {/* ---------- Billboard ---------- */}
+      <Billboard />
+      {/* ---------- Category ---------- */}
+      <NameMarket />
+      {/* ---------- Show Products ---------- */}
+      <ShowProducts />
+      {/* ---------- Show Products2 ---------- */}
+      <ShowProducts2 />
     </Container>
   )
 }

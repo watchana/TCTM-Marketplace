@@ -1,42 +1,61 @@
 // ** React Imports
 import React, { useEffect, useState, useRef } from 'react'
 
-// ** MUI Imports
-import Box from '@mui/material/Box'
-import Tab from '@mui/material/Tab'
-import Link from '@mui/material/Link'
-import Grid from '@mui/material/Grid'
-import TabList from '@mui/lab/TabList'
-import TabPanel from '@mui/lab/TabPanel'
-import Button from '@mui/material/Button'
-import TabContext from '@mui/lab/TabContext'
-import Container from '@mui/material/Container'
-import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
-import InputLabel from '@mui/material/InputLabel'
-import FormControl from '@mui/material/FormControl'
-import Breadcrumbs from '@mui/material/Breadcrumbs'
-import Autocomplete from '@mui/material/Autocomplete'
-import { Select, MenuItem } from '@mui/material'
-
-import { DataGrid } from '@mui/x-data-grid'
-import axios from 'axios'
-import { get, set } from 'local-storage'
+// ** Next Import
+import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { withAuth } from 'src/@core/utils/AuthCheck'
 
-// ** Icons Imports
+// ** Material UI Imports
+import {
+  Box,
+  Breadcrumbs,
+  Button,
+  Card,
+  Container,
+  FormControl,
+  Grid,
+  Hidden,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  Tab,
+  TextField,
+  Typography,
+  Chip
+} from '@mui/material'
+
+// ** Material UI Tabs Imports
+import { TabContext, TabList, TabPanel } from '@mui/lab'
+
+// ** Material-UI Icons Imports
+import LocalAtmIcon from '@mui/icons-material/LocalAtm'
+import StorefrontIcon from '@mui/icons-material/Storefront'
+
+// ** Material Design Icons Imports
 import Plus from 'mdi-material-ui/Plus'
+import CircleSmall from 'mdi-material-ui/CircleSmall'
 import ChevronRight from 'mdi-material-ui/ChevronRight'
 
-// ** Data Grid Columns
-const columns = [
-  { field: 'product_id', headerName: 'product ID  ', width: 90 },
-  { field: 'product_name', headerName: 'Name ', width: 350 },
-  { field: 'product_count', headerName: 'amount ', width: 180 }
-]
+// ** MUI X Imports
+import { DataGrid } from '@mui/x-data-grid'
+
+// ** Axios Import
+import axios from 'axios'
+
+// ** Local Storage Import
+import { get } from 'local-storage'
+
+// ** Components Imports
+import Orders from './orders'
+import OrdersReq from './ordersReq'
+import Requirement from './requirement'
+
+// ** Auth Check
+import { withAuth } from 'src/@core/utils/AuthCheck'
 
 const MyMarket = () => {
+  // set tabpanel State
   const [value, setValue] = useState('1')
 
   // ** Switch Alert Import
@@ -50,12 +69,12 @@ const MyMarket = () => {
   const [productdata, setProductData] = useState([])
   const [selectedCategory, setSelectedCategory] = useState('')
   const [storeStatus, setStoreStatus] = useState('')
+  const [marketname, setMarketname] = useState('')
   const [subId, setSubId] = useState('') // เก็บค่า Sub Id
-
-  // console.log('สถานะร้านค้า', productdata)
 
   // ตัวแปรควบคุม State
   const [searchText, setSearchText] = useState('') //state สำหรับเก็บข้อมูลการค้นหา
+  const [shouldFetchData, setShouldFetchData] = useState(true) // state control fate data
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -63,18 +82,30 @@ const MyMarket = () => {
 
   const initialProductData = useRef([]) // เก็บค่าเริ่มต้นของข้อมูลสินค้า
 
-  // เก็บค่าข้อมูลประเภทสินค้าที่ไม่ซํ้ากัน
-  const uniqueCategoryIds = Array.from(
-    new Set(initialProductData.current ? initialProductData.current.map(category => category.category_id) : [])
-  )
+  //-------------------------------------------ฟังก์ชันจัดการค่าซํ้าใน Select Search--------------------------------------//
+
+  // สร้าง Map สำหรับเก็บ category_id และ category_name
+  const categoryMap = new Map()
+
+  initialProductData.current.forEach(product => {
+    categoryMap.set(product.category_id, product.category_name)
+  })
+
+  // แปลงค่า Map เป็นอาร์เรย์ของอ็อบเจ็กต์
+  const uniqueCategoryIds = Array.from(categoryMap.entries()).map(([category_id, category_name]) => ({
+    category_id,
+    category_name
+  }))
+
+  //-------------------------------------------จบฟังก์ชันจัดการค่าซํ้าใน Select Search--------------------------------------//
 
   // ฟังก์ชันตรวจสอบสถานะร้านค้าก่อนใช้งานหน้านี้
   useEffect(() => {
     if (storeStatus === '0') {
       Swal.fire({
         icon: 'error',
-        title: 'คุณโดนแบน',
-        text: 'คุณถูกแบนการเข้าใช้งาน'
+        title: 'You are banned.',
+        text: 'You are prohibited from accessing.'
       })
 
       // Redirect ไปหน้า /
@@ -82,8 +113,8 @@ const MyMarket = () => {
     } else if (storeStatus === '1') {
       Swal.fire({
         icon: 'info',
-        title: 'กรุณารอการดำเนินการ',
-        text: 'บัญชีของคุณกำลังรอการอนุมัติ'
+        title: 'Please wait for processing.',
+        text: 'Your account is waiting for approval.'
       })
 
       // Redirect ไปหน้า /
@@ -95,7 +126,10 @@ const MyMarket = () => {
   // ฟังก์ชันจัดการ Select Dropdown
   const handleCategoryChange = event => {
     setSelectedCategory(event.target.value)
-    const filteredData = initialProductData.current.filter(product => product.category_id === event.target.value)
+
+    // ค้นหาข้อมูลโดยใช้ selectedCategory (เป็น category_id)
+    const categoryId = event.target.value
+    const filteredData = initialProductData.current.filter(product => product.category_id === categoryId)
     setProductData(filteredData)
   }
 
@@ -112,6 +146,292 @@ const MyMarket = () => {
     setSelectedCategory('')
   }
 
+  // ฟังก์ชันลบข้อมูล
+  const handleDelete = primary => {
+    Swal.fire({
+      title: 'You Want to Delete Data?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No'
+    }).then(result => {
+      if (result.isConfirmed) {
+        const data = {
+          table: 'tabproducts',
+          primary: primary
+        }
+
+        if (primary !== '') {
+          axios
+            .put(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.delete.ban`, data)
+            .then(function (response) {
+              console.log(response)
+
+              Swal.fire({
+                icon: 'success',
+                title: 'Delete Success'
+              })
+
+              setShouldFetchData(true)
+            })
+            .catch(function (error) {
+              console.log(error)
+
+              Swal.fire({
+                icon: 'error',
+                title: 'Erroe'
+              })
+            })
+        } else {
+          console.log('Error')
+        }
+      } else if (result.isDenied) {
+        console.log('cancelled Error')
+      }
+    })
+  }
+
+  // ฟังก์ชันเปลี่ยนสถานะ - ขาย
+  const handleSellingClick = async (e, product_id) => {
+    e.preventDefault()
+
+    console.log('product_id', product_id)
+
+    const data = {
+      product_id: product_id
+    }
+
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.product.active_sell_product`, data)
+      console.log(response)
+      Swal.fire({
+        icon: 'success',
+        title: 'Send Data Success'
+      })
+      setShouldFetchData(true)
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error'
+      })
+      console.log(error)
+    }
+  }
+
+  // ฟังก์ชันเปลี่ยนสถานะ - ยกเลิกการขาย
+  const handleUnsellingClick = (e, product_id) => {
+    e.preventDefault()
+
+    Swal.fire({
+      title: 'You Want to Unselling This Product?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No'
+    }).then(result => {
+      if (result.isConfirmed) {
+        const data = {
+          product_id: product_id
+        }
+        if (product_id !== '') {
+          axios
+            .put(`${process.env.NEXT_PUBLIC_API}TCTM.product.active_not_sell_product`, data)
+            .then(function (response) {
+              console.log(response)
+              Swal.fire({
+                icon: 'success',
+                title: 'Unselling Success'
+              })
+              setShouldFetchData(true)
+            })
+            .catch(function (error) {
+              console.log(error)
+              Swal.fire({
+                icon: 'error',
+                title: 'Erroe'
+              })
+            })
+        } else {
+          console.log('Error')
+        }
+      } else if (result.isDenied) {
+        console.log('cancelled Error')
+      }
+    })
+  }
+
+  // ** Data Grid Columns
+  const columns = [
+    { field: 'category_name', headerName: 'Category  ', width: 90 },
+    { field: 'product_name', headerName: 'Name ', width: 350 },
+    { field: 'product_count', headerName: 'Amount ', width: 180 },
+    {
+      field: 'product_status',
+      headerName: 'Status ',
+      width: 180,
+      renderCell: params => {
+        const subStatus = params.value // ค่าที่อยู่ในช่อง "สถานะไอดี"
+        let chipColor = 'default'
+        let chipLabel = ''
+
+        if (subStatus === '2') {
+          chipColor = 'success'
+          chipLabel = 'Selling'
+        } else if (subStatus === '3') {
+          chipColor = 'info'
+          chipLabel = 'Promote'
+        } else if (subStatus === '1') {
+          chipColor = 'warning'
+          chipLabel = 'Wait TCTM Approve'
+        } else if (subStatus === '4') {
+          chipColor = 'default'
+          chipLabel = 'UnSelling..'
+        } else {
+          chipColor = 'default'
+          chipLabel = 'Unknown'
+        }
+
+        return <Chip label={chipLabel} color={chipColor} />
+      }
+    },
+    {
+      field: 'Detail',
+      headerName: 'Detail',
+      width: 120,
+      renderCell: params => (
+        <Button
+          variant='contained'
+          color='success'
+          className='btn btn-danger'
+          style={{ marginRight: '5px' }}
+          onClick={() => {
+            router.push(`/market/product_detail/?product_id=${params.row.product_id}`)
+          }}
+        >
+          Detail
+        </Button>
+      )
+    },
+    {
+      field: 'Selling',
+      headerName: 'Selling',
+      width: 120,
+      renderCell: params => (
+        <Button
+          variant='contained'
+          color='success'
+          className='btn btn-danger'
+          style={{ marginRight: '5px' }}
+          onClick={e => handleSellingClick(e, params.row.product_id)}
+          disabled={params.row.product_status !== '4'}
+        >
+          Selling
+        </Button>
+      )
+    },
+    {
+      field: 'UnSelling',
+      headerName: 'UnSelling',
+      width: 120,
+      renderCell: params => (
+        <Button
+          variant='contained'
+          color='warning'
+          className='btn btn-danger'
+          style={{ marginRight: '5px' }}
+          onClick={e => handleUnsellingClick(e, params.row.product_id)}
+        >
+          Unselling
+        </Button>
+      )
+    },
+    {
+      field: 'actions',
+      headerName: 'Delete',
+      width: 120,
+      renderCell: params => (
+        <Button
+          variant='contained'
+          color='error'
+          className='btn btn-danger'
+          style={{ marginRight: '5px' }}
+          onClick={e => handleDelete(params.row.product_id, e)}
+        >
+          Delete
+        </Button>
+      )
+    }
+  ]
+
+  const SearchMenu = () => {
+    return (
+      <Grid container spacing={3}>
+        <Grid item xl={2} lg={2} md={2} sm={12} xs={12}>
+          <FormControl fullWidth size='small' variant='outlined' sx={{ maxHeight: '42px', height: '42px' }}>
+            <InputLabel id='demo-simple-select-outlined-label'>Category</InputLabel>
+            <Select
+              labelId='demo-simple-select-outlined-label'
+              id='demo-simple-select-outlined'
+              value={selectedCategory}
+              onChange={handleCategoryChange}
+              label='Category'
+            >
+              {uniqueCategoryIds && uniqueCategoryIds.length > 0 ? (
+                uniqueCategoryIds.map(category => (
+                  <MenuItem key={category.category_id} value={category.category_id}>
+                    {category.category_name}
+                  </MenuItem>
+                ))
+              ) : (
+                <MenuItem disabled>No Data</MenuItem>
+              )}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xl={3} lg={3} md={3} sm={8} xs={8}>
+          <TextField
+            fullWidth
+            size='small'
+            label='Search'
+            variant='outlined'
+            value={searchText}
+            onChange={e => {
+              handleSearch(e.target.value)
+              setSearchText(e.target.value)
+            }}
+          />
+        </Grid>
+        <Grid item xl={1} lg={1} md={1} sm={4} xs={4}>
+          <Button fullWidth size='small' variant='outlined' onClick={handleReset} sx={{ height: '100%' }}>
+            Reset
+          </Button>
+        </Grid>
+        <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
+          <Stack direction='row' spacing={2} justifyContent='flex-end'>
+            <Button
+              variant='contained'
+              color='primary'
+              startIcon={<Plus />}
+              onClick={() => {
+                router.push(`/market/add-product/?sub_id=${subId}`)
+              }}
+              sx={{ width: { xs: '100%', md: '180px' }, height: '100%' }}
+            >
+              Add Product
+            </Button>
+          </Stack>
+        </Grid>
+        <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+          <Box sx={{ display: 'flex', flexDirection: 'row', paddingLeft: 1 }}>
+            <Typography variant='body1' fontSize='1.5rem bold' color='#000'>
+              {productdata && productdata.length > 0 ? productdata.length : 0} Products
+            </Typography>
+          </Box>
+        </Grid>
+      </Grid>
+    )
+  }
+
   // เก็บค่าข้อมูลลง Api
   useEffect(() => {
     const fetchData = async () => {
@@ -125,6 +445,7 @@ const MyMarket = () => {
         // console.log('หาค่า Sub_id', response.data.message.MarketData[0].sub_id)
         setSubId(response.data.message.MarketData[0].sub_id)
         setStoreStatus(response.data.message.MarketData[0].sub_status)
+        setMarketname(response.data.message.MarketData[0].sub_name)
 
         initialProductData.current = response.data.message.Data
         setProductData(initialProductData.current)
@@ -134,181 +455,105 @@ const MyMarket = () => {
     }
 
     fetchData()
-  }, [userId])
+
+    if (shouldFetchData) {
+      fetchData()
+      setShouldFetchData(false)
+    }
+  }, [userId, shouldFetchData])
 
   return (
     <Container maxWidth='xl'>
       <Box>
-        {/* แทบไปหน้าต่างๆ */}
-        <Box sx={{ width: '100%', marginBottom: '29px' }}>
-          <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb'>
-            <Link underline='hover' color='inherit' href='/'>
-              Home
-            </Link>
-            <Link underline='hover' color='inherit' href='/market/'>
-              My Market
-            </Link>
-          </Breadcrumbs>
-        </Box>
-
         <Box sx={{ width: '100%' }}>
-          <Typography variant='h4' fontSize={36}>
-            My Market
-          </Typography>
-        </Box>
-
-        <Box sx={{ width: '100%', marginY: 8, paddingLeft: { xl: 6, lg: 6, md: 0 } }}>
-          <Grid container spacing={6}>
-            {/* ที่กรอกข้อมูล */}
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <Box sx={{ width: '100%', bgcolor: '#fff', borderRadius: '7px', padding: 4 }}>
-                <Grid container sx={{ marginBottom: 4 }}>
-                  <Grid item xl={6} md={6} sm={12} xs={12}>
-                    <FormControl fullWidth variant='standard' sx={{ width: '90%' }}>
-                      <Typography variant='h6' fontSize={18}>
-                        Product Name
-                      </Typography>
-                      <TextField
-                        size='small'
-                        id='outlined-basic'
-                        variant='outlined'
-                        value={searchText}
-                        onChange={e => setSearchText(e.target.value)}
-                      />
-                    </FormControl>
-                  </Grid>
-                  <Grid item xl={6} md={6} sm={12} xs={12}>
-                    <FormControl fullWidth variant='standard' sx={{ width: '90%' }}>
-                      <Typography variant='h6' fontSize={18}>
-                        Product Category
-                      </Typography>
-                      <Select
-                        size='small'
-                        labelId='category-label'
-                        id='category-select'
-                        value={selectedCategory} // The selected category_id
-                        onChange={handleCategoryChange} // Function to handle category change
-                        label='Product Category'
-                      >
-                        {uniqueCategoryIds.map(categoryId => {
-                          const selectedCategory = initialProductData.current.find(
-                            category => category.category_id === categoryId
-                          )
-
-                          return (
-                            <MenuItem key={categoryId} value={categoryId}>
-                              {selectedCategory.category_name}
-                            </MenuItem>
-                          )
-                        })}
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                </Grid>
-
-                {/* ปุ่ม */}
-                <Grid container>
-                  <Grid item xl={6} md={6} sm={12} xs={12}>
-                    <Box
-                      sx={{
-                        width: '90%',
-                        display: 'flex',
-                        direction: 'row',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        marginBottom: { sm: 2, xs: 2 }
-                      }}
-                    >
-                      <Button variant='contained' color='primary' onClick={handleSearch}>
-                        Search
-                      </Button>
-                      <Button variant='contained' color='primary' onClick={handleReset}>
-                        Reset
-                      </Button>
-                    </Box>
-                  </Grid>
-                  <Grid item xl={6} md={6} sm={12} xs={12}>
-                    <Box sx={{ width: '90%' }}>
-                      <Button
-                        variant='contained'
-                        color='primary'
-                        startIcon={<Plus />}
-                        onClick={() => {
-                          router.push(`/market/add-product/?sub_id=${subId}`)
-                        }}
-                      >
-                        Add Product
-                      </Button>
-                    </Box>
-                  </Grid>
-                </Grid>
-              </Box>
-            </Grid>
-
-            {/* ผลรวม Product */}
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <Box sx={{ width: '100%' }}>
-                <Box
-                  sx={{
-                    width: { xl: '50%', lg: '50%', md: '50%', sm: '100%' },
-                    height: '163px',
-                    bgcolor: '#fff',
-                    borderRadius: '7px',
-                    padding: 4
-                  }}
-                >
-                  <Typography variant='h3' fontSize={34} align='center' sx={{ marginBottom: 4 }}>
-                    Product List
+          <Card
+            sx={{
+              height: '100px',
+              marginBottom: '30px',
+              padding: '15px 25px 20px',
+              backgroundColor: '#2d2e81',
+              border: '1px solid #primary.main'
+            }}
+          >
+            <Grid container alignItems='center'>
+              <Grid item xs={12} sm={8} md={8}>
+                <Typography variant='h4' fontSize='21px bold' color='#fff'>
+                  Management : {marketname}
+                </Typography>
+                <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
+                  <Link href='/' passHref>
+                    <Typography color='#fff' variant='h6' fontSize='14px'>
+                      Home
+                    </Typography>
+                  </Link>
+                  <Typography color='#fff' variant='h6' fontSize='14px'>
+                    Market Management
                   </Typography>
-                  <Typography variant='h2' fontSize={54} align='center'>
-                    {productdata && productdata.length > 0 ? productdata.length : 0}
-                  </Typography>
-                </Box>
-              </Box>
+                </Breadcrumbs>
+              </Grid>
+              <Hidden smDown>
+                <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <StorefrontIcon sx={{ fontSize: 72, color: '#fff' }} />
+                </Grid>
+              </Hidden>
             </Grid>
-          </Grid>
+          </Card>
         </Box>
-
-        {/* ตารางแสดงข้อมูล */}
-        <Box sx={{ width: '100%', typography: 'body1', bgcolor: '#fff', borderRadius: '7px' }}>
+        {/* ---------- content ---------- */}
+        <Card variant='outlined'>
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <TabList onChange={handleChange} aria-label='lab API tabs example'>
-                <Tab label='All Product' value='1' />
-                <Tab label='Distribution' value='2' />
-                <Tab label='Sell out' value='3' />
+                <Tab label='Products' value='1' />
+                <Tab label='Product Orders' value='2' />
+                <Tab label='Product Requirement Orders' value='3' />
+                <Tab label='Requirement ' value='4' />
               </TabList>
             </Box>
-            {/* ใส่ Data Grid */}
             <TabPanel value='1'>
-              <Box sx={{ width: '100%', height: '100%' }}>
-                {initialProductData.current && initialProductData.current.length > 0 ? (
-                  <DataGrid
-                    rows={productdata}
-                    columns={columns}
-                    getRowId={row => row.product_id}
-                    initialState={{
-                      pagination: {
-                        paginationModel: {
-                          pageSize: 5
-                        }
-                      }
-                    }}
-                    pageSizeOptions={[5]}
-                    disableRowSelectionOnClick
-                  />
-                ) : (
-                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-                    No Data
-                  </div>
-                )}
+              <Box sx={{ padding: '10px 10px 15px' }}>
+                <Grid container direction='columns' spacing={4}>
+                  <Grid item sx={{ width: '100%' }}>
+                    {SearchMenu()}
+                  </Grid>
+                  <Grid item sx={{ width: '100%' }}>
+                    {initialProductData.current && initialProductData.current.length > 0 ? (
+                      <DataGrid
+                        rows={productdata}
+                        columns={columns}
+                        getRowId={row => row.product_id}
+                        initialState={{
+                          pagination: {
+                            paginationModel: {
+                              pageSize: 5
+                            }
+                          }
+                        }}
+                        pageSizeOptions={[5]}
+                        disableRowSelectionOnClick
+                      />
+                    ) : (
+                      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <Typography variant='h6' fontSize='24px bold'>
+                          There are no products.
+                        </Typography>
+                      </Box>
+                    )}
+                  </Grid>
+                </Grid>
               </Box>
             </TabPanel>
-
-            <TabPanel value='2'>Item Two</TabPanel>
-            <TabPanel value='3'>Item Three</TabPanel>
+            <TabPanel value='2'>
+              <Orders subId={subId} />
+            </TabPanel>
+            <TabPanel value='3'>
+              <OrdersReq subId={subId} />
+            </TabPanel>
+            <TabPanel value='4'>
+              <Requirement sub_id={subId} />
+            </TabPanel>
           </TabContext>
-        </Box>
+        </Card>
       </Box>
     </Container>
   )

@@ -11,7 +11,7 @@ export const config = {
 export default async (req, res) => {
   const form = new IncomingForm()
 
-  const newPath = 'D:/Work T/RealMarketplace/TCTM-Marketplace/public/imgTctmProduct' // กำหนดตำแหน่งที่ต้องการเก็บไฟล์ให้กับ newPath
+  const newPath = 'public/imgTctmProduct'
 
   form.parse(req, async (err, fields, files) => {
     if (err) {

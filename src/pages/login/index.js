@@ -5,24 +5,28 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-// ** MUI Components
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Switch from '@mui/material/Switch'
-import Divider from '@mui/material/Divider'
-import TextField from '@mui/material/TextField'
-import InputLabel from '@mui/material/InputLabel'
-import Typography from '@mui/material/Typography'
-import IconButton from '@mui/material/IconButton'
-import CardContent from '@mui/material/CardContent'
-import FormControl from '@mui/material/FormControl'
-import OutlinedInput from '@mui/material/OutlinedInput'
-import { styled, useTheme } from '@mui/material/styles'
-import MuiCard from '@mui/material/Card'
-import InputAdornment from '@mui/material/InputAdornment'
-import MuiFormControlLabel from '@mui/material/FormControlLabel'
+// ** Material UI Imports
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  FormControl,
+  Grid,
+  Hidden,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  TextField,
+  Typography
+} from '@mui/material'
+import { styled } from '@mui/system'
 
-// ** Icons Imports
+// ** Material UI Icons Imports
+
+// ** Material Design Icons Imports
 import EyeOutline from 'mdi-material-ui/EyeOutline'
 import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 
@@ -32,16 +36,39 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 // ** Axios Import
 import axios from 'axios'
 
-// ** jwt
-import { createToken, verifyToken } from '../../@core/utils/auth'
+// ** JSON Web Token Imports
 import Cookies from 'js-cookie'
+import { createToken, verifyToken } from '../../@core/utils/auth'
+
+// ** Components view Import
+import LoadingLogin from 'src/views/login/Loading'
 
 // ** Switch Alert Import
-const Swal = require('sweetalert2')
+const SwitchAlert = require('sweetalert2')
 
 // ** Styled Components
-const Card = styled(MuiCard)(({ theme }) => ({
-  [theme.breakpoints.up('sm')]: { width: '28rem' }
+const Background = styled(Box)(() => ({
+  width: '100%',
+  height: '100%',
+  background: '#EBF3FE',
+  background: 'linear-gradient(90deg, #244270 0%, #FFFFFF 0%, #afc7e1 100%);',
+  backgroundSize: '200% 200%',
+  animation: 'background 6s ease infinite',
+  '@keyframes background': {
+    '0%': {
+      backgroundPosition: '0% 50%'
+    },
+    '50%': {
+      backgroundPosition: '100% 50%'
+    },
+    '100%': {
+      backgroundPosition: '0% 50%'
+    }
+  }
+}))
+
+const CardStyled = styled(Card)(({ theme }) => ({
+  [theme.breakpoints.up('sm')]: { width: '38rem' }
 }))
 
 const LinkStyled = styled('a')(({ theme }) => ({
@@ -50,48 +77,31 @@ const LinkStyled = styled('a')(({ theme }) => ({
   color: theme.palette.primary.main
 }))
 
-const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
-  '& .MuiFormControlLabel-label': {
-    fontSize: '0.875rem',
-    color: theme.palette.text.secondary
-  }
-}))
-
 const LoginPage = () => {
-  // ประกาศตัวแปรเพื่อเก็บค่า
-  const [user, setUser] = useState('') //เก็บค่า User
-  const [password, setPassword] = useState('') //เก็บค่า Password
-  const [responsedata, setResponseData] = useState('') // เก็บค่า data ที่จะเอาไปฝังใน local Storage
-
   // ** State
+  const [user, setUser] = useState('') // User
+  const [password, setPassword] = useState('') // Password
+  const [responseData, setResponseData] = useState('') // เก็บค่า Data ที่จะเอาไปฝังใน Local Storage
+  const [verificationComplete, setVerificationComplete] = useState(false)
+
   const [values, setValues] = useState({
     password: '',
     showPassword: false
   })
 
   // ** Hook
-  const theme = useTheme()
   const router = useRouter()
 
-  // รีค่า token ทุกครั้งที่เข้ามาหน้านี้
-  // useEffect(() => {
-  //   Cookies.remove('jwt')
-  // }, [])
-
-  // เช็คค่า Cookie
-  const [verificationComplete, setVerificationComplete] = useState(false)
+  // Check value Cookie
   useEffect(() => {
-    const token = Cookies.get('jwt') // Get token from cookie or local storage
+    const token = Cookies.get('jwt')
 
     if (token) {
-      // If not logged in, redirect to login page
       router.push('/')
     } else {
-      // Verify the token
-      const decodedToken = verifyToken(token) // Use your verification function
+      const decodedToken = verifyToken(token)
 
       if (decodedToken) {
-        // Invalid token, redirect to login page
         router.push('/')
       } else {
         setVerificationComplete(true)
@@ -99,10 +109,12 @@ const LoginPage = () => {
     }
   }, [router])
 
+  // Loading page
   if (!verificationComplete) {
-    return <div>Loading...</div>
+    return <LoadingLogin />
   }
 
+  // ** Function
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword })
   }
@@ -111,7 +123,6 @@ const LoginPage = () => {
     event.preventDefault()
   }
 
-  // ฟังก์ชันเก็บค่าตัวแปร
   const handleSetUser = event => {
     setUser(event.target.value)
   }
@@ -141,7 +152,6 @@ const LoginPage = () => {
       .then(response => {
         if (response.data.message) {
           const receivedStatus = response.data.message.Message
-          console.log('ข้อมูล Cabill', response.data.message.Data[0])
           if (receivedStatus === 'OK') {
             const userData = response.data.message.Data[0].user_role
 
@@ -153,12 +163,12 @@ const LoginPage = () => {
 
             setResponseData(userData)
 
-            const Roledata = {
+            const RoleData = {
               Role: userData
             }
 
             // Create a JWT
-            const token = createToken(Roledata)
+            const token = createToken(RoleData)
 
             // Store the token in local storage
             localStorage.setItem('jwt', token)
@@ -169,29 +179,29 @@ const LoginPage = () => {
 
             // Store the token in a cookie
             Cookies.set('jwt', token)
-            Swal.fire({
+            SwitchAlert.fire({
               icon: 'success',
               title: 'Login Success',
               showConfirmButton: false,
               timer: 1000
             }).then(router.push(`/`))
           } else if (receivedStatus === 'Banned') {
-            Swal.fire({
+            SwitchAlert.fire({
               icon: 'error',
-              title: 'คุณโดนแบน',
-              text: 'คุณถูกแบนการเข้าใช้งาน'
+              title: 'You are Banned',
+              text: 'You have been Banned.'
             })
           } else if (receivedStatus === 'Wait approve') {
-            Swal.fire({
+            SwitchAlert.fire({
               icon: 'info',
-              title: 'กรุณารอการดำเนินการ',
-              text: 'บัญชีของคุณกำลังรอการอนุมัติ'
+              title: 'Please wait',
+              text: 'Your account is waiting for approval.'
             })
           } else {
-            Swal.fire({
+            SwitchAlert.fire({
               icon: 'error',
-              title: 'ไม่พบข้อมูล',
-              text: 'คุณกรอก User หรือ รหัสผ่านผิด'
+              title: 'No information found',
+              text: 'You entered the wrong Email or Password.'
             })
           }
         }
@@ -199,89 +209,115 @@ const LoginPage = () => {
       .catch(error => {
         console.error(error)
 
-        Swal.fire({
+        SwitchAlert.fire({
           icon: 'error',
-          title: 'Log in ล้มเหลว...',
-          text: 'มีข้อผิดพลาดในการเรียก API'
+          title: 'Log in failed...',
+          text: 'Error calling API'
         })
       })
   }
 
   return (
-    <Box className='content-center' sx={{ display: 'flex', flexDirection: 'column' }}>
-      <img src='/images/cards/LOGO_TCTM_2.png' alt='logo' width='320px' />
-      {/* <Typography variant='h4' sx={{ fontWeight: 'bold', marginTop: 2 }}>
-        TCTM
-      </Typography> */}
-      <Card sx={{ zIndex: 1, marginTop: 3, borderRadius: '34px' }}>
-        <CardContent sx={{ padding: theme => `${theme.spacing(12, 9, 0)} !important` }}>
-          <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-            <TextField
-              autoFocus
-              fullWidth
-              id='email'
-              label='Email address'
-              sx={{ marginBottom: 4 }}
-              onChange={handleSetUser}
-              InputProps={{
-                style: {
-                  borderRadius: '10px'
-                }
-              }}
-            />
-            <FormControl fullWidth>
-              <InputLabel htmlFor='auth-login-password'>Password</InputLabel>
-              <OutlinedInput
-                label='Password'
-                value={values.password}
-                id='auth-login-password'
-                onChange={handleSetPassword('password')}
-                type={values.showPassword ? 'text' : 'password'}
-                style={{ borderRadius: '10px' }}
-                endAdornment={
-                  <InputAdornment position='end'>
-                    <IconButton
-                      edge='end'
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      aria-label='toggle password visibility'
-                    >
-                      {values.showPassword ? <EyeOutline /> : <EyeOffOutline />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
-            <Box sx={{ mb: 4 }}>
-              <Link passHref href='/'>
-                <LinkStyled onClick={e => e.preventDefault()}>Forgot Password?</LinkStyled>
-              </Link>
-            </Box>
-            <Button
-              fullWidth
-              size='large'
-              variant='contained'
-              sx={{ marginBottom: 2 }}
-              style={{ borderRadius: '10px' }}
-              onClick={handleSubmitData}
-            >
-              Sign in
-            </Button>
-            <Box sx={{ mb: 4 }}>
-              <FormControlLabel control={<Switch />} label='Remember Me' />
-            </Box>
-          </form>
+    <Background className='content-center'>
+      <CardStyled sx={{ zIndex: 1 }}>
+        <CardContent>
+          <Grid container spacing={3} justifyContent='center' alignItems='center'>
+            <Grid item xs={12}>
+              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <CardMedia
+                  component='img'
+                  image='https://media.discordapp.net/attachments/1143783715877703833/1152162375529676861/tctm-logo.png?width=711&height=702'
+                  alt='logo'
+                  sx={{ width: '80px' }}
+                />
+              </Box>
+            </Grid>
+            <Hidden only='xs'>
+              <Grid item xs={12}>
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <Typography variant='h4' color='#2D2E81' sx={{ fontWeight: 600 }}>
+                    Welcome to <span style={{ color: '#BF1522' }}>TCTM</span> marketplace
+                  </Typography>
+                </Box>
+              </Grid>
+            </Hidden>
+            <Grid item xs={12}>
+              <Box sx={{ width: '100%', marginBottom: 2 }}>
+                <Typography variant='h5' textAlign='center' sx={{ fontWeight: 600 }}>
+                  Login to your account
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12}>
+              <Box sx={{ width: '100%' }}>
+                <TextField
+                  fullWidth
+                  id='email'
+                  label='Email'
+                  variant='outlined'
+                  onChange={handleSetUser}
+                  InputProps={{
+                    style: {
+                      borderRadius: '10px'
+                    }
+                  }}
+                />
+              </Box>
+            </Grid>
+            <Grid item xs={12}>
+              <Box sx={{ width: '100%' }}>
+                <FormControl fullWidth variant='outlined'>
+                  <InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
+                  <OutlinedInput
+                    id='outlined-adornment-password'
+                    label='Password'
+                    value={values.password}
+                    type={values.showPassword ? 'text' : 'password'}
+                    onChange={handleSetPassword('password')}
+                    endAdornment={
+                      <InputAdornment position='end'>
+                        <IconButton
+                          edge='end'
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          aria-label='toggle password visibility'
+                        >
+                          {values.showPassword ? <EyeOutline /> : <EyeOffOutline />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    sx={{ marginBottom: 4, borderRadius: '10px' }}
+                  />
+                </FormControl>
+              </Box>
+            </Grid>
+            <Grid item xs={12}>
+              <Box sx={{ width: '100%' }}>
+                <Button
+                  fullWidth
+                  variant='contained'
+                  color='primary'
+                  onClick={handleSubmitData}
+                  sx={{ borderRadius: '10px' }}
+                >
+                  Sign In
+                </Button>
+              </Box>
+            </Grid>
+            <Grid item xs={12}>
+              <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
+                <Typography variant='body2' sx={{ marginRight: 2 }}>
+                  Not a member?{' '}
+                </Typography>
+                <Link href='/member/register' passHref>
+                  <LinkStyled> Register</LinkStyled>
+                </Link>
+              </Box>
+            </Grid>
+          </Grid>
         </CardContent>
-        <Divider />
-        <Box sx={{ paddingX: 9, paddingTop: 3, paddingBottom: 5 }}>
-          <Link passHref href='/member/register'>
-            <Button fullWidth variant='outlined' style={{ borderRadius: '10px' }}>
-              Register
-            </Button>
-          </Link>
-        </Box>
-      </Card>
-    </Box>
+      </CardStyled>
+    </Background>
   )
 }
 LoginPage.getLayout = page => <BlankLayout>{page}</BlankLayout>

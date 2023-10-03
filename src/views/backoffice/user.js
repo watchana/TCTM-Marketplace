@@ -9,7 +9,7 @@ const User = () => {
   const [Userlist, setUserlist] = useState([])
 
   useEffect(() => {
-    axios.get('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.users.alluser').then(response => {
+    axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.users.alluser`).then(response => {
       // console.log('setUser:', response.data.message.Data)
       setUserlist(response.data.message.Data)
     })
@@ -21,7 +21,7 @@ const User = () => {
 
   const fetchUserData = () => {
     axios
-      .get('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.users.alluser')
+      .get(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.users.alluser`)
       .then(response => {
         setUserlist(response.data.message.Data)
       })
@@ -35,7 +35,7 @@ const User = () => {
     console.log(`Ban account with ID ${account_id}`)
 
     axios
-      .post('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.users.banuser', {
+      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.users.banuser`, {
         account_id,
         user_id: member_id // ส่ง account_id ไปที่ API
       })
@@ -55,7 +55,7 @@ const User = () => {
     console.log(`Unban account with ID ${account_id}`)
 
     axios
-      .post('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.users.unbanuser', {
+      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.users.unbanuser`, {
         account_id,
         user_id: member_id // ส่ง account_id ไปที่ API
       })
@@ -89,7 +89,7 @@ const User = () => {
         { field: 'account_id', headerName: 'ID', width: 120 },
         {
           field: 'account_status',
-          headerName: 'สถานะไอดี',
+          headerName: 'ID status',
           width: 120,
           renderCell: params => {
             const subStatus = params.value // ค่าที่อยู่ในช่อง "สถานะไอดี"
@@ -98,33 +98,33 @@ const User = () => {
 
             if (subStatus === '1') {
               chipColor = 'warning'
-              chipLabel = 'รอการยืนยัน'
+              chipLabel = 'Waiting'
             } else if (subStatus === '2') {
               chipColor = 'success'
-              chipLabel = 'ปกติ'
+              chipLabel = 'Normal'
             } else if (subStatus === '0') {
               chipColor = 'error'
-              chipLabel = 'โดนแบน'
+              chipLabel = 'Banned'
             }
 
             return <Chip label={chipLabel} color={chipColor} />
           }
         },
-        { field: 'member_id', headerName: 'รหัสซัพาย', width: 80 },
-        { field: 'sub_id', headerName: 'รหัสมาชิก', width: 80 },
-        { field: 'user_company', headerName: 'บริษัท', width: 150 },
-        { field: 'user_first_name', headerName: 'ชื่อ', width: 150 },
-        { field: 'user_last_name', headerName: 'นามสกุล', width: 80 },
-        { field: 'user_role', headerName: 'กลุ่ม', width: 80 },
+        { field: 'member_id', headerName: 'ID Supply', width: 100 },
+        { field: 'sub_id', headerName: 'ID Member', width: 100 },
+        { field: 'user_company', headerName: 'Company', width: 150 },
+        { field: 'user_first_name', headerName: 'Name', width: 150 },
+        { field: 'user_last_name', headerName: 'Surname', width: 80 },
+        { field: 'user_role', headerName: 'Type', width: 80 },
         {
           field: 'actions',
-          headerName: 'ปุ่ม',
+          headerName: 'Actions',
           width: 400, // ปรับขนาดตามความต้องการ
           renderCell: params => (
             <div>
               <Button
                 variant='contained'
-                color='success'
+                color='error'
                 className='btn btn-info'
                 style={{ marginRight: '5px' }}
                 onClick={() => {

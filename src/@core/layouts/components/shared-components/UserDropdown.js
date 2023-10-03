@@ -23,6 +23,10 @@ import AccountOutline from 'mdi-material-ui/AccountOutline'
 import MessageOutline from 'mdi-material-ui/MessageOutline'
 import HelpCircleOutline from 'mdi-material-ui/HelpCircleOutline'
 import StorefrontPlusOutline from 'mdi-material-ui/StorefrontPlusOutline'
+import ChairRolling from 'mdi-material-ui/ChairRolling'
+import DataThresholdingIcon from '@mui/icons-material/DataThresholding'
+import HowToRegIcon from '@mui/icons-material/HowToReg'
+import FactCheckIcon from '@mui/icons-material/FactCheck'
 
 // Import Cookie
 import Cookies from 'js-cookie'
@@ -147,18 +151,18 @@ const UserDropdown = () => {
           </Box>
         </Box>
         <Divider sx={{ mt: 0, mb: 1 }} />
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+        {/* ปุ่ม User */}
+        <MenuItem
+          sx={{ p: 0 }}
+          onClick={() => handleDropdownClose('/member/account-settings')}
+          style={{ display: role === 'USER' ? 'block' : 'none' }}
+        >
           <Box sx={styles}>
             <AccountOutline sx={{ marginRight: 2 }} />
-            Profile
+            User
           </Box>
         </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <EmailOutline sx={{ marginRight: 2 }} />
-            Inbox
-          </Box>
-        </MenuItem>
+
         {/* ปุ่ม registration-supplier */}
         <MenuItem
           sx={{ p: 0 }}
@@ -181,6 +185,17 @@ const UserDropdown = () => {
             My Market
           </Box>
         </MenuItem>
+        {/* ปุ่มหน้า Dashboard TCTM */}
+        <MenuItem
+          sx={{ p: 0 }}
+          onClick={() => handleDropdownClose('/tctm/dashboard/')}
+          style={{ display: role === 'TCTM' || role === 'ADMIN' ? 'block' : 'none' }}
+        >
+          <Box sx={styles}>
+            <DataThresholdingIcon sx={{ marginRight: 2 }} />
+            Dashboard
+          </Box>
+        </MenuItem>
         {/* ปุ่ม Approve */}
         <MenuItem
           sx={{ p: 0 }}
@@ -188,7 +203,7 @@ const UserDropdown = () => {
           style={{ display: role === 'TCTM' || role === 'ADMIN' ? 'block' : 'none' }}
         >
           <Box sx={styles}>
-            <CurrencyUsd sx={{ marginRight: 2 }} />
+            <HowToRegIcon sx={{ marginRight: 2 }} />
             Approve(TCTM)
           </Box>
         </MenuItem>
@@ -199,7 +214,7 @@ const UserDropdown = () => {
           style={{ display: role === 'ADMIN' ? 'block' : 'none' }}
         >
           <Box sx={styles}>
-            <CurrencyUsd sx={{ marginRight: 2 }} />
+            <FactCheckIcon sx={{ marginRight: 2 }} />
             Manage Category
           </Box>
         </MenuItem>
@@ -210,24 +225,18 @@ const UserDropdown = () => {
           style={{ display: role === 'ADMIN' ? 'block' : 'none' }}
         >
           <Box sx={styles}>
-            <CurrencyUsd sx={{ marginRight: 2 }} />
+            <ChairRolling sx={{ marginRight: 2 }} />
             Backoffice
           </Box>
         </MenuItem>
         <Divider />
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+        {/* ปุ่ม contact */}
+        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/')}>
           <Box sx={styles}>
-            <CogOutline sx={{ marginRight: 2 }} />
-            Settings
+            <MessageOutline sx={{ marginRight: 2 }} />
+            Contact
           </Box>
         </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <HelpCircleOutline sx={{ marginRight: 2 }} />
-            FAQ
-          </Box>
-        </MenuItem>
-        <Divider />
         <MenuItem sx={{ py: 2 }} onClick={() => handleDropdownClose('/login')}>
           <LogoutVariant sx={{ marginRight: 2, fontSize: '1.375rem', color: 'text.secondary' }} />
           Logout

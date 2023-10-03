@@ -1,5 +1,5 @@
 // ** MUI Imports
-import Box from '@mui/material/Box'
+import { Box, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 
 // ** Footer Content Component
@@ -23,20 +23,36 @@ const Footer = props => {
         zIndex: 10,
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        flexDirection: 'column',
+        backgroundColor: '#3A46A7'
       }}
     >
       <Box
         className='footer-content-container'
         sx={{
           width: '100%',
-          borderTopLeftRadius: 14,
-          borderTopRightRadius: 14,
+          borderTopLeftRadius: 2,
+          borderTopRightRadius: 2,
           padding: theme.spacing(4, 6),
           ...(contentWidth === 'boxed' && { '@media (min-width:1440px)': { maxWidth: 1440 } })
         }}
       >
         {userFooterContent ? userFooterContent(props) : <FooterContent />}
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+          backgroundColor: theme.palette.primary.main
+        }}
+      >
+        <Typography variant='body2' color='#FFF' sx={{ marginY: 1 }}>
+          © 2023 TCTM. All rights reserved.
+        </Typography>
       </Box>
     </Box>
   )

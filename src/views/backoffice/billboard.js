@@ -9,7 +9,7 @@ const Billboard = () => {
   const [Billboardlist, setBillboardlist] = useState([])
 
   useEffect(() => {
-    axios.get('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.home_page.all_billboard').then(response => {
+    axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.all_billboard`).then(response => {
       console.log('setBillboardlist:', response.data.message.Data)
       setBillboardlist(response.data.message.Data)
     })
@@ -21,7 +21,7 @@ const Billboard = () => {
 
   const fetchBillboardData = () => {
     axios
-      .get('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.home_page.all_billboard')
+      .get(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.all_billboard`)
       .then(response => {
         setBillboardlist(response.data.message.Data)
       })
@@ -35,7 +35,7 @@ const Billboard = () => {
     console.log(`Active account with ID ${bill_id}`)
 
     axios
-      .post('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.home_page.active_bill_board', {
+      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.active_bill_board`, {
         bill_id
       })
       .then(response => {
@@ -54,7 +54,7 @@ const Billboard = () => {
     console.log(`Unactive account with ID ${bill_id}`)
 
     axios
-      .post('http://111.223.38.19/api/method/frappe.API.TCTM.backoffice.home_page.unactive_bill_board', {
+      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.unactive_bill_board`, {
         bill_id
       })
       .then(response => {

@@ -1,5 +1,10 @@
+// *** React Import
 import React, { useState, useEffect } from 'react'
-import { Card, Box, Typography } from '@mui/material'
+
+// ** Material UI Imports
+import { Box, Card, Typography } from '@mui/material'
+
+// ** MUI X Imports
 import { DataGrid } from '@mui/x-data-grid'
 
 const ShowResults = ({ columnsData, rowsData }) => {
@@ -10,7 +15,7 @@ const ShowResults = ({ columnsData, rowsData }) => {
     // Generate columns based on columnsData
     const generatedColumns = columnsData.map(option => ({
       field: option.optionName,
-      headerName: option.optionName,
+      headerName: 'Product options',
       width: 300
     }))
 
@@ -47,10 +52,10 @@ const ShowResults = ({ columnsData, rowsData }) => {
 
   return (
     <Box>
-      <Typography variant='h4' gutterBottom>
-        Show Results
-      </Typography>
-      <Card sx={{ p: 8, marginBlock: 5 }}>
+      <Card variant='outlined' sx={{ p: 8, marginBlock: 5 }}>
+        <Typography variant='h4' gutterBottom>
+          Show Results
+        </Typography>
         <DataGrid rows={rows} columns={columns} getRowId={row => row.optionGroupId} />
       </Card>
     </Box>
