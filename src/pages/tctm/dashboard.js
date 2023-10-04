@@ -79,6 +79,8 @@ const DashboardTCTM = () => {
     fetchData()
   }, [])
 
+  console.log('มีอะไรให้บ้างนะ', data)
+
   return (
     <Container maxWidth='xl'>
       <Box>
@@ -110,34 +112,26 @@ const DashboardTCTM = () => {
           </Card>
         </Box>
 
-        <Grid container spacing={6}>
-          {/* ---------- Best seller of the month ---------- */}
-          <Grid item xs={12} md={4}>
-            <Trophy data={data} />
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={12} md={4}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6} md={12}>
+                <Trophy data={data} />
+              </Grid>
+              <Grid item xs={12} sm={6} md={12}>
+                <WeeklyOverview data={data} />
+              </Grid>
+            </Grid>
           </Grid>
-
-          {/* ---------- Best seller Product of the month Top 4 ---------- */}
-          <Grid item xs={12} md={8}>
+          <Grid item xs={12} md={12} lg={5}>
             <StatisticsCard data={data} />
           </Grid>
-
-          {/* ---------- Best seller Market of the month Top 4 ---------- */}
-          <Grid item xs={12} md={8}>
-            <StatisticsCardMarket data={data} />
-          </Grid>
-          {/* ----- รายได้แต่ละเดือน ----- */}
-          <Grid item xs={12} md={6} lg={4}>
-            <WeeklyOverview data={data} />
-          </Grid>
-
-          {/* ----- สถานะแต่ละสถานะ ----- */}
-          <Grid item xs={12} md={6} lg={4}>
-            <SalesByCountries Data={data} />
-          </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <Grid container spacing={6}>
-              {/* ----- ขายสินค้าทั้งหมดที่วางขาย ----- */}
-              <Grid item xs={6}>
+          <Grid item xs={12} md={12} lg={3}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6} md={12}>
+                <SalesByCountries Data={data} />
+              </Grid>
+              <Grid item xs={12} sm={6} md={6}>
                 <CardStatisticsVerticalComponent
                   stats={(data.all_product_active_in_system || 0).toString()}
                   icon={<Poll />}
@@ -146,8 +140,7 @@ const DashboardTCTM = () => {
                   subtitle='all time'
                 />
               </Grid>
-              {/* ----- ขายสินค้าไปแล้วทั้งหมด ----- */}
-              <Grid item xs={6}>
+              <Grid item xs={12} sm={6} md={6}>
                 <CardStatisticsVerticalComponent
                   stats={(
                     (data.all_selling_in_system && data.all_selling_in_system[0]?.count_invoices) ||
@@ -159,7 +152,7 @@ const DashboardTCTM = () => {
                   icon={<CurrencyUsd />}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} sm={6} md={6}>
                 <CardStatisticsVerticalComponent
                   stats={(data?.all_member_in_system?.length || 0).toString()}
                   color='warning'
@@ -168,7 +161,7 @@ const DashboardTCTM = () => {
                   icon={<PersonIcon />}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} sm={6} md={6}>
                 <CardStatisticsVerticalComponent
                   stats={(data?.all_market_in_system?.[0]?.market_count || 0).toString()}
                   color='warning'
