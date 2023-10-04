@@ -70,20 +70,10 @@ const User = () => {
       })
   }
 
-  const handleDeleteClick = (account_id, member_id) => {
-    // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Delete
-    console.log(`Delete account with ID ${account_id}`)
-  }
-
-  const handleUndeleteClick = (account_id, member_id) => {
-    // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Undelete
-    console.log(`Undelete account with ID ${account_id}`)
-  }
-
   return (
     <StyledDataGrid
       autoHeight
-      rows={Userlist.map(val => ({ ...val, id: val.account_id, sub_status: val.account_status.toString() }))} // เพิ่มคุณสมบัติ id ในแต่ละแถว
+      rows={Userlist?.map(val => ({ ...val, id: val.account_id, sub_status: val.account_status.toString() })) || []} // เพิ่มคุณสมบัติ id ในแต่ละแถว
       getRowId={account_id => account_id.id} // กำหนดให้ใช้คุณสมบัติ id เป็น id ของแถว
       columns={[
         { field: 'account_id', headerName: 'ID', width: 120 },
@@ -130,27 +120,27 @@ const User = () => {
                 onClick={() => {
                   if (params.row.account_status !== '0') {
                     Swal.fire({
-                      title: 'ต้องการที่จะแบนผู้ใช้คนนี้ไหม?',
+                      title: 'Want to ban this user??',
                       icon: 'question',
                       showCancelButton: true,
-                      confirmButtonText: 'ใช่',
-                      cancelButtonText: 'ไม่ใช่'
+                      confirmButtonText: 'yes',
+                      cancelButtonText: 'no'
                     }).then(result => {
-                      Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'แบนเรียบร้อย',
-                        showConfirmButton: false,
-                        timer: 1500
-                      })
                       if (result.isConfirmed) {
                         handleBanClick(params.row.account_id, params.row.member_id)
+                        Swal.fire({
+                          position: 'center',
+                          icon: 'success',
+                          title: 'band success',
+                          showConfirmButton: false,
+                          timer: 1500
+                        })
                       }
                     })
                   } else {
                     Swal.fire({
-                      title: 'ไม่สามารถแบนได้',
-                      text: 'เนื่องจากสถานะถูกแบนแล้ว',
+                      title: 'cannot be banned',
+                      text: 'Because the status has been banned.',
                       icon: 'error'
                     })
                   }
@@ -168,11 +158,11 @@ const User = () => {
                 onClick={() => {
                   if (params.row.account_status !== '2') {
                     Swal.fire({
-                      title: 'คุณต้องการที่จะปลดแบนผู้ใช้คนนี้ไหม?',
+                      title: 'Do you want to unban this user??',
                       icon: 'question',
                       showCancelButton: true,
-                      confirmButtonText: 'ใช่',
-                      cancelButtonText: 'ไม่ใช่'
+                      confirmButtonText: 'yes',
+                      cancelButtonText: 'no'
                     }).then(result => {
                       if (result.isConfirmed) {
                         handleUnbanClick(params.row.account_id, params.row.member_id)
@@ -180,8 +170,8 @@ const User = () => {
                     })
                   } else {
                     Swal.fire({
-                      title: 'ไม่สามารถยกเลิกการแบนได้',
-                      text: 'เนื่องจากสถานะยืนยันแล้ว',
+                      title: 'Unable to unban.',
+                      text: 'Due to confirmed status',
                       icon: 'error'
                     })
                   }

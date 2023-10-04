@@ -99,15 +99,12 @@ const WeeklyOverview = ({ data }) => {
       />
       <CardContent sx={{ '& .apexcharts-xcrosshairs.apexcharts-active': { opacity: 0 } }}>
         <ReactApexcharts type='bar' height={205} options={chartData.options} series={chartData.series} />
-        <Box sx={{ mb: 7, display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ mb: 6.5, display: 'flex', alignItems: 'center' }}>
           <Typography variant='h5' sx={{ mr: 4 }}>
             45%
           </Typography>
           <Typography variant='body2'>Your sales performance is 45% 😎 better compared to last month</Typography>
         </Box>
-        <Button fullWidth variant='contained'>
-          Details
-        </Button>
       </CardContent>
     </Card>
   )
