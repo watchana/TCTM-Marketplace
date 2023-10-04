@@ -219,9 +219,9 @@ const LoginPage = () => {
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <CardMedia
                   component='img'
-                  image='https://media.discordapp.net/attachments/1143783715877703833/1152162375529676861/tctm-logo.png?width=711&height=702'
+                  image='https://media.discordapp.net/attachments/1143783715877703833/1158967489900851200/cropped-LOGO-TCTM-1.png?ex=651e2c16&is=651cda96&hm=9f5f51b5926258a32e2a6029a918b169cec1003e70f7c6ec5cbf549749b623c8&=&width=1440&height=306'
                   alt='logo'
-                  sx={{ width: '80px' }}
+                  sx={{ width: '260px' }}
                 />
               </Box>
             </Grid>
