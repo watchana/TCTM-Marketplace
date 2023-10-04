@@ -79,8 +79,6 @@ const DashboardTCTM = () => {
     fetchData()
   }, [])
 
-  console.log('มีอะไรให้บ้างนะ', data)
-
   return (
     <Container maxWidth='xl'>
       <Box>
