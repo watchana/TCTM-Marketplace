@@ -149,33 +149,42 @@ const ProductDetails = () => {
   const handleOrderClick = async e => {
     e.preventDefault()
 
-    const data = {
-      po_id: '-',
-      invoice_filename: '-',
-      descritp_tion: '-',
-      product_id: product_id,
-      member_id: userId,
-      sub_id: productdata.sub_id,
-      type: 'product',
-      option: parsedSelection,
-      amount: quantity,
-      total: price * quantity
-    }
-
-    try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.gen_invoice`, data)
-      console.log(response)
-      Swal.fire({
-        icon: 'success',
-        title: 'Send Data Success'
-      })
-      router.push(`/category`)
-    } catch (error) {
+    if (!parsedSelection) {
       Swal.fire({
         icon: 'error',
-        title: 'error'
+        title: 'Please fill option'
       })
-      console.log(error)
+
+      return
+    } else {
+      const data = {
+        po_id: '-',
+        invoice_filename: '-',
+        descritp_tion: '-',
+        product_id: product_id,
+        member_id: userId,
+        sub_id: productdata.sub_id,
+        type: 'product',
+        option: parsedSelection,
+        amount: quantity,
+        total: price * quantity
+      }
+
+      try {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.gen_invoice`, data)
+        console.log(response)
+        Swal.fire({
+          icon: 'success',
+          title: 'Send Data Success'
+        })
+        router.push(`/category`)
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'error'
+        })
+        console.log(error)
+      }
     }
   }
 
