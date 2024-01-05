@@ -43,6 +43,8 @@ import { createToken, verifyToken } from '../../@core/utils/auth'
 // ** Components view Import
 import LoadingLogin from 'src/views/login/Loading'
 
+const initialPasswordValue = '1'
+
 // ** Switch Alert Import
 const SwitchAlert = require('sweetalert2')
 
@@ -82,12 +84,19 @@ const LoginPage = () => {
   const [user, setUser] = useState('') // User
   const [password, setPassword] = useState('') // Password
   const [responseData, setResponseData] = useState('') // เก็บค่า Data ที่จะเอาไปฝังใน Local Storage
-  const [verificationComplete, setVerificationComplete] = useState(false)
+  const [verificationComplete, setVerificationComplete] = useState(true)
 
   const [values, setValues] = useState({
     password: '',
     showPassword: false
   })
+
+  // useEffect(() => {
+  //   const signInButton = document.getElementById('signInButton')
+  //   if (signInButton) {
+  //     signInButton.click()
+  //   }
+  // }, [])
 
   // ** Hook
   const router = useRouter()
@@ -141,14 +150,7 @@ const LoginPage = () => {
     }
 
     axios
-      .post(`https://111.223.38.19/api/method/frappe.API.TCTM.authen.login`, data, {
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest',
-          'Access-Control-Allow-Origin': '*',
-          Authorization: 'token 76dc8ec5e14d19c:a644317879022f2'
-        }
-      })
+      .post(`${process.env.NEXT_PUBLIC_API}TCTM.authen.login`, data)
       .then(response => {
         if (response.data.message) {
           const receivedStatus = response.data.message.Message
@@ -223,22 +225,26 @@ const LoginPage = () => {
         <CardContent>
           <Grid container spacing={3} justifyContent='center' alignItems='center'>
             <Grid item xs={12}>
-              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <CardMedia
-                  component='img'
-                  image='https://media.discordapp.net/attachments/1143783715877703833/1158967489900851200/cropped-LOGO-TCTM-1.png?ex=651e2c16&is=651cda96&hm=9f5f51b5926258a32e2a6029a918b169cec1003e70f7c6ec5cbf549749b623c8&=&width=1440&height=306'
-                  alt='logo'
-                  sx={{ width: '260px' }}
-                />
-              </Box>
+              <Link href='/' passHref>
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer' }}>
+                  <CardMedia
+                    component='img'
+                    image='https://media.discordapp.net/attachments/1143783715877703833/1158967489900851200/cropped-LOGO-TCTM-1.png?ex=651e2c16&is=651cda96&hm=9f5f51b5926258a32e2a6029a918b169cec1003e70f7c6ec5cbf549749b623c8&=&width=1440&height=306'
+                    alt='logo'
+                    sx={{ width: '260px' }}
+                  />
+                </Box>
+              </Link>
             </Grid>
             <Hidden only='xs'>
               <Grid item xs={12}>
-                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <Typography variant='h4' color='#2D2E81' sx={{ fontWeight: 600 }}>
-                    Welcome to <span style={{ color: '#BF1522' }}>TCTM</span> marketplace
-                  </Typography>
-                </Box>
+                <Link href='/' passHref>
+                  <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer' }}>
+                    <Typography variant='h4' color='#2D2E81' sx={{ fontWeight: 600, cursor: 'pointer' }}>
+                      Welcome to <span style={{ color: '#BF1522' }}>TCTM</span> marketplace
+                    </Typography>
+                  </Box>
+                </Link>
               </Grid>
             </Hidden>
             <Grid item xs={12}>
@@ -255,6 +261,7 @@ const LoginPage = () => {
                   id='email'
                   label='Email'
                   variant='outlined'
+                  defaultValue=''
                   onChange={handleSetUser}
                   InputProps={{
                     style: {
@@ -271,6 +278,7 @@ const LoginPage = () => {
                   <OutlinedInput
                     id='outlined-adornment-password'
                     label='Password'
+                    defaultValue={initialPasswordValue}
                     value={values.password}
                     type={values.showPassword ? 'text' : 'password'}
                     onChange={handleSetPassword('password')}
@@ -295,6 +303,8 @@ const LoginPage = () => {
               <Box sx={{ width: '100%' }}>
                 <Button
                   fullWidth
+                  id='signInButton'
+                  type="submit"
                   variant='contained'
                   color='primary'
                   onClick={handleSubmitData}
@@ -311,6 +321,14 @@ const LoginPage = () => {
                 </Typography>
                 <Link href='/member/register' passHref>
                   <LinkStyled> Register</LinkStyled>
+                </Link>
+              </Box>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
+                <Link href='/' passHref>
+                  <LinkStyled sx={{ fontWeight: 'bold' }}> Go to Firstpage</LinkStyled>
                 </Link>
               </Box>
             </Grid>

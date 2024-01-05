@@ -214,7 +214,7 @@ const AddProductPage = ({ productCategories }) => {
           const statusCode = response.data.message.StatusCode
           setResultAPIStatus(statusCode)
 
-          // console.log('ข้อมูลก่อนส่ง', product)
+           console.log('ข้อมูลก่อนส่ง', product)
 
           // เรียกใช้ฟังก์ชัน อัปโหลดไฟล์รูปภาพลงเครื่อง
           uploadImagesToApi()
