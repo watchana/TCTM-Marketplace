@@ -94,7 +94,7 @@ const AppBarContent = props => {
     <Box sx={{ width: '100%', height: '90px' }}>
       <Grid container justifyContent='space-between' alignItems='center' sx={{ height: '100%' }}>
         <Grid item xl={2} xs={2}>
-          <Box sx={{ width: '210px', marginLeft: 2 }}>
+          <Box sx={{ width: '100%', marginLeft: 2 }}>
             <Link href='/' passHref>
               <CardMedia
                 component='img'
@@ -111,7 +111,7 @@ const AppBarContent = props => {
             </Link>
           </Box>
         </Grid>
-        <Grid item xl={10} xs={10}>
+        <Grid item xl={10} xs={7}>
           <Box sx={{ width: '100%' }}>
             <Grid container justifyContent='flex-end' alignItems='center' spacing={2}>
               <Grid item>
@@ -122,31 +122,7 @@ const AppBarContent = props => {
                     alignItems: 'center'
                   }}
                 >
-                  <FormControl
-                    fullWidth
-                    variant='outlined'
-                    sx={{
-                      height: '40px',
-                      maxWidth: '250px',
-                      minWidth: '50px',
-                      borderRadius: '12px',
-                      border: '1.5px solid lightgray',
-                      outline: 'none',
-                      transition: 'all 0.3s cubic-bezier(.25,.8,.25,1)',
-                      boxShadow: '0 0 0 0 rgba(0,0,0,0)',
-                      '&:hover': {
-                        boxShadow: '0 0 0 0 rgba(0,0,0,0)',
-                        border: '1.5px solid lightgray'
-                      },
-                      '&:active': {
-                        transform: 'scale(0.98)'
-                      },
-                      '&:focus': {
-                        boxShadow: '0 0 0 0 rgba(0,0,0,0)',
-                        border: '1.5px solid lightgray'
-                      }
-                    }}
-                  >
+                  <FormControl fullWidth variant='outlined'>
                     <OutlinedInput
                       size='small'
                       placeholder='Search Products...'
@@ -204,7 +180,9 @@ const AppBarContent = props => {
                   <UserDropdown />
                   <Link href='\login' passHref>
                     <Box sx={{ ml: 2 }} style={{ display: role === '' ? 'block' : 'none' }}>
-                      <Typography sx={{ fontSize: '0.875rem', textDecoration: 'none', cursor: 'pointer',fontweight: 400 }}>
+                      <Typography
+                        sx={{ fontSize: '0.875rem', textDecoration: 'none', cursor: 'pointer', fontweight: 400 }}
+                      >
                         Login
                       </Typography>
                     </Box>
