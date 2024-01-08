@@ -24,79 +24,39 @@ import { withAuth } from 'src/@core/utils/AuthCheck'
 import Total from './total'
 import Payment from './payment'
 
-import TablePayment from './tablepayment'
-import CheckoutForm from '../checkout/stripe_checkout'
+import TablePayment from './TablePayment'
 
 const Indexpayment = () => {
   // ใช้งาน Router
   const router = useRouter() // use router
-  const data = router.query
-
-  const modifiedData = Object.fromEntries(
-    Object.entries(data).map(([key, value]) => [key, value.endsWith('=') ? value.slice(0, -1) : value])
-  )
-
-  const dataArray = Object.values(modifiedData)
-    .map(str => {
-      try {
-        return JSON.parse(str)
-      } catch (error) {
-        console.error('Error parsing JSON:', error)
-
-        return null
-      }
-    })
-    .filter(Boolean)
-
-  // const parsedData = JSON.parse(data)
+  const { sub_id, invoice_id } = router.query
 
   // ตัวแปรเก็บค่าข้อมูล
-  const [productData, setProductData] = useState([]) // ข้อมูล ธนาคาร
-  const [megaProductData, setMegaProductData] = useState([]) // ข้อมูล สินค้า
+  const [productData, setProductData] = useState('') // ข้อมูล ธนาคาร
+  const [megaProductData, setMegaProductData] = useState('') // ข้อมูล สินค้า
 
-
-
+  // เก็บค่าข้อมูลจาก Api
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const promises = dataArray.map(async (item, index) => {
-          try {
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.checkout.market_number_bank`, {
-              params: {
-                sub_id: item?.sub_id,
-                invoice_id: item?.invoice_id
-              }
-            })
-
-            return response.data.message // Return the response
-          } catch (error) {
-            console.error(error)
-
-            return null // Handle error case
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.checkout.market_number_bank`, {
+          params: {
+            sub_id: sub_id,
+            invoice_id: invoice_id
           }
         })
 
-        const results = await Promise.all(promises)
+        console.log('Api', response.data.message)
 
-        // ทำสิ่งที่ต้องการเมื่อเสร็จสิ้นทุกคำขอ API ใน dataArray
-        console.log('All API requests completed:', results.length)
-
-        // สร้าง arrays สำหรับข้อมูลทั้งหมดที่ได้จากการเรียก API
-        const allProductData = results.map(request => request?.Data[0] || null)
-        const allMegaProductData = results.map(request => request?.Invoice[0] || null)
-
-        // อัปเดต state ใหม่ด้วยค่าที่ได้จากการเรียก API ทั้งหมด
-        setProductData(allProductData)
-        setMegaProductData(allMegaProductData)
+        setProductData(response.data.message.Data[0])
+        setMegaProductData(response.data.message.Invoice[0])
       } catch (error) {
         console.error(error)
       }
     }
 
-    if (dataArray && dataArray.length >= 0) {
-      fetchData()
-    }
-  }, [dataArray.length])
+    fetchData()
+  }, [sub_id, invoice_id])
 
   return (
     <Container maxWidth='xl'>
@@ -142,9 +102,8 @@ const Indexpayment = () => {
 
       <Grid container spacing={4}>
         <Grid item xs={12} md={4}>
-          <Total productData={productData} megaProductData={megaProductData} dataArray={dataArray} />
-
-          {/* <Payment invoice_id={invoice_id} sub_id={sub_id} /> */}
+          <Total productData={productData} megaProductData={megaProductData} />
+          <Payment invoice_id={invoice_id} sub_id={sub_id} />
         </Grid>
         <Grid item xs={12} md={8}>
           <TablePayment productData={productData} />

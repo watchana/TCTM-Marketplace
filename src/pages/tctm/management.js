@@ -18,6 +18,7 @@ import MemberTable from 'src/views/tctm/MemberTable'
 import SupplierTable from 'src/views/tctm/SupplierTable'
 import ProductTable from 'src/views/tctm/ProductTable'
 import PostTable from 'src/views/tctm/PostTable'
+import ServiceTable from 'src/views/tctm/ServiceTable'
 
 const ManagementPage = () => {
   const [value, setValue] = useState('1')
@@ -109,6 +110,7 @@ const ManagementPage = () => {
                 <Tab label='Marketplace' value='2' />
                 <Tab label='Product' value='3' />
                 <Tab label='Post' value='4' />
+                <Tab label='Sercive' value='5' />
               </TabList>
             </Box>
             <TabPanel value='1'>
@@ -123,6 +125,9 @@ const ManagementPage = () => {
             <TabPanel value='4'>
               <PostTable rows={dataPost} />
             </TabPanel>
+            <TabPanel value='5'>
+              <ServiceTable rows='' />
+            </TabPanel>
           </TabContext>
         </Box>
       </Card>
@@ -130,4 +135,4 @@ const ManagementPage = () => {
   )
 }
 
-export default withAuth(ManagementPage)
+export default ManagementPage

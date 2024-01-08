@@ -1,5 +1,5 @@
-import { IncomingForm } from 'formidable'
-import mv from 'mv'
+import multer from 'multer'
+import path from 'path'
 
 export const config = {
   api: {
@@ -7,29 +7,28 @@ export const config = {
   }
 }
 
-export default async (req, res) => {
-  const form = new IncomingForm()
-
-  form.parse(req, (err, fields, files) => {
-    if (err) {
-      res.status(500).json({ error: 'Error parsing form data.' })
-
-      return
+// กำหนดตำแหน่งที่จะเก็บไฟล์
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: './public/PDF_File',
+    filename: function (req, file, cb) {
+      cb(null, file.originalname)
     }
+  })
+})
 
-    const newFilename = fields.FileName[0]
-
-    var oldPath = files.file[0].filepath
-    var newPath = `public/receipt/${newFilename}`
-
-    mv(oldPath, newPath, function (err) {
+export default function handler(req, res) {
+  if (req.method === 'POST') {
+    upload.single('PDF_File')(req, res, function (err) {
       if (err) {
-        res.status(500).json({ error: 'Error moving file.' })
+        res.status(500).json({ error: 'Error uploading file.' })
 
         return
       }
 
-      res.status(200).json({ message: 'File moved successfully.' })
+      res.status(200).json({ message: 'File uploaded successfully.' })
     })
-  })
+  } else {
+    res.status(405).json({ error: 'Method Not Allowed' })
+  }
 }

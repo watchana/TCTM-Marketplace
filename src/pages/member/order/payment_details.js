@@ -16,16 +16,13 @@ import {
   Card,
   Button,
   IconButton,
-  Box,
-  Modal,
-  MyListSubheader
+  Box
 } from '@mui/material'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import DownloadIcon from '@mui/icons-material/Download'
 
 import Paymant from './payment'
 import { useState } from 'react'
-import TrackStatus from 'src/pages/member/order/statusthaipost'
 
 //** axios Imort */
 import axios from 'axios'
@@ -39,12 +36,8 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
 
   // console.log('555', orderdata)
   // console.log('666', orderdata.invoice_file_name)
-  const [selectDelivery, setselectDelivery] = useState('') // State to track the selected value
 
-  const handleChange = event => {
-    setselectDelivery(event.target.value) // Update the selected value when an option is chosen
-  }
-
+  const [status, setStatus] = React.useState('')
   const [Tracking, setTracking] = useState('') //Tracking Number set
   const [selectedFileName, setSelectedFileName] = useState('') // เก็บชื่อไฟล์
   const [File, setFile] = useState(null) // เก็บค่า  File
@@ -105,7 +98,6 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
     const data = {
       invoice_id: invoice_id,
       tracking_number: Tracking,
-      tracking_name: selectDelivery,
       receipt_file_name: FileName,
       invoice_owner_member_id: orderdata.member_id
     }
@@ -113,7 +105,7 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
     console.log('Send Data', data)
 
     // ตรวจสอบค่าว่างใน TextField
-    if (FileName === '' || Tracking === '' || selectDelivery === '') {
+    if (FileName === '' || Tracking === '') {
       Swal.fire({
         icon: 'error',
         title: 'Please fill in complete information.'
@@ -149,10 +141,6 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
     } catch (error) {
       console.log(error)
     }
-    Swal.fire({
-      icon: 'success',
-      title: 'Confirm Data Success'
-    })
   }
 
   // ฟังชันเก็บค่าตัวแปร Tracking
@@ -214,7 +202,17 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
           </Typography>
         </Grid>
         <Grid item xs={12} sm={12} md={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <Typography variant='subtitle1' sx={{ textAlign: 'start' }}> Stripe Payment Gateway </Typography>
+          <img
+            src={
+              orderdata.invoice_file_name === null ||
+              orderdata.invoice_file_name === undefined ||
+              orderdata.invoice_file_name === '-'
+                ? '/payment/Nodata/Nodata.jpeg'
+                : `/payment/${orderdata.invoice_file_name}`
+            }
+            style={{ maxWidth: '40%', height: 'auto' }}
+            alt='Payment Details'
+          />
         </Grid>
       </Grid>
       <hr />
@@ -244,20 +242,6 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
               </Button>
             </FormControl>
           </Grid>
-
-          <Grid item xs={12} sm={12} md={12} direction={'row'}>
-            <Box display={'flex'}>
-              <FormControl sx={{ width: '75%' }}>
-                <InputLabel>Select Delivery</InputLabel>
-                <Select value={selectDelivery} onChange={handleChange}>
-                  <MenuItem value=''>Select Delivery</MenuItem>
-                  <MenuItem value='Kerry'>Kerry</MenuItem>
-                  <MenuItem value='Flash'>Flash</MenuItem>
-                  <MenuItem value='ThaiPost'>ThaiPost</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-          </Grid>
           <Grid item xs={12} sm={12} md={12}>
             <Typography variant='subtitle1'>Tracking Number</Typography>
           </Grid>
@@ -273,16 +257,6 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
             >
               Submit
             </Button>
-          </Grid>
-          <Grid item xs={12} sm={9}>
-            <Typography variant='subtitle1' sx={{ textAlign: 'start' }}>
-              <Grid item xs={12} sm={12} md={6}>
-                <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
-                  Tracking Status
-                </Typography>
-              </Grid>
-              <TrackStatus TrackNo={orderdata.tracking_number} />
-            </Typography>
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
             <Box>
@@ -318,13 +292,7 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
           </Grid>
           <Grid item xs={12} sm={9}>
             <Typography variant='subtitle1' sx={{ textAlign: 'start' }}>
-              {orderdata.tracking_number || 'Wait payment'}
-              <Grid item xs={12} sm={12} md={6}>
-                <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
-                  Tracking Status
-                </Typography>
-              </Grid>
-              <TrackStatus TrackNo={orderdata.tracking_number} />
+              {orderdata.tracking_number || '-'}
             </Typography>
           </Grid>
 

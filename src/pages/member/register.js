@@ -95,7 +95,7 @@ const RegisterPage = () => {
   // ฟังก์ชันบัณทึกค่าของ User
   const handleUserSet = event => {
     const userInput = event.target.value
-    if (/^[a-zA-Z]+$/.test(userInput) || userInput === '') {
+    if (/^[a-zA-Z0-9]+$/.test(userInput) || userInput === '') {
       setUser(userInput)
     }
   }
@@ -109,7 +109,7 @@ const RegisterPage = () => {
   // ฟังก์ชันบัณทึกค่าของ firstname
   const handleFirstnameSet = event => {
     const firstnameInput = event.target.value
-    if (/^[a-zA-Z\s]*$/.test(firstnameInput) || firstnameInput === '') {
+    if (/^[a-zA-Z]*$/.test(firstnameInput) || firstnameInput === '') {
       setFirstname(firstnameInput)
     }
   }

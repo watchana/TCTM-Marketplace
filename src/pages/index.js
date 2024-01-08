@@ -42,10 +42,10 @@ const Dashboard = () => {
       <Billboard />
       {/* ---------- Category ---------- */}
       <NameMarket />
-      {/* ---------- Show Products ---------- */}
-      <ShowProducts />
       {/* ---------- Show Products2 ---------- */}
       <ShowProducts2 />
+      {/* ---------- Show Products ---------- */}
+      <ShowProducts />
     </Container>
   )
 }
