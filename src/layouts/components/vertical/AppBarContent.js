@@ -1,16 +1,17 @@
 // ** React Imports
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 // ** Next Import
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 // ** Material UI Imports
-import { Box, CardMedia, FormControl, Grid, IconButton, InputAdornment, OutlinedInput } from '@mui/material'
+import { Box, CardMedia, FormControl, Grid, IconButton, InputAdornment, OutlinedInput, Typography } from '@mui/material'
 
 // ** Material-UI Icons Imports
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag'
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer'
+import LocalShippingIcon from '@mui/icons-material/LocalShipping'
 
 // ** Material Design Icons Imports
 import Magnify from 'mdi-material-ui/Magnify'
@@ -18,6 +19,19 @@ import Magnify from 'mdi-material-ui/Magnify'
 // ** Layouts Imports
 import UserDropdown from 'src/@core/layouts/components/shared-components/UserDropdown'
 import NotificationDropdown from 'src/@core/layouts/components/shared-components/NotificationDropdown'
+
+// Import auth token Decode
+import { createToken, verifyToken } from 'src/@core/utils/auth'
+
+const styles = {
+  py: 1,
+  px: 2,
+  alignItems: 'center',
+  textDecoration: 'none',
+  '& svg': {
+    fontSize: '1.5rem'
+  }
+}
 
 const AppBarContent = props => {
   // ** State สำหรับการค้นหา
@@ -37,6 +51,44 @@ const AppBarContent = props => {
       router.replace(`/category?keyword=${encodeURIComponent(searchValue)}`)
     }
   }
+
+  // ** รับค่าจาก local Storage
+  let username = '' // ตัวแปรเก็บค่าชื่อผู้ใช้
+  let user_status = '' // ตัวแปรเก็บค่าสถานะ user
+  if (typeof window !== 'undefined') {
+    username = localStorage.getItem('name')
+    user_status = localStorage.getItem('User_Status')
+  }
+
+  // console.log('สถานะ user', user_status)
+
+  // ** ทำการถอดรหัส role
+  // let role = ''
+  // if (typeof window !== 'undefined') {
+  //   const token = localStorage.getItem('jwt')
+  //   const decodedToken = verifyToken(token)
+
+  //   if (decodedToken) {
+  //     role = decodedToken.Role
+  //   } else {
+  //     console.log('Invalid or expired token')
+  //   }
+  // }
+
+  const [role, setRole] = useState('')
+
+  const Router = useRouter()
+
+  useEffect(() => {
+    const token = localStorage.getItem('jwt')
+    const decodedToken = verifyToken(token)
+
+    if (decodedToken) {
+      setRole(decodedToken.Role)
+    } else {
+      console.log('Invalid or expired token')
+    }
+  }, [])
 
   return (
     <Box sx={{ width: '100%', height: '90px' }}>
@@ -113,17 +165,50 @@ const AppBarContent = props => {
                     />
                   </FormControl>
                   <Link href='/member/ports/' passHref>
-                    <IconButton>
-                      <QuestionAnswerIcon sx={{ color: 'text.primary' }} />
+                    <IconButton
+                      sx={{ p: 0 }}
+                      style={{ display: role === 'USER' || role === 'ADMIN' || role === 'TCTM' ? 'block' : 'none' }}
+                    >
+                      <Box sx={styles}>
+                        <QuestionAnswerIcon sx={{ color: 'text.primary' }} />
+                      </Box>
                     </IconButton>
                   </Link>
                   <Link href='/member/order/myoder/' passHref>
-                    <IconButton>
-                      <ShoppingBagIcon sx={{ color: 'text.primary' }} />
+                    <IconButton
+                      sx={{ p: 0 }}
+                      style={{ display: role === 'USER' || role === 'ADMIN' || role === 'TCTM' ? 'block' : 'none' }}
+                    >
+                      <Box sx={styles}>
+                        <ShoppingBagIcon sx={{ color: 'text.primary' }} />
+                      </Box>
                     </IconButton>
                   </Link>
-                  <NotificationDropdown />
+                  <Link href='/member/logistic' passHref>
+                    <IconButton
+                      sx={{ p: 0 }}
+                      style={{ display: role === 'USER' || role === 'ADMIN' || role === 'TCTM' ? 'block' : 'none' }}
+                    >
+                      <Box sx={styles}>
+                        <LocalShippingIcon sx={{ color: 'text.primary' }} />
+                      </Box>
+                    </IconButton>
+                  </Link>
+                  <Box
+                    sx={{ p: 0 }}
+                    style={{ display: role === 'USER' || role === 'ADMIN' || role === 'TCTM' ? 'block' : 'none' }}
+                  >
+                    <NotificationDropdown />
+                  </Box>
+
                   <UserDropdown />
+                  <Link href='\login' passHref>
+                    <Box sx={{ ml: 2 }} style={{ display: role === '' ? 'block' : 'none' }}>
+                      <Typography sx={{ fontSize: '0.875rem', textDecoration: 'none', cursor: 'pointer',fontweight: 400 }}>
+                        Login
+                      </Typography>
+                    </Box>
+                  </Link>
                 </Box>
               </Grid>
             </Grid>

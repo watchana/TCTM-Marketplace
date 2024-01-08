@@ -130,7 +130,7 @@ const Checkout = () => {
             <Grid container alignItems='center'>
               <Grid item xs={12} sm={8} md={8}>
                 <Typography variant='h4' fontSize='21px bold' color='#fff'>
-                  Checkout
+                  Details
                 </Typography>
                 <Typography color='#fff' variant='h6' fontSize='14px'>
                   Shipping charges and discount codes applied at checkout.
@@ -187,7 +187,7 @@ const Checkout = () => {
                   }
                 }}
               >
-                NEXT STEP
+                Add to cart
               </Button>
             </Box>
             <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

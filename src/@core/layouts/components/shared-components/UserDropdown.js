@@ -27,6 +27,8 @@ import ChairRolling from 'mdi-material-ui/ChairRolling'
 import DataThresholdingIcon from '@mui/icons-material/DataThresholding'
 import HowToRegIcon from '@mui/icons-material/HowToReg'
 import FactCheckIcon from '@mui/icons-material/FactCheck'
+import LoginIcon from '@mui/icons-material/Login'
+import VpnKeyIcon from '@mui/icons-material/VpnKey'
 
 // Import Cookie
 import Cookies from 'js-cookie'
@@ -143,7 +145,7 @@ const UserDropdown = () => {
               <Avatar alt='John Doe' src='/images/avatars/1.png' sx={{ width: '2.5rem', height: '2.5rem' }} />
             </Badge>
             <Box sx={{ display: 'flex', marginLeft: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
-              <Typography sx={{ fontWeight: 600 }}>{username}</Typography>
+              <Typography sx={{ fontWeight: 600 }}>{username || 'Guest'}</Typography>
               <Typography variant='body2' sx={{ fontSize: '0.8rem', color: 'text.disabled' }}>
                 {role}
               </Typography>
@@ -237,9 +239,38 @@ const UserDropdown = () => {
             Contact
           </Box>
         </MenuItem>
-        <MenuItem sx={{ py: 2 }} onClick={() => handleDropdownClose('/login')}>
-          <LogoutVariant sx={{ marginRight: 2, fontSize: '1.375rem', color: 'text.secondary' }} />
-          Logout
+        {/* ปุ่ม login ของ guest */}
+        <MenuItem
+          sx={{ p: 0 }}
+          onClick={() => handleDropdownClose('/login')}
+          style={{ display: role === '' ? 'block' : 'none' }}
+        >
+          <Box sx={styles}>
+            <LoginIcon sx={{ marginRight: 2 }} />
+            Login
+          </Box>
+        </MenuItem>
+        {/* ปุ่ม register ของ guest */}
+        <MenuItem
+          sx={{ p: 0 }}
+          onClick={() => handleDropdownClose('/member/register/')}
+          style={{ display: role === '' ? 'block' : 'none' }}
+        >
+          <Box sx={styles}>
+            <VpnKeyIcon sx={{ marginRight: 2 }} />
+            Register
+          </Box>
+        </MenuItem>
+        {/* ปุ่ม logout */}
+        <MenuItem
+          sx={{ p: 0 }}
+          onClick={() => handleDropdownClose('/login')}
+          style={{ display: role === 'USER' || role === 'ADMIN' || role === 'TCTM' ? 'block' : 'none' }}
+        >
+          <Box sx={styles}>
+            <LogoutVariant sx={{ marginRight: 2 }} />
+            Logout
+          </Box>
         </MenuItem>
       </Menu>
     </Fragment>
