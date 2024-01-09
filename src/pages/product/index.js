@@ -594,7 +594,7 @@ const ProductDetails = () => {
               <Box sx={{ width: '100%', marginTop: '6px' }}>
                 {/* ========== Button login for guest ========== */}
                 <Box sx={{ width: '100%', marginTop: '20px' }} style={{ display: role === '' ? 'block' : 'none' }}>
-                  <Link href='\login' passHref>
+                  <Link href='/login' passHref>
                     <Button sx={{ width: 175 }} variant='contained' startIcon={<ShoppingCartIcon />}>
                       Please Login
                     </Button>
