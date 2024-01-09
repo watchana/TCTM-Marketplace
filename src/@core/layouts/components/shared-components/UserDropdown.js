@@ -29,6 +29,7 @@ import HowToRegIcon from '@mui/icons-material/HowToReg'
 import FactCheckIcon from '@mui/icons-material/FactCheck'
 import LoginIcon from '@mui/icons-material/Login'
 import VpnKeyIcon from '@mui/icons-material/VpnKey'
+import HomeRepairServiceIcon from '@mui/icons-material/HomeRepairService'
 
 // Import Cookie
 import Cookies from 'js-cookie'
@@ -248,6 +249,17 @@ const UserDropdown = () => {
           <Box sx={styles}>
             <LoginIcon sx={{ marginRight: 2 }} />
             Login
+          </Box>
+        </MenuItem>
+        {/* ปุ่ม service ของ guest */}
+        <MenuItem
+          sx={{ p: 0 }}
+          onClick={() => handleDropdownClose('member/logistic/formservice')}
+          style={{ display: role === 'USER' || role === 'ADMIN' || role === 'TCTM' ? 'block' : 'none' }}
+        >
+          <Box sx={styles}>
+            <HomeRepairServiceIcon sx={{ marginRight: 2 }} />
+            service(maintaining)
           </Box>
         </MenuItem>
         {/* ปุ่ม register ของ guest */}

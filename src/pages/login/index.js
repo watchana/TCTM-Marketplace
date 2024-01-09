@@ -261,7 +261,7 @@ const LoginPage = () => {
                   id='email'
                   label='Email'
                   variant='outlined'
-                  defaultValue=''
+                  defaultValue='mem1'
                   onChange={handleSetUser}
                   InputProps={{
                     style: {
@@ -304,7 +304,6 @@ const LoginPage = () => {
                 <Button
                   fullWidth
                   id='signInButton'
-                  type="submit"
                   variant='contained'
                   color='primary'
                   onClick={handleSubmitData}
