@@ -45,31 +45,24 @@ const MainForm = () => {
   const [pdfFileName, setPdfFileName] = useState(null) // ตัวแปรเก็บชื่อของไฟล์ PDF
 
   const handlePdfChange = async event => {
-    setPdfFile(event.target.files[0])
-
     const file = event.target.files[0]
     if (file) {
-      const fileName = file.name // ชื่อไฟล์
-      setPdfFileName(fileName) // ชื่อและนามสกุลไฟล์
-    }
+      setPdfFile(file)
+      const fileName = file.name
+      setPdfFileName(fileName)
 
-    if (file) {
       const formData = new FormData()
-      formData.append('PDF_File', file) // เพิ่มไฟล์ใน FormData
+      formData.append('pdfFile', pdfFile)
 
       try {
-        const response = await fetch('/api/resumeFile', {
-          method: 'POST',
-          body: formData
+        const response = await axios.post('/api/Po_FileUpload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
         })
-
-        if (response.ok) {
-          console.log('อัปโหลดไฟล์ PDF เรียบร้อยแล้ว')
-        } else {
-          console.error('มีข้อผิดพลาดในการอัปโหลดไฟล์ PDF')
-        }
+        console.log(response.data) // ข้อมูลที่ได้รับกลับมาจาก API
       } catch (error) {
-        console.error('มีข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์', error)
+        console.error('Error:', error)
       }
     }
   }
@@ -196,14 +189,14 @@ const MainForm = () => {
     // ทำสิ่งที่ต้องการกับข้อมูลที่ได้จาก form component ที่นี่
   }
 
-  const formData = new FormData()
-  formData.append('pdfFile', pdfFile) // Assuming pdfFile is the File object obtained from an input element
+  // const formData = new FormData()
+  // formData.append('pdfFile', pdfFile) // Assuming pdfFile is the File object obtained from an input element
 
-  axios.post('/api/resumeFile', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data' // Set the content type to multipart/form-data
-    }
-  })
+  // axios.post('/api/resumeFile', formData, {
+  //   headers: {
+  //     'Content-Type': 'multipart/form-data' // Set the content type to multipart/form-data
+  //   }
+  // })
 
   // ฟังก์ชันสำหรับการอัพโหลดไฟล์ PDF ผ่าน API
   // const uploadPDFFile = async (file, fileName) => {

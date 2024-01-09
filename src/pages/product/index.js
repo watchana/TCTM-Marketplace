@@ -44,6 +44,9 @@ import axios from 'axios'
 // ** Components Imports
 import { withAuth } from 'src/@core/utils/AuthCheck'
 
+// Import auth token Decode
+import { createToken, verifyToken } from 'src/@core/utils/auth'
+
 const ProductDetails = () => {
   // ตัวแปรเก็บค่าข้อมูล
   const [quantity, setQuantity] = useState(1) // ตัวแปรเก็บค่าจำนวนสินค้า
@@ -105,9 +108,13 @@ const ProductDetails = () => {
             product_id: productId
           }
         })
+
         setProductImg(response.data.message.images.Result)
+        console.log(response.data.message.images)
         setProductData(response.data.message.data[0])
         setOptions(response.data.message.options)
+
+        console.log('message', response.data.message)
       } catch (error) {
         console.error(error)
       }
@@ -142,33 +149,42 @@ const ProductDetails = () => {
   const handleOrderClick = async e => {
     e.preventDefault()
 
-    const data = {
-      po_id: '-',
-      invoice_filename: '-',
-      descritp_tion: '-',
-      product_id: product_id,
-      member_id: userId,
-      sub_id: productdata.sub_id,
-      type: 'product',
-      option: parsedSelection,
-      amount: quantity,
-      total: price * quantity
-    }
-
-    try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.gen_invoice`, data)
-      console.log(response)
-      Swal.fire({
-        icon: 'success',
-        title: 'Send Data Success'
-      })
-      router.push(`/category`)
-    } catch (error) {
+    if (!parsedSelection) {
       Swal.fire({
         icon: 'error',
-        title: 'error'
+        title: 'Please fill option'
       })
-      console.log(error)
+
+      return
+    } else {
+      const data = {
+        po_id: '-',
+        invoice_filename: '-',
+        descritp_tion: '-',
+        product_id: product_id,
+        member_id: userId,
+        sub_id: productdata.sub_id,
+        type: 'product',
+        option: parsedSelection,
+        amount: quantity,
+        total: price * quantity
+      }
+
+      try {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.gen_invoice`, data)
+        console.log(response)
+        Swal.fire({
+          icon: 'success',
+          title: 'Send Data Success'
+        })
+        router.push(`/category`)
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'error'
+        })
+        console.log(error)
+      }
     }
   }
 
@@ -251,6 +267,29 @@ const ProductDetails = () => {
       setEndImage(MaxLengthImages)
     }
   }, [MaxLengthImages])
+
+  // ** รับค่าจาก local Storage
+  let username = '' // ตัวแปรเก็บค่าชื่อผู้ใช้
+  let user_status = '' // ตัวแปรเก็บค่าสถานะ user
+  if (typeof window !== 'undefined') {
+    username = localStorage.getItem('name')
+    user_status = localStorage.getItem('User_Status')
+  }
+
+  const [role, setRole] = useState('')
+
+  const Router = useRouter()
+
+  useEffect(() => {
+    const token = localStorage.getItem('jwt')
+    const decodedToken = verifyToken(token)
+
+    if (decodedToken) {
+      setRole(decodedToken.Role)
+    } else {
+      console.log('Invalid or expired token')
+    }
+  }, [])
 
   //-----------------------------Slide Control Function------------------------//
 
@@ -539,17 +578,30 @@ const ProductDetails = () => {
                 </Typography>
               </Box>
               {/* ========== Button ========== */}
-              <Box sx={{ width: '100%', marginTop: '20px' }}>
+              <Box
+                sx={{ width: '100%', marginTop: '20px' }}
+                style={{ display: role === 'USER' || role === 'ADMIN' || role === 'TCTM' ? 'block' : 'none' }}
+              >
                 <Button
                   sx={{ width: 175 }}
                   variant='contained'
                   startIcon={<ShoppingCartIcon />}
-                  onClick={handleBuyNowClick}
+                  onClick={handleOrderClick}
                 >
                   add to cart
                 </Button>
               </Box>
               <Box sx={{ width: '100%', marginTop: '6px' }}>
+                {/* ========== Button login for guest ========== */}
+                <Box sx={{ width: '100%', marginTop: '20px' }} style={{ display: role === '' ? 'block' : 'none' }}>
+                  <Link href='\login' passHref>
+                    <Button sx={{ width: 175 }} variant='contained' startIcon={<ShoppingCartIcon />}>
+                      Please Login
+                    </Button>
+                  </Link>
+                </Box>
+                <Box sx={{ width: '100%', marginTop: '6px' }}></Box>
+
                 <Typography variant='body1' fontSize='16px' color='#606060'>
                   Dispatched in 2-3 Days
                 </Typography>

@@ -25,11 +25,12 @@ import Total from './total'
 import Payment from './payment'
 
 import TablePayment from './tablepayment'
-import CheckoutForm from '../checkout/stripe_checkout'
+
 
 const Indexpayment = () => {
   // ใช้งาน Router
   const router = useRouter() // use router
+  const { sub_id, invoice_id } = router.query
   const data = router.query
 
   const modifiedData = Object.fromEntries(
@@ -93,7 +94,7 @@ const Indexpayment = () => {
       }
     }
 
-    if (dataArray && dataArray.length >= 0) {
+    if (dataArray && dataArray.length > 0) {
       fetchData()
     }
   }, [dataArray.length])
@@ -142,8 +143,7 @@ const Indexpayment = () => {
 
       <Grid container spacing={4}>
         <Grid item xs={12} md={4}>
-          <Total productData={productData} megaProductData={megaProductData} dataArray={dataArray} />
-
+          <Total productData={productData} megaProductData={megaProductData} />
           {/* <Payment invoice_id={invoice_id} sub_id={sub_id} /> */}
         </Grid>
         <Grid item xs={12} md={8}>

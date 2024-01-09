@@ -1,0 +1,3 @@
+export const publishkey = 'pk_test_51O7YpnLAtZtjvlxKMlrJHhWJ7Y7ibQk9brWCXhA7kQIXexikMwYNmfMqT8T6h4M8RmKQSuVH7VsS3SfRqtEJ3q7g00Rr3KTdVY';
+
+export const secretkey ='sk_test_51O7YpnLAtZtjvlxKseyXgMa0cQtpsStoJIwGyX9j14JtnupYX40S94hdtYHy0jXAxzCkqND2goyHPNKlQ5f60b2X00NRWMnoYt';
