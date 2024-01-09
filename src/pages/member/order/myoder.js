@@ -9,6 +9,7 @@ import { Box, Breadcrumbs, Card, Container, Divider, Grid, Tab, Hidden, Tabs, Ty
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 
 // ** Material Design Icons Imports
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import Shopping from 'mdi-material-ui/Shopping'
 import ChevronRight from 'mdi-material-ui/ChevronRight'
 
@@ -107,7 +108,7 @@ const MyOrderPage = () => {
               </Grid>
               <Hidden smDown>
                 <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <Shopping sx={{ fontSize: 72, color: '#fff' }} />
+                  <ShoppingCartIcon sx={{ fontSize: 72, color: '#fff' }} />
                 </Grid>
               </Hidden>
             </Grid>

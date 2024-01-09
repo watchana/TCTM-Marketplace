@@ -213,8 +213,18 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
             Payment Details
           </Typography>
         </Grid>
+        {/* <iframe
+          src='/receipt/2024_01_08T09_21_30.235Z_pdfTimetable_365811940016.pdf'
+          width='100%'
+          height='100%'
+          allow='autoplay'
+        ></iframe> */}
+
         <Grid item xs={12} sm={12} md={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <Typography variant='subtitle1' sx={{ textAlign: 'start' }}> Stripe Payment Gateway </Typography>
+          <Typography variant='subtitle1' sx={{ textAlign: 'start' }}>
+            {' '}
+            Stripe Payment Gateway{' '}
+          </Typography>
         </Grid>
       </Grid>
       <hr />
