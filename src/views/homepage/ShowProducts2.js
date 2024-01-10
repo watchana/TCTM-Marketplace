@@ -54,27 +54,10 @@ const ShowProducts2 = () => {
 
   // React Multi Carousel Responsive
   const responsive = {
-    desktop: {
-      breakpoint: {
-        max: 3000,
-        min: 1024
-      },
-      items: 5
-    },
-    tablet: {
-      breakpoint: {
-        max: 1024,
-        min: 464
-      },
-      items: 2
-    },
-    mobile: {
-      breakpoint: {
-        max: 464,
-        min: 0
-      },
-      items: 1
-    }
+    desktopLarge: { breakpoint: { max: 3000, min: 2400 }, items: 10, partialVisibilityGutter: 40 },
+    desktop: { breakpoint: { max: 2400, min: 1300 }, items: 5, partialVisibilityGutter: 30 },
+    desktop: { breakpoint: { max: 1300, min: 1024 }, items: 4, partialVisibilityGutter: 20 },
+    tablet: { breakpoint: { max: 1024, min: 900 }, items: 3, partialVisibilityGutter: 10 }
   }
 
   // Call Api
