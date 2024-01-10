@@ -150,7 +150,7 @@ const MyOrderPage = () => {
             <TabPanel value='1'>
               <Box sx={{ width: '100%', typography: 'body1' }}>
                 <TrackingStatus productdata={productdata} updateProductData={updateProductData} trackNo={trackNo} />
-              </Box>
+              </Box>  
             </TabPanel>
             <TabPanel value='2'>
               <Box sx={{ width: '100%', typography: 'body1' }}>
