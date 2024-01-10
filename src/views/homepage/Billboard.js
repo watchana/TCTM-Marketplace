@@ -111,9 +111,11 @@ const Billboard = () => {
     }
   }
 
-  const isSmallScreen = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
   const isSmallScreenSup1 = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+
+  const imageUrl = 'https://f.ptcdn.info/2g/306/000/000/E13098649-0.jpg'
 
   return (
     <Container maxWidth='xl'>
@@ -139,7 +141,7 @@ const Billboard = () => {
                       <CardMedia
                         key={index}
                         component='img'
-                        height={isSmallScreen ? '150px' : '350px'}
+                        height={isSmallScreen ? '200px' : '350px'}
                         image={`imgBillboard/${billboard.bill_name}`}
                         alt={billboard.bill_name}
                         sx={{
@@ -178,25 +180,17 @@ const Billboard = () => {
             <Grid container spacing={2}>
               {/* ---------- Sub Billboard No 1 ---------- */}
 
-              <Grid item xs={12} sm={6} md={6} lg={12}>
-                {isLoading ? ( // ตรวจสอบสถานะ isLoading เพื่อแสดงรูปโหลดหรือข้อความแสดงการโหลด
+              <Grid item xs={6} lg={12}>
+                {isLoading ? (
                   <Skeleton variant='rectangular' width='100%' height='170px' sx={{ borderRadius: '6px' }} />
                 ) : (
-                  <Box
-                    sx={{
-                      width: '100%',
-
-                      borderRadius: '6px',
-                      backgroundColor: '#3A46A7'
-                    }}
-                  >
+                  <Box>
                     <Box
                       sx={{
                         width: '100%',
                         height: '170px',
                         maxHeight: '170px',
                         borderRadius: '6px',
-                        backgroundImage: 'url(/imgBillboard/Nodata2.png)',
                         backgroundSize: '100% 100%',
                         backgroundPosition: 'center',
                         display: 'flex',
@@ -205,33 +199,25 @@ const Billboard = () => {
                       }}
                     >
                       <Typography variant='h6' color='#fff'>
-                        No Image
+                        <img src={imageUrl} alt='Description of the image' style={{ width: '100%', height: 'auto' }} />
                       </Typography>
                     </Box>
                   </Box>
                 )}
               </Grid>
+
               {/* ---------- Sub Billboard No 2 ---------- */}
-              <Grid item xs={12} sm={6} md={6} lg={12}>
-                {isLoading ? ( // ตรวจสอบสถานะ isLoading เพื่อแสดงรูปโหลดหรือข้อความแสดงการโหลด
+              <Grid item xs={6} lg={12}>
+                {isLoading ? (
                   <Skeleton variant='rectangular' width='100%' height='170px' sx={{ borderRadius: '6px' }} />
                 ) : (
-                  <Box
-                    sx={{
-                      width: '100%',
-                      height: '170px',
-                      maxHeight: '170px',
-                      borderRadius: '6px',
-                      backgroundColor: '#3A46A7'
-                    }}
-                  >
+                  <Box>
                     <Box
                       sx={{
                         width: '100%',
                         height: '170px',
                         maxHeight: '170px',
                         borderRadius: '6px',
-                        backgroundImage: 'url(/imgBillboard/Nodata2.png)',
                         backgroundSize: '100% 100%',
                         backgroundPosition: 'center',
                         display: 'flex',
@@ -240,7 +226,7 @@ const Billboard = () => {
                       }}
                     >
                       <Typography variant='h6' color='#fff'>
-                        No Image
+                        <img src={imageUrl} alt='Description of the image' style={{ width: '100%', height: 'auto' }} />
                       </Typography>
                     </Box>
                   </Box>

@@ -93,8 +93,8 @@ const AppBarContent = props => {
   return (
     <Box sx={{ width: '100%', height: '90px' }}>
       <Grid container justifyContent='space-between' alignItems='center' sx={{ height: '100%' }}>
-        <Grid item xl={2} xs={2}>
-          <Box sx={{ width: '210px', marginLeft: 2 }}>
+        <Grid item xl={3} xs={3}>
+          <Box sx={{ width: '100%', marginLeft: 2 }}>
             <Link href='/' passHref>
               <CardMedia
                 component='img'
@@ -111,7 +111,7 @@ const AppBarContent = props => {
             </Link>
           </Box>
         </Grid>
-        <Grid item xl={10} xs={10}>
+        <Grid item xl={8} xs={8} spacing={0.5}>
           <Box sx={{ width: '100%' }}>
             <Grid container justifyContent='flex-end' alignItems='center' spacing={2}>
               <Grid item>
@@ -122,31 +122,7 @@ const AppBarContent = props => {
                     alignItems: 'center'
                   }}
                 >
-                  <FormControl
-                    fullWidth
-                    variant='outlined'
-                    sx={{
-                      height: '40px',
-                      maxWidth: '250px',
-                      minWidth: '50px',
-                      borderRadius: '12px',
-                      border: '1.5px solid lightgray',
-                      outline: 'none',
-                      transition: 'all 0.3s cubic-bezier(.25,.8,.25,1)',
-                      boxShadow: '0 0 0 0 rgba(0,0,0,0)',
-                      '&:hover': {
-                        boxShadow: '0 0 0 0 rgba(0,0,0,0)',
-                        border: '1.5px solid lightgray'
-                      },
-                      '&:active': {
-                        transform: 'scale(0.98)'
-                      },
-                      '&:focus': {
-                        boxShadow: '0 0 0 0 rgba(0,0,0,0)',
-                        border: '1.5px solid lightgray'
-                      }
-                    }}
-                  >
+                  <FormControl fullWidth variant='outlined'>
                     <OutlinedInput
                       size='small'
                       placeholder='Search Products...'
@@ -156,12 +132,24 @@ const AppBarContent = props => {
                       }}
                       startAdornment={
                         <InputAdornment position='start'>
-                          <IconButton onClick={handleSearchSubmit} sx={{ marginLeft: { xs: -3 } }}>
+                          <IconButton
+                            onClick={handleSearchSubmit}
+                            sx={{
+                              marginLeft: { xs: -3 },
+                              borderRadius: { xs: '8px', md: '12px' } // ปรับขนาดของ borderRadius
+                            }}
+                          >
                             <Magnify sx={{ color: 'text.primary' }} />
                           </IconButton>
                         </InputAdornment>
                       }
-                      sx={{ borderRadius: '12px' }}
+                      sx={{
+                        borderRadius: '12px', // ปรับขนาดของ borderRadius สำหรับหน้าจอขนาดใหญ่
+                        '@media (max-width: 600px)': {
+                          // ใช้ Media Query เพื่อปรับขนาดในหน้าจอเล็ก
+                          borderRadius: '8px' // ปรับขนาดของ borderRadius สำหรับหน้าจอขนาดเล็ก
+                        }
+                      }}
                     />
                   </FormControl>
                   <Link href='/member/ports/' passHref>
