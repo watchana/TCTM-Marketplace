@@ -98,7 +98,7 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
     }
   }
 
-  console.log('tracking_number',orderdata.tracking_number)
+  console.log('tracking_number', orderdata.tracking_number)
 
   // ฟังชันส่ง บิล และ รหัสส่งของ
   const handleReceiptSubmit = async e => {
@@ -255,7 +255,8 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
                 </Select>
               </FormControl>
             </Box>
-          </Grid><Grid item xs={6} sm={3}>
+          </Grid>
+          <Grid item xs={6} sm={3}>
             <FormControl
               sx={{ m: 1, minWidth: 120, width: '100%', display: 'flex', justifyContent: 'flex-end' }}
               size='small'
@@ -275,7 +276,6 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
           </Grid>
           <Grid item xs={12} sm={12} md={9}>
             <TextField sx={{ width: '100%' }} onChange={handleTracking} value={Tracking} />
-
           </Grid>
           <Grid item xs={12} sm={12} md={3} sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
             <Button
@@ -287,15 +287,14 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
               Submit
             </Button>
           </Grid>
-          <Grid item xs={12} sm={9}>
+
+          <Grid item xs={12} sm={12} md={6}>
             <Typography variant='subtitle1' sx={{ textAlign: 'start' }}>
-              <Grid item xs={12} sm={12} md={6}>
-                <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
-                  Tracking Status
-                </Typography>
-              </Grid>
-              <TrackStatus TrackNo={orderdata.tracking_number} />
+              Tracking Status
             </Typography>
+          </Grid>
+          <Grid item xs={12} sm={12}>
+            <TrackStatus TrackNo={orderdata.tracking_number} />
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
             <Box>
@@ -329,7 +328,7 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
               Tracking Number
             </Typography>
           </Grid>
-          <Grid item xs={12} sm={9}>
+          <Grid item xs={12} sm={12}>
             <Typography variant='subtitle1' sx={{ textAlign: 'start' }}>
               {orderdata.tracking_number || 'Wait payment'}
               <Grid item xs={12} sm={12} md={6}>

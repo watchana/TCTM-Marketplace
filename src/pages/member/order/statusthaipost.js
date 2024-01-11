@@ -52,17 +52,17 @@ const TrackStatus = ({ TrackNo }) => {
 
             // Render each status item
             const statusHtml = responseItems.map((element, index) => (
-              <Grid container key={index}>
-                <Grid item xs={0}>
-                  {getIconByStatus(element.status_description)}
+              <Grid container key={index} display={'flex'} justifyContent={'space-between'}>
+                <Grid item xs={6} display={'flex'} justifyContent={'flex-start'}>
+                  <Grid item>{getIconByStatus(element.status_description)}</Grid>
+                  <Grid item>
+                    <Typography>{element.status_description}</Typography>
+                  </Grid>
                 </Grid>
-                <Grid item xs={5} sm={5} md={6} lg={4}>
-                  <Typography>{element.status_description}</Typography>
-                </Grid>
-                <Grid item xs={3} sm={1} md={4} lg={1}>
+                <Grid item xs={4}>
                   <Typography>{element.location}</Typography>
                 </Grid>
-                <Grid item xs={12} sm={12} md={12} lg={5}>
+                <Grid item xs={2}>
                   <Typography>{element.status_date.slice(0, 10)}</Typography>
                 </Grid>
               </Grid>
