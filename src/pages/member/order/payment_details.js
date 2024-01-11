@@ -98,6 +98,8 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
     }
   }
 
+  console.log('tracking_number',orderdata.tracking_number)
+
   // ฟังชันส่ง บิล และ รหัสส่งของ
   const handleReceiptSubmit = async e => {
     e.preventDefault()
@@ -107,7 +109,8 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
       tracking_number: Tracking,
       tracking_name: selectDelivery,
       receipt_file_name: FileName,
-      invoice_owner_member_id: orderdata.member_id
+      invoice_owner_member_id: orderdata.member_id,
+      process_status: selectDelivery
     }
 
     console.log('Send Data', data)
@@ -124,7 +127,6 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
 
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.send_tracking`, data)
-      console.log(response)
       Swal.fire({
         icon: 'success',
         title: 'Success'
@@ -240,7 +242,20 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
               Status
             </Typography>
           </Grid>
-          <Grid item xs={6} sm={3}>
+
+          <Grid item xs={12} sm={9} md={9} direction={'row'}>
+            <Box display={'flex'}>
+              <FormControl sx={{ width: '100%' }}>
+                <InputLabel>Select Delivery</InputLabel>
+                <Select value={selectDelivery} onChange={handleChange}>
+                  <MenuItem value=''>Select Delivery</MenuItem>
+                  <MenuItem value='Kerry'>Kerry</MenuItem>
+                  <MenuItem value='Flash'>Flash</MenuItem>
+                  <MenuItem value='ThaiPost'>ThaiPost</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+          </Grid><Grid item xs={6} sm={3}>
             <FormControl
               sx={{ m: 1, minWidth: 120, width: '100%', display: 'flex', justifyContent: 'flex-end' }}
               size='small'
@@ -255,24 +270,12 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
             </FormControl>
           </Grid>
 
-          <Grid item xs={12} sm={12} md={12} direction={'row'}>
-            <Box display={'flex'}>
-              <FormControl sx={{ width: '75%' }}>
-                <InputLabel>Select Delivery</InputLabel>
-                <Select value={selectDelivery} onChange={handleChange}>
-                  <MenuItem value=''>Select Delivery</MenuItem>
-                  <MenuItem value='Kerry'>Kerry</MenuItem>
-                  <MenuItem value='Flash'>Flash</MenuItem>
-                  <MenuItem value='ThaiPost'>ThaiPost</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-          </Grid>
           <Grid item xs={12} sm={12} md={12}>
             <Typography variant='subtitle1'>Tracking Number</Typography>
           </Grid>
           <Grid item xs={12} sm={12} md={9}>
             <TextField sx={{ width: '100%' }} onChange={handleTracking} value={Tracking} />
+
           </Grid>
           <Grid item xs={12} sm={12} md={3} sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
             <Button
@@ -334,8 +337,8 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
                   Tracking Status
                 </Typography>
               </Grid>
-              <TrackStatus TrackNo={orderdata.tracking_number} />
             </Typography>
+            <TrackStatus TrackNo={orderdata.tracking_number} />
           </Grid>
 
           <Grid item xs={12} sm={12} md={6}>

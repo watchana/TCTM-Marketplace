@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Grid, Typography } from '@mui/material'
 import LocalShippingIcon from '@mui/icons-material/LocalShipping'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import ScheduleIcon from '@mui/icons-material/Schedule'
+import GetAppIcon from '@mui/icons-material/GetApp'
 
 const TrackStatus = ({ TrackNo }) => {
   const [status, setStatus] = useState([])
@@ -12,6 +15,7 @@ const TrackStatus = ({ TrackNo }) => {
   }, [TrackNo])
 
   console.log(TrackNo)
+
   useEffect(() => {
     const handleTracking = async () => {
       try {
@@ -46,11 +50,11 @@ const TrackStatus = ({ TrackNo }) => {
           if (trackingResponse.data.message === 'successful') {
             const responseItems = trackingResponse.data.response.items[trackingValue]
 
-            //ตกแต่ง Status
+            // Render each status item
             const statusHtml = responseItems.map((element, index) => (
               <Grid container key={index}>
                 <Grid item xs={0}>
-                  <LocalShippingIcon sx={{ color: 'dark' }} />
+                  {getIconByStatus(element.status_description)}
                 </Grid>
                 <Grid item xs={5} sm={5} md={6} lg={4}>
                   <Typography>{element.status_description}</Typography>
@@ -79,12 +83,35 @@ const TrackStatus = ({ TrackNo }) => {
     handleTracking()
   }, [trackingValue])
 
-  return (
-    <div>
-      {/* แสดงผลสถานะที่ได้ */}
-      {status}
-    </div>
-  )
+  // Function to get the appropriate icon based on status description
+  const getIconByStatus = (statusDescription, isScheduled) => {
+    if (isScheduled) {
+      // If the status is scheduled, show the ScheduleIcon
+      return <ScheduleIcon />
+    }
+
+    if (statusDescription.toLowerCase() === 'นำจ่ายสำเร็จ') {
+      // If the status is "นำจ่ายสำเร็จ", show the CheckCircleIcon
+      return <CheckCircleIcon />
+    }
+
+    switch (statusDescription.toLowerCase()) {
+      case 'ถึงที่ทำการไปรษณีย์':
+        return <CheckCircleIcon />
+      case 'อยู่ระหว่างการนำจ่าย':
+        return <CheckCircleIcon />
+      case 'รับเข้า ณ ศูนย์คัดแยก':
+        return <CheckCircleIcon />
+      case 'รับฝาก':
+        return <GetAppIcon />
+      case 'ออกจากที่ทำการ/ศูนย์ไปรษณีย์':
+        return <CheckCircleIcon />
+      default:
+        return <LocalShippingIcon />
+    }
+  }
+
+  return <div>{status}</div>
 }
 
 export default TrackStatus
