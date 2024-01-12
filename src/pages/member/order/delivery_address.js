@@ -53,7 +53,7 @@ const Delivery = ({ orderdata }) => {
           <Typography variant='subtitle1'>Notes</Typography>
         </Grid>
         <Grid item xs={6} sm={12}>
-          <Typography variant='subtitle2'> -</Typography>
+          <Typography variant='subtitle2'>-</Typography>
         </Grid>
       </Grid>
       <hr />

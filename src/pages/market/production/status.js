@@ -1,6 +1,17 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Card,
+  CardContent,
+  Grid
+} from '@mui/material'
 
 export default function MyComponent() {
   const [data, setData] = useState([])

@@ -49,6 +49,7 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
   const [selectedFileName, setSelectedFileName] = useState('') // เก็บชื่อไฟล์
   const [File, setFile] = useState(null) // เก็บค่า  File
   const [FileName, setFileName] = useState('') // เก็บค่าชื่อของ File
+  const [Tonen, setTonen] = useState('')
 
   // ฟังก์ชัน อัปโหลดไฟล์
   const handleFileUpload = event => {
@@ -110,7 +111,7 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
       tracking_name: selectDelivery,
       receipt_file_name: FileName,
       invoice_owner_member_id: orderdata.member_id,
-      process_status: selectDelivery
+      process_status: Tonen
     }
 
     console.log('Send Data', data)
@@ -160,6 +161,10 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
   // ฟังชันเก็บค่าตัวแปร Tracking
   const handleTracking = event => {
     setTracking(event.target.value)
+  }
+
+  const handleTonen = event => {
+    setTonen(event.target.value)
   }
 
   // ฟังชัน download ใบเสร็จ
@@ -274,8 +279,14 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
           <Grid item xs={12} sm={12} md={12}>
             <Typography variant='subtitle1'>Tracking Number</Typography>
           </Grid>
-          <Grid item xs={12} sm={12} md={9}>
+          <Grid item xs={12} sm={12} md={12}>
             <TextField sx={{ width: '100%' }} onChange={handleTracking} value={Tracking} />
+          </Grid>
+          <Grid item xs={12} sm={12} md={12}>
+            <Typography variant='subtitle1'>Send Work Order</Typography>
+          </Grid>
+          <Grid item xs={12} sm={12} md={12}>
+            <TextField sx={{ width: '100%' }} onChange={handleTonen} value={Tonen} />
           </Grid>
           <Grid item xs={12} sm={12} md={3} sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
             <Button
@@ -287,36 +298,34 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
               Submit
             </Button>
           </Grid>
+          <Grid container xs={12} sm={6} display={'flex'} justifyContent={'flex-end'} flexDirection={'column'}>
+            <Grid item xs={6} display={'flex'} justifyContent={'center'}>
+              <label htmlFor='file-input'>
+                <input
+                  type='file'
+                  id='file-input'
+                  style={{ display: 'none' }}
+                  onChange={handleFileUpload}
 
-          <Grid item xs={12} sm={12} md={6}>
+                  // accept='.pdf'
+                />
+
+                <IconButton component='span' color='primary' aria-label='upload file'>
+                  <FileUploadIcon />
+                </IconButton>
+              </label>
+            </Grid>
+            <Grid item xs={12} md={6} display={'flex'} justifyContent={'center'}>
+              <span style={{ textAlign: 'center' }}>{selectedFileName || 'Select a Receipt file (PDF only)'}</span>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} sm={12} md={12}>
             <Typography variant='subtitle1' sx={{ textAlign: 'start' }}>
               Tracking Status
             </Typography>
           </Grid>
           <Grid item xs={12} sm={12}>
             <TrackStatus TrackNo={orderdata.tracking_number} />
-          </Grid>
-          <Grid item xs={12} sm={12} md={6}>
-            <Box>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={12} md={3} sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
-                  <label htmlFor='file-input'>
-                    <input
-                      type='file'
-                      id='file-input'
-                      style={{ display: 'none' }}
-                      onChange={handleFileUpload}
-
-                      // accept='.pdf'
-                    />
-                    <IconButton component='span' color='primary' aria-label='upload file' style={{ marginTop: '10px' }}>
-                      <FileUploadIcon />
-                    </IconButton>
-                  </label>
-                </Grid>
-              </Grid>
-            </Box>
-            <span style={{ textAlign: 'center' }}>{selectedFileName || 'Select a Receipt file (PDF only)'}</span>
           </Grid>
         </Grid>
       )}
@@ -340,7 +349,7 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
             <TrackStatus TrackNo={orderdata.tracking_number} />
           </Grid>
 
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={12}>
             <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
               Receipt Download
             </Typography>
