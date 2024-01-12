@@ -216,7 +216,9 @@ const Show_Status = () => {
           <Grid item sm={12} md={7}>
             <Grid container>
               <Grid item md={12}>
-                <Word_order />
+                <Box>
+                  <Word_order />
+                </Box>
                 <Box sx={{ width: '100%' }}>
                   <Paymant
                     usertype={usertype}

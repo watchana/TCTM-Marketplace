@@ -102,57 +102,58 @@ const Word_order = () => {
   }, [userId])
 
   return (
-    <Container maxWidth='xl'>
-      <Grid container>
-        <Grid item sm={12} md={12}>
-          <Card
-            sx={{
-              width: '100%',
-              marginBottom: '30px',
-              padding: '15px 25px 20px',
-              border: '2px solid #primary.main'
-            }}
-          >
-            <Grid container spacing={3} rowSpacing={2}>
-              <Grid item xs={12} sm={12} md={12}>
-                <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
-                  Work Order
-                </Typography>
-              </Grid>
-
-              <Grid item>
-                <Table>
-                  <TableHead>
-                    <TableRow sx={{ verticalAlign: 'top' }}>
-                      <TableCell>ID</TableCell>
-                      <TableCell>Name</TableCell>
-                      <TableCell>Complete Quantity</TableCell>
-                      <TableCell>Process Loss Quantity</TableCell>
-                      <TableCell>BOM</TableCell>
-                      <TableCell>Work Station</TableCell>
-                      <TableCell>Time</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {data.map((item, index) => (
-                      <TableRow key={index} sx={{ verticalAlign: 'top' }}>
-                        <TableCell>{index + 1}</TableCell>
-                        <TableCell>{item.operation}</TableCell>
-                        <TableCell>{item.completed_qty}</TableCell>
-                        <TableCell>{item.process_loss_qty}</TableCell>
-                        <TableCell>{item.bom}</TableCell>
-                        <TableCell>{item.workstation}</TableCell>
-                        <TableCell>{item.time_in_mins}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </Grid>
+    <Box>
+      {data.length > 0 && ( // Check if data has items
+        <Card
+          sx={{
+            width: '100%',
+            marginBottom: '30px',
+            padding: '15px 25px 20px',
+            border: '2px solid #primary.main'
+          }}
+        >
+          <Grid container>
+            <Grid item xs={12} sm={12} md={12}>
+              <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
+                Work Order
+              </Typography>
             </Grid>
-          </Card>
-        </Grid>
-      </Grid>
-    </Container>
+
+            <Grid item>
+              <Table>
+                <TableHead>
+                  <TableRow sx={{ verticalAlign: 'top' }}>
+                    <TableCell>ID</TableCell>
+                    <TableCell>Name</TableCell>
+                    <TableCell>Complete Quantity</TableCell>
+                    <TableCell>Process Loss Quantity</TableCell>
+                    <TableCell>BOM</TableCell>
+                    <TableCell>Work Station</TableCell>
+                    <TableCell>Time</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {data.map((item, index) => (
+                    <TableRow key={index} sx={{ verticalAlign: 'top' }}>
+                      <TableCell>{index + 1}</TableCell>
+                      <TableCell>{item.operation}</TableCell>
+                      <TableCell>{item.completed_qty}</TableCell>
+                      <TableCell>{item.process_loss_qty}</TableCell>
+                      <TableCell>{item.bom}</TableCell>
+                      <TableCell>{item.workstation}</TableCell>
+                      <TableCell>{item.time_in_mins}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Grid>
+          </Grid>
+        </Card>
+      )}
+      {data.length === 0 && (
+        <Box sx={{ display: 'none' }}>No Data</Box> // If no data, hide the entire content
+      )}
+    </Box>
   )
 }
 
