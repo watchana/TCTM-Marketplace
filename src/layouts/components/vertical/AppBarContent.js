@@ -19,7 +19,7 @@ import {
 } from '@mui/material'
 
 // ** Material-UI Icons Imports
-import ShoppingBagIcon from '@mui/icons-material/ShoppingBag'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer'
 import LocalShippingIcon from '@mui/icons-material/LocalShipping'
 
@@ -212,7 +212,7 @@ const AppBarContent = props => {
                         </Link>
                         <Link href='/member/order/myoder/' passHref>
                           <ListItem button>
-                            <ShoppingBagIcon sx={{ color: 'text.primary' }} />
+                            <ShoppingCartIcon sx={{ color: 'text.primary' }} />
                           </ListItem>
                         </Link>
                         <Link href='/member/logistic' passHref>
@@ -241,7 +241,7 @@ const AppBarContent = props => {
                         style={{ display: role === 'USER' || role === 'ADMIN' || role === 'TCTM' ? 'block' : 'none' }}
                       >
                         <Box sx={styles}>
-                          <ShoppingBagIcon sx={{ color: 'text.primary' }} />
+                          <ShoppingCartIcon sx={{ color: 'text.primary' }} />
                         </Box>
                       </IconButton>
                     </Link>
