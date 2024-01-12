@@ -1,60 +1,71 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Card,
+  CardContent,
+  Grid
+} from '@mui/material'
 
 export default function MyComponent() {
-    const [data, setData] = useState([])
-    const [userId, setUserId] = useState('')
-    const [userdata, setUserData] = useState({})
+  const [data, setData] = useState([])
+  const [userId, setUserId] = useState('')
+  const [userdata, setUserData] = useState({})
 
-   const fetchData = async () => {
-     try {
-       const userResponse = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.profile.display_profile`, {
-         params: {
-           member_id: userId
-         }
-       })
-       const user = userResponse.data.message.Data[0]
-       setUserData(user)
+  const fetchData = async () => {
+    try {
+      const userResponse = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.profile.display_profile`, {
+        params: {
+          member_id: userId
+        }
+      })
+      const user = userResponse.data.message.Data[0]
+      setUserData(user)
 
-       const config = {
-         method: 'get',
-         maxBodyLength: Infinity,
-         url: `${user.sup_hostaddress}MFG-WO-2023-00008`,
-         headers: {
-           Authorization: `token ${user.sup_apikey}:${user.sup_apisecret}`
-         }
-       }
+      const config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: `${user.sup_hostaddress}MFG-WO-2023-00008`,
+        headers: {
+          Authorization: `token ${user.sup_apikey}:${user.sup_apisecret}`
+        }
+      }
 
-       const workOrderResponse = await axios.request(config)
-       setData(workOrderResponse.data.data.operations)
+      const workOrderResponse = await axios.request(config)
+      setData(workOrderResponse.data.data.operations)
 
-       console.log('operations', workOrderResponse.data.data.planned_end_date)
-       console.log('actual_start_date', workOrderResponse.data.data.actual_start_date)
-       console.log('planned_end_date', workOrderResponse.data.data.planned_end_date)
-     } catch (error) {
-       console.log(error)
-     }
-   }
+      console.log('operations', workOrderResponse.data.data.planned_end_date)
+      console.log('actual_start_date', workOrderResponse.data.data.actual_start_date)
+      console.log('planned_end_date', workOrderResponse.data.data.planned_end_date)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
-   useEffect(() => {
-     const userIdFromLocalStorage = localStorage.getItem('Member_Id')
-     if (userIdFromLocalStorage) {
-       setUserId(userIdFromLocalStorage)
-     }
-   }, [])
+  useEffect(() => {
+    const userIdFromLocalStorage = localStorage.getItem('Member_Id')
+    if (userIdFromLocalStorage) {
+      setUserId(userIdFromLocalStorage)
+    }
+  }, [])
 
-   useEffect(() => {
-     if (userId) {
-       fetchData() // Initial data fetch
+  useEffect(() => {
+    if (userId) {
+      fetchData() // Initial data fetch
 
-       const intervalId = setInterval(() => {
-         fetchData() // Fetch data every 1 minute
-       }, 60000) // 1 minute in milliseconds
+      const intervalId = setInterval(() => {
+        fetchData() // Fetch data every 1 minute
+      }, 60000) // 1 minute in milliseconds
 
-       return () => clearInterval(intervalId) // Clear the interval on component unmount
-     }
-   }, [userId])
+      return () => clearInterval(intervalId) // Clear the interval on component unmount
+    }
+  }, [userId])
 
   return (
     <TableContainer component={Paper}>
