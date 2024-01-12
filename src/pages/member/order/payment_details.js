@@ -298,27 +298,24 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
               Submit
             </Button>
           </Grid>
-          <Grid container xs={12} sm={12} md={6} display={'flex'} justifyContent={'flex-start'}>
-           <Grid item display={''}></Grid> <Grid item xs={12}>
+          <Grid container xs={12} sm={6} display={'flex'} justifyContent={'flex-end'} flexDirection={'column'}>
+            <Grid item xs={6} display={'flex'} justifyContent={'center'}>
               <label htmlFor='file-input'>
-                <Grid item>
-                  <input
-                    type='file'
-                    id='file-input'
-                    style={{ display: 'none' }}
-                    onChange={handleFileUpload}
+                <input
+                  type='file'
+                  id='file-input'
+                  style={{ display: 'none' }}
+                  onChange={handleFileUpload}
 
-                    // accept='.pdf'
-                  />
-                </Grid>
+                  // accept='.pdf'
+                />
 
-                <IconButton component='span' color='primary' aria-label='upload file' style={{ marginTop: '10px' }}>
+                <IconButton component='span' color='primary' aria-label='upload file'>
                   <FileUploadIcon />
                 </IconButton>
               </label>
             </Grid>
-
-            <Grid item xs={12}>
+            <Grid item xs={12} md={6} display={'flex'} justifyContent={'center'}>
               <span style={{ textAlign: 'center' }}>{selectedFileName || 'Select a Receipt file (PDF only)'}</span>
             </Grid>
           </Grid>
