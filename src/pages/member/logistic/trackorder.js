@@ -93,98 +93,110 @@ const TrackingStatus = ({ productdata, updateProductData, trackNo }) => {
         <Typography>No Data</Typography>
       ) : (
         <Grid container spacing={4}>
-          {productdata.map((item, index) => (
-            <>
-              <Grid item key={index.id}>
-                <Typography variant='body1' fontWeight='' fontSize='1.0rem' color='#000'>
-                  Product: {index + 1}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Card variant='outlined'>
-                  <Grid container justifyContent='space-between' sx={{ padding: '14px 14px 0px' }}>
-                    <Grid item xs={12} sm={6}>
-                      <Typography variant='body1' fontSize='1.0rem' color='#000'>
-                        Market Name: {item.sub_name}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Typography variant='body1' fontSize='1.0rem' color='#000' textAlign='end'>
-                        ORDER ID : {item.invoice_id}
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                  <Divider />
-                  <Box sx={{ width: '100%' }}>
-                    <Grid container spacing={2}>
-                      <Grid item xs={12} sm={2}>
-                        <Box
-                          sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            padding: '7px 14px 0px',
-                            maxWidth: '250px',
-                            maxHeight: '250px'
-                          }}
-                        >
-                          <CardMedia
-                            component='img'
-                            src={`/imgTctmProduct/${item.image_file_name}`}
-                            alt={`image`}
-                            height='auto'
-                            sx={{ minWidth: '100px', minHeight: '100px' }}
-                          />
-                        </Box>
+          {productdata
+            .map((item, index) => ({
+              index,
+              item
+            }))
+            .filter(
+              
+              // Filter by item
+              ({ item }) =>
+                (item.price_total !== null && item.price_total >= '1' && item.invoice_status === '3') ||
+                (item.price_total !== null && item.price_total >= '1' && item.invoice_status === '4')
+            )
+            .map(({ index, item }) => (
+              <Grid container key={index}>
+                <Grid item>
+                  <Typography variant='body1' fontWeight='' fontSize='1.0rem' color='#000'>
+                    Product: {index + 1}
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Card variant='outlined'>
+                    <Grid container justifyContent='space-between' sx={{ padding: '14px 14px 0px' }}>
+                      <Grid item xs={12} sm={6}>
+                        <Typography variant='body1' fontSize='1.0rem' color='#000'>
+                          Market Name: {item.sub_name}
+                        </Typography>
                       </Grid>
-                      <Grid item xs={12} sm={7}>
-                        <Box sx={{ display: 'flex', flexDirection: 'column', padding: '7px 14px 0px' }}>
-                          <Typography variant='body1' fontWeight='' fontSize='1.0rem' color='#000'>
-                            Product: {item.product_name}
-                            {status}
-                          </Typography>
-                          <Typography variant='body1' fontWeight='' fontSize='1.0rem' color='#000'>
-                            Amount: {item.amount}
-                          </Typography>
-                        </Box>
-                      </Grid>
-                      <Grid item xs={12} sm={3}>
-                        <Box
-                          sx={{
-                            width: '100%',
-                            height: '100%',
-                            display: 'flex',
-                            justifyContent: 'flex-end',
-                            alignItems: 'center',
-                            padding: '7px 14px 0px'
-                          }}
-                        >
-                          <Typography variant='body1' fontSize='1.0rem' textAlign='end' color='#e61610'>
-                            ฿ {item.price_total}
-                          </Typography>
-                        </Box>
+                      <Grid item xs={12} sm={6}>
+                        <Typography variant='body1' fontSize='1.0rem' color='#000' textAlign='end'>
+                          ORDER ID : {item.invoice_id}
+                        </Typography>
                       </Grid>
                     </Grid>
-                  </Box>
-                  <Divider />
-                  <Grid container spacing={2} rowSpacing={2}>
-                    <Grid item xs={12}>
-                      <Grid container justifyContent='space-between' sx={{ paddingX: 4 }}>
-                        <Grid item xs={12} sm={6}>
-                          <Typography variant='caption'>
-                            Please press confirm after receiving and inspecting the product.
-                          </Typography>
+                    <Divider />
+                    <Box sx={{ width: '100%' }}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12} sm={2}>
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              justifyContent: 'center',
+                              padding: '7px 14px 0px',
+                              maxWidth: '250px',
+                              maxHeight: '250px'
+                            }}
+                          >
+                            <CardMedia
+                              component='img'
+                              src={`/imgTctmProduct/${item.image_file_name}`}
+                              alt={`image`}
+                              height='auto'
+                              sx={{ minWidth: '100px', minHeight: '100px' }}
+                            />
+                          </Box>
                         </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <Typography variant='h6' fontSize='24px bold' color='#2d2e81' textAlign='end'>
-                            total Price: {item.price_total}
-                          </Typography>
+                        <Grid item xs={12} sm={7}>
+                          <Box sx={{ display: 'flex', flexDirection: 'column', padding: '7px 14px 0px' }}>
+                            <Typography variant='body1' fontWeight='' fontSize='1.0rem' color='#000'>
+                              Product: {item.product_name}
+                              {status}
+                            </Typography>
+                            <Typography variant='body1' fontWeight='' fontSize='1.0rem' color='#000'>
+                              Amount: {item.amount}
+                            </Typography>
+                          </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={3}>
+                          <Box
+                            sx={{
+                              width: '100%',
+                              height: '100%',
+                              display: 'flex',
+                              justifyContent: 'flex-end',
+                              alignItems: 'center',
+                              padding: '7px 14px 0px'
+                            }}
+                          >
+                            <Typography variant='body1' fontSize='1.0rem' textAlign='end' color='#e61610'>
+                              ฿ {item.price_total}
+                            </Typography>
+                          </Box>
                         </Grid>
                       </Grid>
-                    </Grid>
-                    <Box sx={{ width: '100%', padding: 4 }}>
-                      <Grid container spacing={2} justifyContent='flex-end'>
-                        <Grid item xs={12} md={2}>
-                          {/* <Button
+                    </Box>
+                    <Divider />
+                    <Grid container spacing={2} rowSpacing={2}>
+                      <Grid item xs={12}>
+                        <Grid container justifyContent='space-between' sx={{ paddingX: 4 }}>
+                          <Grid item xs={12} sm={6}>
+                            <Typography variant='caption'>
+                              Please press confirm after receiving and inspecting the product.
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={12} sm={6}>
+                            <Typography variant='h6' fontSize='24px bold' color='#2d2e81' textAlign='end'>
+                              total Price: {item.price_total}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                      <Box sx={{ width: '100%', padding: 4 }}>
+                        <Grid container spacing={2} justifyContent='flex-end'>
+                          <Grid item xs={12} md={2}>
+                            {/* <Button
                             fullWidth
                             variant='contained'
                             color='primary'
@@ -199,24 +211,24 @@ const TrackingStatus = ({ productdata, updateProductData, trackNo }) => {
                           >
                             Attach file
                           </Button> */}
+                          </Grid>
+                          <Grid item xs={12} md={2}>
+                            <Button fullWidth variant='outlined' onClick={() => handleDetailPage(item.invoice_id)}>
+                              Detail
+                            </Button>
+                          </Grid>
+                          <Grid item xs={12} md={2}>
+                            <Button fullWidth variant='outlined' onClick={() => handleConfirmProduct(item.invoice_id)}>
+                              Confirm
+                            </Button>
+                          </Grid>
                         </Grid>
-                        <Grid item xs={12} md={2}>
-                          <Button fullWidth variant='outlined' onClick={() => handleDetailPage(item.invoice_id)}>
-                            Detail
-                          </Button>
-                        </Grid>
-                        <Grid item xs={12} md={2}>
-                          <Button fullWidth variant='outlined' onClick={() => handleConfirmProduct(item.invoice_id)}>
-                            Confirm
-                          </Button>
-                        </Grid>
-                      </Grid>
-                    </Box>
-                  </Grid>
-                </Card>
+                      </Box>
+                    </Grid>
+                  </Card>
+                </Grid>
               </Grid>
-            </>
-          ))}
+            ))}
         </Grid>
       )}
     </Container>

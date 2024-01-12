@@ -340,7 +340,7 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
             <TrackStatus TrackNo={orderdata.tracking_number} />
           </Grid>
 
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={12}>
             <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
               Receipt Download
             </Typography>
