@@ -113,36 +113,46 @@ const ShowProducts = () => {
       </Box>
       {/* ---------- Show Product ---------- */}
       <Box sx={{ width: '100%', marginTop: '30px' }}>
-        <Grid container spacing={4}>
-          <Hidden mdDown>
-            <Grid item md={2}>
+        <Grid container spacing={4} sx={{ display: 'flex', flexDirection: 'row' }}>
+          <Grid item>
+            <Hidden mdDown>
               <Box
                 sx={{
-                  width: '220px',
+                  position: 'relative',
+                  width: '210px',
                   height: '280px',
                   borderRadius: '6px',
-                  backgroundImage: 'url(/imgBillboard/Nodata2.png)',
-                  backgroundSize: '220px 280px',
-                  backgroundPosition: 'center',
-                  padding: '12px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center'
+                  overflow: 'hidden'
                 }}
               >
-                {/* <Typography
-                  variant='h5'
-                  fontSize='32px'
-                  sx={{ fontWeight: 'bold', textAlign: 'center', padding: '12px' }}
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: '0',
+                    left: '0',
+                    width: '100%',
+                    height: '100%',
+                    backgroundImage: 'url(/imgBillboard/Nodata2.png)',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    padding: '12px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    fontWeight: 'bold'
+                  }}
                 >
-                  Best selling products
-                </Typography> */}
+                  <Typography variant='h5' fontSize='32px'>
+                    Best selling products
+                  </Typography>
+                </Box>
               </Box>
-            </Grid>
-          </Hidden>
+            </Hidden>
+          </Grid>
+
           <Grid item xs={12} md={10}>
-            <Box sx={{ width: '100%', height: '280px', borderRadius: '6px' }}>
+            <Box sx={{ width: '100%', height: '270px', borderRadius: '6px' }}>
               {slidedata && slidedata.length > 0 ? (
                 <Carousel responsive={responsive} infinite={false}>
                   {/* ========================== Map ========================== */}
@@ -152,7 +162,7 @@ const ShowProducts = () => {
                       variant='outlined'
                       sx={{
                         border: '0.5px solid lightgray',
-                        width: { xs: '150px', sm: '170px', md: '200px', lg: '220px', xl: '250px' },
+                        width: { xs: '150px', sm: '170px', md: '200px', lg: '205.5px', xl: '250px' },
                         height: '100%',
                         boxShadow: 3,
                         cursor: 'pointer',
