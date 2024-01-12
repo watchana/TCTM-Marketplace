@@ -70,9 +70,12 @@ const NameMarket = () => {
 
   // React Multi Carousel Responsive
   const responsive = {
-    desktopLarge: { breakpoint: { max: 3000, min: 2400 }, items: 5, partialVisibilityGutter: 40 },
-    desktop: { breakpoint: { max: 2400, min: 1024 }, items: 5, partialVisibilityGutter: 30 },
-    tablet: { breakpoint: { max: 1024, min: 900 }, items: 4, partialVisibilityGutter: 20 }
+    desktopLarge: { breakpoint: { max: 3000, min: 2300 }, items: 10, partialVisibilityGutter: 10 },
+    desktop: { breakpoint: { max: 2300, min: 1250 }, items: 5, partialVisibilityGutter: 10 },
+    tablet: { breakpoint: { max: 1250, min: 1090 }, items: 5, partialVisibilityGutter: 10 },
+    mobile: { breakpoint: { max: 1090, min: 800 }, items: 4, partialVisibilityGutter: 10 },
+    smallMobile1: { breakpoint: { max: 800, min: 500 }, items: 3, partialVisibilityGutter: 10 },
+    smallMobile2: { breakpoint: { max: 500, min: 50 }, items: 2, partialVisibilityGutter: 10 }
   }
 
   // Call Api
@@ -92,35 +95,6 @@ const NameMarket = () => {
 
   return (
     <Container maxWidth='xl'>
-      <Box>
-        <Carousel
-          arrows={false}
-          responsive={responsive}
-          sliderItem={slidedata.length > 1 ? slidedata.length : undefined}
-        >
-          {slidedata.map((product, index) => (
-            <Card key={index} sx={{ width: '170px', height: '100px' }}>
-              <Button
-                onClick={() => {
-                  router.push(`/category_market/?sub_id=${product.sub_id}&sub_name=${product.sub_name}`)
-                }}
-                sx={{ width: '100%', height: '100%', padding: 0, borderRadius: '6px' }}
-              >
-                <ImageButton focusRipple>
-                  <CardMedia
-                    component='img'
-                    image={`/imgStore/${product.sub_image}`}
-                    alt='NameMarket'
-                    sx={{ height: '100%', borderRadius: '6px' }}
-                  />
-                  <ImageBackdrop className='MuiImageBackdrop-root' />
-                </ImageButton>
-              </Button>
-            </Card>
-          ))}
-        </Carousel>
-      </Box>
-
       {/* ---------- NameMarket ---------- */}
       <Box sx={{ width: '100%', marginTop: { sm: '0px', md: '30px' }, paddingX: '5px' }}>
         {slidedata && slidedata.length > 0 ? (
@@ -130,7 +104,13 @@ const NameMarket = () => {
             sliderItem={slidedata.length > 1 ? slidedata.length : undefined}
           >
             {slidedata.map((product, index) => (
-              <Card key={index} sx={{ width: '170px', height: '100px' }}>
+              <Card
+                key={index}
+                sx={{
+                  width: { xs: '150px', sm: '170px', md: '200px', lg: '220px', xl: '250px' },
+                  height: '100px'
+                }}
+              >
                 <Button
                   onClick={() => {
                     router.push(`/category_market/?sub_id=${product.sub_id}&sub_name=${product.sub_name}`)

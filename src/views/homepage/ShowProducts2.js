@@ -54,10 +54,12 @@ const ShowProducts2 = () => {
 
   // React Multi Carousel Responsive
   const responsive = {
-    desktopLarge: { breakpoint: { max: 3000, min: 2400 }, items: 10, partialVisibilityGutter: 40 },
-    desktop: { breakpoint: { max: 2400, min: 1300 }, items: 5, partialVisibilityGutter: 30 },
-    desktop: { breakpoint: { max: 1300, min: 1024 }, items: 4, partialVisibilityGutter: 20 },
-    tablet: { breakpoint: { max: 1024, min: 900 }, items: 3, partialVisibilityGutter: 10 }
+    desktopLarge: { breakpoint: { max: 3000, min: 2300 }, items: 10, partialVisibilityGutter: 10 },
+    desktop: { breakpoint: { max: 2300, min: 1400 }, items: 5, partialVisibilityGutter: 10 },
+    tablet: { breakpoint: { max: 1400, min: 1100 }, items: 4, partialVisibilityGutter: 10 },
+    mobile: { breakpoint: { max: 1100, min: 600 }, items: 3, partialVisibilityGutter: 10 },
+    smallMobile1: { breakpoint: { max: 600, min: 500 }, items: 3, partialVisibilityGutter: 10 },
+    smallMobile2: { breakpoint: { max: 500, min: 50 }, items: 2, partialVisibilityGutter: 10 }
   }
 
   // Call Api
@@ -126,8 +128,8 @@ const ShowProducts2 = () => {
                       }}
                       sx={{
                         border: '0.5px solid lightgray',
-                        width: { xs: '150px', sm: '200px' },
-                        height: { xs: '200px', sm: '280px' },
+                        width: { xs: '150px', sm: '170px', md: '200px', lg: '220px', xl: '250px' },
+                        height: '100%',
                         boxShadow: 3,
                         cursor: 'pointer',
                         '&:hover': { boxShadow: 10, border: '2px solid #2d2e81' }

@@ -54,27 +54,12 @@ const ShowProducts = () => {
 
   // React Multi Carousel Responsive
   const responsive = {
-    desktop: {
-      breakpoint: {
-        max: 3000,
-        min: 1024
-      },
-      items: 5
-    },
-    tablet: {
-      breakpoint: {
-        max: 1024,
-        min: 464
-      },
-      items: 2
-    },
-    mobile: {
-      breakpoint: {
-        max: 464,
-        min: 0
-      },
-      items: 1
-    }
+    desktopLarge: { breakpoint: { max: 3000, min: 2300 }, items: 10, partialVisibilityGutter: 10 },
+    desktop: { breakpoint: { max: 2300, min: 1400 }, items: 5, partialVisibilityGutter: 10 },
+    tablet: { breakpoint: { max: 1400, min: 1100 }, items: 4, partialVisibilityGutter: 10 },
+    mobile: { breakpoint: { max: 1100, min: 600 }, items: 3, partialVisibilityGutter: 10 },
+    smallMobile1: { breakpoint: { max: 600, min: 500 }, items: 3, partialVisibilityGutter: 10 },
+    smallMobile2: { breakpoint: { max: 500, min: 50 }, items: 2, partialVisibilityGutter: 10 }
   }
 
   // Call Api
@@ -167,8 +152,8 @@ const ShowProducts = () => {
                       variant='outlined'
                       sx={{
                         border: '0.5px solid lightgray',
-                        width: { xs: '150px', sm: '200px' },
-                        height: { xs: '200px', sm: '280px' },
+                        width: { xs: '150px', sm: '170px', md: '200px', lg: '220px', xl: '250px' },
+                        height: '100%',
                         boxShadow: 3,
                         cursor: 'pointer',
                         '&:hover': { boxShadow: 10, border: '2px solid #2d2e81' }

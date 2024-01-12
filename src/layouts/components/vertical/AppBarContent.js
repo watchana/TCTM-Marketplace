@@ -6,7 +6,17 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 // ** Material UI Imports
-import { Box, CardMedia, FormControl, Grid, IconButton, InputAdornment, OutlinedInput, Typography } from '@mui/material'
+import {
+  Box,
+  CardMedia,
+  FormControl,
+  Grid,
+  IconButton,
+  InputAdornment,
+  OutlinedInput,
+  Typography,
+  Hidden
+} from '@mui/material'
 
 // ** Material-UI Icons Imports
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
@@ -22,6 +32,11 @@ import NotificationDropdown from 'src/@core/layouts/components/shared-components
 
 // Import auth token Decode
 import { createToken, verifyToken } from 'src/@core/utils/auth'
+import Popover from '@mui/material/Popover'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import MenuIcon from '@mui/icons-material/Menu'
+import Menu from '@mui/material/Menu'
 
 const styles = {
   py: 1,
@@ -90,6 +105,17 @@ const AppBarContent = props => {
     }
   }, [])
 
+  // State for dropdown menu
+  const [anchorEl, setAnchorEl] = useState(null)
+
+  const handlePopoverOpen = event => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null)
+  }
+
   return (
     <Box sx={{ width: '100%', height: '90px' }}>
       <Grid container justifyContent='space-between' alignItems='center' sx={{ height: '100%' }}>
@@ -105,7 +131,15 @@ const AppBarContent = props => {
                   '&:hover': {
                     transform: 'scale(1.1)',
                     transition: 'all 0.3s ease'
+                  },
+                  '@media (max-width: 1920px)': {
+                    width: '60%' // ปรับขนาดเมื่อหน้าจอใหญ่สุด 1920px
+                  },
+                  '@media (max-width: 960px)': {
+                    width: '80%' // ปรับขนาดเมื่อหน้าจอใหญ่สุด 960px
                   }
+
+                  // สามารถเพิ่มเงื่อนไข media query เพิ่มเติมตามความต้องการ
                 }}
               />
             </Link>
@@ -152,42 +186,84 @@ const AppBarContent = props => {
                       }}
                     />
                   </FormControl>
-                  <Link href='/member/ports/' passHref>
-                    <IconButton
-                      sx={{ p: 0 }}
-                      style={{ display: role === 'USER' || role === 'ADMIN' || role === 'TCTM' ? 'block' : 'none' }}
-                    >
-                      <Box sx={styles}>
-                        <QuestionAnswerIcon sx={{ color: 'text.primary' }} />
-                      </Box>
+
+                  <Hidden mdUp>
+                    <IconButton onClick={handlePopoverOpen} sx={{ p: 0, display: 'block' }}>
+                      <MenuIcon sx={{ color: 'text.primary' }} />
                     </IconButton>
-                  </Link>
-                  <Link href='/member/order/myoder/' passHref>
-                    <IconButton
-                      sx={{ p: 0 }}
-                      style={{ display: role === 'USER' || role === 'ADMIN' || role === 'TCTM' ? 'block' : 'none' }}
+                    <Popover
+                      open={Boolean(anchorEl)}
+                      anchorEl={anchorEl}
+                      onClose={handlePopoverClose}
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'center'
+                      }}
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'center'
+                      }}
                     >
-                      <Box sx={styles}>
-                        <ShoppingCartIcon sx={{ color: 'text.primary' }} />
-                      </Box>
-                    </IconButton>
-                  </Link>
-                  <Link href='/member/logistic' passHref>
-                    <IconButton
-                      sx={{ p: 0 }}
-                      style={{ display: role === 'USER' || role === 'ADMIN' || role === 'TCTM' ? 'block' : 'none' }}
-                    >
-                      <Box sx={styles}>
-                        <LocalShippingIcon sx={{ color: 'text.primary' }} />
-                      </Box>
-                    </IconButton>
-                  </Link>
+                      <List>
+                        <Link href='/member/ports/' passHref>
+                          <ListItem button>
+                            <QuestionAnswerIcon sx={{ color: 'text.primary' }} />
+                          </ListItem>
+                        </Link>
+                        <Link href='/member/order/myoder/' passHref>
+                          <ListItem button>
+                            <ShoppingBagIcon sx={{ color: 'text.primary' }} />
+                          </ListItem>
+                        </Link>
+                        <Link href='/member/logistic' passHref>
+                          <ListItem button>
+                            <LocalShippingIcon sx={{ color: 'text.primary' }} />
+                          </ListItem>
+                        </Link>
+                      </List>
+                    </Popover>
+                  </Hidden>
+
+                  <Hidden mdDown>
+                    <Link href='/member/ports/' passHref>
+                      <IconButton
+                        sx={{ p: 0 }}
+                        style={{ display: role === 'USER' || role === 'ADMIN' || role === 'TCTM' ? 'block' : 'none' }}
+                      >
+                        <Box sx={styles}>
+                          <QuestionAnswerIcon sx={{ color: 'text.primary' }} />
+                        </Box>
+                      </IconButton>
+                    </Link>
+                    <Link href='/member/order/myoder/' passHref>
+                      <IconButton
+                        sx={{ p: 0 }}
+                        style={{ display: role === 'USER' || role === 'ADMIN' || role === 'TCTM' ? 'block' : 'none' }}
+                      >
+                        <Box sx={styles}>
+                          <ShoppingBagIcon sx={{ color: 'text.primary' }} />
+                        </Box>
+                      </IconButton>
+                    </Link>
+                    <Link href='/member/logistic' passHref>
+                      <IconButton
+                        sx={{ p: 0 }}
+                        style={{ display: role === 'USER' || role === 'ADMIN' || role === 'TCTM' ? 'block' : 'none' }}
+                      >
+                        <Box sx={styles}>
+                          <LocalShippingIcon sx={{ color: 'text.primary' }} />
+                        </Box>
+                      </IconButton>
+                    </Link>
+                  </Hidden>
                   <Box
                     sx={{ p: 0 }}
                     style={{ display: role === 'USER' || role === 'ADMIN' || role === 'TCTM' ? 'block' : 'none' }}
                   >
                     <NotificationDropdown />
                   </Box>
+
+                  {/* Responsive Dropdown - End */}
 
                   <UserDropdown />
                   <Link href='/login' passHref>
