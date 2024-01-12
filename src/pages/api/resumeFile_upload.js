@@ -20,7 +20,7 @@ export default async (req, res) => {
     const newFilename = fields.FileName[0]
 
     var oldPath = files.file[0].filepath
-    var newPath = `public/receipt/${newFilename}`
+    var newPath = `public/PDF_File/${newFilename}`
 
     mv(oldPath, newPath, function (err) {
       if (err) {
