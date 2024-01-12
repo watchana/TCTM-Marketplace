@@ -80,8 +80,8 @@ console.log('decodedQueryString',decodedQueryString);
       const result = await stripeInstance.redirectToCheckout({
         lineItems: [{ price: price.id, quantity: 1 }],
         mode: 'payment',
-        successUrl: `http://111.223.38.18:3000/member/order/pay_success/?${decodedQueryString}`,
-        cancelUrl: `http://111.223.38.18:3000/member/order/changeorder/?${decodedQueryString}`
+        successUrl: `http://localhost:3000/member/order/pay_success/?${decodedQueryString}`,
+        cancelUrl: `http://localhost:3000/member/order/changeorder/?${decodedQueryString}`
       })
 
       if (result.error) {

@@ -3,42 +3,65 @@ import axios from 'axios'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material'
 
 export default function MyComponent() {
-  const [data, setData] = useState([])
+    const [data, setData] = useState([])
+    const [userId, setUserId] = useState('')
+    const [userdata, setUserData] = useState({})
 
-  let config = {
-    method: 'get',
-    maxBodyLength: Infinity,
-    url: 'https://tonen.vsiam.com/api/resource/Work Order/MFG-WO-2023-00008',
-    headers: {
-      Authorization: 'token 5891d01ccc2961e:0e446b332dc22aa'
-    }
-  }
+   const fetchData = async () => {
+     try {
+       const userResponse = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.profile.display_profile`, {
+         params: {
+           member_id: userId
+         }
+       })
+       const user = userResponse.data.message.Data[0]
+       setUserData(user)
 
-  useEffect(() => {
-    const fetchData = async () => {
-      axios
-        .request(config)
-        .then(response => {
-          setData(response.data.data.operations)
-          console.log(response.data.data)
-          console.log('operations', response.data.data.planned_end_date)
-          console.log('actual_start_date', response.data.data.actual_start_date)
-          console.log('planned_end_date', response.data.data.planned_end_date)
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    }
+       const config = {
+         method: 'get',
+         maxBodyLength: Infinity,
+         url: `${user.sup_hostaddress}MFG-WO-2023-00008`,
+         headers: {
+           Authorization: `token ${user.sup_apikey}:${user.sup_apisecret}`
+         }
+       }
 
-    fetchData()
-  }, [])
+       const workOrderResponse = await axios.request(config)
+       setData(workOrderResponse.data.data.operations)
+
+       console.log('operations', workOrderResponse.data.data.planned_end_date)
+       console.log('actual_start_date', workOrderResponse.data.data.actual_start_date)
+       console.log('planned_end_date', workOrderResponse.data.data.planned_end_date)
+     } catch (error) {
+       console.log(error)
+     }
+   }
+
+   useEffect(() => {
+     const userIdFromLocalStorage = localStorage.getItem('Member_Id')
+     if (userIdFromLocalStorage) {
+       setUserId(userIdFromLocalStorage)
+     }
+   }, [])
+
+   useEffect(() => {
+     if (userId) {
+       fetchData() // Initial data fetch
+
+       const intervalId = setInterval(() => {
+         fetchData() // Fetch data every 1 minute
+       }, 60000) // 1 minute in milliseconds
+
+       return () => clearInterval(intervalId) // Clear the interval on component unmount
+     }
+   }, [userId])
 
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell align=''>ID</TableCell>
+            <TableCell align='center'>ID</TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Complete Quantity</TableCell>
             <TableCell>Process Loss Quantity</TableCell>
