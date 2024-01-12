@@ -19,7 +19,7 @@ import {
 } from '@mui/material'
 
 // ** Material-UI Icons Imports
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag'
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer'
 import LocalShippingIcon from '@mui/icons-material/LocalShipping'
 
