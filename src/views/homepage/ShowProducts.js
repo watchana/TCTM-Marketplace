@@ -113,13 +113,17 @@ const ShowProducts = () => {
       </Box>
       {/* ---------- Show Product ---------- */}
       <Box sx={{ width: '100%', marginTop: '30px' }}>
-        <Grid container spacing={4} sx={{ display: 'flex', flexDirection: 'row' }}>
+        <Grid
+          container
+          spacing={4}
+          sx={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', flexWrap: 'nowrap' }}
+        >
           <Grid item>
             <Hidden mdDown>
               <Box
                 sx={{
                   position: 'relative',
-                  width: '210px',
+                  width: '205.5px',
                   height: '280px',
                   borderRadius: '6px',
                   overflow: 'hidden'
@@ -160,24 +164,23 @@ const ShowProducts = () => {
                     <Card
                       key={index}
                       variant='outlined'
+                      onClick={() => {
+                        window.location.href = `product/?product_id=${product.product_id}`
+                      }}
                       sx={{
                         border: '0.5px solid lightgray',
-                        width: { xs: '150px', sm: '170px', md: '200px', lg: '205.5px', xl: '250px' },
+                        width: { xs: '150px', sm: '170px', md: '200px', lg: '220px', xl: '250px' },
                         height: '100%',
                         boxShadow: 3,
                         cursor: 'pointer',
                         '&:hover': { boxShadow: 10, border: '2px solid #2d2e81' }
                       }}
-                      onClick={() => {
-                        window.location.href = `product/?product_id=${product.product_id}`
-                      }}
                     >
                       <CardMedia
-                        href={`/product/${product.product_id}`}
                         component='img'
                         height='70%'
                         image={`/imgTctmProduct/${product.image_file_name}`}
-                        alt='Product Image'
+                        alt='green iguana'
                         sx={{ objectFit: 'contain' }}
                       />
                       <Box sx={{ padding: 1, height: '30%' }}>
