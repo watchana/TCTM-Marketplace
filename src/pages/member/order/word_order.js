@@ -25,81 +25,64 @@ import { withAuth } from 'src/@core/utils/AuthCheck'
 
 const Word_order = () => {
   // ใช้งาน Router
-  const router = useRouter() // use router
+  const router = useRouter()
   const { invoice_id } = router.query
+  const [processed, setProcess] = useState('')
+  const [data, setData] = useState([])
+  const [userId, setUserId] = useState('')
+  const [userData, setUserData] = useState({})
 
-  // เก็บค่าข้อมูลจาก Api
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.invoice_detail`, {
+        // Fetch invoice details
+        const invoiceResponse = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.invoice_detail`, {
           params: {
             invoice_id: invoice_id
           }
         })
-        setOrderData(response.data.message.Data[0])
-        setProductOption(response.data.message.Option_List)
+        const invoiceData = invoiceResponse.data.message.Data[0]
+        setProcess(invoiceData.process_status)
+
+        // Fetch user profile
+        const userIdFromLocalStorage = localStorage.getItem('Member_Id')
+        if (userIdFromLocalStorage) {
+          setUserId(userIdFromLocalStorage)
+
+          const userResponse = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.profile.display_profile`, {
+            params: {
+              member_id: userIdFromLocalStorage
+            }
+          })
+
+          const user = userResponse.data.message.Data[0]
+          setUserData(user)
+
+          // Fetch work order data
+          const config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: user.sup_hostaddress + invoiceData.process_status,
+            headers: {
+              Authorization: `token ${user.sup_apikey}:${user.sup_apisecret}`
+            }
+          }
+
+          const workOrderResponse = await axios.request(config)
+          setData(workOrderResponse.data.data.operations)
+        }
       } catch (error) {
         console.error(error)
       }
     }
+    fetchData() // Initial data fetch
 
-    fetchData()
-  }, [invoice_id])
-  console.log(localStorage)
+    const intervalId = setInterval(() => {
+      fetchData() // Fetch data every 1 minute
+    }, 60000) // 1 minute in milliseconds
 
-  const [data, setData] = useState([])
-  const [userId, setUserId] = useState('')
-  const [userdata, setUserData] = useState({})
-
-  const fetchData = async () => {
-    try {
-      const userResponse = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.profile.display_profile`, {
-        params: {
-          member_id: userId
-        }
-      })
-      const user = userResponse.data.message.Data[0]
-      setUserData(user)
-
-      const config = {
-        method: 'get',
-        maxBodyLength: Infinity,
-        url: `${user.sup_hostaddress}MFG-WO-2023-00008`,
-        headers: {
-          Authorization: `token ${user.sup_apikey}:${user.sup_apisecret}`
-        }
-      }
-
-      const workOrderResponse = await axios.request(config)
-      setData(workOrderResponse.data.data.operations)
-
-      console.log('operations', workOrderResponse.data.data.planned_end_date)
-      console.log('actual_start_date', workOrderResponse.data.data.actual_start_date)
-      console.log('planned_end_date', workOrderResponse.data.data.planned_end_date)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  useEffect(() => {
-    const userIdFromLocalStorage = localStorage.getItem('Member_Id')
-    if (userIdFromLocalStorage) {
-      setUserId(userIdFromLocalStorage)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (userId) {
-      fetchData() // Initial data fetch
-
-      const intervalId = setInterval(() => {
-        fetchData() // Fetch data every 1 minute
-      }, 60000) // 1 minute in milliseconds
-
-      return () => clearInterval(intervalId) // Clear the interval on component unmount
-    }
-  }, [userId])
+    return () => clearInterval(intervalId) // Clear the interval on component unmount
+  }, [userId, invoice_id])
 
   return (
     <Box>

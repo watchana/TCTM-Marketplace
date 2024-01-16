@@ -213,21 +213,19 @@ const Show_Status = () => {
             </Grid>
           </Grid>
 
-          <Grid item sm={12} md={7}>
-            <Grid container>
-              <Grid item md={12}>
-                <Box>
-                  <Word_order />
-                </Box>
-                <Box sx={{ width: '100%' }}>
-                  <Paymant
-                    usertype={usertype}
-                    orderdata={orderdata}
-                    invoice_id={invoice_id}
-                    receipt={orderdata.receipt_file_name}
-                  />
-                </Box>
-              </Grid>
+          <Grid container md={6}>
+            <Grid item md={6}>
+              <Box>
+                <Word_order />
+              </Box>
+              <Box sx={{ width: '100%' }}>
+                <Paymant
+                  usertype={usertype}
+                  orderdata={orderdata}
+                  invoice_id={invoice_id}
+                  receipt={orderdata.receipt_file_name}
+                />
+              </Box>
             </Grid>
           </Grid>
         </Grid>
