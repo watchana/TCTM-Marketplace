@@ -169,21 +169,23 @@ const ShowProducts = () => {
                       }}
                       sx={{
                         border: '0.5px solid lightgray',
-                        width: { xs: '150px', sm: '170px', md: '200px', lg: '220px', xl: '250px' },
+                        width: { xs: '150px', sm: '170px', md: '200px' },
                         height: '100%',
+                        maxHeight: '284.5px',
                         boxShadow: 3,
                         cursor: 'pointer',
+                        overflow: 'hidden', // Ensure content doesn't overflow
                         '&:hover': { boxShadow: 10, border: '2px solid #2d2e81' }
                       }}
                     >
                       <CardMedia
                         component='img'
-                        height='70%'
+                        height='75%'
                         image={`/imgTctmProduct/${product.image_file_name}`}
                         alt='green iguana'
                         sx={{ objectFit: 'contain' }}
                       />
-                      <Box sx={{ padding: 1, height: '30%' }}>
+                      <Box sx={{ padding: 1, height: '30%', overflow: 'hidden' }}>
                         <Typography
                           variant='h5'
                           fontSize='18px'
