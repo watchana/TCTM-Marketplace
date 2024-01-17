@@ -621,22 +621,15 @@ const ProductDetails = () => {
               <TabPanel value='1'>
                 <Box sx={{ width: '100%', marginTop: '10px' }}>
                   <Typography variant='body1' fontSize='16px' color='#606060'>
-                    {/* {productdata.product_description} */}
-
-                    <div>
-                      {/* ช่องกรอกข้อความ */}
-                      <input
-                        type='text'
-                        placeholder='กรอก URL ที่นี่'
-                        value={url}
-                        onChange={e => setUrl(e.target.value)}
-                      />
-
-                      {/* ลิงค์ที่สามารถกดได้ */}
-                      <a href={url} target='_blank' rel='noopener noreferrer' onClick={handleClick}>
-                        {url || 'คลิกเลยที่นี้'}
-                      </a>
-                    </div>
+                    {productdata.product_description?.split(/\b(https?:\/\/[^\s]+)/)?.map((part, index) =>
+                      part.match(/(https?:\/\/[^\s]+)/) ? (
+                        <a key={index} href={part} target='_blank' rel='noopener noreferrer'>
+                          {part}
+                        </a>
+                      ) : (
+                        <React.Fragment key={index}>{part}</React.Fragment>
+                      )
+                    )}
                   </Typography>
                 </Box>
               </TabPanel>
@@ -644,7 +637,6 @@ const ProductDetails = () => {
                 {productdata.product_detail ? productdata.product_detail : 'No information'}
               </TabPanel>
               <TabPanel value='3'>
-                {' '}
                 <Box sx={{ width: '100%', marginTop: '10px' }}>No information</Box>
               </TabPanel>
             </TabContext>
