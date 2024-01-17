@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 // ** Material UI Imports
-import { Box, Card, Container, CardMedia, Grid, Hidden, Typography } from '@mui/material'
+import { Box, Card, Container, CardMedia, Grid, Hidden, Typography, Button } from '@mui/material'
 import { styled } from '@mui/material/styles'
 
 // ** Axios Import
@@ -14,6 +14,9 @@ import axios from 'axios'
 // ** React-Multi Carousel 👋
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
+
+// ** Switch Alert Import
+const SAlert = require('sweetalert2')
 
 // const images = [
 //   'https://imagen.research.google/main_gallery_images/cactus.jpg',
@@ -59,7 +62,7 @@ const ShowPost = () => {
         max: 3000,
         min: 1024
       },
-      items: 5
+      items: 3
     },
     tablet: {
       breakpoint: {
@@ -77,11 +80,35 @@ const ShowPost = () => {
     }
   }
 
+  // const handleLearnMoreClick = () => {
+  //   SAlert.fire({
+  //     title: 'Are you sure?',
+  //     text: "You won't be able to revert this!",
+  //     icon: 'warning',
+  //     showCancelButton: true,
+  //     confirmButtonColor: '#3085d6',
+  //     cancelButtonColor: '#d33',
+  //     confirmButtonText: 'Yes, delete it!'
+  //   }).then(result => {
+  //     if (result.isConfirmed) {
+  //       // ทำงานหลังจากกดปุ่ม "Yes, delete it!"
+  //       SAlert.fire({
+  //         title: 'Deleted!',
+  //         text: 'Your file has been deleted.',
+  //         icon: 'success'
+  //       })
+
+  //       // รีเฟรชหน้าเว็บ
+  //       window.location.reload()
+  //     }
+  //   })
+  // }
+
   // Call Api
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.infromation.getallinf_test`)
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.infromation.getallinfV5`)
         setSlideData(response.data.message.Data)
       } catch (error) {
         console.error(error)
@@ -93,52 +120,59 @@ const ShowPost = () => {
 
   return (
     <Container maxWidth='xl'>
+      <Box sx={{ width: '100%', marginTop: '30px', boxShadow: 3 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            height: '70px',
+            borderRadius: '6px',
+            backgroundColor: '#3A46A7'
+          }}
+        >
+          <DividerBox1 />
+          <DividerBox2 />
+          <Link href='/category' passHref>
+            <Typography
+              variant='h5'
+              fontSize='32px'
+              sx={{
+                color: '#FFFFFF',
+                fontWeight: 'bold',
+                textAlign: 'center',
+                padding: '12px',
+                cursor: 'pointer',
+                '&:hover': {
+                  transform: 'scale(1.1)',
+                  transition: 'all 0.3s ease'
+                }
+              }}
+            >
+              New Post
+            </Typography>
+          </Link>
+        </Box>
+      </Box>
       {/* ---------- Show Product ---------- */}
       <Box sx={{ width: '100%', marginTop: '30px' }}>
-        <Grid container spacing={4}>
-          <Hidden mdDown>
-            <Grid item md={2}>
-              <Box
-                sx={{
-                  width: '220px',
-                  height: '280px',
-                  borderRadius: '6px',
-                  backgroundImage: 'url(/imgBillboard/Nodata2.png)',
-                  backgroundSize: '220px 280px',
-                  backgroundPosition: 'center',
-                  padding: '12px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center'
-                }}
-              >
-                {/* <Typography
-                  variant='h5'
-                  fontSize='32px'
-                  sx={{ fontWeight: 'bold', textAlign: 'center', padding: '12px' }}
-                >
-                  Best selling products
-                </Typography> */}
-              </Box>
-            </Grid>
-          </Hidden>
+        <Grid container>
           <Grid item xs={12} md={10}>
-            <Box sx={{ width: '100%', height: '280px', borderRadius: '6px' }}>
+            <Box sx={{ width: '100%', height: '380px', borderRadius: '6px', ml: 30 }}>
               {slidedata && slidedata.length > 0 ? (
                 <Carousel responsive={responsive} infinite={false}>
                   {/* ========================== Map ========================== */}
-                  {slidedata.map((post, index) => (
+                  {slidedata.slice(0, 3).map((post, index) => (
                     <Card
                       key={index}
                       variant='outlined'
                       sx={{
                         border: '0.5px solid lightgray',
-                        width: { xs: '150px', sm: '200px' },
-                        height: { xs: '200px', sm: '280px' },
+                        width: { xs: '325px', sm: '375px' },
+                        height: { xs: '380px', sm: '460px' },
                         boxShadow: 3,
                         cursor: 'pointer',
-                        '&:hover': { boxShadow: 10, border: '2px solid #2d2e81' }
+                        '&:hover': { boxShadow: 10, border: '2px solid #2d2e81' },
+                        margin: '10px'
                       }}
                       onClick={() => {
                         window.location.href = `product/?product_id=${post.post_id}`
@@ -198,6 +232,13 @@ const ShowPost = () => {
             </Box>
           </Grid>
         </Grid>
+      </Box>
+      <Box sx={{ mt: 30, textAlign: 'center' }}>
+        <Link href='/postinformation/Allpost' passHref>
+          <Button variant='contained' color='primary'>
+            Learn More . . .
+          </Button>
+        </Link>
       </Box>
     </Container>
   )
