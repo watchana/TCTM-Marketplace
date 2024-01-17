@@ -47,6 +47,9 @@ import { withAuth } from 'src/@core/utils/AuthCheck'
 // Import auth token Decode
 import { createToken, verifyToken } from 'src/@core/utils/auth'
 
+// Responsive image
+import { useMediaQuery } from '@mui/material'
+
 const ProductDetails = () => {
   // ตัวแปรเก็บค่าข้อมูล
   const [quantity, setQuantity] = useState(1) // ตัวแปรเก็บค่าจำนวนสินค้า
@@ -291,6 +294,17 @@ const ProductDetails = () => {
     }
   }, [])
 
+  const [url, setUrl] = useState('')
+
+  const handleClick = () => {
+    if (url) {
+      // ทำอะไรก็ตามที่คุณต้องการเมื่อคลิกลิงค์
+      console.log('คลิกลิงค์แล้ว:', url)
+    }
+  }
+
+  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+
   //-----------------------------Slide Control Function------------------------//
 
   return (
@@ -299,14 +313,14 @@ const ProductDetails = () => {
         <Box sx={{ width: '100%' }}>
           <Card
             sx={{
-              height: '100px',
+              height: isSmallScreen ? '80px' : '100px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
               backgroundColor: '#2d2e81',
               border: '1px solid #primary.main'
             }}
           >
-            <Grid container alignItems='center'>
+            <Grid container>
               <Grid item xs={12} sm={8} md={8}>
                 <Typography variant='h4' fontSize='21px bold' color='#fff'>
                   Product
@@ -329,16 +343,23 @@ const ProductDetails = () => {
               </Grid>
               <Hidden smDown>
                 <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <Shopping sx={{ fontSize: 72, color: '#fff' }} />
+                  <Shopping sx={{ fontSize: 60, color: '#fff' }} />
                 </Grid>
               </Hidden>
             </Grid>
           </Card>
         </Box>
 
-        <Grid container spacing={4}>
+        <Grid container spacing={1} sx={{ display: 'flex', alingItem: 'center', justifyContent: 'center' }}>
+          <Hidden smUp>
+            <Grid sx={{ display: 'flex', alignItems: 'center' }}>
+              <IconButton onClick={slideLeftImage}>
+                <KeyboardArrowLeft sx={{ color: '#000' }} />
+              </IconButton>
+            </Grid>
+          </Hidden>
           {/* --------------- รูปหลัก --------------- */}
-          <Grid item xs={12} md={7}>
+          <Grid item xs={9} md={7}>
             <Box
               sx={{
                 display: 'flex',
@@ -348,49 +369,23 @@ const ProductDetails = () => {
                 marginBottom: '10px'
               }}
             >
-              <Hidden smUp>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    width: '5%',
-                    height: '100%',
-                    backgroundColor: '#ddd',
-                    borderRadius: '10px'
-                  }}
-                >
-                  <IconButton onClick={slideLeftImage} sx={{ color: '#000' }}>
-                    <KeyboardArrowLeft />
-                  </IconButton>
-                </Box>
-              </Hidden>
               <CardMedia
                 component='img'
                 image={
                   productimg[stateImages]?.image_file_name
-                    ? `/imgTctmProduct/${productimg[presentState].image_file_name}`
+                    ? `/imgTctmProduct/${productimg[stateImages].image_file_name}`
                     : ''
                 }
                 alt={`Image ${stateImages + 1}`}
-                height='100%'
-                sx={{ width: '90%', objectFit: 'contain' }}
+                sx={{
+                  width: '70%',
+                  objectFit: 'contain',
+                  height: '70%',
+                  display: 'flex',
+                  aligeItem: 'center',
+                  justifycontent: 'center'
+                }}
               />
-              <Hidden smUp>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    width: '5%',
-                    height: '100%',
-                    backgroundColor: '#ddd',
-                    borderRadius: '10px'
-                  }}
-                >
-                  <IconButton onClick={slideRightImage} sx={{ color: '#000' }}>
-                    <KeyboardArrowRight />
-                  </IconButton>
-                </Box>
-              </Hidden>
             </Box>
             {/* --------------- รูปย่อย --------------- */}
             <Hidden smDown>
@@ -480,13 +475,19 @@ const ProductDetails = () => {
               </Box>
             </Hidden>
           </Grid>
-
+          <Hidden smUp>
+            <Grid sx={{ display: 'flex', alignItems: 'center' }}>
+              <IconButton onClick={slideRightImage}>
+                <KeyboardArrowRight sx={{ color: '#000' }} />
+              </IconButton>
+            </Grid>
+          </Hidden>
           {/* --------------- เลือกสินค้า --------------- */}
           <Grid item xs={12} md={5}>
             <Box sx={{ width: '100%' }}>
               {/* ========== ชื่อสินค้า ========== */}
               <Box sx={{ width: '100%' }}>
-                <Typography variant='h3' fontSize='48px bold' color='#000'>
+                <Typography variant='h3' fontSize='24px ' color='#000'>
                   {productdata.product_name}
                 </Typography>
               </Box>
@@ -620,7 +621,22 @@ const ProductDetails = () => {
               <TabPanel value='1'>
                 <Box sx={{ width: '100%', marginTop: '10px' }}>
                   <Typography variant='body1' fontSize='16px' color='#606060'>
-                    {productdata.product_description}
+                    {/* {productdata.product_description} */}
+
+                    <div>
+                      {/* ช่องกรอกข้อความ */}
+                      <input
+                        type='text'
+                        placeholder='กรอก URL ที่นี่'
+                        value={url}
+                        onChange={e => setUrl(e.target.value)}
+                      />
+
+                      {/* ลิงค์ที่สามารถกดได้ */}
+                      <a href={url} target='_blank' rel='noopener noreferrer' onClick={handleClick}>
+                        {url || 'คลิกเลยที่นี้'}
+                      </a>
+                    </div>
                   </Typography>
                 </Box>
               </TabPanel>

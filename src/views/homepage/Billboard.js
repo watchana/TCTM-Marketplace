@@ -118,9 +118,9 @@ const Billboard = () => {
   const imageUrl = 'https://f.ptcdn.info/2g/306/000/000/E13098649-0.jpg'
 
   return (
-    <Container maxWidth='xl'>
+    <Container>
       {/* ---------- Billboard ---------- */}
-      <Box sx={{ width: '100%', marginBottom: '40px' }}>
+      <Box sx={{ width: '100%' }}>
         <Grid container spacing={4}>
           {/* ---------- Main Billboard ---------- */}
           <Grid item xs={12} md={12} lg={9}>
@@ -141,11 +141,11 @@ const Billboard = () => {
                       <CardMedia
                         key={index}
                         component='img'
-                        height={isSmallScreen ? '200px' : '350px'}
                         image={`imgBillboard/${billboard.bill_name}`}
                         alt={billboard.bill_name}
                         sx={{
                           width: '100%',
+                          maxHeight: isSmallScreenSup1 ? '250px' : '350px',
                           objectFit: 'contain', // เปลี่ยนจาก 'cover' เป็น 'contain'
                           objectPosition: 'center',
                           borderRadius: '6px',
@@ -193,9 +193,7 @@ const Billboard = () => {
                         borderRadius: '6px',
                         backgroundSize: '100% 100%',
                         backgroundPosition: 'center',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center'
+                        display: 'flex'
                       }}
                     >
                       <Typography variant='h6' color='#fff'>
@@ -220,9 +218,7 @@ const Billboard = () => {
                         borderRadius: '6px',
                         backgroundSize: '100% 100%',
                         backgroundPosition: 'center',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center'
+                        display: 'flex'
                       }}
                     >
                       <Typography variant='h6' color='#fff'>
