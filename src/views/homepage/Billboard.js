@@ -35,6 +35,9 @@ import axios from 'axios'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 
+// Responsive image
+import { useMediaQuery } from '@mui/material'
+
 const ImagesBillboard = [
   {
     id: 1,
@@ -108,39 +111,45 @@ const Billboard = () => {
     }
   }
 
+  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+
+  const isSmallScreenSup1 = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+
+  const imageUrl = 'https://f.ptcdn.info/2g/306/000/000/E13098649-0.jpg'
+
   return (
-    <Container maxWidth='xl'>
+    <Container>
       {/* ---------- Billboard ---------- */}
-      <Box sx={{ width: '100%', marginBottom: '40px' }}>
+      <Box sx={{ width: '100%' }}>
         <Grid container spacing={4}>
           {/* ---------- Main Billboard ---------- */}
-          <Grid item xs={12} md={9}>
+          <Grid item xs={12} md={12} lg={9}>
             {isLoading ? ( // ตรวจสอบสถานะ isLoading เพื่อแสดงรูปโหลดหรือข้อความแสดงการโหลด
               <Skeleton variant='rectangular' width='100%' height='350px' sx={{ borderRadius: '6px' }} />
             ) : (
               <Box
                 sx={{
                   width: '100%',
-                  height: '350px',
-                  maxHeight: '350px',
+                  height: '100%',
+                  maxHeight: '400px',
                   borderRadius: '6px'
                 }}
               >
                 <Carousel arrows={false} autoPlaySpeed={3000} infinite showDots responsive={responsive}>
-                  {/* ##### Image ##### */}
                   {slidedata && slidedata.length > 0 ? (
                     slidedata.map((billboard, index) => (
                       <CardMedia
                         key={index}
                         component='img'
-                        height='350px'
                         image={`imgBillboard/${billboard.bill_name}`}
                         alt={billboard.bill_name}
                         sx={{
                           width: '100%',
-                          objectFit: 'cover',
+                          maxHeight: isSmallScreenSup1 ? '250px' : '350px',
+                          objectFit: 'contain', // เปลี่ยนจาก 'cover' เป็น 'contain'
                           objectPosition: 'center',
-                          borderRadius: '6px'
+                          borderRadius: '6px',
+                          maxHeight: '100%' // เพิ่ม maxHeight เพื่อให้รูปไม่ขยายเกินความสูงของ CardMedia
                         }}
                       />
                     ))
@@ -148,8 +157,8 @@ const Billboard = () => {
                     <Box
                       sx={{
                         width: '100%',
-                        height: '350px',
-                        maxHeight: '350px',
+                        height: isSmallScreenSup1 ? '150px' : '350px',
+                        maxHeight: isSmallScreenSup1 ? '150px' : '350px',
                         borderRadius: '6px',
                         backgroundColor: '#3A46A7',
                         display: 'flex',
@@ -167,74 +176,54 @@ const Billboard = () => {
             )}
           </Grid>
           {/* ---------- Sub Billboard ---------- */}
-          <Grid item xs={12} md={3}>
+          <Grid item xs={12} md={12} lg={3}>
             <Grid container spacing={2}>
               {/* ---------- Sub Billboard No 1 ---------- */}
-              <Grid item xs={12} sm={6} md={12}>
-                {isLoading ? ( // ตรวจสอบสถานะ isLoading เพื่อแสดงรูปโหลดหรือข้อความแสดงการโหลด
+
+              <Grid item xs={6} lg={12}>
+                {isLoading ? (
                   <Skeleton variant='rectangular' width='100%' height='170px' sx={{ borderRadius: '6px' }} />
                 ) : (
-                  <Box
-                    sx={{
-                      width: '100%',
-                      height: '170px',
-                      maxHeight: '170px',
-                      borderRadius: '6px',
-                      backgroundColor: '#3A46A7'
-                    }}
-                  >
+                  <Box>
                     <Box
                       sx={{
                         width: '100%',
                         height: '170px',
                         maxHeight: '170px',
                         borderRadius: '6px',
-                        backgroundImage: 'url(/imgBillboard/Nodata2.png)',
                         backgroundSize: '100% 100%',
                         backgroundPosition: 'center',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center'
+                        display: 'flex'
                       }}
                     >
-                      {/* <Typography variant='h6' color='#fff'>
-                        No Image
-                      </Typography> */}
+                      <Typography variant='h6' color='#fff'>
+                        <img src={imageUrl} alt='Description of the image' style={{ width: '100%', height: 'auto' }} />
+                      </Typography>
                     </Box>
                   </Box>
                 )}
               </Grid>
+
               {/* ---------- Sub Billboard No 2 ---------- */}
-              <Grid item xs={12} sm={6} md={12}>
-                {isLoading ? ( // ตรวจสอบสถานะ isLoading เพื่อแสดงรูปโหลดหรือข้อความแสดงการโหลด
+              <Grid item xs={6} lg={12}>
+                {isLoading ? (
                   <Skeleton variant='rectangular' width='100%' height='170px' sx={{ borderRadius: '6px' }} />
                 ) : (
-                  <Box
-                    sx={{
-                      width: '100%',
-                      height: '170px',
-                      maxHeight: '170px',
-                      borderRadius: '6px',
-                      backgroundColor: '#3A46A7'
-                    }}
-                  >
+                  <Box>
                     <Box
                       sx={{
                         width: '100%',
                         height: '170px',
                         maxHeight: '170px',
                         borderRadius: '6px',
-                        backgroundImage: 'url(/imgBillboard/Nodata2.png)',
                         backgroundSize: '100% 100%',
                         backgroundPosition: 'center',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center'
+                        display: 'flex'
                       }}
                     >
-                      {/* <Typography variant='h6' color='#fff'>
-                        No Image
-                      </Typography> */}
+                      <Typography variant='h6' color='#fff'>
+                        <img src={imageUrl} alt='Description of the image' style={{ width: '100%', height: 'auto' }} />
+                      </Typography>
                     </Box>
                   </Box>
                 )}

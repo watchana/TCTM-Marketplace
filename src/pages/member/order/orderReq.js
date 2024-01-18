@@ -15,7 +15,7 @@ import ChevronRight from 'mdi-material-ui/ChevronRight'
 
 // ** Component Imports
 import Payment from './payment'
-import TablePayment from './TablePayment'
+import TablePayment from './tablepayment'
 
 //** Axios Import
 import axios from 'axios'
@@ -27,7 +27,7 @@ const OrderReq = () => {
 
   // ตัวแปรเก็บค่าข้อมูล
   const [productData, setProductData] = useState('') // ข้อมูล ธนาคาร
-  const [megaProductdata, setMegaProductData] = useState('') // ข้อมูล สินค้า
+  // const [megaProductdata, setMegaProductData] = useState('') // ข้อมูล สินค้า
 
   // console.log('invoice_id', invoice_id)
 

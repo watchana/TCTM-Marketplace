@@ -38,17 +38,19 @@ import { withAuth } from '../@core/utils/AuthCheck'
 
 const Dashboard = () => {
   return (
-    <Container maxWidth='xl'>
+    <Container maxWidth='xl' style={{ userSelect: 'none' }}>
       {/* ---------- Billboard ---------- */}
       <Billboard />
       {/* ---------- Category ---------- */}
       <NameMarket />
-      {/* ---------- Show Products2 ---------- */}
-      <ShowProducts2 />
       {/* ---------- Show Products ---------- */}
       <ShowProducts />
+
       {/* ---------- Show Information ---------- */}
       <ShowInformation />
+
+      {/* ---------- Show Products2 ---------- */}
+      <ShowProducts2 />
     </Container>
   )
 }
