@@ -31,6 +31,7 @@ import Billboard from 'src/views/homepage/Billboard'
 import NameMarket from 'src/views/homepage/NameMarket'
 import ShowProducts from 'src/views/homepage/ShowProducts'
 import ShowProducts2 from 'src/views/homepage/ShowProducts2'
+import ShowPost from './postinformation/Showpost'
 
 // ** Utils Imports
 import { withAuth } from '../@core/utils/AuthCheck'
