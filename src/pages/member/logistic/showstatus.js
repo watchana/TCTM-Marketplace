@@ -6,22 +6,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 // ** Material UI Imports
-import {
-  Box,
-  Breadcrumbs,
-  Card,
-  Container,
-  Grid,
-  Hidden,
-  Typography,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper
-} from '@mui/material'
+
+import { Box, Breadcrumbs, Button, Card, Container, Chip, Divider, Grid, Hidden, Typography } from '@mui/material'
 
 // ** MUI X Imports
 import { DataGrid } from '@mui/x-data-grid'
@@ -40,6 +26,7 @@ import axios from 'axios'
 import Total from 'src/pages/member/order/details_total'
 import Delivery from 'src/pages/member/order/delivery_address'
 import Paymant from 'src/pages/member/order/payment_details'
+
 import Word_order from 'src/pages/member/order/word_order'
 
 //** Auth check
@@ -72,6 +59,7 @@ const Show_Status = () => {
 
     fetchData()
   }, [invoice_id])
+
   console.log(localStorage)
 
   const [data, setData] = useState([])
@@ -126,6 +114,8 @@ const Show_Status = () => {
       return () => clearInterval(intervalId) // Clear the interval on component unmount
     }
   }, [userId])
+
+  console.log(localStorage)
 
   return (
     <Container maxWidth='xl'>
