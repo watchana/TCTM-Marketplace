@@ -122,7 +122,6 @@ const ShowProducts2 = () => {
             <Box sx={{ width: '100%', height: '270px', borderRadius: '6px' }}>
               {slidedata && slidedata.length > 0 ? (
                 <Carousel responsive={responsive} infinite={false}>
-                  {/* ========================== Map ========================== */}
                   {slidedata.map((product, index) => (
                     <Card
                       key={index}
@@ -132,57 +131,66 @@ const ShowProducts2 = () => {
                       }}
                       sx={{
                         border: '0.5px solid lightgray',
-                        width: { xs: '150px', sm: '170px', md: '200px', lg: '220px', xl: '250px' },
-                        height: '100%',
+                        width: { xs: '160px', md: '200px' },
+                        height: { xs: '250px', md: '285px' },
+                        maxHeight: '285.5px',
                         boxShadow: 3,
                         cursor: 'pointer',
+                        overflow: 'hidden',
                         '&:hover': { boxShadow: 10, border: '2px solid #2d2e81' }
                       }}
                     >
                       <CardMedia
                         component='img'
-                        height='70%'
+                        height='75%'
                         image={`/imgTctmProduct/${product.image_file_name}`}
-                        alt='green iguana'
-                        sx={{ objectFit: 'contain' }}
+                        alt='product image'
+                        sx={{
+                          objectFit: 'contain',
+                          padding: '8px' // Adjust the padding as needed
+                        }}
                       />
-                      <Box sx={{ padding: 1, height: '30%' }}>
+                      <Box sx={{ padding: 1, height: '30%', overflow: 'hidden' }}>
                         <Typography
                           variant='h5'
-                          fontSize='18px'
+                          fontSize='16px' // Adjusted font size for better responsiveness
                           sx={{
                             fontWeight: 'bold',
                             overflow: 'hidden',
                             whiteSpace: 'nowrap',
-                            textOverflow: 'ellipsis'
+                            textOverflow: 'ellipsis',
+                            marginBottom: '4px'
                           }}
                         >
                           {product.product_name}
                         </Typography>
                         <Typography
                           variant='h5'
-                          fontSize='16px'
-                          sx={{ color: '#BD1620', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
+                          fontSize='14px' // Adjusted font size for better responsiveness
+                          sx={{
+                            color: '#BD1620',
+                            overflow: 'hidden',
+                            whiteSpace: 'nowrap',
+                            textOverflow: 'ellipsis'
+                          }}
                         >
                           $
                           {product.min_price === product.max_price
                             ? `${product.min_price}`
                             : `${product.min_price} - ${product.max_price}`}
                         </Typography>
-                        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-                          <Typography
-                            variant='body1'
-                            fontSize='14px'
-                            sx={{
-                              color: '#c0c0c0',
-                              overflow: 'hidden',
-                              whiteSpace: 'nowrap',
-                              textOverflow: 'ellipsis'
-                            }}
-                          >
-                            {product.sub_name}
-                          </Typography>
-                        </Box>
+                        <Typography
+                          variant='body1'
+                          fontSize='12px' // Adjusted font size for better responsiveness
+                          sx={{
+                            color: '#c0c0c0',
+                            overflow: 'hidden',
+                            whiteSpace: 'nowrap',
+                            textOverflow: 'ellipsis'
+                          }}
+                        >
+                          {product.sub_name}
+                        </Typography>
                       </Box>
                     </Card>
                   ))}

@@ -313,7 +313,7 @@ const ProductDetails = () => {
         <Box sx={{ width: '100%' }}>
           <Card
             sx={{
-              height: isSmallScreen ? '80px' : '100px',
+              height: isSmallScreen ? '70px' : '80px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
               backgroundColor: '#2d2e81',
@@ -322,21 +322,21 @@ const ProductDetails = () => {
           >
             <Grid container>
               <Grid item xs={12} sm={8} md={8}>
-                <Typography variant='h4' fontSize='21px bold' color='#fff'>
+                <Typography variant='h5' color='#fff' sx={{ fontWeight: 'bold', cursor: 'pointer' }}>
                   Product
                 </Typography>
                 <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
                   <Link href='/' passHref>
-                    <Typography color='#fff' variant='h6' fontSize='14px'>
+                    <Typography color='#fff' variant='subtitle1' sx={{ fontWeight: 'bold', cursor: 'pointer' }}>
                       Home
                     </Typography>
                   </Link>
                   <Link href='/category/' passHref>
-                    <Typography color='#fff' variant='h6' fontSize='14px'>
+                    <Typography color='#fff' variant='subtitle1' sx={{ fontWeight: 'bold', cursor: 'pointer' }}>
                       Shop
                     </Typography>
                   </Link>
-                  <Typography color='#fff' variant='h6' fontSize='14px'>
+                  <Typography color='#fff' variant='subtitle1' sx={{ fontWeight: 'bold', cursor: 'pointer' }}>
                     Product
                   </Typography>
                 </Breadcrumbs>
@@ -487,19 +487,19 @@ const ProductDetails = () => {
             <Box sx={{ width: '100%' }}>
               {/* ========== ชื่อสินค้า ========== */}
               <Box sx={{ width: '100%' }}>
-                <Typography variant='h3' fontSize='24px ' color='#000'>
+                <Typography variant='h4' color='#000' sx={{ fontWeight: 'bold' }}>
                   {productdata.product_name}
                 </Typography>
               </Box>
               {/* ========== Brand ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
-                <Typography variant='h6' fontSize='21px' color='#000'>
+                <Typography variant='h6' color='#000'>
                   Brand: {productdata.brand_name ? productdata.brand_name : 'No information'}
                 </Typography>
               </Box>
               {/* ========== Option ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
-                <Typography variant='h6' fontSize='21px' color='#000'>
+                <Typography variant='h6' color='#000'>
                   Option
                 </Typography>
               </Box>
@@ -530,7 +530,7 @@ const ProductDetails = () => {
               </Box>
               {/* ========== Quantity ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
-                <Typography variant='h6' fontSize='21px' color='#000'>
+                <Typography variant='h6' color='#000'>
                   Quantity
                 </Typography>
               </Box>
@@ -569,7 +569,7 @@ const ProductDetails = () => {
               </Box>
               {/* ========== Price ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
-                <Typography variant='h3' fontSize='32px' color='#2d2e81'>
+                <Typography variant='h4' color='#2d2e81'>
                   {/* ${' '}
                   {selection
                     ? selection.find(option => option.option_name === 'Price')?.value_name
@@ -603,7 +603,7 @@ const ProductDetails = () => {
                 </Box>
                 <Box sx={{ width: '100%', marginTop: '6px' }}></Box>
 
-                <Typography variant='body1' fontSize='16px' color='#606060'>
+                <Typography variant='caption' color='#606060'>
                   Dispatched in 2-3 Days
                 </Typography>
               </Box>
@@ -620,7 +620,7 @@ const ProductDetails = () => {
               </Box>
               <TabPanel value='1'>
                 <Box sx={{ width: '100%', marginTop: '10px' }}>
-                  <Typography variant='body1' fontSize='16px' color='#606060'>
+                  <Typography variant='body1' color='#606060'>
                     {productdata.product_description?.split(/\b(https?:\/\/[^\s]+)/)?.map((part, index) =>
                       part.match(/(https?:\/\/[^\s]+)/) ? (
                         <a key={index} href={part} target='_blank' rel='noopener noreferrer'>
