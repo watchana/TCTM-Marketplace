@@ -47,6 +47,9 @@ import { withAuth } from 'src/@core/utils/AuthCheck'
 // Import auth token Decode
 import { createToken, verifyToken } from 'src/@core/utils/auth'
 
+// Responsive image
+import { useMediaQuery } from '@mui/material'
+
 const ProductDetails = () => {
   // ตัวแปรเก็บค่าข้อมูล
   const [quantity, setQuantity] = useState(1) // ตัวแปรเก็บค่าจำนวนสินค้า
@@ -291,6 +294,17 @@ const ProductDetails = () => {
     }
   }, [])
 
+  const [url, setUrl] = useState('')
+
+  const handleClick = () => {
+    if (url) {
+      // ทำอะไรก็ตามที่คุณต้องการเมื่อคลิกลิงค์
+      console.log('คลิกลิงค์แล้ว:', url)
+    }
+  }
+
+  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+
   //-----------------------------Slide Control Function------------------------//
 
   return (
@@ -299,46 +313,53 @@ const ProductDetails = () => {
         <Box sx={{ width: '100%' }}>
           <Card
             sx={{
-              height: '100px',
+              height: isSmallScreen ? '70px' : '80px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
               backgroundColor: '#2d2e81',
               border: '1px solid #primary.main'
             }}
           >
-            <Grid container alignItems='center'>
+            <Grid container>
               <Grid item xs={12} sm={8} md={8}>
-                <Typography variant='h4' fontSize='21px bold' color='#fff'>
+                <Typography variant='h5' color='#fff' sx={{ fontWeight: 'bold', cursor: 'pointer' }}>
                   Product
                 </Typography>
                 <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
                   <Link href='/' passHref>
-                    <Typography color='#fff' variant='h6' fontSize='14px'>
+                    <Typography color='#fff' variant='subtitle1' sx={{ fontWeight: 'bold', cursor: 'pointer' }}>
                       Home
                     </Typography>
                   </Link>
                   <Link href='/category/' passHref>
-                    <Typography color='#fff' variant='h6' fontSize='14px'>
+                    <Typography color='#fff' variant='subtitle1' sx={{ fontWeight: 'bold', cursor: 'pointer' }}>
                       Shop
                     </Typography>
                   </Link>
-                  <Typography color='#fff' variant='h6' fontSize='14px'>
+                  <Typography color='#fff' variant='subtitle1' sx={{ fontWeight: 'bold', cursor: 'pointer' }}>
                     Product
                   </Typography>
                 </Breadcrumbs>
               </Grid>
               <Hidden smDown>
                 <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <Shopping sx={{ fontSize: 72, color: '#fff' }} />
+                  <Shopping sx={{ fontSize: 60, color: '#fff' }} />
                 </Grid>
               </Hidden>
             </Grid>
           </Card>
         </Box>
 
-        <Grid container spacing={4}>
+        <Grid container spacing={1} sx={{ display: 'flex', alingItem: 'center', justifyContent: 'center' }}>
+          <Hidden smUp>
+            <Grid sx={{ display: 'flex', alignItems: 'center' }}>
+              <IconButton onClick={slideLeftImage}>
+                <KeyboardArrowLeft sx={{ color: '#000' }} />
+              </IconButton>
+            </Grid>
+          </Hidden>
           {/* --------------- รูปหลัก --------------- */}
-          <Grid item xs={12} md={7}>
+          <Grid item xs={9} md={7}>
             <Box
               sx={{
                 display: 'flex',
@@ -348,49 +369,23 @@ const ProductDetails = () => {
                 marginBottom: '10px'
               }}
             >
-              <Hidden smUp>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    width: '5%',
-                    height: '100%',
-                    backgroundColor: '#ddd',
-                    borderRadius: '10px'
-                  }}
-                >
-                  <IconButton onClick={slideLeftImage} sx={{ color: '#000' }}>
-                    <KeyboardArrowLeft />
-                  </IconButton>
-                </Box>
-              </Hidden>
               <CardMedia
                 component='img'
                 image={
                   productimg[stateImages]?.image_file_name
-                    ? `/imgTctmProduct/${productimg[presentState].image_file_name}`
+                    ? `/imgTctmProduct/${productimg[stateImages].image_file_name}`
                     : ''
                 }
                 alt={`Image ${stateImages + 1}`}
-                height='100%'
-                sx={{ width: '90%', objectFit: 'contain' }}
+                sx={{
+                  width: '70%',
+                  objectFit: 'contain',
+                  height: '70%',
+                  display: 'flex',
+                  aligeItem: 'center',
+                  justifycontent: 'center'
+                }}
               />
-              <Hidden smUp>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    width: '5%',
-                    height: '100%',
-                    backgroundColor: '#ddd',
-                    borderRadius: '10px'
-                  }}
-                >
-                  <IconButton onClick={slideRightImage} sx={{ color: '#000' }}>
-                    <KeyboardArrowRight />
-                  </IconButton>
-                </Box>
-              </Hidden>
             </Box>
             {/* --------------- รูปย่อย --------------- */}
             <Hidden smDown>
@@ -480,25 +475,31 @@ const ProductDetails = () => {
               </Box>
             </Hidden>
           </Grid>
-
+          <Hidden smUp>
+            <Grid sx={{ display: 'flex', alignItems: 'center' }}>
+              <IconButton onClick={slideRightImage}>
+                <KeyboardArrowRight sx={{ color: '#000' }} />
+              </IconButton>
+            </Grid>
+          </Hidden>
           {/* --------------- เลือกสินค้า --------------- */}
           <Grid item xs={12} md={5}>
             <Box sx={{ width: '100%' }}>
               {/* ========== ชื่อสินค้า ========== */}
               <Box sx={{ width: '100%' }}>
-                <Typography variant='h3' fontSize='48px bold' color='#000'>
+                <Typography variant='h4' color='#000' sx={{ fontWeight: 'bold' }}>
                   {productdata.product_name}
                 </Typography>
               </Box>
               {/* ========== Brand ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
-                <Typography variant='h6' fontSize='21px' color='#000'>
+                <Typography variant='h6' color='#000'>
                   Brand: {productdata.brand_name ? productdata.brand_name : 'No information'}
                 </Typography>
               </Box>
               {/* ========== Option ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
-                <Typography variant='h6' fontSize='21px' color='#000'>
+                <Typography variant='h6' color='#000'>
                   Option
                 </Typography>
               </Box>
@@ -529,7 +530,7 @@ const ProductDetails = () => {
               </Box>
               {/* ========== Quantity ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
-                <Typography variant='h6' fontSize='21px' color='#000'>
+                <Typography variant='h6' color='#000'>
                   Quantity
                 </Typography>
               </Box>
@@ -568,7 +569,7 @@ const ProductDetails = () => {
               </Box>
               {/* ========== Price ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
-                <Typography variant='h3' fontSize='32px' color='#2d2e81'>
+                <Typography variant='h4' color='#2d2e81'>
                   {/* ${' '}
                   {selection
                     ? selection.find(option => option.option_name === 'Price')?.value_name
@@ -602,7 +603,7 @@ const ProductDetails = () => {
                 </Box>
                 <Box sx={{ width: '100%', marginTop: '6px' }}></Box>
 
-                <Typography variant='body1' fontSize='16px' color='#606060'>
+                <Typography variant='caption' color='#606060'>
                   Dispatched in 2-3 Days
                 </Typography>
               </Box>
@@ -619,8 +620,16 @@ const ProductDetails = () => {
               </Box>
               <TabPanel value='1'>
                 <Box sx={{ width: '100%', marginTop: '10px' }}>
-                  <Typography variant='body1' fontSize='16px' color='#606060'>
-                    {productdata.product_description}
+                  <Typography variant='body1' color='#606060'>
+                    {productdata.product_description?.split(/\b(https?:\/\/[^\s]+)/)?.map((part, index) =>
+                      part.match(/(https?:\/\/[^\s]+)/) ? (
+                        <a key={index} href={part} target='_blank' rel='noopener noreferrer'>
+                          {part}
+                        </a>
+                      ) : (
+                        <React.Fragment key={index}>{part}</React.Fragment>
+                      )
+                    )}
                   </Typography>
                 </Box>
               </TabPanel>
@@ -628,7 +637,6 @@ const ProductDetails = () => {
                 {productdata.product_detail ? productdata.product_detail : 'No information'}
               </TabPanel>
               <TabPanel value='3'>
-                {' '}
                 <Box sx={{ width: '100%', marginTop: '10px' }}>No information</Box>
               </TabPanel>
             </TabContext>
