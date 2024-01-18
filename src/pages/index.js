@@ -31,26 +31,24 @@ import Billboard from 'src/views/homepage/Billboard'
 import NameMarket from 'src/views/homepage/NameMarket'
 import ShowProducts from 'src/views/homepage/ShowProducts'
 import ShowProducts2 from 'src/views/homepage/ShowProducts2'
-import ShowPost from './postinformation/Showpost'
+import ShowInformation from 'src/views/homepage/ShowInformation'
 
 // ** Utils Imports
 import { withAuth } from '../@core/utils/AuthCheck'
 
 const Dashboard = () => {
   return (
-    <Container maxWidth='xl' style={{ userSelect: 'none' }}>
+    <Container maxWidth='xl'>
       {/* ---------- Billboard ---------- */}
       <Billboard />
       {/* ---------- Category ---------- */}
       <NameMarket />
-      {/* ---------- Show Products ---------- */}
-      <ShowProducts />
-
       {/* ---------- Show Products2 ---------- */}
       <ShowProducts2 />
-
+      {/* ---------- Show Products ---------- */}
+      <ShowProducts />
       {/* ---------- Show Information ---------- */}
-      <ShowPost />
+      <ShowInformation />
     </Container>
   )
 }
