@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 
 //  ** MUI Imports
-import { Box, Breadcrumbs, Card, Container, Divider, Grid, Tab, Hidden, Tabs, Typography } from '@mui/material'
+import { Box, Breadcrumbs, Card, Container, Divider, Grid, Tab, Hidden, Tabs, Typography, TextField } from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 
 // ** Material Design Icons Imports
@@ -68,14 +68,17 @@ const Mylogisticpage = () => {
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <TabList onChange={handleChange} aria-label='lab API tabs example'>
-                <Tab label='Item One' value='1' />
-                <Tab label='Item Two' value='2' />
+                <Tab label='FormShipping' value='1' />
               </TabList>
             </Box>
-            <TabPanel value='1'>Item One</TabPanel>
-            <TabPanel value='2'>Item Two</TabPanel>
-            <TabPanel value='3'>Item Three</TabPanel>
           </TabContext>
+
+          <Grid container>
+            <Grid item xs={6}>
+                <Typography>data</Typography>
+                <TextField fullWidth/>
+            </Grid>
+          </Grid>
         </Card>
       </Box>
     </Container>
