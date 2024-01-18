@@ -219,127 +219,119 @@ const LoginPage = () => {
       })
   }
 
-  const handleSubmit = event => {
-    event.preventDefault()
-    handleSubmitData(event)
-  }
-
   return (
     <Background className='content-center'>
       <CardStyled sx={{ zIndex: 1 }}>
         <CardContent>
-          <form onSubmit={handleSubmit}>
-            {' '}
-            {/* Wrap the content in a form */}
-            <Grid container spacing={3} justifyContent='center' alignItems='center'>
+          <Grid container spacing={3} justifyContent='center' alignItems='center'>
+            <Grid item xs={12}>
+              <Link href='/' passHref>
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer' }}>
+                  <CardMedia
+                    component='img'
+                    image='https://media.discordapp.net/attachments/1143783715877703833/1158967489900851200/cropped-LOGO-TCTM-1.png?ex=651e2c16&is=651cda96&hm=9f5f51b5926258a32e2a6029a918b169cec1003e70f7c6ec5cbf549749b623c8&=&width=1440&height=306'
+                    alt='logo'
+                    sx={{ width: '260px' }}
+                  />
+                </Box>
+              </Link>
+            </Grid>
+            <Hidden only='xs'>
               <Grid item xs={12}>
                 <Link href='/' passHref>
                   <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer' }}>
-                    <CardMedia
-                      component='img'
-                      image='https://media.discordapp.net/attachments/1143783715877703833/1158967489900851200/cropped-LOGO-TCTM-1.png?ex=651e2c16&is=651cda96&hm=9f5f51b5926258a32e2a6029a918b169cec1003e70f7c6ec5cbf549749b623c8&=&width=1440&height=306'
-                      alt='logo'
-                      sx={{ width: '260px' }}
-                    />
+                    <Typography variant='h4' color='#2D2E81' sx={{ fontWeight: 600, cursor: 'pointer' }}>
+                      Welcome to <span style={{ color: '#BF1522' }}>TCTM</span> marketplace
+                    </Typography>
                   </Box>
                 </Link>
               </Grid>
-              <Hidden only='xs'>
-                <Grid item xs={12}>
-                  <Link href='/' passHref>
-                    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer' }}>
-                      <Typography variant='h4' color='#2D2E81' sx={{ fontWeight: 600, cursor: 'pointer' }}>
-                        Welcome to <span style={{ color: '#BF1522' }}>TCTM</span> marketplace
-                      </Typography>
-                    </Box>
-                  </Link>
-                </Grid>
-              </Hidden>
-              <Grid item xs={12}>
-                <Box sx={{ width: '100%', marginBottom: 2 }}>
-                  <Typography variant='h5' textAlign='center' sx={{ fontWeight: 600 }}>
-                    Login to your account
-                  </Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={12}>
-                <Box sx={{ width: '100%' }}>
-                  <TextField
-                    fullWidth
-                    id='email'
-                    label='Email'
-                    variant='outlined'
-                    defaultValue=''
-                    onChange={handleSetUser}
-                    InputProps={{
-                      style: {
-                        borderRadius: '10px'
-                      }
-                    }}
-                  />
-                </Box>
-              </Grid>
-              <Grid item xs={12}>
-                <Box sx={{ width: '100%' }}>
-                  <FormControl fullWidth variant='outlined'>
-                    <InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
-                    <OutlinedInput
-                      id='outlined-adornment-password'
-                      label='Password'
-                      defaultValue={initialPasswordValue}
-                      value={values.password}
-                      type={values.showPassword ? 'text' : 'password'}
-                      onChange={handleSetPassword('password')}
-                      endAdornment={
-                        <InputAdornment position='end'>
-                          <IconButton
-                            edge='end'
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                            aria-label='toggle password visibility'
-                          >
-                            {values.showPassword ? <EyeOutline /> : <EyeOffOutline />}
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                      sx={{ marginBottom: 4, borderRadius: '10px' }}
-                    />
-                  </FormControl>
-                </Box>
-              </Grid>
-              <Grid item xs={12}>
-                <Box sx={{ width: '100%' }}>
-                  <Button
-                    fullWidth
-                    type='submit' // Handle submit on button click
-                    variant='contained'
-                    color='primary'
-                    sx={{ borderRadius: '10px' }}
-                  >
-                    Sign In
-                  </Button>
-                </Box>
-              </Grid>
-              <Grid item xs={12}>
-                <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-                  <Typography variant='body2' sx={{ marginRight: 2 }}>
-                    Not a member?
-                  </Typography>
-                  <Link href='/member/register' passHref>
-                    <LinkStyled> Register</LinkStyled>
-                  </Link>
-                </Box>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-                  <Link href='/' passHref>
-                    <LinkStyled sx={{ fontWeight: 'bold' }}> Go to Firstpage</LinkStyled>
-                  </Link>
-                </Box>
-              </Grid>
+            </Hidden>
+            <Grid item xs={12}>
+              <Box sx={{ width: '100%', marginBottom: 2 }}>
+                <Typography variant='h5' textAlign='center' sx={{ fontWeight: 600 }}>
+                  Login to your account
+                </Typography>
+              </Box>
             </Grid>
-          </form>
+            <Grid item xs={12}>
+              <Box sx={{ width: '100%' }}>
+                <TextField
+                  fullWidth
+                  id='email'
+                  label='Email'
+                  variant='outlined'
+                  defaultValue='mem1'
+                  onChange={handleSetUser}
+                  InputProps={{
+                    style: {
+                      borderRadius: '10px'
+                    }
+                  }}
+                />
+              </Box>
+            </Grid>
+            <Grid item xs={12}>
+              <Box sx={{ width: '100%' }}>
+                <FormControl fullWidth variant='outlined'>
+                  <InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
+                  <OutlinedInput
+                    id='outlined-adornment-password'
+                    label='Password'
+                    defaultValue={initialPasswordValue}
+                    value={values.password}
+                    type={values.showPassword ? 'text' : 'password'}
+                    onChange={handleSetPassword('password')}
+                    endAdornment={
+                      <InputAdornment position='end'>
+                        <IconButton
+                          edge='end'
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          aria-label='toggle password visibility'
+                        >
+                          {values.showPassword ? <EyeOutline /> : <EyeOffOutline />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    sx={{ marginBottom: 4, borderRadius: '10px' }}
+                  />
+                </FormControl>
+              </Box>
+            </Grid>
+            <Grid item xs={12}>
+              <Box sx={{ width: '100%' }}>
+                <Button
+                  fullWidth
+                  id='signInButton'
+                  variant='contained'
+                  color='primary'
+                  onClick={handleSubmitData}
+                  sx={{ borderRadius: '10px' }}
+                >
+                  Sign In
+                </Button>
+              </Box>
+            </Grid>
+            <Grid item xs={12}>
+              <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
+                <Typography variant='body2' sx={{ marginRight: 2 }}>
+                  Not a member?{' '}
+                </Typography>
+                <Link href='/member/register' passHref>
+                  <LinkStyled> Register</LinkStyled>
+                </Link>
+              </Box>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
+                <Link href='/' passHref>
+                  <LinkStyled sx={{ fontWeight: 'bold' }}> Go to Firstpage</LinkStyled>
+                </Link>
+              </Box>
+            </Grid>
+          </Grid>
         </CardContent>
       </CardStyled>
     </Background>
