@@ -31,7 +31,7 @@ import Billboard from 'src/views/homepage/Billboard'
 import NameMarket from 'src/views/homepage/NameMarket'
 import ShowProducts from 'src/views/homepage/ShowProducts'
 import ShowProducts2 from 'src/views/homepage/ShowProducts2'
-import ShowPost from './postinformation/Showpost'
+import ShowInformation from 'src/views/homepage/ShowInformation'
 
 // ** Utils Imports
 import { withAuth } from '../@core/utils/AuthCheck'
@@ -47,7 +47,8 @@ const Dashboard = () => {
       <ShowProducts2 />
       {/* ---------- Show Products ---------- */}
       <ShowProducts />
-      <ShowPost />
+      {/* ---------- Show Information ---------- */}
+      <ShowInformation />
     </Container>
   )
 }

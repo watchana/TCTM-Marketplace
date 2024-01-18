@@ -184,7 +184,7 @@ const AppBarContent = props => {
                       </Box>
                     </IconButton>
                   </Link>
-                  <Link href='/member/logistic' passHref>
+                  <Link href='/member/logistic/showstatus' passHref>
                     <IconButton
                       sx={{ p: 0 }}
                       style={{ display: role === 'USER' || role === 'ADMIN' || role === 'TCTM' ? 'block' : 'none' }}
