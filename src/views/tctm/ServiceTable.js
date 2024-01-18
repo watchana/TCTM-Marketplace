@@ -11,7 +11,7 @@ import axios from 'axios'
 // ** Custom Components
 // ** merge first name and last name
 function getFullName(params) {
-  return `${params.row.user_first_name || ''} ${params.row.user_last_name || ''}`
+  return `${params.row.ser_name || ''} ${params.row.ser_lname || ''}`
 }
 
 const ServiceTable = ({ rows }) => {
@@ -21,7 +21,7 @@ const ServiceTable = ({ rows }) => {
 
   // ** header table
   const columns = [
-    { field: 'account_id', headerName: 'Account Id', width: 130 },
+    { field: 'ser_id', headerName: 'Service Id', width: 130 },
     {
       field: '',
       headerName: 'Member Id',

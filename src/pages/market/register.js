@@ -50,11 +50,6 @@ const RegisterSupplier = () => {
   const [bookbankname, setBookBankName] = useState('') // ตัวแปรเก็บค่า ชื่อหน้าสมุดธนาคาร
   const [paypalname, setpaypalName] = useState('') // ตัวแปรเก็บค่า ชื่อ paypal
   const [paypalnumber, setPaypalNumber] = useState('') // ตัวแปรเก็บค่าเลข paypal
-  const [hostaddress, setHostaddress] = useState('') // ตัวแปรเก็บค่าชื่อ hostaddress
-  const [apikey, setApikey] = useState('') // ตัวแปรเก็บค่าชื่อ apikey
-  const [apisecret, setApisecret] = useState('') // ตัวแปรเก็บค่าชื่อ apisecret
-
-  const [close, setClose] = useState(false)
 
   // ตัวแปรเช็คสถานะการส่งข้อมูล
   const [isSubmitted, setIsSubmitted] = useState(false)
@@ -109,27 +104,6 @@ const RegisterSupplier = () => {
     setPaypalNumber(event.target.value)
   }
 
-  // ฟังก์ชันเปิดปิดช่อง HostAdress
-  const handleOpenAPI = event => {
-    event.preventDefault()
-    setClose(!close)
-  }
-
-  //ฟังก์ชันบัณทึกค่าของ HostAddress
-  const handleHostAddress = event => {
-    setHostaddress(event.target.value)
-  }
-
-  //ฟังก์ชันบัณทึกค่าของ Apikey
-  const handleApikey = event => {
-    setApikey(event.target.value)
-  }
-
-  //ฟังก์ชันบัณทึกค่าของ Apikey
-  const handleAPIsecret = event => {
-    setApisecret(event.target.value)
-  }
-
   // ฟังชันส่งข้อมูล Register
   const handleSubmitData = async event => {
     event.preventDefault()
@@ -181,10 +155,7 @@ const RegisterSupplier = () => {
         sub_bank_name: bankname,
         sub_book_bank_name: bookbankname,
         sub_pay_name: paypalname,
-        sub_pay_number: paypalnumber,
-        sup_apikey: apikey,
-        sup_apisecret: apisecret,
-        sup_hostaddress: hostaddress
+        sub_pay_number: paypalnumber
       }
 
       // console.log('data', data)
@@ -488,90 +459,6 @@ const RegisterSupplier = () => {
                       helperText={paypalnumber === '' && isSubmitted ? 'Please enter your paypal number.' : ''}
                     ></TextField>
                   </Box>
-                </Grid>
-              </Grid>
-            </Box>
-            {/* เลข paypal */}
-            <Box sx={{ width: '100%', marginBottom: 4 }}>
-              <Grid container>
-                <Grid item md={12}>
-                  <Grid item display={'flex'} justifyContent={'flex-end'}>
-                    <Typography
-                      onClick={handleOpenAPI}
-                      size='small'
-                      sx={{
-                        '&:hover': {
-                          textDecoration: 'underline'
-                        }
-                      }}
-                    >
-                      Manufacturing?
-                    </Typography>
-                  </Grid>
-                  {close && (
-                    <>
-                      <Box sx={{ width: '100%', marginBottom: 4 }}>
-                        <Grid container>
-                          <Grid item md={4}>
-                            <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
-                              Hostaddress
-                            </Typography>
-                          </Grid>
-                          <Grid item md={8}>
-                            <Box sx={{ width: '100%' }}>
-                              <TextField
-                                fullWidth
-                                size='small'
-                                label='Host'
-                                value={hostaddress}
-                                onChange={handleHostAddress}
-                              ></TextField>
-                            </Box>
-                          </Grid>
-                        </Grid>
-                      </Box>
-                      <Box sx={{ width: '100%', marginBottom: 4 }}>
-                        <Grid container>
-                          <Grid item md={4}>
-                            <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
-                              API Key
-                            </Typography>
-                          </Grid>
-                          <Grid item md={8}>
-                            <Box sx={{ width: '100%' }}>
-                              <TextField
-                                fullWidth
-                                size='small'
-                                label='API Key'
-                                value={apikey}
-                                onChange={handleApikey}
-                              ></TextField>
-                            </Box>
-                          </Grid>
-                        </Grid>
-                      </Box>
-                      <Box sx={{ width: '100%', marginBottom: 4 }}>
-                        <Grid container>
-                          <Grid item md={4}>
-                            <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
-                              API SecretKey
-                            </Typography>
-                          </Grid>
-                          <Grid item md={8}>
-                            <Box sx={{ width: '100%' }}>
-                              <TextField
-                                fullWidth
-                                size='small'
-                                label='API SecretKey'
-                                value={apisecret}
-                                onChange={handleAPIsecret}
-                              ></TextField>
-                            </Box>
-                          </Grid>
-                        </Grid>
-                      </Box>
-                    </>
-                  )}
                 </Grid>
               </Grid>
             </Box>

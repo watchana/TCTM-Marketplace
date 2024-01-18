@@ -46,7 +46,7 @@ const Menu = styled(MuiMenu)(({ theme }) => ({
 const MenuItem = styled(MuiMenuItem)(({ theme }) => ({
   paddingTop: theme.spacing(3),
   paddingBottom: theme.spacing(3),
-  borderBottom: `1px solid ${theme.palette.Boxider}`
+  borderBottom: `1px solid ${theme.palette.divider}`
 }))
 
 const styles = {
@@ -184,10 +184,10 @@ const NotificationDropdown = () => {
       {/* ปุ่มแสดงการแจ้งเตือน */}
       <IconButton color='inherit' aria-haspopup='true' onClick={handleDropdownOpen} aria-controls='customized-menu'>
         {notificationData.Alert ? (
-          <Box style={{ position: 'relative' }}>
+          <div style={{ position: 'relative' }}>
             <BellOutline />
             {notificationData.Noread > 0 && (
-              <Box
+              <div
                 style={{
                   position: 'absolute',
                   bottom: '-5px',
@@ -206,9 +206,9 @@ const NotificationDropdown = () => {
                 }}
               >
                 {notificationData.Noread}
-              </Box>
+              </div>
             )}
-          </Box>
+          </div>
         ) : (
           <BellOutline />
         )}
@@ -248,7 +248,7 @@ const NotificationDropdown = () => {
                 }
               >
                 {item.read_status === 0 && (
-                  <Box
+                  <div
                     style={{
                       position: 'absolute',
                       bottom: '-5px',
@@ -264,7 +264,7 @@ const NotificationDropdown = () => {
                       fontSize: '12px',
                       margin: '10px'
                     }}
-                  ></Box>
+                  ></div>
                 )}
                 <Box sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
                   <Avatar alt='message' src='/images/avatars/5.png' />
@@ -285,7 +285,7 @@ const NotificationDropdown = () => {
         </ScrollWrapper>
         <MenuItem
           disableRipple
-          sx={{ py: 3.5, borderBottom: 0, borderTop: theme => `1px solid ${theme.palette.Boxider}` }}
+          sx={{ py: 3.5, borderBottom: 0, borderTop: theme => `1px solid ${theme.palette.divider}` }}
         >
           <Button fullWidth variant='contained' onClick={handleDropdownClose}>
             Read All Notifications
