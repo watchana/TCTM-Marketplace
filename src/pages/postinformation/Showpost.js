@@ -132,25 +132,24 @@ const ShowPost = () => {
         >
           <DividerBox1 />
           <DividerBox2 />
-          <Link href='/category' passHref>
-            <Typography
-              variant='h5'
-              fontSize='32px'
-              sx={{
-                color: '#FFFFFF',
-                fontWeight: 'bold',
-                textAlign: 'center',
-                padding: '12px',
-                cursor: 'pointer',
-                '&:hover': {
-                  transform: 'scale(1.1)',
-                  transition: 'all 0.3s ease'
-                }
-              }}
-            >
-              New Post
-            </Typography>
-          </Link>
+
+          <Typography
+            variant='h5'
+            fontSize='32px'
+            sx={{
+              color: '#FFFFFF',
+              fontWeight: 'bold',
+              textAlign: 'center',
+              padding: '12px',
+              cursor: 'pointer',
+              '&:hover': {
+                transform: 'scale(1.1)',
+                transition: 'all 0.3s ease'
+              }
+            }}
+          >
+            New Post
+          </Typography>
         </Box>
       </Box>
       {/* ---------- Show Product ---------- */}
@@ -175,14 +174,14 @@ const ShowPost = () => {
                         margin: '10px'
                       }}
                       onClick={() => {
-                        window.location.href = `product/?product_id=${post.post_id}`
+                        window.location.href = `market/information-detail/?post_id=${post.post_id}`
                       }}
                     >
                       <CardMedia
                         href={`/`}
                         component='img'
                         height='70%'
-                        image={`/post_image/${post.image_file_infname}`}
+                        image={`/imageInfor/${post.image_file_infname}`}
                         alt='Product Image'
                         sx={{ objectFit: 'contain' }}
                       />
@@ -199,13 +198,13 @@ const ShowPost = () => {
                         >
                           {post.post_name}
                         </Typography>
-                        <Typography
+                        {/* <Typography
                           variant='h5'
                           fontSize='16px'
                           sx={{ color: '#BD1620', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
                         >
                           สวัสดีจ้า
-                        </Typography>
+                        </Typography> */}
                         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
                           <Typography
                             variant='body1'

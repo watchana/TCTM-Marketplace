@@ -47,6 +47,10 @@ const AddProductPage = ({ productCategories }) => {
   const { sub_id } = router.query
   const SubId = sub_id
 
+  useEffect(() => {
+    console.log('sub_id', sub_id)
+  }, [sub_id])
+
   const steps = ['Register Product', 'Show Results']
   const [activeStep, setActiveStep] = useState(0) // ตัวเก็บค่าก่อนส่ง
   const [skipped, setSkipped] = useState(new Set())
