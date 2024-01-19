@@ -322,21 +322,21 @@ const ProductDetails = () => {
           >
             <Grid container>
               <Grid item xs={12} sm={8} md={8}>
-                <Typography variant='h5' color='#fff' sx={{ fontWeight: 'bold', cursor: 'pointer' }}>
+                <Typography variant='h5' color='#fff' sx={{ fontWeight: 'bold' }}>
                   Product
                 </Typography>
                 <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
                   <Link href='/' passHref>
-                    <Typography color='#fff' variant='subtitle1' sx={{ fontWeight: 'bold', cursor: 'pointer' }}>
+                    <Typography color='#fff' variant='subtitle1' sx={{ cursor: 'pointer' }}>
                       Home
                     </Typography>
                   </Link>
                   <Link href='/category/' passHref>
-                    <Typography color='#fff' variant='subtitle1' sx={{ fontWeight: 'bold', cursor: 'pointer' }}>
+                    <Typography color='#fff' variant='subtitle1' sx={{ cursor: 'pointer' }}>
                       Shop
                     </Typography>
                   </Link>
-                  <Typography color='#fff' variant='subtitle1' sx={{ fontWeight: 'bold', cursor: 'pointer' }}>
+                  <Typography color='#fff' variant='subtitle1' sx={{ cursor: 'pointer' }}>
                     Product
                   </Typography>
                 </Breadcrumbs>
