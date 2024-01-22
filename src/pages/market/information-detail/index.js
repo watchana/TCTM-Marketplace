@@ -15,7 +15,8 @@ import {
   Typography,
   Tab,
   Link,
-  IconButton
+  IconButton,
+  Divider
 } from '@mui/material'
 
 import InfoIcon from '@mui/icons-material/Info'
@@ -169,13 +170,13 @@ const InformationDetails = () => {
             </Box>
           </Box>
           <Grid container spacing={4}>
-            <Grid item xs={12} md={7}>
+            <Grid item xs={12}>
               <Box
                 sx={{
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  height: { sm: '300px', md: '460px' },
+                  height: { sm: '300px', md: '550px' },
                   marginBottom: '10px'
                 }}
               >
@@ -316,14 +317,26 @@ const InformationDetails = () => {
       </Box>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <Typography variant='body1' fontSize='16px' color='#606060'>
-            {informationdata.post_name}
+          <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%', mt: 20, mb: 6 }}>
+            <Typography variant='h4' fontSize='22px' color='#606060'>
+              {informationdata.post_name}
+            </Typography>
+          </Box>
+        </Grid>
+
+        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', width: '50%', my: 10 }}>
+          <Divider sx={{ borderBottomWidth: 2, width: '50%' }} />
+        </Grid>
+
+        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Typography variant='body1' fontSize='16px' color='#606060' style={{ whiteSpace: 'pre-line', width: '80%' }}>
+            {informationdata.post_detail}
           </Typography>
         </Grid>
 
-        <Grid item xs={12}>
-          <Typography variant='body1' fontSize='16px' color='#606060'>
-            {informationdata.post_detail}
+        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Typography variant='body1' fontSize='16px' color='#606060' style={{ whiteSpace: 'pre-line', width: '80%' }}>
+            Post by {informationdata.sub_name}
           </Typography>
         </Grid>
       </Grid>

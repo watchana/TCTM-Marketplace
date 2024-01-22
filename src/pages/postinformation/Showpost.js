@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 // ** Material UI Imports
-import { Box, Card, Container, CardMedia, Grid, Hidden, Typography } from '@mui/material'
+import { Box, Card, Container, CardMedia, Grid, Hidden, Typography, Button } from '@mui/material'
 import { styled } from '@mui/material/styles'
 
 // ** Axios Import
@@ -14,6 +14,9 @@ import axios from 'axios'
 // ** React-Multi Carousel 👋
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
+
+// ** Switch Alert Import
+const SAlert = require('sweetalert2')
 
 // const images = [
 //   'https://imagen.research.google/main_gallery_images/cactus.jpg',
@@ -48,7 +51,7 @@ const DividerBox2 = styled(Box)(({ theme }) => ({
   zIndex: '1'
 }))
 
-const ShowProducts2 = () => {
+const ShowPost = () => {
   // set data and state
   const [slidedata, setSlideData] = useState([])
 
@@ -59,7 +62,7 @@ const ShowProducts2 = () => {
         max: 3000,
         min: 1024
       },
-      items: 5
+      items: 3
     },
     tablet: {
       breakpoint: {
@@ -77,11 +80,35 @@ const ShowProducts2 = () => {
     }
   }
 
+  // const handleLearnMoreClick = () => {
+  //   SAlert.fire({
+  //     title: 'Are you sure?',
+  //     text: "You won't be able to revert this!",
+  //     icon: 'warning',
+  //     showCancelButton: true,
+  //     confirmButtonColor: '#3085d6',
+  //     cancelButtonColor: '#d33',
+  //     confirmButtonText: 'Yes, delete it!'
+  //   }).then(result => {
+  //     if (result.isConfirmed) {
+  //       // ทำงานหลังจากกดปุ่ม "Yes, delete it!"
+  //       SAlert.fire({
+  //         title: 'Deleted!',
+  //         text: 'Your file has been deleted.',
+  //         icon: 'success'
+  //       })
+
+  //       // รีเฟรชหน้าเว็บ
+  //       window.location.reload()
+  //     }
+  //   })
+  // }
+
   // Call Api
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.home_page.product_recommend`)
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.infromation.getallinfV5`)
         setSlideData(response.data.message.Data)
       } catch (error) {
         console.error(error)
@@ -105,56 +132,57 @@ const ShowProducts2 = () => {
         >
           <DividerBox1 />
           <DividerBox2 />
-          <Link href='/category' passHref>
-            <Typography
-              variant='h5'
-              fontSize='32px'
-              sx={{
-                color: '#FFFFFF',
-                fontWeight: 'bold',
-                textAlign: 'center',
-                padding: '12px',
-                cursor: 'pointer',
-                '&:hover': {
-                  transform: 'scale(1.1)',
-                  transition: 'all 0.3s ease'
-                }
-              }}
-            >
-              Recommended
-            </Typography>
-          </Link>
+
+          <Typography
+            variant='h5'
+            fontSize='32px'
+            sx={{
+              color: '#FFFFFF',
+              fontWeight: 'bold',
+              textAlign: 'center',
+              padding: '12px',
+              cursor: 'pointer',
+              '&:hover': {
+                transform: 'scale(1.1)',
+                transition: 'all 0.3s ease'
+              }
+            }}
+          >
+            Information
+          </Typography>
         </Box>
       </Box>
       {/* ---------- Show Product ---------- */}
       <Box sx={{ width: '100%', marginTop: '30px' }}>
-        <Grid container spacing={4}>
+        <Grid container>
           <Grid item xs={12} md={10}>
-            <Box sx={{ width: '100%', height: '280px', borderRadius: '6px' }}>
+            <Box sx={{ width: '100%', height: '380px', borderRadius: '6px', ml: 30 }}>
               {slidedata && slidedata.length > 0 ? (
                 <Carousel responsive={responsive} infinite={false}>
                   {/* ========================== Map ========================== */}
-                  {slidedata.map((product, index) => (
+                  {slidedata.slice(0, 3).map((post, index) => (
                     <Card
                       key={index}
                       variant='outlined'
-                      onClick={() => {
-                        window.location.href = `product/?product_id=${product.product_id}`
-                      }}
                       sx={{
                         border: '0.5px solid lightgray',
-                        width: { xs: '150px', sm: '200px' },
-                        height: { xs: '200px', sm: '280px' },
+                        width: { xs: '325px', sm: '375px' },
+                        height: { xs: '380px', sm: '460px' },
                         boxShadow: 3,
                         cursor: 'pointer',
-                        '&:hover': { boxShadow: 10, border: '2px solid #2d2e81' }
+                        '&:hover': { boxShadow: 10, border: '2px solid #2d2e81' },
+                        margin: '10px'
+                      }}
+                      onClick={() => {
+                        window.location.href = `market/information-detail/?post_id=${post.post_id}`
                       }}
                     >
                       <CardMedia
+                        href={`/`}
                         component='img'
                         height='70%'
-                        image={`/imgTctmProduct/${product.image_file_name}`}
-                        alt='green iguana'
+                        image={`/imageInfor/${post.image_file_infname}`}
+                        alt='Product Image'
                         sx={{ objectFit: 'contain' }}
                       />
                       <Box sx={{ padding: 1, height: '30%' }}>
@@ -168,18 +196,15 @@ const ShowProducts2 = () => {
                             textOverflow: 'ellipsis'
                           }}
                         >
-                          {product.product_name}
+                          {post.post_name}
                         </Typography>
-                        <Typography
+                        {/* <Typography
                           variant='h5'
                           fontSize='16px'
                           sx={{ color: '#BD1620', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
                         >
-                          $
-                          {product.min_price === product.max_price
-                            ? `${product.min_price}`
-                            : `${product.min_price} - ${product.max_price}`}
-                        </Typography>
+                          สวัสดีจ้า
+                        </Typography> */}
                         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
                           <Typography
                             variant='body1'
@@ -191,7 +216,7 @@ const ShowProducts2 = () => {
                               textOverflow: 'ellipsis'
                             }}
                           >
-                            {product.sub_name}
+                            {post.sub_name}
                           </Typography>
                         </Box>
                       </Box>
@@ -205,37 +230,17 @@ const ShowProducts2 = () => {
               )}
             </Box>
           </Grid>
-          <Hidden mdDown>
-            <Grid item md={2}>
-              <Box
-                sx={{
-                  width: '220px',
-                  height: '280px',
-                  borderRadius: '6px',
-                  backgroundImage: 'url(/imgBillboard/Nodata2.png)',
-                  backgroundSize: '220px 280px',
-                  backgroundPosition: 'center',
-                  padding: '12px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center'
-                }}
-              >
-                {/* <Typography
-                  variant='h5'
-                  fontSize='24px'
-                  sx={{ fontWeight: 'bold', textAlign: 'center', padding: '12px' }}
-                >
-                  Recommended products
-                </Typography> */}
-              </Box>
-            </Grid>
-          </Hidden>
         </Grid>
+      </Box>
+      <Box sx={{ mt: 30, textAlign: 'center' }}>
+        <Link href='/postinformation/Allpost' passHref>
+          <Button variant='contained' color='primary'>
+            Learn More . . .
+          </Button>
+        </Link>
       </Box>
     </Container>
   )
 }
 
-export default ShowProducts2
+export default ShowPost
