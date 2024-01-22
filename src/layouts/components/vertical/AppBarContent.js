@@ -37,6 +37,7 @@ import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import MenuIcon from '@mui/icons-material/Menu'
 import Menu from '@mui/material/Menu'
+import { useTheme } from '@mui/system'
 
 const styles = {
   py: 1,
@@ -116,8 +117,19 @@ const AppBarContent = props => {
     setAnchorEl(null)
   }
 
+  const theme = useTheme()
+
   return (
-    <Box sx={{ width: '100%', height: '90px' }}>
+    <Box
+      sx={{
+        width: '98%',
+        height: '90px',
+        bgcolor: theme.palette.grey[50],
+        position: 'fixed',
+        top: 0,
+        zIndex: 1000
+      }}
+    >
       <Grid container justifyContent='space-between' alignItems='center' sx={{ height: '100%' }}>
         <Grid item xl={3} xs={3}>
           <Box sx={{ width: '100%', marginLeft: 2 }}>
