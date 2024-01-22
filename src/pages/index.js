@@ -47,7 +47,7 @@ const Dashboard = () => {
       <ShowProducts2 />
       {/* ---------- Show Products ---------- */}
       <ShowProducts />
-      {/* ---------- Show Information New ---------- */}
+      {/* ---------- Show Information ---------- */}
       <ShowPost />
     </Container>
   )

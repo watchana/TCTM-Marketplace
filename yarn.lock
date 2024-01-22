@@ -531,7 +531,17 @@
   resolved "https://registry.npmjs.org/@mui/core-downloads-tracker/-/core-downloads-tracker-5.14.15.tgz"
   integrity sha512-ZCDzBWtCKjAYAlKKM3PA/jG/3uVIDT9ZitOtVixIVmTCQyc5jSV1qhJX8+qIGz4RQZ9KLzPWO2tXd0O5hvzouQ==
 
+<<<<<<<<< Temporary merge branch 1
 "@mui/icons-material@^5.14.15":
+=========
+<<<<<<< HEAD
+"@mui/icons-material@^5.15.4":
+  version "5.15.4"
+  resolved "https://registry.npmjs.org/@mui/icons-material/-/icons-material-5.15.4.tgz"
+  integrity sha512-q/Yk7aokN8qGMpR7bwoDpBSeaNe6Bv7vaY9yHYodP37c64TM6ime05ueb/wgksOVszrKkNXC67E/XYbRWOoUFA==
+=======
+"@mui/icons-material@^5.14.15", "@mui/icons-material@^5.4.1":
+>>>>>>>>> Temporary merge branch 2
   version "5.14.15"
   resolved "https://registry.npmjs.org/@mui/icons-material/-/icons-material-5.14.15.tgz"
   integrity sha512-Dqu21vN/mVNzebJ+ofnKG+CeJYIhHuDs5+0fMEpdpzRt6UojelzdrEkNv+XkO0e1JMclzeXIRx404FirK/CFRw==
