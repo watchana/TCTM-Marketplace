@@ -308,7 +308,7 @@ const ProductDetails = () => {
   //-----------------------------Slide Control Function------------------------//
 
   return (
-    <Container maxWidth='xl'>
+    <Container maxWidth='xl' style={{ userSelect: 'none' }}>
       <Box sx={{ height: '100%' }}>
         <Box sx={{ width: '100%' }}>
           <Card
@@ -322,7 +322,7 @@ const ProductDetails = () => {
           >
             <Grid container>
               <Grid item xs={12} sm={8} md={8}>
-                <Typography variant='h5' color='#fff' sx={{ fontWeight: 'bold' }}>
+                <Typography variant='h5' color='#fff' sx={{ fontWeight: 'bold', cursor: 'pointer' }}>
                   Product
                 </Typography>
                 <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
@@ -383,7 +383,8 @@ const ProductDetails = () => {
                   height: '70%',
                   display: 'flex',
                   aligeItem: 'center',
-                  justifycontent: 'center'
+                  justifycontent: 'center',
+                  pointerEvents: 'none' // เพิ่มนี้เพื่อปิดใช้งานการควบคุมตำแหน่ง
                 }}
               />
             </Box>
@@ -443,9 +444,8 @@ const ProductDetails = () => {
                             cursor: 'pointer',
                             '&:hover': {
                               opacity: [0.9, 0.8, 0.7],
-                              transition: 'opacity 0.3s ease-in-out',
-                              transform: 'scale(1.1)',
-                              transition: 'transform 0.3s ease-in-out'
+                              transition: 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out',
+                              transform: 'scale(1.1)'
                             }
                           }}
                         />
