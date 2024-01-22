@@ -4,61 +4,86 @@ import Plus from 'mdi-material-ui/Plus'
 import { DataGrid } from '@mui/x-data-grid'
 import axios from 'axios'
 import { StyledDataGrid } from 'src/views/backoffice/styled'
-
-// ** Next Imports
 import { useRouter } from 'next/router'
+import Swal from 'sweetalert2'
 
 const InformationTable = () => {
   const router = useRouter()
-  const Swal = require('sweetalert2')
-
   const [dataInformation, setDataInformation] = useState([])
 
   useEffect(() => {
-    axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.infromation.tctmgetallinf`).then(res => {
+    axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.post.allpost`).then(res => {
       setDataInformation(res.data.message.Data)
     })
   }, [])
 
-  const handleDelete = primary => {
+  useEffect(() => {
+    fetchUserData()
+  }, [])
+
+  const fetchUserData = () => {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.post.allpost`)
+      .then(response => {
+        setDataInformation(response.data.message.Data)
+      })
+      .catch(error => {
+        console.error('Error:', error)
+      })
+  }
+
+  const handleBanClick = post_id => {
+    console.log(`Ban account with ID ${post_id}`)
+
+    axios
+      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.post.banpost`, {
+        post_id: post_id
+      })
+      .then(response => {
+        console.log('UserID', response)
+        fetchUserData()
+      })
+      .catch(error => {
+        console.error('Error:', error)
+      })
+  }
+
+  const handleUnbanClick = postId => {
     Swal.fire({
-      title: 'You Want to Delete Data?',
+      title: 'You Want to unhide Data?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Yes',
       cancelButtonText: 'No'
     }).then(result => {
       if (result.isConfirmed) {
-        const data = {
-          // table: 'informationsV2',
-          post_id: primary
-        }
-
-        if (primary !== '') {
-          console.log('post_id : ', data)
+        if (postId !== '') {
           axios
-            .put(`${process.env.NEXT_PUBLIC_API}TCTM.infromation.deleteinf`, data)
-            .then(function (response) {
+            .put(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.post.unbanpost`, {
+              post_id: postId
+            })
+            .then(response => {
               console.log(response)
+              fetchUserData()
 
               Swal.fire({
                 icon: 'success',
                 title: 'Delete Success'
               })
             })
-            .catch(function (error) {
+            .catch(error => {
               console.log(error)
 
               Swal.fire({
                 icon: 'error',
-                title: 'Errorr'
+                title: 'Error'
               })
             })
         } else {
           console.log('Error')
         }
       } else if (result.isDenied) {
-        console.log('cancelled Error')
+        console.log('Cancelled Error')
       }
     })
   }
@@ -66,14 +91,14 @@ const InformationTable = () => {
   return (
     <StyledDataGrid
       autoHeight
-      rows={dataInformation?.map(val => ({ ...val, id: val.post_id.toString() })) || []} // เพิ่มคุณสมบัติ id ในแต่ละแถว
-      getRowId={post_id => post_id.id} // กำหนดให้ใช้คุณสมบัติ id เป็น id ของแถว
+      rows={dataInformation?.map(val => ({ ...val, id: val.post_id.toString() })) || []}
+      getRowId={post_id => post_id.id}
       columns={[
-        { field: 'post_id', headerName: 'Information ID  ', width: 150 },
-        { field: 'post_name', headerName: 'Title ', width: 350 },
+        { field: 'post_id', headerName: 'Information ID', width: 150 },
+        { field: 'post_name', headerName: 'Title', width: 350 },
         {
           field: 'Acction',
-          headerName: 'Acction',
+          headerName: 'Action',
           width: 200,
           renderCell: params => (
             <div>
@@ -81,11 +106,12 @@ const InformationTable = () => {
                 variant='contained'
                 color='error'
                 className='btn btn-info'
+                disabled={params.row.post_status === '0'}
                 style={{ marginRight: '5px' }}
                 onClick={() => {
-                  if (params.row.account_status !== '0') {
+                  if (params.row.post_status !== '0') {
                     Swal.fire({
-                      title: 'Want to ban this user??',
+                      title: 'Want to ban this user?',
                       icon: 'question',
                       showCancelButton: true,
                       confirmButtonText: 'yes',
@@ -96,7 +122,7 @@ const InformationTable = () => {
                         Swal.fire({
                           position: 'center',
                           icon: 'success',
-                          title: 'band success',
+                          title: 'Ban success',
                           showConfirmButton: false,
                           timer: 1500
                         })
@@ -104,24 +130,27 @@ const InformationTable = () => {
                     })
                   } else {
                     Swal.fire({
-                      title: 'cannot be banned',
+                      title: 'Cannot be banned',
                       text: 'Because the status has been banned.',
                       icon: 'error'
                     })
                   }
                 }}
-                disabled={params.row.account_status === '0'}
               >
                 Hide
               </Button>
 
-              <Button variant='contained' color='secondary' onClick={e => handleDelete(params.row.post_id, e)}>
-                Delete
+              <Button
+                variant='contained'
+                color='secondary'
+                disabled={params.row.post_status === '1'}
+                onClick={e => handleUnbanClick(params.row.post_id, e)}
+              >
+                Unhide
               </Button>
             </div>
           )
         },
-
         {
           field: 'Details',
           headerName: 'Details',
