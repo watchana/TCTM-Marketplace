@@ -38,19 +38,22 @@ import { withAuth } from '../@core/utils/AuthCheck'
 
 const Dashboard = () => {
   return (
-    <Container maxWidth='xl' style={{ userSelect: 'none' }}>
+    <Container maxWidth='xl'>
       {/* ---------- Billboard ---------- */}
       <Billboard />
       {/* ---------- Category ---------- */}
       <NameMarket />
-      {/* ---------- Show Products ---------- */}
-      <ShowProducts />
-
       {/* ---------- Show Products2 ---------- */}
       <ShowProducts2 />
-
+      {/* ---------- Show Products ---------- */}
+      <ShowProducts />
+<<<<<<<<< Temporary merge branch 1
       {/* ---------- Show Information ---------- */}
-      <ShowPost />
+      <ShowInformation />
+=========
+      {/* ---------- Show Products2 ---------- */}
+      <ShowProducts2 />
+>>>>>>>>> Temporary merge branch 2
     </Container>
   )
 }

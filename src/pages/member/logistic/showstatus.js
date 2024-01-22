@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 // ** Material UI Imports
-
+<<<<<<<<< Temporary merge branch 1
 import { Box, Breadcrumbs, Button, Card, Container, Chip, Divider, Grid, Hidden, Typography } from '@mui/material'
 
 // ** MUI X Imports
@@ -26,8 +26,11 @@ import axios from 'axios'
 import Total from 'src/pages/member/order/details_total'
 import Delivery from 'src/pages/member/order/delivery_address'
 import Paymant from 'src/pages/member/order/payment_details'
-
+<<<<<<<<< Temporary merge branch 1
+// import TrackingStatus from './trackorder'
+=========
 import Word_order from 'src/pages/member/order/word_order'
+>>>>>>>>> Temporary merge branch 2
 
 //** Auth check
 import { withAuth } from 'src/@core/utils/AuthCheck'
@@ -59,7 +62,9 @@ const Show_Status = () => {
 
     fetchData()
   }, [invoice_id])
-
+<<<<<<<<< Temporary merge branch 1
+console.log(localStorage)
+=========
   console.log(localStorage)
 
   const [data, setData] = useState([])
@@ -114,8 +119,7 @@ const Show_Status = () => {
       return () => clearInterval(intervalId) // Clear the interval on component unmount
     }
   }, [userId])
-
-  console.log(localStorage)
+>>>>>>>>> Temporary merge branch 2
 
   return (
     <Container maxWidth='xl'>
@@ -158,7 +162,10 @@ const Show_Status = () => {
             </Grid>
           </Card>
         </Box>
+<<<<<<<<< Temporary merge branch 1
+=========
 
+>>>>>>>>> Temporary merge branch 2
         {/** เลขออเดอร์ */}
         <Box sx={{ width: '100%' }}>
           <Card
@@ -203,6 +210,17 @@ const Show_Status = () => {
             </Grid>
           </Grid>
 
+<<<<<<<<< Temporary merge branch 1
+          <Grid item sm={12} md={7} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+            <Box sx={{ width: '100%' }}>
+              <Paymant
+                usertype={usertype}
+                orderdata={orderdata}
+                invoice_id={invoice_id}
+                receipt={orderdata.receipt_file_name}
+              />
+            </Box>
+=========
           <Grid container md={6}>
             <Grid item md={6}>
               <Box>
@@ -217,6 +235,7 @@ const Show_Status = () => {
                 />
               </Box>
             </Grid>
+>>>>>>>>> Temporary merge branch 2
           </Grid>
         </Grid>
       </Box>

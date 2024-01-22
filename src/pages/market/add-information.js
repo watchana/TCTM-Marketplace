@@ -30,7 +30,7 @@ import TestshowwinV from 'src/views/information/RegisInfo'
 import { Hidden } from '@mui/material'
 import { ChevronRight } from 'mdi-material-ui'
 
-const Testim = () => {
+const AddInformationPage = () => {
   // ** Hook
   const router = useRouter()
 
@@ -252,4 +252,4 @@ const Testim = () => {
   )
 }
 
-export default Testim
+export default AddInformationPage
