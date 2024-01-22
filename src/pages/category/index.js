@@ -157,16 +157,16 @@ const Category = ({ productData, SearchProduct, keyword }) => {
           >
             <Grid container alignItems='center'>
               <Grid item xs={12} sm={8} md={8}>
-                <Typography variant='h5' cursor='pointer' color='#fff'>
+                <Typography variant='h5' color='#fff' sx={{ fontWeight: 'bold' }}>
                   Shop
                 </Typography>
                 <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
                   <Link href='/' passHref>
-                    <Typography color='#fff' variant='subtitle1' cursor='pointer'>
+                    <Typography color='#fff' variant='subtitle1' sx={{ cursor: 'pointer' }}>
                       Home
                     </Typography>
                   </Link>
-                  <Typography color='#fff' variant='subtitle1' cursor='pointer'>
+                  <Typography color='#fff' variant='subtitle1' sx={{ cursor: 'pointer' }}>
                     Shop
                   </Typography>
                 </Breadcrumbs>

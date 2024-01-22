@@ -308,7 +308,7 @@ const ProductDetails = () => {
   //-----------------------------Slide Control Function------------------------//
 
   return (
-    <Container maxWidth='xl'>
+    <Container maxWidth='xl' style={{ userSelect: 'none' }}>
       <Box sx={{ height: '100%' }}>
         <Box sx={{ width: '100%' }}>
           <Card
@@ -327,16 +327,16 @@ const ProductDetails = () => {
                 </Typography>
                 <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
                   <Link href='/' passHref>
-                    <Typography color='#fff' variant='subtitle1' sx={{ fontWeight: 'bold', cursor: 'pointer' }}>
+                    <Typography color='#fff' variant='subtitle1' sx={{ cursor: 'pointer' }}>
                       Home
                     </Typography>
                   </Link>
                   <Link href='/category/' passHref>
-                    <Typography color='#fff' variant='subtitle1' sx={{ fontWeight: 'bold', cursor: 'pointer' }}>
+                    <Typography color='#fff' variant='subtitle1' sx={{ cursor: 'pointer' }}>
                       Shop
                     </Typography>
                   </Link>
-                  <Typography color='#fff' variant='subtitle1' sx={{ fontWeight: 'bold', cursor: 'pointer' }}>
+                  <Typography color='#fff' variant='subtitle1' sx={{ cursor: 'pointer' }}>
                     Product
                   </Typography>
                 </Breadcrumbs>
@@ -383,7 +383,8 @@ const ProductDetails = () => {
                   height: '70%',
                   display: 'flex',
                   aligeItem: 'center',
-                  justifycontent: 'center'
+                  justifycontent: 'center',
+                  pointerEvents: 'none' // เพิ่มนี้เพื่อปิดใช้งานการควบคุมตำแหน่ง
                 }}
               />
             </Box>
@@ -443,9 +444,8 @@ const ProductDetails = () => {
                             cursor: 'pointer',
                             '&:hover': {
                               opacity: [0.9, 0.8, 0.7],
-                              transition: 'opacity 0.3s ease-in-out',
-                              transform: 'scale(1.1)',
-                              transition: 'transform 0.3s ease-in-out'
+                              transition: 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out',
+                              transform: 'scale(1.1)'
                             }
                           }}
                         />
