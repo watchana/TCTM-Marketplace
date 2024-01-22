@@ -28,7 +28,6 @@ import Paymant from './payment_details'
 
 //** Auth check
 import { withAuth } from 'src/@core/utils/AuthCheck'
-import Word_order from './word_order'
 
 // Responsive image
 import { useMediaQuery } from '@mui/material'
@@ -147,22 +146,16 @@ const Orders_Detail = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid container sm={12} md={7}>
-            <Grid item sm={12} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-              <Box sx={{ width: '100%' }}>
-                <Word_order />
-              </Box>
-            </Grid>
-            <Grid item sm={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <Box sx={{ width: '100%' }}>
-                <Paymant
-                  usertype={usertype}
-                  orderdata={orderdata}
-                  invoice_id={invoice_id}
-                  receipt={orderdata.receipt_file_name}
-                />
-              </Box>
-            </Grid>
+
+          <Grid item sm={12} md={7} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+            <Box sx={{ width: '100%' }}>
+              <Paymant
+                usertype={usertype}
+                orderdata={orderdata}
+                invoice_id={invoice_id}
+                receipt={orderdata.receipt_file_name}
+              />
+            </Box>
           </Grid>
         </Grid>
       </Box>

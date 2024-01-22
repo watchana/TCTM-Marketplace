@@ -141,13 +141,13 @@ const AllPost = () => {
                       margin: '10px'
                     }}
                     onClick={() => {
-                      window.location.href = `product/?product_id=${post.post_id}`
+                      window.location.href = `/market/information-detail/?post_id=${post.post_id}`
                     }}
                   >
                     <CardMedia
                       component='img'
                       height='70%'
-                      image={`/post_image/${post.image_file_infname}`}
+                      image={`/imageInfor/${post.image_file_infname}`}
                       alt='Post Image'
                       sx={{ objectFit: 'contain' }}
                     />
@@ -159,12 +159,14 @@ const AllPost = () => {
                           fontWeight: 'bold',
                           overflow: 'hidden',
                           whiteSpace: 'nowrap',
-                          textOverflow: 'ellipsis'
+                          textOverflow: 'ellipsis',
+                          mt: 5,
+                          ml: 5
                         }}
                       >
                         {post.post_name}
                       </Typography>
-                      <Typography
+                      {/* <Typography
                         variant='h5'
                         fontSize='16px'
                         sx={{
@@ -175,7 +177,7 @@ const AllPost = () => {
                         }}
                       >
                         สวัสดีจ้า
-                      </Typography>
+                      </Typography> */}
                       <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
                         <Typography
                           variant='body1'
@@ -184,10 +186,11 @@ const AllPost = () => {
                             color: '#c0c0c0',
                             overflow: 'hidden',
                             whiteSpace: 'nowrap',
-                            textOverflow: 'ellipsis'
+                            textOverflow: 'ellipsis',
+                            ml: 5
                           }}
                         >
-                          ใครทำอะไรที่ไหน
+                          {post.sub_name}
                         </Typography>
                       </Box>
                     </Box>

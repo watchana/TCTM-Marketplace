@@ -44,12 +44,6 @@ import axios from 'axios'
 // ** Components Imports
 import { withAuth } from 'src/@core/utils/AuthCheck'
 
-// Import auth token Decode
-import { createToken, verifyToken } from 'src/@core/utils/auth'
-
-// Responsive image
-import { useMediaQuery } from '@mui/material'
-
 const ProductDetails = () => {
   // ตัวแปรเก็บค่าข้อมูล
   const [quantity, setQuantity] = useState(1) // ตัวแปรเก็บค่าจำนวนสินค้า
@@ -111,13 +105,9 @@ const ProductDetails = () => {
             product_id: productId
           }
         })
-
         setProductImg(response.data.message.images.Result)
-        console.log(response.data.message.images)
         setProductData(response.data.message.data[0])
         setOptions(response.data.message.options)
-
-        console.log('message', response.data.message)
       } catch (error) {
         console.error(error)
       }
@@ -126,68 +116,19 @@ const ProductDetails = () => {
     fetchData()
   }, [productId])
 
-  // ตัวแปรเก็บค่าตัวเลือก
-  let parsedSelection = null
-
-  // แปลงออบเจ็กต์ selection เป็นสตริง JSON
-  const selectionString = JSON.stringify(selection)
-
-  if (selectionString && selectionString !== 'null' && selectionString !== 'undefined') {
-    parsedSelection = JSON.parse(selectionString) // แปลงค่า selection เป็นออบเจ็กต์
-  }
-
-  const [userId, setUserId] = useState('') // ข้อมูล user_Id
-  const [userData, setUserData] = useState('') // ข้อมูล User
-  const [name, setName] = useState('') // ข้อมูล Name
-
-  useEffect(() => {
-    const userIdFromLocalStorage = localStorage.getItem('Member_Id')
-    const nameFromLocalStorage = localStorage.getItem('name')
-    if (userIdFromLocalStorage) {
-      setUserId(userIdFromLocalStorage)
-      setName(nameFromLocalStorage)
-    }
-  }, [])
-
-  const handleOrderClick = async e => {
-    e.preventDefault()
-
-    if (!parsedSelection) {
+  // ฟังชัน ย้ายไปหน้า checkout
+  const handleBuyNowClick = () => {
+    if (!selection) {
       Swal.fire({
         icon: 'error',
-        title: 'Please fill option'
+        title: 'Please specify product options'
       })
-
-      return
     } else {
-      const data = {
-        po_id: '-',
-        invoice_filename: '-',
-        descritp_tion: '-',
-        product_id: product_id,
-        member_id: userId,
-        sub_id: productdata.sub_id,
-        type: 'product',
-        option: parsedSelection,
-        amount: quantity,
-        total: price * quantity
-      }
-
-      try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.gen_invoice`, data)
-        console.log(response)
-        Swal.fire({
-          icon: 'success',
-          title: 'Send Data Success'
-        })
-        router.push(`/category`)
-      } catch (error) {
-        Swal.fire({
-          icon: 'error',
-          title: 'error'
-        })
-        console.log(error)
-      }
+      // แปลงออบเจ็กต์ selection เป็นสตริง JSON
+      const selectionString = JSON.stringify(selection)
+      router.push(
+        `/member/checkout/?productName=${productName}&price=${price}&quantity=${quantity}&selection=${selectionString}&sub_id=${productdata.sub_id}&product_id=${productdata.product_id}&FirstImage=${FirstImage}`
+      )
     }
   }
 
@@ -271,40 +212,6 @@ const ProductDetails = () => {
     }
   }, [MaxLengthImages])
 
-  // ** รับค่าจาก local Storage
-  let username = '' // ตัวแปรเก็บค่าชื่อผู้ใช้
-  let user_status = '' // ตัวแปรเก็บค่าสถานะ user
-  if (typeof window !== 'undefined') {
-    username = localStorage.getItem('name')
-    user_status = localStorage.getItem('User_Status')
-  }
-
-  const [role, setRole] = useState('')
-
-  const Router = useRouter()
-
-  useEffect(() => {
-    const token = localStorage.getItem('jwt')
-    const decodedToken = verifyToken(token)
-
-    if (decodedToken) {
-      setRole(decodedToken.Role)
-    } else {
-      console.log('Invalid or expired token')
-    }
-  }, [])
-
-  const [url, setUrl] = useState('')
-
-  const handleClick = () => {
-    if (url) {
-      // ทำอะไรก็ตามที่คุณต้องการเมื่อคลิกลิงค์
-      console.log('คลิกลิงค์แล้ว:', url)
-    }
-  }
-
-  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
-
   //-----------------------------Slide Control Function------------------------//
 
   return (
@@ -313,16 +220,16 @@ const ProductDetails = () => {
         <Box sx={{ width: '100%' }}>
           <Card
             sx={{
-              height: isSmallScreen ? '70px' : '80px',
+              height: '100px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
               backgroundColor: '#2d2e81',
               border: '1px solid #primary.main'
             }}
           >
-            <Grid container>
+            <Grid container alignItems='center'>
               <Grid item xs={12} sm={8} md={8}>
-                <Typography variant='h5' color='#fff' sx={{ fontWeight: 'bold', cursor: 'pointer' }}>
+                <Typography variant='h4' fontSize='21px bold' color='#fff'>
                   Product
                 </Typography>
                 <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
@@ -343,23 +250,16 @@ const ProductDetails = () => {
               </Grid>
               <Hidden smDown>
                 <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <Shopping sx={{ fontSize: 60, color: '#fff' }} />
+                  <Shopping sx={{ fontSize: 72, color: '#fff' }} />
                 </Grid>
               </Hidden>
             </Grid>
           </Card>
         </Box>
 
-        <Grid container spacing={1} sx={{ display: 'flex', alingItem: 'center', justifyContent: 'center' }}>
-          <Hidden smUp>
-            <Grid sx={{ display: 'flex', alignItems: 'center' }}>
-              <IconButton onClick={slideLeftImage}>
-                <KeyboardArrowLeft sx={{ color: '#000' }} />
-              </IconButton>
-            </Grid>
-          </Hidden>
+        <Grid container spacing={4}>
           {/* --------------- รูปหลัก --------------- */}
-          <Grid item xs={9} md={7}>
+          <Grid item xs={12} md={7}>
             <Box
               sx={{
                 display: 'flex',
@@ -369,11 +269,27 @@ const ProductDetails = () => {
                 marginBottom: '10px'
               }}
             >
+              <Hidden smUp>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    width: '5%',
+                    height: '100%',
+                    backgroundColor: '#ddd',
+                    borderRadius: '10px'
+                  }}
+                >
+                  <IconButton onClick={slideLeftImage} sx={{ color: '#000' }}>
+                    <KeyboardArrowLeft />
+                  </IconButton>
+                </Box>
+              </Hidden>
               <CardMedia
                 component='img'
                 image={
                   productimg[stateImages]?.image_file_name
-                    ? `/imgTctmProduct/${productimg[stateImages].image_file_name}`
+                    ? `/imgTctmProduct/${productimg[presentState].image_file_name}`
                     : ''
                 }
                 alt={`Image ${stateImages + 1}`}
@@ -387,6 +303,22 @@ const ProductDetails = () => {
                   pointerEvents: 'none' // เพิ่มนี้เพื่อปิดใช้งานการควบคุมตำแหน่ง
                 }}
               />
+              <Hidden smUp>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    width: '5%',
+                    height: '100%',
+                    backgroundColor: '#ddd',
+                    borderRadius: '10px'
+                  }}
+                >
+                  <IconButton onClick={slideRightImage} sx={{ color: '#000' }}>
+                    <KeyboardArrowRight />
+                  </IconButton>
+                </Box>
+              </Hidden>
             </Box>
             {/* --------------- รูปย่อย --------------- */}
             <Hidden smDown>
@@ -475,31 +407,25 @@ const ProductDetails = () => {
               </Box>
             </Hidden>
           </Grid>
-          <Hidden smUp>
-            <Grid sx={{ display: 'flex', alignItems: 'center' }}>
-              <IconButton onClick={slideRightImage}>
-                <KeyboardArrowRight sx={{ color: '#000' }} />
-              </IconButton>
-            </Grid>
-          </Hidden>
+
           {/* --------------- เลือกสินค้า --------------- */}
           <Grid item xs={12} md={5}>
             <Box sx={{ width: '100%' }}>
               {/* ========== ชื่อสินค้า ========== */}
               <Box sx={{ width: '100%' }}>
-                <Typography variant='h4' color='#000' sx={{ fontWeight: 'bold' }}>
+                <Typography variant='h3' fontSize='48px bold' color='#000'>
                   {productdata.product_name}
                 </Typography>
               </Box>
               {/* ========== Brand ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
-                <Typography variant='h6' color='#000'>
+                <Typography variant='h6' fontSize='21px' color='#000'>
                   Brand: {productdata.brand_name ? productdata.brand_name : 'No information'}
                 </Typography>
               </Box>
               {/* ========== Option ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
-                <Typography variant='h6' color='#000'>
+                <Typography variant='h6' fontSize='21px' color='#000'>
                   Option
                 </Typography>
               </Box>
@@ -530,7 +456,7 @@ const ProductDetails = () => {
               </Box>
               {/* ========== Quantity ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
-                <Typography variant='h6' color='#000'>
+                <Typography variant='h6' fontSize='21px' color='#000'>
                   Quantity
                 </Typography>
               </Box>
@@ -569,7 +495,7 @@ const ProductDetails = () => {
               </Box>
               {/* ========== Price ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
-                <Typography variant='h4' color='#2d2e81'>
+                <Typography variant='h3' fontSize='32px' color='#2d2e81'>
                   {/* ${' '}
                   {selection
                     ? selection.find(option => option.option_name === 'Price')?.value_name
@@ -579,31 +505,18 @@ const ProductDetails = () => {
                 </Typography>
               </Box>
               {/* ========== Button ========== */}
-              <Box
-                sx={{ width: '100%', marginTop: '20px' }}
-                style={{ display: role === 'USER' || role === 'ADMIN' || role === 'TCTM' ? 'block' : 'none' }}
-              >
+              <Box sx={{ width: '100%', marginTop: '20px' }}>
                 <Button
                   sx={{ width: 175 }}
                   variant='contained'
                   startIcon={<ShoppingCartIcon />}
-                  onClick={handleOrderClick}
+                  onClick={handleBuyNowClick}
                 >
                   add to cart
                 </Button>
               </Box>
               <Box sx={{ width: '100%', marginTop: '6px' }}>
-                {/* ========== Button login for guest ========== */}
-                <Box sx={{ width: '100%', marginTop: '20px' }} style={{ display: role === '' ? 'block' : 'none' }}>
-                  <Link href='/login' passHref>
-                    <Button sx={{ width: 175 }} variant='contained' startIcon={<ShoppingCartIcon />}>
-                      Please Login
-                    </Button>
-                  </Link>
-                </Box>
-                <Box sx={{ width: '100%', marginTop: '6px' }}></Box>
-
-                <Typography variant='caption' color='#606060'>
+                <Typography variant='body1' fontSize='16px' color='#606060'>
                   Dispatched in 2-3 Days
                 </Typography>
               </Box>
@@ -620,16 +533,8 @@ const ProductDetails = () => {
               </Box>
               <TabPanel value='1'>
                 <Box sx={{ width: '100%', marginTop: '10px' }}>
-                  <Typography variant='body1' color='#606060'>
-                    {productdata.product_description?.split(/\b(https?:\/\/[^\s]+)/)?.map((part, index) =>
-                      part.match(/(https?:\/\/[^\s]+)/) ? (
-                        <a key={index} href={part} target='_blank' rel='noopener noreferrer'>
-                          {part}
-                        </a>
-                      ) : (
-                        <React.Fragment key={index}>{part}</React.Fragment>
-                      )
-                    )}
+                  <Typography variant='body1' fontSize='16px' color='#606060'>
+                    {productdata.product_description}
                   </Typography>
                 </Box>
               </TabPanel>
@@ -637,6 +542,7 @@ const ProductDetails = () => {
                 {productdata.product_detail ? productdata.product_detail : 'No information'}
               </TabPanel>
               <TabPanel value='3'>
+                {' '}
                 <Box sx={{ width: '100%', marginTop: '10px' }}>No information</Box>
               </TabPanel>
             </TabContext>

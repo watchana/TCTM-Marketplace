@@ -6,22 +6,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 // ** Material UI Imports
-import {
-  Box,
-  Breadcrumbs,
-  Card,
-  Container,
-  Grid,
-  Hidden,
-  Typography,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper
-} from '@mui/material'
+import { Box, Breadcrumbs, Button, Card, Container, Chip, Divider, Grid, Hidden, Typography } from '@mui/material'
 
 // ** MUI X Imports
 import { DataGrid } from '@mui/x-data-grid'
@@ -40,7 +25,7 @@ import axios from 'axios'
 import Total from 'src/pages/member/order/details_total'
 import Delivery from 'src/pages/member/order/delivery_address'
 import Paymant from 'src/pages/member/order/payment_details'
-import Word_order from 'src/pages/member/order/word_order'
+// import TrackingStatus from './trackorder'
 
 //** Auth check
 import { withAuth } from 'src/@core/utils/AuthCheck'
@@ -72,60 +57,7 @@ const Show_Status = () => {
 
     fetchData()
   }, [invoice_id])
-  console.log(localStorage)
-
-  const [data, setData] = useState([])
-  const [userId, setUserId] = useState('')
-  const [userdata, setUserData] = useState({})
-
-  const fetchData = async () => {
-    try {
-      const userResponse = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.profile.display_profile`, {
-        params: {
-          member_id: userId
-        }
-      })
-      const user = userResponse.data.message.Data[0]
-      setUserData(user)
-
-      const config = {
-        method: 'get',
-        maxBodyLength: Infinity,
-        url: `${user.sup_hostaddress}MFG-WO-2023-00008`,
-        headers: {
-          Authorization: `token ${user.sup_apikey}:${user.sup_apisecret}`
-        }
-      }
-
-      const workOrderResponse = await axios.request(config)
-      setData(workOrderResponse.data.data.operations)
-
-      console.log('operations', workOrderResponse.data.data.planned_end_date)
-      console.log('actual_start_date', workOrderResponse.data.data.actual_start_date)
-      console.log('planned_end_date', workOrderResponse.data.data.planned_end_date)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  useEffect(() => {
-    const userIdFromLocalStorage = localStorage.getItem('Member_Id')
-    if (userIdFromLocalStorage) {
-      setUserId(userIdFromLocalStorage)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (userId) {
-      fetchData() // Initial data fetch
-
-      const intervalId = setInterval(() => {
-        fetchData() // Fetch data every 1 minute
-      }, 60000) // 1 minute in milliseconds
-
-      return () => clearInterval(intervalId) // Clear the interval on component unmount
-    }
-  }, [userId])
+console.log(localStorage)
 
   return (
     <Container maxWidth='xl'>
@@ -168,7 +100,6 @@ const Show_Status = () => {
             </Grid>
           </Card>
         </Box>
-
         {/** เลขออเดอร์ */}
         <Box sx={{ width: '100%' }}>
           <Card
@@ -213,20 +144,15 @@ const Show_Status = () => {
             </Grid>
           </Grid>
 
-          <Grid container md={6}>
-            <Grid item md={6}>
-              <Box>
-                <Word_order />
-              </Box>
-              <Box sx={{ width: '100%' }}>
-                <Paymant
-                  usertype={usertype}
-                  orderdata={orderdata}
-                  invoice_id={invoice_id}
-                  receipt={orderdata.receipt_file_name}
-                />
-              </Box>
-            </Grid>
+          <Grid item sm={12} md={7} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+            <Box sx={{ width: '100%' }}>
+              <Paymant
+                usertype={usertype}
+                orderdata={orderdata}
+                invoice_id={invoice_id}
+                receipt={orderdata.receipt_file_name}
+              />
+            </Box>
           </Grid>
         </Grid>
       </Box>

@@ -283,14 +283,16 @@ const JobApplicationForm = () => {
   }
 
   if (isSubmitted) {
-    axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.service.addservice`, dataapi).catch(error => {
-      console.error(error)
-      SAlert.fire({
-        icon: 'error',
-        title: 'Log in failed...',
-        text: 'Error calling API'
+    if (isSubmitted) {
+      axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.service.addservice`, dataapi).catch(error => {
+        console.error(error)
+        SAlert.fire({
+          icon: 'error',
+          title: 'Log in failed...',
+          text: 'Error calling API'
+        })
       })
-    })
+    }
   }
 
   const handleDownloadClick = () => {
