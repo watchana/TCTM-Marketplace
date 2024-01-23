@@ -55,27 +55,12 @@ const AllPost = () => {
 
   // React Multi Carousel Responsive
   const responsive = {
-    desktop: {
-      breakpoint: {
-        max: 3000,
-        min: 1024
-      },
-      items: 3
-    },
-    tablet: {
-      breakpoint: {
-        max: 1024,
-        min: 464
-      },
-      items: 2
-    },
-    mobile: {
-      breakpoint: {
-        max: 464,
-        min: 0
-      },
-      items: 1
-    }
+    desktopLarge: { breakpoint: { max: 3000, min: 2300 }, items: 10, partialVisibilityGutter: 10 },
+    desktop: { breakpoint: { max: 2300, min: 1400 }, items: 3, partialVisibilityGutter: 10 },
+    tablet: { breakpoint: { max: 1400, min: 1300 }, items: 3, partialVisibilityGutter: 10 },
+    mobile: { breakpoint: { max: 1300, min: 1000 }, items: 2, partialVisibilityGutter: 10 },
+    smallMobile1: { breakpoint: { max: 1000, min: 500 }, items: 1, partialVisibilityGutter: 10 },
+    smallMobile2: { breakpoint: { max: 500, min: 50 }, items: 1, partialVisibilityGutter: 10 }
   }
 
   // Call Api
@@ -122,8 +107,8 @@ const AllPost = () => {
       {/* ---------- Show Product ---------- */}
       <Box sx={{ width: '100%', marginTop: '30px' }}>
         <Grid container>
-          <Grid item xs={12} md={10} ml={30}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+          <Grid item xs={12} md={12}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
               {/* ========================== Map ========================== */}
               {slidedata && slidedata.length > 0 ? (
                 slidedata.map((post, index) => (
