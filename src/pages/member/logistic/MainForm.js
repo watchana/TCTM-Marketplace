@@ -1,5 +1,5 @@
 // MainForm.js
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import FormComponent from './FormComponent'
 import FamilyHistoryForm from './FamilyHistoryForm'
 import Education from './EducationForm'
@@ -7,9 +7,13 @@ import Information from './information'
 import LanguageAbility from './LanguageAbility'
 import SpecialAbility from './SpecialAbility'
 import CloudUpload from 'mdi-material-ui/CloudUpload'
+import SerDowload from './ser_dowload'
 import html2canvas from 'html2canvas'
 import axios from 'axios'
 import jsPDF from 'jspdf'
+
+import FileUploadIcon from '@mui/icons-material/FileUpload'
+import DownloadIcon from '@mui/icons-material/Download'
 
 // ** Switch Alert Import
 const SAlert = require('sweetalert2')
@@ -34,160 +38,211 @@ import {
   CardContent
 } from '@mui/material'
 
-const MainForm = () => {
+// import { textAlign } from 'html2canvas/dist/types/css/property-descriptors/text-align'
+
+const MainForm = ({ PDF_File }) => {
   const formdataref = useRef({})
 
   const handleDownloadClick = () => {
     generatePDF()
   }
 
-  const [pdfFile, setPdfFile] = useState(null) // ตัวแปรเก็บข้อมูลไฟล์ PDF
-  const [pdfFileName, setPdfFileName] = useState(null) // ตัวแปรเก็บชื่อของไฟล์ PDF
+  const [selectedFileName, setSelectedFileName] = useState('') // เก็บชื่อไฟล์
+  const [File, setFile] = useState(null) // เก็บค่า  File
+  const [FileName, setFileName] = useState('') // เก็บค่าชื่อของ File
 
-  const handlePdfChange = async event => {
-    const file = event.target.files[0]
-    if (file) {
-      setPdfFile(file)
-      const fileName = file.name
-      setPdfFileName(fileName)
+  // ฟังก์ชัน อัปโหลดไฟล์
+  const handleFileUpload = event => {
+    const selectedFile = event.target.files[0]
+    setSelectedFileName(selectedFile ? selectedFile.name : '')
 
-      const formData = new FormData()
-      formData.append('pdfFile', pdfFile)
+    // ใช้ Date เพื่อสร้างเวลาปัจจุบัน
+    const currentTime = new Date()
 
-      try {
-        const response = await axios.post('/api/Po_FileUpload', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        })
-        console.log(response.data) // ข้อมูลที่ได้รับกลับมาจาก API
-      } catch (error) {
-        console.error('Error:', error)
-      }
-    }
+    // ดึงชื่อไฟล์จาก selectedFile
+    const fileName = selectedFile ? selectedFile.name : ''
+
+    // แยกนามสกุลไฟล์ออกมา
+    const fileExtension = fileName.split('.').pop()
+    const fileNameWithoutExtension = fileName.replace(`.${fileExtension}`, '')
+
+    // รวมชื่อไฟล์และเวลาเข้าด้วยกัน
+    const fileNameWithTime = `${currentTime.toISOString()}_${fileNameWithoutExtension}`
+    const sanitizedFileName = fileNameWithTime.replace(/[^a-z0-9.]/gi, '_') // แทนที่อักขระที่ไม่ใช่ a-z, 0-9, หรือ . ด้วย "_"
+    setFile(selectedFile)
+    setFileName(`${sanitizedFileName}.${fileExtension}`) // ชื่อไฟล์ใหม่
   }
-  console.log('ชื่อไฟล์', pdfFileName)
 
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [member_id, setMemberId] = useState(null)
 
-  if (isSubmitted) {
-    axios
-      .post(`${process.env.NEXT_PUBLIC_API}TCTM.service.addservice`, {
-        ser_fname: formdataref.current.fname || '',
-        ser_lname: formdataref.current.lname || '',
-        ser_email: formdataref.current.email || '',
-        ser_phone: formdataref.current.phone || '',
-        ser_dateofbirt: formdataref.current.dateofbirt || '',
-        ser_age: formdataref.current.age || '',
-        ser_address: formdataref.current.address || '',
-        ser_addressline2: formdataref.current.addressline2 || '',
-        ser_social_security: formdataref.current.social_security || '',
-        ser_livingstatus: formdataref.current.livingStatus || '',
-        ser_ethnicity: formdataref.current.ethnicity || '',
-        ser_nationality: formdataref.current.nationality || '',
-        ser_idcard: formdataref.current.idcard || '',
-        ser_expiration_date: formdataref.current.expiration_date || '',
-        ser_height: formdataref.current.height || '',
-        ser_weight: formdataref.current.weight || '',
-        ser_military_status: formdataref.current.military_status || '',
-        ser_gender: formdataref.current.gender || '',
-        ser_marital_status: formdataref.current.marital_status || '',
-        ser_dateavail: formdataref.current.dateavail || '',
-        ser_positionap: formdataref.current.positionap || '',
-        ser_desired_pay: formdataref.current.desired_pay || '',
-        ser_hour_salary: formdataref.current.hour_salary || '',
-        ser_employment_desired: formdataref.current.employment_desired || '',
-        ser_father_firstname: formdataref.current.father_firstname || '',
-        ser_father_lastname: formdataref.current.father_lastname || '',
-        ser_father_occ: formdataref.current.father_occ || '',
-        ser_father_age: formdataref.current.father_Age || '',
-        ser_mother_firstname: formdataref.current.mother_firstname || '',
-        ser_mother_lastname: formdataref.current.mother_lastname || '',
-        ser_mother_age: formdataref.current.mother_age || '',
-        ser_mother_occ: formdataref.current.mother_occ || '',
-        ser_wifeorhusband_fname: formdataref.current.wifeorhusband_fname || '',
-        ser_wifeorhusband_lname: formdataref.current.wifeorhusband_lname || '',
-        ser_wifeorhusband_age: formdataref.current.wifeorhusband_age || '',
-        ser_wifeorhusband_occ: formdataref.current.wifeorhusband_occ || '',
-        ser_numofchildren: formdataref.current.numofChildren || '',
-        ser_elementary_level: formdataref.current.elementary_level || '',
-        ser_city_state_ele: formdataref.current.city_state_ele || '',
-        ser_dateelement_start: formdataref.current.dateelement_start || '',
-        ser_dateelement_end: formdataref.current.dateelement_end || '',
-        ser_graduate_element: formdataref.current.Graduate_Element || '',
-        ser_middle_school: formdataref.current.middle_school || '',
-        ser_city_state_md: formdataref.current.city_state_md || '',
-        ser_mddate_start: formdataref.current.mddate_start || '',
-        ser_mddate_end: formdataref.current.mddate_end || '',
-        ser_graduate_md: formdataref.current.Graduate_md || '',
-        ser_hight_school: formdataref.current.hight_School || '',
-        ser_city_state_h: formdataref.current.city_state_h || '',
-        ser_hidate_start: formdataref.current.hidate_start || '',
-        ser_hidate_end: formdataref.current.hidate_end || '',
-        ser_graduate_hight: formdataref.current.graduate_hight || '',
-        ser_high_voc: formdataref.current.high_voc || '',
-        ser_city_state_hv: formdataref.current.city_state_hv || '',
-        ser_hvdate_start: formdataref.current.hvdate_start || '',
-        ser_hvdate_end: formdataref.current.hvdate_end || '',
-        ser_graduate_high_voc: formdataref.current.graduate_high_voc || '',
-        ser_college: formdataref.current.college || '',
-        ser_city_state_co: formdataref.current.city_state_co || '',
-        ser_collegedate_start: formdataref.current.collegedate_start || '',
-        ser_collegedate_end: formdataref.current.collegedate_end || '',
-        ser_graduate_college: formdataref.current.graduate_college || '',
-        ser_speak_thai: formdataref.current.speak_thai || '',
-        ser_write_thai: formdataref.current.write_thai || '',
-        ser_read_thai: formdataref.current.read_thai || '',
-        ser_speak_eng: formdataref.current.speak_eng || '',
-        ser_write_eng: formdataref.current.write_eng || '',
-        ser_read_eng: formdataref.current.read_eng || '',
-        ser_speak_japan: formdataref.current.speak_japan || '',
-        ser_write_japan: formdataref.current.write_japan || '',
-        ser_read_japan: formdataref.current.read_japan || '',
-        ser_speak_china: formdataref.current.speak_china || '',
-        ser_write_china: formdataref.current.write_china || '',
-        ser_read_china: formdataref.current.read_china || '',
-        ser_typing_yn: formdataref.current.typing_yn || '',
-        ser_typing_thaiwords: formdataref.current.typing_thaiwords || '',
-        ser_typing_engwords: formdataref.current.typing_engwords || '',
-        ser_com_yn: formdataref.current.com_yn || '',
-        ser_mention_com: formdataref.current.mention_com || '',
-        ser_driving_yn: formdataref.current.driving_yn || '',
-        ser_dlicense_no: formdataref.current.dlicense_no || '',
-        ser_office_machine: formdataref.current.office_machine || '',
-        ser_knowledge_mention: formdataref.current.knowledge_mention || '',
-        ser_imagedata: '5555',
-        ser_filedame: pdfFileName
-      })
-      .catch(error => {
-        console.error(error)
-        SAlert.fire({
-          icon: 'error',
-          title: 'Log in failed...',
-          text: 'Error calling API'
-        })
-      })
+  useEffect(() => {
+    console.log(localStorage) // ตรวจสอบว่า localStorage ถูกนำเข้าหรือไม่
+    const storedMemberId = localStorage.getItem('Member_Id')
+    console.log(storedMemberId)
+
+    // กำหนดค่า member_id ใน state
+    setMemberId(storedMemberId)
+  }, [])
+
+  const data = {
+    member_id: member_id,
+    ser_fname: formdataref.current.fname || '',
+    ser_lname: formdataref.current.lname || '',
+    ser_email: formdataref.current.email || '',
+    ser_phone: formdataref.current.phone || '',
+    ser_dateofbirt: formdataref.current.dateofbirt || '',
+    ser_age: formdataref.current.age || '',
+    ser_address: formdataref.current.address || '',
+    ser_addressline2: formdataref.current.addressline2 || '',
+    ser_social_security: formdataref.current.social_security || '',
+    ser_livingstatus: formdataref.current.livingStatus || '',
+    ser_ethnicity: formdataref.current.ethnicity || '',
+    ser_nationality: formdataref.current.nationality || '',
+    ser_idcard: formdataref.current.idcard || '',
+    ser_expiration_date: formdataref.current.expiration_date || '',
+    ser_height: formdataref.current.height || '',
+    ser_weight: formdataref.current.weight || '',
+    ser_military_status: formdataref.current.military_status || '',
+    ser_gender: formdataref.current.gender || '',
+    ser_marital_status: formdataref.current.marital_status || '',
+    ser_dateavail: formdataref.current.dateavail || '',
+    ser_positionap: formdataref.current.positionap || '',
+    ser_desired_pay: formdataref.current.desired_pay || '',
+    ser_hour_salary: formdataref.current.hour_salary || '',
+    ser_employment_desired: formdataref.current.employment_desired || '',
+    ser_father_firstname: formdataref.current.father_firstname || '',
+    ser_father_lastname: formdataref.current.father_lastname || '',
+    ser_father_occ: formdataref.current.father_occ || '',
+    ser_father_age: formdataref.current.father_Age || '',
+    ser_mother_firstname: formdataref.current.mother_firstname || '',
+    ser_mother_lastname: formdataref.current.mother_lastname || '',
+    ser_mother_age: formdataref.current.mother_age || '',
+    ser_mother_occ: formdataref.current.mother_occ || '',
+    ser_wifeorhusband_fname: formdataref.current.wifeorhusband_fname || '',
+    ser_wifeorhusband_lname: formdataref.current.wifeorhusband_lname || '',
+    ser_wifeorhusband_age: formdataref.current.wifeorhusband_age || '',
+    ser_wifeorhusband_occ: formdataref.current.wifeorhusband_occ || '',
+    ser_numofchildren: formdataref.current.numofChildren || '',
+    ser_elementary_level: formdataref.current.elementary_level || '',
+    ser_city_state_ele: formdataref.current.city_state_ele || '',
+    ser_dateelement_start: formdataref.current.dateelement_start || '',
+    ser_dateelement_end: formdataref.current.dateelement_end || '',
+    ser_graduate_element: formdataref.current.Graduate_Element || '',
+    ser_middle_school: formdataref.current.middle_school || '',
+    ser_city_state_md: formdataref.current.city_state_md || '',
+    ser_mddate_start: formdataref.current.mddate_start || '',
+    ser_mddate_end: formdataref.current.mddate_end || '',
+    ser_graduate_md: formdataref.current.Graduate_md || '',
+    ser_hight_school: formdataref.current.hight_School || '',
+    ser_city_state_h: formdataref.current.city_state_h || '',
+    ser_hidate_start: formdataref.current.hidate_start || '',
+    ser_hidate_end: formdataref.current.hidate_end || '',
+    ser_graduate_hight: formdataref.current.graduate_hight || '',
+    ser_high_voc: formdataref.current.high_voc || '',
+    ser_city_state_hv: formdataref.current.city_state_hv || '',
+    ser_hvdate_start: formdataref.current.hvdate_start || '',
+    ser_hvdate_end: formdataref.current.hvdate_end || '',
+    ser_graduate_high_voc: formdataref.current.graduate_high_voc || '',
+    ser_college: formdataref.current.college || '',
+    ser_city_state_co: formdataref.current.city_state_co || '',
+    ser_collegedate_start: formdataref.current.collegedate_start || '',
+    ser_collegedate_end: formdataref.current.collegedate_end || '',
+    ser_graduate_college: formdataref.current.graduate_college || '',
+    ser_speak_thai: formdataref.current.speak_thai || '',
+    ser_write_thai: formdataref.current.write_thai || '',
+    ser_read_thai: formdataref.current.read_thai || '',
+    ser_speak_eng: formdataref.current.speak_eng || '',
+    ser_write_eng: formdataref.current.write_eng || '',
+    ser_read_eng: formdataref.current.read_eng || '',
+    ser_speak_japan: formdataref.current.speak_japan || '',
+    ser_write_japan: formdataref.current.write_japan || '',
+    ser_read_japan: formdataref.current.read_japan || '',
+    ser_speak_china: formdataref.current.speak_china || '',
+    ser_write_china: formdataref.current.write_china || '',
+    ser_read_china: formdataref.current.read_china || '',
+    ser_typing_yn: formdataref.current.typing_yn || '',
+    ser_typing_thaiwords: formdataref.current.typing_thaiwords || '',
+    ser_typing_engwords: formdataref.current.typing_engwords || '',
+    ser_com_yn: formdataref.current.com_yn || '',
+    ser_mention_com: formdataref.current.mention_com || '',
+    ser_driving_yn: formdataref.current.driving_yn || '',
+    ser_dlicense_no: formdataref.current.dlicense_no || '',
+    ser_office_machine: formdataref.current.office_machine || '',
+    ser_knowledge_mention: formdataref.current.knowledge_mention || '',
+    ser_imagedata: '5555',
+    ser_filedame: FileName
   }
+  console.log(FileName)
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault()
     setIsSubmitted(true)
-    console.log(formdataref.current)
 
-    // ตรวจสอบค่าว่างก่อนส่ง
-    const fieldsToCheck = [formdataref.current.fname]
-    if (fieldsToCheck.some(field => field === '' || field === null || field === undefined)) {
-      SAlert.fire({
-        icon: 'error',
-        title: 'Please provide all information.',
-        text: 'Please fill in all fields.'
+    // เรียกใช้ฟังก์ชัน อัปโหลดไฟล์รูปภาพลงเครื่อง
+    const formData = new FormData()
+    formData.append('file', File)
+    formData.append('FileName', FileName)
+
+    // ส่งไฟล์ไปยัง API
+
+    axios.post(`/api/resumeFile_upload`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.service.addservice`, data)
+      console.log(response)
+      Swal.fire({
+        icon: 'success',
+        title: 'Success'
       })
-
-      return
+    } catch (error) {
+      console.log(error)
     }
-
-    // ทำสิ่งที่ต้องการกับข้อมูลที่ได้จาก form component ที่นี่
   }
+
+  // ฟังชัน download ใบเสร็จ
+  // const handleDownload = async FileName => {
+  //   const fileName = FileName
+
+  //   console.log('fileName', fileName)
+
+  //   try {
+  //     const downloadResponse = await fetch('/api/receipt_FileDownload', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify({ fileName }),
+  //       responseType: 'blob' // Indicate that the response should be treated as binary data
+  //     })
+
+  //     if (downloadResponse.ok) {
+  //       const blob = await downloadResponse.blob()
+  //       const blobUrl = URL.createObjectURL(blob)
+
+  //       // Create a download link and initiate the download
+  //       const downloadLink = document.createElement('a')
+  //       downloadLink.href = blobUrl
+  //       downloadLink.download = fileName
+  //       downloadLink.click()
+
+  //       // Clean up the object URL after the download is initiated
+  //       URL.revokeObjectURL(blobUrl)
+
+  //       console.log('Download initiated')
+  //     } else {
+  //       console.error('Error downloading document:', downloadResponse.statusText)
+  //     }
+  //   } catch (error) {
+  //     console.error('An error occurred:', error)
+  //   }
+  // }
+
+  // ทำสิ่งที่ต้องการกับข้อมูลที่ได้จาก form component ที่นี่
 
   // const formData = new FormData()
   // formData.append('pdfFile', pdfFile) // Assuming pdfFile is the File object obtained from an input element
@@ -335,13 +390,13 @@ const MainForm = () => {
         </Grid>
         {/* อัปโหลดรูปภาพร้านค้า */}
         <Box sx={{ width: '100%', marginBottom: 4 }}>
-          <Divider sx={{ marginY: 6, color: '#3A46A7' }}>Upload PDF</Divider>
+          <Divider sx={{ marginY: 6, color: '#3A46A7' }}>Please upload your Resume only PDF</Divider>
           <input
             accept='application/pdf' // ระบุชนิดของไฟล์ที่อนุญาตให้อัปโหลดเป็น PDF
             style={{ display: 'none' }}
             id='upload-pdf' // ID สำหรับ input element
             type='file'
-            onChange={handlePdfChange} // เมื่อมีการเปลี่ยนแปลงไฟล์จะเรียกใช้ handlePdfChange
+            onChange={handleFileUpload} // เมื่อมีการเปลี่ยนแปลงไฟล์จะเรียกใช้ handlePdfChange
           />
 
           <label htmlFor='upload-pdf'>
@@ -349,8 +404,14 @@ const MainForm = () => {
               Upload PDF
             </Button>
           </label>
-          {pdfFileName}
         </Box>
+        <Typography
+          textAlign={'center'}
+          style={{ textTransform: 'lowercase' }}
+          sx={{ fontSize: 20, fontWeight: 'bold' }}
+        >
+          {selectedFileName}
+        </Typography>
         <Grid item xs={12} mt={3} textAlign={'center'}>
           <Typography variant='body1' style={{ opacity: 0.5 }} fontSize={30} fontWeight={'bold'}>
             <span id='fileName'></span>
@@ -363,6 +424,7 @@ const MainForm = () => {
       {/* <Button variant='contained' onClick={handleDownloadClick} color='primary'>
         Download
       </Button> */}
+      <SerDowload />
     </Grid>
   )
 }
