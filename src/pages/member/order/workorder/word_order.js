@@ -25,10 +25,8 @@ const Word_order = () => {
   // ใช้งาน Router
   const router = useRouter()
   const { invoice_id } = router.query
-  const [processed, setProcess] = useState('')
   const [data, setData] = useState([])
   const [userId, setUserId] = useState('')
-  const [userData, setUserData] = useState({})
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,13 +58,14 @@ const Word_order = () => {
           const config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: 'https://tonen.vsiam.com/api/resource/Work%20Order/MFG-WO-2023-00019',
 
-            // url: user.sup_hostaddress + invoiceData.process_status,
+            // url: 'https://tonen.vsiam.com/api/resource/Work%20Order/MFG-WO-2023-00019',
+
+            url: user.sup_hostaddress + invoiceData.process_status,
             headers: {
-              Authorization: `token 5891d01ccc2961e:0e446b332dc22aa`
+              // Authorization: `token 5891d01ccc2961e:0e446b332dc22aa`
 
-              // Authorization: `token ${user.sup_apikey}:${user.sup_apisecret}`
+              Authorization: `token ${user.sup_apikey}:${user.sup_apisecret}`
             }
           }
 

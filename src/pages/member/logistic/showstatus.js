@@ -40,7 +40,7 @@ import axios from 'axios'
 import Total from 'src/pages/member/order/details_total'
 import Delivery from 'src/pages/member/order/delivery_address'
 import Paymant from 'src/pages/member/order/payment_details'
-import Word_order from 'src/pages/member/order/word_order'
+import Word_order from 'src/pages/member/order/workorder/word_order'
 
 //** Auth check
 import { withAuth } from 'src/@core/utils/AuthCheck'
@@ -77,8 +77,6 @@ const Show_Status = () => {
   const [data, setData] = useState([])
   const [userId, setUserId] = useState('')
   const [userdata, setUserData] = useState({})
-
-
 
   useEffect(() => {
     const userIdFromLocalStorage = localStorage.getItem('Member_Id')

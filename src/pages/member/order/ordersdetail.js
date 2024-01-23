@@ -28,7 +28,7 @@ import Paymant from './payment_details'
 
 //** Auth check
 import { withAuth } from 'src/@core/utils/AuthCheck'
-import Word_order from './word_order'
+import Word_order from './workorder/word_order'
 
 const Orders_Detail = () => {
   // ใช้งาน Router
