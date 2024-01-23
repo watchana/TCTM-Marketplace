@@ -45,10 +45,8 @@ const Dashboard = () => {
       <NameMarket />
       {/* ---------- Show Products2 ---------- */}
       <ShowProducts2 />
-      {/* ---------- Show Products ---------- */}
-      <ShowProducts />
-      {/* ---------- Show Information ---------- */}
-      <ShowInformation />
+      {/* ---------- Knowledge Of Product ---------- */}
+      <ShowPost />
     </Container>
   )
 }

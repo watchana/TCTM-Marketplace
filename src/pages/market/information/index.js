@@ -23,7 +23,7 @@ const Information = subId => {
       .then(res => {
         setDataInformation(res.data.message.Data)
       })
-  }, [])
+  }, [subId])
 
   const handleDelete = primary => {
     Swal.fire({
@@ -35,16 +35,17 @@ const Information = subId => {
     }).then(result => {
       if (result.isConfirmed) {
         const data = {
-          // table: 'informationsV2',
           post_id: primary
         }
 
         if (primary !== '') {
-          console.log('post_id : ', data)
           axios
             .put(`${process.env.NEXT_PUBLIC_API}TCTM.infromation.deleteinf`, data)
             .then(function (response) {
               console.log(response)
+
+              // หลังจากลบข้อมูลเสร็จสิ้น อัพเดต state ให้รีเรนเดอร์ component
+              setDataInformation(prevData => prevData.filter(item => item.post_id !== primary))
 
               Swal.fire({
                 icon: 'success',
@@ -56,7 +57,7 @@ const Information = subId => {
 
               Swal.fire({
                 icon: 'error',
-                title: 'Errorr'
+                title: 'Error'
               })
             })
         } else {
