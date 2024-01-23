@@ -20,16 +20,12 @@ import ProductTable from 'src/views/tctm/ProductTable'
 import PostTable from 'src/views/tctm/PostTable'
 import ServiceTable from 'src/views/tctm/ServiceTable'
 
-// Responsive image
-import { useMediaQuery } from '@mui/material'
-
 const ManagementPage = () => {
   const [value, setValue] = useState('1')
   const [dataUser, setDataUser] = useState([])
   const [dataMarket, setDataMarket] = useState([])
   const [dataProduct, setDataProduct] = useState([])
   const [dataPost, setDataPost] = useState([])
-  const [dataService, setDataService] = useState([])
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -62,17 +58,10 @@ const ManagementPage = () => {
           }
         })
 
-        const serviceResponse = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.service.showallservice`, {
-          params: {
-            ser_id: ser_id
-          }
-        })
-
         setDataUser(userResponse.data.message.Data || [])
         setDataMarket(marketResponse.data.message.Data || [])
         setDataProduct(productResponse.data.message.Data || [])
         setDataPost(postResponse.data.message.Data || [])
-        setDataService(serviceResponse.data.message.Data || [])
       } catch (error) {
         console.error('Error fetching data:', error)
       }
@@ -81,14 +70,12 @@ const ManagementPage = () => {
     fetchData()
   }, [value])
 
-  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
-
   return (
     <>
       <Box sx={{ width: '100%' }}>
         <Card
           sx={{
-            height: isSmallScreen ? '70px' : '80px',
+            height: '100px',
             marginBottom: '30px',
             padding: '15px 25px 20px',
             backgroundColor: '#2d2e81',
@@ -97,17 +84,17 @@ const ManagementPage = () => {
         >
           <Grid container alignItems='center'>
             <Grid item xs={12} sm={8} md={8}>
-              <Typography variant='h5' color='#fff' sx={{ fontWeight: 'bold' }}>
+              <Typography variant='h4' fontSize='21px bold' color='#fff'>
                 TCTM Management
               </Typography>
 
-              <Typography color='#fff' variant='subtitle1' sx={{ cursor: 'pointer' }}>
+              <Typography color='#fff' variant='h6' fontSize='14px'>
                 Membership approval management page
               </Typography>
             </Grid>
             <Hidden smDown>
               <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <ManageAccountsIcon sx={{ fontSize: 60, color: '#fff' }} />
+                <ManageAccountsIcon sx={{ fontSize: 72, color: '#fff' }} />
               </Grid>
             </Hidden>
           </Grid>

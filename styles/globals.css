@@ -22,3 +22,19 @@ code:not([class*='language-']):after {
 code[class*='language-'] {
   padding: 0;
 }
+
+/* styles.css (หรือใส่ในส่วนของ style ใน JSX) */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px); /* เลือกที่จะเคลื่อนที่ลงด้วย translateY */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cardFadeIn {
+  animation: fadeIn 1s ease-out; /* ระยะเวลาที่จะให้ fade-in ในที่นี้คือ 1 วินาที */
+}

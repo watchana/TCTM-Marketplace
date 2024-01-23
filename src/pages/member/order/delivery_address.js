@@ -2,7 +2,7 @@
 import React from 'react'
 
 // ** MUI Imports
-import { Avatar, Box, Button, Card, Divider, Grid, Link, Radio, Stack, TextField, Typography } from '@mui/material'
+import { Avatar, Box, Button, Card, Divider, Grid, Radio, Stack, TextField, Typography } from '@mui/material'
 
 const Delivery = ({ orderdata }) => {
   const addressdata = orderdata.orderdata // เก็บค่าข้อมูล
@@ -53,16 +53,7 @@ const Delivery = ({ orderdata }) => {
           <Typography variant='subtitle1'>Notes</Typography>
         </Grid>
         <Grid item xs={6} sm={12}>
-          <Typography variant='subtitle2'> -</Typography>
-        </Grid>
-      </Grid>
-      <hr />
-      <Grid container spacing={3} rowSpacing={2} sx={{ pt: { md: 3 } }}>
-        <Grid item xs={6} sm={12}>
-          <Typography variant='subtitle1'>Request of Shipping Quotation</Typography>
-        </Grid>
-        <Grid item xs={6} sm={12}>
-          <Button>Shipping</Button>
+          <Typography variant='subtitle2'>-</Typography>
         </Grid>
       </Grid>
       <hr />
