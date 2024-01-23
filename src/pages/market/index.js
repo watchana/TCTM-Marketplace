@@ -50,6 +50,7 @@ import { get } from 'local-storage'
 import Orders from './orders'
 import OrdersReq from './ordersReq'
 import Requirement from './requirement'
+import Information from './information'
 
 // ** Auth Check
 import { withAuth } from 'src/@core/utils/AuthCheck'
@@ -508,6 +509,7 @@ const MyMarket = () => {
                 <Tab label='Product Orders' value='2' />
                 <Tab label='Product Requirement Orders' value='3' />
                 <Tab label='Requirement ' value='4' />
+                <Tab label='Information ' value='5' />
               </TabList>
             </Box>
             <TabPanel value='1'>
@@ -551,6 +553,9 @@ const MyMarket = () => {
             </TabPanel>
             <TabPanel value='4'>
               <Requirement sub_id={subId} />
+            </TabPanel>
+            <TabPanel value='5'>
+              <Information sub_id={subId} />
             </TabPanel>
           </TabContext>
         </Card>

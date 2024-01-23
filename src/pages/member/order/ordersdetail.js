@@ -28,7 +28,9 @@ import Paymant from './payment_details'
 
 //** Auth check
 import { withAuth } from 'src/@core/utils/AuthCheck'
-import Word_order from './word_order'
+
+// Responsive image
+import { useMediaQuery } from '@mui/material'
 
 const Orders_Detail = () => {
   // ใช้งาน Router
@@ -58,13 +60,15 @@ const Orders_Detail = () => {
     fetchData()
   }, [invoice_id])
 
+  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+
   return (
     <Container maxWidth='xl'>
       <Box>
         <Box sx={{ width: '100%' }}>
           <Card
             sx={{
-              height: '100px',
+              height: isSmallScreen ? '70px' : '80px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
               backgroundColor: '#2d2e81',
@@ -73,27 +77,27 @@ const Orders_Detail = () => {
           >
             <Grid container alignItems='center'>
               <Grid item xs={12} sm={8} md={8}>
-                <Typography variant='h4' fontSize='21px bold' color='#fff'>
+                <Typography variant='h5' color='#fff' sx={{ fontWeight: 'bold' }}>
                   Orders Detail
                   {usertype === '2' ? <span> (Marker)</span> : usertype === '1' ? <span> (User)</span> : null}
                 </Typography>
                 <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
                   <Link href='/' passHref>
-                    <Typography color='#fff' variant='h6' fontSize='14px'>
+                    <Typography color='#fff' variant='subtitle1' sx={{ cursor: 'pointer' }}>
                       Home
                     </Typography>
                   </Link>
-                  <Typography color='#fff' variant='h6' fontSize='14px'>
+                  <Typography color='#fff' variant='subtitle1' sx={{ cursor: 'pointer' }}>
                     Market Management
                   </Typography>
-                  <Typography color='#fff' variant='h6' fontSize='14px'>
+                  <Typography color='#fff' variant='subtitle1' sx={{ cursor: 'pointer' }}>
                     detail
                   </Typography>
                 </Breadcrumbs>
               </Grid>
               <Hidden smDown>
                 <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <MailOutlineIcon sx={{ fontSize: 72, color: '#fff' }} />
+                  <MailOutlineIcon sx={{ fontSize: 60, color: '#fff' }} />
                 </Grid>
               </Hidden>
             </Grid>
@@ -142,22 +146,16 @@ const Orders_Detail = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid container sm={12} md={7}>
-            <Grid item sm={12} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-              <Box sx={{ width: '100%' }}>
-                <Word_order />
-              </Box>
-            </Grid>
-            <Grid item sm={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <Box sx={{ width: '100%' }}>
-                <Paymant
-                  usertype={usertype}
-                  orderdata={orderdata}
-                  invoice_id={invoice_id}
-                  receipt={orderdata.receipt_file_name}
-                />
-              </Box>
-            </Grid>
+
+          <Grid item sm={12} md={7} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+            <Box sx={{ width: '100%' }}>
+              <Paymant
+                usertype={usertype}
+                orderdata={orderdata}
+                invoice_id={invoice_id}
+                receipt={orderdata.receipt_file_name}
+              />
+            </Box>
           </Grid>
         </Grid>
       </Box>

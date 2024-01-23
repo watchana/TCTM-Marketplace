@@ -36,9 +36,6 @@ import ChevronRight from 'mdi-material-ui/ChevronRight'
 // ** Axios Import
 import axios from 'axios'
 
-// Responsive image
-import { useMediaQuery } from '@mui/material'
-
 const Category = ({ productData, SearchProduct, keyword }) => {
   const [filteredProducts, setFilteredProducts] = useState(keyword ? SearchProduct || null : productData || null)
   const [activeButton, setActiveButton] = useState(null) // เช็คสถานะปุ่มที่ถูกกด
@@ -56,8 +53,6 @@ const Category = ({ productData, SearchProduct, keyword }) => {
   useEffect(() => {
     setFilteredProducts(keyword ? SearchProduct || null : productData || null)
   }, [SearchProduct, keyword, productData])
-
-  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
   // ตรวจสอบหาก filteredProducts เป็น undefined หรือ null
   if (filteredProducts === undefined || filteredProducts === null) {
@@ -148,7 +143,7 @@ const Category = ({ productData, SearchProduct, keyword }) => {
         <Box sx={{ width: '100%' }}>
           <Card
             sx={{
-              height: isSmallScreen ? '70px' : '80px',
+              height: '100px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
               backgroundColor: '#2d2e81',
@@ -157,23 +152,23 @@ const Category = ({ productData, SearchProduct, keyword }) => {
           >
             <Grid container alignItems='center'>
               <Grid item xs={12} sm={8} md={8}>
-                <Typography variant='h5' cursor='pointer' color='#fff'>
+                <Typography variant='h5' color='#fff' sx={{ fontWeight: 'bold' }}>
                   Shop
                 </Typography>
                 <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
                   <Link href='/' passHref>
-                    <Typography color='#fff' variant='subtitle1' cursor='pointer'>
+                    <Typography color='#fff' variant='subtitle1' sx={{ cursor: 'pointer' }}>
                       Home
                     </Typography>
                   </Link>
-                  <Typography color='#fff' variant='subtitle1' cursor='pointer'>
+                  <Typography color='#fff' variant='subtitle1' sx={{ cursor: 'pointer' }}>
                     Shop
                   </Typography>
                 </Breadcrumbs>
               </Grid>
               <Hidden smDown>
                 <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <Shopping sx={{ fontSize: 60, color: '#fff' }} />
+                  <Shopping sx={{ fontSize: 72, color: '#fff' }} />
                 </Grid>
               </Hidden>
             </Grid>
@@ -232,14 +227,12 @@ const Category = ({ productData, SearchProduct, keyword }) => {
                           height='70%'
                           image={`/imgTctmProduct/${product.image_file_name}`}
                           alt={product.product_name}
-                          sx={{
-                            objectFit: 'contain',
-                            padding: '8px' // Adjust the padding as needed
-                          }}
+                          sx={{ objectFit: 'contain' }}
                         />
                         <Box sx={{ padding: 1, height: '30%' }}>
                           <Typography
-                            variant='h6'
+                            variant='h5'
+                            fontSize='18px'
                             sx={{
                               fontWeight: 'bold',
                               overflow: 'hidden',
@@ -250,7 +243,8 @@ const Category = ({ productData, SearchProduct, keyword }) => {
                             {product.product_name}
                           </Typography>
                           <Typography
-                            variant='body2'
+                            variant='h5'
+                            fontSize='16px'
                             sx={{
                               color: '#BD1620',
                               overflow: 'hidden',
