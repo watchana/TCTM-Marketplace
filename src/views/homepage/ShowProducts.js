@@ -203,7 +203,7 @@ const ShowProducts = () => {
                         </Typography>
                         <Typography
                           variant='h5'
-                          fontSize='14px' // Adjusted font size for better responsiveness
+                          fontSize='14px'
                           sx={{
                             color: '#BD1620',
                             overflow: 'hidden',
