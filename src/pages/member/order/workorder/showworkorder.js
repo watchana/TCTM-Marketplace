@@ -8,10 +8,9 @@ const ShowWorkOrder = () => {
   const [data, setData] = useState([])
 
   const router = useRouter() // use router
+  const { invoice_id } = router.query
 
   useEffect(() => {
-    const { invoice_id } = router.query
-
     const fetchData = async () => {
       try {
         // Fetch invoice details
@@ -27,7 +26,7 @@ const ShowWorkOrder = () => {
     }
 
     fetchData()
-  }, [])
+  }, [invoice_id])
 
   return (
     <Box>
@@ -48,39 +47,37 @@ const ShowWorkOrder = () => {
             </Grid>
 
             <Grid item xs={12} sm={12} md={12}>
-              <Card sx={{ width: '100%', marginBottom: '30px', border: '2px solid #primary.main' }}>
-                <Table stickyHeader aria-label='sticky table'>
-                  <TableHead>
-                    <TableRow sx={{ verticalAlign: 'top' }}>
-                      <TableCell>ID</TableCell>
-                      <TableCell>Name</TableCell>
-                      <TableCell>Complete Quantity</TableCell>
-                      <TableCell>Process Loss Quantity</TableCell>
-                      <TableCell>BOM</TableCell>
-                      <TableCell>Work Station</TableCell>
-                      <TableCell>Time</TableCell>
+              <Table stickyHeader aria-label='sticky table'>
+                <TableHead>
+                  <TableRow sx={{ verticalAlign: 'top' }}>
+                    <TableCell>ID</TableCell>
+                    <TableCell>Name</TableCell>
+                    <TableCell>Complete Quantity</TableCell>
+                    <TableCell>Process Loss Quantity</TableCell>
+                    <TableCell>BOM</TableCell>
+                    <TableCell>Work Station</TableCell>
+                    <TableCell>Time</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {data.map((item, index) => (
+                    <TableRow key={index} sx={{ verticalAlign: 'top' }}>
+                      <TableCell>{index + 1}</TableCell>
+                      <TableCell>{item.wod_name}</TableCell>
+                      <TableCell>{item.wod_complete_quantity}</TableCell>
+                      <TableCell>{item.wod_loss_quantity}</TableCell>
+                      <TableCell>{item.wod_bom}</TableCell>
+                      <TableCell>{item.wod_work_station}</TableCell>
+                      <TableCell>{item.wod_time}</TableCell>
                     </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {data.map((item, index) => (
-                      <TableRow key={index} sx={{ verticalAlign: 'top' }}>
-                        <TableCell>{index + 1}</TableCell>
-                        <TableCell>{item.wod_name}</TableCell>
-                        <TableCell>{item.wod_complete_quantity}</TableCell>
-                        <TableCell>{item.wod_loss_quantity}</TableCell>
-                        <TableCell>{item.wod_bom}</TableCell>
-                        <TableCell>{item.wod_work_station}</TableCell>
-                        <TableCell>{item.wod_time}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </Card>
+                  ))}
+                </TableBody>
+              </Table>
             </Grid>
           </Grid>
         </Card>
       ) : (
-        <Box>No Data</Box> // If no data, display a message
+        <Typography></Typography>// If no data, display a message
       )}
     </Box>
   )
