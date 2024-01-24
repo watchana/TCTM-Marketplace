@@ -29,6 +29,7 @@ import Paymant from './payment_details'
 //** Auth check
 import { withAuth } from 'src/@core/utils/AuthCheck'
 import Word_order from './workorder/word_order'
+import ShowWorkOrder from './workorder/showworkorder'
 
 const Orders_Detail = () => {
   // ใช้งาน Router
@@ -145,7 +146,7 @@ const Orders_Detail = () => {
           <Grid container sm={12} md={7}>
             <Grid item sm={12} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
               <Box sx={{ width: '100%' }}>
-                <Word_order />
+                <ShowWorkOrder />
               </Box>
             </Grid>
             <Grid item sm={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>

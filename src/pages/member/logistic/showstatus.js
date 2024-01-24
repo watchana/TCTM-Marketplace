@@ -41,6 +41,7 @@ import Total from 'src/pages/member/order/details_total'
 import Delivery from 'src/pages/member/order/delivery_address'
 import Paymant from 'src/pages/member/order/payment_details'
 import Word_order from 'src/pages/member/order/workorder/word_order'
+import ShowWorkOrder from 'src/pages/member/order/workorder/showworkorder'
 
 //** Auth check
 import { withAuth } from 'src/@core/utils/AuthCheck'
@@ -72,7 +73,6 @@ const Show_Status = () => {
 
     fetchData()
   }, [invoice_id])
-  console.log(localStorage)
 
   const [data, setData] = useState([])
   const [userId, setUserId] = useState('')
@@ -113,7 +113,7 @@ const Show_Status = () => {
           console.log('actual_start_date', workOrderResponse.data.data.actual_start_date)
           console.log('planned_end_date', workOrderResponse.data.data.planned_end_date)
         } catch (error) {
-          console.log(error)
+          console.error(error)
         }
       }
 
@@ -214,7 +214,7 @@ const Show_Status = () => {
           <Grid container md={7}>
             <Grid item md={12}>
               <Box>
-                <Word_order />
+                <ShowWorkOrder />
               </Box>
               <Box sx={{ width: '100%' }}>
                 <Paymant

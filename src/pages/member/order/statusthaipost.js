@@ -14,8 +14,6 @@ const TrackStatus = ({ TrackNo }) => {
     setTrackingValue(TrackNo)
   }, [TrackNo])
 
-  console.log(TrackNo)
-
   useEffect(() => {
     const handleTracking = async () => {
       try {
@@ -76,7 +74,7 @@ const TrackStatus = ({ TrackNo }) => {
           }
         }
       } catch (error) {
-        console.log(error)
+        console.error(error)
 
         // alert('Something went wrong!');
       }
