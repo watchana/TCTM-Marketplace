@@ -20,6 +20,9 @@ import ProductTable from 'src/views/tctm/ProductTable'
 import PostTable from 'src/views/tctm/PostTable'
 import ServiceTable from 'src/views/tctm/ServiceTable'
 
+// Responsive image
+import { useMediaQuery } from '@mui/material'
+
 const ManagementPage = () => {
   const [value, setValue] = useState('1')
   const [dataUser, setDataUser] = useState([])
@@ -70,12 +73,14 @@ const ManagementPage = () => {
     fetchData()
   }, [value])
 
+  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+
   return (
     <>
       <Box sx={{ width: '100%' }}>
         <Card
           sx={{
-            height: '100px',
+            height: isSmallScreen ? '70px' : '80px',
             marginBottom: '30px',
             padding: '15px 25px 20px',
             backgroundColor: '#2d2e81',
@@ -84,17 +89,17 @@ const ManagementPage = () => {
         >
           <Grid container alignItems='center'>
             <Grid item xs={12} sm={8} md={8}>
-              <Typography variant='h4' fontSize='21px bold' color='#fff'>
+              <Typography variant='h5' color='#fff' sx={{ fontWeight: 'bold' }}>
                 TCTM Management
               </Typography>
 
-              <Typography color='#fff' variant='h6' fontSize='14px'>
+              <Typography color='#fff' variant='subtitle1' sx={{ cursor: 'pointer' }}>
                 Membership approval management page
               </Typography>
             </Grid>
             <Hidden smDown>
               <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <ManageAccountsIcon sx={{ fontSize: 72, color: '#fff' }} />
+                <ManageAccountsIcon sx={{ fontSize: 50, color: '#fff' }} />
               </Grid>
             </Hidden>
           </Grid>

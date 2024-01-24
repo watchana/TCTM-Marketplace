@@ -6,15 +6,13 @@ import { useRouter } from 'next/router'
 import {
   Box,
   Card,
-  Container,
   Grid,
   Typography,
   Table,
   TableBody,
   TableCell,
   TableHead,
-  TableRow,
-  Paper
+  TableRow
 } from '@mui/material'
 
 // ** Axios import
@@ -62,9 +60,13 @@ const Word_order = () => {
           const config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: user.sup_hostaddress + invoiceData.process_status,
+            url: 'https://tonen.vsiam.com/api/resource/Work%20Order/MFG-WO-2023-00019',
+
+            // url: user.sup_hostaddress + invoiceData.process_status,
             headers: {
-              Authorization: `token ${user.sup_apikey}:${user.sup_apisecret}`
+              Authorization: `token 5891d01ccc2961e:0e446b332dc22aa`
+
+              // Authorization: `token ${user.sup_apikey}:${user.sup_apisecret}`
             }
           }
 

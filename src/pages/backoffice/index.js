@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 
 // ** MUI Imports
-import { Box, Button, Card, Container, CardContent, Grid, Hidden, Typography, Toolbar, Tab, Tabs } from '@mui/material'
+import { Box, Card, Container, Grid, Hidden, Typography, Tab } from '@mui/material'
 
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 
@@ -19,6 +19,9 @@ import InformationTable from 'src/views/backoffice/InformationTable'
 // ** Auth Check import
 import { withAuth } from 'src/@core/utils/AuthCheck'
 
+// Responsive image
+import { useMediaQuery } from '@mui/material'
+
 const BackOffice = () => {
   const [activeTab, setActiveTab] = useState('user')
 
@@ -26,13 +29,15 @@ const BackOffice = () => {
     setActiveTab(newValue)
   }
 
+  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+
   return (
     <Container maxWidth='xl'>
       <Box>
         <Box sx={{ width: '100%' }}>
           <Card
             sx={{
-              height: '100px',
+              height: isSmallScreen ? '70px' : '80px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
               backgroundColor: '#2d2e81',
@@ -41,13 +46,13 @@ const BackOffice = () => {
           >
             <Grid container alignItems='center'>
               <Grid item xs={12} sm={8} md={8}>
-                <Typography variant='h4' fontSize='21px bold' color='#fff'>
+                <Typography variant='h5' color='#fff' sx={{ fontWeight: 'bold' }}>
                   Back office
                 </Typography>
               </Grid>
               <Hidden smDown>
                 <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <ManageAccountsIcon sx={{ fontSize: 72, color: '#fff' }} />
+                  <ManageAccountsIcon sx={{ fontSize: 50, color: '#fff' }} />
                 </Grid>
               </Hidden>
             </Grid>
