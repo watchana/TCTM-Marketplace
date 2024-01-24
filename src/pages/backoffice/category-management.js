@@ -12,6 +12,9 @@ import EditCategory from 'src/views/backoffice/EditCategory'
 import axios from 'axios'
 import { withAuth } from 'src/@core/utils/AuthCheck'
 
+// Responsive image
+import { useMediaQuery } from '@mui/material'
+
 const CategoryManager = () => {
   // นำเข้าตัวsweetalert2
   const Swal = require('sweetalert2')
@@ -146,12 +149,14 @@ const CategoryManager = () => {
     }
   ]
 
+  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+
   return (
     <>
       <Box sx={{ width: '100%' }}>
         <Card
           sx={{
-            height: '100px',
+            height: isSmallScreen ? '70px' : '80px',
             marginBottom: '30px',
             padding: '15px 25px 20px',
             backgroundColor: '#2d2e81',
@@ -160,13 +165,13 @@ const CategoryManager = () => {
         >
           <Grid container alignItems='center'>
             <Grid item xs={12} sm={8} md={8}>
-              <Typography variant='h4' fontSize='21px bold' color='#fff'>
+              <Typography variant='h5' color='#fff' sx={{ fontWeight: 'bold' }}>
                 Admin Management
               </Typography>
             </Grid>
             <Hidden smDown>
               <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <ManageAccountsIcon sx={{ fontSize: 72, color: '#fff' }} />
+                <ManageAccountsIcon sx={{ fontSize: 50, color: '#fff' }} />
               </Grid>
             </Hidden>
           </Grid>

@@ -322,28 +322,28 @@ const ProductDetails = () => {
           >
             <Grid container>
               <Grid item xs={12} sm={8} md={8}>
-                <Typography variant='h5' color='#fff' sx={{ fontWeight: 'bold', cursor: 'pointer' }}>
+                <Typography variant='h5' color='#fff' sx={{ fontWeight: 'bold' }}>
                   Product
                 </Typography>
                 <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
                   <Link href='/' passHref>
-                    <Typography color='#fff' variant='subtitle1' sx={{ fontWeight: 'bold', cursor: 'pointer' }}>
+                    <Typography color='#fff' variant='subtitle1' sx={{ cursor: 'pointer' }}>
                       Home
                     </Typography>
                   </Link>
                   <Link href='/category/' passHref>
-                    <Typography color='#fff' variant='subtitle1' sx={{ fontWeight: 'bold', cursor: 'pointer' }}>
+                    <Typography color='#fff' variant='subtitle1' sx={{ cursor: 'pointer' }}>
                       Shop
                     </Typography>
                   </Link>
-                  <Typography color='#fff' variant='subtitle1' sx={{ fontWeight: 'bold', cursor: 'pointer' }}>
+                  <Typography color='#fff' variant='subtitle1' sx={{ cursor: 'pointer' }}>
                     Product
                   </Typography>
                 </Breadcrumbs>
               </Grid>
               <Hidden smDown>
                 <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <Shopping sx={{ fontSize: 60, color: '#fff' }} />
+                  <Shopping sx={{ fontSize: 50, color: '#fff' }} />
                 </Grid>
               </Hidden>
             </Grid>
@@ -487,19 +487,19 @@ const ProductDetails = () => {
             <Box sx={{ width: '100%' }}>
               {/* ========== ชื่อสินค้า ========== */}
               <Box sx={{ width: '100%' }}>
-                <Typography variant='h4' color='#000' sx={{ fontWeight: 'bold' }}>
+                <Typography variant='h5' color='#000' sx={{ fontWeight: 'bold' }}>
                   {productdata.product_name}
                 </Typography>
               </Box>
               {/* ========== Brand ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
-                <Typography variant='h6' color='#000'>
+                <Typography variant='body1' color='#000'>
                   Brand: {productdata.brand_name ? productdata.brand_name : 'No information'}
                 </Typography>
               </Box>
               {/* ========== Option ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
-                <Typography variant='h6' color='#000'>
+                <Typography variant='body1' color='#000'>
                   Option
                 </Typography>
               </Box>
@@ -530,7 +530,7 @@ const ProductDetails = () => {
               </Box>
               {/* ========== Quantity ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
-                <Typography variant='h6' color='#000'>
+                <Typography variant='body1' color='#000'>
                   Quantity
                 </Typography>
               </Box>
@@ -569,7 +569,7 @@ const ProductDetails = () => {
               </Box>
               {/* ========== Price ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
-                <Typography variant='h4' color='#2d2e81'>
+                <Typography variant='h5' color='#2d2e81'>
                   {/* ${' '}
                   {selection
                     ? selection.find(option => option.option_name === 'Price')?.value_name
