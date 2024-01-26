@@ -138,76 +138,76 @@ const ShowPost = () => {
         </Box>
       </Box>
       {/* ---------- Show Product ---------- */}
-
-      <Grid container sx={{ width: '100%', marginTop: '30px' }}>
-        <Grid item xs={12}>
-          <Box sx={{ width: '100%', height: '380px', borderRadius: '6px' }}>
-            {slidedata && slidedata.length > 0 ? (
-              <Carousel responsive={responsive} infinite={false}>
-                {/* ========================== Map ========================== */}
-                {slidedata.slice(0, 3).map((post, index) => (
-                  <Card
-                    key={index}
-                    variant='outlined'
-                    sx={{
-                      border: '0.5px solid lightgray',
-                      width: { xs: '310px', sm: '400px' },
-                      height: { xs: '350px', sm: '450px' },
-                      boxShadow: 3,
-                      cursor: 'pointer',
-                      '&:hover': { boxShadow: 10, border: '2px solid #2d2e81' },
-
-                      display: 'flex', // Added flex display
-                      flexDirection: 'column' // Stack children vertically
-                    }}
-                    onClick={() => {
-                      window.location.href = `market/information-detail/?post_id=${post.post_id}`
-                    }}
-                  >
-                    <CardMedia
-                      href={`/`}
-                      component='img'
-                      height='70%'
-                      image={`/imageInfor/${post.image_file_infname}`}
-                      alt='Product Image'
-                      sx={{ objectFit: 'contain' }}
-                    />
-                    <Box sx={{ padding: 1, height: '30%' }}>
-                      <Typography
-                        variant='h5'
-                        fontSize='18px'
-                        sx={{
-                          fontWeight: 'bold',
-                          overflow: 'hidden',
-                          whiteSpace: 'nowrap',
-                          textOverflow: 'ellipsis'
-                        }}
-                      >
-                        {post.post_name}
-                      </Typography>
-                      {/* <Typography
+      
+      <Box sx={{ width: '100%', marginTop: '30px' }}>
+        <Grid container>
+          <Grid item xs={12} md={10}>
+            <Box sx={{ width: '100%', height: '380px', borderRadius: '6px', ml: 30 }}>
+              {slidedata && slidedata.length > 0 ? (
+                <Carousel responsive={responsive} infinite={false}>
+                  {/* ========================== Map ========================== */}
+                  {slidedata.slice(0, 3).map((post, index) => (
+                    <Card
+                      key={index}
+                      variant='outlined'
+                      sx={{
+                        border: '0.5px solid lightgray',
+                        width: { xs: '325px', sm: '375px' },
+                        height: { xs: '380px', sm: '460px' },
+                        boxShadow: 3,
+                        cursor: 'pointer',
+                        '&:hover': { boxShadow: 10, border: '2px solid #2d2e81' },
+                        margin: '10px'
+                      }}
+                      onClick={() => {
+                        window.location.href = `market/information-detail/?post_id=${post.post_id}`
+                      }}
+                    >
+                      <CardMedia
+                        href={`/`}
+                        component='img'
+                        height='70%'
+                        image={`/imageInfor/${post.image_file_infname}`}
+                        alt='Product Image'
+                        sx={{ objectFit: 'contain' }}
+                      />
+                      <Box sx={{ padding: 1, height: '30%' }}>
+                        <Typography
+                          variant='h5'
+                          fontSize='18px'
+                          sx={{
+                            fontWeight: 'bold',
+                            overflow: 'hidden',
+                            whiteSpace: 'nowrap',
+                            textOverflow: 'ellipsis'
+                          }}
+                        >
+                          {post.post_name}
+                        </Typography>
+                        {/* <Typography
                           variant='h5'
                           fontSize='16px'
                           sx={{ color: '#BD1620', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
                         >
                           สวัสดีจ้า
                         </Typography> */}
-                      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-                        <Typography
-                          variant='body1'
-                          fontSize='14px'
-                          sx={{
-                            color: '#c0c0c0',
-                            overflow: 'hidden',
-                            whiteSpace: 'nowrap',
-                            textOverflow: 'ellipsis'
-                          }}
-                        >
-                          {post.sub_name}
-                        </Typography>
+                        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+                          <Typography
+                            variant='body1'
+                            fontSize='14px'
+                            sx={{
+                              color: '#c0c0c0',
+                              overflow: 'hidden',
+                              whiteSpace: 'nowrap',
+                              textOverflow: 'ellipsis'
+                            }}
+                          >
+                            {post.sub_name}
+                          </Typography>
+                        </Box>
                       </Box>
                     </Box>
-                  </Card>
+                 
                 ))}
               </Carousel>
             ) : (
