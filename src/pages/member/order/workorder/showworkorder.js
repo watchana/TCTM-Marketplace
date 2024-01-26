@@ -1,8 +1,8 @@
-import { TableBody, TableCell, TableHead, Typography } from '@mui/material'
 import axios from 'axios'
-import { Grid, Box, Card, Table, TableRow } from '@mui/material'
+import { Box, Card, Typography, TableCell, TableRow, TableBody, TableHead, Table, Grid } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import { DataGrid } from '@mui/x-data-grid'
 
 const ShowWorkOrder = () => {
   const [data, setData] = useState([])
@@ -36,48 +36,30 @@ const ShowWorkOrder = () => {
             width: '100%',
             marginBottom: '30px',
             padding: '15px 25px 20px',
-            border: '2px solid #primary.main'
+            border: '2px solid #primary.main',
+            borderRadius: '8px'
           }}
         >
-          <Grid container>
-            <Grid item xs={12} sm={12} md={12}>
-              <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
-                Work Order
-              </Typography>
-            </Grid>
-
-            <Grid item xs={12} sm={12} md={12}>
-              <Table stickyHeader aria-label='sticky table'>
-                <TableHead>
-                  <TableRow sx={{ verticalAlign: 'top' }}>
-                    <TableCell>ID</TableCell>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Complete Quantity</TableCell>
-                    <TableCell>Process Loss Quantity</TableCell>
-                    <TableCell>BOM</TableCell>
-                    <TableCell>Work Station</TableCell>
-                    <TableCell>Time</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {data.map((item, index) => (
-                    <TableRow key={index} sx={{ verticalAlign: 'top' }}>
-                      <TableCell>{index + 1}</TableCell>
-                      <TableCell>{item.wod_name}</TableCell>
-                      <TableCell>{item.wod_complete_quantity}</TableCell>
-                      <TableCell>{item.wod_loss_quantity}</TableCell>
-                      <TableCell>{item.wod_bom}</TableCell>
-                      <TableCell>{item.wod_work_station}</TableCell>
-                      <TableCell>{item.wod_time}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Grid>
-          </Grid>
+          <Typography variant='h6' sx={{ fontWeight: 'bold', marginBottom: '15px' }}>
+            Work Order
+          </Typography>
+          <DataGrid
+            rows={data}
+            columns={[
+              { field: 'wod_name', headerName: 'Name', width: 300 },
+              { field: 'wod_complete_quantity', headerName: 'Complete Qty', width: 150 },
+              { field: 'wod_loss_quantity', headerName: 'Process Loss Qty', width: 200 },
+              { field: 'wod_bom', headerName: 'BOM', width: 200 },
+              { field: 'wod_work_station', headerName: 'Work Station', width: 100 },
+              { field: 'wod_time', headerName: 'Time', width: 100 }
+            ]}
+            height={'300px'}
+            getRowId={row => row.wod_id} // Specify your unique identifier field here
+            sortingMode='single'
+          />
         </Card>
       ) : (
-        <Typography></Typography>// If no data, display a message
+        <Typography></Typography>
       )}
     </Box>
   )
