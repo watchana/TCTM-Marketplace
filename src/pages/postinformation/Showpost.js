@@ -186,14 +186,12 @@ const ShowPost = () => {
                         {post.post_name}
                       </Typography>
                       {/* <Typography
-
                           variant='h5'
                           fontSize='16px'
                           sx={{ color: '#BD1620', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
                         >
                           สวัสดีจ้า
                         </Typography> */}
-
                       <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
                         <Typography
                           variant='body1'
