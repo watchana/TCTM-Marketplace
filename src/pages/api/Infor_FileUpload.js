@@ -25,7 +25,12 @@ export default async (req, res) => {
     Object.values(files).forEach(fileArray => {
       fileArray.forEach(file => {
         const originalFilename = file.originalFilename
-        const newPathWithFilename = path.join(newPath, originalFilename)
+
+        // สร้างชื่อไฟล์ใหม่โดยเพิ่มวันเวลาขณะอัปโหลด
+        const timestamp = new Date().toISOString().slice(0, 17).replace(/[-T:]/g, '')
+        const newFilename = `${timestamp}_${originalFilename}`
+
+        const newPathWithFilename = path.join(newPath, newFilename)
         filepaths.push({ oldPath: file.filepath, newPath: newPathWithFilename })
       })
     })
