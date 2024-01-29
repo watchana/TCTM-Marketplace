@@ -111,14 +111,14 @@ const Billboard = () => {
     }
   }
 
-  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+  const isSmallScreen = useMediaQuery('(max-width: 350px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
   const isSmallScreenSup1 = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
-  const imageUrl = 'https://f.ptcdn.info/2g/306/000/000/E13098649-0.jpg'
+  // const imageUrl = 'https://f.ptcdn.info/2g/306/000/000/E13098649-0.jpg'
 
   return (
-    <Container>
+    <Container maxWidth='xl'>
       {/* ---------- Billboard ---------- */}
       <Box sx={{ width: '100%' }}>
         <Grid container spacing={4}>
@@ -195,9 +195,22 @@ const Billboard = () => {
                         display: 'flex'
                       }}
                     >
-                      <Typography variant='h6' color='#fff'>
-                        <img src={imageUrl} alt='Description of the image' style={{ width: '100%', height: 'auto' }} />
-                      </Typography>
+                      <Box
+                        sx={{
+                          width: '100%',
+                          height: isSmallScreen ? '150px' : '150px',
+                          maxHeight: isSmallScreen ? '350px' : '350px',
+                          borderRadius: '6px',
+                          backgroundColor: '#3A46A7',
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <Typography variant='h6' color='#fff'>
+                          No Image
+                        </Typography>
+                      </Box>
                     </Box>
                   </Box>
                 )}
@@ -220,9 +233,22 @@ const Billboard = () => {
                         display: 'flex'
                       }}
                     >
-                      <Typography variant='h6' color='#fff'>
-                        <img src={imageUrl} alt='Description of the image' style={{ width: '100%', height: 'auto' }} />
-                      </Typography>
+                      <Box
+                        sx={{
+                          width: '100%',
+                          height: isSmallScreen ? '150px' : '150px',
+                          maxHeight: isSmallScreen ? '350px' : '350px',
+                          borderRadius: '6px',
+                          backgroundColor: '#3A46A7',
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <Typography variant='h6' color='#fff'>
+                          No Image
+                        </Typography>
+                      </Box>
                     </Box>
                   </Box>
                 )}
