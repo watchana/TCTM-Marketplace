@@ -1,29 +1,11 @@
 // ** React Imports
 import { useState, useEffect } from 'react'
 
-// ** Next Imports
-import Link from 'next/link'
-import { useRouter } from 'next/router'
+// Responsive image
+import { useMediaQuery } from '@mui/material'
 
 // ** Material UI Imports
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
-  Container,
-  FormControl,
-  Grid,
-  Hidden,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  TextField,
-  Typography
-} from '@mui/material'
-import { styled } from '@mui/system'
+import { Box, Card, Container, Grid, Hidden, Typography } from '@mui/material'
 
 // ** Material UI Icons Imports
 import PersonIcon from '@mui/icons-material/Person'
@@ -79,13 +61,15 @@ const DashboardTCTM = () => {
     fetchData()
   }, [])
 
+  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+
   return (
     <Container maxWidth='xl'>
       <Box>
         <Box sx={{ width: '100%' }}>
           <Card
             sx={{
-              height: '100px',
+              height: isSmallScreen ? '70px' : '80px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
               backgroundColor: '#2d2e81',
@@ -94,16 +78,16 @@ const DashboardTCTM = () => {
           >
             <Grid container alignItems='center'>
               <Grid item xs={12} sm={8} md={8}>
-                <Typography variant='h4' fontSize='21px bold' color='#fff'>
+                <Typography variant='h5' color='#fff' sx={{ fontWeight: 'bold' }}>
                   Dashboard
                 </Typography>
-                <Typography color='#fff' variant='h6' fontSize='14px'>
+                <Typography color='#fff' variant='subtitle1' sx={{ cursor: 'pointer' }}>
                   eCommerce
                 </Typography>
               </Grid>
               <Hidden smDown>
                 <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <SpaceDashboardIcon sx={{ fontSize: 72, color: '#fff' }} />
+                  <SpaceDashboardIcon sx={{ fontSize: 50, color: '#fff' }} />
                 </Grid>
               </Hidden>
             </Grid>
