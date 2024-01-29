@@ -1,7 +1,7 @@
 // ** Next Imports
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useState,useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 // ** Material UI Imports
 import {
@@ -53,8 +53,8 @@ const TrackingStatus = ({ productdata, updateProductData, trackNo }) => {
   }
 
   // ฟังชันยืนยันข้อมูล
-  const handleConfirmProduct = async (event, invoice_id) => {
-    event.preventDefault()
+  const handleConfirmProduct = async invoice_id => {
+    // event.preventDefault()
 
     try {
       const data = {
@@ -99,7 +99,6 @@ const TrackingStatus = ({ productdata, updateProductData, trackNo }) => {
               item
             }))
             .filter(
-              
               // Filter by item
               ({ item }) =>
                 (item.price_total !== null && item.price_total >= '1' && item.invoice_status === '3') ||
@@ -218,7 +217,12 @@ const TrackingStatus = ({ productdata, updateProductData, trackNo }) => {
                             </Button>
                           </Grid>
                           <Grid item xs={12} md={2}>
-                            <Button fullWidth variant='outlined' onClick={() => handleConfirmProduct(item.invoice_id)}>
+                            <Button
+                              fullWidth
+                              variant='contained'
+                              color='primary'
+                              onClick={() => handleConfirmProduct(item.invoice_id)}
+                            >
                               Confirm
                             </Button>
                           </Grid>
