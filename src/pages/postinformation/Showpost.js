@@ -186,14 +186,20 @@ const ShowPost = () => {
                         {post.post_name}
                       </Typography>
                       {/* <Typography
+<<<<<<< HEAD
 
+=======
+>>>>>>> dev2-v3
                           variant='h5'
                           fontSize='16px'
                           sx={{ color: '#BD1620', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
                         >
                           สวัสดีจ้า
                         </Typography> */}
+<<<<<<< HEAD
 
+=======
+>>>>>>> dev2-v3
                       <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
                         <Typography
                           variant='body1'

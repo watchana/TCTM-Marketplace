@@ -141,8 +141,7 @@ const Billboard = () => {
                       <CardMedia
                         key={index}
                         component='img'
-                        image={`imgBillboard/${billboard.bill_name}`}
-                        alt={billboard.bill_name}
+                        src={'/imgBillboard/' + billboard.bill_name}
                         sx={{
                           width: '100%',
                           maxHeight: isSmallScreenSup1 ? '250px' : '350px',
