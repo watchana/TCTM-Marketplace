@@ -43,14 +43,11 @@ const Dashboard = () => {
       <Billboard />
       {/* ---------- Category ---------- */}
       <NameMarket />
-
-      {/* ---------- Show Products2 ---------- */}
-      <ShowProducts2 />
-
       {/* ---------- Show Products ---------- */}
       <ShowProducts />
-      {/* ---------- Show Information ---------- */}
-
+      {/* ---------- Show Products2 ---------- */}
+      <ShowProducts2 />
+      {/* ---------- Knowledge Of Product ---------- */}
       <ShowPost />
     </Container>
   )

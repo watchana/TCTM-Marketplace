@@ -318,7 +318,21 @@ const InformationDetails = () => {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%', mt: 20, mb: 6 }}>
-            <Typography variant='h4' fontSize='22px' color='#606060'>
+            <Typography
+              variant='h4'
+              fontSize='22px'
+              color='#606060'
+              sx={{
+                fontWeight: 'bold',
+                overflow: 'hidden',
+                whiteSpace: 'pre-wrap', // เพิ่ม pre-wrap เพื่อให้เว้นบรรทัด
+                wordWrap: 'break-word', // ให้ข้อความขยายตัวเมื่อหลุดขอบ
+                textOverflow: 'ellipsis',
+                display: '-webkit-box',
+                WebkitBoxOrient: 'vertical',
+                WebkitLineClamp: 10
+              }}
+            >
               {informationdata.post_name}
             </Typography>
           </Box>

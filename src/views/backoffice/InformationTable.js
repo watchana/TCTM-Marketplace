@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Input, Grid, TextField, Stack, Box, Typography, Card, Link } from '@mui/material'
+import { Button, Input, Grid, TextField, Stack, Box, Typography, Card, Link, Chip } from '@mui/material'
 import Plus from 'mdi-material-ui/Plus'
 import { DataGrid } from '@mui/x-data-grid'
 import axios from 'axios'
@@ -50,7 +50,7 @@ const InformationTable = () => {
 
   const handleUnbanClick = postId => {
     Swal.fire({
-      title: 'You Want to unhide Data?',
+      title: 'You Want to hide Data?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Yes',
@@ -95,7 +95,28 @@ const InformationTable = () => {
       getRowId={post_id => post_id.id}
       columns={[
         { field: 'post_id', headerName: 'Information ID', width: 150 },
+        {
+          field: 'post_status',
+          headerName: 'Post status',
+          width: 120,
+          renderCell: params => {
+            const subStatus = params.value // ค่าที่อยู่ในช่อง "สถานะไอดี"
+            let chipColor = 'default'
+            let chipLabel = ''
+
+            if (subStatus === '1') {
+              chipColor = 'error'
+              chipLabel = 'Hide Post'
+            } else if (subStatus === '0') {
+              chipColor = 'success'
+              chipLabel = 'Show Post'
+            }
+
+            return <Chip label={chipLabel} color={chipColor} />
+          }
+        },
         { field: 'post_name', headerName: 'Title', width: 350 },
+
         {
           field: 'Acction',
           headerName: 'Action',
@@ -104,14 +125,14 @@ const InformationTable = () => {
             <div>
               <Button
                 variant='contained'
-                color='error'
+                color='success'
                 className='btn btn-info'
                 disabled={params.row.post_status === '0'}
                 style={{ marginRight: '5px' }}
                 onClick={() => {
                   if (params.row.post_status !== '0') {
                     Swal.fire({
-                      title: 'Want to ban this user?',
+                      title: 'Want to Unhide this post?',
                       icon: 'question',
                       showCancelButton: true,
                       confirmButtonText: 'yes',
@@ -122,7 +143,7 @@ const InformationTable = () => {
                         Swal.fire({
                           position: 'center',
                           icon: 'success',
-                          title: 'Ban success',
+                          title: 'Unhide success',
                           showConfirmButton: false,
                           timer: 1500
                         })
@@ -130,23 +151,23 @@ const InformationTable = () => {
                     })
                   } else {
                     Swal.fire({
-                      title: 'Cannot be banned',
+                      title: 'Cannot be Unhide',
                       text: 'Because the status has been banned.',
                       icon: 'error'
                     })
                   }
                 }}
               >
-                Hide
+                UnHide
               </Button>
 
               <Button
                 variant='contained'
-                color='secondary'
+                color='error'
                 disabled={params.row.post_status === '1'}
                 onClick={e => handleUnbanClick(params.row.post_id, e)}
               >
-                Unhide
+                Hide
               </Button>
             </div>
           )
@@ -159,6 +180,7 @@ const InformationTable = () => {
             <Button
               variant='contained'
               color='success'
+              disabled={params.row.post_status === '1'}
               onClick={() => {
                 router.push(`/market/information-detail/?post_id=${params.row.post_id}`)
               }}

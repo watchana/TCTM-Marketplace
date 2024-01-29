@@ -79,11 +79,6 @@ const TestshowwinV = ({ imageChange, setImageChange, onUploadImagesChange }) => 
 
       // อัพเดท onUploadImagesChange โดยลบชื่อรูปที่ถูกลบออก
       onUploadImagesChange(updatedImages)
-    } else if (mediaType === 'video') {
-      const updatedVideos = [...uploadVideos]
-      onUploadVdoChange(updatedVideos)
-      updatedVideos.splice(index, 1)
-      setUploadVideos(updatedVideos)
     }
   }
 

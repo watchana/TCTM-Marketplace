@@ -36,9 +36,7 @@ import Popover from '@mui/material/Popover'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import MenuIcon from '@mui/icons-material/Menu'
-
 import Menu from '@mui/material/Menu'
-
 import { useTheme } from '@mui/system'
 
 const styles = {
@@ -159,7 +157,7 @@ const AppBarContent = props => {
             </Link>
           </Box>
         </Grid>
-        <Grid item xl={8} xs={8} sx={{ mr: '30px' }}>
+        <Grid item xl={8} xs={8} spacing={0.5}>
           <Box sx={{ width: '100%' }}>
             <Grid container justifyContent='flex-end' alignItems='center' spacing={2}>
               <Grid item>

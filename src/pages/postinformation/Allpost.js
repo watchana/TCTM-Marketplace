@@ -136,17 +136,19 @@ const AllPost = () => {
                       alt='Post Image'
                       sx={{ objectFit: 'contain' }}
                     />
-                    <Box sx={{ padding: 1, height: '30%' }}>
+                    <Box sx={{ padding: 2, height: '30%' }}>
                       <Typography
                         variant='h5'
                         fontSize='18px'
                         sx={{
                           fontWeight: 'bold',
                           overflow: 'hidden',
-                          whiteSpace: 'nowrap',
+                          whiteSpace: 'pre-wrap', // เพิ่ม pre-wrap เพื่อให้เว้นบรรทัด
+                          wordWrap: 'break-word', // ให้ข้อความขยายตัวเมื่อหลุดขอบ
                           textOverflow: 'ellipsis',
-                          mt: 5,
-                          ml: 5
+                          display: '-webkit-box',
+                          WebkitBoxOrient: 'vertical',
+                          WebkitLineClamp: 2
                         }}
                       >
                         {post.post_name}
@@ -163,7 +165,7 @@ const AllPost = () => {
                       >
                         สวัสดีจ้า
                       </Typography> */}
-                      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+                      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end', mt: 5 }}>
                         <Typography
                           variant='body1'
                           fontSize='14px'

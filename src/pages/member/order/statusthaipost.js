@@ -4,7 +4,7 @@ import { Grid, Typography } from '@mui/material'
 import LocalShippingIcon from '@mui/icons-material/LocalShipping'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import ScheduleIcon from '@mui/icons-material/Schedule'
-import ArchiveRoundedIcon from '@mui/icons-material/ArchiveRounded'
+import GetAppIcon from '@mui/icons-material/GetApp'
 
 const TrackStatus = ({ TrackNo }) => {
   const [status, setStatus] = useState([])
@@ -56,16 +56,15 @@ const TrackStatus = ({ TrackNo }) => {
                 <Grid item xs={5} display={'flex'} justifyContent={'flex-start'}>
                   <Grid item>{getIconByStatus(element.status_description)}</Grid>
                   <Grid item ml={1}>
-                    <Typography variant='body2'>{element.status_description}</Typography>
+                    <Typography>{element.status_description}</Typography>
                   </Grid>
                 </Grid>
                 <Grid item xs={4}>
-                  <Typography variant='body2'>{element.location}</Typography>
+                  <Typography>{element.location}</Typography>
                 </Grid>
                 <Grid item xs={3}>
-                  <Typography variant='body2'>
-                    {element.status_date.slice(0, 10)} {element.status_date.slice(11, 16)}
-                  </Typography>
+                  <Typography>{element.status_date.slice(0, 10)}</Typography>
+                  <Typography>{element.status_date.slice(11, 16)}</Typography>
                 </Grid>
               </Grid>
             ))
@@ -94,22 +93,22 @@ const TrackStatus = ({ TrackNo }) => {
 
     if (statusDescription.toLowerCase() === 'นำจ่ายสำเร็จ') {
       // If the status is "นำจ่ายสำเร็จ", show the CheckCircleIcon
-      return <CheckCircleIcon color='success' />
+      return <CheckCircleIcon />
     }
 
     switch (statusDescription.toLowerCase()) {
       case 'ถึงที่ทำการไปรษณีย์':
-        return <CheckCircleIcon color='success' />
+        return <CheckCircleIcon />
       case 'อยู่ระหว่างการนำจ่าย':
-        return <CheckCircleIcon color='success' />
+        return <CheckCircleIcon />
       case 'รับเข้า ณ ศูนย์คัดแยก':
-        return <CheckCircleIcon color='success' />
+        return <CheckCircleIcon />
       case 'รับฝาก':
-        return <ArchiveRoundedIcon color='error' />
+        return <GetAppIcon />
       case 'ออกจากที่ทำการ/ศูนย์ไปรษณีย์':
-        return <CheckCircleIcon color='success' />
+        return <CheckCircleIcon />
       default:
-        return <LocalShippingIcon color='red' />
+        return <LocalShippingIcon />
     }
   }
 

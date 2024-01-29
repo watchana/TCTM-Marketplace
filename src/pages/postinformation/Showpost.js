@@ -169,7 +169,7 @@ const ShowPost = () => {
                       component='img'
                       height='70%'
                       image={`/imageInfor/${post.image_file_infname}`}
-                      alt='Product Image'
+                      alt='Post Image'
                       sx={{ objectFit: 'contain' }}
                     />
                     <Box sx={{ padding: 1, height: '30%' }}>
@@ -179,8 +179,12 @@ const ShowPost = () => {
                         sx={{
                           fontWeight: 'bold',
                           overflow: 'hidden',
-                          whiteSpace: 'nowrap',
-                          textOverflow: 'ellipsis'
+                          whiteSpace: 'pre-wrap', // เพิ่ม pre-wrap เพื่อให้เว้นบรรทัด
+                          wordWrap: 'break-word', // ให้ข้อความขยายตัวเมื่อหลุดขอบ
+                          textOverflow: 'ellipsis',
+                          display: '-webkit-box',
+                          WebkitBoxOrient: 'vertical',
+                          WebkitLineClamp: 2
                         }}
                       >
                         {post.post_name}
