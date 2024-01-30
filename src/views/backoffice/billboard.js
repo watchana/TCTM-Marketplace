@@ -63,8 +63,7 @@ const Billboard = () => {
   }
 
   const handleUnactiveClick = bill_id => {
-    // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Unban
-    console.log(`Unactive account with ID Unactive ${bill_id}`)
+    console.log(`Unactive account with ID ${bill_id}`)
 
     axios
       .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.unactive_bill_board`, {
@@ -72,8 +71,10 @@ const Billboard = () => {
       })
       .then(response => {
         console.log('UserID', response)
-
-        // ทำอย่างอื่นตามความต้องการ
+        localStorage.removeItem('billboard2Clicked') // ลบค่าที่ถูกเก็บไว้ใน local storage
+        localStorage.removeItem('billboard3Clicked') // ลบค่าที่ถูกเก็บไว้ใน local storage
+        setBillboard2Clicked(false) // ตั้งค่า billboard2Clicked เป็น false เพื่อให้ปุ่ม Billboard 2 กลับมาสามารถกดได้
+        setBillboard3Clicked(false) // ตั้งค่า billboard2Clicked เป็น false เพื่อให้ปุ่ม Billboard 2 กลับมาสามารถกดได้
         fetchBillboardData()
       })
       .catch(error => {
@@ -82,7 +83,6 @@ const Billboard = () => {
   }
 
   const handleActiveClickBill2 = bill_id => {
-    // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Unban
     console.log(`Unactive account with ID 2 ${bill_id}`)
 
     axios
@@ -91,14 +91,21 @@ const Billboard = () => {
       })
       .then(response => {
         console.log('UserID', response)
-
-        // ทำอย่างอื่นตามความต้องการ
+        localStorage.setItem('billboard2Clicked', 'true') // เก็บค่าการคลิกใน local storage
+        setBillboard2Clicked(true) // ตั้งค่า billboard2Clicked เป็น true
         fetchBillboardData()
       })
       .catch(error => {
         console.error('Error:', error)
       })
   }
+
+  useEffect(() => {
+    const isBillboard2Clicked = localStorage.getItem('billboard2Clicked')
+    if (isBillboard2Clicked === 'true') {
+      setBillboard2Clicked(true)
+    }
+  }, [])
 
   const handleActiveClickBill3 = bill_id => {
     // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Unban
@@ -110,14 +117,21 @@ const Billboard = () => {
       })
       .then(response => {
         console.log('UserID', response)
-
-        // ทำอย่างอื่นตามความต้องการ
+        localStorage.setItem('billboard3Clicked', 'true') // เก็บค่าการคลิกใน local storage
+        setBillboard3Clicked(true) // ตั้งค่า billboard2Clicked เป็น true
         fetchBillboardData()
       })
       .catch(error => {
         console.error('Error:', error)
       })
   }
+
+  useEffect(() => {
+    const isBillboard3Clicked = localStorage.getItem('billboard3Clicked')
+    if (isBillboard3Clicked === 'true') {
+      setBillboard3Clicked(true)
+    }
+  }, [])
 
   const handleDeleteClick = bill_id => {
     // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Delete
@@ -128,6 +142,9 @@ const Billboard = () => {
     // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Undelete
     console.log(`Undelete account with ID ${bill_id}`)
   }
+
+  const [billboard2Clicked, setBillboard2Clicked] = useState(false)
+  const [billboard3Clicked, setBillboard3Clicked] = useState(false)
 
   return (
     <Box>
@@ -259,7 +276,7 @@ const Billboard = () => {
                       })
                     }
                   }}
-                  disabled={params.row.bill_status === '3'}
+                  disabled={params.row.bill_status === '3' || billboard2Clicked} // ปิดปุ่มถ้า account_status เป็น 3 หรือ billboard2Clicked เป็น true
                 >
                   Billboard 2
                 </Button>
@@ -297,7 +314,7 @@ const Billboard = () => {
                       })
                     }
                   }}
-                  disabled={params.row.bill_status === '4'}
+                  disabled={params.row.bill_status === '4' || billboard3Clicked}
                 >
                   Billboard 3
                 </Button>
