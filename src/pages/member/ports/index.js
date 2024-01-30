@@ -216,11 +216,11 @@ const Posts = () => {
 
   return (
     <Container maxWidth='xl'>
-      <Box sx={{ height: '100%' }}>
+      <Box>
         <Box sx={{ width: '100%' }}>
           <Card
             sx={{
-              height: isSmallScreen ? '70px' : '80px',
+              height: isSmallScreen ? '80px' : '90px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
               backgroundColor: '#2d2e81',
@@ -229,16 +229,28 @@ const Posts = () => {
           >
             <Grid container alignItems='center'>
               <Grid item xs={12} sm={8} md={8}>
-                <Typography variant='h5' color='#fff' sx={{ fontWeight: 'bold' }}>
+                <Typography
+                  color='#fff'
+                  variant='h5'
+                  sx={{ fontWeight: 'bold', fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.6rem' } }}
+                >
                   Post
                 </Typography>
                 <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
                   <Link href='/' passHref>
-                    <Typography color='#fff' variant='subtitle1' sx={{ cursor: 'pointer' }}>
+                    <Typography
+                      color='#fff'
+                      variant='subtitle1'
+                      sx={{ cursor: 'pointer', fontSize: { xs: '0.8rem', sm: '0.8rem', md: '1rem' } }}
+                    >
                       Home
                     </Typography>
                   </Link>
-                  <Typography color='#fff' variant='subtitle1' sx={{ cursor: 'pointer' }}>
+                  <Typography
+                    color='#fff'
+                    variant='subtitle1'
+                    sx={{ cursor: 'pointer', fontSize: { xs: '0.8rem', sm: '0.8rem', md: '1rem' } }}
+                  >
                     Posts
                   </Typography>
                 </Breadcrumbs>
@@ -264,7 +276,16 @@ const Posts = () => {
                     padding: '1rem 1rem 0rem'
                   }}
                 >
-                  <Typography variant='h5' fontSize='24px bold'>
+                  <Typography
+                    variant='h5'
+                    sx={{
+                      fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.6rem' },
+
+                      fontWeight: 'bold',
+                      textAlign: 'center',
+                      padding: '12px'
+                    }}
+                  >
                     My Posts
                   </Typography>
                   {/* ---------- Button POST ---------- */}
@@ -286,7 +307,10 @@ const Posts = () => {
                     ) : (
                       <div>
                         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                          <Typography variant='h6' fontSize='24px bold'>
+                          <Typography
+                            variant='subtitle1'
+                            sx={{ cursor: 'pointer', fontSize: { xs: '0.8rem', sm: '0.8rem', md: '1rem' } }}
+                          >
                             There is no post information.
                           </Typography>
                         </Box>
