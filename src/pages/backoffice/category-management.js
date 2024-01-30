@@ -156,7 +156,7 @@ const CategoryManager = () => {
       <Box sx={{ width: '100%' }}>
         <Card
           sx={{
-            height: isSmallScreen ? '70px' : '80px',
+            height: isSmallScreen ? '80px' : '90px',
             marginBottom: '30px',
             padding: '15px 25px 20px',
             backgroundColor: '#2d2e81',
@@ -165,7 +165,11 @@ const CategoryManager = () => {
         >
           <Grid container alignItems='center'>
             <Grid item xs={12} sm={8} md={8}>
-              <Typography variant='h5' color='#fff' sx={{ fontWeight: 'bold' }}>
+              <Typography
+                color='#fff'
+                variant='h5'
+                sx={{ fontWeight: 'bold', fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.6rem' } }}
+              >
                 Admin Management
               </Typography>
             </Grid>

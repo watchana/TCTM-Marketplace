@@ -23,9 +23,9 @@ import InfoIcon from '@mui/icons-material/Info'
 import ChevronRight from 'mdi-material-ui/ChevronRight'
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight'
-
 import { useRouter } from 'next/router'
 import axios from 'axios'
+import { useMediaQuery } from '@mui/material'
 
 const InformationDetails = () => {
   const [informationdata, setInformationData] = useState([]) // ตัวแปรเก็บข้อมูลแนะนำ
@@ -129,15 +129,17 @@ const InformationDetails = () => {
     }
   }, [MaxLengthImages])
 
+  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+
   return (
     <Box>
       <Box>
         <Container maxWidth='xl'>
-          <Box sx={{ height: '100%' }}>
+          <Box>
             <Box sx={{ width: '100%' }}>
               <Card
                 sx={{
-                  height: '100px',
+                  height: isSmallScreen ? '80px' : '90px',
                   marginBottom: '30px',
                   padding: '15px 25px 20px',
                   backgroundColor: '#2d2e81',
@@ -146,23 +148,35 @@ const InformationDetails = () => {
               >
                 <Grid container alignItems='center'>
                   <Grid item xs={12} sm={8} md={8}>
-                    <Typography variant='h4' fontSize='21px bold' color='#fff'>
+                    <Typography
+                      color='#fff'
+                      variant='h5'
+                      sx={{ fontWeight: 'bold', fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.6rem' } }}
+                    >
                       Information
                     </Typography>
                     <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
                       <Link href='/' passHref>
-                        <Typography color='#fff' variant='h6' fontSize='14px'>
+                        <Typography
+                          color='#fff'
+                          variant='subtitle1'
+                          sx={{ cursor: 'pointer', fontSize: { xs: '0.8rem', sm: '0.8rem', md: '1rem' } }}
+                        >
                           Home
                         </Typography>
                       </Link>
-                      <Typography color='#fff' variant='h6' fontSize='14px'>
+                      <Typography
+                        color='#fff'
+                        variant='subtitle1'
+                        sx={{ cursor: 'pointer', fontSize: { xs: '0.8rem', sm: '0.8rem', md: '1rem' } }}
+                      >
                         Information
                       </Typography>
                     </Breadcrumbs>
                   </Grid>
                   <Hidden smDown>
                     <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                      <InfoIcon sx={{ fontSize: 72, color: '#fff' }} />
+                      <InfoIcon sx={{ fontSize: 50, color: '#fff' }} />
                     </Grid>
                   </Hidden>
                 </Grid>

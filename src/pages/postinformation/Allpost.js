@@ -12,9 +12,10 @@ import { styled } from '@mui/material/styles'
 import axios from 'axios'
 
 // ** React-Multi Carousel 👋
-import Carousel from 'react-multi-carousel'
+
 import 'react-multi-carousel/lib/styles.css'
-import Paper from 'src/@core/theme/overrides/paper'
+
+import { useMediaQuery } from '@mui/material'
 
 // const images = [
 //   'https://imagen.research.google/main_gallery_images/cactus.jpg',
@@ -77,22 +78,24 @@ const AllPost = () => {
     fetchData()
   }, [])
 
+  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+
   return (
     <Container maxWidth='xl'>
-      <Box sx={{ width: '100%', marginTop: '30px', boxShadow: 3 }}>
-        <Box
+      <Box sx={{ width: '100%' }}>
+        <Card
           sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            height: '70px',
-            borderRadius: '6px',
-            backgroundColor: '#3A46A7'
+            height: isSmallScreen ? '80px' : '90px',
+            marginBottom: '30px',
+            padding: '15px 25px 20px',
+            backgroundColor: '#2d2e81',
+            border: '1px solid #primary.main'
           }}
         >
           <Typography
             variant='h5'
-            fontSize='32px'
             sx={{
+              fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.6rem' },
               color: '#FFFFFF',
               fontWeight: 'bold',
               textAlign: 'center',
@@ -101,7 +104,7 @@ const AllPost = () => {
           >
             Knowledge Of Product
           </Typography>
-        </Box>
+        </Card>
       </Box>
 
       {/* ---------- Show Product ---------- */}

@@ -114,7 +114,7 @@ const MyOrderPage = () => {
         <Box sx={{ width: '100%' }}>
           <Card
             sx={{
-              height: isSmallScreen ? '70px' : '80px',
+              height: isSmallScreen ? '80px' : '90px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
               backgroundColor: '#2d2e81',
@@ -123,16 +123,28 @@ const MyOrderPage = () => {
           >
             <Grid container alignItems='center'>
               <Grid item xs={12} sm={8} md={8}>
-                <Typography variant='h5' color='#fff' sx={{ fontWeight: 'bold' }}>
+                <Typography
+                  color='#fff'
+                  variant='h5'
+                  sx={{ fontWeight: 'bold', fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.6rem' } }}
+                >
                   Delivery
                 </Typography>
                 <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
                   <Link href='/' passHref>
-                    <Typography color='#fff' variant='subtitle1' sx={{ cursor: 'pointer' }}>
+                    <Typography
+                      color='#fff'
+                      variant='subtitle1'
+                      sx={{ cursor: 'pointer', fontSize: { xs: '0.8rem', sm: '0.8rem', md: '1rem' } }}
+                    >
                       Home
                     </Typography>
                   </Link>
-                  <Typography color='#fff' variant='subtitle1' sx={{ cursor: 'pointer' }}>
+                  <Typography
+                    color='#fff'
+                    variant='subtitle1'
+                    sx={{ cursor: 'pointer', fontSize: { xs: '0.8rem', sm: '0.8rem', md: '1rem' } }}
+                  >
                     MyOrder
                   </Typography>
                 </Breadcrumbs>
