@@ -63,7 +63,6 @@ const Billboard = () => {
   }
 
   const handleUnactiveClick = bill_id => {
-    // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Unban
     console.log(`Unactive account with ID ${bill_id}`)
 
     axios
@@ -72,14 +71,67 @@ const Billboard = () => {
       })
       .then(response => {
         console.log('UserID', response)
-
-        // ทำอย่างอื่นตามความต้องการ
+        localStorage.removeItem('billboard2Clicked') // ลบค่าที่ถูกเก็บไว้ใน local storage
+        localStorage.removeItem('billboard3Clicked') // ลบค่าที่ถูกเก็บไว้ใน local storage
+        setBillboard2Clicked(false) // ตั้งค่า billboard2Clicked เป็น false เพื่อให้ปุ่ม Billboard 2 กลับมาสามารถกดได้
+        setBillboard3Clicked(false) // ตั้งค่า billboard2Clicked เป็น false เพื่อให้ปุ่ม Billboard 2 กลับมาสามารถกดได้
         fetchBillboardData()
       })
       .catch(error => {
         console.error('Error:', error)
       })
   }
+
+  const handleActiveClickBill2 = bill_id => {
+    console.log(`Unactive account with ID 2 ${bill_id}`)
+
+    axios
+      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.billboards2`, {
+        bill_id
+      })
+      .then(response => {
+        console.log('UserID', response)
+        localStorage.setItem('billboard2Clicked', 'true') // เก็บค่าการคลิกใน local storage
+        setBillboard2Clicked(true) // ตั้งค่า billboard2Clicked เป็น true
+        fetchBillboardData()
+      })
+      .catch(error => {
+        console.error('Error:', error)
+      })
+  }
+
+  useEffect(() => {
+    const isBillboard2Clicked = localStorage.getItem('billboard2Clicked')
+    if (isBillboard2Clicked === 'true') {
+      setBillboard2Clicked(true)
+    }
+  }, [])
+
+  const handleActiveClickBill3 = bill_id => {
+    // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Unban
+    console.log(`Unactive account with ID 2 ${bill_id}`)
+
+    axios
+      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.billboards3`, {
+        bill_id
+      })
+      .then(response => {
+        console.log('UserID', response)
+        localStorage.setItem('billboard3Clicked', 'true') // เก็บค่าการคลิกใน local storage
+        setBillboard3Clicked(true) // ตั้งค่า billboard2Clicked เป็น true
+        fetchBillboardData()
+      })
+      .catch(error => {
+        console.error('Error:', error)
+      })
+  }
+
+  useEffect(() => {
+    const isBillboard3Clicked = localStorage.getItem('billboard3Clicked')
+    if (isBillboard3Clicked === 'true') {
+      setBillboard3Clicked(true)
+    }
+  }, [])
 
   const handleDeleteClick = bill_id => {
     // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Delete
@@ -90,6 +142,9 @@ const Billboard = () => {
     // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Undelete
     console.log(`Undelete account with ID ${bill_id}`)
   }
+
+  const [billboard2Clicked, setBillboard2Clicked] = useState(false)
+  const [billboard3Clicked, setBillboard3Clicked] = useState(false)
 
   return (
     <Box>
@@ -130,18 +185,24 @@ const Billboard = () => {
               } else if (subStatus === '0') {
                 chipColor = 'error'
                 chipLabel = 'Unactive'
+              } else if (subStatus === '3') {
+                chipColor = 'success'
+                chipLabel = 'Billboard2'
+              } else if (subStatus === '4') {
+                chipColor = 'success'
+                chipLabel = 'Billboard3'
               }
 
               return <Chip label={chipLabel} color={chipColor} />
             }
           },
-          { field: 'bill_name', headerName: 'billboard', width: 200 },
+          { field: 'bill_name', headerName: 'billboard', width: 300 },
           { field: 'name', headerName: 'creator', width: 150 },
           { field: 'owner', headerName: 'position', width: 120 },
           {
             field: 'actions',
             headerName: 'Button',
-            width: 250, // ปรับขนาดตามความต้องการ
+            width: 560, // ปรับขนาดตามความต้องการ
             renderCell: params => (
               <div>
                 <Button
@@ -180,6 +241,82 @@ const Billboard = () => {
                   disabled={params.row.bill_status === '1'}
                 >
                   Active
+                </Button>
+
+                <Button
+                  variant='contained'
+                  color='success'
+                  className='btn btn-info'
+                  style={{ marginRight: '5px' }}
+                  onClick={() => {
+                    if (params.row.bill_status !== '3') {
+                      Swal.fire({
+                        title: 'Want to show this item?',
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'Active',
+                        cancelButtonText: 'cancle'
+                      }).then(result => {
+                        if (result.isConfirmed) {
+                          Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Show success',
+                            showConfirmButton: false,
+                            timer: 1500
+                          })
+                          handleActiveClickBill2(params.row.bill_id)
+                        }
+                      })
+                    } else {
+                      Swal.fire({
+                        title: 'cannot be banned',
+                        text: 'Because the status has been banned.',
+                        icon: 'error'
+                      })
+                    }
+                  }}
+                  disabled={params.row.bill_status === '3' || billboard2Clicked} // ปิดปุ่มถ้า account_status เป็น 3 หรือ billboard2Clicked เป็น true
+                >
+                  Billboard 2
+                </Button>
+
+                <Button
+                  variant='contained'
+                  color='success'
+                  className='btn btn-info'
+                  style={{ marginRight: '5px' }}
+                  onClick={() => {
+                    if (params.row.bill_status !== '4') {
+                      Swal.fire({
+                        title: 'Want to show this item?',
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'Active',
+                        cancelButtonText: 'cancle'
+                      }).then(result => {
+                        if (result.isConfirmed) {
+                          Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Show success',
+                            showConfirmButton: false,
+                            timer: 1500
+                          })
+                          handleActiveClickBill3(params.row.bill_id)
+                        }
+                      })
+                    } else {
+                      Swal.fire({
+                        title: 'cannot be banned',
+                        text: 'Because the status has been banned.',
+                        icon: 'error'
+                      })
+                    }
+                  }}
+                  disabled={params.row.bill_status === '4' || billboard3Clicked}
+                >
+                  Billboard 3
                 </Button>
 
                 <Button
