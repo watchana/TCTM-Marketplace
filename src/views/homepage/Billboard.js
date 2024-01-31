@@ -111,8 +111,6 @@ const Billboard = () => {
     }
   }
 
-  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
-
   const isSmallScreenSup1 = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
   const imageUrl = 'https://f.ptcdn.info/2g/306/000/000/E13098649-0.jpg'
@@ -125,7 +123,7 @@ const Billboard = () => {
           {/* ---------- Main Billboard ---------- */}
           <Grid item xs={12} md={12} lg={9}>
             {isLoading ? ( // ตรวจสอบสถานะ isLoading เพื่อแสดงรูปโหลดหรือข้อความแสดงการโหลด
-              <Skeleton variant='rectangular' width='100%' height='350px' sx={{ borderRadius: '6px' }} />
+              <Skeleton variant='rectangular' sx={{ borderRadius: '6px' }} />
             ) : (
               <Box
                 sx={{
@@ -145,28 +143,39 @@ const Billboard = () => {
 
                       .filter(({ item }) => item.bill_status === '1')
                       .map(({ index, item }) => (
-                        <Box key={index.id}>
+                        <Box key={index.id} sx={{ width: '100%', height: { xs: 150, sm: 200, md: 300, lg: 300 } }}>
                           <CardMedia
                             key={index}
                             component='img'
                             image={`imgBillboard/${item.bill_name}`}
                             alt={item.bill_name}
                             sx={{
-                              width: '100%',
-                              maxHeight: isSmallScreenSup1 ? '250px' : '350px',
-                              objectFit: 'contain', // เปลี่ยนจาก 'cover' เป็น 'contain'
                               objectPosition: 'center',
                               borderRadius: '6px',
-                              maxHeight: '100%' // เพิ่ม maxHeight เพื่อให้รูปไม่ขยายเกินความสูงของ CardMedia
+                              maxWidth: 'auto',
+                              maxHeight: 'auto' // เพิ่ม maxHeight เพื่อให้รูปไม่ขยายเกินความสูงของ CardMedia
                             }}
                           />
                         </Box>
                       ))}
                   </Carousel>
                 ) : (
-                  <Typography variant='h6' sx={{ color: '#999', fontStyle: 'italic', textAlign: 'center' }}>
-                    No data
-                  </Typography>
+                  <Box
+                    sx={{
+                      width: '100%',
+                      height: '350px',
+                      maxHeight: '350px',
+                      borderRadius: '6px',
+                      backgroundColor: '#3A46A7',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center'
+                    }}
+                  >
+                    <Typography variant='h6' color='#fff'>
+                      No Image
+                    </Typography>
+                  </Box>
                 )}
               </Box>
             )}
@@ -216,9 +225,25 @@ const Billboard = () => {
                     )}
                   </Carousel>
                 ) : (
-                  <Typography variant='h6' sx={{ color: '#999', fontStyle: 'italic', textAlign: 'center' }}>
-                    No data
-                  </Typography>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      backgroundColor: '#3A46A7',
+                      width: '100%',
+                      height: '170px',
+                      maxHeight: '170px',
+                      borderRadius: '6px',
+                      backgroundSize: '100% 100%',
+                      backgroundPosition: 'center',
+                      display: 'flex'
+                    }}
+                  >
+                    <Typography variant='h6' color='#fff'>
+                      No Image
+                    </Typography>
+                  </Box>
                 )}
               </Grid>
 
@@ -264,9 +289,25 @@ const Billboard = () => {
                     )}
                   </Carousel>
                 ) : (
-                  <Typography variant='h6' sx={{ color: '#999', fontStyle: 'italic', textAlign: 'center' }}>
-                    No data
-                  </Typography>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      backgroundColor: '#3A46A7',
+                      width: '100%',
+                      height: '170px',
+                      maxHeight: '170px',
+                      borderRadius: '6px',
+                      backgroundSize: '100% 100%',
+                      backgroundPosition: 'center',
+                      display: 'flex'
+                    }}
+                  >
+                    <Typography variant='h6' color='#fff'>
+                      No Image
+                    </Typography>
+                  </Box>
                 )}
               </Grid>
             </Grid>
