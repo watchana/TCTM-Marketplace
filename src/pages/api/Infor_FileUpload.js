@@ -38,28 +38,32 @@ export default async (req, res) => {
     const moveFile = index => {
       if (index < filepaths.length) {
         const { oldPath, newPath } = filepaths[index]
-        fs.copyFile(oldPath, newPath, err => {
-          if (err) {
-            console.error('Error moving file.', err)
-            res.status(500).json({ error: 'Error moving file.' })
-
-            return
-          }
-
-          // ลบไฟล์เดิมหลังจากคัดลอกเสร็จสิ้น
-          fs.unlink(oldPath, err => {
+        fs.copyFile(oldPath, newPath, async err => {
+          try {
             if (err) {
-              console.error('Error deleting old file.', err)
+              console.error('Error moving file.', err)
+              res.status(500).json({ error: 'Error moving file.' })
+              return
             }
 
-            if (index === filepaths.length - 1) {
-              res.status(200).json({
-                message: 'File(s) moved and temporary files deleted successfully.'
-              })
-            } else {
-              moveFile(index + 1)
-            }
-          })
+            // ลบไฟล์เดิมหลังจากคัดลอกเสร็จสิ้น
+            await fs.unlink(oldPath, err => {
+              if (err) {
+                console.error('Error deleting old file.', err)
+              }
+
+              if (index === filepaths.length - 1) {
+                res.status(200).json({
+                  message: 'File(s) moved and temporary files deleted successfully.'
+                })
+              } else {
+                moveFile(index + 1)
+              }
+            })
+          } catch (err) {
+            console.error('Unhandled error:', err)
+            res.status(500).json({ error: 'Unhandled error.' })
+          }
         })
       }
     }
