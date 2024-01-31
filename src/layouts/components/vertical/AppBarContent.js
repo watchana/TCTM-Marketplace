@@ -157,7 +157,7 @@ const AppBarContent = props => {
             </Link>
           </Box>
         </Grid>
-        <Grid item xl={8} xs={8} spacing={0.5}>
+        <Grid item xl={8} xs={8} sx={{ mr: '30px' }}>
           <Box sx={{ width: '100%' }}>
             <Grid container justifyContent='flex-end' alignItems='center' spacing={2}>
               <Grid item>

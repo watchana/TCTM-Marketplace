@@ -95,11 +95,9 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
         icon: 'error',
         title: 'Error'
       })
-      console.log(error)
+      console.error(error)
     }
   }
-
-  console.log('tracking_number', orderdata.tracking_number)
 
   // ฟังชันส่ง บิล และ รหัสส่งของ
   const handleReceiptSubmit = async e => {
@@ -147,10 +145,10 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
         })
         console.log('response Api', response)
       } catch (error) {
-        console.log(error)
+        console.error(error)
       }
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
     Swal.fire({
       icon: 'success',

@@ -118,7 +118,7 @@ const Billboard = () => {
   const imageUrl = 'https://f.ptcdn.info/2g/306/000/000/E13098649-0.jpg'
 
   return (
-    <Container>
+    <Container maxWidth='xl'>
       {/* ---------- Billboard ---------- */}
       <Box sx={{ width: '100%' }}>
         <Grid container spacing={4}>
@@ -136,41 +136,31 @@ const Billboard = () => {
                 }}
               >
                 <Carousel arrows={false} autoPlaySpeed={3000} infinite showDots responsive={responsive}>
-                  {slidedata && slidedata.length > 0 ? (
-                    slidedata.map((billboard, index) => (
-                      <CardMedia
-                        key={index}
-                        component='img'
-                        image={`imgBillboard/${billboard.bill_name}`}
-                        alt={billboard.bill_name}
-                        sx={{
-                          width: '100%',
-                          maxHeight: isSmallScreenSup1 ? '250px' : '350px',
-                          objectFit: 'contain', // เปลี่ยนจาก 'cover' เป็น 'contain'
-                          objectPosition: 'center',
-                          borderRadius: '6px',
-                          maxHeight: '100%' // เพิ่ม maxHeight เพื่อให้รูปไม่ขยายเกินความสูงของ CardMedia
-                        }}
-                      />
-                    ))
-                  ) : (
-                    <Box
-                      sx={{
-                        width: '100%',
-                        height: isSmallScreenSup1 ? '150px' : '350px',
-                        maxHeight: isSmallScreenSup1 ? '150px' : '350px',
-                        borderRadius: '6px',
-                        backgroundColor: '#3A46A7',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                      }}
-                    >
-                      <Typography variant='h6' color='#fff'>
-                        No Image
-                      </Typography>
-                    </Box>
-                  )}
+                  {slidedata
+                    .map((item, index) => ({
+                      index,
+                      item
+                    }))
+
+                    .filter(({ item }) => item.bill_status === '1')
+                    .map(({ index, item }) => (
+                      <Box key={index.id}>
+                        <CardMedia
+                          key={index}
+                          component='img'
+                          image={`imgBillboard/${item.bill_name}`}
+                          alt={item.bill_name}
+                          sx={{
+                            width: '100%',
+                            maxHeight: isSmallScreenSup1 ? '250px' : '350px',
+                            objectFit: 'contain', // เปลี่ยนจาก 'cover' เป็น 'contain'
+                            objectPosition: 'center',
+                            borderRadius: '6px',
+                            maxHeight: '100%' // เพิ่ม maxHeight เพื่อให้รูปไม่ขยายเกินความสูงของ CardMedia
+                          }}
+                        />
+                      </Box>
+                    ))}
                 </Carousel>
               </Box>
             )}
@@ -181,7 +171,7 @@ const Billboard = () => {
               {/* ---------- Sub Billboard No 1 ---------- */}
 
               <Grid item xs={6} lg={12}>
-                {isLoading ? (
+                {slidedata.length === '0' ? (
                   <Skeleton variant='rectangular' width='100%' height='170px' sx={{ borderRadius: '6px' }} />
                 ) : (
                   <Box>
@@ -196,9 +186,23 @@ const Billboard = () => {
                         display: 'flex'
                       }}
                     >
-                      <Typography variant='h6' color='#fff'>
-                        <img src={imageUrl} alt='Description of the image' style={{ width: '100%', height: 'auto' }} />
-                      </Typography>
+                      {slidedata
+                        .map((item, index) => ({
+                          index,
+                          item
+                        }))
+
+                        .filter(({ item }) => item.bill_status === '3')
+                        .map(({ index, item }) => (
+                          <Box key={index.id}>
+                            <CardMedia
+                              component='img'
+                              src={`/imgBillboard/${item.bill_name}`}
+                              alt={`image`}
+                              height='auto'
+                            />
+                          </Box>
+                        ))}
                     </Box>
                   </Box>
                 )}
@@ -206,7 +210,7 @@ const Billboard = () => {
 
               {/* ---------- Sub Billboard No 2 ---------- */}
               <Grid item xs={6} lg={12}>
-                {isLoading ? (
+                {slidedata.length === '0' ? (
                   <Skeleton variant='rectangular' width='100%' height='170px' sx={{ borderRadius: '6px' }} />
                 ) : (
                   <Box>
@@ -221,9 +225,24 @@ const Billboard = () => {
                         display: 'flex'
                       }}
                     >
-                      <Typography variant='h6' color='#fff'>
-                        <img src={imageUrl} alt='Description of the image' style={{ width: '100%', height: 'auto' }} />
-                      </Typography>
+                      {slidedata
+                        .map((item, index) => ({
+                          index,
+                          item
+                        }))
+
+                        .filter(({ item }) => item.bill_status === '4')
+                        .map(({ index, item }) => (
+                          <Box key={index.id}>
+                            <CardMedia
+                              component='img'
+                              src={`/imgBillboard/${item.bill_name}`}
+                              alt={`image`}
+                              height='auto'
+                              sx={{ minWidth: '100px', minHeight: 'auto' }}
+                            />
+                          </Box>
+                        ))}
                     </Box>
                   </Box>
                 )}

@@ -1,5 +1,5 @@
 // ** React Imports
-import { React, useEffect, useState } from 'react'
+import { React, useState } from 'react'
 
 // ** Next Imports
 import { useRouter } from 'next/router'
@@ -16,10 +16,11 @@ import Typography from '@mui/material/Typography'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
 import CardContent from '@mui/material/CardContent'
 import CloudUpload from 'mdi-material-ui/CloudUpload'
+import Hidden from '@mui/material/Hidden'
+import Container from '@mui/material/Container'
 
 // ** Icons Imports
-import Plus from 'mdi-material-ui/Plus'
-import CircleSmall from 'mdi-material-ui/CircleSmall'
+
 import ChevronRight from 'mdi-material-ui/ChevronRight'
 
 // ** Switch Alert Import
@@ -28,11 +29,14 @@ const Swal = require('sweetalert2')
 // ** axios Imports
 import axios from 'axios'
 
-// ** Auth Check
-import { withAuth } from 'src/@core/utils/AuthCheck'
-
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
+
+// Responsive image
+import { useMediaQuery } from '@mui/material'
+
+// ** Auth Check
+import { withAuth } from 'src/@core/utils/AuthCheck'
 
 const RegisterSupplier = () => {
   // ** Hook
@@ -222,23 +226,64 @@ const RegisterSupplier = () => {
     }
   }
 
+  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+
   return (
-    <Box sx={{ bgcolor: '#ebf3fe' }}>
+    <Container maxWidth='xl'>
       <Box>
-        <Box sx={{ width: '100%', marginTop: '15px', marginLeft: '15px' }}>
-          <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb'>
-            <Link underline='none' color='inherit' href='/'>
-              <Typography variant='body2'>Home</Typography>
-            </Link>
-            <Link underline='none' color='inherit'>
-              <Typography variant='body2'>Register</Typography>
-            </Link>
-          </Breadcrumbs>
+        <Box sx={{ width: '100%' }}>
+          <Card
+            sx={{
+              height: isSmallScreen ? '80px' : '90px',
+              marginBottom: '30px',
+              padding: '15px 25px 20px',
+              backgroundColor: '#2d2e81',
+              border: '1px solid #primary.main'
+            }}
+          >
+            <Grid container alignItems='center'>
+              <Grid item xs={12} sm={8} md={8}>
+                <Typography
+                  color='#fff'
+                  variant='h5'
+                  sx={{ fontWeight: 'bold', fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.6rem' } }}
+                >
+                  Marker Register
+                </Typography>
+                <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
+                  <Link href='/' passHref>
+                    <Typography
+                      color='#fff'
+                      variant='subtitle1'
+                      sx={{ cursor: 'pointer', fontSize: { xs: '0.8rem', sm: '0.8rem', md: '1rem' } }}
+                    >
+                      Home
+                    </Typography>
+                  </Link>
+                  <Typography
+                    color='#fff'
+                    variant='subtitle1'
+                    sx={{ cursor: 'pointer', fontSize: { xs: '0.8rem', sm: '0.8rem', md: '1rem' } }}
+                  >
+                    Register
+                  </Typography>
+                </Breadcrumbs>
+              </Grid>
+              <Hidden smDown>
+                {/* <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <ShoppingCartIcon sx={{ fontSize: 50, color: '#fff' }} />
+                </Grid> */}
+              </Hidden>
+            </Grid>
+          </Card>
         </Box>
       </Box>
 
-      <Box className='content-center'>
-        <Card sx={{ zIndex: 1, borderRadius: '34px' }}>
+      <Box
+        className='content-center'
+        sx={{ width: '100%', display: 'flex', flexDirection: 'center', justifyContent: 'center', alignItems: 'center' }}
+      >
+        <Card sx={{ zIndex: 1, borderRadius: '34px', width: '50%' }}>
           <CardContent sx={{ padding: theme => `${theme.spacing(7, 9, 2)} !important` }}>
             <Box sx={{ mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Typography
@@ -258,12 +303,12 @@ const RegisterSupplier = () => {
             {/* ชื่อร้านค้า */}
             <Box sx={{ width: '100%', marginBottom: 4 }}>
               <Grid container>
-                <Grid item md={4}>
+                <Grid item xs={12} md={4}>
                   <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
                     Store Name
                   </Typography>
                 </Grid>
-                <Grid item md={8}>
+                <Grid item xs={12} md={8}>
                   <Box sx={{ width: '100%' }}>
                     <TextField
                       fullWidth
@@ -281,12 +326,12 @@ const RegisterSupplier = () => {
             {/* Email */}
             <Box sx={{ width: '100%', marginBottom: 4 }}>
               <Grid container>
-                <Grid item md={4}>
+                <Grid item xs={12} md={4}>
                   <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
                     Email
                   </Typography>
                 </Grid>
-                <Grid item md={8}>
+                <Grid item xs={12} md={8}>
                   <Box sx={{ width: '100%' }}>
                     <TextField
                       fullWidth
@@ -304,12 +349,12 @@ const RegisterSupplier = () => {
             {/* Tel */}
             <Box sx={{ width: '100%', marginBottom: 4 }}>
               <Grid container>
-                <Grid item md={4}>
+                <Grid item xs={12} md={4}>
                   <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
                     Tel
                   </Typography>
                 </Grid>
-                <Grid item md={8}>
+                <Grid item xs={12} md={8}>
                   <Box sx={{ width: '100%' }}>
                     <TextField
                       fullWidth
@@ -327,12 +372,12 @@ const RegisterSupplier = () => {
             {/* รายละเอียดร้าน */}
             <Box sx={{ width: '100%', marginBottom: 4 }}>
               <Grid container>
-                <Grid item md={4}>
+                <Grid item xs={12} md={4}>
                   <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
                     Store details
                   </Typography>
                 </Grid>
-                <Grid item md={8}>
+                <Grid item xs={12} md={8}>
                   <Box sx={{ width: '100%' }}>
                     <TextField
                       fullWidth
@@ -353,12 +398,12 @@ const RegisterSupplier = () => {
             {/* บัญชีธนาคาร */}
             <Box sx={{ width: '100%', marginBottom: 4 }}>
               <Grid container>
-                <Grid item md={4}>
+                <Grid item xs={12} md={4}>
                   <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
                     Address on ID card *
                   </Typography>
                 </Grid>
-                <Grid item md={8}>
+                <Grid item xs={12} md={8}>
                   <Box sx={{ width: '100%' }}>
                     <TextField
                       fullWidth
@@ -376,12 +421,12 @@ const RegisterSupplier = () => {
             {/* ข้อมูลที่อยู่ */}
             <Box sx={{ width: '100%', marginBottom: 4 }}>
               <Grid container>
-                <Grid item md={4}>
+                <Grid item xs={12} md={4}>
                   <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
                     Address Information *
                   </Typography>
                 </Grid>
-                <Grid item md={8}>
+                <Grid item xs={12} md={8}>
                   <Box sx={{ width: '100%' }}>
                     <TextField
                       fullWidth
@@ -402,12 +447,12 @@ const RegisterSupplier = () => {
             {/* ชื่อธนาคารธนาคาร */}
             <Box sx={{ width: '100%', marginBottom: 4 }}>
               <Grid container>
-                <Grid item md={4}>
+                <Grid item xs={12} md={4}>
                   <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
                     Bank Name
                   </Typography>
                 </Grid>
-                <Grid item md={8}>
+                <Grid item xs={12} md={8}>
                   <Box sx={{ width: '100%' }}>
                     <TextField
                       fullWidth
@@ -425,12 +470,12 @@ const RegisterSupplier = () => {
             {/* ชื่อคนหน้าสมุด */}
             <Box sx={{ width: '100%', marginBottom: 4 }}>
               <Grid container>
-                <Grid item md={4}>
+                <Grid item xs={12} md={4}>
                   <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
                     Book Bank Name
                   </Typography>
                 </Grid>
-                <Grid item md={8}>
+                <Grid item xs={12} md={8}>
                   <Box sx={{ width: '100%' }}>
                     <TextField
                       fullWidth
@@ -448,12 +493,12 @@ const RegisterSupplier = () => {
             {/* ชื่อ paypal */}
             <Box sx={{ width: '100%', marginBottom: 4 }}>
               <Grid container>
-                <Grid item md={4}>
+                <Grid item xs={12} md={4}>
                   <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
                     paypal Name
                   </Typography>
                 </Grid>
-                <Grid item md={8}>
+                <Grid item xs={12} md={8}>
                   <Box sx={{ width: '100%' }}>
                     <TextField
                       fullWidth
@@ -471,12 +516,12 @@ const RegisterSupplier = () => {
             {/* เลข paypal */}
             <Box sx={{ width: '100%', marginBottom: 4 }}>
               <Grid container>
-                <Grid item md={4}>
+                <Grid item xs={12} md={4}>
                   <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
                     Paypal Number
                   </Typography>
                 </Grid>
-                <Grid item md={8}>
+                <Grid item xs={12} md={8}>
                   <Box sx={{ width: '100%' }}>
                     <TextField
                       fullWidth
@@ -512,12 +557,12 @@ const RegisterSupplier = () => {
                     <>
                       <Box sx={{ width: '100%', marginBottom: 4 }}>
                         <Grid container>
-                          <Grid item md={4}>
+                          <Grid item xs={12} md={4}>
                             <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
                               Hostaddress
                             </Typography>
                           </Grid>
-                          <Grid item md={8}>
+                          <Grid item xs={12} md={8}>
                             <Box sx={{ width: '100%' }}>
                               <TextField
                                 fullWidth
@@ -532,12 +577,12 @@ const RegisterSupplier = () => {
                       </Box>
                       <Box sx={{ width: '100%', marginBottom: 4 }}>
                         <Grid container>
-                          <Grid item md={4}>
+                          <Grid item xs={12} md={4}>
                             <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
                               API Key
                             </Typography>
                           </Grid>
-                          <Grid item md={8}>
+                          <Grid item xs={12} md={8}>
                             <Box sx={{ width: '100%' }}>
                               <TextField
                                 fullWidth
@@ -552,12 +597,12 @@ const RegisterSupplier = () => {
                       </Box>
                       <Box sx={{ width: '100%', marginBottom: 4 }}>
                         <Grid container>
-                          <Grid item md={4}>
+                          <Grid item xs={12} md={4}>
                             <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
                               API SecretKey
                             </Typography>
                           </Grid>
-                          <Grid item md={8}>
+                          <Grid item xs={12} md={8}>
                             <Box sx={{ width: '100%' }}>
                               <TextField
                                 fullWidth
@@ -622,9 +667,9 @@ const RegisterSupplier = () => {
           </CardContent>
         </Card>
       </Box>
-    </Box>
+    </Container>
   )
 }
 RegisterSupplier.getLayout = page => <BlankLayout>{page}</BlankLayout>
 
-export default RegisterSupplier
+export default withAuth(RegisterSupplier)
