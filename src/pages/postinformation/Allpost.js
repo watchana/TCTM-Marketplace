@@ -12,9 +12,10 @@ import { styled } from '@mui/material/styles'
 import axios from 'axios'
 
 // ** React-Multi Carousel 👋
-import Carousel from 'react-multi-carousel'
+
 import 'react-multi-carousel/lib/styles.css'
-import Paper from 'src/@core/theme/overrides/paper'
+
+import { useMediaQuery } from '@mui/material'
 
 // const images = [
 //   'https://imagen.research.google/main_gallery_images/cactus.jpg',
@@ -55,27 +56,12 @@ const AllPost = () => {
 
   // React Multi Carousel Responsive
   const responsive = {
-    desktop: {
-      breakpoint: {
-        max: 3000,
-        min: 1024
-      },
-      items: 3
-    },
-    tablet: {
-      breakpoint: {
-        max: 1024,
-        min: 464
-      },
-      items: 2
-    },
-    mobile: {
-      breakpoint: {
-        max: 464,
-        min: 0
-      },
-      items: 1
-    }
+    desktopLarge: { breakpoint: { max: 3000, min: 2300 }, items: 10, partialVisibilityGutter: 10 },
+    desktop: { breakpoint: { max: 2300, min: 1400 }, items: 3, partialVisibilityGutter: 10 },
+    tablet: { breakpoint: { max: 1400, min: 1300 }, items: 3, partialVisibilityGutter: 10 },
+    mobile: { breakpoint: { max: 1300, min: 1000 }, items: 2, partialVisibilityGutter: 10 },
+    smallMobile1: { breakpoint: { max: 1000, min: 500 }, items: 1, partialVisibilityGutter: 10 },
+    smallMobile2: { breakpoint: { max: 500, min: 50 }, items: 1, partialVisibilityGutter: 10 }
   }
 
   // Call Api
@@ -92,22 +78,24 @@ const AllPost = () => {
     fetchData()
   }, [])
 
+  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+
   return (
     <Container maxWidth='xl'>
-      <Box sx={{ width: '100%', marginTop: '30px', boxShadow: 3 }}>
-        <Box
+      <Box sx={{ width: '100%' }}>
+        <Card
           sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            height: '70px',
-            borderRadius: '6px',
-            backgroundColor: '#3A46A7'
+            height: isSmallScreen ? '80px' : '90px',
+            marginBottom: '30px',
+            padding: '15px 25px 20px',
+            backgroundColor: '#2d2e81',
+            border: '1px solid #primary.main'
           }}
         >
           <Typography
             variant='h5'
-            fontSize='32px'
             sx={{
+              fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.6rem' },
               color: '#FFFFFF',
               fontWeight: 'bold',
               textAlign: 'center',
@@ -116,14 +104,14 @@ const AllPost = () => {
           >
             Knowledge Of Product
           </Typography>
-        </Box>
+        </Card>
       </Box>
 
       {/* ---------- Show Product ---------- */}
       <Box sx={{ width: '100%', marginTop: '30px' }}>
         <Grid container>
-          <Grid item xs={12} md={10} ml={30}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+          <Grid item xs={12} md={12}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
               {/* ========================== Map ========================== */}
               {slidedata && slidedata.length > 0 ? (
                 slidedata.map((post, index) => (
@@ -151,17 +139,19 @@ const AllPost = () => {
                       alt='Post Image'
                       sx={{ objectFit: 'contain' }}
                     />
-                    <Box sx={{ padding: 1, height: '30%' }}>
+                    <Box sx={{ padding: 2, height: '30%' }}>
                       <Typography
                         variant='h5'
                         fontSize='18px'
                         sx={{
                           fontWeight: 'bold',
                           overflow: 'hidden',
-                          whiteSpace: 'nowrap',
+                          whiteSpace: 'pre-wrap', // เพิ่ม pre-wrap เพื่อให้เว้นบรรทัด
+                          wordWrap: 'break-word', // ให้ข้อความขยายตัวเมื่อหลุดขอบ
                           textOverflow: 'ellipsis',
-                          mt: 5,
-                          ml: 5
+                          display: '-webkit-box',
+                          WebkitBoxOrient: 'vertical',
+                          WebkitLineClamp: 2
                         }}
                       >
                         {post.post_name}
@@ -178,7 +168,7 @@ const AllPost = () => {
                       >
                         สวัสดีจ้า
                       </Typography> */}
-                      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+                      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end', mt: 5 }}>
                         <Typography
                           variant='body1'
                           fontSize='14px'

@@ -57,27 +57,12 @@ const ShowPost = () => {
 
   // React Multi Carousel Responsive
   const responsive = {
-    desktop: {
-      breakpoint: {
-        max: 3000,
-        min: 1024
-      },
-      items: 3
-    },
-    tablet: {
-      breakpoint: {
-        max: 1024,
-        min: 464
-      },
-      items: 2
-    },
-    mobile: {
-      breakpoint: {
-        max: 464,
-        min: 0
-      },
-      items: 1
-    }
+    desktopLarge: { breakpoint: { max: 3000, min: 2300 }, items: 10, partialVisibilityGutter: 10 },
+    desktop: { breakpoint: { max: 2300, min: 1400 }, items: 3, partialVisibilityGutter: 10 },
+    tablet: { breakpoint: { max: 1400, min: 1300 }, items: 3, partialVisibilityGutter: 10 },
+    mobile: { breakpoint: { max: 1300, min: 1000 }, items: 2, partialVisibilityGutter: 10 },
+    smallMobile1: { breakpoint: { max: 1000, min: 500 }, items: 1, partialVisibilityGutter: 10 },
+    smallMobile2: { breakpoint: { max: 500, min: 50 }, items: 1, partialVisibilityGutter: 10 }
   }
 
   // const handleLearnMoreClick = () => {
@@ -153,85 +138,91 @@ const ShowPost = () => {
         </Box>
       </Box>
       {/* ---------- Show Product ---------- */}
-      <Box sx={{ width: '100%', marginTop: '30px' }}>
-        <Grid container>
-          <Grid item xs={12} md={10}>
-            <Box sx={{ width: '100%', height: '380px', borderRadius: '6px', ml: 30 }}>
-              {slidedata && slidedata.length > 0 ? (
-                <Carousel responsive={responsive} infinite={false}>
-                  {/* ========================== Map ========================== */}
-                  {slidedata.slice(0, 3).map((post, index) => (
-                    <Card
-                      key={index}
-                      variant='outlined'
-                      sx={{
-                        border: '0.5px solid lightgray',
-                        width: { xs: '325px', sm: '375px' },
-                        height: { xs: '380px', sm: '460px' },
-                        boxShadow: 3,
-                        cursor: 'pointer',
-                        '&:hover': { boxShadow: 10, border: '2px solid #2d2e81' },
-                        margin: '10px'
-                      }}
-                      onClick={() => {
-                        window.location.href = `market/information-detail/?post_id=${post.post_id}`
-                      }}
-                    >
-                      <CardMedia
-                        href={`/`}
-                        component='img'
-                        height='70%'
-                        image={`/imageInfor/${post.image_file_infname}`}
-                        alt='Product Image'
-                        sx={{ objectFit: 'contain' }}
-                      />
-                      <Box sx={{ padding: 1, height: '30%' }}>
-                        <Typography
-                          variant='h5'
-                          fontSize='18px'
-                          sx={{
-                            fontWeight: 'bold',
-                            overflow: 'hidden',
-                            whiteSpace: 'nowrap',
-                            textOverflow: 'ellipsis'
-                          }}
-                        >
-                          {post.post_name}
-                        </Typography>
-                        {/* <Typography
+
+      <Grid container sx={{ width: '100%', marginTop: '30px' }}>
+        <Grid item xs={12}>
+          <Box sx={{ width: '100%', height: '380px', borderRadius: '6px' }}>
+            {slidedata && slidedata.length > 0 ? (
+              <Carousel responsive={responsive} infinite={false}>
+                {/* ========================== Map ========================== */}
+                {slidedata.slice(0, 3).map((post, index) => (
+                  <Card
+                    key={index}
+                    variant='outlined'
+                    sx={{
+                      border: '0.5px solid lightgray',
+                      width: { xs: '310px', sm: '400px' },
+                      height: { xs: '350px', sm: '450px' },
+                      boxShadow: 3,
+                      cursor: 'pointer',
+                      '&:hover': { boxShadow: 10, border: '2px solid #2d2e81' },
+
+                      display: 'flex', // Added flex display
+                      flexDirection: 'column' // Stack children vertically
+                    }}
+                    onClick={() => {
+                      window.location.href = `market/information-detail/?post_id=${post.post_id}`
+                    }}
+                  >
+                    <CardMedia
+                      href={`/`}
+                      component='img'
+                      height='70%'
+                      image={`/imageInfor/${post.image_file_infname}`}
+                      alt='Post Image'
+                      sx={{ objectFit: 'contain' }}
+                    />
+                    <Box sx={{ padding: 1, height: '30%' }}>
+                      <Typography
+                        variant='h5'
+                        fontSize='18px'
+                        sx={{
+                          fontWeight: 'bold',
+                          overflow: 'hidden',
+                          whiteSpace: 'pre-wrap', // เพิ่ม pre-wrap เพื่อให้เว้นบรรทัด
+                          wordWrap: 'break-word', // ให้ข้อความขยายตัวเมื่อหลุดขอบ
+                          textOverflow: 'ellipsis',
+                          display: '-webkit-box',
+                          WebkitBoxOrient: 'vertical',
+                          WebkitLineClamp: 2
+                        }}
+                      >
+                        {post.post_name}
+                      </Typography>
+                      {/* <Typography
                           variant='h5'
                           fontSize='16px'
                           sx={{ color: '#BD1620', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
                         >
                           สวัสดีจ้า
                         </Typography> */}
-                        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-                          <Typography
-                            variant='body1'
-                            fontSize='14px'
-                            sx={{
-                              color: '#c0c0c0',
-                              overflow: 'hidden',
-                              whiteSpace: 'nowrap',
-                              textOverflow: 'ellipsis'
-                            }}
-                          >
-                            {post.sub_name}
-                          </Typography>
-                        </Box>
+                      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+                        <Typography
+                          variant='body1'
+                          fontSize='14px'
+                          sx={{
+                            color: '#c0c0c0',
+                            overflow: 'hidden',
+                            whiteSpace: 'nowrap',
+                            textOverflow: 'ellipsis'
+                          }}
+                        >
+                          {post.sub_name}
+                        </Typography>
                       </Box>
-                    </Card>
-                  ))}
-                </Carousel>
-              ) : (
-                <Typography variant='h6' sx={{ color: '#999', fontStyle: 'italic', textAlign: 'center' }}>
-                  No data
-                </Typography>
-              )}
-            </Box>
-          </Grid>
+                    </Box>
+                  </Card>
+                ))}
+              </Carousel>
+            ) : (
+              <Typography variant='h6' sx={{ color: '#999', fontStyle: 'italic', textAlign: 'center' }}>
+                No data
+              </Typography>
+            )}
+          </Box>
         </Grid>
-      </Box>
+      </Grid>
+
       <Box sx={{ mt: 30, textAlign: 'center' }}>
         <Link href='/postinformation/Allpost' passHref>
           <Button variant='contained' color='primary'>

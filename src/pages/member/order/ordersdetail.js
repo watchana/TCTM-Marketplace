@@ -8,9 +8,6 @@ import { useRouter } from 'next/router'
 // ** Material UI Imports
 import { Box, Breadcrumbs, Button, Card, Container, Chip, Divider, Grid, Hidden, Typography } from '@mui/material'
 
-// ** MUI X Imports
-import { DataGrid } from '@mui/x-data-grid'
-
 // ** Material-UI Icons Imports
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -28,7 +25,9 @@ import Paymant from './payment_details'
 
 //** Auth check
 import { withAuth } from 'src/@core/utils/AuthCheck'
-import Word_order from './word_order'
+import Word_order from './workorder/word_order'
+import ShowWorkOrder from './workorder/showworkorder'
+import CheckNpost from './workorder/addworkorder'
 
 const Orders_Detail = () => {
   // ใช้งาน Router
@@ -145,7 +144,7 @@ const Orders_Detail = () => {
           <Grid container sm={12} md={7}>
             <Grid item sm={12} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
               <Box sx={{ width: '100%' }}>
-                <Word_order />
+                <ShowWorkOrder />
               </Box>
             </Grid>
             <Grid item sm={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -158,6 +157,7 @@ const Orders_Detail = () => {
                 />
               </Box>
             </Grid>
+            <CheckNpost />
           </Grid>
         </Grid>
       </Box>

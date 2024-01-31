@@ -148,7 +148,7 @@ const Category = ({ productData, SearchProduct, keyword }) => {
         <Box sx={{ width: '100%' }}>
           <Card
             sx={{
-              height: isSmallScreen ? '70px' : '80px',
+              height: isSmallScreen ? '80px' : '90px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
               backgroundColor: '#2d2e81',
@@ -157,23 +157,35 @@ const Category = ({ productData, SearchProduct, keyword }) => {
           >
             <Grid container alignItems='center'>
               <Grid item xs={12} sm={8} md={8}>
-                <Typography variant='h5' cursor='pointer' color='#fff'>
+                <Typography
+                  color='#fff'
+                  variant='h5'
+                  sx={{ fontWeight: 'bold', fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.6rem' } }}
+                >
                   Shop
                 </Typography>
                 <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
                   <Link href='/' passHref>
-                    <Typography color='#fff' variant='subtitle1' cursor='pointer'>
+                    <Typography
+                      color='#fff'
+                      variant='subtitle1'
+                      sx={{ cursor: 'pointer', fontSize: { xs: '0.8rem', sm: '0.8rem', md: '1rem' } }}
+                    >
                       Home
                     </Typography>
                   </Link>
-                  <Typography color='#fff' variant='subtitle1' cursor='pointer'>
+                  <Typography
+                    color='#fff'
+                    variant='subtitle1'
+                    sx={{ cursor: 'pointer', fontSize: { xs: '0.8rem', sm: '0.8rem', md: '1rem' } }}
+                  >
                     Shop
                   </Typography>
                 </Breadcrumbs>
               </Grid>
               <Hidden smDown>
                 <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <Shopping sx={{ fontSize: 60, color: '#fff' }} />
+                  <Shopping sx={{ fontSize: 50, color: '#fff' }} />
                 </Grid>
               </Hidden>
             </Grid>
