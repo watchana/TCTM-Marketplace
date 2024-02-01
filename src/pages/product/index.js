@@ -522,7 +522,14 @@ const ProductDetails = () => {
               <Box sx={{ width: '100%', marginTop: '10px' }}>
                 <FormControl sx={{ maxWidth: '100%' }}>
                   <InputLabel id='label'>Option</InputLabel>
-                  <Select labelId='label' id='select' value={selection} label='Select' onChange={handleSelectChange}>
+                  <Select
+                    labelId='label'
+                    id='select'
+                    value={selection}
+                    label='Select'
+                    onChange={handleSelectChange}
+                    sx={{ width: '100%' }}
+                  >
                     {Object.values(options).map((optionArray, index) => (
                       <MenuItem key={index} value={optionArray}>
                         {optionArray.length === 0 ? (
@@ -532,10 +539,10 @@ const ProductDetails = () => {
                             (option, subIndex) =>
                               option.option_name !== 'Price' &&
                               option.option_name !== 'Quantity' && (
-                                <Typography key={subIndex}>
+                                <span key={subIndex}>
                                   {option.option_name} {option.value_name}{' '}
                                   {optionArray.length - 1 === subIndex ? '' : '|'}
-                                </Typography>
+                                </span>
                               )
                           )
                         )}

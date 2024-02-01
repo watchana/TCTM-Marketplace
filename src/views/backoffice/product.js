@@ -137,13 +137,13 @@ const Product = () => {
             return <Chip label={chipLabel} color={chipColor} />
           }
         },
-        { field: 'category_name', headerName: 'Category', width: 250 },
-        { field: 'product_name', headerName: 'Product name', width: 200 },
+        { field: 'category_name', headerName: 'Category', width: 150 },
+        { field: 'product_name', headerName: 'Product name', width: 300 },
         { field: 'sub_name', headerName: 'Member name', width: 150 },
         {
           field: 'actions',
           headerName: 'Button',
-          width: 400,
+          width: 200,
           renderCell: params => (
             <div>
               <Button
@@ -218,14 +218,22 @@ const Product = () => {
               >
                 Unban
               </Button>
-
+            </div>
+          )
+        },
+        {
+          field: 'recommends',
+          headerName: 'Recommend',
+          width: 250,
+          renderCell: paramsV2 => (
+            <div>
               <Button
                 variant='contained'
                 color='success'
                 className='btn btn-info'
                 style={{ marginRight: '5px' }}
                 onClick={() => {
-                  if (params.row.product_status !== '0' && params.row.product_status !== '1') {
+                  if (paramsV2.row.product_status !== '0' && paramsV2.row.product_status !== '1') {
                     Swal.fire({
                       title: 'Want to show this item??',
                       icon: 'question',
@@ -241,7 +249,7 @@ const Product = () => {
                           showConfirmButton: false,
                           timer: 1500
                         })
-                        handleActiveClick(params.row.product_id)
+                        handleActiveClick(paramsV2.row.product_id)
                       }
                     })
                   } else {
@@ -253,9 +261,9 @@ const Product = () => {
                   }
                 }}
                 disabled={
-                  params.row.product_status === '0' ||
-                  params.row.product_status === '1' ||
-                  params.row.product_status === '3'
+                  paramsV2.row.product_status === '0' ||
+                  paramsV2.row.product_status === '1' ||
+                  paramsV2.row.product_status === '3'
                 }
               >
                 Active
@@ -263,11 +271,11 @@ const Product = () => {
 
               <Button
                 variant='contained'
-                color='success'
+                color='error'
                 className='btn btn-info'
                 style={{ marginRight: '5px' }}
                 onClick={() => {
-                  if (params.row.product_status !== '2') {
+                  if (paramsV2.row.product_status !== '2') {
                     Swal.fire({
                       title: 'Do you want to stop showing this show?',
                       icon: 'question',
@@ -276,7 +284,7 @@ const Product = () => {
                       cancelButtonText: 'cancle'
                     }).then(result => {
                       if (result.isConfirmed) {
-                        handleUnactiveClick(params.row.product_id)
+                        handleUnactiveClick(paramsV2.row.product_id)
                       }
                     })
                   } else {
@@ -288,9 +296,9 @@ const Product = () => {
                   }
                 }}
                 disabled={
-                  params.row.product_status === '0' ||
-                  params.row.product_status === '1' ||
-                  params.row.product_status === '2'
+                  paramsV2.row.product_status === '0' ||
+                  paramsV2.row.product_status === '1' ||
+                  paramsV2.row.product_status === '2'
                 }
               >
                 Unactive

@@ -112,7 +112,7 @@ const Market = () => {
       getRowId={member_id => member_id.id} // กำหนดให้ใช้คุณสมบัติ id เป็น id ของแถว
       columns={[
         { field: 'sub_id', headerName: 'ID', width: 80 },
-        { field: 'member_id', headerName: 'member id', width: 80 },
+        { field: 'member_id', headerName: 'member id', width: 120 },
         {
           field: 'sub_status',
           headerName: 'id status',
@@ -142,11 +142,11 @@ const Market = () => {
         { field: 'sub_name', headerName: 'Shop name', width: 130 },
         { field: 'user_company', headerName: 'company', width: 150 },
         { field: 'user_first_name', headerName: 'name', width: 150 },
-        { field: 'user_last_name', headerName: 'last name', width: 80 },
+        { field: 'user_last_name', headerName: 'last name', width: 120 },
         {
           field: 'actions',
           headerName: 'Button',
-          width: 400,
+          width: 200,
           renderCell: params => (
             <div>
               <Button
@@ -219,7 +219,15 @@ const Market = () => {
               >
                 Unban
               </Button>
-
+            </div>
+          )
+        },
+        {
+          field: 'recommends',
+          headerName: 'Recommend',
+          width: 250,
+          renderCell: params => (
+            <div>
               <Button
                 variant='contained'
                 color='success'

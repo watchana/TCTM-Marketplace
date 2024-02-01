@@ -17,6 +17,7 @@ const StripeSuccess = () => {
         return JSON.parse(str)
       } catch (error) {
         console.error('Error parsing JSON:', error)
+        
         return null
       }
     })
@@ -40,7 +41,7 @@ const StripeSuccess = () => {
             // Do something with response.data
             // Example: Update UI, state, or perform additional logic
             const responseData = response.data
-            // ...
+
           }
         }
 

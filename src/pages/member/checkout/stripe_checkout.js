@@ -6,12 +6,12 @@ import { useRouter } from 'next/router'
 
 // import { stripeSuccess } from './member/order/pay_success'
 
-const CheckoutForm = ({ newProduct, NewPrice}) => {
+const CheckoutForm = ({ newProduct, NewPrice }) => {
   const [priceKey, setPriceKey] = useState('')
 
   const router = useRouter()
 
-  const data= router.query
+  const data = router.query
 
   const modifiedData = Object.fromEntries(
     Object.entries(data).map(([key, value]) => [key, value.endsWith('=') ? value.slice(0, -1) : value])
@@ -29,9 +29,9 @@ const CheckoutForm = ({ newProduct, NewPrice}) => {
     })
     .filter(Boolean)
 
-    const supId = dataArray.map(({ sub_id, invoice_id }) => ({ sub_id, invoice_id }))
+  const supId = dataArray.map(({ sub_id, invoice_id }) => ({ sub_id, invoice_id }))
 
-    const convertArrayToObject = (arr = []) => {
+  const convertArrayToObject = (arr = []) => {
     const obj = {}
     arr.forEach((item, index) => {
       obj[index + 1] = JSON.stringify(item)
@@ -40,13 +40,13 @@ const CheckoutForm = ({ newProduct, NewPrice}) => {
     return obj
   }
 
-    const objToEncode = convertArrayToObject(supId)
-    const queryString = new URLSearchParams(objToEncode).toString()
-    const encodedQueryString = encodeURIComponent(queryString)
-    const urlParams = new URLSearchParams(encodedQueryString)
-    const decodedQueryString = decodeURIComponent(urlParams)
+  const objToEncode = convertArrayToObject(supId)
+  const queryString = new URLSearchParams(objToEncode).toString()
+  const encodedQueryString = encodeURIComponent(queryString)
+  const urlParams = new URLSearchParams(encodedQueryString)
+  const decodedQueryString = decodeURIComponent(urlParams)
 
-console.log('decodedQueryString',decodedQueryString);
+  console.log('decodedQueryString', decodedQueryString)
 
   const handleCheckout = async () => {
     if (!newProduct) {
@@ -80,8 +80,8 @@ console.log('decodedQueryString',decodedQueryString);
       const result = await stripeInstance.redirectToCheckout({
         lineItems: [{ price: price.id, quantity: 1 }],
         mode: 'payment',
-        successUrl: `http://localhost:3000/member/order/pay_success/?${decodedQueryString}`,
-        cancelUrl: `http://localhost:3000/member/order/changeorder/?${decodedQueryString}`
+        successUrl: `http://111.223.38.18:3000/member/order/pay_success/?${decodedQueryString}`,
+        cancelUrl: `http://111.223.38.18:3000/member/order/changeorder/?${decodedQueryString}`
       })
 
       if (result.error) {

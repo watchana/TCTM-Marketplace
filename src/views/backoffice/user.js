@@ -73,14 +73,8 @@ const User = () => {
   return (
     <StyledDataGrid
       autoHeight
-      rows={
-        Userlist?.map(val => ({
-          ...val,
-          id: val.member_id,
-          sub_status: val.account_status.toString()
-        })) || []
-      } // เพิ่มคุณสมบัติ id ในแต่ละแถว
-      getRowId={member_id => member_id.id} // กำหนดให้ใช้คุณสมบัติ id เป็น id ของแถว
+      rows={Userlist?.map(val => ({ ...val, id: val.account_id, sub_status: val.account_status.toString() })) || []} // เพิ่มคุณสมบัติ id ในแต่ละแถว
+      getRowId={account_id => account_id.id} // กำหนดให้ใช้คุณสมบัติ id เป็น id ของแถว
       columns={[
         { field: 'account_id', headerName: 'ID', width: 120 },
         {
@@ -106,11 +100,11 @@ const User = () => {
             return <Chip label={chipLabel} color={chipColor} />
           }
         },
-        { field: 'member_id', headerName: 'ID Supply', width: 100 },
-        { field: 'sub_id', headerName: 'ID Member', width: 100 },
+        { field: 'member_id', headerName: 'ID Supply', width: 120 },
+        { field: 'sub_id', headerName: 'ID Member', width: 120 },
         { field: 'user_company', headerName: 'Company', width: 150 },
         { field: 'user_first_name', headerName: 'Name', width: 150 },
-        { field: 'user_last_name', headerName: 'Surname', width: 80 },
+        { field: 'user_last_name', headerName: 'Surname', width: 120 },
         { field: 'user_role', headerName: 'Type', width: 80 },
         {
           field: 'actions',
