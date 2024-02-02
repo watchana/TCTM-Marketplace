@@ -67,7 +67,7 @@ const ShowProducts = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.home_page.best_selling`)
-        setSlideData(response.data.message.Data)
+        setSlideData(response.data.message.AllOption)
       } catch (error) {
         console.error(error)
       }

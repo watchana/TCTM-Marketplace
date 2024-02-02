@@ -27,7 +27,7 @@ export default async (req, res) => {
         const originalFilename = file.originalFilename
 
         // สร้างชื่อไฟล์ใหม่โดยเพิ่มวันเวลาขณะอัปโหลด
-        const timestamp = new Date().toISOString().slice(0, 17).replace(/[-T:]/g, '')
+        const timestamp = new Date().toISOString().slice(0, 16).replace(/[-T:]/g, '')
         const newFilename = `${timestamp}_${originalFilename}`
 
         const newPathWithFilename = path.join(newPath, newFilename)

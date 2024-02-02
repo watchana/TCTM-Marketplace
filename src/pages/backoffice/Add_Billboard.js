@@ -71,7 +71,7 @@ const AddBillboard = () => {
   // จัดการตัวแปรชื่อไฟล์ภาพ
   const handleUploadImagesChange = newImages => {
     setUploadImages(newImages)
-    const timestamp = new Date().toISOString().slice(0, 17).replace(/[-T:]/g, '')
+    const timestamp = new Date().toISOString().slice(0, 16).replace(/[-T:]/g, '')
 
     const newImageFiles = newImages.map(image => {
       const newFileName = `${timestamp}_${image.name}`
