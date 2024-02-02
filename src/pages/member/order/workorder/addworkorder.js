@@ -26,20 +26,26 @@ const CheckNpost = () => {
   // เขียนทับ modifyData ด้วยข้อมูลจาก modifyworkorder และแยกข้อมูลที่ตรงกัน
   const combinedData = modifyData
     .filter(modifyDataItem => {
-      const correspondingIndex = workMyapi.findIndex(
-        workMyapiItem => workMyapiItem.wod_ordet_id === modifyDataItem.wod_ordet_id
-      )
+      // ตรวจสอบว่า workMyapi มีค่าก่อนเรียกใช้ findIndex
+      if (workMyapi && workMyapi.length > 0) {
+        const correspondingIndex = workMyapi.findIndex(
+          workMyapiItem => workMyapiItem.wod_ordet_id === modifyDataItem.wod_ordet_id
+        )
 
-      if (correspondingIndex !== -1) {
-        matchingData.push({
-          ...modifyDataItem,
-          wod_id: workMyapi[correspondingIndex].wod_id
-        })
+        if (correspondingIndex !== -1) {
+          matchingData.push({
+            ...modifyDataItem,
+            wod_id: workMyapi[correspondingIndex].wod_id
+          })
 
-        return false // ไม่รวมข้อมูลที่ซ้ำกับ matchingData
+          return false // ไม่รวมข้อมูลที่ซ้ำกับ matchingData
+        }
+      } else {
+        // จัดการกรณีที่ workMyapi เป็น undefined หรือเป็นอาร์เรย์ว่าง
+        console.error('workMyapi ไม่ได้กำหนดค่าหรือเป็นอาร์เรย์ว่าง')
+
+        return true // หรือ false ขึ้นอยู่กับตรรกะของคุณ
       }
-
-      return true // รวมข้อมูลที่ไม่ซ้ำกับ matchingData
     })
     .map(combinedItem => ({
       ...combinedItem,

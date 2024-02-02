@@ -235,18 +235,16 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
       <hr />
       {usertype !== '1' && (
         <Grid container alignItems='center' spacing={3} rowSpacing={2}>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12}>
             <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
               Management
             </Typography>
           </Grid>
           <Grid item xs={12} sm={9}>
-            <Typography variant='subtitle1' sx={{ textAlign: 'start' }}>
-              Status
-            </Typography>
+            <Typography variant='subtitle1'>Status</Typography>
           </Grid>
 
-          <Grid item xs={12} sm={9} md={9} direction={'row'}>
+          <Grid item xs={12} sm={9} md={9}>
             <Box display={'flex'}>
               <FormControl sx={{ width: '100%' }}>
                 <InputLabel>Select Delivery</InputLabel>
@@ -296,7 +294,7 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
               Submit
             </Button>
           </Grid>
-          <Grid container xs={12} sm={6} display={'flex'} justifyContent={'flex-end'} flexDirection={'column'}>
+          <Grid container display={'flex'} justifyContent={'flex-end'} flexDirection={'column'}>
             <Grid item xs={6} display={'flex'} justifyContent={'center'}>
               <label htmlFor='file-input'>
                 <input

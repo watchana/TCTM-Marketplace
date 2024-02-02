@@ -111,8 +111,6 @@ const Billboard = () => {
     }
   }
 
-  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
-
   const isSmallScreenSup1 = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
   const imageUrl = 'https://f.ptcdn.info/2g/306/000/000/E13098649-0.jpg'
@@ -125,7 +123,7 @@ const Billboard = () => {
           {/* ---------- Main Billboard ---------- */}
           <Grid item xs={12} md={12} lg={9}>
             {isLoading ? ( // ตรวจสอบสถานะ isLoading เพื่อแสดงรูปโหลดหรือข้อความแสดงการโหลด
-              <Skeleton variant='rectangular' width='100%' height='350px' sx={{ borderRadius: '6px' }} />
+              <Skeleton variant='rectangular' sx={{ borderRadius: '6px' }} />
             ) : (
               <Box
                 sx={{
@@ -135,33 +133,50 @@ const Billboard = () => {
                   borderRadius: '6px'
                 }}
               >
-                <Carousel arrows={false} autoPlaySpeed={3000} infinite showDots responsive={responsive}>
-                  {slidedata
-                    .map((item, index) => ({
-                      index,
-                      item
-                    }))
+                {slidedata && slidedata.length > 0 ? (
+                  <Carousel arrows={false} autoPlaySpeed={3000} infinite showDots responsive={responsive}>
+                    {slidedata
+                      .map((item, index) => ({
+                        index,
+                        item
+                      }))
 
-                    .filter(({ item }) => item.bill_status === '1')
-                    .map(({ index, item }) => (
-                      <Box key={index.id}>
-                        <CardMedia
-                          key={index}
-                          component='img'
-                          image={`imgBillboard/${item.bill_name}`}
-                          alt={item.bill_name}
-                          sx={{
-                            width: '100%',
-                            maxHeight: isSmallScreenSup1 ? '250px' : '350px',
-                            objectFit: 'contain', // เปลี่ยนจาก 'cover' เป็น 'contain'
-                            objectPosition: 'center',
-                            borderRadius: '6px',
-                            maxHeight: '100%' // เพิ่ม maxHeight เพื่อให้รูปไม่ขยายเกินความสูงของ CardMedia
-                          }}
-                        />
-                      </Box>
-                    ))}
-                </Carousel>
+                      .filter(({ item }) => item.bill_status === '1')
+                      .map(({ index, item }) => (
+                        <Box key={index.id} sx={{ width: '100%', height: { xs: 150, sm: 200, md: 300, lg: 300 } }}>
+                          <CardMedia
+                            key={index}
+                            component='img'
+                            image={`imgBillboard/${item.bill_name}`}
+                            alt={item.bill_name}
+                            sx={{
+                              objectPosition: 'center',
+                              borderRadius: '6px',
+                              maxWidth: 'auto',
+                              maxHeight: 'auto' // เพิ่ม maxHeight เพื่อให้รูปไม่ขยายเกินความสูงของ CardMedia
+                            }}
+                          />
+                        </Box>
+                      ))}
+                  </Carousel>
+                ) : (
+                  <Box
+                    sx={{
+                      width: '100%',
+                      height: '350px',
+                      maxHeight: '350px',
+                      borderRadius: '6px',
+                      backgroundColor: '#3A46A7',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center'
+                    }}
+                  >
+                    <Typography variant='h6' color='#fff'>
+                      No Image
+                    </Typography>
+                  </Box>
+                )}
               </Box>
             )}
           </Grid>
@@ -171,79 +186,127 @@ const Billboard = () => {
               {/* ---------- Sub Billboard No 1 ---------- */}
 
               <Grid item xs={6} lg={12}>
-                {slidedata.length === '0' ? (
-                  <Skeleton variant='rectangular' width='100%' height='170px' sx={{ borderRadius: '6px' }} />
-                ) : (
-                  <Box>
-                    <Box
-                      sx={{
-                        width: '100%',
-                        height: '170px',
-                        maxHeight: '170px',
-                        borderRadius: '6px',
-                        backgroundSize: '100% 100%',
-                        backgroundPosition: 'center',
-                        display: 'flex'
-                      }}
-                    >
-                      {slidedata
-                        .map((item, index) => ({
-                          index,
-                          item
-                        }))
+                {slidedata && slidedata.length > 0 ? (
+                  <Carousel responsive={responsive} infinite={false}>
+                    {slidedata.length === '0' ? (
+                      <Skeleton variant='rectangular' width='100%' height='170px' sx={{ borderRadius: '6px' }} />
+                    ) : (
+                      <Box>
+                        <Box
+                          sx={{
+                            width: '100%',
+                            height: '170px',
+                            maxHeight: '170px',
+                            borderRadius: '6px',
+                            backgroundSize: '100% 100%',
+                            backgroundPosition: 'center',
+                            display: 'flex'
+                          }}
+                        >
+                          {slidedata
+                            .map((item, index) => ({
+                              index,
+                              item
+                            }))
 
-                        .filter(({ item }) => item.bill_status === '3')
-                        .map(({ index, item }) => (
-                          <Box key={index.id}>
-                            <CardMedia
-                              component='img'
-                              src={`/imgBillboard/${item.bill_name}`}
-                              alt={`image`}
-                              height='auto'
-                            />
-                          </Box>
-                        ))}
-                    </Box>
+                            .filter(({ item }) => item.bill_status === '3')
+                            .map(({ index, item }) => (
+                              <Box key={index.id}>
+                                <CardMedia
+                                  component='img'
+                                  src={`/imgBillboard/${item.bill_name}`}
+                                  alt={`image`}
+                                  height='auto'
+                                />
+                              </Box>
+                            ))}
+                        </Box>
+                      </Box>
+                    )}
+                  </Carousel>
+                ) : (
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      backgroundColor: '#3A46A7',
+                      width: '100%',
+                      height: '170px',
+                      maxHeight: '170px',
+                      borderRadius: '6px',
+                      backgroundSize: '100% 100%',
+                      backgroundPosition: 'center',
+                      display: 'flex'
+                    }}
+                  >
+                    <Typography variant='h6' color='#fff'>
+                      No Image
+                    </Typography>
                   </Box>
                 )}
               </Grid>
 
               {/* ---------- Sub Billboard No 2 ---------- */}
               <Grid item xs={6} lg={12}>
-                {slidedata.length === '0' ? (
-                  <Skeleton variant='rectangular' width='100%' height='170px' sx={{ borderRadius: '6px' }} />
-                ) : (
-                  <Box>
-                    <Box
-                      sx={{
-                        width: '100%',
-                        height: '170px',
-                        maxHeight: '170px',
-                        borderRadius: '6px',
-                        backgroundSize: '100% 100%',
-                        backgroundPosition: 'center',
-                        display: 'flex'
-                      }}
-                    >
-                      {slidedata
-                        .map((item, index) => ({
-                          index,
-                          item
-                        }))
+                {slidedata && slidedata.length > 0 ? (
+                  <Carousel responsive={responsive} infinite={false}>
+                    {slidedata.length === '0' ? (
+                      <Skeleton variant='rectangular' width='100%' height='170px' sx={{ borderRadius: '6px' }} />
+                    ) : (
+                      <Box>
+                        <Box
+                          sx={{
+                            width: '100%',
+                            height: '170px',
+                            maxHeight: '170px',
+                            borderRadius: '6px',
+                            backgroundSize: '100% 100%',
+                            backgroundPosition: 'center',
+                            display: 'flex'
+                          }}
+                        >
+                          {slidedata
+                            .map((item, index) => ({
+                              index,
+                              item
+                            }))
 
-                        .filter(({ item }) => item.bill_status === '4')
-                        .map(({ index, item }) => (
-                          <Box key={index.id}>
-                            <CardMedia
-                              component='img'
-                              src={`/imgBillboard/${item.bill_name}`}
-                              alt={`image`}
-                              height='auto'
-                              sx={{ minWidth: '100px', minHeight: 'auto' }}
-                            />
-                          </Box>
-                        ))}
-                    </Box>
+                            .filter(({ item }) => item.bill_status === '4')
+                            .map(({ index, item }) => (
+                              <Box key={index.id}>
+                                <CardMedia
+                                  component='img'
+                                  src={`/imgBillboard/${item.bill_name}`}
+                                  alt={`image`}
+                                  height='auto'
+                                  sx={{ minWidth: '100px', minHeight: 'auto' }}
+                                />
+                              </Box>
+                            ))}
+                        </Box>
+                      </Box>
+                    )}
+                  </Carousel>
+                ) : (
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      backgroundColor: '#3A46A7',
+                      width: '100%',
+                      height: '170px',
+                      maxHeight: '170px',
+                      borderRadius: '6px',
+                      backgroundSize: '100% 100%',
+                      backgroundPosition: 'center',
+                      display: 'flex'
+                    }}
+                  >
+                    <Typography variant='h6' color='#fff'>
+                      No Image
+                    </Typography>
                   </Box>
                 )}
               </Grid>
