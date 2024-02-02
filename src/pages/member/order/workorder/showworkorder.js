@@ -19,13 +19,12 @@ const ShowWorkOrder = () => {
           }
         })
         setData(response.data.message.work_order_data || []) // Ensure data is an array
-      } catch (error) {
-        console.error(error)
-      }
+        console.log(data)
+      } catch (error) {}
     }
 
     fetchData()
-  }, [invoice_id])
+  }, [])
 
   return (
     <Box>
@@ -58,7 +57,7 @@ const ShowWorkOrder = () => {
           </Box>
         </Card>
       ) : (
-        <Typography>No data available</Typography>
+        <Typography></Typography>
       )}
     </Box>
   )
