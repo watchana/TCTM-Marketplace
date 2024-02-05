@@ -19,15 +19,19 @@ const ShowWorkOrder = () => {
           }
         })
         setData(response.data.message.work_order_data || [])
-        console.log('Data:', data) // Log the data state
+        console.log(response)
       } catch (error) {
         console.error('Error fetching data:', error)
-        console.log(invoice_id)
       }
     }
 
     fetchData()
-  }, [invoice_id, data])
+  }, [invoice_id]) // ใช้เพียง invoice_id เป็น dependency เท่านั้น
+
+  // ล็อกสถานะที่อัพเดตใน useEffect อีกที
+  useEffect(() => {
+    console.log('Data:', data)
+  }, [])
 
   return (
     <Box>

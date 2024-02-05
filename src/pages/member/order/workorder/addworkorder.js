@@ -154,6 +154,7 @@ const CheckNpost = () => {
 
           // Wait for all requests to complete
           const responses = await Promise.all(requests)
+          console.log(responses)
         }
       } catch (error) {
         console.error(error)
@@ -161,7 +162,7 @@ const CheckNpost = () => {
     }
 
     fetchData()
-  }, [combinedData])
+  }, [])
 
   return <Box></Box>
 }
