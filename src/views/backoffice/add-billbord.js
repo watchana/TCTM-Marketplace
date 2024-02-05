@@ -113,20 +113,19 @@ const Addbillbord = ({ imageChange, setImageChange, onUploadImagesChange }) => {
                       sx={{ minHeight: 55, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
                     >
                       {uploadImages.length > 0 ? (
-                        <ImageList sx={{ width: 'auto', height: 400 }} cols={2}>
+                        <ImageList sx={{ display:'flow',width: 'auto', height: 400,alignContent:'center' }} cols={2}>
                           {uploadImages.map((image, index) => (
-                            <ImageListItem key={index}>
+                            <ImageListItem key={index} style={{
+                                  width: 'auto', // กำหนดความกว้าง
+                                  height: 'auto', // กำหนดความสูง
+                                  display: 'block' // ให้รูปแสดงเป็นบล็อกเพื่อจัดตำแหน่งและขนาด
+                                }}>
                               <img
                                 key={index}
                                 src={image.url}
                                 alt={`Image ${index}`}
                                 loading='lazy'
-                                style={{
-                                  width: '250px', // กำหนดความกว้าง
-                                  height: '250px', // กำหนดความสูง
-                                  margin: 'auto', // จัดตำแหน่งรูปให้อยู่ตรงกลาง
-                                  display: 'block' // ให้รูปแสดงเป็นบล็อกเพื่อจัดตำแหน่งและขนาด
-                                }}
+
                                 onClick={() => handleOpen(image)}
                               />
                               <ImageListItemBar

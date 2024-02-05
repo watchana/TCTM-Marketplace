@@ -60,6 +60,8 @@
     "axios": "^1.4.0",
     "babel-eslint": "^10.1.0",
     "clsx": "^1.1.1",
+    "color-thief-react": "^2.1.0",
+    "colorthief": "^2.4.0",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.9",
     "eslint-plugin-react": "^7.29.4",

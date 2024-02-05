@@ -1,5 +1,5 @@
 // ** React Imports
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 // ** Next Import
 import Link from 'next/link'
@@ -37,6 +37,7 @@ import 'react-multi-carousel/lib/styles.css'
 
 // Responsive image
 import { useMediaQuery } from '@mui/material'
+import ColorThief from 'colorthief'
 
 const ImagesBillboard = [
   {
@@ -70,20 +71,51 @@ const BoxAdvert = styled(Box)(theme => ({
 const Billboard = () => {
   const [slidedata, setSlideData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [dominantColors, setDominantColors] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.home_page.allbillboards`)
         setSlideData(response.data.message.Data)
-        setIsLoading(false)
       } catch (error) {
         console.error(error)
+      } finally {
         setIsLoading(false)
       }
     }
 
     fetchData()
+  }, [])
+
+  const billboardData = slidedata.map((item, index) => ({ index, item })).filter(({ item }) => item.bill_status === '1')
+  console.log(billboardData)
+
+  useEffect(() => {
+    const processBillboardData = async () => {
+      try {
+        // Create an array to store dominant colors
+        const dominantColorsArray = []
+
+        // Loop through billboardData and extract dominant colors
+        for (const item of billboardData) {
+          const image = document.getElementById(`imgBillboard/${item.item.bill_name}`)
+          const colorThief = new ColorThief()
+
+          if (image) {
+            const dominantColor = colorThief.getColor(image)
+            dominantColorsArray.push(`rgb(${dominantColor.join(', ')})`)
+          }
+        }
+
+        // Update state with the dominant colors array
+        setDominantColors(dominantColorsArray)
+      } catch (error) {
+        console.error('Error extracting color:', error)
+      }
+    }
+
+    processBillboardData()
   }, [])
 
   // React Multi Carousel Responsive
@@ -121,18 +153,11 @@ const Billboard = () => {
       <Box sx={{ width: '100%' }}>
         <Grid container spacing={4}>
           {/* ---------- Main Billboard ---------- */}
-          <Grid item xs={12} md={12} lg={9}>
+          <Grid item xs={12} md={12} lg={9} mb={'6px'}>
             {isLoading ? ( // ตรวจสอบสถานะ isLoading เพื่อแสดงรูปโหลดหรือข้อความแสดงการโหลด
-              <Skeleton variant='rectangular' sx={{ borderRadius: '6px' }} />
+              <Skeleton variant='rectangular' />
             ) : (
-              <Box
-                sx={{
-                  width: '100%',
-                  height: '100%',
-                  maxHeight: '400px',
-                  borderRadius: '6px'
-                }}
-              >
+              <Box align={'center'}>
                 {slidedata && slidedata.length > 0 ? (
                   <Carousel arrows={false} autoPlaySpeed={3000} infinite showDots responsive={responsive}>
                     {slidedata
@@ -140,23 +165,31 @@ const Billboard = () => {
                         index,
                         item
                       }))
-
                       .filter(({ item }) => item.bill_status === '1')
                       .map(({ index, item }) => (
-                        <Box key={index.id} sx={{ width: '100%', height: { xs: 150, sm: 200, md: 300, lg: 300 } }}>
-                          <CardMedia
-                            key={index}
-                            component='img'
-                            image={`imgBillboard/${item.bill_name}`}
-                            alt={item.bill_name}
+                        <Card
+                          key={index} // Use key={index} instead of key={index.id}
+                          sx={{
+                            width: 'auto',
+                            height: 'auto'
+                          }}
+                        >
+                          <Box
                             sx={{
-                              objectPosition: 'center',
-                              borderRadius: '6px',
-                              maxWidth: 'auto',
-                              maxHeight: 'auto' // เพิ่ม maxHeight เพื่อให้รูปไม่ขยายเกินความสูงของ CardMedia
+                              width: 'auto',
+                              height: { xs: '120px', sm: '250px', md: '350px', lg: '290px', xl: '350px' },
+                              bgcolor: dominantColors[index]
                             }}
-                          />
-                        </Box>
+                          >
+                            <CardMedia
+                              key={index} // Use key={index} instead of key={index.id}
+                              component='img'
+                              image={`imgBillboard/${item.bill_name}`}
+                              alt={item.bill_name}
+                              style={{ width: 'auto', height: '100%' }}
+                            />
+                          </Box>
+                        </Card>
                       ))}
                   </Carousel>
                 ) : (
@@ -211,7 +244,10 @@ const Billboard = () => {
 
                             .filter(({ item }) => item.bill_status === '3')
                             .map(({ index, item }) => (
-                              <Box key={index.id}>
+                              <Box
+                                key={index.id}
+                                sx={{ width: '95%', height: { xs: 150, sm: 200, md: 300, lg: 'auto' }, Radius: '6px' }}
+                              >
                                 <CardMedia
                                   component='img'
                                   src={`/imgBillboard/${item.bill_name}`}
@@ -255,17 +291,7 @@ const Billboard = () => {
                       <Skeleton variant='rectangular' width='100%' height='170px' sx={{ borderRadius: '6px' }} />
                     ) : (
                       <Box>
-                        <Box
-                          sx={{
-                            width: '100%',
-                            height: '170px',
-                            maxHeight: '170px',
-                            borderRadius: '6px',
-                            backgroundSize: '100% 100%',
-                            backgroundPosition: 'center',
-                            display: 'flex'
-                          }}
-                        >
+                        <Box>
                           {slidedata
                             .map((item, index) => ({
                               index,
@@ -280,7 +306,7 @@ const Billboard = () => {
                                   src={`/imgBillboard/${item.bill_name}`}
                                   alt={`image`}
                                   height='auto'
-                                  sx={{ minWidth: '100px', minHeight: 'auto' }}
+                                  sx={{ minWidth: '100px', minHeight: 'auto', height: '95%' }}
                                 />
                               </Box>
                             ))}

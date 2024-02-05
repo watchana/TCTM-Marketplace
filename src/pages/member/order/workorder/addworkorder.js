@@ -9,47 +9,22 @@ const CheckNpost = () => {
   const [data, setData] = useState([])
   const [userId, setUserId] = useState('')
   const [workMyapi, setWorkMyapi] = useState([])
+  const [matchingData, setMatchingData] = useState([])
+  const [combinedData, setCombinedData] = useState([])
 
   const modifyData = data.map(item => ({
-    wod_name: item.operation, // แก้ไขตามข้อมูลจริง
+    wod_name: item.operation,
     wod_ordet_id: item.name,
-    wod_complete_quantity: item.completed_qty, // แก้ไขตามข้อมูลจริง
-    wod_loss_quantity: item.process_loss_qty, // แก้ไขตามข้อมูลจริง
-    wod_bom: item.bom, // แก้ไขตามข้อมูลจริง
-    wod_work_station: item.workstation, // แก้ไขตามข้อมูลจริง
-    wod_time: item.time_in_mins // แก้ไขตามข้อมูลจริง
+    wod_complete_quantity: item.completed_qty,
+    wod_loss_quantity: item.process_loss_qty,
+    wod_bom: item.bom,
+    wod_work_station: item.workstation,
+    wod_time: item.time_in_mins
   }))
-
-  // สร้างตัวแปรสำหรับเก็บข้อมูลที่ตรงกัน
-  const matchingData = []
-
-  // เขียนทับ modifyData ด้วยข้อมูลจาก modifyworkorder และแยกข้อมูลที่ตรงกัน
-  const combinedData = modifyData
-    .filter(modifyDataItem => {
-      const correspondingIndex = workMyapi.findIndex(
-        workMyapiItem => workMyapiItem.wod_ordet_id === modifyDataItem.wod_ordet_id
-      )
-
-      if (correspondingIndex !== -1) {
-        matchingData.push({
-          ...modifyDataItem,
-          wod_id: workMyapi[correspondingIndex].wod_id
-        })
-
-        return false // ไม่รวมข้อมูลที่ซ้ำกับ matchingData
-      }
-
-      return true // รวมข้อมูลที่ไม่ซ้ำกับ matchingData
-    })
-    .map(combinedItem => ({
-      ...combinedItem,
-      invoice_id: invoice_id // เพิ่ม invoice_id ในทุกรายการใน combinedData
-    }))
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch invoice details
         const invoiceResponse = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.invoice_detail`, {
           params: {
             invoice_id: invoice_id
@@ -57,7 +32,6 @@ const CheckNpost = () => {
         })
         const invoiceData = invoiceResponse.data.message.Data[0]
 
-        // Fetch user profile
         const userIdFromLocalStorage = localStorage.getItem('Member_Id')
         if (userIdFromLocalStorage) {
           setUserId(userIdFromLocalStorage)
@@ -70,11 +44,9 @@ const CheckNpost = () => {
 
           const user = userResponse.data.message.Data[0]
 
-          // Fetch work order data
           const config = {
             method: 'get',
             maxBodyLength: Infinity,
-
             url: user.sup_hostaddress + invoiceData.process_status,
             headers: {
               Authorization: `token ${user.sup_apikey}:${user.sup_apisecret}`
@@ -88,19 +60,19 @@ const CheckNpost = () => {
         console.error(error)
       }
     }
-    fetchData() // Initial data fetch
+
+    fetchData()
 
     const intervalId = setInterval(() => {
-      fetchData() // Fetch data every 1 minute
-    }, 60000) // 1 minute in milliseconds
+      fetchData()
+    }, 60000)
 
-    return () => clearInterval(intervalId) // Clear the interval on component unmount
+    return () => clearInterval(intervalId)
   }, [userId, invoice_id])
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch invoice details
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.workorder.get_work_order`, {
           params: {
             invoice_id: invoice_id
@@ -118,15 +90,37 @@ const CheckNpost = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Check if combinedData has data before proceeding
+        if (workMyapi.length > 0 && modifyData.length > 0) {
+          const matching = modifyData.filter(modifyDataItem =>
+            workMyapi.some(workMyapiItem => workMyapiItem.wod_ordet_id === modifyDataItem.wod_ordet_id)
+          )
+
+          setMatchingData(matching)
+
+          const combined = modifyData.filter(
+            modifyDataItem =>
+              !workMyapi.some(workMyapiItem => workMyapiItem.wod_ordet_id === modifyDataItem.wod_ordet_id)
+          )
+
+          setCombinedData(combined.map(item => ({ ...item, invoice_id: invoice_id })))
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchData()
+  }, [workMyapi, modifyData, invoice_id])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
         if (matchingData.length > 0) {
-          // Map combinedData to an array of promises
           const requests = matchingData.map(item =>
             axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.workorder.update_workorder`, item)
           )
 
-          // Wait for all requests to complete
-          const responses = await Promise.all(requests)
+          await Promise.all(requests)
         }
       } catch (error) {
         console.error(error)
@@ -139,15 +133,12 @@ const CheckNpost = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Check if combinedData has data before proceeding
         if (combinedData.length > 0) {
-          // Map combinedData to an array of promises
           const requests = combinedData.map(item =>
             axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.workorder.addworkorder`, item)
           )
 
-          // Wait for all requests to complete
-          const responses = await Promise.all(requests)
+          await Promise.all(requests)
         }
       } catch (error) {
         console.error(error)

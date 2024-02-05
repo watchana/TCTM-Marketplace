@@ -123,7 +123,7 @@ const AddBillboard = () => {
           if (statusCode === 200) {
             // อัปโหลดสำเร็จ
             console.log('File uploaded successfully.')
-            router.reload()
+            router.reload(6)
           } else {
             // อัปโหลดไม่สำเร็จ
             console.error('File upload failed.')
