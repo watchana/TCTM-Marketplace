@@ -9,22 +9,53 @@ const CheckNpost = () => {
   const [data, setData] = useState([])
   const [userId, setUserId] = useState('')
   const [workMyapi, setWorkMyapi] = useState([])
-  const [matchingData, setMatchingData] = useState([])
-  const [combinedData, setCombinedData] = useState([])
 
   const modifyData = data.map(item => ({
-    wod_name: item.operation,
+    wod_name: item.operation, // แก้ไขตามข้อมูลจริง
     wod_ordet_id: item.name,
-    wod_complete_quantity: item.completed_qty,
-    wod_loss_quantity: item.process_loss_qty,
-    wod_bom: item.bom,
-    wod_work_station: item.workstation,
-    wod_time: item.time_in_mins
+    wod_complete_quantity: item.completed_qty, // แก้ไขตามข้อมูลจริง
+    wod_loss_quantity: item.process_loss_qty, // แก้ไขตามข้อมูลจริง
+    wod_bom: item.bom, // แก้ไขตามข้อมูลจริง
+    wod_work_station: item.workstation, // แก้ไขตามข้อมูลจริง
+    wod_time: item.time_in_mins // แก้ไขตามข้อมูลจริง
   }))
+
+  // สร้างตัวแปรสำหรับเก็บข้อมูลที่ตรงกัน
+  const matchingData = []
+
+  // เขียนทับ modifyData ด้วยข้อมูลจาก modifyworkorder และแยกข้อมูลที่ตรงกัน
+  const combinedData = modifyData
+    .filter(modifyDataItem => {
+      // ตรวจสอบว่า workMyapi มีค่าก่อนเรียกใช้ findIndex
+      if (workMyapi && workMyapi.length > 0) {
+        const correspondingIndex = workMyapi.findIndex(
+          workMyapiItem => workMyapiItem.wod_ordet_id === modifyDataItem.wod_ordet_id
+        )
+
+        if (correspondingIndex !== -1) {
+          matchingData.push({
+            ...modifyDataItem,
+            wod_id: workMyapi[correspondingIndex].wod_id
+          })
+
+          return false // ไม่รวมข้อมูลที่ซ้ำกับ matchingData
+        }
+      } else {
+        // จัดการกรณีที่ workMyapi เป็น undefined หรือเป็นอาร์เรย์ว่าง
+        console.error('workMyapi ไม่ได้กำหนดค่าหรือเป็นอาร์เรย์ว่าง')
+
+        return true // หรือ false ขึ้นอยู่กับตรรกะของคุณ
+      }
+    })
+    .map(combinedItem => ({
+      ...combinedItem,
+      invoice_id: invoice_id // เพิ่ม invoice_id ในทุกรายการใน combinedData
+    }))
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Fetch invoice details
         const invoiceResponse = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.invoice_detail`, {
           params: {
             invoice_id: invoice_id
@@ -32,6 +63,7 @@ const CheckNpost = () => {
         })
         const invoiceData = invoiceResponse.data.message.Data[0]
 
+        // Fetch user profile
         const userIdFromLocalStorage = localStorage.getItem('Member_Id')
         if (userIdFromLocalStorage) {
           setUserId(userIdFromLocalStorage)
@@ -44,9 +76,11 @@ const CheckNpost = () => {
 
           const user = userResponse.data.message.Data[0]
 
+          // Fetch work order data
           const config = {
             method: 'get',
             maxBodyLength: Infinity,
+
             url: user.sup_hostaddress + invoiceData.process_status,
             headers: {
               Authorization: `token ${user.sup_apikey}:${user.sup_apisecret}`
@@ -60,19 +94,19 @@ const CheckNpost = () => {
         console.error(error)
       }
     }
-
-    fetchData()
+    fetchData() // Initial data fetch
 
     const intervalId = setInterval(() => {
-      fetchData()
-    }, 60000)
+      fetchData() // Fetch data every 1 minute
+    }, 60000) // 1 minute in milliseconds
 
-    return () => clearInterval(intervalId)
+    return () => clearInterval(intervalId) // Clear the interval on component unmount
   }, [userId, invoice_id])
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Fetch invoice details
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.workorder.get_work_order`, {
           params: {
             invoice_id: invoice_id
@@ -90,37 +124,15 @@ const CheckNpost = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (workMyapi.length > 0 && modifyData.length > 0) {
-          const matching = modifyData.filter(modifyDataItem =>
-            workMyapi.some(workMyapiItem => workMyapiItem.wod_ordet_id === modifyDataItem.wod_ordet_id)
-          )
-
-          setMatchingData(matching)
-
-          const combined = modifyData.filter(
-            modifyDataItem =>
-              !workMyapi.some(workMyapiItem => workMyapiItem.wod_ordet_id === modifyDataItem.wod_ordet_id)
-          )
-
-          setCombinedData(combined.map(item => ({ ...item, invoice_id: invoice_id })))
-        }
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
-    fetchData()
-  }, [workMyapi, modifyData, invoice_id])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
+        // Check if combinedData has data before proceeding
         if (matchingData.length > 0) {
+          // Map combinedData to an array of promises
           const requests = matchingData.map(item =>
             axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.workorder.update_workorder`, item)
           )
 
-          await Promise.all(requests)
+          // Wait for all requests to complete
+          const responses = await Promise.all(requests)
         }
       } catch (error) {
         console.error(error)
@@ -133,12 +145,15 @@ const CheckNpost = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Check if combinedData has data before proceeding
         if (combinedData.length > 0) {
+          // Map combinedData to an array of promises
           const requests = combinedData.map(item =>
             axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.workorder.addworkorder`, item)
           )
 
-          await Promise.all(requests)
+          // Wait for all requests to complete
+          const responses = await Promise.all(requests)
         }
       } catch (error) {
         console.error(error)
