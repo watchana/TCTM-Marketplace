@@ -37,7 +37,6 @@ import 'react-multi-carousel/lib/styles.css'
 
 // Responsive image
 import { useMediaQuery } from '@mui/material'
-import ColorThief from 'colorthief'
 
 const ImagesBillboard = [
   {
