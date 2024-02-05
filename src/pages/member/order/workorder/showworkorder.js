@@ -18,13 +18,16 @@ const ShowWorkOrder = () => {
             invoice_id: invoice_id
           }
         })
-        setData(response.data.message.work_order_data || []) // Ensure data is an array
-        console.log(data)
-      } catch (error) {}
+        setData(response.data.message.work_order_data || [])
+        console.log('Data:', data) // Log the data state
+      } catch (error) {
+        console.error('Error fetching data:', error)
+        console.log(invoice_id)
+      }
     }
 
     fetchData()
-  }, [])
+  }, [invoice_id, data])
 
   return (
     <Box>
