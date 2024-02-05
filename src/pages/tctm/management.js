@@ -29,6 +29,7 @@ const ManagementPage = () => {
   const [dataMarket, setDataMarket] = useState([])
   const [dataProduct, setDataProduct] = useState([])
   const [dataPost, setDataPost] = useState([])
+  const [dataService, setDataService] = useState([])
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -61,10 +62,17 @@ const ManagementPage = () => {
           }
         })
 
+        const postService = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.service.showallservice`, {
+          headers: {
+            Authorization: 'token 76dc8ec5e14d19c:a644317879022f2'
+          }
+        })
+
         setDataUser(userResponse.data.message.Data || [])
         setDataMarket(marketResponse.data.message.Data || [])
         setDataProduct(productResponse.data.message.Data || [])
         setDataPost(postResponse.data.message.Data || [])
+        setDataService(postService.data.message.Data || [])
       } catch (error) {
         console.error('Error fetching data:', error)
       }
@@ -139,7 +147,7 @@ const ManagementPage = () => {
               <PostTable rows={dataPost} />
             </TabPanel>
             <TabPanel value='5'>
-              <ServiceTable rows='' />
+              <ServiceTable rows={dataService} />
             </TabPanel>
           </TabContext>
         </Box>

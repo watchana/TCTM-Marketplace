@@ -8,43 +8,41 @@ import { DataGrid } from '@mui/x-data-grid'
 // ** Axios
 import axios from 'axios'
 
+import { useRouter } from 'next/router'
+
 // ** Custom Components
 // ** merge first name and last name
 function getFullName(params) {
-  return `${params.row.user_first_name || ''} ${params.row.user_last_name || ''}`
+  return `${params.row.ser_name || ''} ${params.row.ser_lname || ''}`
 }
 
 const ServiceTable = ({ rows }) => {
   // นำเข้าตัวsweetalert2
   const Swal = require('sweetalert2')
   const [tableRows, setTableRows] = useState(rows) //เก็บข้อมูล Row ใน table
+  const router = useRouter() // เรียกใช้งาน Router
 
   // ** header table
   const columns = [
-    { field: 'account_id', headerName: 'Account Id', width: 130 },
+    { field: 'name', headerName: 'Account Id', width: 130 },
     {
-      field: '',
+      field: 'member_id',
       headerName: 'Member Id',
       width: 150
     },
     {
-      field: '',
+      field: 'fullName',
       headerName: 'Full name',
       width: 160,
       valueGetter: getFullName
     },
     {
-      field: '',
-      headerName: 'Company',
-      width: 150
-    },
-    {
-      field: '',
+      field: 'ser_email',
       headerName: 'Email',
       width: 150
     },
     {
-      field: '',
+      field: 'ser_phone',
       headerName: 'Tel',
       width: 150
     },
@@ -54,7 +52,7 @@ const ServiceTable = ({ rows }) => {
       sortable: false,
       renderCell: params => {
         return (
-          <Button variant='contained' color='success' onClick={() => handleApproveSubmit(params.row.account_id)}>
+          <Button variant='contained' color='success' onClick={() => handleApproveSubmit(params.row.ser_id)}>
             approve
           </Button>
         )
@@ -67,8 +65,28 @@ const ServiceTable = ({ rows }) => {
       width: 150,
       renderCell: params => {
         return (
-          <Button variant='contained' color='secondary' onClick={() => handleRejectSubmit(params.row.account_id)}>
+          <Button variant='contained' color='secondary' onClick={() => handleRejectSubmit(params.row.ser_id)}>
             disapproved
+          </Button>
+        )
+      }
+    },
+    {
+      field: 'detail',
+      headerName: 'Detail',
+      sortable: false,
+      width: 150,
+      renderCell: params => {
+        return (
+          <Button
+            variant='contained'
+            color='success'
+            onClick={() => {
+              router.push(`
+                    /member/medalformservice/?ser_id=${params.row.ser_id}`)
+            }}
+          >
+            Details
           </Button>
         )
       }
@@ -83,14 +101,14 @@ const ServiceTable = ({ rows }) => {
   // ฟังก์ชันสำหรับ Approve DATA
   const handleApproveSubmit = id => {
     const data = {
-      account_id: id
+      ser_id: id
     }
 
     axios
-      .put(`${process.env.NEXT_PUBLIC_API}TCTM.approve.userapprove`, data)
+      .put(`${process.env.NEXT_PUBLIC_API}TCTM.approve.serviceapprove`, data)
       .then(function (response) {
         // หลังจากที่อนุมัติสำเร็จ ลบแถวที่ถูก Approve ออกจากข้อมูล
-        const updatedRows = tableRows.filter(row => row.account_id !== id)
+        const updatedRows = tableRows.filter(row => row.ser_id !== id)
 
         setTableRows(updatedRows)
 
@@ -127,16 +145,16 @@ const ServiceTable = ({ rows }) => {
       // ถ้าผู้ใช้กดปุ่ม Confirm (Yes)
       if (result.isConfirmed) {
         const data = {
-          account_id: id
+          ser_id: id
         }
 
         axios
-          .put(`${process.env.NEXT_PUBLIC_API}TCTM.approve.userreject`, data)
+          .put(`${process.env.NEXT_PUBLIC_API}TCTM.approve.servicereject`, data)
           .then(function (response) {
             console.log(response)
 
             // หลังจากที่แตะเสร็จ ลบแถวที่ถูก แตะ ออกจากข้อมูล
-            const updatedRows = tableRows.filter(row => row.account_id !== id)
+            const updatedRows = tableRows.filter(row => row.ser_id !== id)
 
             setTableRows(updatedRows)
 
@@ -177,7 +195,7 @@ const ServiceTable = ({ rows }) => {
         sx={{ paddingX: '10px' }}
         rows={tableRows}
         columns={columns}
-        getRowId={row => row.account_id}
+        getRowId={row => row.name}
         initialState={{
           pagination: {
             paginationModel: {

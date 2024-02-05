@@ -35,9 +35,9 @@ import { withAuth } from 'src/@core/utils/AuthCheck'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** import form view
-import TestshowwinV from 'src\viewssupplier\testshowinV'
+import TestshowwinV from '/src/views/supplier/testshowinV'
 
-const testim = () => {
+const Testim1 = () => {
   // ** Hook
   const router = useRouter()
 
@@ -239,4 +239,4 @@ const testim = () => {
   )
 }
 
-export default testim
+export default Testim1

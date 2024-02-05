@@ -69,13 +69,13 @@ const Education = forwardRef((props, ref) => {
         <Grid item xs={2} mt={5}>
           <Typography fontSize={20}>From</Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker onChange={handleDatePicker} />
+            <DatePicker onChange={date => (ref.current.dateelement_start = date)} />
           </LocalizationProvider>
         </Grid>
         <Grid item xs={2} mt={5}>
           <Typography fontSize={20}>To</Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker onChange={handleDatePicker2} />
+            <DatePicker onChange={date => (ref.current.dateelement_end = date)} />
           </LocalizationProvider>
         </Grid>
         {/* -----------------วันจบ--------------- */}
@@ -113,13 +113,13 @@ const Education = forwardRef((props, ref) => {
         <Grid item xs={2} mt={5}>
           <Typography fontSize={20}>From</Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker />
+            <DatePicker onChange={date => (ref.current.mddate_start = date)} />
           </LocalizationProvider>
         </Grid>
         <Grid item xs={2} mt={5}>
           <Typography fontSize={20}>To</Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker />
+            <DatePicker onChange={date => (ref.current.mddate_end = date)} />
           </LocalizationProvider>
         </Grid>
         <Grid item xs={2} mt={5} ml={5}>
@@ -161,13 +161,13 @@ const Education = forwardRef((props, ref) => {
         <Grid item xs={2} mt={5}>
           <Typography fontSize={20}>From</Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker />
+            <DatePicker onChange={date => (ref.current.hidate_start = date)} />
           </LocalizationProvider>
         </Grid>
         <Grid item xs={2} mt={5}>
           <Typography fontSize={20}>To</Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker />
+            <DatePicker onChange={date => (ref.current.hidate_end = date)} />
           </LocalizationProvider>
         </Grid>
         <Grid item xs={2} mt={5} ml={5}>
@@ -204,13 +204,13 @@ const Education = forwardRef((props, ref) => {
         <Grid item xs={2} mt={5}>
           <Typography fontSize={20}>From</Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker />
+            <DatePicker onChange={date => (ref.current.hvdate_start = date)} />
           </LocalizationProvider>
         </Grid>
         <Grid item xs={2} mt={5}>
           <Typography fontSize={20}>To</Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker />
+            <DatePicker onChange={date => (ref.current.hvdate_end = date)} />
           </LocalizationProvider>
         </Grid>
         <Grid item xs={2} mt={5} ml={5}>
@@ -247,13 +247,13 @@ const Education = forwardRef((props, ref) => {
         <Grid item xs={2} mt={5}>
           <Typography fontSize={20}>From</Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker />
+            <DatePicker onChange={date => (ref.current.collegedate_start = date)} />
           </LocalizationProvider>
         </Grid>
         <Grid item xs={2} mt={5}>
           <Typography fontSize={20}>To</Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker />
+            <DatePicker onChange={date => (ref.current.collegedate_end = date)} />
           </LocalizationProvider>
         </Grid>
         <Grid item xs={2} mt={5} ml={5}>
