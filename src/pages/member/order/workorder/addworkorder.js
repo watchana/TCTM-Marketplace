@@ -25,7 +25,7 @@ const CheckNpost = invoice_id => {
       }
     }
     fetchData()
-  }, [workdata, invoice_id, data])
+  }, [])
 
   const modifyData = useMemo(
     () =>
@@ -60,7 +60,7 @@ const CheckNpost = invoice_id => {
     }
 
     return result
-  }, [modifyData, workMyapi])
+  }, [])
 
   // เขียนทับ modifyData ด้วยข้อมูลจาก modifyworkorder และแยกข้อมูลที่ตรงกัน
   const combinedData = modifyData
@@ -136,7 +136,7 @@ const CheckNpost = invoice_id => {
     }, 60000) // 1 minute in milliseconds
 
     return () => clearInterval(intervalId) // Clear the interval on component unmount
-  }, [userId, invoice_id])
+  }, [])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -157,7 +157,7 @@ const CheckNpost = invoice_id => {
     }
 
     fetchData()
-  }, [invoice_id, matchingData])
+  }, [])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -178,7 +178,7 @@ const CheckNpost = invoice_id => {
     }
 
     fetchData()
-  }, [combinedData, invoice_id])
+  }, [])
 
   return <Box></Box>
 }
