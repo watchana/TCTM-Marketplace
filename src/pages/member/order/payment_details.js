@@ -7,18 +7,13 @@ import {
   MenuItem,
   FormControl,
   Select,
-  Divider,
   Grid,
-  Radio,
-  Stack,
   TextField,
   Typography,
   Card,
   Button,
   IconButton,
-  Box,
-  Modal,
-  MyListSubheader
+  Box
 } from '@mui/material'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import DownloadIcon from '@mui/icons-material/Download'
@@ -29,6 +24,7 @@ import TrackStatus from 'src/pages/member/order/statusthaipost'
 
 //** axios Imort */
 import axios from 'axios'
+import { useEffect } from 'react'
 
 const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
   // ** Switch Alert Import
@@ -72,6 +68,24 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
     setFile(selectedFile)
     setFileName(`${sanitizedFileName}.${fileExtension}`) // ชื่อไฟล์ใหม่
   }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const Response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.invoice_detail`, {
+          params: {
+            invoice_id: invoice_id
+          }
+        })
+        setTonen(Response.data.message.Data[0].process_status)
+        setTracking(Response.data.message.Data[0].tracking_number)
+        setselectDelivery(Response.data.message.Data[0].tracking_name)
+        setFileName(Response.data.message.Data[0].invoice_file_name)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    fetchData()
+  }, [invoice_id])
 
   // ฟังชัน Comfirm invoice
   const handleInvoiceClick = async e => {
@@ -162,7 +176,12 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
   }
 
   const handleTonen = event => {
-    setTonen(event.target.value)
+    if (Tonen !== null) {
+      setTonen(event.target.value)
+    }
+    if (Tonen === null) {
+      setTonen(event.target.value)
+    }
   }
 
   // ฟังชัน download ใบเสร็จ
