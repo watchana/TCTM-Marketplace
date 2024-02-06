@@ -176,12 +176,7 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
   }
 
   const handleTonen = event => {
-    if (Tonen !== null) {
-      setTonen(event.target.value)
-    }
-    if (Tonen === null) {
-      setTonen(event.target.value)
-    }
+    setTonen(event.target.value)
   }
 
   // ฟังชัน download ใบเสร็จ

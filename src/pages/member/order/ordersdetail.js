@@ -144,7 +144,7 @@ const Orders_Detail = () => {
           <Grid container spacing={2}>
             <Grid item xs={12} mb={5} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
               <Box sx={{ width: '100%', height: '500px', overflow: 'auto' }}>
-                <ShowWorkOrder />
+                <ShowWorkOrder invoice_id={invoice_id} />
               </Box>
             </Grid>
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
@@ -157,7 +157,7 @@ const Orders_Detail = () => {
                 />
               </Box>
             </Grid>
-            <CheckNpost />
+            <CheckNpost invoice_id={invoice_id} />
           </Grid>
         </Grid>
       </Grid>

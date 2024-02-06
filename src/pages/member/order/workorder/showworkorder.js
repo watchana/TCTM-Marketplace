@@ -1,37 +1,29 @@
 import axios from 'axios'
-import { Box, Card, Typography, TableCell, TableRow, TableBody, TableHead, Table, Grid } from '@mui/material'
+import { Box, Card, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { DataGrid } from '@mui/x-data-grid'
 
-const ShowWorkOrder = () => {
+const ShowWorkOrder = invoice_id => {
   const [data, setData] = useState([])
-
-  const router = useRouter()
-  const { invoice_id } = router.query
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.workorder.get_work_order`, {
           params: {
-            invoice_id: invoice_id
+            invoice_id: invoice_id.invoice_id
           }
         })
-        setData(response.data.message.work_order_data || [])
-        console.log(response)
+        setData(response.data.message.work_order_data)
       } catch (error) {
-        console.error('Error fetching data:', error)
+        // console.error('Error fetching data:', error)
       }
     }
 
     fetchData()
-  }, [invoice_id]) // ใช้เพียง invoice_id เป็น dependency เท่านั้น
+  }, [invoice_id.invoice_id]) // ใช้เพียง invoice_id เป็น dependency เท่านั้น
 
-  // ล็อกสถานะที่อัพเดตใน useEffect อีกที
-  useEffect(() => {
-    console.log('Data:', data)
-  }, [])
 
   return (
     <Box>
