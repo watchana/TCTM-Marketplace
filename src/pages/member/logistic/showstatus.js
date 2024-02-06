@@ -235,7 +235,7 @@ const Show_Status = () => {
           <Grid container md={7}>
             <Grid item md={12}>
               <Box>
-                <ShowWorkOrder />
+                <ShowWorkOrder invoice_id={invoice_id} />
               </Box>
               <Box sx={{ width: '100%' }}>
                 <Paymant
