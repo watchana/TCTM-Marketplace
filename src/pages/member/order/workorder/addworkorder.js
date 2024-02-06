@@ -3,9 +3,24 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
-const CheckNpost = () => {
-  const router = useRouter()
-  const { invoice_id } = router.query
+const CheckNpost = invoice_id => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch invoice details
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.workorder.get_work_order`, {
+          params: {
+            invoice_id: invoice_id.invoice_id
+          }
+        })
+        setWorkMyapi(response.data.message.work_order_data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchData()
+  }, [invoice_id.invoice_id])
   const [data, setData] = useState([])
   const [userId, setUserId] = useState('')
   const [workMyapi, setWorkMyapi] = useState([])
@@ -26,7 +41,6 @@ const CheckNpost = () => {
   // เขียนทับ modifyData ด้วยข้อมูลจาก modifyworkorder และแยกข้อมูลที่ตรงกัน
   const combinedData = modifyData
     .filter(modifyDataItem => {
-      // ตรวจสอบว่า workMyapi มีค่าก่อนเรียกใช้ findIndex
       if (workMyapi && workMyapi.length > 0) {
         const correspondingIndex = workMyapi.findIndex(
           workMyapiItem => workMyapiItem.wod_ordet_id === modifyDataItem.wod_ordet_id
@@ -40,16 +54,13 @@ const CheckNpost = () => {
 
           return false // ไม่รวมข้อมูลที่ซ้ำกับ matchingData
         }
-      } else {
-        // จัดการกรณีที่ workMyapi เป็น undefined หรือเป็นอาร์เรย์ว่าง
-        console.error('workMyapi ไม่ได้กำหนดค่าหรือเป็นอาร์เรย์ว่าง')
-
-        return true // หรือ false ขึ้นอยู่กับตรรกะของคุณ
       }
+
+      return true // รวมข้อมูลที่ไม่ซ้ำกับ matchingData
     })
     .map(combinedItem => ({
       ...combinedItem,
-      invoice_id: invoice_id // เพิ่ม invoice_id ในทุกรายการใน combinedData
+      invoice_id: invoice_id.invoice_id // เพิ่ม invoice_id ในทุกรายการใน combinedData
     }))
 
   useEffect(() => {
@@ -58,7 +69,7 @@ const CheckNpost = () => {
         // Fetch invoice details
         const invoiceResponse = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.invoice_detail`, {
           params: {
-            invoice_id: invoice_id
+            invoice_id: invoice_id.invoice_id
           }
         })
         const invoiceData = invoiceResponse.data.message.Data[0]
@@ -101,25 +112,7 @@ const CheckNpost = () => {
     }, 60000) // 1 minute in milliseconds
 
     return () => clearInterval(intervalId) // Clear the interval on component unmount
-  }, [userId, invoice_id])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch invoice details
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.workorder.get_work_order`, {
-          params: {
-            invoice_id: invoice_id
-          }
-        })
-        setWorkMyapi(response.data.message.work_order_data)
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
-    fetchData()
-  }, [invoice_id])
+  }, [userId, invoice_id.invoice_id])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -133,6 +126,7 @@ const CheckNpost = () => {
 
           // Wait for all requests to complete
           const responses = await Promise.all(requests)
+          console.clear
         }
       } catch (error) {
         console.error(error)
@@ -140,7 +134,7 @@ const CheckNpost = () => {
     }
 
     fetchData()
-  }, [matchingData])
+  }, [])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -154,7 +148,7 @@ const CheckNpost = () => {
 
           // Wait for all requests to complete
           const responses = await Promise.all(requests)
-          console.log(responses)
+          console.clear
         }
       } catch (error) {
         console.error(error)
@@ -163,6 +157,7 @@ const CheckNpost = () => {
 
     fetchData()
   }, [])
+  console.clear
 
   return <Box></Box>
 }
