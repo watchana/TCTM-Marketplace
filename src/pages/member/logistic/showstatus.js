@@ -216,7 +216,7 @@ const Show_Status = () => {
           </Card>
         </Box>
 
-        <Grid container>
+        <Grid container width={'100%'}>
           <Grid item sm={12} md={5}>
             <Grid container spacing={2}>
               <Grid item sm={12} md={11} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
@@ -231,20 +231,23 @@ const Show_Status = () => {
               </Grid>
             </Grid>
           </Grid>
-
-          <Grid container md={7}>
-            <Grid item md={12}>
-              <Box>
-                <ShowWorkOrder invoice_id={invoice_id} />
-              </Box>
-              <Box sx={{ width: '100%' }}>
-                <Paymant
-                  usertype={usertype}
-                  orderdata={orderdata}
-                  invoice_id={invoice_id}
-                  receipt={orderdata.receipt_file_name}
-                />
-              </Box>
+          <Grid item sm={12} md={7}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} mb={5} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+                <Box sx={{ width: '100%', height: 'auto', overflow: 'auto' }}>
+                  <ShowWorkOrder invoice_id={invoice_id} />
+                </Box>
+              </Grid>
+              <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+                <Box sx={{ width: '100%' }}>
+                  <Paymant
+                    usertype={usertype}
+                    orderdata={orderdata}
+                    invoice_id={invoice_id}
+                    receipt={orderdata.receipt_file_name}
+                  />
+                </Box>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
