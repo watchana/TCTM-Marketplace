@@ -24,7 +24,6 @@ const ShowWorkOrder = invoice_id => {
     fetchData()
   }, [invoice_id.invoice_id]) // ใช้เพียง invoice_id เป็น dependency เท่านั้น
 
-
   return (
     <Box>
       {data && data.length > 0 ? (
