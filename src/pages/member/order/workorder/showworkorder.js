@@ -16,7 +16,8 @@ const ShowWorkOrder = invoice_id => {
           }
         })
         setData(response.data.message.work_order_data)
-        console.clear()
+
+        // console.clear()
       } catch (error) {
         // console.error('Error fetching data:', error)
       }

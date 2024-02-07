@@ -69,9 +69,7 @@ const Show_Status = () => {
         })
         setOrderData(response.data.message.Data[0])
         setProductOption(response.data.message.Option_List)
-      } catch (error) {
-        console.error(error)
-      }
+      } catch (error) {}
     }
 
     fetchData()
@@ -100,29 +98,15 @@ const Show_Status = () => {
           const user = userResponse.data.message.Data[0]
           setUserData(user)
 
-          const config = {
-            method: 'get',
-            maxBodyLength: Infinity,
-            url: `${user.sup_hostaddress}MFG-WO-2023-00008`,
-            headers: {
-              Authorization: `token ${user.sup_apikey}:${user.sup_apisecret}`
-            }
-          }
-
-          const workOrderResponse = await axios.request(config)
-          setData(workOrderResponse.data.data.operations)
-
-          console.log('operations', workOrderResponse.data.data.planned_end_date)
-          console.log('actual_start_date', workOrderResponse.data.data.actual_start_date)
-          console.log('planned_end_date', workOrderResponse.data.data.planned_end_date)
-        } catch (error) {
-          console.error(error)
-        }
+          // Rest of your code for fetching work order information
+        } catch (error) {}
       }
+
+      fetchData() // Call fetchData immediately when userId is available
 
       const intervalId = setInterval(() => {
         fetchData() // Fetch data every 1 minute
-      }, 60000) // 1 minute in milliseconds
+      }, 60000)
 
       return () => clearInterval(intervalId) // Clear the interval on component unmount
     }
