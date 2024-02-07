@@ -216,7 +216,7 @@ const Show_Status = () => {
           </Card>
         </Box>
 
-        <Grid container>
+        <Grid container width={'100%'}>
           <Grid item sm={12} md={5}>
             <Grid container spacing={2}>
               <Grid item sm={12} md={11} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
@@ -231,11 +231,18 @@ const Show_Status = () => {
               </Grid>
             </Grid>
           </Grid>
+<<<<<<< HEAD
 
           <Grid item xs={12} md={7}>
             <Grid container spacing={2}>
               <Grid item xs={12} mb={5} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
                 <Box sx={{ width: '100%' }}>
+=======
+          <Grid item sm={12} md={7}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} mb={5} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+                <Box sx={{ width: '100%', height: 'auto', overflow: 'auto' }}>
+>>>>>>> dev2-v3
                   <ShowWorkOrder invoice_id={invoice_id} />
                 </Box>
               </Grid>

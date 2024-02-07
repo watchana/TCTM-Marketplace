@@ -12,20 +12,31 @@ const CheckNpost = invoice_id => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Fetch work order data
+        const responseWorkOrder = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.workorder.get_work_order`, {
+          params: {
+            invoice_id: invoice_id.invoice_id
+          }
+        })
+        setWorkMyapi(responseWorkOrder.data.message.work_order_data)
+
         // Fetch invoice details
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.workorder.get_work_order`, {
+        const responseInvoice = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.invoice_detail`, {
           params: {
             invoice_id: invoice_id.invoice_id
           }
         })
         setWorkMyapi(response.data.message.work_order_data)
-        setWorkData(response.data.message.work_order_data[0].name)
       } catch (error) {
         console.error(error)
       }
     }
+
     fetchData()
-  }, [])
+  }, [invoice_id.invoice_id])
+  const [data, setData] = useState([])
+  const [userId, setUserId] = useState('')
+  const [workMyapi, setWorkMyapi] = useState([])
 
   const modifyData = useMemo(
     () =>
@@ -162,15 +173,16 @@ const CheckNpost = invoice_id => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Check if combinedData has data before proceeding
+        // ตรวจสอบว่า combinedData มีข้อมูลหรือไม่ก่อนดำเนินการ
         if (combinedData.length > 0) {
-          // Map combinedData to an array of promises
+          // ทำการ map combinedData เพื่อสร้างอาร์เรย์ของ promises
           const requests = combinedData.map(item =>
             axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.workorder.addworkorder`, item)
           )
 
-          // Wait for all requests to complete
+          // รอให้คำขอทั้งหมดเสร็จสมบูรณ์
           const responses = await Promise.all(requests)
+          console.clear
         }
       } catch (error) {
         console.error(error)
@@ -179,6 +191,7 @@ const CheckNpost = invoice_id => {
 
     fetchData()
   }, [])
+  console.clear
 
   return <Box></Box>
 }
