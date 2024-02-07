@@ -216,33 +216,25 @@ const Show_Status = () => {
           </Card>
         </Box>
 
-        <Grid container width={'100%'}>
-          <Grid item sm={12} md={5}>
+        <Grid container>
+          <Grid item xs={12} md={5}>
             <Grid container spacing={2}>
               <Grid item sm={12} md={11} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
                 <Box sx={{ width: '100%' }}>
                   <Total productoption={productoption} orderdata={orderdata} />
                 </Box>
               </Grid>
-              <Grid item sm={12} md={11} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+              <Grid item xs={12} sm={12} md={11} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
                 <Box sx={{ width: '100%' }}>
                   <Delivery orderdata={{ orderdata }} />
                 </Box>
               </Grid>
             </Grid>
           </Grid>
-<<<<<<< HEAD
-
           <Grid item xs={12} md={7}>
             <Grid container spacing={2}>
               <Grid item xs={12} mb={5} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                <Box sx={{ width: '100%' }}>
-=======
-          <Grid item sm={12} md={7}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} mb={5} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
                 <Box sx={{ width: '100%', height: 'auto', overflow: 'auto' }}>
->>>>>>> dev2-v3
                   <ShowWorkOrder invoice_id={invoice_id} />
                 </Box>
               </Grid>
