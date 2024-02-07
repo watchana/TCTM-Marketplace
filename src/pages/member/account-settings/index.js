@@ -292,7 +292,6 @@ const Account = () => {
               defaultValue='API Key'
               value={key}
               onChange={handleKey}
-
             />
           </Grid>
           <Grid item xs={12} sm={3} width={'50%'}>
@@ -303,7 +302,6 @@ const Account = () => {
               defaultValue='API Keysecret'
               value={secret}
               onChange={handleSecret}
-
             />
           </Grid>
 
