@@ -17,13 +17,14 @@ import IconButton from '@mui/material/IconButton'
 import CardContent from '@mui/material/CardContent'
 import FormControl from '@mui/material/FormControl'
 import Button from '@mui/material/Button'
-import { Divider } from '@mui/material'
+import { Divider, InputAdornment } from '@mui/material'
 
 // ** Icons Imports
 import Close from 'mdi-material-ui/Close'
 
 // ** Axios Imports
 import axios from 'axios'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
 
 // ** Switch Alert Import
 const Swal = require('sweetalert2')
@@ -54,6 +55,9 @@ const Account = () => {
   const [userAddress, setUserAddress] = useState('')
   const [userPhone, setUserPhone] = useState('')
   const [userCompany, setUserCompany] = useState('')
+  const [userHost, setUserHost] = useState('')
+  const [key, setKey] = useState('')
+  const [secret, setSecret] = useState('')
 
   // local Storagec Variables
   useEffect(() => {
@@ -71,13 +75,15 @@ const Account = () => {
     setUserAddress(userdata.user_address || '')
     setUserPhone(userdata.user_tel || '')
     setUserCompany(userdata.user_company || '')
+    setUserHost(userdata.sup_hostaddress || '')
   }, [
     userdata.user_first_name,
     userdata.user_last_name,
     userdata.user_email,
     userdata.user_address,
     userdata.user_tel,
-    userdata.user_company
+    userdata.user_company,
+    userdata.sup_hostaddress
   ])
 
   // Reset data function
@@ -99,7 +105,8 @@ const Account = () => {
       email: userEmail,
       address: userAddress,
       phone: userPhone,
-      company: userCompany
+      company: userCompany,
+      host: userHost
     }
 
     try {
@@ -108,7 +115,10 @@ const Account = () => {
         email: userEmail,
         address: userAddress,
         phone: userPhone,
-        company: userCompany
+        company: userCompany,
+        userHost: userHost,
+        key: key,
+        secret: secret
       }
 
       const fieldsToCheck = [userId, userEmail, userAddress, userPhone, userCompany]
@@ -128,7 +138,7 @@ const Account = () => {
 
       Swal.fire({
         icon: 'success',
-        title: 'Chang data success'
+        title: 'Change data success'
       })
 
       setShouldFetchData(true)
@@ -152,6 +162,7 @@ const Account = () => {
           }
         })
         setUserData(response.data.message.Data[0])
+        console.log('response', response.data.message.Data)
       } catch (error) {
         console.error(error)
       }
@@ -188,6 +199,18 @@ const Account = () => {
 
   const handleCompanySet = event => {
     setUserCompany(event.target.value)
+  }
+
+  const handleHost = event => {
+    setUserHost(event.target.value)
+  }
+
+  const handleKey = event => {
+    setKey(event.target.value)
+  }
+
+  const handleSecret = event => {
+    setSecret(event.target.value)
   }
 
   return (
@@ -248,6 +271,39 @@ const Account = () => {
               defaultValue='Address'
               value={userAddress}
               onChange={handleAddressSet}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              type='Host'
+              label='Host'
+              placeholder='Host'
+              defaultValue='Host'
+              value={userHost}
+              onChange={handleHost}
+            />
+          </Grid>
+          <Grid item xs={12} sm={3} width={'50%'}>
+            <TextField
+              label='API Key'
+              type='password'
+              placeholder='API Key'
+              defaultValue='API Key'
+              value={key}
+              onChange={handleKey}
+
+            />
+          </Grid>
+          <Grid item xs={12} sm={3} width={'50%'}>
+            <TextField
+              label='API Keysecret'
+              type='password'
+              placeholder='API Keysecret'
+              defaultValue='API Keysecret'
+              value={secret}
+              onChange={handleSecret}
+
             />
           </Grid>
 

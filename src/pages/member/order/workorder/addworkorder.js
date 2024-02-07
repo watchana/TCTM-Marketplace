@@ -1,9 +1,14 @@
 import { Box } from '@mui/material'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 
 const CheckNpost = invoice_id => {
+  const [data, setData] = useState([])
+  const [userId, setUserId] = useState('')
+  const [workMyapi, setWorkMyapi] = useState([])
+  const [workdata, setWorkData] = useState('')
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -14,29 +19,48 @@ const CheckNpost = invoice_id => {
           }
         })
         setWorkMyapi(response.data.message.work_order_data)
+        setWorkData(response.data.message.work_order_data[0].name)
       } catch (error) {
         console.error(error)
       }
     }
-
     fetchData()
-  }, [invoice_id.invoice_id])
-  const [data, setData] = useState([])
-  const [userId, setUserId] = useState('')
-  const [workMyapi, setWorkMyapi] = useState([])
+  }, [])
 
-  const modifyData = data.map(item => ({
-    wod_name: item.operation, // แก้ไขตามข้อมูลจริง
-    wod_ordet_id: item.name,
-    wod_complete_quantity: item.completed_qty, // แก้ไขตามข้อมูลจริง
-    wod_loss_quantity: item.process_loss_qty, // แก้ไขตามข้อมูลจริง
-    wod_bom: item.bom, // แก้ไขตามข้อมูลจริง
-    wod_work_station: item.workstation, // แก้ไขตามข้อมูลจริง
-    wod_time: item.time_in_mins // แก้ไขตามข้อมูลจริง
-  }))
+  const modifyData = useMemo(
+    () =>
+      data.map(item => ({
+        wod_name: item.operation,
+        wod_ordet_id: item.name,
+        wod_complete_quantity: item.completed_qty,
+        wod_loss_quantity: item.process_loss_qty,
+        wod_bom: item.bom,
+        wod_work_station: item.workstation,
+        wod_time: item.time_in_mins
+      })),
+    [data]
+  )
 
   // สร้างตัวแปรสำหรับเก็บข้อมูลที่ตรงกัน
-  const matchingData = []
+  const matchingData = useMemo(() => {
+    const result = []
+    if (workMyapi && workMyapi.length > 0) {
+      modifyData.forEach(modifyDataItem => {
+        const correspondingIndex = workMyapi.findIndex(
+          workMyapiItem => workMyapiItem.wod_ordet_id === modifyDataItem.wod_ordet_id
+        )
+
+        if (correspondingIndex !== -1) {
+          result.push({
+            ...modifyDataItem,
+            wod_id: workMyapi[correspondingIndex].wod_id
+          })
+        }
+      })
+    }
+
+    return result
+  }, [])
 
   // เขียนทับ modifyData ด้วยข้อมูลจาก modifyworkorder และแยกข้อมูลที่ตรงกัน
   const combinedData = modifyData
@@ -112,7 +136,7 @@ const CheckNpost = invoice_id => {
     }, 60000) // 1 minute in milliseconds
 
     return () => clearInterval(intervalId) // Clear the interval on component unmount
-  }, [userId, invoice_id.invoice_id])
+  }, [])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -126,7 +150,6 @@ const CheckNpost = invoice_id => {
 
           // Wait for all requests to complete
           const responses = await Promise.all(requests)
-          console.clear
         }
       } catch (error) {
         console.error(error)
@@ -148,7 +171,6 @@ const CheckNpost = invoice_id => {
 
           // Wait for all requests to complete
           const responses = await Promise.all(requests)
-          console.clear
         }
       } catch (error) {
         console.error(error)
@@ -157,7 +179,6 @@ const CheckNpost = invoice_id => {
 
     fetchData()
   }, [])
-  console.clear
 
   return <Box></Box>
 }
