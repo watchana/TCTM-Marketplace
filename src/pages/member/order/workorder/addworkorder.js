@@ -8,6 +8,7 @@ const CheckNpost = invoice_id => {
     const fetchData = async () => {
       try {
         // Fetch work order data
+
         const responseWorkOrder = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.workorder.get_work_order`, {
           params: {
             invoice_id: invoice_id.invoice_id
@@ -48,9 +49,7 @@ const CheckNpost = invoice_id => {
           const responseWorkOrderData = await axios.request(config)
           setData(responseWorkOrderData.data.data.operations)
         }
-      } catch (error) {
-        console.error(error)
-      }
+      } catch (error) {}
     }
 
     fetchData() // Initial data fetch
@@ -108,6 +107,7 @@ const CheckNpost = invoice_id => {
     const fetchData = async () => {
       try {
         // Fetch invoice details
+
         const invoiceResponse = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.invoice_detail`, {
           params: {
             invoice_id: invoice_id.invoice_id
@@ -142,9 +142,7 @@ const CheckNpost = invoice_id => {
           const workOrderResponse = await axios.request(config)
           setData(workOrderResponse.data.data.operations)
         }
-      } catch (error) {
-        console.error(error)
-      }
+      } catch (error) {}
     }
     fetchData() // Initial data fetch
 

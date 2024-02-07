@@ -80,9 +80,7 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
         setTracking(Response.data.message.Data[0].tracking_number)
         setselectDelivery(Response.data.message.Data[0].tracking_name)
         setFileName(Response.data.message.Data[0].invoice_file_name)
-      } catch (error) {
-        console.error(error)
-      }
+      } catch (error) {}
     }
     fetchData()
   }, [invoice_id])
