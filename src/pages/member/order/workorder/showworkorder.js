@@ -16,7 +16,8 @@ const ShowWorkOrder = invoice_id => {
           }
         })
         setData(response.data.message.work_order_data)
-        console.clear()
+
+        // console.clear()
       } catch (error) {
         // console.error('Error fetching data:', error)
       }
@@ -25,16 +26,17 @@ const ShowWorkOrder = invoice_id => {
     fetchData()
   }, [invoice_id.invoice_id]) // ใช้เพียง invoice_id เป็น dependency เท่านั้น
 
-
   return (
     <Box>
       {data && data.length > 0 ? (
         <Card
           sx={{
             marginBottom: '30px',
-            padding: { xs: '10px', sm: '15px 25px 20px' }, // Adjust padding for different screen sizes
+            padding: { xs: '10px', sm: '15px 25px 20px' },
             border: '2px solid #primary.main',
-            borderRadius: '8px'
+            borderRadius: '8px',
+            overflow: 'auto', // Make the Card scrollable
+            maxHeight: '500px' // Set a maximum height if necessary
           }}
         >
           <Typography variant='h6' sx={{ fontWeight: 'bold', marginBottom: '15px' }}>
