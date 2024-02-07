@@ -32,11 +32,9 @@ const ShowWorkOrder = invoice_id => {
         <Card
           sx={{
             marginBottom: '30px',
-            padding: { xs: '10px', sm: '15px 25px 20px' },
+            padding: { xs: '10px', sm: '15px 25px 20px' }, // Adjust padding for different screen sizes
             border: '2px solid #primary.main',
-            borderRadius: '8px',
-            overflow: 'auto', // Make the Card scrollable
-            maxHeight: '500px' // Set a maximum height if necessary
+            borderRadius: '8px'
           }}
         >
           <Typography variant='h6' sx={{ fontWeight: 'bold', marginBottom: '15px' }}>
