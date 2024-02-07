@@ -141,11 +141,7 @@ const Orders_Detail = () => {
         <Grid item xs={12} md={7}>
           <Grid container spacing={2}>
             <Grid item xs={12} mb={5} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-<<<<<<< HEAD
-              <Box sx={{ width: '100%', height: 'auto', overflow: 'auto' }}>
-=======
               <Box sx={{ width: '100%' }}>
->>>>>>> 0bdf4d86bfcbd0c3dc294080c8620490c253fe56
                 <ShowWorkOrder invoice_id={invoice_id} />
               </Box>
             </Grid>
