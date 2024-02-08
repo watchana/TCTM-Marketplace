@@ -58,6 +58,7 @@ const Account = () => {
   const [userHost, setUserHost] = useState('')
   const [key, setKey] = useState('')
   const [secret, setSecret] = useState('')
+  const [status, setStatus] = useState('')
 
   // local Storagec Variables
   useEffect(() => {
@@ -76,6 +77,7 @@ const Account = () => {
     setUserPhone(userdata.user_tel || '')
     setUserCompany(userdata.user_company || '')
     setUserHost(userdata.sup_hostaddress || '')
+    setStatus(userdata.user_status || '')
   }, [
     userdata.user_first_name,
     userdata.user_last_name,
@@ -83,7 +85,8 @@ const Account = () => {
     userdata.user_address,
     userdata.user_tel,
     userdata.user_company,
-    userdata.sup_hostaddress
+    userdata.sup_hostaddress,
+    userdata.user_status
   ])
 
   // Reset data function
@@ -273,39 +276,49 @@ const Account = () => {
               onChange={handleAddressSet}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              type='Host'
-              label='Host'
-              placeholder='Host'
-              defaultValue='Host'
-              value={userHost}
-              onChange={handleHost}
-            />
-          </Grid>
-          <Grid item xs={12} sm={3} width={'50%'}>
-            <TextField
-              label='API Key'
-              type='password'
-              placeholder='API Key'
-              defaultValue='API Key'
-              value={key}
-              onChange={handleKey}
-
-            />
-          </Grid>
-          <Grid item xs={12} sm={3} width={'50%'}>
-            <TextField
-              label='API Keysecret'
-              type='password'
-              placeholder='API Keysecret'
-              defaultValue='API Keysecret'
-              value={secret}
-              onChange={handleSecret}
-
-            />
-          </Grid>
+          {status === '2' ? (
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                type='Host'
+                label='Host'
+                placeholder='Host'
+                defaultValue='Host'
+                value={userHost}
+                onChange={handleHost}
+              />
+            </Grid>
+          ) : (
+            ''
+          )}
+          {status === '2' ? (
+            <Grid item xs={12} sm={3} width={'50%'}>
+              <TextField
+                label='API Key'
+                type='password'
+                placeholder='API Key'
+                defaultValue='API Key'
+                value={key}
+                onChange={handleKey}
+              />
+            </Grid>
+          ) : (
+            ''
+          )}
+          {status === '2' ? (
+            <Grid item xs={12} sm={3} width={'50%'}>
+              <TextField
+                label='API Keysecret'
+                type='password'
+                placeholder='API Keysecret'
+                defaultValue='API Keysecret'
+                value={secret}
+                onChange={handleSecret}
+              />
+            </Grid>
+          ) : (
+            ''
+          )}
 
           {/* {openAlert ? (
             <Grid item xs={12} sx={{ mb: 3 }}>
