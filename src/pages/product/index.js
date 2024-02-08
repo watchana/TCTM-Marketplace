@@ -113,14 +113,14 @@ const ProductDetails = () => {
         })
 
         setProductImg(response.data.message.images.Result)
-        console.log(response.data.message.images)
+
         setProductData(response.data.message.data[0])
         setOptions(response.data.message.options)
 
-        console.log('message', response.data.message)
-      } catch (error) {
-        console.error(error)
-      }
+        // console.log(response.data.message.images)
+        // console.log(response)
+        // console.log('message', response.data.message)
+      } catch (error) {}
     }
 
     fetchData()

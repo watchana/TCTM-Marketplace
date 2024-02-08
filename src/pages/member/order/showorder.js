@@ -165,13 +165,12 @@ const ShowOrder = ({ productdata, updateProductData }) => {
               item
             }))
             .filter(
-              // Filter by item
               ({ item }) =>
                 (item.price_total !== null && item.price_total >= '1' && item.invoice_status === '2') ||
                 (item.price_total !== null && item.price_total >= '1' && item.invoice_status === '1')
             )
             .map(({ index, item }) => (
-              <Grid item xs={12} key={index.id}>
+              <Grid item xs={12} key={index}>
                 <Card variant='outlined'>
                   <Grid container justifyContent='space-between' sx={{ padding: '14px 14px 0px' }}>
                     <Grid item xs={12} sm={1}>

@@ -166,7 +166,7 @@ const MyMarket = () => {
           axios
             .put(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.delete.ban`, data)
             .then(function (response) {
-              console.log(response)
+              // console.log(response)
 
               Swal.fire({
                 icon: 'success',
@@ -514,7 +514,7 @@ const MyMarket = () => {
             </Box>
             <TabPanel value='1'>
               <Box sx={{ padding: '10px 10px 15px' }}>
-                <Grid container direction='columns' spacing={4}>
+                <Grid container sx={{ display: 'flex', flexDirection: 'column' }} spacing={4}>
                   <Grid item sx={{ width: '100%' }}>
                     {SearchMenu()}
                   </Grid>

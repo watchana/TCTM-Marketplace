@@ -50,7 +50,7 @@ const OrdersReq = ({ subId }) => {
 
   const usertype = '2' // usertype = '1'(member) usertype = '2'(marker)
 
-  console.log('rows', rows)
+  // console.log('rows', rows)
 
   // ** Switch Alert Import
   const Swal = require('sweetalert2')

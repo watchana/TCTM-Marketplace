@@ -163,9 +163,7 @@ const Account = () => {
         })
         setUserData(response.data.message.Data[0])
         console.log('response', response.data.message.Data)
-      } catch (error) {
-        console.error(error)
-      }
+      } catch (error) {}
     }
 
     fetchData()

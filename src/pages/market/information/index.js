@@ -100,9 +100,9 @@ const Information = subId => {
     }
   ]
 
-  useEffect(() => {
-    console.log('sub', subId)
-  }, [subId])
+  // useEffect(() => {
+  //   console.log('sub', subId)
+  // }, [subId])
 
   const HandleLink = () => {
     router.push(`/market/add-information/?sub_id=${subId.sub_id}`)

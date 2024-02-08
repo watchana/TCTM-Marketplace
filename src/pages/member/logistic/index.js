@@ -54,7 +54,14 @@ const MyOrderPage = () => {
             invoice_id: invoiceId
           }
         })
-        setTrackNo(response.data.message.Data[0].tracking_number)
+
+        // ตรวจสอบว่า Data array มีหรือไม่
+        if (response.data.message.Data && response.data.message.Data.length > 0) {
+          setTrackNo(response.data.message.Data[0].tracking_number)
+        } else {
+          // จัดการกรณีที่ Data เป็น empty หรือ undefined
+          console.warn('Data array is empty or undefined in the API response')
+        }
       } catch (error) {
         console.error(error)
       }
@@ -73,9 +80,14 @@ const MyOrderPage = () => {
           }
         })
 
-        console.log('Api', response.data.message.Data)
-        setProductData(response.data.message.Data)
-        setInvoiceId(response.data.message.Data[0].invoice_id)
+        // Check if Data array exists and has elements
+        if (response.data.message.Data && response.data.message.Data.length > 0) {
+          setProductData(response.data.message.Data)
+          setInvoiceId(response.data.message.Data[0].invoice_id)
+        } else {
+          // Handle the case when Data is empty or undefined
+          console.warn('Data array is empty or undefined in the API response')
+        }
       } catch (error) {
         console.error(error)
       }

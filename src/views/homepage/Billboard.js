@@ -87,35 +87,9 @@ const Billboard = () => {
     fetchData()
   }, [])
 
-  const billboardData = slidedata.map((item, index) => ({ index, item })).filter(({ item }) => item.bill_status === '1')
-  console.log(billboardData)
+  // const billboardData = slidedata.map((item, index) => ({ index, item })).filter(({ item }) => item.bill_status === '1')
 
-  useEffect(() => {
-    const processBillboardData = async () => {
-      try {
-        // Create an array to store dominant colors
-        const dominantColorsArray = []
-
-        // Loop through billboardData and extract dominant colors
-        for (const item of billboardData) {
-          const image = document.getElementById(`imgBillboard/${item.item.bill_name}`)
-          const colorThief = new ColorThief()
-
-          if (image) {
-            const dominantColor = colorThief.getColor(image)
-            dominantColorsArray.push(`rgb(${dominantColor.join(', ')})`)
-          }
-        }
-
-        // Update state with the dominant colors array
-        setDominantColors(dominantColorsArray)
-      } catch (error) {
-        console.error('Error extracting color:', error)
-      }
-    }
-
-    processBillboardData()
-  }, [])
+  // console.log(billboardData)
 
   // React Multi Carousel Responsive
   const responsive = {
@@ -176,8 +150,7 @@ const Billboard = () => {
                           <Box
                             sx={{
                               width: 'auto',
-                              height: { xs: '120px', sm: '250px', md: '350px', lg: '290px', xl: '350px' },
-                              bgcolor: dominantColors[index]
+                              height: { xs: '120px', sm: '250px', md: '350px', lg: '290px', xl: '350px' }
                             }}
                           >
                             <CardMedia
@@ -223,39 +196,37 @@ const Billboard = () => {
                     {slidedata.length === '0' ? (
                       <Skeleton variant='rectangular' width='100%' height='170px' sx={{ borderRadius: '6px' }} />
                     ) : (
-                      <Box>
-                        <Box
-                          sx={{
-                            width: '100%',
-                            height: '170px',
-                            maxHeight: '170px',
-                            borderRadius: '6px',
-                            backgroundSize: '100% 100%',
-                            backgroundPosition: 'center',
-                            display: 'flex'
-                          }}
-                        >
-                          {slidedata
-                            .map((item, index) => ({
-                              index,
-                              item
-                            }))
+                      <Box
+                        sx={{
+                          width: '100%',
+                          height: '170px',
+                          maxHeight: '170px',
+                          borderRadius: '6px',
+                          backgroundSize: '100% 100%',
+                          backgroundPosition: 'center',
+                          display: 'flex'
+                        }}
+                      >
+                        {slidedata
+                          .map((item, index) => ({
+                            index,
+                            item
+                          }))
 
-                            .filter(({ item }) => item.bill_status === '3')
-                            .map(({ index, item }) => (
-                              <Box
-                                key={index.id}
-                                sx={{ width: '95%', height: { xs: 150, sm: 200, md: 300, lg: 'auto' }, Radius: '6px' }}
-                              >
-                                <CardMedia
-                                  component='img'
-                                  src={`/imgBillboard/${item.bill_name}`}
-                                  alt={`image`}
-                                  height='auto'
-                                />
-                              </Box>
-                            ))}
-                        </Box>
+                          .filter(({ item }) => item.bill_status === '3')
+                          .map(({ index, item }) => (
+                            <Box
+                              key={index}
+                              sx={{ width: '95%', height: { xs: 150, sm: 200, md: 300, lg: 'auto' }, Radius: '6px' }}
+                            >
+                              <CardMedia
+                                component='img'
+                                src={`/imgBillboard/${item.bill_name}`}
+                                alt={`image`}
+                                height='auto'
+                              />
+                            </Box>
+                          ))}
                       </Box>
                     )}
                   </Carousel>
@@ -290,26 +261,24 @@ const Billboard = () => {
                       <Skeleton variant='rectangular' width='100%' height='170px' sx={{ borderRadius: '6px' }} />
                     ) : (
                       <Box>
-                        <Box>
-                          {slidedata
-                            .map((item, index) => ({
-                              index,
-                              item
-                            }))
+                        {slidedata
+                          .map((item, index) => ({
+                            index,
+                            item
+                          }))
 
-                            .filter(({ item }) => item.bill_status === '4')
-                            .map(({ index, item }) => (
-                              <Box key={index.id}>
-                                <CardMedia
-                                  component='img'
-                                  src={`/imgBillboard/${item.bill_name}`}
-                                  alt={`image`}
-                                  height='auto'
-                                  sx={{ minWidth: '100px', minHeight: 'auto', height: '95%' }}
-                                />
-                              </Box>
-                            ))}
-                        </Box>
+                          .filter(({ item }) => item.bill_status === '4')
+                          .map(({ index, item }) => (
+                            <Box key={index}>
+                              <CardMedia
+                                component='img'
+                                src={`/imgBillboard/${item.bill_name}`}
+                                alt={`image`}
+                                height='auto'
+                                sx={{ minWidth: '100px', minHeight: 'auto', height: '95%' }}
+                              />
+                            </Box>
+                          ))}
                       </Box>
                     )}
                   </Carousel>

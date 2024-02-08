@@ -23,7 +23,7 @@ const Billboard = () => {
 
   useEffect(() => {
     axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.all_billboard`).then(response => {
-      console.log('setBillboardlist:', response.data.message.Data)
+      // console.log('setBillboardlist:', response.data.message.Data)
       setBillboardlist(response.data.message.Data)
     })
   }, [])
@@ -148,7 +148,8 @@ const Billboard = () => {
 
   return (
     <Box>
-      <Link href='\backoffice\Add_Billboard' passHref>
+      <Link href='\backoffice\Add_Billboard'>
+        {/* passHref  เมื่อเกิดปัญหาให้เอาตัวนี้ไปใส่เป็น  Link href='\backoffice\Add_Billboard' passHref  */}
         <Button
           variant='contained'
           color='primary'

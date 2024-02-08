@@ -63,7 +63,7 @@ const NameMarket = () => {
   // set data and state
   const [slidedata, setSlideData] = useState([])
 
-  console.log('setSlideData', slidedata)
+  // console.log('setSlideData', slidedata)
 
   // ** Router ของ Next.js
   const router = useRouter()
@@ -83,7 +83,9 @@ const NameMarket = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.home_page.market_recommend`)
-        console.log('Api', response)
+
+        // console.log('Api', response)
+
         setSlideData(response.data.message.Data)
       } catch (error) {
         console.error(error)
@@ -111,22 +113,19 @@ const NameMarket = () => {
                   height: '100px'
                 }}
               >
-                <Button
-                  onClick={() => {
-                    router.push(`/category_market/?sub_id=${product.sub_id}&sub_name=${product.sub_name}`)
-                  }}
-                  sx={{ width: '100%', height: '100%', padding: 0, borderRadius: '6px' }}
-                >
-                  <ImageButton focusRipple>
-                    <CardMedia
-                      component='img'
-                      image={`/imgStore/${product.sub_image}`}
-                      alt='NameMarket'
-                      sx={{ height: '100%', borderRadius: '6px' }}
-                    />
-                    <ImageBackdrop className='MuiImageBackdrop-root' />
-                  </ImageButton>
-                </Button>
+                <Link href={`/category_market/?sub_id=${product.sub_id}&sub_name=${product.sub_name}`} passHref>
+                  <ButtonBase component='a' sx={{ width: '100%', height: '100%', padding: 0, borderRadius: '6px' }}>
+                    <ImageButton focusRipple>
+                      <CardMedia
+                        component='img'
+                        image={`/imgStore/${product.sub_image}`}
+                        alt='NameMarket'
+                        sx={{ height: '100%', borderRadius: '6px' }}
+                      />
+                      <ImageBackdrop className='MuiImageBackdrop-root' />
+                    </ImageButton>
+                  </ButtonBase>
+                </Link>
               </Card>
             ))}
           </Carousel>

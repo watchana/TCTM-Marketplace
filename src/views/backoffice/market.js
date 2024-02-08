@@ -11,7 +11,7 @@ const Market = () => {
 
   useEffect(() => {
     axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.market.allmarket`).then(response => {
-      console.log('setMarket:', response.data.message.Data)
+      // console.log('setMarket:', response.data.message.Data)
       setMarketlist(response.data.message.Data)
     })
   }, [])
