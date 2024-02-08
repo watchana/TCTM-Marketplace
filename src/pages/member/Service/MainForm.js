@@ -1,11 +1,15 @@
 // MainForm.js
 import React, { useState, useRef, useEffect } from 'react'
+
+// import form
 import FormComponent from './FormComponent'
 import FamilyHistoryForm from './FamilyHistoryForm'
 import Education from './EducationForm'
 import Information from './information'
 import LanguageAbility from './LanguageAbility'
 import SpecialAbility from './SpecialAbility'
+
+//import library
 import CloudUpload from 'mdi-material-ui/CloudUpload'
 import SerDowload from './ser_dowload'
 import html2canvas from 'html2canvas'

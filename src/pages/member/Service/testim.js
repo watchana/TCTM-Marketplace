@@ -26,7 +26,7 @@ import axios from 'axios'
 // ** import form view
 import TestshowwinV from 'src/views/supplier/testshowinV'
 
-const testim = () => {
+const Testim = () => {
   // ** Hook
   const router = useRouter()
 
@@ -138,4 +138,4 @@ const testim = () => {
   )
 }
 
-export default testim
+export default Testim
