@@ -269,7 +269,6 @@ const LoginPage = () => {
                     id='email'
                     label='Email'
                     variant='outlined'
-                    defaultValue=''
                     onChange={handleSetUser}
                     InputProps={{
                       style: {
@@ -286,7 +285,6 @@ const LoginPage = () => {
                     <OutlinedInput
                       id='outlined-adornment-password'
                       label='Password'
-                      defaultValue={initialPasswordValue}
                       value={values.password}
                       type={values.showPassword ? 'text' : 'password'}
                       onChange={handleSetPassword('password')}
