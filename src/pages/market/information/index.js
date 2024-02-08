@@ -97,6 +97,22 @@ const Information = subId => {
           Details
         </Button>
       )
+    },
+    {
+      field: 'Edit',
+      headerName: 'Edit',
+      width: 120,
+      renderCell: params => (
+        <Button
+          variant='contained'
+          color='success'
+          onClick={() => {
+            router.push(`/market/EditInfor/?post_id=${params.row.post_id}`)
+          }}
+        >
+          Edit
+        </Button>
+      )
     }
   ]
 
