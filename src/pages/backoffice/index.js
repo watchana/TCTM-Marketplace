@@ -15,6 +15,7 @@ import Market from 'src/views/backoffice/market'
 import Product from 'src/views/backoffice/product'
 import Billboard from 'src/views/backoffice/billboard'
 import InformationTable from 'src/views/backoffice/InformationTable'
+import Service from 'src/views/backoffice/Service'
 
 // ** Auth Check import
 import { withAuth } from 'src/@core/utils/AuthCheck'
@@ -72,6 +73,7 @@ const BackOffice = () => {
                   <Tab label='Product' value='product' />
                   <Tab label='Billboard' value='billboard' />
                   <Tab label='Information' value='Information' />
+                  <Tab label='Service' value='Service' />
                 </TabList>
               </Box>
               <TabPanel value='user'>
@@ -88,6 +90,9 @@ const BackOffice = () => {
               </TabPanel>
               <TabPanel value='Information'>
                 <InformationTable rows='' />
+              </TabPanel>
+              <TabPanel value='Service'>
+                <Service />
               </TabPanel>
             </TabContext>
           </Box>
