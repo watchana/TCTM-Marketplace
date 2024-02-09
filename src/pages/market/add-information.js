@@ -77,31 +77,37 @@ const AddInformationPage = () => {
 
   // จัดการตัวแปรชื่อไฟล์ภาพ
   const handleUploadImagesChange = newImages => {
-    setUploadImages(newImages)
     const timestamp = new Date().toISOString().slice(0, 16).replace(/[-T:]/g, '')
 
-    const newImageFiles = newImages.map(image => {
+    const newFileNames = newImages.map(image => {
       const newFileName = `${timestamp}_${image.name}`
 
-      return new File([image], newFileName)
+      return newFileName
     })
 
-    setImageChange(newImageFiles.map(image => image.name))
-  }
+    // นำ newImageFiles ที่เป็นอาร์เรย์ของไฟล์ไปรวมกับ uploadImages ที่มีอยู่แล้ว
 
-  // Api ฟังชันอัปโหลดรูปภาพ
-  const uploadImagesToApi = () => {
-    return axios.post(`/api/Infor_FileUpload`, uploadImages, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
+    setImageChange(newFileNames)
+    setUploadImages(newImages)
   }
 
   // ฟังชันส่งข้อมูล Register
   const handleSubmitData = async event => {
     event.preventDefault()
     setIsSubmitted(true)
+
+    // const formData = new FormData()
+    // formData.append('file', uploadImages)
+    // formData.append('FileName', imageChange)
+
+    // Api ฟังชันอัปโหลดรูปภาพ
+    const uploadImagesToApi = () => {
+      return axios.post(`/api/Infor_FileUpload`, uploadImages, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+    }
 
     // const sub_id = localStorage.getItem('sub_id')
 

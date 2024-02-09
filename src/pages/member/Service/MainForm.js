@@ -428,7 +428,6 @@ const MainForm = ({ PDF_File }) => {
       {/* <Button variant='contained' onClick={handleDownloadClick} color='primary'>
         Download
       </Button> */}
-      <SerDowload />
     </Grid>
   )
 }
