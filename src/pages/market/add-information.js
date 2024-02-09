@@ -49,8 +49,6 @@ const AddInformationPage = () => {
   // เก็บค่าเซฟรูป
   const [uploadImages, setUploadImages] = useState([])
   const [imagesName, setImagesName] = useState([])
-  const [imageChange, setImageChange] = useState({})
-
   const [postname, setPostname] = useState('') // ตัวแปรเก็บค่า storename
   const [postdetail, setPostdetail] = useState('') // ตัวแปรเก็บค่า email
 
@@ -71,23 +69,8 @@ const AddInformationPage = () => {
     }
   }, [uploadImages, imagesName])
 
-  useEffect(() => {
-    console.log('ไฟล์', imageChange)
-  }, [imageChange])
-
   // จัดการตัวแปรชื่อไฟล์ภาพ
   const handleUploadImagesChange = newImages => {
-    const timestamp = new Date().toISOString().slice(0, 16).replace(/[-T:]/g, '')
-
-    const newFileNames = newImages.map(image => {
-      const newFileName = `${timestamp}_${image.name}`
-
-      return newFileName
-    })
-
-    // นำ newImageFiles ที่เป็นอาร์เรย์ของไฟล์ไปรวมกับ uploadImages ที่มีอยู่แล้ว
-
-    setImageChange(newFileNames)
     setUploadImages(newImages)
   }
 
@@ -95,59 +78,37 @@ const AddInformationPage = () => {
   const handleSubmitData = async event => {
     event.preventDefault()
     setIsSubmitted(true)
-
-    // const formData = new FormData()
-    // formData.append('file', uploadImages)
-    // formData.append('FileName', imageChange)
-
-    // Api ฟังชันอัปโหลดรูปภาพ
-    const uploadImagesToApi = () => {
-      return axios.post(`/api/Infor_FileUpload`, uploadImages, {
+    try {
+      const response = await axios.post(`/api/Infor_FileUpload`, uploadImages, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       })
-    }
 
-    // const sub_id = localStorage.getItem('sub_id')
+      const uploadedFileNames = response.data.uploadedFileNames // ดึงค่า uploadedFileNames จาก response
 
-    const fieldsToCheck = [postname, postdetail, sub_id]
-    if (fieldsToCheck.some(field => field === '' || field === null || field === undefined)) {
-      Swal.fire({
-        icon: 'error',
-        title: 'กรุณาระบุข้อมูลให้ครบ',
-        text: 'โปรดกรอกข้อมูลให้ครบทุกช่อง'
-      })
+      const fieldsToCheck = [postname, postdetail, sub_id]
+      if (fieldsToCheck.some(field => field === '' || field === null || field === undefined)) {
+        Swal.fire({
+          icon: 'error',
+          title: 'กรุณาระบุข้อมูลให้ครบ',
+          text: 'โปรดกรอกข้อมูลให้ครบทุกช่อง'
+        })
 
-      return
-    }
+        return
+      }
 
-    try {
       const data = {
         sub_id: SubId,
-        image_file_infname: imageChange,
+        image_file_infname: uploadedFileNames,
         post_name: postname,
         post_detail: postdetail,
         inf_id: 'INFPOST-12'
       }
-      console.log('data', data)
 
       await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.infromation.inf_imgV2`, data)
 
-      uploadImagesToApi()
-        .then(response => {
-          const statusCode = response.status
-          if (statusCode === 200) {
-            // อัปโหลดสำเร็จ
-            console.log('File uploaded successfully.')
-          } else {
-            // อัปโหลดไม่สำเร็จ
-            console.error('File upload failed.')
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error)
-        })
+      console.log('data', data)
 
       Swal.fire({
         icon: 'success',
@@ -208,7 +169,11 @@ const AddInformationPage = () => {
       <Box sx={{ bgcolor: '#ebf3fe' }}>
         <Box className='content-center'>
           <Card sx={{ zIndex: 1, borderRadius: '7px' }}>
-            <CardContent sx={{ padding: theme => `${theme.spacing(7, 9, 2)} !important` }}>
+            <CardContent
+              sx={{
+                padding: theme => `${theme.spacing(7, 9, 2)} !important`
+              }}
+            >
               <Box sx={{ width: '100%', marginBottom: 4 }}>
                 <TestshowwinV onUploadImagesChange={handleUploadImagesChange} />
               </Box>
