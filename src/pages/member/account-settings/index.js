@@ -165,7 +165,6 @@ const Account = () => {
           }
         })
         setUserData(response.data.message.Data[0])
-        console.log('response', response.data.message.Data)
       } catch (error) {}
     }
 
@@ -245,7 +244,6 @@ const Account = () => {
               type='Phone'
               label='Phone'
               placeholder='Phone'
-              defaultValue='Phone'
               value={userPhone}
               onChange={handlePhoneSet}
             />
@@ -257,7 +255,6 @@ const Account = () => {
               type='Company'
               label='Company'
               placeholder='Company'
-              defaultValue='Company'
               value={userCompany}
               onChange={handleCompanySet}
             />
@@ -269,7 +266,6 @@ const Account = () => {
               type='Address'
               label='Address'
               placeholder='Address'
-              defaultValue='Address'
               value={userAddress}
               onChange={handleAddressSet}
             />
@@ -281,7 +277,6 @@ const Account = () => {
                 type='Host'
                 label='Host'
                 placeholder='Host'
-                defaultValue='Host'
                 value={userHost}
                 onChange={handleHost}
               />
@@ -295,7 +290,6 @@ const Account = () => {
                 label='API Key'
                 type='password'
                 placeholder='API Key'
-                defaultValue='API Key'
                 value={key}
                 onChange={handleKey}
               />
@@ -309,7 +303,6 @@ const Account = () => {
                 label='API Keysecret'
                 type='password'
                 placeholder='API Keysecret'
-                defaultValue='API Keysecret'
                 value={secret}
                 onChange={handleSecret}
               />
