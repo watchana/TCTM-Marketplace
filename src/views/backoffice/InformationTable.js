@@ -104,10 +104,10 @@ const InformationTable = () => {
             let chipColor = 'default'
             let chipLabel = ''
 
-            if (subStatus === '1') {
+            if (subStatus === '0') {
               chipColor = 'error'
               chipLabel = 'Hide Post'
-            } else if (subStatus === '0') {
+            } else if (subStatus === '1') {
               chipColor = 'success'
               chipLabel = 'Show Post'
             }
@@ -126,6 +126,15 @@ const InformationTable = () => {
               <Button
                 variant='contained'
                 color='success'
+                disabled={params.row.post_status === '1'}
+                onClick={e => handleUnbanClick(params.row.post_id, e)}
+              >
+                Unhide
+              </Button>
+
+              <Button
+                variant='contained'
+                color='error'
                 className='btn btn-info'
                 disabled={params.row.post_status === '0'}
                 style={{ marginRight: '5px' }}
@@ -157,15 +166,6 @@ const InformationTable = () => {
                     })
                   }
                 }}
-              >
-                UnHide
-              </Button>
-
-              <Button
-                variant='contained'
-                color='error'
-                disabled={params.row.post_status === '1'}
-                onClick={e => handleUnbanClick(params.row.post_id, e)}
               >
                 Hide
               </Button>

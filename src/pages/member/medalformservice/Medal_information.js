@@ -42,10 +42,6 @@ import { useRouter } from 'next/router'
 const MedalInformation = () => {
   const [data, setData] = useState([])
 
-  useEffect(() => {
-    console.log('data', data)
-  }, [data])
-
   const router = useRouter() // เรียกใช้งาน Router
   const { ser_id } = router.query
   const serID = ser_id
@@ -58,7 +54,7 @@ const MedalInformation = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.service.showalluserservice`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.service.showallservice`, {
           params: {
             ser_id: serID
           }
@@ -121,7 +117,7 @@ const MedalInformation = () => {
         {/* -----------------อีเมล--------------- */}
         <Grid item xs={4} mt={5}>
           <Typography fontSize={20}>Email</Typography>
-          <TextField name='email' placeholder='Email' fullWidth />
+          <TextField name='email' placeholder='Email' fullWidth value={data.ser_email} />
         </Grid>
         {/* -----------------โทรศัพท์--------------- */}
         <Grid item xs={2} mt={5}>

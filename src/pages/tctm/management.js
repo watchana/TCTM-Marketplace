@@ -62,7 +62,7 @@ const ManagementPage = () => {
           }
         })
 
-        const postService = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.service.showallservice`, {
+        const postService = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.service.showalluserservice`, {
           headers: {
             Authorization: 'token 76dc8ec5e14d19c:a644317879022f2'
           }

@@ -22,9 +22,13 @@ const ServiceTable = ({ rows }) => {
   const [tableRows, setTableRows] = useState(rows) //เก็บข้อมูล Row ใน table
   const router = useRouter() // เรียกใช้งาน Router
 
+  useEffect(() => {
+    console.log('data1', tableRows)
+  }, [tableRows])
+
   // ** header table
   const columns = [
-    { field: 'name', headerName: 'Account Id', width: 130 },
+    { field: 'ser_id', headerName: 'Account Id', width: 130 },
     {
       field: 'member_id',
       headerName: 'Member Id',
@@ -193,9 +197,11 @@ const ServiceTable = ({ rows }) => {
     <Card>
       <DataGrid
         sx={{ paddingX: '10px' }}
-        rows={tableRows}
+        rows={(tableRows || [])
+          .filter(val => val.ser_status === '1')
+          .map(val => ({ ...val, id: val.ser_id.toString() }))}
         columns={columns}
-        getRowId={row => row.name}
+        getRowId={row => row.ser_id}
         initialState={{
           pagination: {
             paginationModel: {
