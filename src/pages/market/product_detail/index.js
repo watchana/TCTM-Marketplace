@@ -539,7 +539,6 @@ const ProductDetails = () => {
                 {productdata.product_detail ? productdata.product_detail : 'No information'}
               </TabPanel>
               <TabPanel value='3'>
-                {' '}
                 <Box sx={{ width: '100%', marginTop: '10px' }}>No information</Box>
               </TabPanel>
             </TabContext>

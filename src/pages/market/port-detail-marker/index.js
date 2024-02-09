@@ -66,7 +66,11 @@ const PosrtDetail = () => {
   const [shouldFetchData, setShouldFetchData] = useState(false) // ตัวแปรควบคุมการดึงข้อมูลใหม่
   const [selectedFileName, setSelectedFileName] = useState('') // เก็บชื่อไฟล์ Po
 
-  // console.log('postData', questionData)
+  // ประกาศตัวแปร mergedData และกำหนดค่าเป็น questionData รวมกับ commentsData
+  const mergedData = [
+    ...(questionData ? Object.values(questionData) : []),
+    ...(commentsData ? Object.values(commentsData) : [])
+  ]
 
   // dialo State Control
   const [open, setOpen] = React.useState(false)
@@ -135,46 +139,57 @@ const PosrtDetail = () => {
     setComment(event.target.value)
   }
 
+  const [commentsData, setCommentsData] = useState([]) // อัปเดตเพื่อเก็บทั้งข้อควา
+
   // Comment Submit
+
   const handleCommentSubmit = async e => {
     e.preventDefault()
 
-    // ตรวจสอบค่าว่างใน TextField
-    if (reqID === 'null' || userId === 'null' || recipient === 'null') {
-      SAlert.fire({
-        icon: 'error',
-        title: 'Error information',
-        text: 'No one has answered yet!'
-      })
-
-      return
-    }
-
-    if (!comments) {
-      SAlert.fire({
-        icon: 'error',
-        title: 'Error information',
-        text: 'Please fill in information before commenting!'
-      })
-
-      return
-    }
-
-    const data = {
+    // รวมข้อมูลข้อความและรูปภาพเข้าด้วยกันสำหรับความคิดเห็น
+    const commentData = {
       req_id: reqID,
       sender: recipient,
       recipient: recipient,
-      query_description: comments
+      query_description: comments,
+      imageFile: imageFile // รวมข้อมูลรูปภาพ
+    }
+
+    const data = new FormData()
+    data.append('req_id', reqID)
+    data.append('sender', recipient)
+    data.append('recipient', recipient)
+    data.append('query_description', comments)
+
+    if (imageFile) {
+      data.append('image', imageFile)
     }
 
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.postchat`, data)
       console.log(response)
+
+      // อัปเดต commentsData เพื่อรวมทั้งข้อความและข้อมูลรูปภาพ
+      setCommentsData(prevData => [
+        ...prevData,
+        {
+          query_id: response.data.query_id,
+          sender: recipient,
+          user_first_name: 'ชื่อของคุณ', // แทนที่ด้วยข้อมูลจริง
+          user_last_name: 'นามสกุลของคุณ', // แทนที่ด้วยข้อมูลจริง
+          query_description: comments,
+          image: imagePreview // รวมข้อมูลรูปภาพ
+        }
+      ])
+
       SAlert.fire({
         icon: 'success',
-        title: 'Posted a successful message'
+        title: 'โพสต์ข้อความสำเร็จ'
       })
-      setComment('')
+
+      setComments('')
+      setImageFile(null)
+      setImagePreview(null)
       setShouldFetchData(!shouldFetchData)
     } catch (error) {
       console.log(error)
@@ -366,6 +381,20 @@ const PosrtDetail = () => {
     }
   ]
 
+  const [imageFile, setImageFile] = useState(null)
+  const [imagePreview, setImagePreview] = useState(null)
+
+  const handleImageChange = event => {
+    const file = event.target.files[0]
+    setImageFile(file)
+
+    const reader = new FileReader()
+    reader.onloadend = () => {
+      setImagePreview(reader.result)
+    }
+    reader.readAsDataURL(file)
+  }
+
   return (
     <Container maxWidth='xl'>
       <Box>
@@ -497,7 +526,16 @@ const PosrtDetail = () => {
                 sx={{ marginBottom: 4 }}
                 onChange={handleComment}
                 value={comments}
-              ></TextField>
+              />
+              {imagePreview && (
+                <img
+                  src={imagePreview}
+                  alt='Selected Image'
+                  style={{ maxWidth: '100%', maxHeight: '200px', marginBottom: '10px' }}
+                />
+              )}
+              <input type='file' accept='image/*' onChange={handleImageChange} />
+
               <Button variant='contained' onClick={handleCommentSubmit}>
                 Post Comment
               </Button>
@@ -507,10 +545,10 @@ const PosrtDetail = () => {
           <Box sx={{ width: '100%', padding: '10px 20px 20px' }}>
             <Box sx={{ width: '100%' }}>
               <Typography variant='h6' fontSize='18px bold' color='#222' sx={{ marginBottom: 2 }}>
-                Comment
+                ความคิดเห็น
               </Typography>
-              {questionData && questionData.length > 0 ? (
-                questionData.map((question, index) => (
+              {mergedData && mergedData.length > 0 ? (
+                mergedData.map((data, index) => (
                   <Card
                     key={index}
                     variant='outlined'
@@ -519,7 +557,7 @@ const PosrtDetail = () => {
                       height: '100%',
                       marginBottom: '20px',
                       boxShadow: 2,
-                      backgroundColor: question.sender.startsWith('SUP') ? '#3A46A7' : '#FFCA64' // ตั้งสีพื้นหลังตามเงื่อนไข ไปเปลี่ยนสี blue เป็นสีอื่น
+                      backgroundColor: data.sender.startsWith('SUP') ? '#3A46A7' : '#FFCA64'
                     }}
                   >
                     <Box sx={{ width: '100%', padding: '20px' }}>
@@ -531,17 +569,17 @@ const PosrtDetail = () => {
                           alignContent: 'center'
                         }}
                       >
-                        {question.sender.startsWith('SUP') ? (
+                        {data.sender.startsWith('SUP') ? (
                           <Typography variant='h6' fontSize='2.2rem bold' color='#fff'>
                             Market
                           </Typography>
                         ) : (
                           <Typography variant='h6' fontSize='2.2rem bold' color='#000'>
-                            {question.user_first_name} {question.user_last_name}
+                            {data.user_first_name} {data.user_last_name}
                           </Typography>
                         )}
-                        {question.sender.startsWith('SUP') && ( // เช็คว่า sender ขึ้นต้นด้วย 'SUP' ก่อนแสดง IconButton
-                          <IconButton onClick={() => handleDeleteSubmit(question.query_id)}>
+                        {data.sender.startsWith('SUP') && (
+                          <IconButton onClick={() => handleDeleteSubmit(data.query_id)}>
                             <DeleteIcon sx={{ fontSize: 28, color: '#fff' }} />
                           </IconButton>
                         )}
@@ -551,17 +589,24 @@ const PosrtDetail = () => {
                       <Typography
                         variant='body2'
                         fontSize='1rem'
-                        color={question.sender.startsWith('SUP') ? '#fff' : '#000'}
+                        color={data.sender.startsWith('SUP') ? '#fff' : '#000'}
                       >
-                        {question.query_description}
+                        {data.query_description}
                       </Typography>
+                      {data.image && (
+                        <img
+                          src={data.image}
+                          alt='Comment Image'
+                          style={{ maxWidth: '100%', maxHeight: '200px', marginTop: '10px' }}
+                        />
+                      )}
                     </Box>
                   </Card>
                 ))
               ) : (
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                   <Typography variant='h6' fontSize='24px bold'>
-                    No one has commented yet.
+                    ยังไม่มีใครแสดงความคิดเห็น.
                   </Typography>
                 </Box>
               )}
