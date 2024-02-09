@@ -45,8 +45,15 @@ const InformationDetails = () => {
             post_id: postId
           }
         })
-        setInformationImg(response.data.message.Data)
-        setInformationData(response.data.message.Data[0])
+        if (!response.data.message.Data) {
+          setInformationImg(0)
+          setEndImage(0)
+        } else {
+          setInformationImg(response.data.message.Data)
+          setInformationData(response.data.message.Data[0])
+        }
+        console.log('img', response)
+        console.log('infor', response.data.message.Data[0])
       } catch (error) {
         console.error(error)
       }

@@ -456,9 +456,10 @@ const EditInfor = () => {
                     </Box>
                   ) : (
                     <Typography variant='h6' sx={{ color: '#999', fontStyle: 'italic', textAlign: 'center' }}>
-                      No data
+                      Noimage
                     </Typography>
                   )}
+
                   {/*----------------------- END EZ ------------------------------------------ */}
 
                   <IconButton onClick={rightSlide} sx={{ backgroundColor: '#ddd' }}>

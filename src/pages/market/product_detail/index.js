@@ -105,9 +105,13 @@ const ProductDetails = () => {
             product_id: productId
           }
         })
-        setProductImg(response.data.message.images.Result)
-        setProductData(response.data.message.data[0])
-        setOptions(response.data.message.options)
+        if (!response.data.message.images.Result) {
+          setProductImg(0)
+        } else {
+          setProductImg(response.data.message.images.Result)
+          setProductData(response.data.message.data[0])
+          setOptions(response.data.message.options)
+        }
       } catch (error) {
         console.error(error)
       }
