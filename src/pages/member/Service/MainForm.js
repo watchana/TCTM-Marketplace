@@ -47,6 +47,8 @@ import {
 const MainForm = ({ PDF_File }) => {
   const formdataref = useRef({})
 
+  const Swal = require('sweetalert2')
+
   const handleDownloadClick = () => {
     generatePDF()
   }

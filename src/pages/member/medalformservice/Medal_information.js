@@ -117,27 +117,30 @@ const MedalInformation = () => {
         {/* -----------------อีเมล--------------- */}
         <Grid item xs={4} mt={5}>
           <Typography fontSize={20}>Email</Typography>
-          <TextField name='email' placeholder='Email' fullWidth value={data.ser_email} />
+          <TextField
+            value={data.ser_email}
+            fullWidth
+            InputProps={{
+              readOnly: true // ทำให้ textfield เป็นแบบอ่านเท่านั้น
+            }}
+          />
         </Grid>
         {/* -----------------โทรศัพท์--------------- */}
         <Grid item xs={2} mt={5}>
           <Typography fontSize={20}>Phone</Typography>
           <TextField
-            name='phone'
-            placeholder='XXX-XXX-XXXX'
-            type='tel'
-            inputProps={{
-              pattern: '[0-9]*',
-              maxLength: 10
-            }}
+            value={data.ser_phone}
             fullWidth
+            InputProps={{
+              readOnly: true // ทำให้ textfield เป็นแบบอ่านเท่านั้น
+            }}
           />
         </Grid>
         {/* -----------------วันเกิด--------------- */}
         <Grid item xs={2} mt={5}>
           <Typography fontSize={20}>Date Of Birt</Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker onChange={date => (ref2.current.dateofbirt = date)} />
+            <DatePicker />
           </LocalizationProvider>
         </Grid>
         {/* -----------------อายุ--------------- */}
