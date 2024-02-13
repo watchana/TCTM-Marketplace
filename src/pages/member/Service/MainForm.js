@@ -105,6 +105,7 @@ const MainForm = ({ PDF_File }) => {
     ser_livingstatus: formdataref.current.livingStatus || '',
     ser_ethnicity: formdataref.current.ethnicity || '',
     ser_nationality: formdataref.current.nationality || '',
+    ser_religion: formdataref.current.religion || '',
     ser_idcard: formdataref.current.idcard || '',
     ser_expiration_date: formdataref.current.expiration_date || '',
     ser_height: formdataref.current.height || '',

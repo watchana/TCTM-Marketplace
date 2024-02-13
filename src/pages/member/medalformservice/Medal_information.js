@@ -116,7 +116,7 @@ const MedalInformation = () => {
         <Grid item xs={6}>
           <Typography fontSize={20}>First Name</Typography>
           <TextField
-            value={data.name}
+            value={data.ser_fname}
             fullWidth
             InputProps={{
               readOnly: true // ทำให้ textfield เป็นแบบอ่านเท่านั้น
@@ -158,184 +158,199 @@ const MedalInformation = () => {
         {/* -----------------วันเกิด--------------- */}
         <Grid item xs={2} mt={5}>
           <Typography fontSize={20}>Date Of Birt</Typography>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker />
-          </LocalizationProvider>
+          <TextField
+            value={data.ser_dateofbirt ? data.ser_dateofbirt.substring(0, 10) : ''}
+            fullWidth
+            InputProps={{
+              readOnly: true // ทำให้ textfield เป็นแบบอ่านเท่านั้น
+            }}
+          />
         </Grid>
         {/* -----------------อายุ--------------- */}
         <Grid item xs={2} mt={5}>
           <Typography fontSize={20}>Age</Typography>
-          <TextField name='age' placeholder='Age' sx={{ maxWidth: 70 }} />
+          <TextField
+            value={data.ser_age}
+            sx={{ maxWidth: 50 }}
+            InputProps={{
+              readOnly: true // ทำให้ textfield เป็นแบบอ่านเท่านั้น
+            }}
+          />
         </Grid>
         {/* -----------------ที่อยู่--------------- */}
-        <Grid item xs={6} mt={5}>
+        <Grid item xs={12} mt={5}>
           <Typography fontSize={20}>Address</Typography>
-          <TextField name='address' placeholder='Address' fullWidth />
+          <TextField
+            value={data.ser_address}
+            fullWidth
+            InputProps={{
+              readOnly: true // ทำให้ textfield เป็นแบบอ่านเท่านั้น
+            }}
+          />
         </Grid>
         {/* -----------------ที่อยู่--------------- */}
-        <Grid item xs={6} mt={5}>
+        <Grid item xs={12} mt={5}>
           <Typography fontSize={20}>Address Line 2</Typography>
-          <TextField name='addressline2' placeholder='Address Line 2' fullWidth />
+          <TextField
+            value={data.ser_addressline2}
+            fullWidth
+            InputProps={{
+              readOnly: true // ทำให้ textfield เป็นแบบอ่านเท่านั้น
+            }}
+          />
         </Grid>
         {/* -----------------ประกันสังคม--------------- */}
         <Grid item xs={4} mt={5}>
           <Typography fontSize={20}>Social Security</Typography>
-          <TextField name='social_security' placeholder='Social Security' fullWidth />
+          <TextField
+            value={data.ser_social_security}
+            fullWidth
+            InputProps={{
+              readOnly: true // ทำให้ textfield เป็นแบบอ่านเท่านั้น
+            }}
+          />
         </Grid>
         {/* -----------------สถานะความเป็นอยู่--------------- */}
         <Grid item xs={8} mt={5}>
           <Typography fontSize={20}>Living Status</Typography>
-          <FormControl>
-            <RadioGroup row aria-labelledby='demo-row-radio-buttons-group-label' name='livingStatus'>
-              <FormControlLabel
-                value='Living With Parent'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Living With Parent'
-              />
-              <FormControlLabel
-                value='Own Home'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Own Home'
-              />
-              <FormControlLabel
-                value='Hired House'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Hired House'
-              />
-              <FormControlLabel
-                value='Hiredflat/Hotel'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Hiredflat/Hotel'
-              />
-            </RadioGroup>
-          </FormControl>
+          <TextField
+            value={data.ser_livingstatus}
+            InputProps={{
+              readOnly: true // ทำให้ textfield เป็นแบบอ่านเท่านั้น
+            }}
+          />
         </Grid>
         {/* -----------------เชื้อชาติ--------------- */}
         <Grid item xs={2} mt={5}>
           <Typography fontSize={20}>Ethnicity</Typography>
-          <TextField name='ethnicity' placeholder='Ethnicity' fullWidth />
+          <TextField
+            value={data.ser_ethnicity}
+            InputProps={{
+              readOnly: true // ทำให้ textfield เป็นแบบอ่านเท่านั้น
+            }}
+          />
         </Grid>
         {/* -----------------สัญชาติ--------------- */}
         <Grid item xs={2} mt={5}>
           <Typography fontSize={20}>Nationality</Typography>
-          <TextField name='nationality' placeholder='Nationality' fullWidth />
+          <TextField
+            value={data.ser_nationality}
+            InputProps={{
+              readOnly: true // ทำให้ textfield เป็นแบบอ่านเท่านั้น
+            }}
+          />
         </Grid>
         {/* -----------------ศาสนา--------------- */}
         <Grid item xs={2} mt={5}>
           <Typography fontSize={20}>Religion</Typography>
-          <TextField name='religion' placeholder='Religion' fullWidth />
+          <TextField
+            value={data.ser_religion}
+            InputProps={{
+              readOnly: true // ทำให้ textfield เป็นแบบอ่านเท่านั้น
+            }}
+          />
         </Grid>
         {/* -----------------บัตรประชาชน--------------- */}
         <Grid item xs={3} mt={5}>
           <Typography fontSize={20}>Identity card no.</Typography>
-          <TextField name='idcard' placeholder='XXXXXXXXXXXXX' fullWidth />
+          <TextField
+            value={data.ser_idcard}
+            InputProps={{
+              readOnly: true // ทำให้ textfield เป็นแบบอ่านเท่านั้น
+            }}
+            fullWidth
+          />
         </Grid>
         {/* -----------------วันหมดอายุบัตร--------------- */}
         <Grid item xs={3} mt={5}>
           <Typography fontSize={20}>Expiration date</Typography>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker onChange={date => (ref2.current.expiration_date = date)} />
-          </LocalizationProvider>
+          <TextField
+            value={data.ser_expiration_date ? data.ser_expiration_date.substring(0, 10) : ''}
+            InputProps={{
+              readOnly: true // ทำให้ textfield เป็นแบบอ่านเท่านั้น
+            }}
+          />
         </Grid>
         {/* -----------------ส่วนสูง--------------- */}
         <Grid item xs={1.2} mt={5}>
           <Typography fontSize={20}>Height</Typography>
-          <TextField name='height' placeholder='Height Cm.' sx={{ maxWidth: 130 }} />
+          <TextField
+            value={data.ser_height}
+            InputProps={{
+              readOnly: true // ทำให้ textfield เป็นแบบอ่านเท่านั้น
+            }}
+          />
         </Grid>
         {/* -----------------น้ำหนัก--------------- */}
         <Grid item xs={1.3} mt={5}>
           <Typography fontSize={20}>Weight</Typography>
-          <TextField name='weight' placeholder='Weight Kgs.' sx={{ maxWidth: 130 }} />
+          <TextField
+            value={data.ser_weight}
+            InputProps={{
+              readOnly: true // ทำให้ textfield เป็นแบบอ่านเท่านั้น
+            }}
+          />
         </Grid>
         {/* -----------------สถานะทางทหาร--------------- */}
-        <Grid item xs={5} mt={5} ml={8}>
+        <Grid item xs={2} mt={5}>
           <Typography fontSize={20}>Military Status</Typography>
-          <FormControl>
-            <RadioGroup row aria-labelledby='demo-row-radio-buttons-group-label' name='military_status'>
-              <FormControlLabel
-                value='Exempted'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Exempted'
-              />
-              <FormControlLabel
-                value='Served'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Served'
-              />
-              <FormControlLabel
-                value='Not yet served'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Not yet served'
-              />
-            </RadioGroup>
-          </FormControl>
+          <TextField
+            value={data.ser_military_status}
+            InputProps={{
+              readOnly: true // ทำให้ textfield เป็นแบบอ่านเท่านั้น
+            }}
+          />
         </Grid>
         {/* -----------------เพศ--------------- */}
-        <Grid item xs={3} mt={5}>
+        <Grid item xs={1} mt={5}>
           <Typography fontSize={20}>Gender</Typography>
-          <FormControl>
-            <RadioGroup row aria-labelledby='demo-row-radio-buttons-group-label' name='gender'>
-              <FormControlLabel
-                value='Male'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Male'
-              />
-              <FormControlLabel
-                value='Female'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Female'
-              />
-            </RadioGroup>
-          </FormControl>
+          <TextField
+            value={data.ser_gender}
+            InputProps={{
+              readOnly: true // ทำให้ textfield เป็นแบบอ่านเท่านั้น
+            }}
+          />
         </Grid>
         {/* -----------------สถานภาพ--------------- */}
-        <Grid item xs={6} mt={5}>
+        <Grid item xs={2} mt={5}>
           <Typography fontSize={20}>Marital status</Typography>
-          <FormControl>
-            <RadioGroup row aria-labelledby='demo-row-radio-buttons-group-label' name='marital_status'>
-              <FormControlLabel
-                value='Single'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Single'
-              />
-              <FormControlLabel
-                value='married'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Married'
-              />
-              <FormControlLabel
-                value='Widowed'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Widowed'
-              />
-              <FormControlLabel
-                value='Separated'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Separated'
-              />
-            </RadioGroup>
-          </FormControl>
+          <TextField
+            value={data.ser_marital_status}
+            InputProps={{
+              readOnly: true // ทำให้ textfield เป็นแบบอ่านเท่านั้น
+            }}
+          />
         </Grid>
         {/* -----------------วันที่จะเริ่มทำงาน--------------- */}
         <Grid item xs={2} mt={5}>
           <Typography fontSize={20}>Date Available</Typography>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker onChange={date => (ref2.current.dateavail = date)} />
-          </LocalizationProvider>
+          <TextField
+            value={data.ser_dateavail ? data.ser_dateavail.substring(0, 10) : ''}
+            fullWidth
+            InputProps={{
+              readOnly: true // ทำให้ textfield เป็นแบบอ่านเท่านั้น
+            }}
+          />
         </Grid>
         {/* -----------------ตำแหน่งที่อยากทำ--------------- */}
         <Grid item xs={4} mt={5}>
           <Typography fontSize={20}>Position Applied For</Typography>
-          <TextField name='positionap' placeholder='Position Applied For' fullWidth />
+          <TextField
+            value={data.ser_positionap}
+            fullWidth
+            InputProps={{
+              readOnly: true // ทำให้ textfield เป็นแบบอ่านเท่านั้น
+            }}
+          />
         </Grid>
         {/* -----------------เงินเดือนที่ต้องการ--------------- */}
         <Grid item xs={4} mt={5}>
           <Typography fontSize={20}>Desired Pay</Typography>
           <TextField
-            name='desired_pay'
-            placeholder='desired pay'
+            value={data.ser_desired_pay}
             fullWidth
             InputProps={{
+              readOnly: true,
               startAdornment: (
                 <InputAdornment position='start'>
                   <AttachMoneyIcon />
@@ -344,42 +359,25 @@ const MedalInformation = () => {
             }}
           />
         </Grid>
-        <Grid item xs={3} mt={13}>
-          <FormControl>
-            <RadioGroup row aria-labelledby='demo-row-radio-buttons-group-label' name='hour_salary'>
-              <FormControlLabel
-                value='hour'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Hour'
-              />
-              <FormControlLabel
-                value='salary'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Salary'
-              />
-            </RadioGroup>
-          </FormControl>
+        <Grid item xs={1} mt={12.5}>
+          <TextField
+            value={data.ser_hour_salary}
+            fullWidth
+            InputProps={{
+              readOnly: true // ทำให้ textfield เป็นแบบอ่านเท่านั้น
+            }}
+          />
         </Grid>
         {/* -----------------การจ้างงานที่ต้องการ--------------- */}
-        <Grid item xs={5} mt={5}>
+        <Grid item xs={2.5} mt={5}>
           <Typography fontSize={20}>Employment Desired</Typography>
-          <RadioGroup row aria-labelledby='demo-row-radio-buttons-group-label' name='employment_desired'>
-            <FormControlLabel
-              value='Full-Time'
-              control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-              label='Full-Time'
-            />
-            <FormControlLabel
-              value='Past-Time'
-              control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-              label='Past-Time'
-            />
-            <FormControlLabel
-              value='Seasonal'
-              control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-              label='Seasonal'
-            />
-          </RadioGroup>
+          <TextField
+            value={data.ser_employment_desired}
+            fullWidth
+            InputProps={{
+              readOnly: true // ทำให้ textfield เป็นแบบอ่านเท่านั้น
+            }}
+          />
         </Grid>
       </Grid>
     </form>

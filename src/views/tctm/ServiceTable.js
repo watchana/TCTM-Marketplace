@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 
 // ** MUI Imports
-import { Box, Card, Button, Typography } from '@mui/material'
+import { Box, Card, Button, Typography, Tooltip } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 
 // ** Axios
@@ -21,6 +21,56 @@ const ServiceTable = ({ rows }) => {
   const Swal = require('sweetalert2')
   const [tableRows, setTableRows] = useState(rows) //เก็บข้อมูล Row ใน table
   const router = useRouter() // เรียกใช้งาน Router
+
+  useEffect(() => {
+    console.log('data1', tableRows)
+  }, [tableRows])
+
+  const handleDownload = async fileName => {
+    try {
+      // แสดงกล่องข้อความยืนยันด้วย SweetAlert
+      const result = await Swal.fire({
+        title: `You want to download resume file?`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No'
+      })
+
+      if (result.isConfirmed) {
+        const downloadResponse = await fetch('/api/resumeFile_dowload', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ fileName }),
+          responseType: 'blob' // Indicate that the response should be treated as binary data
+        })
+
+        if (downloadResponse.ok) {
+          const blob = await downloadResponse.blob()
+          const blobUrl = URL.createObjectURL(blob)
+
+          // Create a download link and initiate the download
+          const downloadLink = document.createElement('a')
+          downloadLink.href = blobUrl
+          downloadLink.download = fileName
+          downloadLink.click()
+
+          // Clean up the object URL after the download is initiated
+          URL.revokeObjectURL(blobUrl)
+
+          console.log('Download initiated')
+        } else {
+          console.error('Error downloading document:', downloadResponse.statusText)
+        }
+      } else {
+        console.log('Cancel download')
+      }
+    } catch (error) {
+      console.error('An error occurred:', error)
+    }
+  }
 
   // ** header table
   const columns = [
@@ -90,6 +140,26 @@ const ServiceTable = ({ rows }) => {
           </Button>
         )
       }
+    },
+    {
+      field: 'resume',
+      headerName: 'Resume file',
+      width: 250, // ปรับขนาดตามความต้องการ
+      renderCell: params => (
+        <div>
+          {' '}
+          <Tooltip title='This is the resume file from service register'>
+            <Button
+              style={{ marginRight: '5px' }}
+              variant='contained'
+              color='success'
+              onClick={() => handleDownload(params.row.ser_filedame)}
+            >
+              Download
+            </Button>
+          </Tooltip>
+        </div>
+      )
     }
   ]
 

@@ -27,6 +27,7 @@ import ChairRolling from 'mdi-material-ui/ChairRolling'
 import DataThresholdingIcon from '@mui/icons-material/DataThresholding'
 import HowToRegIcon from '@mui/icons-material/HowToReg'
 import FactCheckIcon from '@mui/icons-material/FactCheck'
+import HomeRepairServiceIcon from '@mui/icons-material/HomeRepairService'
 
 // Import Cookie
 import Cookies from 'js-cookie'
@@ -183,6 +184,17 @@ const UserDropdown = () => {
           <Box sx={styles}>
             <CurrencyUsd sx={{ marginRight: 2 }} />
             My Market
+          </Box>
+        </MenuItem>
+        {/* ปุ่ม service */}
+        <MenuItem
+          sx={{ p: 0 }}
+          onClick={() => handleDropdownClose('/member/Service/MainForm/')}
+          style={{ display: role === 'USER' && user_status === '1' ? 'block' : 'none' }}
+        >
+          <Box sx={styles}>
+            <HomeRepairServiceIcon sx={{ marginRight: 2 }} />
+            Register Service
           </Box>
         </MenuItem>
         {/* ปุ่มหน้า Dashboard TCTM */}
