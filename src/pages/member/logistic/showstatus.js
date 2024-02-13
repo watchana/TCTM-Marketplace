@@ -61,6 +61,11 @@ const Show_Status = () => {
   // เก็บค่าข้อมูลจาก Api
   useEffect(() => {
     const fetchData = async () => {
+      if (!invoice_id) {
+        // console.error('invoice_id is undefined or null')
+
+        return
+      }
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.invoice_detail`, {
           params: {
@@ -75,7 +80,6 @@ const Show_Status = () => {
     fetchData()
   }, [invoice_id])
 
-  const [data, setData] = useState([])
   const [userId, setUserId] = useState('')
   const [userdata, setUserData] = useState({})
 

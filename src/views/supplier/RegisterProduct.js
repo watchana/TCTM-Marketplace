@@ -302,8 +302,8 @@ const RegisterProduct = ({ product, setProduct, productCategories, onUploadImage
               fullWidth
               label='Product Name'
               id='product-name'
-              value={product.product_name}
               onChange={e => setProduct({ ...product, product_name: e.target.value })}
+              value={product.product_name}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -729,7 +729,7 @@ const RegisterProduct = ({ product, setProduct, productCategories, onUploadImage
                       <TextField
                         fullWidth
                         label={`Product ${index + 1}: ${option.optionName}`}
-                        defaultValue={`${option.optionName} ${index + 1}`}
+                        // defaultValue={`${option.optionName} ${index + 1}`}
                         id={`product-item-group-column-text-${option.optionId}`}
                         value={group[`optionGroupColumn${index + 1}`]}
                         onChange={e =>

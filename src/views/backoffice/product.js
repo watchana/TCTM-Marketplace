@@ -10,8 +10,7 @@ const Product = () => {
 
   useEffect(() => {
     axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.product.allproduct`).then(response => {
-      console.log('setProduxt:', response.data.message.Data)
-
+      // console.log('setProduxt:', response.data.message.Data)
       // setProductlist(response.data.message.Data)
     })
   }, [])

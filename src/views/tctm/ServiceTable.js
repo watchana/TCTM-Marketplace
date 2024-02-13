@@ -22,10 +22,6 @@ const ServiceTable = ({ rows }) => {
   const [tableRows, setTableRows] = useState(rows) //เก็บข้อมูล Row ใน table
   const router = useRouter() // เรียกใช้งาน Router
 
-  useEffect(() => {
-    console.log('data1', tableRows)
-  }, [tableRows])
-
   // ** header table
   const columns = [
     { field: 'ser_id', headerName: 'Account Id', width: 130 },

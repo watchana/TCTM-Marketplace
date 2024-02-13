@@ -39,6 +39,8 @@ import dayjs from 'dayjs'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 
+import { useMediaQuery } from '@mui/material'
+
 const MedalInformation = () => {
   const [data, setData] = useState([])
 
@@ -69,20 +71,37 @@ const MedalInformation = () => {
     fetchData()
   }, [serID])
 
+  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+
   return (
     <form>
       {/* -----------------information--------------- */}
 
       <Grid item Align='center'>
-        <Paper elevation={3} style={{ borderRadius: '10px', backgroundColor: '#333399', width: 500 }}>
-          <Typography
-            textAlign={'center'}
-            variant='h5'
-            sx={{ mb: 10, fontSize: 40, fontWeight: 'bold', color: 'white' }}
+        <Box sx={{ width: '100%' }}>
+          <Card
+            sx={{
+              height: isSmallScreen ? '80px' : '90px',
+              marginBottom: '30px',
+              padding: '15px 25px 20px',
+              backgroundColor: '#2d2e81',
+              border: '1px solid #primary.main'
+            }}
           >
-            Job Application
-          </Typography>
-        </Paper>
+            <Typography
+              variant='h5'
+              sx={{
+                fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.6rem' },
+                color: '#FFFFFF',
+                fontWeight: 'bold',
+                textAlign: 'center',
+                padding: '12px'
+              }}
+            >
+              Job Application
+            </Typography>
+          </Card>
+        </Box>
       </Grid>
 
       <Grid item xs={12} mt={5} mb={5}>

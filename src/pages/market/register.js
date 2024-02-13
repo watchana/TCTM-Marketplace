@@ -251,7 +251,7 @@ const RegisterSupplier = () => {
                   Marker Register
                 </Typography>
                 <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
-                  <Link href='/' passHref>
+                  <Link href='/'>
                     <Typography
                       color='#fff'
                       variant='subtitle1'

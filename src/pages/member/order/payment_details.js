@@ -70,6 +70,11 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
   }
   useEffect(() => {
     const fetchData = async () => {
+      if (!invoice_id) {
+        // console.error('invoice is undefined ro null')
+
+        return
+      }
       try {
         const Response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.invoice_detail`, {
           params: {

@@ -31,7 +31,6 @@ const Service = () => {
       axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.service.showalluserservice`).then(response => {
         // console.log('setUser:', response.data.message.Data)
         setUserlist(response.data.message.data)
-        console.log('response', response.data.message.Data)
       })
     } catch (error) {
       console.error(error)

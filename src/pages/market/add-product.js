@@ -214,7 +214,7 @@ const AddProductPage = ({ productCategories }) => {
           const statusCode = response.data.message.StatusCode
           setResultAPIStatus(statusCode)
 
-           console.log('ข้อมูลก่อนส่ง', product)
+          console.log('ข้อมูลก่อนส่ง', product)
 
           // เรียกใช้ฟังก์ชัน อัปโหลดไฟล์รูปภาพลงเครื่อง
           uploadImagesToApi()
@@ -293,12 +293,12 @@ const AddProductPage = ({ productCategories }) => {
                     Management
                   </Typography>
                   <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
-                    <Link href='/' passHref>
+                    <Link href='/'>
                       <Typography color='#fff' variant='h6' fontSize='14px'>
                         Home
                       </Typography>
                     </Link>
-                    <Link href='/market/' passHref>
+                    <Link href='/market/'>
                       <Typography color='#fff' variant='h6' fontSize='14px'>
                         Market Management
                       </Typography>

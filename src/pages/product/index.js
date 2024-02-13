@@ -105,6 +105,12 @@ const ProductDetails = () => {
   // ดึงข้อมูลตัวเลือกสินค้า
   useEffect(() => {
     const fetchData = async () => {
+      if (!productId) {
+        // console.error('productId is undefined or null')
+
+        return
+      }
+
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.product.productdetailv2`, {
           params: {
@@ -113,7 +119,6 @@ const ProductDetails = () => {
         })
 
         setProductImg(response.data.message.images.Result)
-
         setProductData(response.data.message.data[0])
         setOptions(response.data.message.options)
 

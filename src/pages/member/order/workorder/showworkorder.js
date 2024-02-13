@@ -9,6 +9,11 @@ const ShowWorkOrder = invoice_id => {
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!invoice_id.invoice_id) {
+        // console.error('productId is undefined or null')
+
+        return
+      }
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.workorder.get_work_order`, {
           params: {

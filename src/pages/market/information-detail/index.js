@@ -39,6 +39,12 @@ const InformationDetails = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!postId) {
+        // console.error('postId is undefined or null')
+
+        return
+      }
+
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.infromation.getallinfV2`, {
           params: {
@@ -52,8 +58,6 @@ const InformationDetails = () => {
           setInformationImg(response.data.message.Data)
           setInformationData(response.data.message.Data[0])
         }
-        console.log('img', response)
-        console.log('infor', response.data.message.Data[0])
       } catch (error) {
         console.error(error)
       }
@@ -163,7 +167,7 @@ const InformationDetails = () => {
                       Information
                     </Typography>
                     <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
-                      <Link href='/' passHref>
+                      <Link href='/'>
                         <Typography
                           color='#fff'
                           variant='subtitle1'
