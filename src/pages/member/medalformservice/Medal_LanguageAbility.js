@@ -1,5 +1,5 @@
 // FormComponent.js
-import React, { useState, useRef, forwardRef } from 'react'
+import React, { useState, useRef, forwardRef, useEffect } from 'react'
 
 // ** Material UI Imports
 import {
@@ -20,6 +20,13 @@ import {
   Card,
   CardContent
 } from '@mui/material'
+import FileUploadIcon from '@mui/icons-material/FileUpload'
+import DownloadIcon from '@mui/icons-material/Download'
+import InputAdornment from '@mui/material/InputAdornment'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
+import CloudUploadIcon from '@mui/icons-material/CloudUpload'
+import { styled } from '@mui/material/styles'
 
 // import timepicker
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -27,7 +34,40 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import dayjs from 'dayjs'
 
+// ** axios Imports
+import axios from 'axios'
+import { useRouter } from 'next/router'
+
 const MedalLanguageAbility = () => {
+  const [data, setData] = useState([])
+
+  const router = useRouter() // เรียกใช้งาน Router
+  const { ser_id } = router.query
+  const serID = ser_id
+
+  useEffect(() => {
+    console.log('data', data)
+  }, [data])
+
+  // Call Api
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.service.showallservice`, {
+          params: {
+            ser_id: serID
+          }
+        })
+
+        setData(response.data.message.Data[0])
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchData()
+  }, [serID])
+
   return (
     <form>
       {/* -----------------Language Ability--------------- */}
@@ -70,23 +110,19 @@ const MedalLanguageAbility = () => {
             >
               <Typography fontSize={20}>Speaking</Typography>
             </Paper>
-            <RadioGroup row aria-labelledby='demo-row-radio-buttons-group-label' name='speak_thai'>
-              <FormControlLabel
-                value='good'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Good'
-              />
-              <FormControlLabel
-                value='fair'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Fair'
-              />
-              <FormControlLabel
-                value='poor'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Poor'
-              />
-            </RadioGroup>
+            <Paper
+              elevation={1}
+              sx={{
+                mt: 5,
+                bgcolor: 'white',
+                height: 50,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <Typography fontSize={20}>{data.ser_speak_thai}</Typography>
+            </Paper>
             <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
           </Grid>
 
@@ -103,23 +139,19 @@ const MedalLanguageAbility = () => {
             >
               <Typography fontSize={20}>Writing</Typography>
             </Paper>
-            <RadioGroup row aria-labelledby='demo-row-radio-buttons-group-label' name='write_thai'>
-              <FormControlLabel
-                value='good'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Good'
-              />
-              <FormControlLabel
-                value='fair'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Fair'
-              />
-              <FormControlLabel
-                value='poor'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Poor'
-              />
-            </RadioGroup>
+            <Paper
+              elevation={1}
+              sx={{
+                mt: 5,
+                bgcolor: 'white',
+                height: 50,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <Typography fontSize={20}>{data.ser_write_thai}</Typography>
+            </Paper>
             <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
           </Grid>
 
@@ -136,23 +168,19 @@ const MedalLanguageAbility = () => {
             >
               <Typography fontSize={20}>Reading</Typography>
             </Paper>
-            <RadioGroup row aria-labelledby='demo-row-radio-buttons-group-label' name='read_thai'>
-              <FormControlLabel
-                value='good'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Good'
-              />
-              <FormControlLabel
-                value='fair'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Fair'
-              />
-              <FormControlLabel
-                value='poor'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Poor'
-              />
-            </RadioGroup>
+            <Paper
+              elevation={1}
+              sx={{
+                mt: 5,
+                bgcolor: 'white',
+                height: 50,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <Typography fontSize={20}>{data.ser_read_thai}</Typography>
+            </Paper>
             <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
           </Grid>
 
@@ -186,23 +214,19 @@ const MedalLanguageAbility = () => {
             >
               <Typography fontSize={20}>Speaking</Typography>
             </Paper>
-            <RadioGroup row aria-labelledby='demo-row-radio-buttons-group-label' name='speak_eng'>
-              <FormControlLabel
-                value='good'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Good'
-              />
-              <FormControlLabel
-                value='fair'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Fair'
-              />
-              <FormControlLabel
-                value='poor'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Poor'
-              />
-            </RadioGroup>
+            <Paper
+              elevation={1}
+              sx={{
+                mt: 5,
+                bgcolor: 'white',
+                height: 50,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <Typography fontSize={20}>{data.ser_speak_eng}</Typography>
+            </Paper>
             <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
           </Grid>
 
@@ -219,23 +243,19 @@ const MedalLanguageAbility = () => {
             >
               <Typography fontSize={20}>Writing</Typography>
             </Paper>
-            <RadioGroup row aria-labelledby='demo-row-radio-buttons-group-label' name='write_eng'>
-              <FormControlLabel
-                value='good'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Good'
-              />
-              <FormControlLabel
-                value='fair'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Fair'
-              />
-              <FormControlLabel
-                value='poor'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Poor'
-              />
-            </RadioGroup>
+            <Paper
+              elevation={1}
+              sx={{
+                mt: 5,
+                bgcolor: 'white',
+                height: 50,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <Typography fontSize={20}>{data.ser_write_eng}</Typography>
+            </Paper>
             <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
           </Grid>
 
@@ -252,23 +272,19 @@ const MedalLanguageAbility = () => {
             >
               <Typography fontSize={20}>Reading</Typography>
             </Paper>
-            <RadioGroup row aria-labelledby='demo-row-radio-buttons-group-label' name='read_eng'>
-              <FormControlLabel
-                value='good'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Good'
-              />
-              <FormControlLabel
-                value='fair'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Fair'
-              />
-              <FormControlLabel
-                value='poor'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Poor'
-              />
-            </RadioGroup>
+            <Paper
+              elevation={1}
+              sx={{
+                mt: 5,
+                bgcolor: 'white',
+                height: 50,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <Typography fontSize={20}>{data.ser_read_eng}</Typography>
+            </Paper>
             <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
           </Grid>
           {/* -----------------japan--------------- */}
@@ -301,23 +317,19 @@ const MedalLanguageAbility = () => {
             >
               <Typography fontSize={20}>Speaking</Typography>
             </Paper>
-            <RadioGroup row aria-labelledby='demo-row-radio-buttons-group-label' name='speak_japan'>
-              <FormControlLabel
-                value='good'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Good'
-              />
-              <FormControlLabel
-                value='fair'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Fair'
-              />
-              <FormControlLabel
-                value='poor'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Poor'
-              />
-            </RadioGroup>
+            <Paper
+              elevation={1}
+              sx={{
+                mt: 5,
+                bgcolor: 'white',
+                height: 50,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <Typography fontSize={20}>{data.ser_speak_japan}</Typography>
+            </Paper>
             <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
           </Grid>
 
@@ -334,23 +346,19 @@ const MedalLanguageAbility = () => {
             >
               <Typography fontSize={20}>Writing</Typography>
             </Paper>
-            <RadioGroup row aria-labelledby='demo-row-radio-buttons-group-label' name='write_japan'>
-              <FormControlLabel
-                value='good'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Good'
-              />
-              <FormControlLabel
-                value='fair'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Fair'
-              />
-              <FormControlLabel
-                value='poor'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Poor'
-              />
-            </RadioGroup>
+            <Paper
+              elevation={1}
+              sx={{
+                mt: 5,
+                bgcolor: 'white',
+                height: 50,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <Typography fontSize={20}>{data.ser_write_japan}</Typography>
+            </Paper>
             <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
           </Grid>
 
@@ -367,23 +375,19 @@ const MedalLanguageAbility = () => {
             >
               <Typography fontSize={20}>Reading</Typography>
             </Paper>
-            <RadioGroup row aria-labelledby='demo-row-radio-buttons-group-label' name='read_japan'>
-              <FormControlLabel
-                value='good'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Good'
-              />
-              <FormControlLabel
-                value='fair'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Fair'
-              />
-              <FormControlLabel
-                value='poor'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Poor'
-              />
-            </RadioGroup>
+            <Paper
+              elevation={1}
+              sx={{
+                mt: 5,
+                bgcolor: 'white',
+                height: 50,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <Typography fontSize={20}>{data.ser_read_japan}</Typography>
+            </Paper>
             <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
           </Grid>
           {/* -----------------china--------------- */}
@@ -416,23 +420,19 @@ const MedalLanguageAbility = () => {
             >
               <Typography fontSize={20}>Speaking</Typography>
             </Paper>
-            <RadioGroup row aria-labelledby='demo-row-radio-buttons-group-label' name='speak_china'>
-              <FormControlLabel
-                value='good'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Good'
-              />
-              <FormControlLabel
-                value='fair'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Fair'
-              />
-              <FormControlLabel
-                value='poor'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Poor'
-              />
-            </RadioGroup>
+            <Paper
+              elevation={1}
+              sx={{
+                mt: 5,
+                bgcolor: 'white',
+                height: 50,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <Typography fontSize={20}>{data.ser_speak_china}</Typography>
+            </Paper>
             <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
           </Grid>
 
@@ -449,23 +449,19 @@ const MedalLanguageAbility = () => {
             >
               <Typography fontSize={20}>Writing</Typography>
             </Paper>
-            <RadioGroup row aria-labelledby='demo-row-radio-buttons-group-label' name='write_china'>
-              <FormControlLabel
-                value='good'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Good'
-              />
-              <FormControlLabel
-                value='fair'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Fair'
-              />
-              <FormControlLabel
-                value='poor'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Poor'
-              />
-            </RadioGroup>
+            <Paper
+              elevation={1}
+              sx={{
+                mt: 5,
+                bgcolor: 'white',
+                height: 50,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <Typography fontSize={20}>{data.ser_write_china}</Typography>
+            </Paper>
             <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
           </Grid>
 
@@ -482,23 +478,19 @@ const MedalLanguageAbility = () => {
             >
               <Typography fontSize={20}>Reading</Typography>
             </Paper>
-            <RadioGroup row aria-labelledby='demo-row-radio-buttons-group-label' name='read_china'>
-              <FormControlLabel
-                value='good'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Good'
-              />
-              <FormControlLabel
-                value='fair'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Fair'
-              />
-              <FormControlLabel
-                value='poor'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Poor'
-              />
-            </RadioGroup>
+            <Paper
+              elevation={1}
+              sx={{
+                mt: 5,
+                bgcolor: 'white',
+                height: 50,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <Typography fontSize={20}>{data.ser_read_china}</Typography>
+            </Paper>
             <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
           </Grid>
         </Grid>
