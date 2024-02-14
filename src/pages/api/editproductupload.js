@@ -28,7 +28,7 @@ export default async (req, res) => {
       fileArray.forEach(file => {
         const originalFilename = file.originalFilename
 
-        const timestamp = new Date().toISOString().slice(0, 16).replace(/[-T:]/g, '')
+        const timestamp = new Date().toISOString().slice(0, 20).replace(/[-T:]/g, '')
         const newFilename = `${timestamp}_${originalFilename}`
 
         const newPathWithFilename = path.join(newPath, newFilename)
