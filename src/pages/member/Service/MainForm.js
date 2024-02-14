@@ -11,36 +11,14 @@ import SpecialAbility from './SpecialAbility'
 
 //import library
 import CloudUpload from 'mdi-material-ui/CloudUpload'
-import SerDowload from './ser_dowload'
-import html2canvas from 'html2canvas'
-import axios from 'axios'
-import jsPDF from 'jspdf'
 
-import FileUploadIcon from '@mui/icons-material/FileUpload'
-import DownloadIcon from '@mui/icons-material/Download'
+import axios from 'axios'
 
 // ** Switch Alert Import
 const SAlert = require('sweetalert2')
 
 // ** Material UI Imports
-import {
-  TextField,
-  Button,
-  Grid,
-  Typography,
-  Paper,
-  IconButton,
-  FormControlLabel,
-  Checkbox,
-  FormControl,
-  FormLabel,
-  RadioGroup,
-  Radio,
-  Divider,
-  Box,
-  Card,
-  CardContent
-} from '@mui/material'
+import { TextField, Button, Grid, Typography, Paper, Divider, Box } from '@mui/material'
 
 // import { textAlign } from 'html2canvas/dist/types/css/property-descriptors/text-align'
 
@@ -211,155 +189,8 @@ const MainForm = ({ PDF_File }) => {
     }
   }
 
-  // ฟังชัน download ใบเสร็จ
-  // const handleDownload = async FileName => {
-  //   const fileName = FileName
-
-  //   console.log('fileName', fileName)
-
-  //   try {
-  //     const downloadResponse = await fetch('/api/receipt_FileDownload', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //       },
-  //       body: JSON.stringify({ fileName }),
-  //       responseType: 'blob' // Indicate that the response should be treated as binary data
-  //     })
-
-  //     if (downloadResponse.ok) {
-  //       const blob = await downloadResponse.blob()
-  //       const blobUrl = URL.createObjectURL(blob)
-
-  //       // Create a download link and initiate the download
-  //       const downloadLink = document.createElement('a')
-  //       downloadLink.href = blobUrl
-  //       downloadLink.download = fileName
-  //       downloadLink.click()
-
-  //       // Clean up the object URL after the download is initiated
-  //       URL.revokeObjectURL(blobUrl)
-
-  //       console.log('Download initiated')
-  //     } else {
-  //       console.error('Error downloading document:', downloadResponse.statusText)
-  //     }
-  //   } catch (error) {
-  //     console.error('An error occurred:', error)
-  //   }
-  // }
-
-  // ทำสิ่งที่ต้องการกับข้อมูลที่ได้จาก form component ที่นี่
-
-  // const formData = new FormData()
-  // formData.append('pdfFile', pdfFile) // Assuming pdfFile is the File object obtained from an input element
-
-  // axios.post('/api/resumeFile', formData, {
-  //   headers: {
-  //     'Content-Type': 'multipart/form-data' // Set the content type to multipart/form-data
-  //   }
-  // })
-
-  // ฟังก์ชันสำหรับการอัพโหลดไฟล์ PDF ผ่าน API
-  // const uploadPDFFile = async (file, fileName) => {
-  //   const formData = new FormData()
-  //   formData.append('pdfFile', file, fileName) // 'pdfFile' คือชื่อ field ที่ API ต้องการรับไฟล์ PDF
-
-  //   try {
-  //     const response = await axios.post('URL_ของ_API', formData, {
-  //       headers: {
-  //         'Content-Type': 'multipart/form-data' // ใช้ multipart/form-data เพื่ออัพโหลดไฟล์
-  //         // อาจจะต้องการ headers อื่น ๆ ตามที่ API ระบุ
-  //       }
-  //     })
-
-  //     if (response.status === 200) {
-  //       console.log('อัพโหลดไฟล์ PDF สำเร็จ')
-
-  //       // ทำสิ่งที่ต้องการหลังจากอัพโหลดไฟล์สำเร็จ
-  //     } else {
-  //       console.error('อัพโหลดไฟล์ PDF ไม่สำเร็จ')
-
-  //       // ทำสิ่งที่ต้องการหลังจากอัพโหลดไฟล์ไม่สำเร็จ
-  //     }
-  //   } catch (error) {
-  //     console.error('มีข้อผิดพลาดในการอัพโหลดไฟล์ PDF:', error)
-
-  //     // ทำสิ่งที่ต้องการเมื่อเกิดข้อผิดพลาดในการอัพโหลดไฟล์ PDF
-  //   }
-  // }
-
-  // // เมื่อผู้ใช้เลือกไฟล์ PDF จากอินพุต (input) หรือต่างๆ
-  // const handleFileSelect = event => {
-  //   const file = event.target.files[0] // ไฟล์ที่เลือกจากอินพุต
-  //   const fileNameElement = document.getElementById('fileName') // เลือก Element ที่จะแสดงชื่อไฟล์
-
-  //   if (file) {
-  //     const fileName = file.name
-  //     fileNameElement.textContent = fileName // แสดงชื่อไฟล์ใน Element
-  //     uploadPDFFile(file, fileName) // เรียกใช้ uploadPDFFile พร้อมกับชื่อไฟล์
-  //   } else {
-  //     fileNameElement.textContent = '' // กรณีไม่มีการเลือกไฟล์ กำหนดให้เป็นค่าว่าง
-  //   }
-  // }
-
-  //ฟังค์ชั่นแคปรูปและนำไปแปลงไฟล์เป็น PDF
-
-  // const generatePDF = async () => {
-  //   // สร้างไฟล์ PDF
-  //   const pdf = new jsPDF()
-
-  //   // สร้างหน้าแรก
-  //   const page1 = document.getElementById('page-1')
-  //   const canvas1 = await html2canvas(page1, { scale: 1, logging: false }) // ปรับ scale ตามต้องการ
-  //   const imgData1 = canvas1.toDataURL('image/jpeg', 0.7) // ลดคุณภาพรูปภาพด้วยการกำหนดค่า quality
-
-  //   const imgWidth = 200
-  //   const imgHeight = (canvas1.height * imgWidth) / canvas1.width
-  //   pdf.addImage(imgData1, 'JPEG', 5, 5, imgWidth, imgHeight)
-
-  //   pdf.addPage()
-
-  //   // สร้างหน้าที่สอง
-  //   const page2 = document.getElementById('page-2')
-  //   const canvas2 = await html2canvas(page2, { scale: 2, logging: false }) // ปรับ scale ตามต้องการ
-  //   const imgData2 = canvas2.toDataURL('image/jpeg', 0.7) // ลดคุณภาพรูปภาพด้วยการกำหนดค่า quality
-
-  //   pdf.addImage(imgData2, 'JPEG', 5, 5, imgWidth, imgHeight)
-
-  //   pdf.addPage()
-
-  //   // สร้างหน้าที่สอง
-  //   const page3 = document.getElementById('page-3')
-  //   const canvas3 = await html2canvas(page3, { scale: 2, logging: false }) // ปรับ scale ตามต้องการ
-  //   const imgData3 = canvas3.toDataURL('image/jpeg', 0.7) // ลดคุณภาพรูปภาพด้วยการกำหนดค่า quality
-
-  //   pdf.addImage(imgData3, 'JPEG', 5, 5, imgWidth, imgHeight)
-
-  //   pdf.addPage()
-
-  //   // สร้างหน้าที่สอง
-  //   const page4 = document.getElementById('page-4')
-  //   const canvas4 = await html2canvas(page4, { scale: 2, logging: false }) // ปรับ scale ตามต้องการ
-  //   const imgData4 = canvas4.toDataURL('image/jpeg', 0.7) // ลดคุณภาพรูปภาพด้วยการกำหนดค่า quality
-
-  //   pdf.addImage(imgData4, 'JPEG', 5, 5, imgWidth, imgHeight)
-
-  //   pdf.addPage()
-
-  //   // สร้างหน้าที่สอง
-  //   const page5 = document.getElementById('page-5')
-  //   const canvas5 = await html2canvas(page5, { scale: 2, logging: true }) // ปรับ scale ตามต้องการ
-  //   const imgData5 = canvas5.toDataURL('image/jpeg', 0.7) // ลดคุณภาพรูปภาพด้วยการกำหนดค่า quality
-
-  //   pdf.addImage(imgData5, 'JPEG', 5, 5, imgWidth, imgHeight)
-
-  //   // ดาวน์โหลดไฟล์ PDF
-  //   pdf.save('multi_page.pdf')
-  // }
-
   return (
-    <Grid container id='form-to-image' sx={{ px: { xs: 12, sm: 12, md: 12, lg: 24 } }}>
+    <Grid container id='form-to-image' sx={{ xs: 12, sm: 12, md: 12, lg: 12 }}>
       <Paper elevation={3} style={{ padding: '60px' }}>
         {/* ----------------information---------------- */}
         <div id='page-1'>
@@ -428,9 +259,6 @@ const MainForm = ({ PDF_File }) => {
       <Button variant='contained' type='submit' onClick={handleSubmit} color='primary'>
         Submit
       </Button>
-      {/* <Button variant='contained' onClick={handleDownloadClick} color='primary'>
-        Download
-      </Button> */}
     </Grid>
   )
 }

@@ -15,6 +15,8 @@ import axios from 'axios'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 
+import { Helmet } from 'react-helmet'
+
 const images = [
   'https://imagen.research.google/main_gallery_images/cactus.jpg',
   'https://imagen.research.google/main_gallery_images/an-alien-octopus-floats.jpg',
@@ -181,7 +183,7 @@ const ShowProducts = () => {
                         component='img'
                         height='75%'
                         image={`/imgTctmProduct/${product.image_file_name}`}
-                        alt='product image'
+                        alt={product.image_file_name}
                         sx={{
                           objectFit: 'contain',
                           padding: '8px' // Adjust the padding as needed

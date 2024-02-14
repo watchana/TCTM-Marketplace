@@ -1,39 +1,28 @@
 // FormComponent.js
-import React, { useState, useRef, forwardRef } from 'react'
+import React, { forwardRef } from 'react'
 
 // ** Material UI Imports
 import {
   TextField,
-  Button,
   Grid,
   Typography,
   Paper,
-  IconButton,
   FormControlLabel,
-  Checkbox,
   FormControl,
-  FormLabel,
   RadioGroup,
   Radio,
-  Divider,
-  Box,
-  Card,
-  CardContent
+  Box
 } from '@mui/material'
 
-import FileUploadIcon from '@mui/icons-material/FileUpload'
-import DownloadIcon from '@mui/icons-material/Download'
 import InputAdornment from '@mui/material/InputAdornment'
-import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
-import CloudUploadIcon from '@mui/icons-material/CloudUpload'
-import { styled } from '@mui/material/styles'
 
 // import timepicker
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
-import dayjs from 'dayjs'
+import { useMediaQuery } from '@mui/material'
 
 const Information = forwardRef((props, ref2) => {
   const handle2Change = e => {
@@ -42,204 +31,350 @@ const Information = forwardRef((props, ref2) => {
     ref2.current[name] = value
   }
 
+  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+
   return (
-    <form>
+    <Box>
       {/* -----------------information--------------- */}
-      <Grid item Align='center'>
-        <Paper elevation={3} style={{ borderRadius: '10px', backgroundColor: '#333399', width: 500 }}>
+      <Grid>
+        <Paper
+          sx={{
+            height: isSmallScreen ? '50px' : '60px',
+            marginBottom: '30px',
+            padding: '15px 25px 20px',
+            backgroundColor: '#2d2e81',
+            border: '1px solid #primary.main'
+          }}
+        >
           <Typography
             textAlign={'center'}
+            color='#fff'
             variant='h5'
-            sx={{ mb: 10, fontSize: 40, fontWeight: 'bold', color: 'white' }}
+            sx={{ fontWeight: 'bold', fontSize: { xs: '1.2rem', sm: '1.5rem', md: '2rem' } }}
           >
             Job Application
           </Typography>
         </Paper>
       </Grid>
 
-      <Grid item xs={12} mt={5} mb={5}>
-        <Paper elevation={3} style={{ borderRadius: '10px', backgroundColor: '#333399' }}>
-          <Typography textAlign={'center'} variant='h5' sx={{ fontSize: 40, fontWeight: 'bold', color: 'white' }}>
+      <Grid>
+        <Paper
+          sx={{
+            height: isSmallScreen ? '50px' : '60px',
+            marginBottom: '30px',
+            padding: '15px 25px 20px',
+            backgroundColor: '#2d2e81',
+            border: '1px solid #primary.main'
+          }}
+        >
+          <Typography
+            textAlign={'center'}
+            color='#fff'
+            variant='h5'
+            sx={{ fontWeight: 'bold', fontSize: { xs: '1.3rem', sm: '1.8rem', md: '2.3rem' } }}
+          >
             Personal information
           </Typography>
         </Paper>
       </Grid>
 
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <Typography fontSize={20}>First Name</Typography>
-          <TextField name='fname' placeholder='Name' fullWidth onChange={handle2Change} />
+      <Grid container>
+        {/* -------------------------------------------------- COLUMN 1 ---------------------------------------------------------- */}
+
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <Typography variant='body2' fontWeight='bold'>
+              First Name
+            </Typography>
+            <TextField size='small' name='fname' placeholder='Name' fullWidth onChange={handle2Change} />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography variant='body2' fontWeight='bold'>
+              Last Name
+            </Typography>
+            <TextField size='small' name='lname' placeholder='Last Name' fullWidth onChange={handle2Change} />
+          </Grid>
         </Grid>
-        <Grid item xs={6}>
-          <Typography fontSize={20}>Last Name</Typography>
-          <TextField name='lname' placeholder='Last Name' fullWidth onChange={handle2Change} />
+
+        {/* -------------------------------------------------- COLUMN 2 ---------------------------------------------------------- */}
+
+        <Grid container spacing={2} mt={1}>
+          {/* -----------------อีเมล--------------- */}
+          <Grid item xs={12} sm={4.5} lg={4.5}>
+            <Typography variant='body2' fontWeight='bold'>
+              Email
+            </Typography>
+            <TextField size='small' name='email' placeholder='Email' fullWidth onChange={handle2Change} />
+          </Grid>
+          {/* -----------------โทรศัพท์--------------- */}
+          <Grid item xs={4} sm={2.5} lg={2.5}>
+            <Typography variant='body2' fontWeight='bold'>
+              Phone
+            </Typography>
+            <TextField
+              size='small'
+              name='phone'
+              placeholder='XXX-XXX-XXXX'
+              type='tel'
+              inputProps={{
+                pattern: '[0-9]*',
+                maxLength: 10
+              }}
+              fullWidth
+              onChange={handle2Change}
+            />
+          </Grid>
+          {/* -----------------วันเกิด--------------- */}
+          <Grid item xs={4} sm={2.5} lg={2.5}>
+            <Typography variant='body2' fontWeight='bold'>
+              Date Of Birt
+            </Typography>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                slotProps={{ textField: { size: 'small' } }}
+                onChange={date => (ref2.current.dateofbirt = date)}
+              />
+            </LocalizationProvider>
+          </Grid>
+          {/* -----------------อายุ--------------- */}
+          <Grid item xs={4} sm={2.5} lg={2.5}>
+            <Typography variant='body2' fontWeight='bold'>
+              Age
+            </Typography>
+            <TextField size='small' name='age' placeholder='Age' fullWidth onChange={handle2Change} />
+          </Grid>
         </Grid>
-        {/* -----------------อีเมล--------------- */}
-        <Grid item xs={4} mt={5}>
-          <Typography fontSize={20}>Email</Typography>
-          <TextField name='email' placeholder='Email' fullWidth onChange={handle2Change} />
+
+        {/* -------------------------------------------------- COLUMN 3 ---------------------------------------------------------- */}
+
+        <Grid container spacing={2} mt={1}>
+          {/* -----------------ที่อยู่--------------- */}
+          <Grid item xs={12} sm={6}>
+            <Typography variant='body2' fontWeight='bold'>
+              Address
+            </Typography>
+            <TextField size='small' name='address' placeholder='Address' fullWidth onChange={handle2Change} />
+          </Grid>
+          {/* -----------------ที่อยู่--------------- */}
+          <Grid item xs={12} sm={6}>
+            <Typography variant='body2' fontWeight='bold'>
+              Address Line 2
+            </Typography>
+            <TextField
+              size='small'
+              name='addressline2'
+              placeholder='Address Line 2'
+              fullWidth
+              onChange={handle2Change}
+            />
+          </Grid>
         </Grid>
-        {/* -----------------โทรศัพท์--------------- */}
-        <Grid item xs={2} mt={5}>
-          <Typography fontSize={20}>Phone</Typography>
-          <TextField
-            name='phone'
-            placeholder='XXX-XXX-XXXX'
-            type='tel'
-            inputProps={{
-              pattern: '[0-9]*',
-              maxLength: 10
-            }}
-            fullWidth
-            onChange={handle2Change}
-          />
-        </Grid>
-        {/* -----------------วันเกิด--------------- */}
-        <Grid item xs={2} mt={5}>
-          <Typography fontSize={20}>Date Of Birt</Typography>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker onChange={date => (ref2.current.dateofbirt = date)} />
-          </LocalizationProvider>
-        </Grid>
-        {/* -----------------อายุ--------------- */}
-        <Grid item xs={2} mt={5}>
-          <Typography fontSize={20}>Age</Typography>
-          <TextField name='age' placeholder='Age' sx={{ maxWidth: 70 }} onChange={handle2Change} />
-        </Grid>
-        {/* -----------------ที่อยู่--------------- */}
-        <Grid item xs={6} mt={5}>
-          <Typography fontSize={20}>Address</Typography>
-          <TextField name='address' placeholder='Address' fullWidth onChange={handle2Change} />
-        </Grid>
-        {/* -----------------ที่อยู่--------------- */}
-        <Grid item xs={6} mt={5}>
-          <Typography fontSize={20}>Address Line 2</Typography>
-          <TextField name='addressline2' placeholder='Address Line 2' fullWidth onChange={handle2Change} />
-        </Grid>
-        {/* -----------------ประกันสังคม--------------- */}
-        <Grid item xs={4} mt={5}>
-          <Typography fontSize={20}>Social Security</Typography>
-          <TextField name='social_security' placeholder='Social Security' fullWidth onChange={handle2Change} />
-        </Grid>
-        {/* -----------------สถานะความเป็นอยู่--------------- */}
-        <Grid item xs={8} mt={5}>
-          <Typography fontSize={20}>Living Status</Typography>
-          <FormControl>
+
+        {/* -------------------------------------------------- COLUMN 4 ---------------------------------------------------------- */}
+        <Grid container spacing={3} mt={1}>
+          {/* -----------------ประกันสังคม--------------- */}
+          <Grid item xs={12} md={4.5} lg={4.5}>
+            <Typography variant='body2' fontWeight='bold'>
+              Social Security
+            </Typography>
+            <TextField
+              size='small'
+              name='social_security'
+              placeholder='Social Security'
+              fullWidth
+              onChange={handle2Change}
+            />
+          </Grid>
+          {/* -----------------สถานะความเป็นอยู่--------------- */}
+          <Grid item xs={12} md={7.5} lg={7.5}>
+            <Typography variant='body2' fontWeight='bold'>
+              Living Status
+            </Typography>
+
             <RadioGroup
               row
               aria-labelledby='demo-row-radio-buttons-group-label'
               name='livingStatus'
               onChange={handle2Change}
             >
-              <FormControlLabel
-                value='Living With Parent'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Living With Parent'
-              />
-              <FormControlLabel
-                value='Own Home'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Own Home'
-              />
-              <FormControlLabel
-                value='Hired House'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Hired House'
-              />
-              <FormControlLabel
-                value='Hiredflat/Hotel'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Hiredflat/Hotel'
-              />
+              <Grid item xs={12} sm={6} md={6} lg={3}>
+                <FormControlLabel
+                  value='Living With Parent'
+                  control={<Radio size='small' />}
+                  label={<Typography variant='body2'>Living With Parent</Typography>}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} md={6} lg={3}>
+                <FormControlLabel
+                  value='Own Home'
+                  control={<Radio size='small' />}
+                  label={<Typography variant='body2'>Own Home</Typography>}
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6} md={6} lg={3}>
+                <FormControlLabel
+                  value='Hired House'
+                  control={<Radio size='small' />}
+                  label={<Typography variant='body2'>Hired House</Typography>}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} md={6} lg={3}>
+                <FormControlLabel
+                  value='Hiredflat/Hotel'
+                  control={<Radio size='small' />}
+                  label={<Typography variant='body2'>Hiredflat/Hotel</Typography>}
+                />
+              </Grid>
             </RadioGroup>
-          </FormControl>
+          </Grid>
         </Grid>
-        {/* -----------------เชื้อชาติ--------------- */}
-        <Grid item xs={2} mt={5}>
-          <Typography fontSize={20}>Ethnicity</Typography>
-          <TextField name='ethnicity' placeholder='Ethnicity' fullWidth onChange={handle2Change} />
+
+        {/* -------------------------------------------------- COLUMN 5 ---------------------------------------------------------- */}
+
+        <Grid container spacing={1} mt={1}>
+          {/* -----------------เชื้อชาติ--------------- */}
+          <Grid item xs={6} sm={4.5}>
+            <Typography variant='body2' fontWeight='bold'>
+              Ethnicity
+            </Typography>
+            <TextField size='small' name='ethnicity' placeholder='Ethnicity' fullWidth onChange={handle2Change} />
+          </Grid>
+          {/* -----------------สัญชาติ--------------- */}
+          <Grid item xs={6} sm={3.75}>
+            <Typography variant='body2' fontWeight='bold'>
+              Nationality
+            </Typography>
+            <TextField size='small' name='nationality' placeholder='Nationality' fullWidth onChange={handle2Change} />
+          </Grid>
+          {/* -----------------ศาสนา--------------- */}
+          <Grid item xs={12} sm={3.75}>
+            <Typography variant='body2' fontWeight='bold'>
+              Religion
+            </Typography>
+            <TextField size='small' name='religion' placeholder='Religion' fullWidth onChange={handle2Change} />
+          </Grid>
         </Grid>
-        {/* -----------------สัญชาติ--------------- */}
-        <Grid item xs={2} mt={5}>
-          <Typography fontSize={20}>Nationality</Typography>
-          <TextField name='nationality' placeholder='Nationality' fullWidth onChange={handle2Change} />
+
+        {/* -------------------------------------------------- COLUMN 6  ---------------------------------------------------------- */}
+
+        <Grid container spacing={1} mt={1}>
+          {/* -----------------บัตรประชาชน--------------- */}
+          <Grid item xs={12} md={6} lg={4.5}>
+            <Typography variant='body2' fontWeight='bold'>
+              Identity card no.
+            </Typography>
+            <TextField size='small' name='idcard' placeholder='XXXXXXXXXXXXX' fullWidth onChange={handle2Change} />
+          </Grid>
+
+          {/* -----------------วันหมดอายุบัตร--------------- */}
+          <Grid item xs={4} lg={2.5}>
+            <Typography variant='body2' fontWeight='bold'>
+              Expiration date
+            </Typography>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                slotProps={{ textField: { size: 'small' } }}
+                onChange={date => (ref2.current.expiration_date = date)}
+              />
+            </LocalizationProvider>
+          </Grid>
+          {/* -----------------ส่วนสูง--------------- */}
+          <Grid item xs={4} lg={2.5}>
+            <Typography variant='body2' fontWeight='bold'>
+              Height
+            </Typography>
+            <TextField size='small' name='height' placeholder='Height Cm.' fullWidth onChange={handle2Change} />
+          </Grid>
+          {/* -----------------น้ำหนัก--------------- */}
+          <Grid item xs={4} lg={2.5}>
+            <Typography variant='body2' fontWeight='bold'>
+              Weight
+            </Typography>
+            <TextField size='small' name='weight' placeholder='Weight Kgs.' fullWidth onChange={handle2Change} />
+          </Grid>
         </Grid>
-        {/* -----------------ศาสนา--------------- */}
-        <Grid item xs={2} mt={5}>
-          <Typography fontSize={20}>Religion</Typography>
-          <TextField name='religion' placeholder='Religion' fullWidth onChange={handle2Change} />
-        </Grid>
-        {/* -----------------บัตรประชาชน--------------- */}
-        <Grid item xs={3} mt={5}>
-          <Typography fontSize={20}>Identity card no.</Typography>
-          <TextField name='idcard' placeholder='XXXXXXXXXXXXX' fullWidth onChange={handle2Change} />
-        </Grid>
-        {/* -----------------วันหมดอายุบัตร--------------- */}
-        <Grid item xs={3} mt={5}>
-          <Typography fontSize={20}>Expiration date</Typography>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker onChange={date => (ref2.current.expiration_date = date)} />
-          </LocalizationProvider>
-        </Grid>
-        {/* -----------------ส่วนสูง--------------- */}
-        <Grid item xs={1.2} mt={5}>
-          <Typography fontSize={20}>Height</Typography>
-          <TextField name='height' placeholder='Height Cm.' sx={{ maxWidth: 130 }} onChange={handle2Change} />
-        </Grid>
-        {/* -----------------น้ำหนัก--------------- */}
-        <Grid item xs={1.3} mt={5}>
-          <Typography fontSize={20}>Weight</Typography>
-          <TextField name='weight' placeholder='Weight Kgs.' sx={{ maxWidth: 130 }} onChange={handle2Change} />
-        </Grid>
-        {/* -----------------สถานะทางทหาร--------------- */}
-        <Grid item xs={5} mt={5} ml={8}>
-          <Typography fontSize={20}>Military Status</Typography>
-          <FormControl>
+
+        {/* -------------------------------------------------- COLUMN 7 ---------------------------------------------------------- */}
+        <Grid container spacing={1} mt={1} mr={8} width={'100%'}>
+          {/* -----------------สถานะทางทหาร--------------- */}
+          <Grid item xs={7} md={7} lg={7}>
+            <Typography variant='body2' fontWeight='bold'>
+              Military Status
+            </Typography>
+
             <RadioGroup
               row
               aria-labelledby='demo-row-radio-buttons-group-label'
               name='military_status'
               onChange={handle2Change}
             >
-              <FormControlLabel
-                value='Exempted'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Exempted'
-              />
-              <FormControlLabel
-                value='Served'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Served'
-              />
-              <FormControlLabel
-                value='Not yet served'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Not yet served'
-              />
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <FormControlLabel
+                  fullWidth
+                  value='Exempted'
+                  control={<Radio size='small' />}
+                  label={<Typography variant='body2'>Exempted</Typography>}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <FormControlLabel
+                  fullWidth
+                  value='Served'
+                  control={<Radio size='small' />}
+                  label={<Typography variant='body2'>Served</Typography>}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <FormControlLabel
+                  fullWidth
+                  value='Not yet served'
+                  control={<Radio size='small' />}
+                  label={<Typography variant='body2'>Not yet served</Typography>}
+                />
+              </Grid>
             </RadioGroup>
-          </FormControl>
+          </Grid>
+          <Grid item xs={5} md={5} lg={5}>
+            {/* -----------------เพศ--------------- */}
+            <Grid item xs={12}>
+              <Typography variant='body2' fontWeight='bold'>
+                Gender
+              </Typography>
+
+              <RadioGroup
+                row
+                aria-labelledby='demo-row-radio-buttons-group-label'
+                name='gender'
+                onChange={handle2Change}
+              >
+                <Grid item xs={12} sm={6} md={4} lg={6}>
+                  <FormControlLabel
+                    value='Male'
+                    control={<Radio size='small' />}
+                    label={<Typography variant='body2'>Male</Typography>}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={4} lg={6}>
+                  <FormControlLabel
+                    value='Female'
+                    control={<Radio size='small' />}
+                    label={<Typography variant='body2'>Female</Typography>}
+                  />
+                </Grid>
+              </RadioGroup>
+            </Grid>
+          </Grid>
         </Grid>
-        {/* -----------------เพศ--------------- */}
-        <Grid item xs={3} mt={5}>
-          <Typography fontSize={20}>Gender</Typography>
-          <FormControl>
-            <RadioGroup row aria-labelledby='demo-row-radio-buttons-group-label' name='gender' onChange={handle2Change}>
-              <FormControlLabel
-                value='Male'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Male'
-              />
-              <FormControlLabel
-                value='Female'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Female'
-              />
-            </RadioGroup>
-          </FormControl>
-        </Grid>
+
+        {/* -------------------------------------------------- COLUMN 1 ---------------------------------------------------------- */}
+
         {/* -----------------สถานภาพ--------------- */}
-        <Grid item xs={6} mt={5}>
-          <Typography fontSize={20}>Marital status</Typography>
+        <Grid item xs={6}>
+          <Typography variant='body2' fontWeight='bold'>
+            Marital status
+          </Typography>
           <FormControl>
             <RadioGroup
               row
@@ -271,21 +406,40 @@ const Information = forwardRef((props, ref2) => {
           </FormControl>
         </Grid>
         {/* -----------------วันที่จะเริ่มทำงาน--------------- */}
-        <Grid item xs={2} mt={5}>
-          <Typography fontSize={20}>Date Available</Typography>
+        <Grid item xs={2}>
+          <Typography variant='body2' fontWeight='bold'>
+            Date Available
+          </Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker onChange={date => (ref2.current.dateavail = date)} />
+            <DatePicker
+              slotProps={{ textField: { size: 'small' } }}
+              onChange={date => (ref2.current.dateavail = date)}
+            />
           </LocalizationProvider>
         </Grid>
         {/* -----------------ตำแหน่งที่อยากทำ--------------- */}
-        <Grid item xs={4} mt={5}>
-          <Typography fontSize={20}>Position Applied For</Typography>
-          <TextField name='positionap' placeholder='Position Applied For' fullWidth onChange={handle2Change} />
-        </Grid>
-        {/* -----------------เงินเดือนที่ต้องการ--------------- */}
-        <Grid item xs={4} mt={5}>
-          <Typography fontSize={20}>Desired Pay</Typography>
+        <Grid item xs={4}>
+          <Typography variant='body2' fontWeight='bold'>
+            Position Applied For
+          </Typography>
           <TextField
+            size='small'
+            name='positionap'
+            placeholder='Position Applied For'
+            fullWidth
+            onChange={handle2Change}
+          />
+        </Grid>
+
+        {/* -------------------------------------------------- COLUMN 1 ---------------------------------------------------------- */}
+
+        {/* -----------------เงินเดือนที่ต้องการ--------------- */}
+        <Grid item xs={4}>
+          <Typography variant='body2' fontWeight='bold'>
+            Desired Pay
+          </Typography>
+          <TextField
+            size='small'
             name='desired_pay'
             placeholder='desired pay'
             fullWidth
@@ -321,8 +475,10 @@ const Information = forwardRef((props, ref2) => {
           </FormControl>
         </Grid>
         {/* -----------------การจ้างงานที่ต้องการ--------------- */}
-        <Grid item xs={5} mt={5}>
-          <Typography fontSize={20}>Employment Desired</Typography>
+        <Grid item xs={5}>
+          <Typography variant='body2' fontWeight='bold'>
+            Employment Desired
+          </Typography>
           <RadioGroup
             row
             aria-labelledby='demo-row-radio-buttons-group-label'
@@ -347,7 +503,7 @@ const Information = forwardRef((props, ref2) => {
           </RadioGroup>
         </Grid>
       </Grid>
-    </form>
+    </Box>
   )
 })
 
