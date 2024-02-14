@@ -54,13 +54,16 @@ const Swal = require('sweetalert2')
 
 const EditPo = ({ productCategories }) => {
   const [productdata, setProductData] = useState({})
+  const [img, setImg] = useState([])
+  const [options, setOptions] = useState([])
+
   const [uploadImages, setUploadImages] = useState([])
   const [deleteImages, setDeleteImages] = useState([])
   const [FileteredImages, setFileteredImages] = useState([])
 
   console.log('deleteImages', deleteImages)
 
-  const pdi = 'PDI-115'
+  const pdi = 'PDI-113'
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,7 +73,7 @@ const EditPo = ({ productCategories }) => {
         }
       })
       setProductData(response.data.message.data[0])
-      setImg(response.data.message.images.Result || 0)
+      setImg(response.data.message.images.Result || [])
       setOptions(response.data.message.options)
 
       // console.log(response.data.message.images)
@@ -81,8 +84,6 @@ const EditPo = ({ productCategories }) => {
     fetchData()
   }, [])
 
-  const [img, setImg] = useState([])
-  const [options, setOptions] = useState([])
   const [ProductName, setProductName] = useState('')
   const [Category, setCategory] = useState('')
   const [description, setdescription] = useState('')
@@ -271,7 +272,7 @@ const EditPo = ({ productCategories }) => {
               overflowY: 'inherit'
             }}
           >
-            {FileteredImages&&FileteredImages.length + uploadImages.length > 0 ? (
+            {FileteredImages && FileteredImages.length + uploadImages.length > 0 ? (
               <ImageList xs={4}>
                 {FileteredImages.map((img, index) => (
                   <ImageListItem key={index} xs={4}>
@@ -286,7 +287,7 @@ const EditPo = ({ productCategories }) => {
                         display: 'block' // ให้รูปแสดงเป็นบล็อกเพื่อจัดตำแหน่งและขนาด
                       }}
                     />
-                    <ImageListItemBar title={img.image_file_name} position='below' />
+                    <ImageListItemBar title={img.image_file_name} width={'100px'} />
                     <IconButton
                       aria-label='delete'
                       onClick={() => onDeleteButtonClick(img.product_image_id, img.image_file_name)}
@@ -384,7 +385,7 @@ const EditPo = ({ productCategories }) => {
           </MenuItem>
         ))}
         <Button sx={{ width: 175 }} variant='contained' onClick={handleSubmit}>
-          add to cart
+          Save
         </Button>
       </Grid>
     </Card>
