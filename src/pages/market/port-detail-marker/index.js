@@ -22,6 +22,8 @@ import {
   Grid,
   Hidden,
   IconButton,
+  ImageList,
+  ImageListItem,
   TextField,
   Typography
 } from '@mui/material'
@@ -43,6 +45,7 @@ import ChevronRight from 'mdi-material-ui/ChevronRight'
 
 // ** Auth Check
 import { withAuth } from 'src/@core/utils/AuthCheck'
+import Regispost from 'src/views/post-image/regispost'
 
 const PosrtDetail = () => {
   // นำเข้าตัวsweetalert2
@@ -62,11 +65,16 @@ const PosrtDetail = () => {
   const [poData, setPoData] = useState('') // ข้อมูล Po
   const [poFile, setPoFile] = useState(null) // เก็บค่า Po File
   const [poFileName, setPoFileName] = useState('') // เก็บค่าชื่อของ Po File
+  const [imagesName, setImagesName] = useState([])
+
+  const [messageImage, setMessageImage] = useState([])
+  const [uploadImages, setUploadImages] = useState([])
 
   const [shouldFetchData, setShouldFetchData] = useState(false) // ตัวแปรควบคุมการดึงข้อมูลใหม่
   const [selectedFileName, setSelectedFileName] = useState('') // เก็บชื่อไฟล์ Po
 
   // ประกาศตัวแปร mergedData และกำหนดค่าเป็น questionData รวมกับ commentsData
+
   const mergedData = [
     ...(questionData ? Object.values(questionData) : []),
     ...(commentsData ? Object.values(commentsData) : [])
@@ -93,6 +101,15 @@ const PosrtDetail = () => {
     }
   }, [])
 
+  useEffect(() => {
+    const imageNames = uploadImages.map(image => image.name)
+
+    // ตรวจสอบว่าค่า imageNames ไม่เหมือนกับค่าปัจจุบันของ imagesName ก่อนที่จะเรียก setImagesName
+    if (JSON.stringify(imageNames) !== JSON.stringify(imagesName)) {
+      setImagesName(imageNames)
+    }
+  }, [uploadImages, imagesName])
+
   // เก็บค่าข้อมูลแชทจาก Api
   useEffect(() => {
     const fetchData = async () => {
@@ -110,6 +127,7 @@ const PosrtDetail = () => {
           setPostData(response.data.message.Requirement_Data[0])
           setQuestionData(response.data.message.Question_List)
           setPoData(response.data.message.Po_List)
+          setMessageImage(response.data.message.image)
         } catch (error) {
           console.error(error)
         }
@@ -118,6 +136,15 @@ const PosrtDetail = () => {
 
     fetchData()
   }, [reqID, shouldFetchData])
+
+  // useEffect(() => {
+  //   console.log('posdata', postData)
+  // }, [postData])
+
+  // จัดการตัวแปรชื่อไฟล์ภาพ
+  const handleUploadImagesChange = newImages => {
+    setUploadImages(newImages)
+  }
 
   //===========================ฟังชัน ดึงข้อมูลทุกๆวินาที=============================//
 
@@ -140,54 +167,68 @@ const PosrtDetail = () => {
   }
 
   const [commentsData, setCommentsData] = useState([]) // อัปเดตเพื่อเก็บทั้งข้อควา
+  const [uploadedFileNames, setUploadedFileNames] = useState([])
 
   // Comment Submit
 
   const handleCommentSubmit = async e => {
     e.preventDefault()
 
+    if (comments !== '') {
+      setUploadedFileNames('')
+      if (comments !== '' && uploadedFileNames !== '') {
+        const response = await axios.post(`/api/Chat_Upload`, uploadImages, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+
+        setUploadedFileNames(response.data.uploadedFileNames)
+      }
+    }
+
+    // ตรวจสอบค่าว่างใน TextField
+    if (reqID === 'null' || userId === 'null' || recipient === 'null') {
+      SAlert.fire({
+        icon: 'error',
+        title: 'Error information',
+        text: 'No one has answered yet!'
+      })
+
+      return
+    }
+
+    if (!comments) {
+      SAlert.fire({
+        icon: 'error',
+        title: 'Error information',
+        text: 'Please fill in information before commenting!'
+      })
+
+      return
+    }
+
     // รวมข้อมูลข้อความและรูปภาพเข้าด้วยกันสำหรับความคิดเห็น
-    const commentData = {
+    const dataAdd = {
       req_id: reqID,
-      sender: recipient,
+      sender: userId,
       recipient: recipient,
       query_description: comments,
-      imageFile: imageFile // รวมข้อมูลรูปภาพ
+      req_image_file: uploadedFileNames
     }
 
-    const data = new FormData()
-    data.append('req_id', reqID)
-    data.append('sender', recipient)
-    data.append('recipient', recipient)
-    data.append('query_description', comments)
-
-    if (imageFile) {
-      data.append('image', imageFile)
-    }
+    console.log('data1', dataAdd)
 
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.postchat`, data)
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.postchat`, dataAdd)
       console.log(response)
-
-      // อัปเดต commentsData เพื่อรวมทั้งข้อความและข้อมูลรูปภาพ
-      setCommentsData(prevData => [
-        ...prevData,
-        {
-          query_id: response.data.query_id,
-          sender: recipient,
-          user_first_name: 'ชื่อของคุณ', // แทนที่ด้วยข้อมูลจริง
-          user_last_name: 'นามสกุลของคุณ', // แทนที่ด้วยข้อมูลจริง
-          query_description: comments,
-          image: imagePreview // รวมข้อมูลรูปภาพ
-        }
-      ])
 
       SAlert.fire({
         icon: 'success',
         title: 'โพสต์ข้อความสำเร็จ'
       })
 
-      setComments('')
+      setComment('')
       setImageFile(null)
       setImagePreview(null)
       setShouldFetchData(!shouldFetchData)
@@ -527,15 +568,8 @@ const PosrtDetail = () => {
                 onChange={handleComment}
                 value={comments}
               />
-              {imagePreview && (
-                <img
-                  src={imagePreview}
-                  alt='Selected Image'
-                  style={{ maxWidth: '100%', maxHeight: '200px', marginBottom: '10px' }}
-                />
-              )}
-              <input type='file' accept='image/*' onChange={handleImageChange} />
 
+              <Regispost onUploadImagesChange={handleUploadImagesChange} />
               <Button variant='contained' onClick={handleCommentSubmit}>
                 Post Comment
               </Button>
@@ -545,68 +579,76 @@ const PosrtDetail = () => {
           <Box sx={{ width: '100%', padding: '10px 20px 20px' }}>
             <Box sx={{ width: '100%' }}>
               <Typography variant='h6' fontSize='18px bold' color='#222' sx={{ marginBottom: 2 }}>
-                ความคิดเห็น
+                Comment
               </Typography>
-              {mergedData && mergedData.length > 0 ? (
-                mergedData.map((data, index) => (
-                  <Card
-                    key={index}
-                    variant='outlined'
-                    sx={{
-                      width: '100%',
-                      height: '100%',
-                      marginBottom: '20px',
-                      boxShadow: 2,
-                      backgroundColor: data.sender.startsWith('SUP') ? '#3A46A7' : '#FFCA64'
-                    }}
-                  >
-                    <Box sx={{ width: '100%', padding: '20px' }}>
-                      <Box
-                        sx={{
-                          width: '100%',
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignContent: 'center'
-                        }}
-                      >
-                        {data.sender.startsWith('SUP') ? (
-                          <Typography variant='h6' fontSize='2.2rem bold' color='#fff'>
-                            Market
-                          </Typography>
-                        ) : (
-                          <Typography variant='h6' fontSize='2.2rem bold' color='#000'>
-                            {data.user_first_name} {data.user_last_name}
-                          </Typography>
-                        )}
-                        {data.sender.startsWith('SUP') && (
-                          <IconButton onClick={() => handleDeleteSubmit(data.query_id)}>
-                            <DeleteIcon sx={{ fontSize: 28, color: '#fff' }} />
-                          </IconButton>
-                        )}
+              {questionData && questionData.length > 0 ? (
+                [...new Set(questionData.map(question => question.query_id))].map((uniqueQueryId, index) => {
+                  const uniqueQuestion = questionData.find(question => question.query_id === uniqueQueryId)
+
+                  return (
+                    <Card
+                      key={index}
+                      variant='outlined'
+                      sx={{
+                        width: '100%',
+                        height: '100%',
+                        marginBottom: '20px',
+                        boxShadow: 2,
+                        backgroundColor: uniqueQuestion.sender === userId ? '#3A46A7' : '#FFCA64'
+                      }}
+                    >
+                      <Box sx={{ width: '100%', padding: '20px' }}>
+                        <Box
+                          sx={{
+                            width: '100%',
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignContent: 'center'
+                          }}
+                        >
+                          {uniqueQuestion.sender === userId ? (
+                            <Typography variant='h6' fontSize='2.2rem bold' color='#fff'>
+                              {uniqueQuestion.user_first_name} {uniqueQuestion.user_last_name}
+                            </Typography>
+                          ) : (
+                            <Typography variant='h6' fontSize='2.2rem bold' color='#000'>
+                              Member
+                            </Typography>
+                          )}
+                          {uniqueQuestion.sender === userId && (
+                            <IconButton onClick={() => handleDeleteSubmit(uniqueQuestion.query_id)}>
+                              <DeleteIcon sx={{ fontSize: 28, color: '#fff' }} />
+                            </IconButton>
+                          )}
+                        </Box>
                       </Box>
-                    </Box>
-                    <Box sx={{ width: '100%', padding: '0px 20px 20px' }}>
-                      <Typography
-                        variant='body2'
-                        fontSize='1rem'
-                        color={data.sender.startsWith('SUP') ? '#fff' : '#000'}
-                      >
-                        {data.query_description}
-                      </Typography>
-                      {data.image && (
-                        <img
-                          src={data.image}
-                          alt='Comment Image'
-                          style={{ maxWidth: '100%', maxHeight: '200px', marginTop: '10px' }}
-                        />
-                      )}
-                    </Box>
-                  </Card>
-                ))
+
+                      <Box sx={{ width: '100%', padding: '0px 20px 20px' }}>
+                        <Typography
+                          variant='body2'
+                          fontSize='1rem'
+                          color={uniqueQuestion.sender === userId ? '#fff' : '#000'}
+                        >
+                          {uniqueQuestion.query_description}
+                        </Typography>
+
+                        {messageImage
+                          .filter(image => image.query_id === uniqueQuestion.query_id)
+                          .map((image, imgIndex) => (
+                            <ImageList key={imgIndex}>
+                              <ImageListItem>
+                                <img src={`/imgpost/${image.req_image_file}`} alt={image.name} />
+                              </ImageListItem>
+                            </ImageList>
+                          ))}
+                      </Box>
+                    </Card>
+                  )
+                })
               ) : (
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                   <Typography variant='h6' fontSize='24px bold'>
-                    ยังไม่มีใครแสดงความคิดเห็น.
+                    No one has commented yet.
                   </Typography>
                 </Box>
               )}

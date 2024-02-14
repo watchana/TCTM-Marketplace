@@ -71,10 +71,6 @@ const PosrtDetail = () => {
 
   const [shouldFetchData, setShouldFetchData] = useState(false) // ตัวแปรควบคุมการดึงข้อมูลใหม่
 
-  // useEffect(() => {
-  //   console.log('ไฟล์', messageImage)
-  // }, [messageImage])
-
   // จัดการตัวแปรชื่อไฟล์ภาพ
   const handleUploadImagesChange = newImages => {
     setUploadImages(newImages)
@@ -132,7 +128,7 @@ const PosrtDetail = () => {
     }
 
     fetchData()
-  }, [reqID])
+  }, [reqID, shouldFetchData])
 
   //===========================ฟังชัน ดึงข้อมูลทุกๆวินาที=============================//
 
@@ -154,17 +150,26 @@ const PosrtDetail = () => {
     setComment(event.target.value)
   }
 
+  const [uploadedFileNames, setUploadedFileNames] = useState([])
+
   // Comment Submit
   const handleCommentSubmit = async e => {
     e.preventDefault()
 
-    const response = await axios.post(`/api/Chat_Upload`, uploadImages, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
+    if (comments !== '') {
+      setUploadedFileNames('')
+      if (comments !== '' && uploadedFileNames !== '') {
+        const response = await axios.post(`/api/Chat_Upload`, uploadImages, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
 
-    const uploadedFileNames = response.data.uploadedFileNames // ดึงค่า uploadedFileNames จาก response
+        setUploadedFileNames(response.data.uploadedFileNames)
+      }
+    }
+
+    // ดึงค่า uploadedFileNames จาก response
 
     // ตรวจสอบค่าว่างใน TextField
     if (reqID === 'null' || userId === 'null' || recipient === 'null') {
@@ -312,7 +317,7 @@ const PosrtDetail = () => {
     const fileName = FileName
 
     try {
-      const downloadResponse = await fetch('/api/Chat_Upload', {
+      const downloadResponse = await fetch('/api/Po_FileDownload', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
