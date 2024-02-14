@@ -11,6 +11,12 @@ const CheckNpost = invoice_id => {
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!invoice_id.invoice_id) {
+        // console.error('invoice_id.invoice_id is undefined or null')
+
+        return
+      }
+
       try {
         // Fetch invoice details
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.workorder.get_work_order`, {
@@ -89,6 +95,11 @@ const CheckNpost = invoice_id => {
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!invoice_id.invoice_id) {
+        // console.error('invoice.invoice is undefined ro null')
+
+        return
+      }
       try {
         // Fetch invoice details
 

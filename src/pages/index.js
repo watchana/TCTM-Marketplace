@@ -1,30 +1,10 @@
 // ** React Imports
-import { React } from 'react'
-
-// ** Next Import
-import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { React, useEffect } from 'react'
 
 // ** Material UI Imports
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Container,
-  Divider,
-  FormControl,
-  FormControlLabel,
-  Grid,
-  Hidden,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Switch,
-  TextField,
-  Typography
-} from '@mui/material'
+import { Container } from '@mui/material'
+
+import themeConfig from 'src/configs/themeConfig'
 
 // ** custom components
 import Billboard from 'src/views/homepage/Billboard'
@@ -32,9 +12,6 @@ import NameMarket from 'src/views/homepage/NameMarket'
 import ShowProducts from 'src/views/homepage/ShowProducts'
 import ShowProducts2 from 'src/views/homepage/ShowProducts2'
 import ShowPost from './postinformation/Showpost'
-
-// ** Utils Imports
-import { withAuth } from '../@core/utils/AuthCheck'
 
 const Dashboard = () => {
   return (

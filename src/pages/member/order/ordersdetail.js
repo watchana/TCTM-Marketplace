@@ -41,6 +41,11 @@ const Orders_Detail = () => {
   // เก็บค่าข้อมูลจาก Api
   useEffect(() => {
     const fetchData = async () => {
+      if (!invoice_id) {
+        // console.error('invoice is undefined ro null')
+
+        return
+      }
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.invoice_detail`, {
           params: {

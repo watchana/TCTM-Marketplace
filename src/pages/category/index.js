@@ -38,6 +38,11 @@ import axios from 'axios'
 
 // Responsive image
 import { useMediaQuery } from '@mui/material'
+import themeConfig from 'src/configs/themeConfig'
+
+themeConfig.templateName = 'cetegory'
+themeConfig.meta_name = 'Product'
+themeConfig.meta_content = 'test'
 
 const Category = ({ productData, SearchProduct, keyword }) => {
   const [filteredProducts, setFilteredProducts] = useState(keyword ? SearchProduct || null : productData || null)
