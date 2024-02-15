@@ -15,8 +15,6 @@ import axios from 'axios'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 
-import { Helmet } from 'react-helmet'
-
 const images = [
   'https://imagen.research.google/main_gallery_images/cactus.jpg',
   'https://imagen.research.google/main_gallery_images/an-alien-octopus-floats.jpg',
