@@ -1,8 +1,7 @@
 const themeConfig = {
   // ** Layout Configs
   templateName: '' /* App Name */,
-  meta_name: '',
-  meta_content: '',
+  meta: { keywords: '', content: '', description: '' },
   mode: 'light' /* light | dark */,
   contentWidth: 'full' /* full | boxed */,
   // ** Routing Configs

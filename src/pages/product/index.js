@@ -41,14 +41,15 @@ import ChevronRight from 'mdi-material-ui/ChevronRight'
 // ** Axios Import
 import axios from 'axios'
 
-// ** Components Imports
-import { withAuth } from 'src/@core/utils/AuthCheck'
-
 // Import auth token Decode
 import { createToken, verifyToken } from 'src/@core/utils/auth'
 
 // Responsive image
 import { useMediaQuery } from '@mui/material'
+
+import themeConfig from 'src/configs/themeConfig'
+
+import { SeoProductpage } from 'src/seo/homepage'
 
 const ProductDetails = () => {
   // ตัวแปรเก็บค่าข้อมูล
@@ -312,6 +313,25 @@ const ProductDetails = () => {
 
   //-----------------------------Slide Control Function------------------------//
 
+  const [seoname, setSeoName] = useState('')
+
+  useEffect(() => {
+    if (!productdata) {
+      return
+    } else {
+      setSeoName(productdata.product_name)
+    }
+
+    SeoProductpage.forEach(item => {
+      themeConfig.templateName = seoname
+      themeConfig.meta.description = item.description
+      themeConfig.meta.keywords = item.keywords
+      themeConfig.meta.content = item.content
+    })
+  }, [productdata.product_name])
+
+  console.log(seoname)
+
   return (
     <Container maxWidth='xl'>
       <Box>
@@ -382,6 +402,8 @@ const ProductDetails = () => {
           {/* --------------- รูปหลัก --------------- */}
           <Grid item xs={9} md={7}>
             <Box
+              title={productdata.product_name}
+              alt={productdata.product_name}
               sx={{
                 display: 'flex',
                 justifyContent: 'center',

@@ -124,6 +124,7 @@ const ShowProducts2 = () => {
                 <Carousel responsive={responsive} infinite={false}>
                   {slidedata.map((product, index) => (
                     <Card
+                      title={product.product_name}
                       key={index}
                       variant='outlined'
                       onClick={() => {

@@ -40,9 +40,10 @@ import axios from 'axios'
 import { useMediaQuery } from '@mui/material'
 import themeConfig from 'src/configs/themeConfig'
 
-themeConfig.templateName = 'cetegory'
-themeConfig.meta_name = 'Product'
-themeConfig.meta_content = 'test'
+themeConfig.templateName = 'category'
+themeConfig.meta.description = 'category'
+themeConfig.meta.keywords = 'Product'
+themeConfig.meta.content = 'test'
 
 const Category = ({ productData, SearchProduct, keyword }) => {
   const [filteredProducts, setFilteredProducts] = useState(keyword ? SearchProduct || null : productData || null)
@@ -231,6 +232,8 @@ const Category = ({ productData, SearchProduct, keyword }) => {
                   filteredProducts.map(product => (
                     <Grid item key={product.product_id}>
                       <Card
+                        title={product.product_name}
+                        alt={product.product_name}
                         variant='outlined'
                         onClick={() => {
                           router.push(`/product/?product_id=${product.product_id}`)
@@ -364,4 +367,4 @@ export const getServerSideProps = async ({ query }) => {
   }
 }
 
-export default withAuth(Category)
+export default Category

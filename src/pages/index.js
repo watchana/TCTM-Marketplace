@@ -1,5 +1,5 @@
 // ** React Imports
-import { React, useEffect } from 'react'
+import { React, useState } from 'react'
 
 // ** Material UI Imports
 import { Container } from '@mui/material'
@@ -12,6 +12,20 @@ import NameMarket from 'src/views/homepage/NameMarket'
 import ShowProducts from 'src/views/homepage/ShowProducts'
 import ShowProducts2 from 'src/views/homepage/ShowProducts2'
 import ShowPost from './postinformation/Showpost'
+import { SeoHomepage } from 'src/seo/homepage'
+
+{
+  SeoHomepage.map(item => {
+    themeConfig.templateName = item.templateName
+    themeConfig.meta.description = item.description
+    themeConfig.meta.keywords = item.keywords
+    themeConfig.meta.content = item.content
+
+    return null
+  })
+}
+
+console.log(SeoHomepage)
 
 const Dashboard = () => {
   return (

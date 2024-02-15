@@ -15,7 +15,12 @@ import axios from 'axios'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 
-import { Helmet } from 'react-helmet'
+import themeConfig from 'src/configs/themeConfig'
+
+themeConfig.templateName = 'ShowProduct'
+themeConfig.meta.description = 'ShowProduct'
+themeConfig.meta.keywords = 'Product'
+themeConfig.meta.content = 'test'
 
 const images = [
   'https://imagen.research.google/main_gallery_images/cactus.jpg',
@@ -163,6 +168,8 @@ const ShowProducts = () => {
                 <Carousel responsive={responsive} infinite={false}>
                   {slidedata.map((product, index) => (
                     <Card
+                      title={product.product_name}
+                      alt={product.product_name}
                       key={index}
                       variant='outlined'
                       onClick={() => {

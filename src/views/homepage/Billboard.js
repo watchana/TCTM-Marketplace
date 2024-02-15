@@ -1,10 +1,6 @@
 // ** React Imports
 import React, { useEffect, useRef, useState } from 'react'
 
-// ** Next Import
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-
 // ** Material UI Imports
 import {
   Box,
@@ -37,6 +33,13 @@ import 'react-multi-carousel/lib/styles.css'
 
 // Responsive image
 import { useMediaQuery } from '@mui/material'
+
+import themeConfig from 'src/configs/themeConfig'
+
+themeConfig.templateName = 'Billboard'
+themeConfig.meta.description = 'Billboard'
+themeConfig.meta.keywords = 'Product'
+themeConfig.meta.content = 'Billboard'
 
 const ImagesBillboard = [
   {
