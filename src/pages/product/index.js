@@ -144,6 +144,8 @@ const ProductDetails = () => {
   // แปลงออบเจ็กต์ selection เป็นสตริง JSON
   const selectionString = JSON.stringify(selection)
 
+  console.log('selection', parsedSelection)
+
   if (selectionString && selectionString !== 'null' && selectionString !== 'undefined') {
     parsedSelection = JSON.parse(selectionString) // แปลงค่า selection เป็นออบเจ็กต์
   }
@@ -519,7 +521,7 @@ const ProductDetails = () => {
                   {productdata.product_name}
                 </Typography>
               </Box>
-              <MySeo title={productdata.product_name} description='Edit' keywords={productdata.product_name} />
+              <MySeo title={productdata.product_name} description={productdata.product_description} keywords={productdata.product_name} />
               {/* ========== Brand ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
                 <Typography variant='h6' color='#000'>

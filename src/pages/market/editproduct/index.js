@@ -52,7 +52,10 @@ const EditPo = () => {
     setSelection(e.target.value)
   }
 
-  // console.log('deleteImages', deleteImages)
+  if (selection) {
+    const filteredselection = selection.map(select => ({ value_name: select.value_name, value_id: select.value_id }))
+    console.log('selection', filteredselection)
+  }
 
   const router = useRouter() // เรียกใช้งาน Router
   const { product_id } = router.query
@@ -235,21 +238,23 @@ const EditPo = () => {
 
   //disabled Button
   const isDataEmpty =
-    (Object.values(dataDetail).some(value => value === '')) ||
-      editDescription === description &&
+    (editDescription === description &&
       editBrend === Brend &&
       editWeight === Weight &&
       editLicense === License &&
       editAmount === Amount &&
       editSize === Size &&
-      img.length === FileteredImages.length ||
-      !editDescription ||
-      !editBrend ||
-      !editWeight ||
-      !editLicense ||
-      !editAmount ||
-      !editSize ||
-    uploadImages.length > 0
+      img.length === FileteredImages.length &&
+      uploadImages.length === 0)  ||
+    (!editDescription  ||
+      !editBrend  ||
+      !editWeight  ||
+      !editLicense  ||
+      !editAmount  ||
+      !editSize )
+
+  console.log('isDataEmpty', editWeight)
+  console.log('uploadImages', !editDescription && !editBrend && !editWeight && !editLicense && !editAmount && editSize)
 
   //Submit function
   const handleSubmit = async event => {
@@ -324,7 +329,6 @@ const EditPo = () => {
             const responses = await axios.put(`${process.env.NEXT_PUBLIC_API}TCTM.product.update_product`, dataDetail)
 
             // Handle the responses as needed
-            console.log(responses)
           } catch (error) {
             // Handle any errors that occurred during the requests
             console.error('Error fetching image details:', error)
