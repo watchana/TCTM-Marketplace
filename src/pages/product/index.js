@@ -323,6 +323,11 @@ const ProductDetails = () => {
 
   return (
     <Container maxWidth='xl'>
+      <MySeo
+        title={productdata.product_name}
+        description={productdata.product_name}
+        keywords={productdata.product_name}
+      />
       <Box>
         <Box sx={{ width: '100%' }}>
           <Card
@@ -521,7 +526,7 @@ const ProductDetails = () => {
                   {productdata.product_name}
                 </Typography>
               </Box>
-              <MySeo title={productdata.product_name} description={productdata.product_description} keywords={productdata.product_name} />
+
               {/* ========== Brand ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
                 <Typography variant='h6' color='#000'>

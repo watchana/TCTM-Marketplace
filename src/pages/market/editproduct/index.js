@@ -47,15 +47,21 @@ const EditPo = () => {
   const [deleteImages, setDeleteImages] = useState([])
   const [FileteredImages, setFileteredImages] = useState([])
   const [selection, setSelection] = useState('')
+  const [modifyselection, setModifySelection] = useState({})
+console.log('modifyselection', modifyselection)
 
   const handleChange = e => {
     setSelection(e.target.value)
   }
 
-  if (selection) {
-    const filteredselection = selection.map(select => ({ value_name: select.value_name, value_id: select.value_id }))
-    console.log('selection', filteredselection)
-  }
+  useEffect(() => {
+    if (selection) {
+      const filteredSelection = selection.map(select => ({ value_id: select.value_id, value_name: select.value_name }))
+      const optionsData = { data: filteredSelection }
+      setModifySelection(optionsData)
+
+    }
+  }, [selection])
 
   const router = useRouter() // เรียกใช้งาน Router
   const { product_id } = router.query
@@ -245,16 +251,13 @@ const EditPo = () => {
       editAmount === Amount &&
       editSize === Size &&
       img.length === FileteredImages.length &&
-      uploadImages.length === 0)  ||
-    (!editDescription  ||
-      !editBrend  ||
-      !editWeight  ||
-      !editLicense  ||
-      !editAmount  ||
-      !editSize )
-
-  console.log('isDataEmpty', editWeight)
-  console.log('uploadImages', !editDescription && !editBrend && !editWeight && !editLicense && !editAmount && editSize)
+      uploadImages.length === 0) ||
+    !editDescription ||
+    !editBrend ||
+    !editWeight ||
+    !editLicense ||
+    !editAmount ||
+    !editSize
 
   //Submit function
   const handleSubmit = async event => {
@@ -553,7 +556,7 @@ const EditPo = () => {
               ))}
             </Select>
           </FormControl>
-        </Grid>
+        </Grid>{selection&&selection.length > 0 ?<></>:null}
         <Grid item xs={12} sm={12} align={'center'}>
           <Button fullWidth variant='contained' onClick={handleSubmit} disabled={isDataEmpty}>
             Save
