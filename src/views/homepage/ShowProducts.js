@@ -15,13 +15,6 @@ import axios from 'axios'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 
-import themeConfig from 'src/configs/themeConfig'
-
-themeConfig.templateName = 'ShowProduct'
-themeConfig.meta.description = 'ShowProduct'
-themeConfig.meta.keywords = 'Product'
-themeConfig.meta.content = 'test'
-
 const images = [
   'https://imagen.research.google/main_gallery_images/cactus.jpg',
   'https://imagen.research.google/main_gallery_images/an-alien-octopus-floats.jpg',

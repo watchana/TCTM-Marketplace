@@ -729,6 +729,7 @@ const RegisterProduct = ({ product, setProduct, productCategories, onUploadImage
                       <TextField
                         fullWidth
                         label={`Product ${index + 1}: ${option.optionName}`}
+
                         // defaultValue={`${option.optionName} ${index + 1}`}
                         id={`product-item-group-column-text-${option.optionId}`}
                         value={group[`optionGroupColumn${index + 1}`]}
