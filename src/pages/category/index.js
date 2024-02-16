@@ -39,6 +39,7 @@ import axios from 'axios'
 // Responsive image
 import { useMediaQuery } from '@mui/material'
 import themeConfig from 'src/configs/themeConfig'
+import ProductDetails from '../product'
 
 themeConfig.templateName = 'category'
 themeConfig.meta.description = 'category'
@@ -51,6 +52,9 @@ const Category = ({ productData, SearchProduct, keyword }) => {
   const [searchValue, setSearchValue] = useState('') // State เพื่อเก็บคำค้นหา
   const [searchResults, setSearchResults] = useState([]) // State เพื่อเก็บผลลัพธ์การค้นหา
   const [openDrawerLeftMenu, setOpenDrawerLeftMenu] = useState(false)
+  const [seoName, setSeoName] = useState('')
+
+  console.log(seoName)
 
   // เก็บข้อมูลสินค้า
   const products = productData
@@ -236,7 +240,8 @@ const Category = ({ productData, SearchProduct, keyword }) => {
                         alt={product.product_name}
                         variant='outlined'
                         onClick={() => {
-                          router.push(`/product/?product_id=${product.product_id}`)
+                          setSeoName(product.product_name)
+                          router.push(`/product/?product_id=${product.product_id}&seoName=${product.product_name}`)
                         }}
                         sx={{
                           border: '0.5px solid lightgray',

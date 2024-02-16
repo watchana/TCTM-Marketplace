@@ -51,7 +51,7 @@ import themeConfig from 'src/configs/themeConfig'
 
 import { SeoProductpage } from 'src/seo/homepage'
 
-const ProductDetails = () => {
+const ProductDetails = ({}) => {
   // ตัวแปรเก็บค่าข้อมูล
   const [quantity, setQuantity] = useState(1) // ตัวแปรเก็บค่าจำนวนสินค้า
   const [options, setOptions] = useState([]) // ตัวแปรเก็บค่า ตัวเลือก
@@ -61,6 +61,7 @@ const ProductDetails = () => {
   const [productName, setProductName] = useState('') // ตัวแปรเก็บค่าชื่อสินค้า
   const [productimg, setProductImg] = useState([]) // ตัวแปรเก็บข้อมูลรูปภาพ
   const FirstImage = productimg && productimg[0] ? productimg[0].image_file_name : null // ตัวแปรเก็บข้อมูลรูปภาพตัวอย่าง
+  const [loadingData, setLoadingData] = useState(0)
 
   // ตัวแปรเก็บการแสดงราคา
   const totalPrice = price * quantity
@@ -72,8 +73,11 @@ const ProductDetails = () => {
 
   // รับค่า id product
   const router = useRouter() // เรียกใช้งาน Router
-  const { product_id } = router.query
+  const { product_id, seoName } = router.query
+  themeConfig.templateName = seoName
   const productId = product_id
+
+  console.log(seoName)
 
   // ฟังก์ชันจัดการการเปลี่ยนค่าของ Select
   const handleSelectChange = event => {
@@ -113,12 +117,14 @@ const ProductDetails = () => {
       }
 
       try {
+        setLoadingData(0)
+
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.product.productdetailv2`, {
           params: {
             product_id: productId
           }
         })
-
+        setLoadingData(1)
         setProductImg(response.data.message.images.Result)
         setProductData(response.data.message.data[0])
         setOptions(response.data.message.options)
@@ -130,7 +136,7 @@ const ProductDetails = () => {
     }
 
     fetchData()
-  }, [productId])
+  }, [productId, productdata.product_name])
 
   // ตัวแปรเก็บค่าตัวเลือก
   let parsedSelection = null
@@ -313,24 +319,23 @@ const ProductDetails = () => {
 
   //-----------------------------Slide Control Function------------------------//
 
-  const [seoname, setSeoName] = useState('')
+  // useEffect(() => {
+  //   if (!loadingData) {
+  //     return
+  //   } else {
+  //     themeConfig.templateName = productdata.product_name
 
-  useEffect(() => {
-    if (!productdata) {
-      return
-    } else {
-      setSeoName(productdata.product_name)
-    }
+  //     setSeoName(productdata.product_name)
+  //   }
 
-    SeoProductpage.forEach(item => {
-      themeConfig.templateName = seoname
-      themeConfig.meta.description = item.description
-      themeConfig.meta.keywords = item.keywords
-      themeConfig.meta.content = item.content
-    })
-  }, [productdata.product_name])
+  //
+  // }, [loadingData])
 
-  console.log(seoname)
+  SeoProductpage.map(item => {
+    themeConfig.meta.description = item.description
+    themeConfig.meta.keywords = item.keywords
+    themeConfig.meta.content = item.content
+  })
 
   return (
     <Container maxWidth='xl'>
