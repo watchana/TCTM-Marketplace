@@ -16,7 +16,10 @@ const MySeo = ({ title, details }) => {
         <title>{`${themeConfig.templateName} `}</title>
         <meta name='description' content={themeConfig.description} />
         <meta name='keywords' content={`${themeConfig.keywords} ${title}`} />
-        <meta name='content' content={themeConfig.content} />
+        {/* <meta name='content' content={`${JSON.stringify({ __html: details })}`} /> */}
+        <meta name='content' dangerouslySetInnerHTML={{ __html: decodeURIComponent(JSON.stringify(details)) }} />
+        {/* <meta name="content" content={JSON.stringify(details)} /> */}
+
         <meta name='post' content={title} />
       </Head>
     </div>

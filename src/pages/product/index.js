@@ -318,27 +318,13 @@ const ProductDetails = ({}) => {
 
   const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
-  //-----------------------------Slide Control Function------------------------//
-
-  // useEffect(() => {
-  //   if (!loadingData) {
-  //     return
-  //   } else {
-  //     themeConfig.templateName = productdata.product_name
-
-  //     setSeoName(productdata.product_name)
-  //   }
-
-  //
-  // }, [loadingData])
-
   SeoProductpage.map(item => {
     themeConfig.description = item.description
     themeConfig.keywords = item.keywords
     themeConfig.content = item.content
   })
 
-  // console.log(productdata.product_description)
+  console.log(options)
 
   return (
     <Container maxWidth='xl'>
@@ -543,7 +529,7 @@ const ProductDetails = ({}) => {
                 </Typography>
               </Box>
 
-              <MySeo title={productdata.product_name} details={productdata.product_description} />
+              <MySeo title={productdata.product_name} details={options} />
               {/* ========== Brand ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
                 <Typography variant='h6' color='#000'>
