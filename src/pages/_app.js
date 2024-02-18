@@ -53,9 +53,10 @@ const App = props => {
     <CacheProvider value={emotionCache}>
       <Head>
         <title>{`${themeConfig.templateName} `}</title>
-        <meta name='description' content={`${themeConfig.meta_content} `} />
-        <meta name='keywords' content={themeConfig.meta_name} />
-        <meta name='viewport' content={themeConfig.meta_content} />
+        <meta name='description' content={themeConfig.description} />
+        <meta name='keywords' content={`${themeConfig.keywords} ${themeConfig.title}`} />
+        <meta name='content' content={themeConfig.content} />
+        <meta name='post' content={themeConfig.title} />
       </Head>
 
       <SettingsProvider>

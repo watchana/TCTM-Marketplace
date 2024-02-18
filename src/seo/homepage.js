@@ -1,7 +1,7 @@
 const SeoHomepage = [
   {
     id: 1,
-    templateName: 'homepage',
+
     description: 'homepage',
     keywords: 'homepage',
     content: 'homepage'
@@ -11,16 +11,8 @@ const SeoHomepage = [
 const SeoProductpage = [
   {
     id: 1,
-    templateName: '',
     description: 'Product',
-    keywords: 'Product',
-    content: 'Product'
-  },
-  {
-    id: 2,
-    templateName: '',
-    description: 'Product',
-    keywords: 'Product',
+    keywords: 'product',
     content: 'Product'
   }
 ]

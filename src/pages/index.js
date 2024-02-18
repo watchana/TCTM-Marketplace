@@ -16,12 +16,11 @@ import { SeoHomepage } from 'src/seo/homepage'
 
 {
   SeoHomepage.map(item => {
-    themeConfig.templateName = item.templateName
-    themeConfig.meta.description = item.description
-    themeConfig.meta.keywords = item.keywords
-    themeConfig.meta.content = item.content
+    themeConfig.description = item.description
+    themeConfig.keywords = item.keywords
+    themeConfig.content = item.content
 
-    return null
+    return
   })
 }
 

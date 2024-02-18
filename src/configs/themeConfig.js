@@ -1,7 +1,10 @@
 const themeConfig = {
   // ** Layout Configs
-  templateName: '' /* App Name */,
-  meta: { keywords: '', content: '', description: '' },
+  templateName: 'TCTM' /* App Name */,
+  keywords: '',
+  content: '',
+  description: '',
+  title: 'test',
   mode: 'light' /* light | dark */,
   contentWidth: 'full' /* full | boxed */,
   // ** Routing Configs

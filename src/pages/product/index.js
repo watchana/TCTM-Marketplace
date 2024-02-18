@@ -74,11 +74,9 @@ const ProductDetails = ({}) => {
 
   // รับค่า id product
   const router = useRouter() // เรียกใช้งาน Router
-  const { product_id, seoName } = router.query
-  themeConfig.templateName = seoName
-  const productId = product_id
+  const { product_id } = router.query
 
-  console.log(seoName)
+  const productId = product_id
 
   // ฟังก์ชันจัดการการเปลี่ยนค่าของ Select
   const handleSelectChange = event => {
@@ -112,8 +110,6 @@ const ProductDetails = ({}) => {
     optionArray.filter(fil => fil.option_name !== 'Price' && fil.option_name !== 'Quantity')
   )
 
-  console.log('remapOption', remapOption)
-
   // ดึงข้อมูลตัวเลือกสินค้า
   useEffect(() => {
     const fetchData = async () => {
@@ -136,22 +132,18 @@ const ProductDetails = ({}) => {
         setProductData(response.data.message.data[0])
         setOptions(response.data.message.options)
 
-        // console.log(response.data.message.images)
-        // console.log(response)
-        // console.log('message', response.data.message)
+        // // Now that we have received the product details, update the SEO details
       } catch (error) {}
     }
 
     fetchData()
-  }, [productId, productdata.product_name])
+  }, [productId])
 
   // ตัวแปรเก็บค่าตัวเลือก
   let parsedSelection = null
 
   // แปลงออบเจ็กต์ selection เป็นสตริง JSON
   const selectionString = JSON.stringify(selection)
-
-  console.log('selection', parsedSelection)
 
   if (selectionString && selectionString !== 'null' && selectionString !== 'undefined') {
     parsedSelection = JSON.parse(selectionString) // แปลงค่า selection เป็นออบเจ็กต์
@@ -196,7 +188,7 @@ const ProductDetails = ({}) => {
 
       try {
         const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.gen_invoice`, data)
-        console.log(response)
+
         Swal.fire({
           icon: 'success',
           title: 'Send Data Success'
@@ -341,10 +333,12 @@ const ProductDetails = ({}) => {
   // }, [loadingData])
 
   SeoProductpage.map(item => {
-    themeConfig.meta.description = item.description
-    themeConfig.meta.keywords = item.keywords
-    themeConfig.meta.content = item.content
+    themeConfig.description = item.description
+    themeConfig.keywords = item.keywords
+    themeConfig.content = item.content
   })
+
+  // console.log(productdata.product_description)
 
   return (
     <Container maxWidth='xl'>
@@ -548,7 +542,8 @@ const ProductDetails = ({}) => {
                   {productdata.product_name}
                 </Typography>
               </Box>
-              <MySeo title={productdata.product_name} description={productdata.product_description} keywords={productdata.product_name} />
+
+              <MySeo title={productdata.product_name} details={productdata.product_description} />
               {/* ========== Brand ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
                 <Typography variant='h6' color='#000'>

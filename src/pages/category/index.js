@@ -41,11 +41,6 @@ import { useMediaQuery } from '@mui/material'
 import themeConfig from 'src/configs/themeConfig'
 import ProductDetails from '../product'
 
-themeConfig.templateName = 'category'
-themeConfig.meta.description = 'category'
-themeConfig.meta.keywords = 'Product'
-themeConfig.meta.content = 'test'
-
 const Category = ({ productData, SearchProduct, keyword }) => {
   const [filteredProducts, setFilteredProducts] = useState(keyword ? SearchProduct || null : productData || null)
   const [activeButton, setActiveButton] = useState(null) // เช็คสถานะปุ่มที่ถูกกด

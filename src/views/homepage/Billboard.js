@@ -36,10 +36,10 @@ import { useMediaQuery } from '@mui/material'
 
 import themeConfig from 'src/configs/themeConfig'
 
-themeConfig.templateName = 'Billboard'
-themeConfig.meta.description = 'Billboard'
-themeConfig.meta.keywords = 'Product'
-themeConfig.meta.content = 'Billboard'
+// themeConfig.templateName = 'Billboard'
+// themeConfig.meta.description = 'Billboard'
+// themeConfig.meta.keywords = 'Product'
+// themeConfig.meta.content = 'Billboard'
 
 const ImagesBillboard = [
   {

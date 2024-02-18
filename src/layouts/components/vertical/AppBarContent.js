@@ -280,7 +280,8 @@ const AppBarContent = props => {
                   <UserDropdown />
                   <Link href='/login' passHref>
                     <Box sx={{ ml: 2 }} style={{ display: role === '' ? 'block' : 'none' }}>
-                      <Typography variant='h6'
+                      <Typography
+                        variant='h6'
                         sx={{ fontSize: '0.875rem', textDecoration: 'none', cursor: 'pointer', fontweight: 400 }}
                       >
                         Login
