@@ -101,8 +101,6 @@ const ServicePo = ({ open, handleClose }) => {
 
       const uploadedFileNames = response.data.uploadedFileNames // ดึงค่า uploadedFileNames จาก response
 
-      console.log('datafile', datafile)
-
       // ตรวจสอบค่าว่างใน TextField
       if (!title || !description) {
         handleClose()
@@ -121,8 +119,6 @@ const ServicePo = ({ open, handleClose }) => {
         ser_req_description: description,
         ser_req_image_file: uploadedFileNames
       }
-
-      console.log(data)
 
       axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.post_ser_requirement`, data).then(response => {
         console.log(response)
