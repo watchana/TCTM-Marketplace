@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 // ** Next Import
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import isEqual from 'lodash/isEqual'
 
 // ** Material UI Imports
 import {
@@ -47,15 +48,20 @@ const EditPo = () => {
   const [deleteImages, setDeleteImages] = useState([])
   const [FileteredImages, setFileteredImages] = useState([])
   const [selection, setSelection] = useState('')
+  const [modifyselection, setModifySelection] = useState({})
+  const [changeSelection, setChangeSelection] = useState({})
 
-  const handleChange = e => {
-    setSelection(e.target.value)
-  }
-
-  if (selection) {
-    const filteredselection = selection.map(select => ({ value_name: select.value_name, value_id: select.value_id }))
-    console.log('selection', filteredselection)
-  }
+  useEffect(() => {
+    if (selection) {
+      const filteredSelection = selection.map(select => ({
+        value_id: select.value_id,
+        value_name: select.value_name,
+        option_name: select.option_name
+      }))
+      const optionsData = { data: filteredSelection }
+      setModifySelection(optionsData)
+    }
+  }, [selection])
 
   const router = useRouter() // เรียกใช้งาน Router
   const { product_id } = router.query
@@ -136,6 +142,7 @@ const EditPo = () => {
     setEditCountry(Country || '')
     setEditSize(Size || '')
     setEditAmount(Amount || '')
+    setChangeSelection(modifyselection || {})
   }, [
     productdata.product_name,
     productdata.product_category,
@@ -155,7 +162,8 @@ const EditPo = () => {
     License,
     Country,
     Size,
-    Amount
+    Amount,
+    modifyselection
   ])
 
   //delete img from API
@@ -236,7 +244,7 @@ const EditPo = () => {
     product_size: editSize
   }
 
-  //disabled Button
+  //disabled Button logic
   const isDataEmpty =
     (editDescription === description &&
       editBrend === Brend &&
@@ -245,16 +253,48 @@ const EditPo = () => {
       editAmount === Amount &&
       editSize === Size &&
       img.length === FileteredImages.length &&
-      uploadImages.length === 0)  ||
-    (!editDescription  ||
-      !editBrend  ||
-      !editWeight  ||
-      !editLicense  ||
-      !editAmount  ||
-      !editSize )
+      uploadImages.length === 0) ||
+    !editDescription ||
+    !editBrend ||
+    !editWeight ||
+    !editLicense ||
+    !editAmount ||
+    !editSize
 
-  console.log('isDataEmpty', editWeight)
-  console.log('uploadImages', !editDescription && !editBrend && !editWeight && !editLicense && !editAmount && editSize)
+  const disabledOption =
+    !isEqual(changeSelection, modifyselection) &&
+    !(changeSelection.data && changeSelection.data.some(item => item.value_id === '' || item.value_name === ''))
+
+  const handleUpOptions = () => {
+    Swal.fire({
+      title: 'Do you want to save the changes?',
+      showCancelButton: true,
+      confirmButtonText: 'Save'
+    }).then(async result => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        if (!isEqual(changeSelection, modifyselection)) {
+          const data = {
+            data: changeSelection.data.map(item => ({ value_id: item.value_id, value_name: item.value_name }))
+          }
+
+          console.log(data)
+          if (data) {
+            try {
+              const responses = await axios.put(`${process.env.NEXT_PUBLIC_API}TCTM.product.update_productvalue`, data)
+
+              // Handle the responses as needed
+            } catch (error) {
+              // Handle any errors that occurred during the requests
+              console.error('Error fetching image details:', error)
+            }
+          }
+        }
+      } else if (result.isDenied) {
+        Swal.fire('Changes are not saved', '', 'info')
+      }
+    })
+  }
 
   //Submit function
   const handleSubmit = async event => {
@@ -530,9 +570,9 @@ const EditPo = () => {
           />
         </Grid>
         <Grid item xs={12} sm={4}>
-          <FormControl sx={{ width: '100%' }}>
+          <FormControl sx={{ width: '100%' }} disabled={disabledOption}>
             <InputLabel id='label'>Option</InputLabel>
-            <Select id='select' value={selection} label='Select' onChange={handleChange}>
+            <Select id='select' value={selection} label='Select' onChange={e => setSelection(e.target.value)}>
               {Object.values(options).map((optionArray, index) => (
                 <MenuItem key={index} value={optionArray}>
                   {optionArray.length === 0 ? (
@@ -549,11 +589,46 @@ const EditPo = () => {
                       </span>
                     ))
                   )}
+                  {/* Display 'Price' at the end if present in the optionArray */}
+                  {optionArray.some(option => option.option_name === 'Price') && (
+                    <span>
+                      {' | Price '}
+                      {optionArray.find(option => option.option_name === 'Price').value_name}
+                    </span>
+                  )}
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
         </Grid>
+        {changeSelection && changeSelection.data && changeSelection.data.length > 0 ? (
+          <>
+            {changeSelection.data.map(item => (
+              <Grid item key={item.value_id} xs={12} sm={3}>
+                <TextField
+                  fullWidth
+                  label={item.option_name}
+                  id={item.option_name}
+                  variant='outlined'
+                  value={item.value_name}
+                  onChange={e => {
+                    const updatedData = changeSelection.data.map(dataItem =>
+                      dataItem.value_id === item.value_id ? { ...dataItem, value_name: e.target.value } : dataItem
+                    )
+
+                    setChangeSelection({ data: updatedData })
+                  }}
+                />
+              </Grid>
+            ))}
+            <Grid item xs={12} sm={3} align={'center'}>
+              <Button fullWidth variant='contained' onClick={handleUpOptions} disabled={!disabledOption}>
+                Update
+              </Button>
+            </Grid>
+          </>
+        ) : null}
+
         <Grid item xs={12} sm={12} align={'center'}>
           <Button fullWidth variant='contained' onClick={handleSubmit} disabled={isDataEmpty}>
             Save

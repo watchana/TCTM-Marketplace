@@ -54,8 +54,8 @@ const App = props => {
       <Head>
         <title>{`${themeConfig.templateName} `}</title>
         <meta name='description' content={`${themeConfig.meta_content} `} />
-        <meta name='keywords' content={themeConfig.meta_name} />
-        <meta name='viewport' content={themeConfig.meta_content} />
+        <meta name='keywords' content={`${themeConfig.meta_content} `} />
+        <meta name='content' content={`${themeConfig.meta_content} `} />
       </Head>
 
       <SettingsProvider>

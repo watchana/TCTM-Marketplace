@@ -10,8 +10,8 @@ const MySeo = ({ title, description, keywords }) => {
     <div>
       <Helmet>
         <title>{title}</title>
-        {/* <meta name='description' content={description} />
-        <meta name='keywords' content={keywords} /> */}
+        <meta name='description' content={description} />
+        <meta name='keywords' content={keywords} />
         {/* Add more meta tags as needed */}
       </Helmet>
 

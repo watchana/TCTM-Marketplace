@@ -80,8 +80,8 @@ const CheckoutForm = ({ newProduct, NewPrice }) => {
       const result = await stripeInstance.redirectToCheckout({
         lineItems: [{ price: price.id, quantity: 1 }],
         mode: 'payment',
-        successUrl: `http://111.223.38.18:3000/member/order/pay_success/?${decodedQueryString}`,
-        cancelUrl: `http://111.223.38.18:3000/member/order/changeorder/?${decodedQueryString}`
+        successUrl: `${window.location.origin}/member/order/pay_success/?${decodedQueryString}`,
+        cancelUrl: `${window.location.origin}/member/order/changeorder/?${decodedQueryString}`
       })
 
       if (result.error) {
