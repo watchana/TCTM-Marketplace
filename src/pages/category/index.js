@@ -39,10 +39,7 @@ import axios from 'axios'
 // Responsive image
 import { useMediaQuery } from '@mui/material'
 import themeConfig from 'src/configs/themeConfig'
-
-themeConfig.templateName = 'cetegory'
-themeConfig.meta_name = 'Product'
-themeConfig.meta_content = 'test'
+import ProductDetails from '../product'
 
 const Category = ({ productData, SearchProduct, keyword }) => {
   const [filteredProducts, setFilteredProducts] = useState(keyword ? SearchProduct || null : productData || null)
@@ -50,6 +47,9 @@ const Category = ({ productData, SearchProduct, keyword }) => {
   const [searchValue, setSearchValue] = useState('') // State เพื่อเก็บคำค้นหา
   const [searchResults, setSearchResults] = useState([]) // State เพื่อเก็บผลลัพธ์การค้นหา
   const [openDrawerLeftMenu, setOpenDrawerLeftMenu] = useState(false)
+  const [seoName, setSeoName] = useState('')
+
+  console.log(seoName)
 
   // เก็บข้อมูลสินค้า
   const products = productData
@@ -231,9 +231,12 @@ const Category = ({ productData, SearchProduct, keyword }) => {
                   filteredProducts.map(product => (
                     <Grid item key={product.product_id}>
                       <Card
+                        title={product.product_name}
+                        alt={product.product_name}
                         variant='outlined'
                         onClick={() => {
-                          router.push(`/product/?product_id=${product.product_id}`)
+                          setSeoName(product.product_name)
+                          router.push(`/product/?product_id=${product.product_id}&seoName=${product.product_name}`)
                         }}
                         sx={{
                           border: '0.5px solid lightgray',
@@ -364,4 +367,4 @@ export const getServerSideProps = async ({ query }) => {
   }
 }
 
-export default withAuth(Category)
+export default Category

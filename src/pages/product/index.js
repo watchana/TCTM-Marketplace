@@ -41,9 +41,6 @@ import ChevronRight from 'mdi-material-ui/ChevronRight'
 // ** Axios Import
 import axios from 'axios'
 
-// ** Components Imports
-import { withAuth } from 'src/@core/utils/AuthCheck'
-
 // Import auth token Decode
 import { createToken, verifyToken } from 'src/@core/utils/auth'
 
@@ -51,7 +48,11 @@ import { createToken, verifyToken } from 'src/@core/utils/auth'
 import { useMediaQuery } from '@mui/material'
 import MySeo from '../seo'
 
-const ProductDetails = () => {
+import themeConfig from 'src/configs/themeConfig'
+
+import { SeoProductpage } from 'src/seo/homepage'
+
+const ProductDetails = ({}) => {
   // ตัวแปรเก็บค่าข้อมูล
   const [quantity, setQuantity] = useState(1) // ตัวแปรเก็บค่าจำนวนสินค้า
   const [options, setOptions] = useState([]) // ตัวแปรเก็บค่า ตัวเลือก
@@ -61,6 +62,7 @@ const ProductDetails = () => {
   const [productName, setProductName] = useState('') // ตัวแปรเก็บค่าชื่อสินค้า
   const [productimg, setProductImg] = useState([]) // ตัวแปรเก็บข้อมูลรูปภาพ
   const FirstImage = productimg && productimg[0] ? productimg[0].image_file_name : null // ตัวแปรเก็บข้อมูลรูปภาพตัวอย่าง
+  const [loadingData, setLoadingData] = useState(0)
 
   // ตัวแปรเก็บการแสดงราคา
   const totalPrice = price * quantity
@@ -73,6 +75,7 @@ const ProductDetails = () => {
   // รับค่า id product
   const router = useRouter() // เรียกใช้งาน Router
   const { product_id } = router.query
+
   const productId = product_id
 
   // ฟังก์ชันจัดการการเปลี่ยนค่าของ Select
@@ -103,12 +106,6 @@ const ProductDetails = () => {
     }
   }
 
-  const remapOption = Object.values(options).map((optionArray, index) =>
-    optionArray.filter(fil => fil.option_name !== 'Price' && fil.option_name !== 'Quantity')
-  )
-
-  console.log('remapOption', remapOption)
-
   // ดึงข้อมูลตัวเลือกสินค้า
   useEffect(() => {
     const fetchData = async () => {
@@ -119,19 +116,19 @@ const ProductDetails = () => {
       }
 
       try {
+        setLoadingData(0)
+
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.product.productdetailv2`, {
           params: {
             product_id: productId
           }
         })
-
+        setLoadingData(1)
         setProductImg(response.data.message.images.Result)
         setProductData(response.data.message.data[0])
         setOptions(response.data.message.options)
 
-        // console.log(response.data.message.images)
-        // console.log(response)
-        // console.log('message', response.data.message)
+        // // Now that we have received the product details, update the SEO details
       } catch (error) {}
     }
 
@@ -143,8 +140,6 @@ const ProductDetails = () => {
 
   // แปลงออบเจ็กต์ selection เป็นสตริง JSON
   const selectionString = JSON.stringify(selection)
-
-  console.log('selection', parsedSelection)
 
   if (selectionString && selectionString !== 'null' && selectionString !== 'undefined') {
     parsedSelection = JSON.parse(selectionString) // แปลงค่า selection เป็นออบเจ็กต์
@@ -189,7 +184,7 @@ const ProductDetails = () => {
 
       try {
         const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.gen_invoice`, data)
-        console.log(response)
+
         Swal.fire({
           icon: 'success',
           title: 'Send Data Success'
@@ -295,7 +290,9 @@ const ProductDetails = () => {
 
   const [role, setRole] = useState('')
 
-  const Router = useRouter()
+  const OptionData = Object.values(options).map((optionArray, index) =>
+    optionArray.map(option => `${option.option_name}${option.value_name}`).join(', ')
+  )
 
   useEffect(() => {
     const token = localStorage.getItem('jwt')
@@ -319,7 +316,11 @@ const ProductDetails = () => {
 
   const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
-  //-----------------------------Slide Control Function------------------------//
+  SeoProductpage.map(item => {
+    themeConfig.description = item.description
+    themeConfig.keywords = item.keywords
+    themeConfig.content = item.content
+  })
 
   return (
     <Container maxWidth='xl'>
@@ -396,6 +397,8 @@ const ProductDetails = () => {
           {/* --------------- รูปหลัก --------------- */}
           <Grid item xs={9} md={7}>
             <Box
+              title={productdata.product_name}
+              alt={productdata.product_name}
               sx={{
                 display: 'flex',
                 justifyContent: 'center',
@@ -527,10 +530,12 @@ const ProductDetails = () => {
                 </Typography>
               </Box>
 
+              <MySeo title={productdata.product_name} details={OptionData} />
+
               {/* ========== Brand ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
                 <Typography variant='h6' color='#000'>
-                  Brand: {productdata.brand_name ? productdata.brand_name : 'No information'}
+                  Brand: {productdata.product_brand ? productdata.product_brand : 'No information'}
                 </Typography>
               </Box>
               {/* ========== Option ========== */}
