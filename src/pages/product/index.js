@@ -49,6 +49,7 @@ import { createToken, verifyToken } from 'src/@core/utils/auth'
 
 // Responsive image
 import { useMediaQuery } from '@mui/material'
+import MySeo from '../seo'
 
 const ProductDetails = () => {
   // ตัวแปรเก็บค่าข้อมูล
@@ -102,6 +103,12 @@ const ProductDetails = () => {
     }
   }
 
+  const remapOption = Object.values(options).map((optionArray, index) =>
+    optionArray.filter(fil => fil.option_name !== 'Price' && fil.option_name !== 'Quantity')
+  )
+
+  console.log('remapOption', remapOption)
+
   // ดึงข้อมูลตัวเลือกสินค้า
   useEffect(() => {
     const fetchData = async () => {
@@ -136,6 +143,8 @@ const ProductDetails = () => {
 
   // แปลงออบเจ็กต์ selection เป็นสตริง JSON
   const selectionString = JSON.stringify(selection)
+
+  console.log('selection', parsedSelection)
 
   if (selectionString && selectionString !== 'null' && selectionString !== 'undefined') {
     parsedSelection = JSON.parse(selectionString) // แปลงค่า selection เป็นออบเจ็กต์
@@ -512,6 +521,7 @@ const ProductDetails = () => {
                   {productdata.product_name}
                 </Typography>
               </Box>
+              <MySeo title={productdata.product_name} description={productdata.product_description} keywords={productdata.product_name} />
               {/* ========== Brand ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
                 <Typography variant='h6' color='#000'>
@@ -524,32 +534,25 @@ const ProductDetails = () => {
                   Option
                 </Typography>
               </Box>
-              <Box sx={{ width: '100%', marginTop: '10px' }}>
-                <FormControl sx={{ maxWidth: '100%' }}>
+              <Box>
+                <FormControl sx={{ marginTop: '10px', width: '100%' }}>
                   <InputLabel id='label'>Option</InputLabel>
-                  <Select
-                    labelId='label'
-                    id='select'
-                    value={selection}
-                    label='Select'
-                    onChange={handleSelectChange}
-                    sx={{ width: '100%' }}
-                  >
+                  <Select id='select' value={selection} label='Select' onChange={handleSelectChange}>
                     {Object.values(options).map((optionArray, index) => (
                       <MenuItem key={index} value={optionArray}>
                         {optionArray.length === 0 ? (
                           <MenuItem disabled>No information</MenuItem>
                         ) : (
-                          optionArray.map(
-                            (option, subIndex) =>
-                              option.option_name !== 'Price' &&
-                              option.option_name !== 'Quantity' && (
-                                <span key={subIndex}>
-                                  {option.option_name} {option.value_name}{' '}
-                                  {optionArray.length - 1 === subIndex ? '' : '|'}
-                                </span>
-                              )
-                          )
+                          optionArray.map((option, subIndex) => (
+                            <span key={subIndex}>
+                              {option.option_name !== 'Price' && option.option_name !== 'Quantity' && (
+                                <React.Fragment>
+                                  {`${option.option_name} ${option.value_name}`}
+                                  {optionArray.length - 1 === subIndex ? '' : ' | '}
+                                </React.Fragment>
+                              )}
+                            </span>
+                          ))
                         )}
                       </MenuItem>
                     ))}

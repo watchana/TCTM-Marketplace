@@ -347,7 +347,7 @@ const MyMarket = () => {
       )
     },
     {
-      field: 'actions',
+      field: 'Delete',
       headerName: 'Delete',
       width: 120,
       renderCell: params => (
@@ -359,6 +359,22 @@ const MyMarket = () => {
           onClick={e => handleDelete(params.row.product_id, e)}
         >
           Delete
+        </Button>
+      )
+    },
+    {
+      field: 'Edit',
+      headerName: 'Edit',
+      width: 120,
+      renderCell: params => (
+        <Button
+          variant='contained'
+          color='primary'
+          className='btn btn-danger'
+          style={{ marginRight: '5px' }}
+          onClick={() => router.push(`/market/editproduct/?product_id=${params.row.product_id}`)}
+        >
+          Edit
         </Button>
       )
     }
