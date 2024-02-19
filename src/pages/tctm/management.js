@@ -19,6 +19,7 @@ import SupplierTable from 'src/views/tctm/SupplierTable'
 import ProductTable from 'src/views/tctm/ProductTable'
 import PostTable from 'src/views/tctm/PostTable'
 import ServiceTable from 'src/views/tctm/ServiceTable'
+import ServicePostTable from 'src/views/tctm/ServicePostTable'
 
 // Responsive image
 import { useMediaQuery } from '@mui/material'
@@ -30,6 +31,7 @@ const ManagementPage = () => {
   const [dataProduct, setDataProduct] = useState([])
   const [dataPost, setDataPost] = useState([])
   const [dataService, setDataService] = useState([])
+  const [dataservicereq, setdataservicereq] = useState([])
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -68,11 +70,18 @@ const ManagementPage = () => {
           }
         })
 
+        const postServicereq = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.approve.requirement_ser_queue`, {
+          headers: {
+            Authorization: 'token 76dc8ec5e14d19c:a644317879022f2'
+          }
+        })
+
         setDataUser(userResponse.data.message.Data || [])
         setDataMarket(marketResponse.data.message.Data || [])
         setDataProduct(productResponse.data.message.Data || [])
         setDataPost(postResponse.data.message.Data || [])
         setDataService(postService.data.message.Data || [])
+        setdataservicereq(postServicereq.data.message.Data || [])
       } catch (error) {
         console.error('Error fetching data:', error)
       }
@@ -132,6 +141,7 @@ const ManagementPage = () => {
                 <Tab label='Product' value='3' />
                 <Tab label='Post' value='4' />
                 <Tab label='Sercive' value='5' />
+                <Tab label='SercivePost' value='6' />
               </TabList>
             </Box>
             <TabPanel value='1'>
@@ -148,6 +158,9 @@ const ManagementPage = () => {
             </TabPanel>
             <TabPanel value='5'>
               <ServiceTable rows={dataService} />
+            </TabPanel>
+            <TabPanel value='6'>
+              <ServicePostTable rows={dataservicereq} />
             </TabPanel>
           </TabContext>
         </Box>

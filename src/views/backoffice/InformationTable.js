@@ -180,7 +180,7 @@ const InformationTable = () => {
             <Button
               variant='contained'
               color='success'
-              disabled={params.row.post_status === '1'}
+              disabled={params.row.post_status === '0'}
               onClick={() => {
                 router.push(`/market/information-detail/?post_id=${params.row.post_id}`)
               }}
