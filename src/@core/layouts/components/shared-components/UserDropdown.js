@@ -186,7 +186,7 @@ const UserDropdown = () => {
             My Market
           </Box>
         </MenuItem>
-        {/* ปุ่ม service */}
+        {/* ปุ่ม regis service */}
         <MenuItem
           sx={{ p: 0 }}
           onClick={() => handleDropdownClose('/member/Service/MainForm/')}
@@ -195,6 +195,17 @@ const UserDropdown = () => {
           <Box sx={styles}>
             <HomeRepairServiceIcon sx={{ marginRight: 2 }} />
             Register Service
+          </Box>
+        </MenuItem>
+        {/* ปุ่ม service */}
+        <MenuItem
+          sx={{ p: 0 }}
+          onClick={() => handleDropdownClose('/member/servicepost/')}
+          style={{ display: role === 'USER' && user_status === '3' ? 'block' : 'none' }}
+        >
+          <Box sx={styles}>
+            <HomeRepairServiceIcon sx={{ marginRight: 2 }} />
+            My Service
           </Box>
         </MenuItem>
         {/* ปุ่มหน้า Dashboard TCTM */}

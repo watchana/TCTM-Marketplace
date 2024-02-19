@@ -22,6 +22,10 @@ const ServiceTable = ({ rows }) => {
   const [tableRows, setTableRows] = useState(rows) //เก็บข้อมูล Row ใน table
   const router = useRouter() // เรียกใช้งาน Router
 
+  const rounter = useRouter()
+  const member_id = rounter.query
+  const memID = member_id
+
   useEffect(() => {
     console.log('data1', tableRows)
   }, [tableRows])
@@ -102,7 +106,11 @@ const ServiceTable = ({ rows }) => {
       sortable: false,
       renderCell: params => {
         return (
-          <Button variant='contained' color='success' onClick={() => handleApproveSubmit(params.row.ser_id)}>
+          <Button
+            variant='contained'
+            color='success'
+            onClick={() => handleApproveSubmit(params.row.ser_id, params.row.member_id)}
+          >
             approve
           </Button>
         )
@@ -169,10 +177,12 @@ const ServiceTable = ({ rows }) => {
   }, [rows])
 
   // ฟังก์ชันสำหรับ Approve DATA
-  const handleApproveSubmit = id => {
+  const handleApproveSubmit = (id, memID) => {
     const data = {
-      ser_id: id
+      ser_id: id,
+      member_id: memID
     }
+    console.log('data555', data)
 
     axios
       .put(`${process.env.NEXT_PUBLIC_API}TCTM.approve.serviceapprove`, data)
