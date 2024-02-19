@@ -12,7 +12,7 @@ const SeoProductpage = [
   {
     id: 1,
     description:
-      'A square end mill is a general-purpose mill used for creating flat-surfaced cuts with perfect 90° corners in a workpiece. It is often used at both the roughing and finishing stages of a machining process. Square end mills are versatile tools that can be used for a variety of applications.',
+      'A square end mill is a general-purpose mill used for creating flat-surfaced cuts with perfect 90° corners in a workpiece. ',
     keywords: 'Square End Mills',
     content: 'Product'
   }

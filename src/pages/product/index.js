@@ -106,10 +106,6 @@ const ProductDetails = ({}) => {
     }
   }
 
-  const remapOption = Object.values(options).map((optionArray, index) =>
-    optionArray.filter(fil => fil.option_name !== 'Price' && fil.option_name !== 'Quantity')
-  )
-
   // ดึงข้อมูลตัวเลือกสินค้า
   useEffect(() => {
     const fetchData = async () => {
@@ -294,7 +290,9 @@ const ProductDetails = ({}) => {
 
   const [role, setRole] = useState('')
 
-  const Router = useRouter()
+  const OptionData = Object.values(options).map((optionArray, index) =>
+    optionArray.map(option => `${option.option_name}${option.value_name}`).join(', ')
+  )
 
   useEffect(() => {
     const token = localStorage.getItem('jwt')
@@ -323,8 +321,6 @@ const ProductDetails = ({}) => {
     themeConfig.keywords = item.keywords
     themeConfig.content = item.content
   })
-
-  console.log(options)
 
   return (
     <Container maxWidth='xl'>
@@ -529,11 +525,11 @@ const ProductDetails = ({}) => {
                 </Typography>
               </Box>
 
-              <MySeo title={productdata.product_name} details={options} />
+              <MySeo title={productdata.product_name} details={OptionData} />
               {/* ========== Brand ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
                 <Typography variant='h6' color='#000'>
-                  Brand: {productdata.brand_name ? productdata.brand_name : 'No information'}
+                  Brand: {productdata.product_brand ? productdata.product_brand : 'No information'}
                 </Typography>
               </Box>
               {/* ========== Option ========== */}

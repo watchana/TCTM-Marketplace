@@ -4,7 +4,7 @@ const themeConfig = {
   keywords: '',
   content: '',
   description: '',
-  title: 'test',
+  title: '',
   mode: 'light' /* light | dark */,
   contentWidth: 'full' /* full | boxed */,
   // ** Routing Configs

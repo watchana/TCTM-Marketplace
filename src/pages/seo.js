@@ -13,13 +13,10 @@ const MySeo = ({ title, details }) => {
       </Helmet>
 
       <Head>
-        <title>{`${themeConfig.templateName} `}</title>
+        <title>{title}</title>
         <meta name='description' content={themeConfig.description} />
-        <meta name='keywords' content={`${themeConfig.keywords} ${title}`} />
-        {/* <meta name='content' content={`${JSON.stringify({ __html: details })}`} /> */}
-        <meta name='content' dangerouslySetInnerHTML={{ __html: decodeURIComponent(JSON.stringify(details)) }} />
-        {/* <meta name="content" content={JSON.stringify(details)} /> */}
-
+        <meta name='keywords' content={`${themeConfig.keywords}   NameProduct ${title}`} />
+        <meta name='content' content={`${Object.values(details).join(', ')}`} />
         <meta name='post' content={title} />
       </Head>
     </div>
