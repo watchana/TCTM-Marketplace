@@ -12,12 +12,15 @@ import {
   Breadcrumbs,
   Button,
   Card,
+  CardMedia,
   Chip,
   Container,
   Divider,
   Grid,
   Hidden,
   IconButton,
+  ImageList,
+  ImageListItem,
   TextField,
   Typography
 } from '@mui/material'
@@ -36,6 +39,9 @@ import ChevronRight from 'mdi-material-ui/ChevronRight'
 import DownloadIcon from '@mui/icons-material/Download'
 import MailOutlineIcon from '@mui/icons-material/MailOutline'
 import LocalMallIcon from '@mui/icons-material/LocalMall'
+
+// import Component
+import Regispost from 'src/views/post-image/regispost'
 
 // ** Auth Check
 import { withAuth } from 'src/@core/utils/AuthCheck'
@@ -57,8 +63,18 @@ const PosrtDetail = () => {
   const [comments, setComment] = useState('') // ข้อมูล comments
   const [poData, setPoData] = useState('') // ข้อมูล Po
   const [poDataApprove, setPoDataApprove] = useState('') // ข้อมูล Po ที่ถูก Approve
+  const [imageChange, setImageChange] = useState({}) // ข้อมูล image
+  const [imagesName, setImagesName] = useState([])
+  const [messageImage, setMessageImage] = useState([])
+
+  const [uploadImages, setUploadImages] = useState([])
 
   const [shouldFetchData, setShouldFetchData] = useState(false) // ตัวแปรควบคุมการดึงข้อมูลใหม่
+
+  // จัดการตัวแปรชื่อไฟล์ภาพ
+  const handleUploadImagesChange = newImages => {
+    setUploadImages(newImages)
+  }
 
   // รับค่าข้อมูล จาก local Storage
   useEffect(() => {
@@ -67,6 +83,15 @@ const PosrtDetail = () => {
       setUserId(userIdFromLocalStorage)
     }
   }, [])
+
+  useEffect(() => {
+    const imageNames = uploadImages.map(image => image.name)
+
+    // ตรวจสอบว่าค่า imageNames ไม่เหมือนกับค่าปัจจุบันของ imagesName ก่อนที่จะเรียก setImagesName
+    if (JSON.stringify(imageNames) !== JSON.stringify(imagesName)) {
+      setImagesName(imageNames)
+    }
+  }, [uploadImages, imagesName])
 
   // เก็บค่าข้อมูลแชทจาก Api
   useEffect(() => {
@@ -86,6 +111,7 @@ const PosrtDetail = () => {
           setPostData(response.data.message.Requirement_Data[0])
           setQuestionData(response.data.message.Question_List)
           setPoData(response.data.message.Po_List)
+          setMessageImage(response.data.message.image)
 
           // ตรวจสอบและดักจับ po_status เป็น 2 และเก็บ po_id ที่เป็น '2' ในตัวแปร poDataApprove
           const poList = response.data.message.Po_List
@@ -110,7 +136,7 @@ const PosrtDetail = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setShouldFetchData(!shouldFetchData) // สลับค่า shouldFetchData เพื่อเรียก fetchData ใหม่
-    }, 1000) // 1 วินาที
+    }, 10000) // 1 วินาที
 
     return () => {
       clearInterval(interval) // ยกเลิก interval เมื่อ Component ถูก unmount
@@ -124,9 +150,26 @@ const PosrtDetail = () => {
     setComment(event.target.value)
   }
 
+  const [uploadedFileNames, setUploadedFileNames] = useState([])
+
   // Comment Submit
   const handleCommentSubmit = async e => {
     e.preventDefault()
+
+    if (comments !== '') {
+      setUploadedFileNames('')
+      if (comments !== '' && uploadedFileNames !== '') {
+        const response = await axios.post(`/api/Chat_Upload`, uploadImages, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+
+        setUploadedFileNames(response.data.uploadedFileNames)
+      }
+    }
+
+    // ดึงค่า uploadedFileNames จาก response
 
     // ตรวจสอบค่าว่างใน TextField
     if (reqID === 'null' || userId === 'null' || recipient === 'null') {
@@ -153,11 +196,15 @@ const PosrtDetail = () => {
       req_id: reqID,
       sender: userId,
       recipient: recipient,
-      query_description: comments
+      query_description: comments,
+      req_image_file: uploadedFileNames
     }
+
+    console.log('data1', data)
 
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.postchat`, data)
+
       console.log(response)
       SAlert.fire({
         icon: 'success',
@@ -409,6 +456,19 @@ const PosrtDetail = () => {
     }
   ]
 
+  // const filteredImages = messageImage.filter(image =>
+  //   questionData.find(question => {
+  //     console.log('question.query_id:', question.query_id)
+  //     console.log('image.query_id:', image.query_id)
+
+  //     return question.query_id === image.query_id
+  //   })
+  // )
+
+  // useEffect(() => {
+  //   console.log('filteredImages:', filteredImages)
+  // }, [filteredImages])
+
   return (
     <Container maxWidth='xl'>
       <Box>
@@ -505,6 +565,7 @@ const PosrtDetail = () => {
                 Shipping
               </Button>
             </Box>
+
             {/* ตาราง */}
             <Box sx={{ width: '100%', height: '300px' }}>
               <DataGrid
@@ -535,7 +596,8 @@ const PosrtDetail = () => {
                 onChange={handleComment}
                 value={comments}
               ></TextField>
-              <Button variant='contained' onClick={handleCommentSubmit}>
+              <Regispost onUploadImagesChange={handleUploadImagesChange} />
+              <Button variant='contained' onClick={handleCommentSubmit} sx={{ mt: 4 }}>
                 Post Comment
               </Button>
             </Box>
@@ -547,50 +609,69 @@ const PosrtDetail = () => {
                 Comment
               </Typography>
               {questionData && questionData.length > 0 ? (
-                questionData.map((question, index) => (
-                  <Card
-                    key={index}
-                    variant='outlined'
-                    sx={{
-                      width: '100%',
-                      height: '100%',
-                      marginBottom: '20px',
-                      boxShadow: 2,
-                      backgroundColor: question.sender === userId ? '#3A46A7' : '#FFCA64 ' // ตั้งสีพื้นหลังตามเงื่อนไข ไปเปลี่ยนสี blue เป็นสีอื่น
-                    }}
-                  >
-                    <Box sx={{ width: '100%', padding: '20px' }}>
-                      <Box
-                        sx={{
-                          width: '100%',
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignContent: 'center'
-                        }}
-                      >
-                        {question.sender === userId ? (
-                          <Typography variant='h6' fontSize='2.2rem bold' color='#fff'>
-                            {question.user_first_name} {question.user_last_name}
-                          </Typography>
-                        ) : (
-                          <Typography variant='h6' fontSize='2.2rem bold' color='#000'>
-                            Market
-                          </Typography>
-                        )}
-                        {question.sender === userId && ( // เช็คว่า sender เท่ากับ userId ก่อนแสดง IconButton
-                          <IconButton onClick={() => handleDeleteSubmit(question.query_id)}>
-                            <DeleteIcon sx={{ fontSize: 28, color: '#fff' }} />
-                          </IconButton>
-                        )}
+                [...new Set(questionData.map(question => question.query_id))].map((uniqueQueryId, index) => {
+                  const uniqueQuestion = questionData.find(question => question.query_id === uniqueQueryId)
+
+                  return (
+                    <Card
+                      key={index}
+                      variant='outlined'
+                      sx={{
+                        width: '100%',
+                        height: '100%',
+                        marginBottom: '20px',
+                        boxShadow: 2,
+                        backgroundColor: uniqueQuestion.sender === userId ? '#3A46A7' : '#FFCA64'
+                      }}
+                    >
+                      <Box sx={{ width: '100%', padding: '20px' }}>
+                        <Box
+                          sx={{
+                            width: '100%',
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignContent: 'center'
+                          }}
+                        >
+                          {uniqueQuestion.sender === userId ? (
+                            <Typography variant='h6' fontSize='2.2rem bold' color='#fff'>
+                              {uniqueQuestion.user_first_name} {uniqueQuestion.user_last_name}
+                            </Typography>
+                          ) : (
+                            <Typography variant='h6' fontSize='2.2rem bold' color='#000'>
+                              Market
+                            </Typography>
+                          )}
+                          {uniqueQuestion.sender === userId && (
+                            <IconButton onClick={() => handleDeleteSubmit(uniqueQuestion.query_id)}>
+                              <DeleteIcon sx={{ fontSize: 28, color: '#fff' }} />
+                            </IconButton>
+                          )}
+                        </Box>
                       </Box>
-                    </Box>
-                    <Box sx={{ width: '100%', padding: '0px 20px 20px' }}>
-                      <Typography variant='body2' fontSize='1rem' color={question.sender === userId ? '#fff' : '#000'}>
-                        {question.query_description}
-                      </Typography>
-                    </Box>
-                  </Card>
-                ))
+
+                      <Box sx={{ width: '100%', padding: '0px 20px 20px' }}>
+                        <Typography
+                          variant='body2'
+                          fontSize='1rem'
+                          color={uniqueQuestion.sender === userId ? '#fff' : '#000'}
+                        >
+                          {uniqueQuestion.query_description}
+                        </Typography>
+
+                        {messageImage
+                          .filter(image => image.query_id === uniqueQuestion.query_id)
+                          .map((image, imgIndex) => (
+                            <ImageList key={imgIndex}>
+                              <ImageListItem>
+                                <img src={`/imgpost/${image.req_image_file}`} alt={image.name} />
+                              </ImageListItem>
+                            </ImageList>
+                          ))}
+                      </Box>
+                    </Card>
+                  )
+                })
               ) : (
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                   <Typography variant='h6' fontSize='24px bold'>
