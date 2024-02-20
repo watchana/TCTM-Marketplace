@@ -61,7 +61,7 @@ const CheckoutForm = ({ newProduct, NewPrice }) => {
       return
     }
 
-    const stripe = require('stripe')(secretkey)
+    const stripe = require('stripe')(process.env.NEXT_PUBLIC_SECRETSTRIPE)
 
     try {
       const price = await stripe.prices.create({
@@ -74,7 +74,7 @@ const CheckoutForm = ({ newProduct, NewPrice }) => {
       console.log('Price created:', price.id)
       setPriceKey(String(price.id))
 
-      const stripePromise = loadStripe(publishkey)
+      const stripePromise = loadStripe(process.env.NEXT_PUBLIC_PUBLISHSTRIPE)
       const stripeInstance = await stripePromise
 
       const result = await stripeInstance.redirectToCheckout({
