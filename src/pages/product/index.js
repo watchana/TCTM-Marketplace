@@ -64,8 +64,6 @@ const ProductDetails = ({}) => {
   const FirstImage = productimg && productimg[0] ? productimg[0].image_file_name : null // ตัวแปรเก็บข้อมูลรูปภาพตัวอย่าง
   const [loadingData, setLoadingData] = useState(0)
 
-  console.log(SeoProductpage.description)
-
   // ตัวแปรเก็บการแสดงราคา
   const totalPrice = price * quantity
 
