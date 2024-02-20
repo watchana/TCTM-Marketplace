@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 
 // ** MUI Imports
-import { Box, Card, Container, Grid, Hidden, Typography, Tab } from '@mui/material'
+import { Box, Card, Container, Grid, Hidden, Typography, Tab, Tabs } from '@mui/material'
 
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 
@@ -28,10 +28,10 @@ import MySeo from '../seo'
 import { SeoBackofficetpage } from 'src/seo/homepage'
 
 const BackOffice = () => {
-  const [activeTab, setActiveTab] = useState('user')
+  const [value, setValue] = useState('1')
 
-  const handleTabChange = (event, newValue) => {
-    setActiveTab(newValue)
+  const handleChange = (event, newValue) => {
+    setValue(newValue)
   }
 
   const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
@@ -75,33 +75,40 @@ const BackOffice = () => {
         </Box>
         <Card variant='outlined'>
           <Box sx={{ width: '100%' }}>
-            <TabContext value={activeTab}>
+            <TabContext value={value}>
               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <TabList onChange={handleTabChange} aria-label='lab API tabs example'>
-                  <Tab label='User' value='user' />
-                  <Tab label='Market' value='market' />
-                  <Tab label='Product' value='product' />
-                  <Tab label='Billboard' value='billboard' />
-                  <Tab label='Information' value='Information' />
-                  <Tab label='Service' value='Service' />
-                </TabList>
+                <Tabs
+                  value={value}
+                  onChange={handleChange}
+                  variant='scrollable'
+                  scrollButtons
+                  allowScrollButtonsMobile
+                  aria-label='scrollable prevent tabs example'
+                >
+                  <Tab label='User' value='1' />
+                  <Tab label='Market' value='2' />
+                  <Tab label='Product' value='3' />
+                  <Tab label='Billboard' value='4' />
+                  <Tab label='Information' value='5' />
+                  <Tab label='Service' value='6' />
+                </Tabs>
               </Box>
-              <TabPanel value='user'>
+              <TabPanel value='1'>
                 <User />
               </TabPanel>
-              <TabPanel value='market'>
+              <TabPanel value='2'>
                 <Market />
               </TabPanel>
-              <TabPanel value='product'>
+              <TabPanel value='3'>
                 <Product />
               </TabPanel>
-              <TabPanel value='billboard'>
+              <TabPanel value='4'>
                 <Billboard />
               </TabPanel>
-              <TabPanel value='Information'>
+              <TabPanel value='5'>
                 <InformationTable rows='' />
               </TabPanel>
-              <TabPanel value='Service'>
+              <TabPanel value='6'>
                 <Service />
               </TabPanel>
             </TabContext>

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react'
 
 // ** MUI Imports
-import { Box, Tab, Card, Typography, Grid, Link, Stack, Breadcrumbs, Hidden } from '@mui/material'
+import { Box, Tab, Card, Typography, Grid, Link, Stack, Breadcrumbs, Hidden, Tabs } from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 
 // ** Material Design Icons Imports
@@ -145,14 +145,21 @@ const ManagementPage = () => {
         <Box>
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-              <TabList onChange={handleChange} aria-label='lab API tabs example'>
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                variant='scrollable'
+                scrollButtons
+                allowScrollButtonsMobile
+                aria-label='scrollable prevent tabs example'
+              >
                 <Tab label='User' value='1' />
                 <Tab label='Marketplace' value='2' />
                 <Tab label='Product' value='3' />
                 <Tab label='Post' value='4' />
                 <Tab label='Sercive' value='5' />
                 <Tab label='SercivePost' value='6' />
-              </TabList>
+              </Tabs>
             </Box>
             <TabPanel value='1'>
               <MemberTable rows={dataUser} />

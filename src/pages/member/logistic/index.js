@@ -184,10 +184,17 @@ const MyOrderPage = () => {
         <Card variant='outlined'>
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-              <TabList onChange={handleChange} aria-label='lab API tabs example'>
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                variant='scrollable'
+                scrollButtons
+                allowScrollButtonsMobile
+                aria-label='scrollable prevent tabs example'
+              >
                 <Tab label='Product Order' value='1' />
                 <Tab label='Requirement Order' value='2' />
-              </TabList>
+              </Tabs>
             </Box>
             <TabPanel value='1'>
               <Box sx={{ width: '100%', typography: 'body1' }}>

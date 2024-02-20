@@ -22,7 +22,8 @@ import {
   Tab,
   TextField,
   Typography,
-  Chip
+  Chip,
+  Tabs
 } from '@mui/material'
 
 // ** Material UI Tabs Imports
@@ -532,13 +533,20 @@ const MyMarket = () => {
         <Card variant='outlined'>
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-              <TabList onChange={handleChange} aria-label='lab API tabs example'>
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                variant='scrollable'
+                scrollButtons
+                allowScrollButtonsMobile
+                aria-label='scrollable prevent tabs example'
+              >
                 <Tab label='Products' value='1' />
                 <Tab label='Product Orders' value='2' />
                 <Tab label='Product Requirement Orders' value='3' />
                 <Tab label='Requirement ' value='4' />
                 <Tab label='Information ' value='5' />
-              </TabList>
+              </Tabs>
             </Box>
             <TabPanel value='1'>
               <Box sx={{ padding: '10px 10px 15px' }}>
