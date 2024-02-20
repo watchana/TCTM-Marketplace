@@ -33,6 +33,11 @@ import { withAuth } from 'src/@core/utils/AuthCheck'
 // Responsive image
 import { useMediaQuery } from '@mui/material'
 
+// SEO
+
+import { SeoPostpage } from 'src/seo/homepage'
+import MySeo from 'src/pages/seo'
+
 const Posts = () => {
   // ** Router ของ Next.js
   const router = useRouter()
@@ -216,6 +221,12 @@ const Posts = () => {
 
   return (
     <Container maxWidth='xl'>
+      <MySeo
+        title={'Post'}
+        description={SeoPostpage.description}
+        keywords={SeoPostpage.keywords}
+        content={SeoPostpage.content}
+      />
       <Box>
         <Box sx={{ width: '100%' }}>
           <Card

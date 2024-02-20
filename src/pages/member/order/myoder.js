@@ -26,6 +26,11 @@ import { withAuth } from 'src/@core/utils/AuthCheck'
 // Responsive image
 import { useMediaQuery } from '@mui/material'
 
+// SEO
+
+import { SeoMyorderpage } from 'src/seo/homepage'
+import MySeo from 'src/pages/seo'
+
 const MyOrderPage = () => {
   // ตัวแปรเก็บค่าข้อมูล
   const [userId, setUserId] = useState('') // ข้อมูล user_Id
@@ -84,6 +89,12 @@ const MyOrderPage = () => {
 
   return (
     <Container maxWidth='xl'>
+      <MySeo
+        title={'MyOrder'}
+        description={SeoMyorderpage.description}
+        keywords={SeoMyorderpage.keywords}
+        content={SeoMyorderpage.content}
+      />
       <Box>
         <Box sx={{ width: '100%' }}>
           <Card

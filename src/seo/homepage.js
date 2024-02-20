@@ -94,6 +94,27 @@ const SeoServiceRegisterpage = {
   content: ' ServiceRegisterpage'
 }
 
+const SeoPostpage = {
+  id: 1,
+  description: ' Postpage',
+  keywords: ' Postpage',
+  content: ' Postpage'
+}
+
+const SeoMyorderpage = {
+  id: 1,
+  description: ' Myorderpage',
+  keywords: ' Myorderpage',
+  content: ' Myorderpage'
+}
+
+const SeoDeliverypage = {
+  id: 1,
+  description: ' Deliverypage',
+  keywords: ' Deliverypage',
+  content: ' Deliverypage'
+}
+
 export {
   SeoHomepage,
   SeoProductpage,
@@ -107,5 +128,8 @@ export {
   SeoAccountSettingspage,
   SeoManagementMarketpage,
   SeoMarketRegisterpage,
-  SeoServiceRegisterpage
+  SeoServiceRegisterpage,
+  SeoPostpage,
+  SeoMyorderpage,
+  SeoDeliverypage
 }

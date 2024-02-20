@@ -28,6 +28,11 @@ import { withAuth } from 'src/@core/utils/AuthCheck'
 // Responsive image
 import { useMediaQuery } from '@mui/material'
 
+// SEO
+
+import { SeoDeliverypage } from 'src/seo/homepage'
+import MySeo from 'src/pages/seo'
+
 const MyOrderPage = () => {
   const router = useRouter() // use router
   const { invoice_id, usertype } = router.query
@@ -122,6 +127,12 @@ const MyOrderPage = () => {
 
   return (
     <Container maxWidth='xl'>
+      <MySeo
+        title={'Delivery'}
+        description={SeoDeliverypage.description}
+        keywords={SeoDeliverypage.keywords}
+        content={SeoDeliverypage.content}
+      />
       <Box>
         <Box sx={{ width: '100%' }}>
           <Card
