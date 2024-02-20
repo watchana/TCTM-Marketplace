@@ -13,22 +13,15 @@ import ShowProducts from 'src/views/homepage/ShowProducts'
 import ShowProducts2 from 'src/views/homepage/ShowProducts2'
 import ShowPost from './postinformation/Showpost'
 import { SeoHomepage } from 'src/seo/homepage'
-
-{
-  SeoHomepage.map(item => {
-    themeConfig.description = item.description
-    themeConfig.keywords = item.keywords
-    themeConfig.content = item.content
-
-    return
-  })
-}
+import MySeo from './seo'
 
 console.log(SeoHomepage)
 
 const Dashboard = () => {
   return (
     <Container maxWidth='xl' style={{ userSelect: 'none' }}>
+      <MySeo description={SeoHomepage.description} content={SeoHomepage.content} keywords={SeoHomepage.keywords} />
+
       {/* ---------- Billboard ---------- */}
       <Billboard />
       {/* ---------- Category ---------- */}

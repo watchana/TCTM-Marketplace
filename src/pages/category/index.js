@@ -39,7 +39,8 @@ import axios from 'axios'
 // Responsive image
 import { useMediaQuery } from '@mui/material'
 import themeConfig from 'src/configs/themeConfig'
-import ProductDetails from '../product'
+import { SeoCategorypage } from 'src/seo/homepage'
+import MySeo from '../seo'
 
 const Category = ({ productData, SearchProduct, keyword }) => {
   const [filteredProducts, setFilteredProducts] = useState(keyword ? SearchProduct || null : productData || null)
@@ -146,6 +147,12 @@ const Category = ({ productData, SearchProduct, keyword }) => {
 
   return (
     <Container maxWidth='xl'>
+      <MySeo
+        title={uniqueCategories}
+        description={SeoCategorypage.description}
+        content={SeoCategorypage.content}
+        keywords={SeoCategorypage.keywords}
+      />
       <Box>
         <Box sx={{ width: '100%' }}>
           <Card

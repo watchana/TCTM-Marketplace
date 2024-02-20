@@ -1,10 +1,10 @@
-const themeConfig = {
+var themeConfig = {
   // ** Layout Configs
-  templateName: 'TCTM' /* App Name */,
+  templateName: ' TCTM -' /* App Name */,
   keywords: '',
   content: '',
   description: '',
-  title: '',
+  post: '',
   mode: 'light' /* light | dark */,
   contentWidth: 'full' /* full | boxed */,
   // ** Routing Configs

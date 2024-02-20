@@ -51,14 +51,6 @@ const App = props => {
 
   return (
     <CacheProvider value={emotionCache}>
-      <Head>
-        <title>{`${themeConfig.templateName} `}</title>
-        <meta name='description' content={themeConfig.description} />
-        <meta name='keywords' content={`${themeConfig.keywords} `} />
-        <meta name='content' content={themeConfig.content} />
-        <meta name='post' content={themeConfig.title} />
-      </Head>
-
       <SettingsProvider>
         <SettingsConsumer>
           {({ settings }) => {

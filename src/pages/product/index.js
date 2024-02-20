@@ -64,6 +64,8 @@ const ProductDetails = ({}) => {
   const FirstImage = productimg && productimg[0] ? productimg[0].image_file_name : null // ตัวแปรเก็บข้อมูลรูปภาพตัวอย่าง
   const [loadingData, setLoadingData] = useState(0)
 
+  console.log(SeoProductpage.description)
+
   // ตัวแปรเก็บการแสดงราคา
   const totalPrice = price * quantity
 
@@ -316,19 +318,8 @@ const ProductDetails = ({}) => {
 
   const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
-  SeoProductpage.map(item => {
-    themeConfig.description = item.description
-    themeConfig.keywords = item.keywords
-    themeConfig.content = item.content
-  })
-
   return (
     <Container maxWidth='xl'>
-      <MySeo
-        title={productdata.product_name}
-        description={productdata.product_name}
-        keywords={productdata.product_name}
-      />
       <Box>
         <Box sx={{ width: '100%' }}>
           <Card
@@ -530,8 +521,13 @@ const ProductDetails = ({}) => {
                 </Typography>
               </Box>
 
-              <MySeo title={productdata.product_name} details={OptionData} />
-
+              <MySeo
+                title={productdata.product_name}
+                details={OptionData}
+                description={Seoinformationpage.description}
+                content={Seoinformationpage.content}
+                keywords={Seoinformationpage.keywords}
+              />
               {/* ========== Brand ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
                 <Typography variant='h6' color='#000'>

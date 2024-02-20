@@ -26,6 +26,8 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import { useMediaQuery } from '@mui/material'
+import MySeo from 'src/pages/seo'
+import { Seoinformationpage } from 'src/seo/homepage'
 
 const InformationDetails = () => {
   const [informationdata, setInformationData] = useState([]) // ตัวแปรเก็บข้อมูลแนะนำ
@@ -144,6 +146,13 @@ const InformationDetails = () => {
 
   return (
     <Box>
+      <MySeo
+        title={informationdata.post_name}
+        details={informationdata.post_detail}
+        description={Seoinformationpage.description}
+        content={Seoinformationpage.content}
+        keywords={Seoinformationpage.keywords}
+      />
       <Box>
         <Container maxWidth='xl'>
           <Box>
