@@ -42,6 +42,10 @@ import DepositWithdraw from 'src/views/dashboard/DepositWithdraw'
 import SalesByCountries from 'src/views/dashboard/SalesByCountries'
 import StatisticsCardMarket from 'src/views/dashboard/StatisticsCardMarket'
 
+// SEO
+import MySeo from '../seo'
+import { SeoDashboardpage } from 'src/seo/homepage'
+
 const DashboardTCTM = () => {
   // Set data
   const [data, setData] = useState('')
@@ -65,6 +69,12 @@ const DashboardTCTM = () => {
 
   return (
     <Container maxWidth='xl'>
+      <MySeo
+        title={`Dashboard`}
+        description={SeoDashboardpage.description}
+        keywords={SeoDashboardpage.keywords}
+        content={SeoDashboardpage.content}
+      />
       <Box>
         <Box sx={{ width: '100%' }}>
           <Card

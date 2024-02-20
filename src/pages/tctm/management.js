@@ -24,6 +24,10 @@ import ServicePostTable from 'src/views/tctm/ServicePostTable'
 // Responsive image
 import { useMediaQuery } from '@mui/material'
 
+// SEO
+import MySeo from '../seo'
+import { SeoTctmManagementpage } from 'src/seo/homepage'
+
 const ManagementPage = () => {
   const [value, setValue] = useState('1')
   const [dataUser, setDataUser] = useState([])
@@ -94,6 +98,12 @@ const ManagementPage = () => {
 
   return (
     <>
+      <MySeo
+        title={` TCTM Management`}
+        description={SeoTctmManagementpage.description}
+        keywords={SeoTctmManagementpage.keywords}
+        content={SeoTctmManagementpage.content}
+      />
       <Box sx={{ width: '100%' }}>
         <Card
           sx={{

@@ -4,27 +4,19 @@ import React, { useEffect, useState } from 'react'
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import Link from '@mui/material/Link'
-import Alert from '@mui/material/Alert'
-import Select from '@mui/material/Select'
 import { styled } from '@mui/material/styles'
-import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
-import InputLabel from '@mui/material/InputLabel'
-import AlertTitle from '@mui/material/AlertTitle'
-import IconButton from '@mui/material/IconButton'
 import CardContent from '@mui/material/CardContent'
-import FormControl from '@mui/material/FormControl'
-import Button from '@mui/material/Button'
-import { Divider, InputAdornment } from '@mui/material'
 
-// ** Icons Imports
-import Close from 'mdi-material-ui/Close'
+import Button from '@mui/material/Button'
 
 // ** Axios Imports
 import axios from 'axios'
-import { Visibility, VisibilityOff } from '@mui/icons-material'
+
+// SEO
+
+import { SeoAccountSettingspage } from 'src/seo/homepage'
+import MySeo from 'src/pages/seo'
 
 // ** Switch Alert Import
 const Swal = require('sweetalert2')
@@ -215,132 +207,104 @@ const Account = () => {
 
   return (
     <CardContent>
-      <form>
-        <Grid container spacing={7}>
-          <Grid item xs={12} sx={{ marginTop: 4.8, marginBottom: 3 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <ImgStyled src={imgSrc} alt='Profile Pic' />
-            </Box>
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Name' placeholder='Name' value={userName} onChange={handleUserNameSet} />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              label='Last Name'
-              placeholder='Last Name'
-              value={userLastName}
-              onChange={handleLastNameSet}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField fullWidth type='email' label='Email' value={userEmail} onChange={handleEmailSet} />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              type='Phone'
-              label='Phone'
-              placeholder='Phone'
-              value={userPhone}
-              onChange={handlePhoneSet}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              type='Company'
-              label='Company'
-              placeholder='Company'
-              value={userCompany}
-              onChange={handleCompanySet}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              type='Address'
-              label='Address'
-              placeholder='Address'
-              value={userAddress}
-              onChange={handleAddressSet}
-            />
-          </Grid>
-          {status === '2' ? (
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                type='Host'
-                label='Host'
-                placeholder='Host'
-                value={userHost}
-                onChange={handleHost}
-              />
-            </Grid>
-          ) : (
-            ''
-          )}
-          {status === '2' ? (
-            <Grid item xs={12} sm={3} width={'50%'}>
-              <TextField
-                label='API Key'
-                type='password'
-                placeholder='API Key'
-                value={key}
-                onChange={handleKey}
-              />
-            </Grid>
-          ) : (
-            ''
-          )}
-          {status === '2' ? (
-            <Grid item xs={12} sm={3} width={'50%'}>
-              <TextField
-                label='API Keysecret'
-                type='password'
-                placeholder='API Keysecret'
-                value={secret}
-                onChange={handleSecret}
-              />
-            </Grid>
-          ) : (
-            ''
-          )}
-
-          {/* {openAlert ? (
-            <Grid item xs={12} sx={{ mb: 3 }}>
-              <Alert
-                severity='warning'
-                sx={{ '& a': { fontWeight: 400 } }}
-                action={
-                  <IconButton size='small' color='inherit' aria-label='close' onClick={() => setOpenAlert(false)}>
-                    <Close fontSize='inherit' />
-                  </IconButton>
-                }
-              >
-                <AlertTitle>Your email is not confirmed. Please check your inbox.</AlertTitle>
-                <Link href='/' onClick={e => e.preventDefault()}>
-                  Resend Confirmation
-                </Link>
-              </Alert>
-            </Grid>
-          ) : null} */}
-
-          <Grid item xs={12}>
-            <Button variant='contained' sx={{ marginRight: 3.5 }} onClick={e => handleChangUserData(e)}>
-              Save Changes
-            </Button>
-
-            <Button type='reset' variant='outlined' color='secondary' onClick={handleResetData}>
-              Reset
-            </Button>
-          </Grid>
+      <MySeo
+        title={userName + ` ` + userLastName}
+        description={SeoAccountSettingspage.description}
+        keywords={SeoAccountSettingspage.keywords}
+        content={SeoAccountSettingspage.content}
+      />
+      <Grid container spacing={7}>
+        <Grid item xs={12} sx={{ marginTop: 4.8, marginBottom: 3 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <ImgStyled src={imgSrc} alt='Profile Pic' />
+          </Box>
         </Grid>
-      </form>
+
+        <Grid item xs={12} sm={6}>
+          <TextField fullWidth label='Name' placeholder='Name' value={userName} onChange={handleUserNameSet} />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            fullWidth
+            label='Last Name'
+            placeholder='Last Name'
+            value={userLastName}
+            onChange={handleLastNameSet}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField fullWidth type='email' label='Email' value={userEmail} onChange={handleEmailSet} />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            fullWidth
+            type='Phone'
+            label='Phone'
+            placeholder='Phone'
+            value={userPhone}
+            onChange={handlePhoneSet}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <TextField
+            fullWidth
+            type='Company'
+            label='Company'
+            placeholder='Company'
+            value={userCompany}
+            onChange={handleCompanySet}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <TextField
+            fullWidth
+            type='Address'
+            label='Address'
+            placeholder='Address'
+            value={userAddress}
+            onChange={handleAddressSet}
+          />
+        </Grid>
+        {status === '2' ? (
+          <Grid item xs={12} sm={6}>
+            <TextField fullWidth type='Host' label='Host' placeholder='Host' value={userHost} onChange={handleHost} />
+          </Grid>
+        ) : (
+          ''
+        )}
+        {status === '2' ? (
+          <Grid item xs={12} sm={3} width={'50%'}>
+            <TextField label='API Key' type='password' placeholder='API Key' value={key} onChange={handleKey} />
+          </Grid>
+        ) : (
+          ''
+        )}
+        {status === '2' ? (
+          <Grid item xs={12} sm={3} width={'50%'}>
+            <TextField
+              label='API Keysecret'
+              type='password'
+              placeholder='API Keysecret'
+              value={secret}
+              onChange={handleSecret}
+            />
+          </Grid>
+        ) : (
+          ''
+        )}
+
+        <Grid item xs={12}>
+          <Button variant='contained' sx={{ marginRight: 3.5 }} onClick={e => handleChangUserData(e)}>
+            Save Changes
+          </Button>
+
+          <Button type='reset' variant='outlined' color='secondary' onClick={handleResetData}>
+            Reset
+          </Button>
+        </Grid>
+      </Grid>
     </CardContent>
   )
 }

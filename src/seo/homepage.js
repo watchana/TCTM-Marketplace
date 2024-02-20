@@ -24,10 +24,88 @@ const SeoCategorypage = {
 
 const Seoinformationpage = {
   id: 1,
-
   description: 'Seoinformationpage',
   keywords: 'Seoinformationpage',
   content: 'Seoinformationpage'
 }
 
-export { SeoHomepage, SeoProductpage, SeoCategorypage, Seoinformationpage }
+const SeoDashboardpage = {
+  id: 1,
+  description: '  Dashboard',
+  keywords: '  Dashboard',
+  content: '  Dashboard'
+}
+
+// ของ admin
+const SeoTctmManagementpage = {
+  id: 1,
+  description: '   TCTM Management',
+  keywords: '   TCTM Management',
+  content: '   TCTM Management'
+}
+
+const SeoCategoryManagementpage = {
+  id: 1,
+  description: ' CategoryManagementpage',
+  keywords: ' CategoryManagementpage',
+  content: ' CategoryManagementpage'
+}
+
+const SeoBackofficetpage = {
+  id: 1,
+  description: ' Backofficetpage',
+  keywords: ' Backofficetpage',
+  content: ' Backofficetpage'
+}
+
+const SeoLoginpage = {
+  id: 1,
+  description: ' Loginpage',
+  keywords: ' Loginpage',
+  content: ' Loginpage'
+}
+
+const SeoAccountSettingspage = {
+  id: 1,
+  description: ' AccountSettings',
+  keywords: ' AccountSettings',
+  content: ' AccountSettings'
+}
+
+// ของ admin
+const SeoManagementMarketpage = {
+  id: 1,
+  description: ' ManagementMarketpage',
+  keywords: ' ManagementMarketpage',
+  content: ' ManagementMarketpage'
+}
+
+const SeoMarketRegisterpage = {
+  id: 1,
+  description: ' MarketRegisterpage',
+  keywords: ' MarketRegisterpage',
+  content: ' MarketRegisterpage'
+}
+
+const SeoServiceRegisterpage = {
+  id: 1,
+  description: ' ServiceRegisterpage',
+  keywords: ' ServiceRegisterpage',
+  content: ' ServiceRegisterpage'
+}
+
+export {
+  SeoHomepage,
+  SeoProductpage,
+  SeoCategorypage,
+  Seoinformationpage,
+  SeoDashboardpage,
+  SeoTctmManagementpage,
+  SeoCategoryManagementpage,
+  SeoBackofficetpage,
+  SeoLoginpage,
+  SeoAccountSettingspage,
+  SeoManagementMarketpage,
+  SeoMarketRegisterpage,
+  SeoServiceRegisterpage
+}

@@ -148,9 +148,7 @@ const InformationDetails = () => {
     <Box>
       <MySeo
         title={informationdata.post_name}
-        details={informationdata.post_detail}
         description={Seoinformationpage.description}
-        content={Seoinformationpage.content}
         keywords={Seoinformationpage.keywords}
       />
       <Box>

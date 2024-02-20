@@ -43,6 +43,10 @@ import { createToken, verifyToken } from '../../@core/utils/auth'
 // ** Components view Import
 import LoadingLogin from 'src/views/login/Loading'
 
+// SEO
+import MySeo from '../seo'
+import { SeoLoginpage } from 'src/seo/homepage'
+
 const initialPasswordValue = '1'
 
 // ** Switch Alert Import
@@ -226,6 +230,12 @@ const LoginPage = () => {
 
   return (
     <Background className='content-center'>
+      <MySeo
+        title={'Login'}
+        description={SeoLoginpage.description}
+        keywords={SeoLoginpage.keywords}
+        content={SeoLoginpage.content}
+      />
       <CardStyled sx={{ zIndex: 1 }}>
         <CardContent>
           <form onSubmit={handleSubmit}>

@@ -55,6 +55,10 @@ import Information from './information'
 // ** Auth Check
 import { withAuth } from 'src/@core/utils/AuthCheck'
 
+// SEO
+import MySeo from '../seo'
+import { SeoManagementMarketpage } from 'src/seo/homepage'
+
 const MyMarket = () => {
   // set tabpanel State
   const [value, setValue] = useState('1')
@@ -380,9 +384,17 @@ const MyMarket = () => {
     }
   ]
 
+  console.log(marketname)
+
   const SearchMenu = () => {
     return (
       <Grid container spacing={3}>
+        <MySeo
+          title={`Management : ` + marketname}
+          description={SeoManagementMarketpage.description}
+          keywords={SeoManagementMarketpage.keywords}
+          content={SeoManagementMarketpage.content}
+        />
         <Grid item xl={2} lg={2} md={2} sm={12} xs={12}>
           <FormControl fullWidth size='small' variant='outlined' sx={{ maxHeight: '42px', height: '42px' }}>
             <InputLabel id='demo-simple-select-outlined-label'>Category</InputLabel>

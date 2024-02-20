@@ -38,6 +38,10 @@ import { useMediaQuery } from '@mui/material'
 // ** Auth Check
 import { withAuth } from 'src/@core/utils/AuthCheck'
 
+// SEO
+import MySeo from '../seo'
+import { SeoMarketRegisterpage } from 'src/seo/homepage'
+
 const RegisterSupplier = () => {
   // ** Hook
   const router = useRouter()
@@ -230,6 +234,12 @@ const RegisterSupplier = () => {
 
   return (
     <Container maxWidth='xl'>
+      <MySeo
+        title={'Market Registerpage'}
+        description={SeoMarketRegisterpage.description}
+        keywords={SeoMarketRegisterpage.keywords}
+        content={SeoMarketRegisterpage.content}
+      />
       <Box>
         <Box sx={{ width: '100%' }}>
           <Card

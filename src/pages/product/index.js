@@ -524,9 +524,9 @@ const ProductDetails = ({}) => {
               <MySeo
                 title={productdata.product_name}
                 details={OptionData}
-                description={Seoinformationpage.description}
-                content={Seoinformationpage.content}
-                keywords={Seoinformationpage.keywords}
+                description={SeoProductpage.description}
+                content={SeoProductpage.content}
+                keywords={SeoProductpage.keywords}
               />
               {/* ========== Brand ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>

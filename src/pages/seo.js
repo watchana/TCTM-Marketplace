@@ -9,7 +9,7 @@ const MySeo = ({ title, details, description, keywords, content }) => {
       {/* <Helmet></Helmet> */}
 
       <Head>
-        {!title ? <title>{'TCTM - '}</title> : <title>{`TCTM - ${title}`}</title>}
+        {!title ? <title>{'TCTM - '}</title> : <title>{` ${title} - TCTM `}</title>}
         <meta name='description' content={`${description}`} />
 
         {/* ถ้า title ไม่มีค่าจะแสดงข้อมูลข้างล่าง หาก title มีข้อมูล จะแสดงข้างส่วนข้างบน */}
@@ -20,10 +20,9 @@ const MySeo = ({ title, details, description, keywords, content }) => {
           <meta name='keywords' content={`${keywords} ${title}`} />
         )}
 
-        <meta name='content' content={`${content}`} />
         {/* ถ้า detail มีค่าให้แสดง */}
+        {content && <meta name='content' content={`${content}`} />}
         {details && <meta name='content' content={`${details}`} />}
-        <meta name='post' content={title} />
       </Head>
     </div>
   )

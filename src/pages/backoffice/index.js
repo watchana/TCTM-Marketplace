@@ -23,6 +23,10 @@ import { withAuth } from 'src/@core/utils/AuthCheck'
 // Responsive image
 import { useMediaQuery } from '@mui/material'
 
+// SEO
+import MySeo from '../seo'
+import { SeoBackofficetpage } from 'src/seo/homepage'
+
 const BackOffice = () => {
   const [activeTab, setActiveTab] = useState('user')
 
@@ -34,6 +38,12 @@ const BackOffice = () => {
 
   return (
     <Container maxWidth='xl'>
+      <MySeo
+        title={'Backofficet'}
+        description={SeoBackofficetpage.description}
+        keywords={SeoBackofficetpage.keywords}
+        content={SeoBackofficetpage.content}
+      />
       <Box>
         <Box sx={{ width: '100%' }}>
           <Card

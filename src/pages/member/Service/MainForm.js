@@ -22,6 +22,11 @@ import { TextField, Button, Grid, Typography, Paper, Divider, Box } from '@mui/m
 
 // import { textAlign } from 'html2canvas/dist/types/css/property-descriptors/text-align'
 
+// SEO
+
+import { SeoServiceRegisterpage } from 'src/seo/homepage'
+import MySeo from 'src/pages/seo'
+
 const MainForm = ({ PDF_File }) => {
   const formdataref = useRef({})
 
@@ -191,6 +196,12 @@ const MainForm = ({ PDF_File }) => {
 
   return (
     <Grid container id='form-to-image' sx={{ xs: 12, sm: 12, md: 12, lg: 12 }}>
+      <MySeo
+        title={'Service Register'}
+        description={SeoServiceRegisterpage.description}
+        keywords={SeoServiceRegisterpage.keywords}
+        content={SeoServiceRegisterpage.content}
+      />
       <Paper elevation={3} style={{ padding: '60px' }}>
         {/* ----------------information---------------- */}
         <div id='page-1'>

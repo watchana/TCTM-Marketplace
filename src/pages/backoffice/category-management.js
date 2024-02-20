@@ -15,6 +15,10 @@ import { withAuth } from 'src/@core/utils/AuthCheck'
 // Responsive image
 import { useMediaQuery } from '@mui/material'
 
+// SEO
+import MySeo from '../seo'
+import { SeoCategoryManagementpage } from 'src/seo/homepage'
+
 const CategoryManager = () => {
   // นำเข้าตัวsweetalert2
   const Swal = require('sweetalert2')
@@ -153,6 +157,12 @@ const CategoryManager = () => {
 
   return (
     <>
+      <MySeo
+        title={'Category - Management'}
+        description={SeoCategoryManagementpage.description}
+        keywords={SeoCategoryManagementpage.keywords}
+        content={SeoCategoryManagementpage.content}
+      />
       <Box sx={{ width: '100%' }}>
         <Card
           sx={{
