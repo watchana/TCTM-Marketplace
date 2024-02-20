@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, Fragment } from 'react'
+import { useState, Fragment, useRef } from 'react'
 
 // ** Next Imports
 import Link from 'next/link'
@@ -10,6 +10,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import dayjs from 'dayjs'
+import ReCAPTCHA from 'react-google-recaptcha'
 
 // ** Material UI Imports
 import {
@@ -47,6 +48,7 @@ import axios from 'axios'
 // ** jwt
 import { createToken, verifyToken } from '../../@core/utils/auth'
 import Cookies from 'js-cookie'
+import Recaptcha from '../recapcha'
 
 // ** Switch Alert Import
 const SAlert = require('sweetalert2')
@@ -64,6 +66,19 @@ const RegisterPage = () => {
     password: '',
     showPassword: false
   })
+
+  // คอมโพเนนต์ของ reCAPTCHA
+  const [recaptchaValue, setRecaptchaValue] = useState(false)
+
+  // สร้างฟังก์ชันเมื่อ reCAPTCHA ถูกยืนยัน
+
+  const handleRecaptchaVerify = async token => {
+    const secretKey = process.env.NEXT_RECAPTCHA_KEY
+
+    if (token) {
+      setRecaptchaValue(true)
+    }
+  }
 
   // ** Hook
   const router = useRouter()
@@ -95,7 +110,7 @@ const RegisterPage = () => {
   // ฟังก์ชันบัณทึกค่าของ User
   const handleUserSet = event => {
     const userInput = event.target.value
-    if (/^[a-zA-Z0-9]+$/.test(userInput) || userInput === '') {
+    if (/^[a-zA-Z]+$/.test(userInput) || userInput === '') {
       setUser(userInput)
     }
   }
@@ -109,7 +124,7 @@ const RegisterPage = () => {
   // ฟังก์ชันบัณทึกค่าของ firstname
   const handleFirstnameSet = event => {
     const firstnameInput = event.target.value
-    if (/^[a-zA-Z]*$/.test(firstnameInput) || firstnameInput === '') {
+    if (/^[a-zA-Z\s]*$/.test(firstnameInput) || firstnameInput === '') {
       setFirstname(firstnameInput)
     }
   }
@@ -163,6 +178,17 @@ const RegisterPage = () => {
   const handleSubmitData = event => {
     event.preventDefault()
     setIsSubmitted(true)
+
+    // ตรวจสอบว่า reCAPTCHA ถูกต้อง
+    if (!recaptchaValue) {
+      // กระทำเมื่อ reCAPTCHA ไม่ถูกต้อง (ตัวอย่าง: แสดงข้อความหรือบล็อกการส่ง)
+      console.log('Please complete the reCAPTCHA.')
+
+      return
+    }
+
+    // ตรวจสอบค่าว่างอื่นๆ และดำเนินการตามปกติ
+    // ...
 
     // ตรวจสอบค่าว่างก่อนส่ง
     const fieldsToCheck = [user, password, email, firstname, lastname, company, address, tel, date]
@@ -404,6 +430,8 @@ const RegisterPage = () => {
               }}
               sx={{ marginBottom: 4 }}
             />
+            {/* เพิ่ม reCAPTCHA ในแบบฟอร์ม */}
+            <Recaptcha onVerify={handleRecaptchaVerify} />
             {/* ---------- Checkbox ---------- */}
             <FormControlLabel
               control={<Checkbox />}
