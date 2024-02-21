@@ -161,7 +161,7 @@ const ShowPost = () => {
                       flexDirection: 'column' // Stack children vertically
                     }}
                     onClick={() => {
-                      window.location.href = `market/information-detail/?post_id=${post.post_id}`
+                      window.location.href = `information-detail/?post_id=${post.post_id}`
                     }}
                   >
                     <CardMedia
