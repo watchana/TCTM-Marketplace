@@ -77,6 +77,7 @@ const ProductDetails = ({}) => {
   const { product_id } = router.query
 
   const productId = product_id
+  console.log('productId', productId)
 
   // ฟังก์ชันจัดการการเปลี่ยนค่าของ Select
   const handleSelectChange = event => {
@@ -525,6 +526,11 @@ const ProductDetails = ({}) => {
                 description={SeoProductpage.description}
                 content={SeoProductpage.content}
                 keywords={SeoProductpage.keywords}
+                ogimg={
+                  productimg[stateImages]?.image_file_name
+                    ? `/imgTctmProduct/${productimg[stateImages].image_file_name}`
+                    : ''
+                }
               />
               {/* ========== Brand ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
@@ -680,6 +686,18 @@ const ProductDetails = ({}) => {
       </Box>
     </Container>
   )
+}
+
+export async function getServerSideProps(context) {
+  const { product_id } = context.query
+
+  // Fetch data based on product_id
+
+  return {
+    props: {
+      // Data to be passed to the component
+    }
+  }
 }
 
 export default ProductDetails

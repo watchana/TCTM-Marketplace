@@ -3,7 +3,9 @@ import { Helmet } from 'react-helmet'
 import themeConfig from 'src/configs/themeConfig'
 import Head from 'next/head'
 
-const MySeo = ({ title, details, description, keywords, content }) => {
+const MySeo = ({ title, details, description, keywords, content, ogimg }) => {
+  console.log('ogimg', ogimg)
+
   return (
     <div>
       {/* <Helmet></Helmet> */}
@@ -23,6 +25,11 @@ const MySeo = ({ title, details, description, keywords, content }) => {
         {/* ถ้า detail มีค่าให้แสดง */}
         {content && <meta name='content' content={`${content}`} />}
         {details && <meta name='content' content={`${details}`} />}
+        {ogimg && <meta property='og:image' content={ogimg} />}
+        {ogimg && <meta property='og:image:type' content='image/png' />}
+        {ogimg && <meta property='og:image:width' content='436' />}
+        {ogimg && <meta property='og:image:height' content='228' />}
+        <meta property='og:description' content={`${description}`} />
       </Head>
     </div>
   )
