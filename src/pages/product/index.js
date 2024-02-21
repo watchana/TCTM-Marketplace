@@ -77,7 +77,14 @@ const ProductDetails = ({}) => {
   const { product_id } = router.query
 
   const productId = product_id
-  console.log('productId', productId)
+
+  const host = process.env.NEXT_PUBLIC_VERCEL_URL || process.env.NEXT_PUBLIC_HOST || 'localhost:3000' // replace with your default value
+  const currentPath = router.pathname
+  const parameters = router.query
+
+  const fullURL = `http://${host}${currentPath}/${Object.keys(parameters).length > 0 ? '?' : ''}${new URLSearchParams(
+    parameters
+  )}`
 
   // ฟังก์ชันจัดการการเปลี่ยนค่าของ Select
   const handleSelectChange = event => {
@@ -531,6 +538,7 @@ const ProductDetails = ({}) => {
                     ? `/imgTctmProduct/${productimg[stateImages].image_file_name}`
                     : ''
                 }
+                url={fullURL}
               />
               {/* ========== Brand ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>

@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet'
 import themeConfig from 'src/configs/themeConfig'
 import Head from 'next/head'
 
-const MySeo = ({ title, details, description, keywords, content, ogimg }) => {
+const MySeo = ({ title, details, description, keywords, content, ogimg ,url}) => {
   console.log('ogimg', ogimg)
 
   return (
@@ -30,6 +30,7 @@ const MySeo = ({ title, details, description, keywords, content, ogimg }) => {
         {ogimg && <meta property='og:image:width' content='436' />}
         {ogimg && <meta property='og:image:height' content='228' />}
         <meta property='og:description' content={`${description}`} />
+        {url&&<meta property='og:url' content={url}/>}
       </Head>
     </div>
   )
