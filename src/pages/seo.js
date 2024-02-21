@@ -1,5 +1,4 @@
 import React from 'react'
-import { Helmet } from 'react-helmet'
 import themeConfig from 'src/configs/themeConfig'
 import Head from 'next/head'
 

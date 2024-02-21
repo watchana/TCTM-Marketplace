@@ -34,28 +34,6 @@ import 'react-multi-carousel/lib/styles.css'
 // Responsive image
 import { useMediaQuery } from '@mui/material'
 
-import themeConfig from 'src/configs/themeConfig'
-
-// themeConfig.templateName = 'Billboard'
-// themeConfig.meta.description = 'Billboard'
-// themeConfig.meta.keywords = 'Product'
-// themeConfig.meta.content = 'Billboard'
-
-const ImagesBillboard = [
-  {
-    id: 1,
-    img: 'https://images.unsplash.com/photo-1549989476-69a92fa57c36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60'
-  },
-  {
-    id: 2,
-    img: 'https://images.unsplash.com/photo-1549396535-c11d5c55b9df?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60'
-  },
-  {
-    id: 3,
-    img: 'https://images.unsplash.com/photo-1550133730-695473e544be?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60'
-  }
-]
-
 // ** Styled components
 const BoxAdvert = styled(Box)(theme => ({
   display: 'flex',
@@ -90,11 +68,6 @@ const Billboard = () => {
     fetchData()
   }, [])
 
-  // const billboardData = slidedata.map((item, index) => ({ index, item })).filter(({ item }) => item.bill_status === '1')
-
-  // console.log(billboardData)
-
-  // React Multi Carousel Responsive
   const responsive = {
     desktop: {
       breakpoint: {
@@ -119,9 +92,8 @@ const Billboard = () => {
     }
   }
 
-  const isSmallScreenSup1 = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
-
-  const imageUrl = 'https://f.ptcdn.info/2g/306/000/000/E13098649-0.jpg'
+  // ตรวจสอบขนาดของหน้าจอ
+  const isSmallScreen = useMediaQuery('(max-width: 600px)')
 
   return (
     <Container maxWidth='xl'>
@@ -197,13 +169,13 @@ const Billboard = () => {
                 {slidedata && slidedata.length > 0 ? (
                   <Carousel responsive={responsive} infinite={false}>
                     {slidedata.length === '0' ? (
-                      <Skeleton variant='rectangular' width='100%' height='170px' sx={{ borderRadius: '6px' }} />
+                      <Skeleton variant='rectangular' width='100%' height='150px' sx={{ borderRadius: '6px' }} />
                     ) : (
                       <Box
                         sx={{
                           width: '100%',
-                          height: '170px',
-                          maxHeight: '170px',
+                          height: isSmallScreen ? '80px' : '180px', // Adjust the height based on screen size
+                          maxHeight: { xs: 120, sm: 120, md: 180, lg: 170 },
                           borderRadius: '6px',
                           backgroundSize: '100% 100%',
                           backgroundPosition: 'center',
@@ -220,7 +192,12 @@ const Billboard = () => {
                           .map(({ index, item }) => (
                             <Box
                               key={index}
-                              sx={{ width: '95%', height: { xs: 150, sm: 200, md: 300, lg: 'auto' }, Radius: '6px' }}
+                              sx={{
+                                width: '100%',
+                                height: 'auto', // Allow images to maintain aspect ratio
+                                maxHeight: '180px', // Set a maximum height for the images
+                                borderRadius: '6px'
+                              }}
                             >
                               <CardMedia
                                 component='img'
@@ -263,7 +240,17 @@ const Billboard = () => {
                     {slidedata.length === '0' ? (
                       <Skeleton variant='rectangular' width='100%' height='170px' sx={{ borderRadius: '6px' }} />
                     ) : (
-                      <Box>
+                      <Box
+                        sx={{
+                          width: '100%',
+                          height: isSmallScreen ? '80px' : '170px', // Adjust the height based on screen size
+                          maxHeight: { xs: 120, sm: 120, md: 180, lg: 170 },
+                          borderRadius: '6px',
+                          backgroundSize: '100% 100%',
+                          backgroundPosition: 'center',
+                          display: 'flex'
+                        }}
+                      >
                         {slidedata
                           .map((item, index) => ({
                             index,
@@ -272,13 +259,20 @@ const Billboard = () => {
 
                           .filter(({ item }) => item.bill_status === '4')
                           .map(({ index, item }) => (
-                            <Box key={index}>
+                            <Box
+                              key={index}
+                              sx={{
+                                width: '100%',
+                                height: 'auto', // Allow images to maintain aspect ratio
+                                maxHeight: '180px', // Set a maximum height for the images
+                                borderRadius: '6px'
+                              }}
+                            >
                               <CardMedia
                                 component='img'
                                 src={`/imgBillboard/${item.bill_name}`}
                                 alt={`image`}
                                 height='auto'
-                                sx={{ minWidth: '100px', minHeight: 'auto', height: '95%' }}
                               />
                             </Box>
                           ))}
@@ -313,7 +307,7 @@ const Billboard = () => {
       </Box>
       {/* ---------- Advert ---------- */}
       <Hidden mdDown>
-        <Box sx={{ width: '100%', height: '100%' }}>
+        <Box mb={3} mt={5} sx={{ width: '100%', height: '100%' }}>
           <Card variant='outlined' sx={{ height: '100px' }}>
             <Grid container direction='row' justifyContent='space-around'>
               <Grid item>
