@@ -18,19 +18,23 @@ import 'react-multi-carousel/lib/styles.css'
 
 // ** Styles Imports
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
-  [theme.breakpoints.down('xs')]: {
+  [theme.breakpoints.up('xs')]: {
+    width: '100% !important',
+    height: 75
+  },
+  position: 'relative',
+  [theme.breakpoints.up('sm')]: {
     width: '100% !important',
     height: 100
   },
-  position: 'relative',
-  [theme.breakpoints.down('sm')]: {
+  [theme.breakpoints.up('lg')]: {
     width: '100% !important',
-    height: 40
+    height: 100
   },
 
-  [theme.breakpoints.down('xl')]: {
+  [theme.breakpoints.up('xl')]: {
     width: '100% !important', // Overrides inline-style
-    height: 120
+    height: 100
   },
 
   '&:hover, &.Mui-focusVisible': {
@@ -41,15 +45,7 @@ const ImageButton = styled(ButtonBase)(({ theme }) => ({
 }))
 
 // พิ้นหลัง สีเทา
-const ImageBackdrop = styled('span')(({ theme }) => ({
-  position: 'absolute',
-  left: 0,
-  right: 0,
-  top: 0,
-  bottom: 0,
-  opacity: 0.4,
-  transition: theme.transitions.create('opacity')
-}))
+const ImageBackdrop = styled('span')(({ theme }) => ({}))
 
 const NameMarket = () => {
   // set data and state
@@ -100,7 +96,7 @@ const NameMarket = () => {
                 key={index}
                 sx={{
                   margin: '0 2px', // Add margin for spacing
-                  maxWidthidth: '100px',
+                  maxWidth: '500px',
                   maxHeight: '65px'
                 }}
               >
@@ -108,7 +104,7 @@ const NameMarket = () => {
                   <ButtonBase
                     spacing={4}
                     component='a'
-                    sx={{ width: '100%', height: '100%', padding: 0, borderRadius: '6px' }}
+                    sx={{ width: '100%', height: '90px', padding: 0, borderRadius: '6px' }}
                   >
                     <ImageButton
                       focusRipple

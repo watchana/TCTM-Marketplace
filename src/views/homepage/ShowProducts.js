@@ -55,12 +55,13 @@ const ShowProducts = () => {
 
   // React Multi Carousel Responsive
   const responsive = {
-    desktopLarge: { breakpoint: { max: 3000, min: 2300 }, items: 5, partialVisibilityGutter: 10 },
-    desktop: { breakpoint: { max: 2300, min: 1400 }, items: 5, partialVisibilityGutter: 10 },
-    tablet: { breakpoint: { max: 1400, min: 1100 }, items: 4, partialVisibilityGutter: 10 },
-    mobile: { breakpoint: { max: 1100, min: 900 }, items: 3, partialVisibilityGutter: 10 },
-    smallMobile1: { breakpoint: { max: 900, min: 400 }, items: 4, partialVisibilityGutter: 10 },
-    smallMobile2: { breakpoint: { max: 400, min: 50 }, items: 3, partialVisibilityGutter: 10 }
+    desktopLarge: { breakpoint: { max: 3000, min: 2300 }, items: 5 },
+    desktop: { breakpoint: { max: 2300, min: 1400 }, items: 5 },
+    tablet: { breakpoint: { max: 1400, min: 1100 }, items: 4 },
+    mobile: { breakpoint: { max: 1100, min: 900 }, items: 3 },
+    smallMobile1: { breakpoint: { max: 900, min: 750 }, items: 5 },
+    smallMobile2: { breakpoint: { max: 750, min: 450 }, items: 4 },
+    smallMobile3: { breakpoint: { max: 450, min: 50 }, items: 3 }
   }
 
   // Call Api
@@ -81,7 +82,7 @@ const ShowProducts = () => {
 
   return (
     <Container maxWidth='xl'>
-      <Box sx={{ width: '100%', marginTop: '30px', boxShadow: 3 }}>
+      <Box sx={{ width: '100%', marginTop: '15px', boxShadow: 3 }}>
         <Box
           sx={{
             height: isSmallScreen ? '50px' : '60px',
@@ -175,8 +176,8 @@ const ShowProducts = () => {
                       }}
                       sx={{
                         border: '0.5px solid lightgray',
-                        width: { xs: '90%', sm: '130px', md: '200px' },
-                        height: { xs: '165px', sm: '185px', md: '285px' }, // Adjust the height as needed
+                        width: { xs: '98px', sm: '140px', md: '200px' },
+                        height: { xs: '165px', sm: '185px', md: '285px' },
                         maxHeight: '285.5px',
                         boxShadow: 3,
                         cursor: 'pointer',

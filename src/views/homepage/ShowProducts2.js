@@ -14,18 +14,7 @@ import axios from 'axios'
 // ** React-Multi Carousel 👋
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
-
-// const images = [
-//   'https://imagen.research.google/main_gallery_images/cactus.jpg',
-//   'https://imagen.research.google/main_gallery_images/an-alien-octopus-floats.jpg',
-//   'https://imagen.research.google/main_gallery_images/android-mascot-made-from-bamboo.jpg',
-//   'https://imagen.research.google/main_gallery_images/a-robot-couple-fine-dining.jpg',
-//   'https://imagen.research.google/main_gallery_images/teddy-bear-swimming-butterfly.jpg',
-//   'https://imagen.research.google/main_gallery_images/a-brain-riding-a-rocketship.jpg',
-//   'https://imagen.research.google/main_gallery_images/a-dog-looking-curiously.jpg',
-//   'https://imagen.research.google/main_gallery_images/the-toronto-skyline-with-google-brain-logo.jpg',
-//   'https://gweb-research-imagen.web.app/compositional/A%20photo%20of%20a%20fuzzy%20panda%20wearing%20a%20sunglasses%20and%20black%20leather%20jacket%20skateboarding%20on%20a%20beach./0_.jpeg'
-// ]
+import { useMediaQuery } from '@mui/material'
 
 // ** Styles Components
 const DividerBox1 = styled(Box)(({ theme }) => ({
@@ -54,12 +43,13 @@ const ShowProducts2 = () => {
 
   // React Multi Carousel Responsive
   const responsive = {
-    desktopLarge: { breakpoint: { max: 3000, min: 2300 }, items: 10, partialVisibilityGutter: 10 },
-    desktop: { breakpoint: { max: 2300, min: 1400 }, items: 5, partialVisibilityGutter: 10 },
-    tablet: { breakpoint: { max: 1400, min: 1100 }, items: 4, partialVisibilityGutter: 10 },
-    mobile: { breakpoint: { max: 1100, min: 600 }, items: 3, partialVisibilityGutter: 10 },
-    smallMobile1: { breakpoint: { max: 600, min: 500 }, items: 3, partialVisibilityGutter: 10 },
-    smallMobile2: { breakpoint: { max: 500, min: 50 }, items: 2, partialVisibilityGutter: 10 }
+    desktopLarge: { breakpoint: { max: 3000, min: 2300 }, items: 5 },
+    desktop: { breakpoint: { max: 2300, min: 1400 }, items: 5 },
+    tablet: { breakpoint: { max: 1400, min: 1100 }, items: 4 },
+    mobile: { breakpoint: { max: 1100, min: 900 }, items: 3 },
+    smallMobile1: { breakpoint: { max: 900, min: 750 }, items: 5 },
+    smallMobile2: { breakpoint: { max: 750, min: 450 }, items: 4 },
+    smallMobile3: { breakpoint: { max: 450, min: 50 }, items: 3 }
   }
 
   // Call Api
@@ -76,16 +66,19 @@ const ShowProducts2 = () => {
     fetchData()
   }, [])
 
+  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+
   return (
     <Container maxWidth='xl'>
       <Box sx={{ width: '100%', marginTop: '30px', boxShadow: 3 }}>
         <Box
           sx={{
+            height: isSmallScreen ? '50px' : '60px',
             display: 'flex',
             justifyContent: 'flex-end',
-            height: '70px',
+            backgroundColor: '#3A46A7',
             borderRadius: '6px',
-            backgroundColor: '#3A46A7'
+            border: '1px solid #primary.main'
           }}
         >
           <DividerBox1 />
@@ -95,6 +88,7 @@ const ShowProducts2 = () => {
               variant='h5'
               fontSize='32px'
               sx={{
+                fontSize: { xs: '1.5rem', sm: '2rem', md: '2.3rem' },
                 color: '#FFFFFF',
                 fontWeight: 'bold',
                 textAlign: 'center',
@@ -119,7 +113,7 @@ const ShowProducts2 = () => {
           sx={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', flexWrap: 'nowrap' }}
         >
           <Grid item xs={12} md={10}>
-            <Box sx={{ width: '100%', height: '270px', borderRadius: '6px' }}>
+            <Box sx={{ borderRadius: '6px' }}>
               {slidedata && slidedata.length > 0 ? (
                 <Carousel responsive={responsive} infinite={false}>
                   {slidedata.map((product, index) => (
@@ -132,8 +126,8 @@ const ShowProducts2 = () => {
                       }}
                       sx={{
                         border: '0.5px solid lightgray',
-                        width: { xs: '160px', md: '200px' },
-                        height: { xs: '250px', md: '285px' },
+                        width: { xs: '98px', sm: '140px', md: '200px' },
+                        height: { xs: '165px', sm: '185px', md: '285px' },
                         maxHeight: '285.5px',
                         boxShadow: 3,
                         cursor: 'pointer',
@@ -143,18 +137,18 @@ const ShowProducts2 = () => {
                     >
                       <CardMedia
                         component='img'
-                        height='75%'
+                        height={{ xs: '50%', md: '50%' }}
                         image={`/imgTctmProduct/${product.image_file_name}`}
-                        alt='product image'
+                        alt={product.image_file_name}
                         sx={{
                           objectFit: 'contain',
                           padding: '8px' // Adjust the padding as needed
                         }}
                       />
-                      <Box sx={{ padding: 1, height: '30%', overflow: 'hidden' }}>
+                      <Box sx={{ padding: 1, height: { xs: '80px', md: '120px' } }}>
                         <Typography
                           variant='h5'
-                          fontSize='16px' // Adjusted font size for better responsiveness
+                          fontSize={{ xs: '14px', md: '16px' }}
                           sx={{
                             fontWeight: 'bold',
                             overflow: 'hidden',
@@ -167,7 +161,7 @@ const ShowProducts2 = () => {
                         </Typography>
                         <Typography
                           variant='h5'
-                          fontSize='14px' // Adjusted font size for better responsiveness
+                          fontSize={{ xs: '12px', md: '14px' }}
                           sx={{
                             color: '#BD1620',
                             overflow: 'hidden',
@@ -182,7 +176,7 @@ const ShowProducts2 = () => {
                         </Typography>
                         <Typography
                           variant='body1'
-                          fontSize='12px' // Adjusted font size for better responsiveness
+                          fontSize={{ xs: '10px', md: '12px' }}
                           sx={{
                             color: '#c0c0c0',
                             overflow: 'hidden',
@@ -203,6 +197,7 @@ const ShowProducts2 = () => {
               )}
             </Box>
           </Grid>
+
           <Grid item>
             <Hidden mdDown>
               <Box
