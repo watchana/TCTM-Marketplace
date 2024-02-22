@@ -40,6 +40,7 @@ import { DataGrid } from '@mui/x-data-grid'
 
 // ** Axios Import
 import axios from 'axios'
+import MySeo from 'src/pages/seo'
 
 const Orders = ({ subId }) => {
   const router = useRouter() //use router
@@ -260,6 +261,25 @@ const Orders = ({ subId }) => {
 
   return (
     <Box sx={{ padding: '10px 10px 15px' }}>
+      <MySeo
+        title={'Management : Order Of Products'}
+
+        // details={OptionData}
+        description={'Product Orders'}
+        
+        // content={SeoProductpage.content}
+        keywords={'Order,Product,market,E-commerce'}
+
+        // ogimg={
+        //   informationimg[stateImages]?.image_file_infname
+        //     ? `/imageInfor/${informationimg[presentState].image_file_infname}`
+        //     : ''
+        // }
+
+        // url={`http://${host}${currentPath}/${Object.keys(parameters).length > 0 ? '?' : ''}${new URLSearchParams(
+        //   parameters
+        // )}`}
+      />
       <Grid container spacing={3}>
         <Grid item xl={2} lg={2} md={2} sm={12} xs={12}>
           <FormControl fullWidth size='small' variant='outlined' sx={{ maxHeight: '42px', height: '42px' }}>

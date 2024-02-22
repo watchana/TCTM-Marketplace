@@ -6,6 +6,7 @@ import axios from 'axios'
 
 // ** Next Imports
 import { useRouter } from 'next/router'
+import MySeo from 'src/pages/seo'
 
 const Information = subId => {
   const router = useRouter()
@@ -136,6 +137,25 @@ const Information = subId => {
 
   return (
     <Grid container spacing={3} alignItems='center'>
+      <MySeo
+        title={'Management : Information'}
+
+        // details={OptionData}
+        description={'Information'}
+        
+        // content={SeoProductpage.content}
+        keywords={'Order,Product,market,E-commerce,Chat,TCTM,Knowledge'}
+
+        // ogimg={
+        //   informationimg[stateImages]?.image_file_infname
+        //     ? `/imageInfor/${informationimg[presentState].image_file_infname}`
+        //     : ''
+        // }
+
+        // url={`http://${host}${currentPath}/${Object.keys(parameters).length > 0 ? '?' : ''}${new URLSearchParams(
+        //   parameters
+        // )}`}
+      />
       <Grid item xl={6} lg={6} md={8} sm={8} xs={8}>
         <TextField
           fullWidth

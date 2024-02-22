@@ -302,81 +302,82 @@ const EditPo = () => {
       title: 'Do you want to save?',
       showCancelButton: true,
       confirmButtonText: 'Confirm'
-    }).then(async result => {
-      /* Read more about isConfirmed, isDenied below */
-      if (result.isConfirmed) {
-        if (img.length !== FileteredImages.length) {
-          try {
-            await Promise.all(
-              deleteImages.map(async image => {
-                const data = {
-                  product_image_id: image.product_image_id
-                }
-                console.log('id', data)
-                await axios.put(`${process.env.NEXT_PUBLIC_API}TCTM.product.deleteimgproduct`, data)
-              })
-            )
-          } catch (error) {
-            // Handle errors
-            console.error('Error deleting image:', error.message, error.response?.status, error.response?.data)
+    })
+      .then(async result => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          if (img.length !== FileteredImages.length) {
+            try {
+              await Promise.all(
+                deleteImages.map(async image => {
+                  const data = {
+                    product_image_id: image.product_image_id
+                  }
+                  console.log('id', data)
+                  await axios.put(`${process.env.NEXT_PUBLIC_API}TCTM.product.deleteimgproduct`, data)
+                })
+              )
+            } catch (error) {
+              // Handle errors
+              console.error('Error deleting image:', error.message, error.response?.status, error.response?.data)
+            }
           }
-        }
-        if (uploadImages && uploadImages.length > 0) {
-          const formData = new FormData()
+          if (uploadImages && uploadImages.length > 0) {
+            const formData = new FormData()
 
-          uploadImages.forEach((file, index) => {
-            formData.append(`file${index}`, file.file)
-          })
-          try {
-            const response = await fetch('/api/editproductupload', {
-              method: 'POST',
-              body: formData
+            uploadImages.forEach((file, index) => {
+              formData.append(`file${index}`, file.file)
             })
+            try {
+              const response = await fetch('/api/editproductupload', {
+                method: 'POST',
+                body: formData
+              })
 
-            if (response.ok) {
-              const result = await response.json()
+              if (response.ok) {
+                const result = await response.json()
 
-              const data = {
-                product_id: pdi,
-                image_file_name: result.uploadedFileNames
+                const data = {
+                  product_id: pdi,
+                  image_file_name: result.uploadedFileNames
+                }
+
+                try {
+                  const responses = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.product.add_imgpro`, data)
+                } catch (error) {
+                  // Handle any errors that occurred during the requests
+                  console.error('Error fetching image details:', error)
+                }
+
+                // Add any additional client-side logic here if needed
+              } else {
+                console.error('Upload failed:', response.statusText)
+
+                // Handle the error on the client side
               }
-
-              try {
-                const responses = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.product.add_imgpro`, data)
-
-                // Handle the responses as needed
-                console.log(responses)
-              } catch (error) {
-                // Handle any errors that occurred during the requests
-                console.error('Error fetching image details:', error)
-              }
-
-              // Add any additional client-side logic here if needed
-            } else {
-              console.error('Upload failed:', response.statusText)
+            } catch (error) {
+              console.error('Error during upload:', error)
 
               // Handle the error on the client side
             }
-          } catch (error) {
-            console.error('Error during upload:', error)
+          }
 
-            // Handle the error on the client side
+          if (Object.values(dataDetail).some(value => value !== '')) {
+            console.log('working')
+            try {
+              const responses = await axios.put(`${process.env.NEXT_PUBLIC_API}TCTM.product.update_product`, dataDetail)
+
+              // Handle the responses as needed
+            } catch (error) {
+              // Handle any errors that occurred during the requests
+              console.error('Error fetching image details:', error)
+            }
           }
         }
-
-        if (Object.values(dataDetail).some(value => value === '')) {
-          try {
-            const responses = await axios.put(`${process.env.NEXT_PUBLIC_API}TCTM.product.update_product`, dataDetail)
-
-            // Handle the responses as needed
-          } catch (error) {
-            // Handle any errors that occurred during the requests
-            console.error('Error fetching image details:', error)
-          }
-        }
+      })
+      .finally(() => {
         window.location.reload()
-      }
-    })
+      })
   }
 
   return (

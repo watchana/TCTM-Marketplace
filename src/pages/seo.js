@@ -4,8 +4,6 @@ import themeConfig from 'src/configs/themeConfig'
 import Head from 'next/head'
 
 const MySeo = ({ title, details, description, keywords, content, ogimg, url }) => {
-  console.log('ogimg', ogimg)
-
   return (
     <div>
       {/* <Helmet></Helmet> */}
@@ -33,7 +31,6 @@ const MySeo = ({ title, details, description, keywords, content, ogimg, url }) =
         <meta property='og:description' content={`${description}`} />
         {url && <meta property='og:url' content={url} />}
         <meta name='author' content='TCTM'></meta>
-        
       </Head>
     </div>
   )

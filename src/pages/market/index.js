@@ -391,7 +391,7 @@ const MyMarket = () => {
     return (
       <Grid container spacing={3}>
         <MySeo
-          title={`Management : ` + marketname}
+          title={`Management : ` + 'Products'}
           description={SeoManagementMarketpage.description}
           keywords={SeoManagementMarketpage.keywords}
           content={SeoManagementMarketpage.content}

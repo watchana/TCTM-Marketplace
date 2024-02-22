@@ -241,8 +241,10 @@ const InformationDetails = () => {
                 />
                 <MySeo
                   title={informationdata.post_name}
+
                   // details={OptionData}
                   description={Seoinformationpage.description}
+
                   // content={SeoProductpage.content}
                   keywords={Seoinformationpage.keywords}
                   ogimg={

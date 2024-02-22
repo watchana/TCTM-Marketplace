@@ -39,7 +39,7 @@ const BackOffice = () => {
   return (
     <Container maxWidth='xl'>
       <MySeo
-        title={'Backofficet'}
+        title={'Backoffice'}
         description={SeoBackofficetpage.description}
         keywords={SeoBackofficetpage.keywords}
         content={SeoBackofficetpage.content}
