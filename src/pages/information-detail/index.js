@@ -144,13 +144,12 @@ const InformationDetails = () => {
 
   const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
+  const host = process.env.NEXT_PUBLIC_VERCEL_URL || process.env.NEXT_PUBLIC_HOST || 'localhost:3000' // replace with your default value
+  const currentPath = router.pathname
+  const parameters = router.query
+
   return (
     <Box>
-      <MySeo
-        title={informationdata.post_name}
-        description={Seoinformationpage.description}
-        keywords={Seoinformationpage.keywords}
-      />
       <Box>
         <Container maxWidth='xl'>
           <Box>
@@ -235,9 +234,27 @@ const InformationDetails = () => {
                       ? `/imageInfor/${informationimg[presentState].image_file_infname}`
                       : ''
                   }
-                  alt={`Image ${stateImages + 1}`}
+                  alt={informationdata.post_name}
                   height='100%'
                   sx={{ width: '90%', objectFit: 'contain' }}
+                  title={informationdata.post_name}
+                />
+                <MySeo
+                  title={informationdata.post_name}
+
+                  // details={OptionData}
+                  description={Seoinformationpage.description}
+
+                  // content={SeoProductpage.content}
+                  keywords={Seoinformationpage.keywords}
+                  ogimg={
+                    informationimg[stateImages]?.image_file_infname
+                      ? `/imageInfor/${informationimg[presentState].image_file_infname}`
+                      : ''
+                  }
+                  url={`http://${host}${currentPath}/${
+                    Object.keys(parameters).length > 0 ? '?' : ''
+                  }${new URLSearchParams(parameters)}`}
                 />
                 <Hidden smUp>
                   <Box
