@@ -131,7 +131,7 @@ const ShowPost = () => {
                           margin: '10px'
                         }}
                         onClick={() => {
-                          window.location.href = `/market/information-detail/?post_id=${post.post_id}`
+                          window.location.href = `/information-detail/?post_id=${post.post_id}`
                         }}
                       >
                         <CardMedia
