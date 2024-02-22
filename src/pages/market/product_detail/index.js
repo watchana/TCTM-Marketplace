@@ -43,6 +43,8 @@ import axios from 'axios'
 
 // ** Components Imports
 import { withAuth } from 'src/@core/utils/AuthCheck'
+import MySeo from 'src/pages/seo'
+import { SeoProductpage } from 'src/seo/homepage'
 
 const ProductDetails = () => {
   // ตัวแปรเก็บค่าข้อมูล
@@ -216,10 +218,39 @@ const ProductDetails = () => {
     }
   }, [MaxLengthImages])
 
+  const OptionData = Object.values(options).map((optionArray, index) =>
+    optionArray.map(option => `${option.option_name}${option.value_name}`).join(', ')
+  )
+
+  const host = process.env.NEXT_PUBLIC_VERCEL_URL || process.env.NEXT_PUBLIC_HOST || 'localhost:3000' // replace with your default value
+  const currentPath = router.pathname
+  const parameters = router.query
+
+  const fullURL = `http://${host}${currentPath}/${Object.keys(parameters).length > 0 ? '?' : ''}${new URLSearchParams(
+    parameters
+  )}`
+
+  const thypho = {
+    h1: { variant: 'h1', fontSize: '32px', color: '#606060' },
+    h2: { variant: 'h2', fontSize: '20px' },
+    body2: { variant: 'body2', fontSize: '10px' }
+  }
+
   //-----------------------------Slide Control Function------------------------//
 
   return (
     <Container maxWidth='xl'>
+      <MySeo
+        title={productdata.product_name}
+        details={OptionData}
+        description={SeoProductpage.description}
+        content={SeoProductpage.content}
+        keywords={SeoProductpage.keywords}
+        ogimg={
+          productimg[stateImages]?.image_file_name ? `/imgTctmProduct/${productimg[stateImages].image_file_name}` : ''
+        }
+        url={fullURL}
+      />
       <Box sx={{ height: '100%' }}>
         <Box sx={{ width: '100%' }}>
           <Card
@@ -411,7 +442,7 @@ const ProductDetails = () => {
             <Box sx={{ width: '100%' }}>
               {/* ========== ชื่อสินค้า ========== */}
               <Box sx={{ width: '100%' }}>
-                <Typography variant='h3' fontSize='48px bold' color='#000'>
+                <Typography sx={thypho.body2} color='#000'>
                   {productdata.product_name}
                 </Typography>
               </Box>
