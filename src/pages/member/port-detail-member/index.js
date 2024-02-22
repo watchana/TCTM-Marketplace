@@ -154,18 +154,61 @@ const PosrtDetail = () => {
 
   // Comment Submit
   const handleCommentSubmit = async e => {
-    e.preventDefault()
-
-    if (comments !== '') {
-      setUploadedFileNames('')
-      if (comments !== '' && uploadedFileNames !== '') {
-        const response = await axios.post(`/api/Chat_Upload`, uploadImages, {
+    if (uploadImages.length > 0 && uploadImages && comments) {
+      const response = await axios
+        .post(`/api/Chat_Upload`, uploadImages, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         })
+        .then(async response => {
+          if (response) {
+            const data = {
+              req_id: reqID,
+              sender: userId,
+              recipient: recipient,
+              query_description: comments,
+              req_image_file: response.data.uploadedFileNames || []
+            }
+            try {
+              const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.postchat`, data)
 
-        setUploadedFileNames(response.data.uploadedFileNames)
+              console.log(response)
+              SAlert.fire({
+                icon: 'success',
+                title: 'Posted a successful message'
+              })
+              setComment('')
+              setShouldFetchData(!shouldFetchData)
+
+              window.location.reload()
+            } catch (error) {
+              console.log(error)
+            }
+          }
+        })
+
+    } else {
+      const data = {
+        req_id: reqID,
+        sender: userId,
+        recipient: recipient,
+        query_description: comments,
+        req_image_file: []
+      }
+      try {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.postchat`, data)
+
+        console.log(response)
+        SAlert.fire({
+          icon: 'success',
+          title: 'Posted a successful message'
+        })
+        setComment('')
+        setShouldFetchData(!shouldFetchData)
+        window.location.reload()
+      } catch (error) {
+        console.log(error)
       }
     }
 
@@ -182,7 +225,7 @@ const PosrtDetail = () => {
       return
     }
 
-    if (!comments) {
+    if (!comments && !uploadedFileNames) {
       SAlert.fire({
         icon: 'error',
         title: 'Error information',
@@ -190,30 +233,6 @@ const PosrtDetail = () => {
       })
 
       return
-    }
-
-    const data = {
-      req_id: reqID,
-      sender: userId,
-      recipient: recipient,
-      query_description: comments,
-      req_image_file: uploadedFileNames
-    }
-
-    console.log('data1', data)
-
-    try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.postchat`, data)
-
-      console.log(response)
-      SAlert.fire({
-        icon: 'success',
-        title: 'Posted a successful message'
-      })
-      setComment('')
-      setShouldFetchData(!shouldFetchData)
-    } catch (error) {
-      console.log(error)
     }
   }
 
