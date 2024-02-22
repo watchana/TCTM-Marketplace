@@ -341,7 +341,7 @@ const ProductDetails = ({}) => {
               <Grid item xs={12} sm={5} md={5}>
                 <Typography
                   color='#fff'
-                  variant='h5'
+                  variant='h1'
                   sx={{
                     fontSize: { xs: '1.5rem', sm: '2rem', md: '2.3rem' },
                     color: '#FFFFFF',
@@ -526,7 +526,7 @@ const ProductDetails = ({}) => {
             <Box sx={{ width: '100%' }}>
               {/* ========== ชื่อสินค้า ========== */}
               <Box sx={{ width: '100%' }}>
-                <Typography variant='h4' color='#000' sx={{ fontWeight: 'bold' }}>
+                <Typography variant='h1' sx={{ fontSize: { xs: '1.5rem', sm: '2rem', md: '2.3rem' } }} color='#000'>
                   {productdata.product_name}
                 </Typography>
               </Box>
@@ -546,7 +546,7 @@ const ProductDetails = ({}) => {
               />
               {/* ========== Brand ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
-                <Typography variant='h6' color='#000'>
+                <Typography variant='h6' fontSize='0.9rem' color='#000'>
                   Brand: {productdata.product_brand ? productdata.product_brand : 'No information'}
                 </Typography>
               </Box>
@@ -673,7 +673,7 @@ const ProductDetails = ({}) => {
               </Box>
               <TabPanel value='1'>
                 <Box sx={{ width: '100%', marginTop: '10px' }}>
-                  <Typography variant='body1' color='#606060'>
+                  <Typography variant='body2' color='#606060'>
                     {productdata.product_description?.split(/\b(https?:\/\/[^\s]+)/)?.map((part, index) =>
                       part.match(/(https?:\/\/[^\s]+)/) ? (
                         <a key={index} href={part} target='_blank' rel='noopener noreferrer'>

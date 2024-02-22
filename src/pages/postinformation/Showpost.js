@@ -116,7 +116,7 @@ const ShowPost = () => {
                 <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
                   {/* ========================== Map ========================== */}
                   {slidedata && slidedata.length > 0 ? (
-                    slidedata.map((post, index) => (
+                    slidedata.slice(0, 8).map((post, index) => (
                       <Card
                         key={index}
                         variant='outlined'
