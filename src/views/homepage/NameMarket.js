@@ -18,25 +18,21 @@ import 'react-multi-carousel/lib/styles.css'
 
 // ** Styles Imports
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
+  [theme.breakpoints.up('xs')]: {
+    width: '100% !important',
+    height: 75
+  },
   position: 'relative',
+  [theme.breakpoints.up('sm')]: {
+    width: '100% !important',
+    height: 100
+  },
+  [theme.breakpoints.up('lg')]: {
+    width: '100% !important',
+    height: 100
+  },
 
-  [theme.breakpoints.down('sm')]: {
-    width: '100% !important', // Overrides inline-style
-    height: 100
-  },
-  [theme.breakpoints.down('xs')]: {
-    width: '100% !important', // Overrides inline-style
-    height: 100
-  },
-  [theme.breakpoints.down('md')]: {
-    width: '100% !important', // Overrides inline-style
-    height: 100
-  },
-  [theme.breakpoints.down('lg')]: {
-    width: '100% !important', // Overrides inline-style
-    height: 100
-  },
-  [theme.breakpoints.down('xl')]: {
+  [theme.breakpoints.up('xl')]: {
     width: '100% !important', // Overrides inline-style
     height: 100
   },
@@ -49,15 +45,7 @@ const ImageButton = styled(ButtonBase)(({ theme }) => ({
 }))
 
 // พิ้นหลัง สีเทา
-const ImageBackdrop = styled('span')(({ theme }) => ({
-  position: 'absolute',
-  left: 0,
-  right: 0,
-  top: 0,
-  bottom: 0,
-  opacity: 0.4,
-  transition: theme.transitions.create('opacity')
-}))
+const ImageBackdrop = styled('span')(({ theme }) => ({}))
 
 const NameMarket = () => {
   // set data and state
@@ -70,12 +58,10 @@ const NameMarket = () => {
 
   // React Multi Carousel Responsive
   const responsive = {
-    desktopLarge: { breakpoint: { max: 3000, min: 2300 }, items: 10, partialVisibilityGutter: 10 },
+    desktopLarge: { breakpoint: { max: 3000, min: 2300 }, items: 6, partialVisibilityGutter: 10 },
     desktop: { breakpoint: { max: 2300, min: 1250 }, items: 5, partialVisibilityGutter: 10 },
-    tablet: { breakpoint: { max: 1250, min: 1090 }, items: 5, partialVisibilityGutter: 10 },
-    mobile: { breakpoint: { max: 1090, min: 800 }, items: 4, partialVisibilityGutter: 10 },
-    smallMobile1: { breakpoint: { max: 800, min: 500 }, items: 3, partialVisibilityGutter: 10 },
-    smallMobile2: { breakpoint: { max: 500, min: 50 }, items: 2, partialVisibilityGutter: 10 }
+    tablet: { breakpoint: { max: 1250, min: 800 }, items: 4, partialVisibilityGutter: 10 },
+    mobile: { breakpoint: { max: 800, min: 0 }, items: 3, partialVisibilityGutter: 10 }
   }
 
   // Call Api
@@ -98,7 +84,7 @@ const NameMarket = () => {
   return (
     <Container maxWidth='xl'>
       {/* ---------- NameMarket ---------- */}
-      <Box sx={{ width: '100%', marginTop: { sm: '0px', md: '30px' }, paddingX: '5px' }}>
+      <Box sx={{ width: '100%' }}>
         {slidedata && slidedata.length > 0 ? (
           <Carousel
             arrows={false}
@@ -109,18 +95,30 @@ const NameMarket = () => {
               <Card
                 key={index}
                 sx={{
-                  width: { xs: '150px', sm: '170px', md: '200px', lg: '220px', xl: '250px' },
-                  height: '100px'
+                  margin: '0 2px', // Add margin for spacing
+                  maxWidth: '500px',
+                  maxHeight: '65px'
                 }}
               >
                 <Link href={`/category_market/?sub_id=${product.sub_id}&sub_name=${product.sub_name}`} passHref>
-                  <ButtonBase component='a' sx={{ width: '100%', height: '100%', padding: 0, borderRadius: '6px' }}>
-                    <ImageButton focusRipple>
+                  <ButtonBase
+                    spacing={4}
+                    component='a'
+                    sx={{ width: '100%', height: '90px', padding: 0, borderRadius: '6px' }}
+                  >
+                    <ImageButton
+                      focusRipple
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center', // Center horizontally
+                        alignItems: 'flex-start' // Align at the top vertically
+                      }}
+                    >
                       <CardMedia
                         component='img'
                         image={`/imgStore/${product.sub_image}`}
                         alt='NameMarket'
-                        sx={{ height: '100%', borderRadius: '6px' }}
+                        style={{ objectFit: 'contain', maxWidth: '70%', maxHeight: '70%' }}
                       />
                       <ImageBackdrop className='MuiImageBackdrop-root' />
                     </ImageButton>

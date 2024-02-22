@@ -322,19 +322,23 @@ const ProductDetails = ({}) => {
         <Box sx={{ width: '100%' }}>
           <Card
             sx={{
-              height: isSmallScreen ? '80px' : '90px',
+              height: isSmallScreen ? '70px' : '90px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
               backgroundColor: '#2d2e81',
               border: '1px solid #primary.main'
             }}
           >
-            <Grid container>
-              <Grid item xs={12} sm={8} md={8}>
+            <Grid container sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Grid item xs={12} sm={5} md={5}>
                 <Typography
                   color='#fff'
                   variant='h5'
-                  sx={{ fontWeight: 'bold', fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.6rem' } }}
+                  sx={{
+                    fontSize: { xs: '1.5rem', sm: '2rem', md: '2.3rem' },
+                    color: '#FFFFFF',
+                    fontWeight: 'bold'
+                  }}
                 >
                   Product
                 </Typography>
@@ -368,7 +372,7 @@ const ProductDetails = ({}) => {
               </Grid>
               <Hidden smDown>
                 <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <Shopping sx={{ fontSize: 60, color: '#fff' }} />
+                  <Shopping sx={{ fontSize: 50, color: '#fff' }} />
                 </Grid>
               </Hidden>
             </Grid>

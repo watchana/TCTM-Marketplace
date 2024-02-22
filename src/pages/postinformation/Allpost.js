@@ -45,11 +45,11 @@ const AllPost = () => {
   // React Multi Carousel Responsive
   const responsive = {
     desktopLarge: { breakpoint: { max: 3000, min: 2300 }, items: 10, partialVisibilityGutter: 10 },
-    desktop: { breakpoint: { max: 2300, min: 1400 }, items: 3, partialVisibilityGutter: 10 },
-    tablet: { breakpoint: { max: 1400, min: 1300 }, items: 3, partialVisibilityGutter: 10 },
-    mobile: { breakpoint: { max: 1300, min: 1000 }, items: 2, partialVisibilityGutter: 10 },
-    smallMobile1: { breakpoint: { max: 1000, min: 500 }, items: 1, partialVisibilityGutter: 10 },
-    smallMobile2: { breakpoint: { max: 500, min: 50 }, items: 1, partialVisibilityGutter: 10 }
+    desktop: { breakpoint: { max: 2300, min: 1400 }, items: 4, partialVisibilityGutter: 10 },
+    tablet: { breakpoint: { max: 1400, min: 1300 }, items: 4, partialVisibilityGutter: 10 },
+    mobile: { breakpoint: { max: 1300, min: 1000 }, items: 3, partialVisibilityGutter: 10 },
+    smallMobile1: { breakpoint: { max: 1000, min: 500 }, items: 2, partialVisibilityGutter: 10 },
+    smallMobile2: { breakpoint: { max: 500, min: 50 }, items: 2, partialVisibilityGutter: 10 }
   }
 
   // Call Api
@@ -98,7 +98,7 @@ const AllPost = () => {
       {/* ---------- Show Product ---------- */}
       <Box sx={{ width: '100%', marginTop: '30px' }}>
         <Grid container>
-          <Grid item xs={12} md={12}>
+          <Grid item xs={12}>
             <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
               {/* ========================== Map ========================== */}
               {slidedata && slidedata.length > 0 ? (
@@ -109,8 +109,8 @@ const AllPost = () => {
                     className='cardFadeIn' // เพิ่ม className นี้
                     sx={{
                       border: '0.5px solid lightgray',
-                      width: { xs: '325px', sm: '375px' },
-                      height: { xs: '380px', sm: '460px' },
+                      width: { xs: '325px', sm: '300px' },
+                      height: { xs: '380px', sm: '320px' },
                       boxShadow: 3,
                       cursor: 'pointer',
                       '&:hover': { boxShadow: 10, border: '2px solid #2d2e81' },
@@ -144,18 +144,7 @@ const AllPost = () => {
                       >
                         {post.post_name}
                       </Typography>
-                      {/* <Typography
-                        variant='h5'
-                        fontSize='16px'
-                        sx={{
-                          color: '#BD1620',
-                          overflow: 'hidden',
-                          whiteSpace: 'nowrap',
-                          textOverflow: 'ellipsis'
-                        }}
-                      >
-                        สวัสดีจ้า
-                      </Typography> */}
+
                       <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end', mt: 5 }}>
                         <Typography
                           variant='body1'
