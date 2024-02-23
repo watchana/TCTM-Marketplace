@@ -46,11 +46,13 @@ import { createToken, verifyToken } from 'src/@core/utils/auth'
 
 // Responsive image
 import { useMediaQuery } from '@mui/material'
+
+// Seo
 import MySeo from '../seo'
-
-import themeConfig from 'src/configs/themeConfig'
-
 import { SeoProductpage } from 'src/seo/homepage'
+
+//Fontsize
+import thyphography from 'src/@core/components/typhography'
 
 const ProductDetails = ({}) => {
   // ตัวแปรเก็บค่าข้อมูล
@@ -337,14 +339,13 @@ const ProductDetails = ({}) => {
               border: '1px solid #primary.main'
             }}
           >
-            <Grid container sx={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Grid item xs={12} sm={5} md={5}>
+            <Grid container alignItems='center' sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Grid item xs={12} sm={8} md={8}>
                 <Typography
                   color='#fff'
-                  variant='h1'
                   sx={{
+                    variant: 'h1',
                     fontSize: { xs: '1.5rem', sm: '2rem', md: '2.3rem' },
-                    color: '#FFFFFF',
                     fontWeight: 'bold'
                   }}
                 >
@@ -355,7 +356,9 @@ const ProductDetails = ({}) => {
                     <Typography
                       color='#fff'
                       variant='subtitle1'
-                      sx={{ cursor: 'pointer', fontSize: { xs: '0.8rem', sm: '0.8rem', md: '1rem' } }}
+                      sx={{
+                        fontSize: thyphography.subtitle1.fontSize
+                      }}
                     >
                       Home
                     </Typography>
@@ -364,7 +367,9 @@ const ProductDetails = ({}) => {
                     <Typography
                       color='#fff'
                       variant='subtitle1'
-                      sx={{ cursor: 'pointer', fontSize: { xs: '0.8rem', sm: '0.8rem', md: '1rem' } }}
+                      sx={{
+                        fontSize: thyphography.subtitle1.fontSize
+                      }}
                     >
                       Shop
                     </Typography>
@@ -372,7 +377,9 @@ const ProductDetails = ({}) => {
                   <Typography
                     color='#fff'
                     variant='subtitle1'
-                    sx={{ cursor: 'pointer', fontSize: { xs: '0.8rem', sm: '0.8rem', md: '1rem' } }}
+                    sx={{
+                      fontSize: thyphography.subtitle1.fontSize
+                    }}
                   >
                     Product
                   </Typography>
