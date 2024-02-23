@@ -51,6 +51,7 @@ import MySeo from '../seo'
 import themeConfig from 'src/configs/themeConfig'
 
 import { SeoProductpage } from 'src/seo/homepage'
+import thyphography from 'src/@core/components/typhography'
 
 const ProductDetails = ({}) => {
   // ตัวแปรเก็บค่าข้อมูล
@@ -339,17 +340,7 @@ const ProductDetails = ({}) => {
           >
             <Grid container sx={{ display: 'flex', justifyContent: 'space-between' }}>
               <Grid item xs={12} sm={5} md={5}>
-                <Typography
-                  color='#fff'
-                  variant='h5'
-                  sx={{
-                    fontSize: { xs: '1.5rem', sm: '2rem', md: '2.3rem' },
-                    color: '#FFFFFF',
-                    fontWeight: 'bold'
-                  }}
-                >
-                  Product
-                </Typography>
+                <Typography sx={thyphography.h1.topic}>Product</Typography>
                 <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
                   <Link href='/' passHref>
                     <Typography
@@ -526,9 +517,7 @@ const ProductDetails = ({}) => {
             <Box sx={{ width: '100%' }}>
               {/* ========== ชื่อสินค้า ========== */}
               <Box sx={{ width: '100%' }}>
-                <Typography variant='h4' color='#000' sx={{ fontWeight: 'bold' }}>
-                  {productdata.product_name}
-                </Typography>
+                <Typography sx={thyphography.h1.title}>{productdata.product_name}</Typography>
               </Box>
 
               <MySeo
