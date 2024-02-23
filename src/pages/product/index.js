@@ -51,9 +51,6 @@ import { useMediaQuery } from '@mui/material'
 import MySeo from '../seo'
 import { SeoProductpage } from 'src/seo/homepage'
 
-//Fontsize
-import thyphography from 'src/@core/components/typhography'
-
 const ProductDetails = ({}) => {
   // ตัวแปรเก็บค่าข้อมูล
   const [quantity, setQuantity] = useState(1) // ตัวแปรเก็บค่าจำนวนสินค้า
@@ -339,13 +336,14 @@ const ProductDetails = ({}) => {
               border: '1px solid #primary.main'
             }}
           >
-            <Grid container alignItems='center' sx={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Grid item xs={12} sm={8} md={8}>
+            <Grid container sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Grid item xs={12} sm={5} md={5}>
                 <Typography
                   color='#fff'
+                  variant='h5'
                   sx={{
-                    variant: 'h1',
                     fontSize: { xs: '1.5rem', sm: '2rem', md: '2.3rem' },
+                    color: '#FFFFFF',
                     fontWeight: 'bold'
                   }}
                 >
@@ -533,7 +531,7 @@ const ProductDetails = ({}) => {
             <Box sx={{ width: '100%' }}>
               {/* ========== ชื่อสินค้า ========== */}
               <Box sx={{ width: '100%' }}>
-                <Typography variant='h1' sx={{ fontSize: { xs: '1.5rem', sm: '2rem', md: '2.3rem' } }} color='#000'>
+                <Typography variant='h4' color='#000' sx={{ fontWeight: 'bold' }}>
                   {productdata.product_name}
                 </Typography>
               </Box>
