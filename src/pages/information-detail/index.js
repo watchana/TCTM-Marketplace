@@ -28,6 +28,7 @@ import axios from 'axios'
 import { useMediaQuery } from '@mui/material'
 import MySeo from 'src/pages/seo'
 import { Seoinformationpage } from 'src/seo/homepage'
+import typography from 'src/@core/components/typography'
 
 const InformationDetails = () => {
   const [informationdata, setInformationData] = useState([]) // ตัวแปรเก็บข้อมูลแนะนำ
@@ -201,7 +202,7 @@ const InformationDetails = () => {
             </Box>
           </Box>
           <Grid container spacing={4}>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={6}>
               <Box
                 sx={{
                   display: 'flex',
@@ -241,10 +242,8 @@ const InformationDetails = () => {
                 />
                 <MySeo
                   title={informationdata.post_name}
-
                   // details={OptionData}
                   description={Seoinformationpage.description}
-
                   // content={SeoProductpage.content}
                   keywords={Seoinformationpage.keywords}
                   ogimg={
@@ -361,48 +360,32 @@ const InformationDetails = () => {
                 </Box>
               </Hidden>
             </Grid>
+
+            <Grid item xs={12} md={6}>
+              <Grid item xs={12}>
+                <Typography color='#000' sx={typography.h1.topic}>
+                  {informationdata.post_name}
+                </Typography>
+              </Grid>
+
+              <Grid item xs={12}>
+                <Divider sx={{ borderBottomWidth: 2, width: '100%' }} />
+              </Grid>
+
+              <Grid item xs={12}>
+                <Typography sx={typography.body2} color='#606060'>
+                  {informationdata.post_detail}
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography sx={typography.body2} color='#606060'>
+                Post by {informationdata.sub_name}
+              </Typography>
+            </Grid>
           </Grid>
         </Container>
       </Box>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%', mt: 20, mb: 6 }}>
-            <Typography
-              variant='h4'
-              fontSize='22px'
-              color='#606060'
-              sx={{
-                fontWeight: 'bold',
-                overflow: 'hidden',
-                whiteSpace: 'pre-wrap', // เพิ่ม pre-wrap เพื่อให้เว้นบรรทัด
-                wordWrap: 'break-word', // ให้ข้อความขยายตัวเมื่อหลุดขอบ
-                textOverflow: 'ellipsis',
-                display: '-webkit-box',
-                WebkitBoxOrient: 'vertical',
-                WebkitLineClamp: 10
-              }}
-            >
-              {informationdata.post_name}
-            </Typography>
-          </Box>
-        </Grid>
-
-        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', width: '50%', my: 10 }}>
-          <Divider sx={{ borderBottomWidth: 2, width: '50%' }} />
-        </Grid>
-
-        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Typography variant='body1' fontSize='16px' color='#606060' style={{ whiteSpace: 'pre-line', width: '80%' }}>
-            {informationdata.post_detail}
-          </Typography>
-        </Grid>
-
-        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Typography variant='body1' fontSize='16px' color='#606060' style={{ whiteSpace: 'pre-line', width: '80%' }}>
-            Post by {informationdata.sub_name}
-          </Typography>
-        </Grid>
-      </Grid>
     </Box>
   )
 }
