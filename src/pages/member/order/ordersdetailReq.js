@@ -6,7 +6,19 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 // ** Material UI Imports
-import { Box, Breadcrumbs, Button, Card, Container, Chip, Divider, Grid, Hidden, Typography } from '@mui/material'
+import {
+  Box,
+  Breadcrumbs,
+  Button,
+  Card,
+  Container,
+  Chip,
+  Divider,
+  Grid,
+  Hidden,
+  Typography,
+  useMediaQuery
+} from '@mui/material'
 
 // ** MUI X Imports
 import { DataGrid } from '@mui/x-data-grid'
@@ -25,6 +37,7 @@ import axios from 'axios'
 import Total from './details_total'
 import Delivery from './delivery_address'
 import Paymant from './payment_details'
+import typography from 'src/@core/components/typography'
 
 const Orders_Detail = () => {
   // ใช้งาน Router
@@ -61,13 +74,15 @@ const Orders_Detail = () => {
 
   // console.log('orderdata Bil', orderdata)
 
+  const isSmallScreen = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+
   return (
     <Container maxWidth='xl'>
       <Box>
         <Box sx={{ width: '100%' }}>
           <Card
             sx={{
-              height: '100px',
+              height: isSmallScreen ? '70px' : '90px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
               backgroundColor: '#2d2e81',
@@ -76,27 +91,27 @@ const Orders_Detail = () => {
           >
             <Grid container alignItems='center'>
               <Grid item xs={12} sm={8} md={8}>
-                <Typography variant='h4' fontSize='21px bold' color='#fff'>
+                <Typography sx={typography.h1.title} color='#fff'>
                   Orders Detail
                   {usertype === '2' ? <span> (Marker)</span> : usertype === '1' ? <span> (User)</span> : null}
                 </Typography>
                 <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
                   <Link href='/' passHref>
-                    <Typography color='#fff' variant='h6' fontSize='14px'>
+                    <Typography sx={typography.subtitle1.title} color='#fff'>
                       Home
                     </Typography>
                   </Link>
-                  <Typography color='#fff' variant='h6' fontSize='14px'>
+                  <Typography sx={typography.subtitle1.title} color='#fff'>
                     Market Management
                   </Typography>
-                  <Typography color='#fff' variant='h6' fontSize='14px'>
+                  <Typography sx={typography.subtitle1.title} color='#fff'>
                     detail
                   </Typography>
                 </Breadcrumbs>
               </Grid>
               <Hidden smDown>
                 <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <MailOutlineIcon sx={{ fontSize: 72, color: '#fff' }} />
+                  <MailOutlineIcon sx={{ fontSize: 50, color: '#fff' }} />
                 </Grid>
               </Hidden>
             </Grid>
@@ -123,7 +138,7 @@ const Orders_Detail = () => {
               </Grid>
               <Hidden smDown>
                 <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <MailOutlineIcon sx={{ fontSize: 72, color: '#fff' }} />
+                  <MailOutlineIcon sx={{ fontSize: 50, color: '#fff' }} />
                 </Grid>
               </Hidden>
             </Grid>

@@ -31,7 +31,7 @@ const Information = forwardRef((props, ref2) => {
     ref2.current[name] = value
   }
 
-  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+  const isSmallScreen = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
   return (
     <Box>

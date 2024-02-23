@@ -13,15 +13,9 @@ import StorefrontIcon from '@mui/icons-material/Storefront'
 import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard'
 
 // ** Material Design Icons Imports
-import EyeOutline from 'mdi-material-ui/EyeOutline'
-import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
+
 import Poll from 'mdi-material-ui/Poll'
 import CurrencyUsd from 'mdi-material-ui/CurrencyUsd'
-import HelpCircleOutline from 'mdi-material-ui/HelpCircleOutline'
-import BriefcaseVariantOutline from 'mdi-material-ui/BriefcaseVariantOutline'
-
-// ** Layout Import
-import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Axios Import
 import axios from 'axios'
@@ -29,22 +23,19 @@ import axios from 'axios'
 // ** Custom Components Imports
 import CardStatisticsVerticalComponent from 'src/@core/components/card-statistics/card-stats-vertical'
 
-// ** Styled Component Import
-import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
-
 // ** Demo Components Imports
-import Table from 'src/views/dashboard/Table'
+
 import Trophy from 'src/views/dashboard/Trophy'
-import TotalEarning from 'src/views/dashboard/TotalEarning'
+
 import StatisticsCard from 'src/views/dashboard/StatisticsCard'
 import WeeklyOverview from 'src/views/dashboard/WeeklyOverview'
-import DepositWithdraw from 'src/views/dashboard/DepositWithdraw'
+
 import SalesByCountries from 'src/views/dashboard/SalesByCountries'
-import StatisticsCardMarket from 'src/views/dashboard/StatisticsCardMarket'
 
 // SEO
 import MySeo from '../seo'
 import { SeoDashboardpage } from 'src/seo/homepage'
+import typography from 'src/@core/components/typography'
 
 const DashboardTCTM = () => {
   // Set data
@@ -65,7 +56,7 @@ const DashboardTCTM = () => {
     fetchData()
   }, [])
 
-  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+  const isSmallScreen = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
   return (
     <Container maxWidth='xl'>
@@ -79,7 +70,7 @@ const DashboardTCTM = () => {
         <Box sx={{ width: '100%' }}>
           <Card
             sx={{
-              height: isSmallScreen ? '80px' : '90px',
+              height: isSmallScreen ? '70px' : '90px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
               backgroundColor: '#2d2e81',
@@ -88,18 +79,10 @@ const DashboardTCTM = () => {
           >
             <Grid container alignItems='center'>
               <Grid item xs={12} sm={8} md={8}>
-                <Typography
-                  color='#fff'
-                  variant='h5'
-                  sx={{ fontWeight: 'bold', fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.6rem' } }}
-                >
+                <Typography sx={typography.h1.title} color='#fff'>
                   Dashboard
                 </Typography>
-                <Typography
-                  color='#fff'
-                  variant='subtitle1'
-                  sx={{ cursor: 'pointer', fontSize: { xs: '0.8rem', sm: '0.8rem', md: '1rem' } }}
-                >
+                <Typography sx={typography.subtitle1.title} color='#fff'>
                   eCommerce
                 </Typography>
               </Grid>

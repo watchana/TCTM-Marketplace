@@ -41,6 +41,7 @@ import { useMediaQuery } from '@mui/material'
 import themeConfig from 'src/configs/themeConfig'
 import { SeoCategorypage } from 'src/seo/homepage'
 import MySeo from '../seo'
+import typography from 'src/@core/components/typography'
 
 const Category = ({ productData, SearchProduct, keyword }) => {
   const [filteredProducts, setFilteredProducts] = useState(keyword ? SearchProduct || null : productData || null)
@@ -166,28 +167,16 @@ const Category = ({ productData, SearchProduct, keyword }) => {
           >
             <Grid container alignItems='center'>
               <Grid item xs={12} sm={8} md={8}>
-                <Typography
-                  color='#fff'
-                  variant='h5'
-                  sx={{ fontWeight: 'bold', fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.6rem' } }}
-                >
+                <Typography sx={typography.h1.title} color='#fff'>
                   Shop
                 </Typography>
                 <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
                   <Link href='/' passHref>
-                    <Typography
-                      color='#fff'
-                      variant='subtitle1'
-                      sx={{ cursor: 'pointer', fontSize: { xs: '0.8rem', sm: '0.8rem', md: '1rem' } }}
-                    >
+                    <Typography sx={typography.subtitle1.title} color='#fff'>
                       Home
                     </Typography>
                   </Link>
-                  <Typography
-                    color='#fff'
-                    variant='subtitle1'
-                    sx={{ cursor: 'pointer', fontSize: { xs: '0.8rem', sm: '0.8rem', md: '1rem' } }}
-                  >
+                  <Typography sx={typography.subtitle1.title} color='#fff'>
                     Shop
                   </Typography>
                 </Breadcrumbs>

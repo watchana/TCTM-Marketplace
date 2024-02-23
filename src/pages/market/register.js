@@ -41,6 +41,7 @@ import { withAuth } from 'src/@core/utils/AuthCheck'
 // SEO
 import MySeo from '../seo'
 import { SeoMarketRegisterpage } from 'src/seo/homepage'
+import typography from 'src/@core/components/typography'
 
 const RegisterSupplier = () => {
   // ** Hook
@@ -253,28 +254,16 @@ const RegisterSupplier = () => {
           >
             <Grid container alignItems='center'>
               <Grid item xs={12} sm={8} md={8}>
-                <Typography
-                  color='#fff'
-                  variant='h5'
-                  sx={{ fontWeight: 'bold', fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.6rem' } }}
-                >
+                <Typography sx={typography.h1.title} color='#fff'>
                   Marker Register
                 </Typography>
                 <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
                   <Link href='/'>
-                    <Typography
-                      color='#fff'
-                      variant='subtitle1'
-                      sx={{ cursor: 'pointer', fontSize: { xs: '0.8rem', sm: '0.8rem', md: '1rem' } }}
-                    >
+                    <Typography sx={typography.subtitle1.title} color='#fff'>
                       Home
                     </Typography>
                   </Link>
-                  <Typography
-                    color='#fff'
-                    variant='subtitle1'
-                    sx={{ cursor: 'pointer', fontSize: { xs: '0.8rem', sm: '0.8rem', md: '1rem' } }}
-                  >
+                  <Typography sx={typography.subtitle1.title} color='#fff'>
                     Register
                   </Typography>
                 </Breadcrumbs>
