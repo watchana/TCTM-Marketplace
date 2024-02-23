@@ -92,7 +92,7 @@ const Information = subId => {
           variant='contained'
           color='success'
           onClick={() => {
-            router.push(`/market/information-detail/?post_id=${params.row.post_id}`)
+            router.push(`/information-detail/?post_id=${params.row.post_id}`)
           }}
         >
           Details
@@ -139,10 +139,8 @@ const Information = subId => {
     <Grid container spacing={3} alignItems='center'>
       <MySeo
         title={'Management : Information'}
-
         // details={OptionData}
         description={'Information'}
-        
         // content={SeoProductpage.content}
         keywords={'Order,Product,market,E-commerce,Chat,TCTM,Knowledge'}
 

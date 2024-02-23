@@ -20,7 +20,8 @@ import {
   MenuItem,
   Select,
   Typography,
-  Tab
+  Tab,
+  useMediaQuery
 } from '@mui/material'
 
 // ** Material UI Tabs Imports
@@ -45,7 +46,7 @@ import axios from 'axios'
 import { withAuth } from 'src/@core/utils/AuthCheck'
 import MySeo from 'src/pages/seo'
 import { SeoProductpage } from 'src/seo/homepage'
-import thyphography from 'src/@core/components/typhography'
+import typography from 'src/@core/components/typography'
 
 const ProductDetails = () => {
   // ตัวแปรเก็บค่าข้อมูล
@@ -233,6 +234,8 @@ const ProductDetails = () => {
 
   //-----------------------------Slide Control Function------------------------//
 
+  const isSmallScreen = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+
   return (
     <Container maxWidth='xl'>
       <MySeo
@@ -250,7 +253,7 @@ const ProductDetails = () => {
         <Box sx={{ width: '100%' }}>
           <Card
             sx={{
-              height: '100px',
+              height: isSmallScreen ? '70px' : '90px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
               backgroundColor: '#2d2e81',
@@ -259,28 +262,28 @@ const ProductDetails = () => {
           >
             <Grid container alignItems='center'>
               <Grid item xs={12} sm={8} md={8}>
-                <Typography variant='h4' fontSize='21px bold' color='#fff'>
+                <Typography sx={typography.h1.title} color='#fff'>
                   Product
                 </Typography>
                 <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
                   <Link href='/' passHref>
-                    <Typography color='#fff' variant='h6' fontSize='14px'>
+                    <Typography sx={typography.subtitle1.title} color='#fff'>
                       Home
                     </Typography>
                   </Link>
                   <Link href='/category/' passHref>
-                    <Typography color='#fff' variant='h6' fontSize='14px'>
+                    <Typography sx={typography.subtitle1.title} color='#fff'>
                       Shop
                     </Typography>
                   </Link>
-                  <Typography color='#fff' variant='h6' fontSize='14px'>
+                  <Typography sx={typography.subtitle1.title} color='#fff'>
                     Product
                   </Typography>
                 </Breadcrumbs>
               </Grid>
               <Hidden smDown>
                 <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <Shopping sx={{ fontSize: 72, color: '#fff' }} />
+                  <Shopping sx={{ fontSize: 50, color: '#fff' }} />
                 </Grid>
               </Hidden>
             </Grid>
@@ -437,19 +440,19 @@ const ProductDetails = () => {
             <Box sx={{ width: '100%' }}>
               {/* ========== ชื่อสินค้า ========== */}
               <Box sx={{ width: '100%' }}>
-                <Typography sx={thyphography.h1} color='#000'>
+                <Typography sx={typography.h1.title} color='#000'>
                   {productdata.product_name}
                 </Typography>
               </Box>
               {/* ========== Brand ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
-                <Typography variant='h6' fontSize='21px' color='#000'>
+                <Typography sx={typography.subtitle1.topic} color='#000'>
                   Brand: {productdata.brand_name ? productdata.brand_name : 'No information'}
                 </Typography>
               </Box>
               {/* ========== Option ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
-                <Typography variant='h6' fontSize='21px' color='#000'>
+                <Typography sx={typography.subtitle1.topic} color='#000'>
                   Option
                 </Typography>
               </Box>
@@ -480,7 +483,7 @@ const ProductDetails = () => {
               </Box>
               {/* ========== Quantity ========== */}
               {/* <Box sx={{ width: '100%', marginTop: '20px' }}>
-                <Typography variant='h6' fontSize='21px' color='#000'>
+                <Typographysx={typography.subtitle1.topic} color='#000'>
                   Quantity
                 </Typography>
               </Box> */}
@@ -519,7 +522,7 @@ const ProductDetails = () => {
               </Box> */}
               {/* ========== Price ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
-                <Typography variant='h3' fontSize='32px' color='#2d2e81'>
+                <Typography sx={typography.h1.title} color='#2d2e81'>
                   {/* ${' '}
                   {selection
                     ? selection.find(option => option.option_name === 'Price')?.value_name
@@ -539,7 +542,7 @@ const ProductDetails = () => {
                 </Button>
               </Box> */}
               <Box sx={{ width: '100%', marginTop: '6px' }}>
-                <Typography variant='body1' fontSize='16px' color='#606060'>
+                <Typography sx={typography.body2} color='#606060'>
                   Dispatched in 2-3 Days
                 </Typography>
               </Box>
@@ -556,7 +559,7 @@ const ProductDetails = () => {
               </Box>
               <TabPanel value='1'>
                 <Box sx={{ width: '100%', marginTop: '10px' }}>
-                  <Typography variant='body1' fontSize='16px' color='#606060'>
+                  <Typography sx={typography.body2} color='#606060'>
                     {productdata.product_description}
                   </Typography>
                 </Box>
@@ -564,9 +567,9 @@ const ProductDetails = () => {
               <TabPanel value='2'>
                 {productdata.product_detail ? productdata.product_detail : 'No information'}
               </TabPanel>
-              <TabPanel value='3'>
-                <Box sx={{ width: '100%', marginTop: '10px' }}>No information</Box>
-              </TabPanel>
+              <Typography sx={typography.body2} color='#606060'>
+                {productdata.product_detail ? productdata.product_detail : 'No information'}
+              </Typography>
             </TabContext>
           </Grid>
         </Grid>

@@ -26,6 +26,7 @@ import { useMediaQuery } from '@mui/material'
 // SEO
 import MySeo from '../seo'
 import { SeoBackofficetpage } from 'src/seo/homepage'
+import typography from 'src/@core/components/typography'
 
 const BackOffice = () => {
   const [value, setValue] = useState('1')
@@ -34,7 +35,7 @@ const BackOffice = () => {
     setValue(newValue)
   }
 
-  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+  const isSmallScreen = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
   return (
     <Container maxWidth='xl'>
@@ -48,7 +49,7 @@ const BackOffice = () => {
         <Box sx={{ width: '100%' }}>
           <Card
             sx={{
-              height: isSmallScreen ? '80px' : '90px',
+              height: isSmallScreen ? '70px' : '90px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
               backgroundColor: '#2d2e81',
@@ -57,11 +58,7 @@ const BackOffice = () => {
           >
             <Grid container alignItems='center'>
               <Grid item xs={12} sm={8} md={8}>
-                <Typography
-                  color='#fff'
-                  variant='h5'
-                  sx={{ fontWeight: 'bold', fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.6rem' } }}
-                >
+                <Typography sx={typography.h1.title} color='#fff'>
                   Back office
                 </Typography>
               </Grid>

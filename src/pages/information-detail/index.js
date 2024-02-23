@@ -142,7 +142,7 @@ const InformationDetails = () => {
     }
   }, [MaxLengthImages])
 
-  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+  const isSmallScreen = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
   const host = process.env.NEXT_PUBLIC_VERCEL_URL || process.env.NEXT_PUBLIC_HOST || 'localhost:3000' // replace with your default value
   const currentPath = router.pathname
@@ -241,10 +241,8 @@ const InformationDetails = () => {
                 />
                 <MySeo
                   title={informationdata.post_name}
-
                   // details={OptionData}
                   description={Seoinformationpage.description}
-
                   // content={SeoProductpage.content}
                   keywords={Seoinformationpage.keywords}
                   ogimg={

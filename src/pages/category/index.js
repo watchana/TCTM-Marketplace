@@ -60,7 +60,7 @@ const Category = ({ productData, SearchProduct, keyword }) => {
     setFilteredProducts(keyword ? SearchProduct || null : productData || null)
   }, [SearchProduct, keyword, productData])
 
-  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+  const isSmallScreen = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
   // ตรวจสอบหาก filteredProducts เป็น undefined หรือ null
   if (filteredProducts === undefined || filteredProducts === null) {
@@ -157,7 +157,7 @@ const Category = ({ productData, SearchProduct, keyword }) => {
         <Box sx={{ width: '100%' }}>
           <Card
             sx={{
-              height: isSmallScreen ? '80px' : '90px',
+              height: isSmallScreen ? '70px' : '90px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
               backgroundColor: '#2d2e81',
