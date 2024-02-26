@@ -277,7 +277,7 @@ const EditInfor = () => {
             <Box sx={{ width: '100%' }}>
               <Card
                 sx={{
-                  height: isSmallScreen ? '80px' : '90px',
+                  height: isSmallScreen ? '70px' : '90px',
                   marginBottom: '30px',
                   padding: '15px 25px 20px',
                   backgroundColor: '#2d2e81',

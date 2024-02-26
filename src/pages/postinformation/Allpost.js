@@ -83,7 +83,7 @@ const AllPost = () => {
           <Typography
             variant='h5'
             sx={{
-              fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.6rem' },
+              fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.8rem' },
               color: '#FFFFFF',
               fontWeight: 'bold',
               textAlign: 'center',
