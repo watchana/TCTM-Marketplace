@@ -232,8 +232,8 @@ const Category = ({ productData, SearchProduct, keyword }) => {
                         }}
                         sx={{
                           border: '0.5px solid lightgray',
-                          width: { xs: '150px', sm: '200px' },
-                          height: { xs: '200px', sm: '280px' },
+                          width: { xs: '99px', sm: '150px', md: '200px' },
+                          height: { xs: '190px', sm: '240px', md: '280px' },
                           boxShadow: 3,
                           cursor: 'pointer',
                           '&:hover': { boxShadow: 10, border: '2px solid #2d2e81' }
