@@ -23,6 +23,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { useMediaQuery } from '@mui/material'
+import { useTheme } from '@material-ui/core/styles'
 
 const Information = forwardRef((props, ref2) => {
   const handle2Change = e => {
@@ -33,6 +34,8 @@ const Information = forwardRef((props, ref2) => {
 
   const isSmallScreen = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
+const theme = useTheme()
+
   return (
     <Box>
       {/* -----------------information--------------- */}
@@ -42,7 +45,7 @@ const Information = forwardRef((props, ref2) => {
             height: isSmallScreen ? '50px' : '60px',
             marginBottom: '30px',
             padding: '15px 25px 20px',
-            backgroundColor: '#2d2e81',
+            backgroundColor: theme.palette.primary.dark,
             border: '1px solid #primary.main'
           }}
         >
@@ -63,7 +66,7 @@ const Information = forwardRef((props, ref2) => {
             height: isSmallScreen ? '50px' : '60px',
             marginBottom: '30px',
             padding: '15px 25px 20px',
-            backgroundColor: '#2d2e81',
+            backgroundColor: theme.palette.primary.dark,
             border: '1px solid #primary.main'
           }}
         >

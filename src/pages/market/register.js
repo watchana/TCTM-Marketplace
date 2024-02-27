@@ -42,10 +42,14 @@ import { withAuth } from 'src/@core/utils/AuthCheck'
 import MySeo from '../seo'
 import { SeoMarketRegisterpage } from 'src/seo/homepage'
 import typography from 'src/@core/components/typography'
+import { useTheme } from '@material-ui/core/styles'
+
 
 const RegisterSupplier = () => {
   // ** Hook
   const router = useRouter()
+
+const theme = useTheme()
 
   // รับค่าตัวแปร
   const [storename, setStoreName] = useState('') // ตัวแปรเก็บค่า storename
@@ -248,7 +252,7 @@ const RegisterSupplier = () => {
               height: isSmallScreen ? '70px' : '90px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
-              backgroundColor: '#2d2e81',
+              backgroundColor: theme.palette.primary.dark,
               border: '1px solid #primary.main'
             }}
           >

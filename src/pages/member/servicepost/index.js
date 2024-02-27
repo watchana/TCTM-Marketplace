@@ -33,6 +33,7 @@ import { withAuth } from 'src/@core/utils/AuthCheck'
 // Responsive image
 import { useMediaQuery } from '@mui/material'
 import typography from 'src/@core/components/typography'
+import { useTheme } from '@material-ui/core/styles'
 
 const ServicePosts = () => {
   // ** Router ของ Next.js
@@ -42,6 +43,8 @@ const ServicePosts = () => {
     // ทำการเด้งไปหน้าอื่น ในที่นี้เราเด้งไปที่หน้า '/otherpage'
     router.push('/member/servicepost/ServicePost')
   }
+
+const theme = useTheme()
 
   // นำเข้าตัวsweetalert2
   const SAlert = require('sweetalert2')
@@ -235,7 +238,7 @@ const ServicePosts = () => {
               height: isSmallScreen ? '70px' : '90px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
-              backgroundColor: '#2d2e81',
+              backgroundColor: theme.palette.primary.dark,
               border: '1px solid #primary.main'
             }}
           >

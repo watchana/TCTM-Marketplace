@@ -163,7 +163,7 @@ const InformationDetails = () => {
                   height: isSmallScreen ? '70px' : '90px',
                   marginBottom: '30px',
                   padding: '15px 25px 20px',
-                  backgroundColor: '#2d2e81',
+                  backgroundColor: theme.palette.primary.dark,
                   border: '1px solid #primary.main'
                 }}
               >

@@ -5,9 +5,6 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-// ** Utils Imports
-import { withAuth } from 'src/@core/utils/AuthCheck'
-
 // ** Material UI Imports
 import {
   Box,
@@ -39,6 +36,8 @@ import axios from 'axios'
 // Responsive image
 import { useMediaQuery } from '@mui/material'
 import typography from 'src/@core/components/typography'
+import { useTheme } from '@material-ui/core/styles'
+import MySeo from '../seo'
 
 const Category = ({ productData, SearchProduct, keyword }) => {
   const [filteredProducts, setFilteredProducts] = useState(keyword ? SearchProduct || null : productData || null)
@@ -46,6 +45,7 @@ const Category = ({ productData, SearchProduct, keyword }) => {
   const [searchValue, setSearchValue] = useState('') // State เพื่อเก็บคำค้นหา
   const [searchResults, setSearchResults] = useState([]) // State เพื่อเก็บผลลัพธ์การค้นหา
   const [openDrawerLeftMenu, setOpenDrawerLeftMenu] = useState(false)
+const theme = useTheme()
 
   // เก็บข้อมูลสินค้า
   const products = productData
@@ -102,6 +102,18 @@ const Category = ({ productData, SearchProduct, keyword }) => {
   const MenuCategory = () => (
     <>
       <Box sx={{ width: '240px', paddingLeft: { xs: 4, md: 0 } }}>
+        <MySeo
+          title={sub_name}
+          details={uniqueCategories}
+          description={'Market'}
+          content={sub_name}
+          keywords={sub_name}
+
+          // ogimg={
+          //   productimg[stateImages]?.image_file_name ? `/imgTctmProduct/${productimg[stateImages].image_file_name}` : ''
+          // }
+          // url={fullURL}
+        />
         <Box sx={{ padding: { xs: '20px 25px 8px', md: '0px 25px 8px' } }}>
           <Typography
             variant='h6'
@@ -163,7 +175,7 @@ const Category = ({ productData, SearchProduct, keyword }) => {
               height: isSmallScreen ? '70px' : '90px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
-              backgroundColor: '#2d2e81',
+              backgroundColor: theme.palette.primary.dark,
               border: '1px solid #primary.main'
             }}
           >
@@ -359,4 +371,4 @@ export const getServerSideProps = async ({ query }) => {
   }
 }
 
-export default withAuth(Category)
+export default Category

@@ -28,6 +28,7 @@ import { useMediaQuery } from '@mui/material'
 import MySeo from '../seo'
 import { SeoTctmManagementpage } from 'src/seo/homepage'
 import typography from 'src/@core/components/typography'
+import { useTheme } from '@material-ui/core/styles'
 
 const ManagementPage = () => {
   const [value, setValue] = useState('1')
@@ -37,6 +38,8 @@ const ManagementPage = () => {
   const [dataPost, setDataPost] = useState([])
   const [dataService, setDataService] = useState([])
   const [dataservicereq, setdataservicereq] = useState([])
+
+  const theme = useTheme()
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -111,7 +114,7 @@ const ManagementPage = () => {
             height: isSmallScreen ? '70px' : '90px',
             marginBottom: '30px',
             padding: '15px 25px 20px',
-            backgroundColor: '#2d2e81',
+            backgroundColor: theme.palette.primary.dark,
             border: '1px solid #primary.main'
           }}
         >

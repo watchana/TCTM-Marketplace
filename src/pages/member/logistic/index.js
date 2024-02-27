@@ -33,10 +33,13 @@ import { useMediaQuery } from '@mui/material'
 import { SeoDeliverypage } from 'src/seo/homepage'
 import MySeo from 'src/pages/seo'
 import typography from 'src/@core/components/typography'
+import { useTheme } from '@material-ui/core/styles'
 
 const MyOrderPage = () => {
   const router = useRouter() // use router
   const { invoice_id, usertype } = router.query
+
+const theme = useTheme()
 
   // ตัวแปรเก็บค่าข้อมูล
   const [userId, setUserId] = useState('') // ข้อมูล user_Id
@@ -141,7 +144,7 @@ const MyOrderPage = () => {
               height: isSmallScreen ? '70px' : '90px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
-              backgroundColor: '#2d2e81',
+              backgroundColor: theme.palette.primary.dark,
               border: '1px solid #primary.main'
             }}
           >

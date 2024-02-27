@@ -63,10 +63,14 @@ import { SeoManagementMarketpage } from 'src/seo/homepage'
 // Responsive image
 import { useMediaQuery } from '@mui/material'
 import typography from 'src/@core/components/typography'
+import { useTheme } from '@material-ui/core/styles'
+
 
 const MyMarket = () => {
   // set tabpanel State
   const [value, setValue] = useState('1')
+
+const theme = useTheme()
 
   // ** Switch Alert Import
   const Swal = require('sweetalert2')
@@ -507,7 +511,7 @@ const MyMarket = () => {
               height: isSmallScreen ? '70px' : '90px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
-              backgroundColor: '#2d2e81',
+              backgroundColor: theme.palette.primary.dark,
               border: '1px solid #primary.main'
             }}
           >

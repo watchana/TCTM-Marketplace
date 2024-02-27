@@ -30,15 +30,16 @@ import Addbillbord from 'src/views/backoffice/add-billbord'
 import { Hidden } from '@mui/material'
 import { ChevronRight } from 'mdi-material-ui'
 import typography from 'src/@core/components/typography'
+import { useTheme } from '@material-ui/core/styles'
 
 // Responsive image
 import { useMediaQuery } from '@mui/material'
 
+
 const AddBillboard = () => {
   // ** Hook
   const router = useRouter()
-
-  // รับค่าตัวแปร
+const theme = useTheme()
 
   // ตัวแปรเช็คสถานะการส่งข้อมูล
   const [isSubmitted, setIsSubmitted] = useState(false)
@@ -162,7 +163,7 @@ const AddBillboard = () => {
             height: isSmallScreen ? '70px' : '90px',
             marginBottom: '30px',
             padding: '15px 25px 20px',
-            backgroundColor: '#2d2e81',
+            backgroundColor: theme.palette.primary.dark,
             border: '1px solid #primary.main'
           }}
         >

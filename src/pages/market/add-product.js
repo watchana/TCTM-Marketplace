@@ -38,12 +38,16 @@ import RegisterProduct from 'src/views/supplier/RegisterProduct'
 import ShowResults from 'src/views/supplier/ShowResults'
 import ShowResultsAPI from 'src/views/supplier/ShowResultsAPI'
 import typography from 'src/@core/components/typography'
+import { useTheme } from '@material-ui/core/styles'
+
 
 // ** Switch Alert Import
 const Swal = require('sweetalert2')
 
 const AddProductPage = ({ productCategories }) => {
   const router = useRouter()
+
+const theme = useTheme()
 
   // รับค่า Sub_id
   const { sub_id } = router.query
@@ -287,7 +291,7 @@ const AddProductPage = ({ productCategories }) => {
                 height: isSmallScreen ? '70px' : '90px',
                 marginBottom: '30px',
                 padding: '15px 25px 20px',
-                backgroundColor: '#2d2e81',
+                backgroundColor: theme.palette.primary.dark,
                 border: '1px solid #primary.main'
               }}
             >

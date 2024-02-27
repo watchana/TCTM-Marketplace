@@ -48,10 +48,13 @@ import ChevronRight from 'mdi-material-ui/ChevronRight'
 import { withAuth } from 'src/@core/utils/AuthCheck'
 import Regispost from 'src/views/post-image/regispost'
 import typography from 'src/@core/components/typography'
+import { useTheme } from '@material-ui/core/styles'
 
 const PosrtDetail = () => {
   // นำเข้าตัวsweetalert2
   const SAlert = require('sweetalert2')
+
+const theme = useTheme()
 
   // เรียกใช้งาน router
   const router = useRouter()
@@ -449,7 +452,7 @@ const PosrtDetail = () => {
               height: isSmallScreen ? '70px' : '90px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
-              backgroundColor: '#2d2e81',
+              backgroundColor: theme.palette.primary.dark,
               border: '1px solid #primary.main'
             }}
           >

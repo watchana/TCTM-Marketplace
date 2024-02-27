@@ -49,11 +49,14 @@ import { withAuth } from 'src/@core/utils/AuthCheck'
 // Responsive image
 import { useMediaQuery } from '@mui/material'
 import typography from 'src/@core/components/typography'
+import { useTheme } from '@material-ui/core/styles'
 
 const Show_Status = () => {
   // ใช้งาน Router
   const router = useRouter() // use router
   const { invoice_id, usertype } = router.query
+
+const theme = useTheme()
 
   //ตัวแปรเก็บค่าข้อมูล
   const [orderdata, setOrderData] = useState('') // Order Data
@@ -128,7 +131,7 @@ const Show_Status = () => {
               height: isSmallScreen ? '70px' : '90px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
-              backgroundColor: '#2d2e81',
+              backgroundColor: theme.palette.primary.dark,
               border: '1px solid #primary.main'
             }}
           >
