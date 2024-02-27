@@ -18,8 +18,10 @@ import {
   Divider,
   Box,
   Card,
-  CardContent
+  CardContent,
+  useMediaQuery
 } from '@mui/material'
+
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import DownloadIcon from '@mui/icons-material/Download'
 import InputAdornment from '@mui/material/InputAdornment'
@@ -41,82 +43,148 @@ const FamilyHistoryForm = forwardRef((props, ref2) => {
     ref2.current[name] = value
   }
 
+  const isSmallScreen = useMediaQuery('(max-width: 700px)')
+
   return (
     <form>
       {/* -----------------ประวัติครอบครัว--------------- */}
       <Grid container spacing={2}>
         <Grid item xs={12} mt={5}>
-          <Paper elevation={3} style={{ borderRadius: '10px', backgroundColor: '#333399' }}>
-            <Typography textAlign={'center'} variant='h5' sx={{ fontSize: 40, fontWeight: 'bold', color: 'white' }}>
+          <Paper
+            sx={{
+              height: isSmallScreen ? '50px' : '60px',
+
+              padding: '15px 25px 20px',
+              backgroundColor: '#2d2e81',
+              border: '1px solid #primary.main'
+            }}
+          >
+            <Typography
+              textAlign={'center'}
+              variant='h5'
+              color='#fff'
+              sx={{ fontWeight: 'bold', fontSize: { xs: '1.3rem', sm: '1.8rem', md: '2.3rem' } }}
+            >
               Family Information
             </Typography>
           </Paper>
         </Grid>
         {/* ----------------ชื่อพ่อ---------------- */}
-        <Grid item xs={5} mt={5}>
-          <Typography fontSize={20} fontWeight={'bold'}>
+
+        <Grid item xs={12} sm={5}>
+          <Typography variant='body2' fontWeight='bold'>
             Father/Firstname
           </Typography>
-          <TextField name='father_firstname' placeholder='Firstname' fullWidth onChange={handle2Change} />
-        </Grid>
-        <Grid item xs={5} mt={5}>
-          <Typography fontSize={20}>Last Name</Typography>
-          <TextField name='father_lastname' placeholder='Last Name' fullWidth onChange={handle2Change} />
-        </Grid>
-        <Grid item xs={2} mt={5}>
-          <Typography fontSize={20}>Age</Typography>
-          <TextField name='father_Age' placeholder='Age' sx={{ maxWidth: 70 }} onChange={handle2Change} />
-        </Grid>
-        <Grid item xs={5} mt={5} mr={100}>
-          <Typography fontSize={20}>Occupation</Typography>
-          <TextField name='father_occ' placeholder='Occupation' fullWidth onChange={handle2Change} />
-        </Grid>
-        {/* ----------------ชื่อแม่---------------- */}
-        <Grid item xs={5} mt={5}>
-          <Typography fontSize={20} fontWeight={'bold'}>
-            Mother/Firstname
-          </Typography>
-          <TextField name='mother_firstname' placeholder='Firstname' fullWidth onChange={handle2Change} />
-        </Grid>
-        <Grid item xs={5} mt={5}>
-          <Typography fontSize={20}>Last Name</Typography>
-          <TextField name='mother_lastname' placeholder='Last Name' fullWidth onChange={handle2Change} />
-        </Grid>
-        <Grid item xs={2} mt={5}>
-          <Typography fontSize={20}>Age</Typography>
-          <TextField name='mother_age' placeholder='Age' sx={{ maxWidth: 70 }} onChange={handle2Change} />
-        </Grid>
-        <Grid item xs={5} mt={5} mr={100}>
-          <Typography fontSize={20}>Occupation</Typography>
-          <TextField name='mother_occ' placeholder='Occupation' fullWidth onChange={handle2Change} />
-        </Grid>
-        {/* ----------------ชื่อสามีหรือภรรยา---------------- */}
-        <Grid item xs={5} mt={5}>
-          <Typography fontSize={20} fontWeight={'bold'}>
-            Name of wife or Husband
-          </Typography>
-          <TextField name='wifeorhusband_fname' placeholder='Firstname' fullWidth onChange={handle2Change} />
-        </Grid>
-        <Grid item xs={5} mt={5}>
-          <Typography fontSize={20}>Last Name</Typography>
-          <TextField name='wifeorhusband_lname' placeholder='Last Name' fullWidth onChange={handle2Change} />
-        </Grid>
-        <Grid item xs={2} mt={5}>
-          <Typography fontSize={20}>Age</Typography>
-          <TextField name='wifeorhusband_age' placeholder='Age' sx={{ maxWidth: 70 }} onChange={handle2Change} />
-        </Grid>
-        <Grid item xs={5} mt={5}>
-          <Typography fontSize={20}>Occupation</Typography>
-          <TextField name='wifeorhusband_occ' placeholder='Occupation' fullWidth onChange={handle2Change} />
+          <TextField name='father_firstname' placeholder='Firstname' fullWidth onChange={handle2Change} size='small' />
         </Grid>
 
-        <Grid item xs={3} mt={5} mr={50}>
-          <Typography fontSize={20}>Number of Children</Typography>
+        <Grid item xs={12} sm={5}>
+          <Typography variant='body2' fontWeight='bold'>
+            Last Name
+          </Typography>
+          <TextField name='father_lastname' placeholder='Last Name' size='small' fullWidth onChange={handle2Change} />
+        </Grid>
+
+        <Grid item xs={12} sm={2}>
+          <Typography variant='body2' fontWeight='bold'>
+            Age
+          </Typography>
+          <TextField name='father_Age' placeholder='Age' size='small' fullWidth onChange={handle2Change} />
+        </Grid>
+
+        <Grid item xs={12} sx={6}>
+          <Typography variant='body2' fontWeight='bold'>
+            Occupation
+          </Typography>
+          <TextField name='father_occ' placeholder='Occupation' size='small' fullWidth onChange={handle2Change} />
+        </Grid>
+
+        {/* ----------------ชื่อแม่---------------- */}
+        <Grid item xs={12} sm={5}>
+          <Typography variant='body2' fontWeight='bold'>
+            Mother/Firstname
+          </Typography>
+          <TextField name='mother_firstname' placeholder='Firstname' size='small' fullWidth onChange={handle2Change} />
+        </Grid>
+
+        <Grid item xs={12} sm={5}>
+          <Typography variant='body2' fontWeight='bold'>
+            Last Name
+          </Typography>
+          <TextField name='mother_lastname' placeholder='Last Name' size='small' fullWidth onChange={handle2Change} />
+        </Grid>
+
+        <Grid item xs={12} sm={2}>
+          <Typography variant='body2' fontWeight='bold'>
+            Age
+          </Typography>
+          <TextField name='mother_age' placeholder='Age' size='small' fullWidth onChange={handle2Change} />
+        </Grid>
+
+        <Grid item xs={12}>
+          <Typography variant='body2' fontWeight='bold'>
+            Occupation
+          </Typography>
+          <TextField name='mother_occ' placeholder='Occupation' size='small' fullWidth onChange={handle2Change} />
+        </Grid>
+
+        {/* ----------------ชื่อสามีหรือภรรยา---------------- */}
+        <Grid item xs={12} sm={5}>
+          <Typography variant='body2' fontWeight='bold'>
+            Name of wife or Husband
+          </Typography>
+          <TextField
+            name='wifeorhusband_fname'
+            placeholder='Firstname'
+            size='small'
+            fullWidth
+            onChange={handle2Change}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={5}>
+          <Typography variant='body2' fontWeight='bold'>
+            Last Name
+          </Typography>
+          <TextField
+            name='wifeorhusband_lname'
+            placeholder='Last Name'
+            size='small'
+            fullWidth
+            onChange={handle2Change}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={2}>
+          <Typography variant='body2' fontWeight='bold'>
+            Age
+          </Typography>
+          <TextField name='wifeorhusband_age' placeholder='Age ' size='small' fullWidth onChange={handle2Change} />
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <Typography variant='body2' fontWeight='bold'>
+            Occupation
+          </Typography>
+          <TextField
+            name='wifeorhusband_occ'
+            placeholder='Occupation'
+            size='small'
+            fullWidth
+            onChange={handle2Change}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <Typography variant='body2' fontWeight='bold'>
+            Number of Children
+          </Typography>
           <TextField
             name='numofChildren'
             placeholder='Number of Children'
-            sx={{ maxWidth: 190 }}
+            size='small'
             onChange={handle2Change}
+            fullWidth
           />
         </Grid>
       </Grid>

@@ -387,23 +387,23 @@ const theme = useTheme()
             >
               <FormControlLabel
                 value='Single'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Single'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Single</Typography>}
               />
               <FormControlLabel
                 value='married'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Married'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Married</Typography>}
               />
               <FormControlLabel
                 value='Widowed'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Widowed'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Widowed</Typography>}
               />
               <FormControlLabel
                 value='Separated'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Separated'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Separated</Typography>}
               />
             </RadioGroup>
           </FormControl>
@@ -456,7 +456,7 @@ const theme = useTheme()
             }}
           />
         </Grid>
-        <Grid item xs={3} mt={13}>
+        <Grid item xs={3} ml={3} mt={6}>
           <FormControl>
             <RadioGroup
               row
@@ -466,13 +466,13 @@ const theme = useTheme()
             >
               <FormControlLabel
                 value='hour'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Hour'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Hour</Typography>}
               />
               <FormControlLabel
                 value='salary'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Salary'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Salary</Typography>}
               />
             </RadioGroup>
           </FormControl>
@@ -488,21 +488,9 @@ const theme = useTheme()
             name='employment_desired'
             onChange={handle2Change}
           >
-            <FormControlLabel
-              value='Full-Time'
-              control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-              label='Full-Time'
-            />
-            <FormControlLabel
-              value='Past-Time'
-              control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-              label='Past-Time'
-            />
-            <FormControlLabel
-              value='Seasonal'
-              control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-              label='Seasonal'
-            />
+            <FormControlLabel value='Full-Time' control={<Radio size='small' />} label='Full-Time' />
+            <FormControlLabel value='Past-Time' control={<Radio size='small' />} label='Past-Time' />
+            <FormControlLabel value='Seasonal' control={<Radio size='small' />} label='Seasonal' />
           </RadioGroup>
         </Grid>
       </Grid>
