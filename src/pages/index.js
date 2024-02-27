@@ -19,7 +19,7 @@ console.log(SeoHomepage)
 
 const Dashboard = () => {
   return (
-    <Container maxWidth='xl' style={{ userSelect: 'none' }}>
+    <Container maxWidth='xl'>
       <MySeo description={SeoHomepage.description} content={SeoHomepage.content} keywords={SeoHomepage.keywords} />
 
       {/* ---------- Billboard ---------- */}

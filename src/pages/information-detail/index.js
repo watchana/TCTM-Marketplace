@@ -29,12 +29,15 @@ import { useMediaQuery } from '@mui/material'
 import MySeo from 'src/pages/seo'
 import { Seoinformationpage } from 'src/seo/homepage'
 import typography from 'src/@core/components/typography'
+import { useTheme } from '@material-ui/core/styles'
 
 const InformationDetails = () => {
   const [informationdata, setInformationData] = useState([]) // ตัวแปรเก็บข้อมูลแนะนำ
 
   const [informationimg, setInformationImg] = useState([]) // ตัวแปรเก็บข้อมูลรูปภาพ
   const FirstImage = informationimg && informationimg[0] ? informationimg[0].image_file_infname : null // ตัวแปรเก็บข้อมูลรูปภาพตัวอย่าง
+
+  const theme = useTheme()
 
   const router = useRouter() // เรียกใช้งาน Router
   const { post_id } = router.query
@@ -230,9 +233,7 @@ const InformationDetails = () => {
                 />
                 <MySeo
                   title={informationdata.post_name}
-                  // details={OptionData}
                   description={Seoinformationpage.description}
-                  // content={SeoProductpage.content}
                   keywords={Seoinformationpage.keywords}
                   ogimg={
                     informationimg[stateImages]?.image_file_infname
@@ -351,7 +352,7 @@ const InformationDetails = () => {
 
             <Grid item xs={12} md={6}>
               <Grid item xs={12}>
-                <Typography color='#000' sx={typography.h1.topic}>
+                <Typography color={theme.palette.text.primary} sx={typography.h1.topic}>
                   {informationdata.post_name}
                 </Typography>
               </Grid>
