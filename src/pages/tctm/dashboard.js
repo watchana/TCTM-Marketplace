@@ -36,10 +36,13 @@ import SalesByCountries from 'src/views/dashboard/SalesByCountries'
 import MySeo from '../seo'
 import { SeoDashboardpage } from 'src/seo/homepage'
 import typography from 'src/@core/components/typography'
+import { useTheme } from '@material-ui/core/styles'
 
 const DashboardTCTM = () => {
   // Set data
   const [data, setData] = useState('')
+
+  const theme = useTheme()
 
   // Api Call Data
   useEffect(() => {
@@ -73,7 +76,7 @@ const DashboardTCTM = () => {
               height: isSmallScreen ? '70px' : '90px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
-              backgroundColor: '#2d2e81',
+              backgroundColor: theme.palette.primary.dark,
               border: '1px solid #primary.main'
             }}
           >

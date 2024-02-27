@@ -28,6 +28,7 @@ import { useRouter } from 'next/router'
 import axios from 'axios'
 import TestshowwinV from 'src/views/information/RegisInfo'
 import { useMediaQuery } from '@mui/material'
+import { useTheme } from '@material-ui/core/styles'
 
 // ** Material-UI Icons Imports
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -41,6 +42,8 @@ const EditInfor = () => {
   const [uploadImages, setUploadImages] = useState([])
   const [imagesName, setImagesName] = useState([])
   const [imageChange, setImageChange] = useState({})
+
+const theme = useTheme()
 
   const FirstImage = informationimg && informationimg[0] ? informationimg[0].image_file_infname : null // ตัวแปรเก็บข้อมูลรูปภาพตัวอย่าง
 
@@ -280,7 +283,7 @@ const EditInfor = () => {
                   height: isSmallScreen ? '70px' : '90px',
                   marginBottom: '30px',
                   padding: '15px 25px 20px',
-                  backgroundColor: '#2d2e81',
+                  backgroundColor: theme.palette.primary.dark,
                   border: '1px solid #primary.main'
                 }}
               >

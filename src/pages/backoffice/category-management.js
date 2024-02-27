@@ -19,10 +19,12 @@ import { useMediaQuery } from '@mui/material'
 import MySeo from '../seo'
 import { SeoCategoryManagementpage } from 'src/seo/homepage'
 import typography from 'src/@core/components/typography'
+import { useTheme } from '@material-ui/core/styles'
 
 const CategoryManager = () => {
   // นำเข้าตัวsweetalert2
   const Swal = require('sweetalert2')
+const theme = useTheme()
 
   // ตัวแปรเก็บข้อมูล
   const [categorysdata, setCategorysData] = useState([])
@@ -170,7 +172,7 @@ const CategoryManager = () => {
             height: isSmallScreen ? '70px' : '90px',
             marginBottom: '30px',
             padding: '15px 25px 20px',
-            backgroundColor: '#2d2e81',
+            backgroundColor: theme.palette.primary.dark,
             border: '1px solid #primary.main'
           }}
         >

@@ -51,6 +51,7 @@ import { useMediaQuery } from '@mui/material'
 import MySeo from '../seo'
 import { SeoProductpage } from 'src/seo/homepage'
 import typography from 'src/@core/components/typography'
+import { useTheme } from '@material-ui/core/styles'
 
 const ProductDetails = ({}) => {
   // ตัวแปรเก็บค่าข้อมูล
@@ -63,6 +64,8 @@ const ProductDetails = ({}) => {
   const [productimg, setProductImg] = useState([]) // ตัวแปรเก็บข้อมูลรูปภาพ
   const FirstImage = productimg && productimg[0] ? productimg[0].image_file_name : null // ตัวแปรเก็บข้อมูลรูปภาพตัวอย่าง
   const [loadingData, setLoadingData] = useState(0)
+
+const theme = useTheme()
 
   // ตัวแปรเก็บการแสดงราคา
   const totalPrice = price * quantity
@@ -324,7 +327,7 @@ const ProductDetails = ({}) => {
               height: isSmallScreen ? '70px' : '90px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
-              backgroundColor: '#2d2e81',
+              backgroundColor: theme.palette.primary.dark,
               border: '1px solid #primary.main'
             }}
           >
@@ -560,7 +563,12 @@ const ProductDetails = ({}) => {
               </Box>
               <Box sx={{ width: '100%', marginTop: '10px', display: 'flex', flexDirection: 'row' }}>
                 <IconButton
-                  sx={{ width: '30px', height: '30px', borderRadius: '5px', backgroundColor: '#2d2e81' }}
+                  sx={{
+                    width: '30px',
+                    height: '30px',
+                    borderRadius: '5px',
+                    backgroundColor: theme.palette.primary.dark
+                  }}
                   onClick={decreaseQuantity}
                 >
                   <RemoveIcon sx={{ color: '#fff' }} />
@@ -583,7 +591,7 @@ const ProductDetails = ({}) => {
                   sx={{
                     width: '30px',
                     height: '30px',
-                    backgroundColor: '#2d2e81',
+                    backgroundColor: theme.palette.primary.dark,
                     borderRadius: '5px'
                   }}
                   onClick={increaseQuantity}

@@ -42,6 +42,7 @@ import themeConfig from 'src/configs/themeConfig'
 import { SeoCategorypage } from 'src/seo/homepage'
 import MySeo from '../seo'
 import typography from 'src/@core/components/typography'
+import { useTheme } from '@material-ui/core/styles'
 
 const Category = ({ productData, SearchProduct, keyword }) => {
   const [filteredProducts, setFilteredProducts] = useState(keyword ? SearchProduct || null : productData || null)
@@ -49,6 +50,8 @@ const Category = ({ productData, SearchProduct, keyword }) => {
   const [searchValue, setSearchValue] = useState('') // State เพื่อเก็บคำค้นหา
   const [searchResults, setSearchResults] = useState([]) // State เพื่อเก็บผลลัพธ์การค้นหา
   const [openDrawerLeftMenu, setOpenDrawerLeftMenu] = useState(false)
+
+const theme = useTheme()
 
   // เก็บข้อมูลสินค้า
   const products = productData
@@ -161,7 +164,7 @@ const Category = ({ productData, SearchProduct, keyword }) => {
               height: isSmallScreen ? '70px' : '90px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
-              backgroundColor: '#2d2e81',
+              backgroundColor: theme.palette.primary.dark,
               border: '1px solid #primary.main'
             }}
           >

@@ -38,6 +38,7 @@ import Total from './details_total'
 import Delivery from './delivery_address'
 import Paymant from './payment_details'
 import typography from 'src/@core/components/typography'
+import { useTheme } from '@material-ui/core/styles'
 
 const Orders_Detail = () => {
   // ใช้งาน Router
@@ -76,6 +77,8 @@ const Orders_Detail = () => {
 
   const isSmallScreen = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
+const theme = useTheme()
+
   return (
     <Container maxWidth='xl'>
       <Box>
@@ -85,7 +88,7 @@ const Orders_Detail = () => {
               height: isSmallScreen ? '70px' : '90px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
-              backgroundColor: '#2d2e81',
+              backgroundColor: theme.palette.primary.dark,
               border: '1px solid #primary.main'
             }}
           >

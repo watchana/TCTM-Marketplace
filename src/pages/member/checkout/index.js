@@ -24,12 +24,15 @@ import axios from 'axios'
 // ** Utils Imports
 import { withAuth } from 'src/@core/utils/AuthCheck'
 import typography from 'src/@core/components/typography'
+import { useTheme } from '@material-ui/core/styles'
 
 const Checkout = () => {
   // นำเข้าตัวsweetalert2
   const Swal = require('sweetalert2')
   const router = useRouter() // เรียกใช้งาน Router
   const { productName, price, quantity, selection, sub_id, product_id, FirstImage } = router.query // รับค่าข้อมูล จาก Router
+
+const theme = useTheme()
 
   // ตัวแปรรับค่าข้อมูล
   const [userId, setUserId] = useState('') // ข้อมูล user_Id
@@ -126,7 +129,7 @@ const Checkout = () => {
               height: isSmallScreen ? '70px' : '90px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
-              backgroundColor: '#2d2e81',
+              backgroundColor: theme.palette.primary.dark,
               border: '1px solid #primary.main'
             }}
           >
@@ -175,7 +178,7 @@ const Checkout = () => {
                 variant='contained'
                 onClick={handleOrderClick}
                 sx={{
-                  backgroundColor: '#2d2e81',
+                  backgroundColor: theme.palette.primary.dark,
                   outline: '3px solid #2d2e81',
                   outlineOffset: '-2px',
                   transition: '400ms',

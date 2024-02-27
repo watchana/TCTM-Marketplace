@@ -30,11 +30,13 @@ import TestshowwinV from 'src/views/information/RegisInfo'
 import { Hidden, useMediaQuery } from '@mui/material'
 import { ChevronRight } from 'mdi-material-ui'
 import typography from 'src/@core/components/typography'
+import { useTheme } from '@material-ui/core/styles'
+
 
 const AddInformationPage = () => {
   // ** Hook
   const router = useRouter()
-
+const theme = useTheme()
   const { sub_id } = router.query
   const SubId = sub_id
 
@@ -136,7 +138,7 @@ const AddInformationPage = () => {
             height: isSmallScreen ? '70px' : '90px',
             marginBottom: '30px',
             padding: '15px 25px 20px',
-            backgroundColor: '#2d2e81',
+            backgroundColor: theme.palette.primary.dark,
             border: '1px solid #primary.main'
           }}
         >

@@ -38,10 +38,13 @@ import { useMediaQuery } from '@mui/material'
 import { SeoPostpage } from 'src/seo/homepage'
 import MySeo from 'src/pages/seo'
 import typography from 'src/@core/components/typography'
+import { useTheme } from '@material-ui/core/styles'
 
 const Posts = () => {
   // ** Router ของ Next.js
   const router = useRouter()
+
+const theme = useTheme()
 
   // นำเข้าตัวsweetalert2
   const SAlert = require('sweetalert2')
@@ -235,7 +238,7 @@ const Posts = () => {
               height: isSmallScreen ? '70px' : '90px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
-              backgroundColor: '#2d2e81',
+              backgroundColor: theme.palette.primary.dark,
               border: '1px solid #primary.main'
             }}
           >

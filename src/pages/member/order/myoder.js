@@ -31,6 +31,7 @@ import { useMediaQuery } from '@mui/material'
 import { SeoMyorderpage } from 'src/seo/homepage'
 import MySeo from 'src/pages/seo'
 import typography from 'src/@core/components/typography'
+import { useTheme } from '@material-ui/core/styles'
 
 const MyOrderPage = () => {
   // ตัวแปรเก็บค่าข้อมูล
@@ -88,6 +89,8 @@ const MyOrderPage = () => {
 
   const isSmallScreen = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
+const theme = useTheme()
+
   return (
     <Container maxWidth='xl'>
       <MySeo
@@ -103,7 +106,7 @@ const MyOrderPage = () => {
               height: isSmallScreen ? '70px' : '90px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
-              backgroundColor: '#2d2e81',
+              backgroundColor: theme.palette.primary.dark,
               border: '1px solid #primary.main'
             }}
           >

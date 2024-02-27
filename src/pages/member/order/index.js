@@ -38,6 +38,7 @@ import Payment from './payment'
 import TablePayment from './tablepayment'
 import CheckoutForm from '../checkout/stripe_checkout'
 import typography from 'src/@core/components/typography'
+import { useTheme } from '@material-ui/core/styles'
 
 const Indexpayment = () => {
   // ใช้งาน Router
@@ -66,6 +67,7 @@ const Indexpayment = () => {
   const [productData, setProductData] = useState([]) // ข้อมูล ธนาคาร
   const [megaProductData, setMegaProductData] = useState([]) // ข้อมูล สินค้า
 
+  const theme = useTheme()
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -118,7 +120,7 @@ const Indexpayment = () => {
             height: isSmallScreen ? '70px' : '90px',
             marginBottom: '30px',
             padding: '15px 25px 20px',
-            backgroundColor: '#2d2e81',
+            backgroundColor: theme.palette.primary.dark,
             border: '1px solid #primary.main'
           }}
         >

@@ -41,6 +41,7 @@ import Word_order from './workorder/word_order'
 import ShowWorkOrder from './workorder/showworkorder'
 import CheckNpost from './workorder/addworkorder'
 import typography from 'src/@core/components/typography'
+import { useTheme } from '@material-ui/core/styles'
 
 const Orders_Detail = () => {
   // ใช้งาน Router
@@ -75,6 +76,8 @@ const Orders_Detail = () => {
 
   const isSmallScreen = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
+const theme = useTheme()
+
   return (
     <Container maxWidth='xl'>
       <Box sx={{ width: '100%' }}>
@@ -83,7 +86,7 @@ const Orders_Detail = () => {
             height: isSmallScreen ? '70px' : '90px',
             marginBottom: '30px',
             padding: '15px 25px 20px',
-            backgroundColor: '#2d2e81',
+            backgroundColor: theme.palette.primary.dark,
             border: '1px solid #primary.main'
           }}
         >

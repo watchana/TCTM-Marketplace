@@ -16,6 +16,7 @@ import axios from 'axios'
 import 'react-multi-carousel/lib/styles.css'
 
 import { useMediaQuery } from '@mui/material'
+import { useTheme } from '@material-ui/core/styles'
 
 // ** Styles Components
 const DividerBox1 = styled(Box)(({ theme }) => ({
@@ -41,6 +42,8 @@ const DividerBox2 = styled(Box)(({ theme }) => ({
 const AllPost = () => {
   // set data and state
   const [slidedata, setSlideData] = useState([])
+
+const theme = useTheme()
 
   // React Multi Carousel Responsive
   const responsive = {
@@ -76,7 +79,7 @@ const AllPost = () => {
             height: isSmallScreen ? '70px' : '90px',
             marginBottom: '30px',
             padding: '15px 25px 20px',
-            backgroundColor: '#2d2e81',
+            backgroundColor: theme.palette.primary.dark,
             border: '1px solid #primary.main'
           }}
         >
