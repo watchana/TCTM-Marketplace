@@ -37,7 +37,7 @@ const LanguageAbility = forwardRef((props, ref) => {
   return (
     <form>
       {/* -----------------Language Ability--------------- */}
-      <Grid container>
+      <Grid container spacing={2}>
         <Grid item xs={12} mt={5}>
           <Paper elevation={3} style={{ borderRadius: '10px', backgroundColor: '#333399' }}>
             <Typography textAlign={'center'} variant='h5' sx={{ fontSize: 40, fontWeight: 'bold', color: 'white' }}>
@@ -45,9 +45,10 @@ const LanguageAbility = forwardRef((props, ref) => {
             </Typography>
           </Paper>
         </Grid>
-        <Grid container ml={10}>
+
+        <Grid container spacing={2} ml={10}>
           {/* -----------------Thai--------------- */}
-          <Grid item xs={1} mt={10} mr={10}>
+          <Grid item xs={12} sm={12} lg={1} mt={5} mr={10}>
             <Paper
               elevation={1}
               sx={{
@@ -58,12 +59,13 @@ const LanguageAbility = forwardRef((props, ref) => {
                 alignItems: 'center'
               }}
             >
-              <Typography textAlign={'center'} fontSize={20}>
+              <Typography variant='body2' fontWeight='bold'>
                 Thai
               </Typography>
             </Paper>
           </Grid>
-          <Grid item xs={3} mt={5} mr={10}>
+
+          <Grid item xs={12} md={3.3} lg={3} mt={5} mr={10}>
             <Paper
               elevation={1}
               sx={{
@@ -71,37 +73,41 @@ const LanguageAbility = forwardRef((props, ref) => {
                 height: 50,
                 display: 'flex',
                 justifyContent: 'center',
-                alignItems: 'center'
+                alignItems: 'center',
+                width: '100%'
               }}
             >
-              <Typography fontSize={20}>Speaking</Typography>
+              <Typography variant='body2' fontWeight='bold'>
+                Speaking
+              </Typography>
             </Paper>
+
             <RadioGroup
               row
               aria-labelledby='demo-row-radio-buttons-group-label'
               name='speak_thai'
               onChange={handle2Change}
+              sx={{ display: 'flex', justifyContent: 'center' }}
             >
               <FormControlLabel
                 value='good'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Good'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Good</Typography>}
               />
               <FormControlLabel
                 value='fair'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Fair'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Fair</Typography>}
               />
               <FormControlLabel
                 value='poor'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Poor'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Poor</Typography>}
               />
             </RadioGroup>
-            <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
           </Grid>
 
-          <Grid item xs={3} mt={5} mr={10}>
+          <Grid item xs={12} md={3.3} lg={3} mt={5} mr={10}>
             <Paper
               elevation={1}
               sx={{
@@ -112,34 +118,36 @@ const LanguageAbility = forwardRef((props, ref) => {
                 alignItems: 'center'
               }}
             >
-              <Typography fontSize={20}>Writing</Typography>
+              <Typography variant='body2' fontWeight='bold'>
+                Writing
+              </Typography>
             </Paper>
             <RadioGroup
               row
               aria-labelledby='demo-row-radio-buttons-group-label'
               name='write_thai'
               onChange={handle2Change}
+              sx={{ display: 'flex', justifyContent: 'center' }}
             >
               <FormControlLabel
                 value='good'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Good'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Good</Typography>}
               />
               <FormControlLabel
                 value='fair'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Fair'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Fair</Typography>}
               />
               <FormControlLabel
                 value='poor'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Poor'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Poor</Typography>}
               />
             </RadioGroup>
-            <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
           </Grid>
 
-          <Grid item xs={3} mt={5} mr={10}>
+          <Grid item xs={12} md={3.3} lg={3} mt={5} mr={10}>
             <Paper
               elevation={1}
               sx={{
@@ -150,35 +158,39 @@ const LanguageAbility = forwardRef((props, ref) => {
                 alignItems: 'center'
               }}
             >
-              <Typography fontSize={20}>Reading</Typography>
+              <Typography variant='body2' fontWeight='bold'>
+                Reading
+              </Typography>
             </Paper>
             <RadioGroup
               row
               aria-labelledby='demo-row-radio-buttons-group-label'
               name='read_thai'
               onChange={handle2Change}
+              sx={{ display: 'flex', justifyContent: 'center' }}
             >
               <FormControlLabel
                 value='good'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Good'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Good</Typography>}
               />
               <FormControlLabel
                 value='fair'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Fair'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Fair</Typography>}
               />
               <FormControlLabel
                 value='poor'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Poor'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Poor</Typography>}
               />
             </RadioGroup>
-            <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
           </Grid>
+        </Grid>
 
+        <Grid container spacing={2} ml={10}>
           {/* -----------------Eng--------------- */}
-          <Grid item xs={1} mt={10} mr={10}>
+          <Grid item xs={12} sm={12} lg={1} mt={5} mr={10}>
             <Paper
               elevation={1}
               sx={{
@@ -189,12 +201,12 @@ const LanguageAbility = forwardRef((props, ref) => {
                 alignItems: 'center'
               }}
             >
-              <Typography textAlign={'center'} fontSize={20}>
+              <Typography variant='body2' fontWeight='bold'>
                 English
               </Typography>
             </Paper>
           </Grid>
-          <Grid item xs={3} mt={5} mr={10}>
+          <Grid item xs={12} md={3.3} lg={3} mt={5} mr={10}>
             <Paper
               elevation={1}
               sx={{
@@ -205,34 +217,36 @@ const LanguageAbility = forwardRef((props, ref) => {
                 alignItems: 'center'
               }}
             >
-              <Typography fontSize={20}>Speaking</Typography>
+              <Typography variant='body2' fontWeight='bold'>
+                Speaking
+              </Typography>
             </Paper>
             <RadioGroup
               row
               aria-labelledby='demo-row-radio-buttons-group-label'
               name='speak_eng'
               onChange={handle2Change}
+              sx={{ display: 'flex', justifyContent: 'center' }}
             >
               <FormControlLabel
                 value='good'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Good'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Good</Typography>}
               />
               <FormControlLabel
                 value='fair'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Fair'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Fair</Typography>}
               />
               <FormControlLabel
                 value='poor'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Poor'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Poor</Typography>}
               />
             </RadioGroup>
-            <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
           </Grid>
 
-          <Grid item xs={3} mt={5} mr={10}>
+          <Grid item xs={12} md={3.3} lg={3} mt={5} mr={10}>
             <Paper
               elevation={1}
               sx={{
@@ -243,34 +257,36 @@ const LanguageAbility = forwardRef((props, ref) => {
                 alignItems: 'center'
               }}
             >
-              <Typography fontSize={20}>Writing</Typography>
+              <Typography variant='body2' fontWeight='bold'>
+                Writing
+              </Typography>
             </Paper>
             <RadioGroup
               row
               aria-labelledby='demo-row-radio-buttons-group-label'
               name='write_eng'
               onChange={handle2Change}
+              sx={{ display: 'flex', justifyContent: 'center' }}
             >
               <FormControlLabel
                 value='good'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Good'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Good</Typography>}
               />
               <FormControlLabel
                 value='fair'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Fair'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Fair</Typography>}
               />
               <FormControlLabel
                 value='poor'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Poor'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Poor</Typography>}
               />
             </RadioGroup>
-            <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
           </Grid>
 
-          <Grid item xs={3} mt={5} mr={10}>
+          <Grid item xs={12} md={3.3} lg={3} mt={5} mr={10}>
             <Paper
               elevation={1}
               sx={{
@@ -281,34 +297,39 @@ const LanguageAbility = forwardRef((props, ref) => {
                 alignItems: 'center'
               }}
             >
-              <Typography fontSize={20}>Reading</Typography>
+              <Typography variant='body2' fontWeight='bold'>
+                Reading
+              </Typography>
             </Paper>
             <RadioGroup
               row
               aria-labelledby='demo-row-radio-buttons-group-label'
               name='read_eng'
               onChange={handle2Change}
+              sx={{ display: 'flex', justifyContent: 'center' }}
             >
               <FormControlLabel
                 value='good'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Good'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Good</Typography>}
               />
               <FormControlLabel
                 value='fair'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Fair'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Fair</Typography>}
               />
               <FormControlLabel
                 value='poor'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Poor'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Poor</Typography>}
               />
             </RadioGroup>
-            <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
           </Grid>
-          {/* -----------------japan--------------- */}
-          <Grid item xs={1} mt={10} mr={10}>
+        </Grid>
+
+        {/* -----------------japan--------------- */}
+        <Grid container spacing={2} ml={10}>
+          <Grid item xs={12} sm={12} lg={1} mt={5} mr={10}>
             <Paper
               elevation={1}
               sx={{
@@ -319,12 +340,12 @@ const LanguageAbility = forwardRef((props, ref) => {
                 alignItems: 'center'
               }}
             >
-              <Typography textAlign={'center'} fontSize={20}>
+              <Typography variant='body2' fontWeight='bold'>
                 Japan
               </Typography>
             </Paper>
           </Grid>
-          <Grid item xs={3} mt={5} mr={10}>
+          <Grid item xs={12} md={3.3} lg={3} mt={5} mr={10}>
             <Paper
               elevation={1}
               sx={{
@@ -335,34 +356,36 @@ const LanguageAbility = forwardRef((props, ref) => {
                 alignItems: 'center'
               }}
             >
-              <Typography fontSize={20}>Speaking</Typography>
+              <Typography variant='body2' fontWeight='bold'>
+                Speaking
+              </Typography>
             </Paper>
             <RadioGroup
               row
               aria-labelledby='demo-row-radio-buttons-group-label'
               name='speak_japan'
               onChange={handle2Change}
+              sx={{ display: 'flex', justifyContent: 'center' }}
             >
               <FormControlLabel
                 value='good'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Good'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Good</Typography>}
               />
               <FormControlLabel
                 value='fair'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Fair'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Fair</Typography>}
               />
               <FormControlLabel
                 value='poor'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Poor'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Poor</Typography>}
               />
             </RadioGroup>
-            <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
           </Grid>
 
-          <Grid item xs={3} mt={5} mr={10}>
+          <Grid item xs={12} md={3.3} lg={3} mt={5} mr={10}>
             <Paper
               elevation={1}
               sx={{
@@ -373,34 +396,36 @@ const LanguageAbility = forwardRef((props, ref) => {
                 alignItems: 'center'
               }}
             >
-              <Typography fontSize={20}>Writing</Typography>
+              <Typography variant='body2' fontWeight='bold'>
+                Writing
+              </Typography>
             </Paper>
             <RadioGroup
               row
               aria-labelledby='demo-row-radio-buttons-group-label'
               name='write_japan'
               onChange={handle2Change}
+              sx={{ display: 'flex', justifyContent: 'center' }}
             >
               <FormControlLabel
                 value='good'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Good'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Good</Typography>}
               />
               <FormControlLabel
                 value='fair'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Fair'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Fair</Typography>}
               />
               <FormControlLabel
                 value='poor'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Poor'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Poor</Typography>}
               />
             </RadioGroup>
-            <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
           </Grid>
 
-          <Grid item xs={3} mt={5} mr={10}>
+          <Grid item xs={12} md={3.3} lg={3} mt={5} mr={10}>
             <Paper
               elevation={1}
               sx={{
@@ -411,34 +436,40 @@ const LanguageAbility = forwardRef((props, ref) => {
                 alignItems: 'center'
               }}
             >
-              <Typography fontSize={20}>Reading</Typography>
+              <Typography variant='body2' fontWeight='bold'>
+                Reading
+              </Typography>
             </Paper>
             <RadioGroup
               row
               aria-labelledby='demo-row-radio-buttons-group-label'
               name='read_japan'
               onChange={handle2Change}
+              sx={{ display: 'flex', justifyContent: 'center' }}
             >
               <FormControlLabel
                 value='good'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Good'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Good</Typography>}
               />
               <FormControlLabel
                 value='fair'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Fair'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Fair</Typography>}
               />
               <FormControlLabel
                 value='poor'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Poor'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Poor</Typography>}
               />
             </RadioGroup>
-            <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
           </Grid>
-          {/* -----------------china--------------- */}
-          <Grid item xs={1} mt={10} mr={10}>
+        </Grid>
+
+        {/* -----------------china--------------- */}
+
+        <Grid container spacing={2} ml={10}>
+          <Grid item xs={12} sm={12} lg={1} mt={5} mr={10}>
             <Paper
               elevation={1}
               sx={{
@@ -449,12 +480,12 @@ const LanguageAbility = forwardRef((props, ref) => {
                 alignItems: 'center'
               }}
             >
-              <Typography textAlign={'center'} fontSize={20}>
+              <Typography variant='body2' fontWeight='bold'>
                 China
               </Typography>
             </Paper>
           </Grid>
-          <Grid item xs={3} mt={5} mr={10}>
+          <Grid item xs={12} md={3.3} lg={3} mt={5} mr={10}>
             <Paper
               elevation={1}
               sx={{
@@ -465,34 +496,36 @@ const LanguageAbility = forwardRef((props, ref) => {
                 alignItems: 'center'
               }}
             >
-              <Typography fontSize={20}>Speaking</Typography>
+              <Typography variant='body2' fontWeight='bold'>
+                Speaking
+              </Typography>
             </Paper>
             <RadioGroup
               row
               aria-labelledby='demo-row-radio-buttons-group-label'
               name='speak_china'
               onChange={handle2Change}
+              sx={{ display: 'flex', justifyContent: 'center' }}
             >
               <FormControlLabel
                 value='good'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Good'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Good</Typography>}
               />
               <FormControlLabel
                 value='fair'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Fair'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Fair</Typography>}
               />
               <FormControlLabel
                 value='poor'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Poor'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Poor</Typography>}
               />
             </RadioGroup>
-            <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
           </Grid>
 
-          <Grid item xs={3} mt={5} mr={10}>
+          <Grid item xs={12} md={3.3} lg={3} mt={5} mr={10}>
             <Paper
               elevation={1}
               sx={{
@@ -503,34 +536,36 @@ const LanguageAbility = forwardRef((props, ref) => {
                 alignItems: 'center'
               }}
             >
-              <Typography fontSize={20}>Writing</Typography>
+              <Typography variant='body2' fontWeight='bold'>
+                Writing
+              </Typography>
             </Paper>
             <RadioGroup
               row
               aria-labelledby='demo-row-radio-buttons-group-label'
               name='write_china'
               onChange={handle2Change}
+              sx={{ display: 'flex', justifyContent: 'center' }}
             >
               <FormControlLabel
                 value='good'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Good'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Good</Typography>}
               />
               <FormControlLabel
                 value='fair'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Fair'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Fair</Typography>}
               />
               <FormControlLabel
                 value='poor'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Poor'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Poor</Typography>}
               />
             </RadioGroup>
-            <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
           </Grid>
 
-          <Grid item xs={3} mt={5} mr={10}>
+          <Grid item xs={12} md={3.3} lg={3} mt={5} mr={10}>
             <Paper
               elevation={1}
               sx={{
@@ -541,31 +576,33 @@ const LanguageAbility = forwardRef((props, ref) => {
                 alignItems: 'center'
               }}
             >
-              <Typography fontSize={20}>Reading</Typography>
+              <Typography variant='body2' fontWeight='bold'>
+                Reading
+              </Typography>
             </Paper>
             <RadioGroup
               row
               aria-labelledby='demo-row-radio-buttons-group-label'
               name='read_china'
               onChange={handle2Change}
+              sx={{ display: 'flex', justifyContent: 'center' }}
             >
               <FormControlLabel
                 value='good'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Good'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Good</Typography>}
               />
               <FormControlLabel
                 value='fair'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Fair'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Fair</Typography>}
               />
               <FormControlLabel
                 value='poor'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 34 } }} />}
-                label='Poor'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Poor</Typography>}
               />
             </RadioGroup>
-            <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
           </Grid>
         </Grid>
       </Grid>

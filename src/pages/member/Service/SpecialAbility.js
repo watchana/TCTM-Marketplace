@@ -45,103 +45,169 @@ const SpecialAbility = forwardRef((props, ref2) => {
 
   return (
     <form>
-      <Grid container>
+      <Grid>
         {/* -----------------Special Ability--------------- */}
-        <Grid item xs={12} mt={5}>
+        <Grid item xs={12} mt={5} mb={5}>
           <Paper elevation={3} style={{ borderRadius: '10px', backgroundColor: '#333399' }}>
             <Typography textAlign={'center'} variant='h5' sx={{ fontSize: 40, fontWeight: 'bold', color: 'white' }}>
               Special Ability
             </Typography>
           </Paper>
         </Grid>
+
         {/* -----------------Typing--------------- */}
-        <Grid container spacing={2} ml={10}>
-          <Grid item xs={2} mt={5}>
-            <Typography fontSize={20}>Typing</Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={12} md={4}>
+            <Typography variant='body2' fontWeight='bold' sx={{ display: 'flex', justifyContent: 'center' }}>
+              Typing
+            </Typography>
             <RadioGroup
               row
               aria-labelledby='demo-row-radio-buttons-group-label'
               name='typing_yn'
               onChange={handle2Change}
+              sx={{ display: 'flex', justifyContent: 'center' }}
             >
               <FormControlLabel
                 value='yes'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Yes'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Yes</Typography>}
               />
               <FormControlLabel
                 value='no'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='No'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>No</Typography>}
               />
             </RadioGroup>
           </Grid>
-          <Grid item xs={2} mt={5}>
-            <Typography fontSize={20}>Thai Words/Min.</Typography>
-            <TextField name='typing_thaiwords' placeholder='Thai Words/Min.' fullWidth onChange={handle2Change} />
+
+          <Grid item xs={12} sm={12} md={4}>
+            <Typography variant='body2' fontWeight='bold'>
+              Thai Words/Min.
+            </Typography>
+            <TextField
+              name='typing_thaiwords'
+              placeholder='Thai Words/Min.'
+              size='small'
+              fullWidth
+              onChange={handle2Change}
+            />
           </Grid>
-          <Grid item xs={2.3} mt={5} mr={130}>
-            <Typography fontSize={20}>English Words/Min.</Typography>
-            <TextField name='typing_engwords' placeholder='English Words/Min.' fullWidth onChange={handle2Change} />
+          <Grid item xs={12} sm={12} md={4}>
+            <Typography variant='body2' fontWeight='bold'>
+              English Words/Min.
+            </Typography>
+            <TextField
+              name='typing_engwords'
+              placeholder='English Words/Min.'
+              size='small'
+              fullWidth
+              onChange={handle2Change}
+            />
           </Grid>
           {/* -----------------computer--------------- */}
-          <Grid item xs={2} mt={5}>
-            <Typography fontSize={20}>computer</Typography>
-            <RadioGroup row aria-labelledby='demo-row-radio-buttons-group-label' name='com_yn' onChange={handle2Change}>
+        </Grid>
+
+        {/* -----------------Driving--------------- */}
+
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={12} md={4} mt={5}>
+            <Typography variant='body2' fontWeight='bold' sx={{ display: 'flex', justifyContent: 'center' }}>
+              computer
+            </Typography>
+            <RadioGroup
+              row
+              aria-labelledby='demo-row-radio-buttons-group-label'
+              name='com_yn'
+              onChange={handle2Change}
+              sx={{ display: 'flex', justifyContent: 'center' }}
+            >
               <FormControlLabel
                 value='yes'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Yes'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Yes</Typography>}
               />
               <FormControlLabel
                 value='no'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='No'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>No</Typography>}
               />
             </RadioGroup>
           </Grid>
-          <Grid item xs={6} mt={5} mr={90}>
-            <Typography fontSize={20}>Please Mention</Typography>
-            <TextField name='mention_com' placeholder='Please Mention' fullWidth onChange={handle2Change} />
+          <Grid item xs={12} sm={12} md={8}>
+            <Typography variant='body2' fontWeight='bold'>
+              Please Mention
+            </Typography>
+            <TextField
+              name='mention_com'
+              placeholder='Please Mention'
+              size='small'
+              fullWidth
+              onChange={handle2Change}
+            />
           </Grid>
-          {/* -----------------Driving--------------- */}
-          <Grid item xs={2} mt={5}>
-            <Typography fontSize={20}>Driving</Typography>
+        </Grid>
+
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={12} md={4} mt={5}>
+            <Typography sx={{ display: 'flex', justifyContent: 'center' }} variant='body2' fontWeight='bold'>
+              Driving
+            </Typography>
             <RadioGroup
               row
               aria-labelledby='demo-row-radio-buttons-group-label'
               name='driving_yn'
               onChange={handle2Change}
+              sx={{ display: 'flex', justifyContent: 'center' }}
             >
               <FormControlLabel
                 value='yes'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Yes'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Yes</Typography>}
               />
               <FormControlLabel
                 value='no'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='No'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>No</Typography>}
               />
             </RadioGroup>
           </Grid>
-          <Grid item xs={6} mt={5}>
-            <Typography fontSize={20}>Driving License No.</Typography>
-            <TextField name='dlicense_no' placeholder='Driving License No.' fullWidth onChange={handle2Change} />
+          <Grid item xs={12} sm={12} md={2.66}>
+            <Typography variant='body2' fontWeight='bold'>
+              Driving License No.
+            </Typography>
+            <TextField
+              name='dlicense_no'
+              placeholder='Driving License No.'
+              size='small'
+              fullWidth
+              onChange={handle2Change}
+            />
           </Grid>
           {/* -----------------Office Machine--------------- */}
-          <Grid item xs={8} mt={5}>
-            <Typography fontSize={20}>Office Machine</Typography>
-            <TextField name='office_machine' placeholder='Office Machine' fullWidth onChange={handle2Change} />
+          <Grid item xs={12} sm={12} md={2.66}>
+            <Typography variant='body2' fontWeight='bold'>
+              Office Machine
+            </Typography>
+            <TextField
+              name='office_machine'
+              placeholder='Office Machine'
+              size='small'
+              fullWidth
+              onChange={handle2Change}
+            />
           </Grid>
           {/* -----------------Special knowledge Please Mention--------------- */}
-          <Grid item xs={8} mt={5}>
-            <Typography fontSize={20}>Special knowledge Please Mention</Typography>
+          <Grid item xs={12} sm={12} md={2.66}>
+            <Typography variant='body2' fontWeight='bold'>
+              Special knowledge Please Mention
+            </Typography>
             <TextField
               name='knowledge_mention'
               placeholder='Special knowledge Please Mention'
               fullWidth
               onChange={handle2Change}
+              size='small'
             />
           </Grid>
         </Grid>

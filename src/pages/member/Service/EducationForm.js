@@ -49,38 +49,66 @@ const Education = forwardRef((props, ref) => {
       <Grid container spacing={2}>
         <Grid item xs={12} mt={5}>
           <Paper elevation={3} style={{ borderRadius: '10px', backgroundColor: '#333399' }}>
-            <Typography textAlign={'center'} variant='h5' sx={{ fontSize: 40, fontWeight: 'bold', color: 'white' }}>
+            <Typography
+              textAlign={'center'}
+              variant='h5'
+              sx={{ fontWeight: 'bold', fontSize: { xs: '1.3rem', sm: '1.8rem', md: '2.3rem' }, color: 'white' }}
+            >
               Education
             </Typography>
           </Paper>
         </Grid>
         {/* -----------------ประถม--------------- */}
-        <Grid item xs={6} mt={5}>
-          <Typography fontWeight={'bold'} fontSize={20}>
+        <Grid item xs={12} sm={6}>
+          <Typography variant='body2' fontWeight='bold'>
             Elementary Level
           </Typography>
-          <TextField name='elementary_level' placeholder='Elementary Level' fullWidth onChange={handle2Change} />
+          <TextField
+            name='elementary_level'
+            placeholder='Elementary Level'
+            size='small'
+            fullWidth
+            onChange={handle2Change}
+          />
         </Grid>
-        <Grid item xs={6} mt={5}>
-          <Typography fontSize={20}>City/State</Typography>
-          <TextField name='city_state_ele' placeholder='CityState' fullWidth onChange={handle2Change} />
+
+        <Grid item xs={12} sm={6}>
+          <Typography variant='body2' fontWeight='bold'>
+            City/State
+          </Typography>
+          <TextField name='city_state_ele' placeholder='CityState' fullWidth size='small' onChange={handle2Change} />
         </Grid>
+
         {/* -----------------วันเริ่ม--------------- */}
-        <Grid item xs={2} mt={5}>
-          <Typography fontSize={20}>From</Typography>
+        <Grid item xs={12} sm={6} md={4} lg={2} xl={2}>
+          <Typography variant='body2' fontWeight='bold'>
+            From
+          </Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker onChange={date => (ref.current.dateelement_start = date)} />
+            <DatePicker
+              slotProps={{ textField: { size: 'small' } }}
+              onChange={date => (ref.current.dateelement_start = date)}
+            />
           </LocalizationProvider>
         </Grid>
-        <Grid item xs={2} mt={5}>
-          <Typography fontSize={20}>To</Typography>
+
+        <Grid item xs={12} sm={6} md={4} lg={2} xl={2}>
+          <Typography variant='body2' fontWeight='bold'>
+            To
+          </Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker onChange={date => (ref.current.dateelement_end = date)} />
+            <DatePicker
+              slotProps={{ textField: { size: 'small' } }}
+              onChange={date => (ref.current.dateelement_end = date)}
+            />
           </LocalizationProvider>
         </Grid>
+
         {/* -----------------วันจบ--------------- */}
-        <Grid item xs={2} mt={5} ml={5}>
-          <Typography fontSize={20}>Graduate ?</Typography>
+        <Grid item xs={12}>
+          <Typography variant='body2' fontWeight='bold'>
+            Graduate ?
+          </Typography>
           <RadioGroup
             row
             aria-labelledby='demo-row-radio-buttons-group-label'
@@ -89,41 +117,57 @@ const Education = forwardRef((props, ref) => {
           >
             <FormControlLabel
               value='yes'
-              control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-              label='Yes'
+              control={<Radio size='small' />}
+              label={<Typography variant='body2'>Yes</Typography>}
             />
             <FormControlLabel
               value='no'
-              control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-              label='No'
+              control={<Radio size='small' />}
+              label={<Typography variant='body2'>No</Typography>}
             />
           </RadioGroup>
         </Grid>
+
         {/* -----------------มัธยมต้น--------------- */}
-        <Grid item xs={6} mt={5}>
-          <Typography fontWeight={'bold'} fontSize={20}>
+        <Grid item xs={12} sm={6}>
+          <Typography variant='body2' fontWeight='bold'>
             Middle School
           </Typography>
-          <TextField name='middle_school' placeholder='Middle School' fullWidth onChange={handle2Change} />
+          <TextField name='middle_school' placeholder='Middle School' size='small' fullWidth onChange={handle2Change} />
         </Grid>
-        <Grid item xs={6} mt={5}>
-          <Typography fontSize={20}>City/State</Typography>
-          <TextField name='city_state_md' placeholder='City/State' fullWidth onChange={handle2Change} />
+        <Grid item xs={12} sm={6}>
+          <Typography variant='body2' fontWeight='bold'>
+            City/State
+          </Typography>
+          <TextField name='city_state_md' placeholder='City/State' size='small' fullWidth onChange={handle2Change} />
         </Grid>
-        <Grid item xs={2} mt={5}>
-          <Typography fontSize={20}>From</Typography>
+        <Grid item xs={12} sm={6} md={4} lg={2} xl={2}>
+          <Typography variant='body2' fontWeight='bold'>
+            From
+          </Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker onChange={date => (ref.current.mddate_start = date)} />
+            <DatePicker
+              slotProps={{ textField: { size: 'small' } }}
+              onChange={date => (ref.current.mddate_start = date)}
+            />
           </LocalizationProvider>
         </Grid>
-        <Grid item xs={2} mt={5}>
-          <Typography fontSize={20}>To</Typography>
+        <Grid item xs={12} sm={6} md={4} lg={2} xl={2}>
+          <Typography variant='body2' fontWeight='bold'>
+            To
+          </Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker onChange={date => (ref.current.mddate_end = date)} />
+            <DatePicker
+              slotProps={{ textField: { size: 'small' } }}
+              onChange={date => (ref.current.mddate_end = date)}
+            />
           </LocalizationProvider>
         </Grid>
-        <Grid item xs={2} mt={5} ml={5}>
-          <Typography fontSize={20}>Graduate ?</Typography>
+
+        <Grid item xs={12}>
+          <Typography variant='body2' fontWeight='bold'>
+            Graduate ?
+          </Typography>
           <RadioGroup
             row
             aria-labelledby='demo-row-radio-buttons-group-label'
@@ -132,19 +176,19 @@ const Education = forwardRef((props, ref) => {
           >
             <FormControlLabel
               value='yes'
-              control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-              label='Yes'
+              control={<Radio size='small' />}
+              label={<Typography variant='body2'>Yes</Typography>}
             />
             <FormControlLabel
               value='no'
-              control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-              label='No'
+              control={<Radio size='small' />}
+              label={<Typography variant='body2'>No</Typography>}
             />
           </RadioGroup>
         </Grid>
         {/* -----------------มัธยมปลาย--------------- */}
-        <Grid item xs={6} mt={5}>
-          <Typography fontWeight={'bold'} fontSize={20}>
+        <Grid item xs={12} sm={6}>
+          <Typography variant='body2' fontWeight='bold'>
             Hight School/Cert. Of Voc.Ed.
           </Typography>
           <TextField
@@ -152,26 +196,41 @@ const Education = forwardRef((props, ref) => {
             placeholder='Hight School/Cert. Of Voc.Ed.'
             fullWidth
             onChange={handle2Change}
+            size='small'
           />
         </Grid>
-        <Grid item xs={6} mt={5}>
-          <Typography fontSize={20}>City/State</Typography>
-          <TextField name='city_state_h' placeholder='City/State' fullWidth onChange={handle2Change} />
+        <Grid item xs={12} sm={6}>
+          <Typography variant='body2' fontWeight='bold'>
+            City/State
+          </Typography>
+          <TextField name='city_state_h' placeholder='City/State' size='small' fullWidth onChange={handle2Change} />
         </Grid>
-        <Grid item xs={2} mt={5}>
-          <Typography fontSize={20}>From</Typography>
+        <Grid item xs={12} sm={6} md={4} lg={2} xl={2}>
+          <Typography variant='body2' fontWeight='bold'>
+            From
+          </Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker onChange={date => (ref.current.hidate_start = date)} />
+            <DatePicker
+              slotProps={{ textField: { size: 'small' } }}
+              onChange={date => (ref.current.hidate_start = date)}
+            />
           </LocalizationProvider>
         </Grid>
-        <Grid item xs={2} mt={5}>
-          <Typography fontSize={20}>To</Typography>
+        <Grid item xs={12} sm={6} md={4} lg={2} xl={2}>
+          <Typography variant='body2' fontWeight='bold'>
+            To
+          </Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker onChange={date => (ref.current.hidate_end = date)} />
+            <DatePicker
+              slotProps={{ textField: { size: 'small' } }}
+              onChange={date => (ref.current.hidate_end = date)}
+            />
           </LocalizationProvider>
         </Grid>
-        <Grid item xs={2} mt={5} ml={5}>
-          <Typography fontSize={20}>Graduate ?</Typography>
+        <Grid item xs={12}>
+          <Typography variant='body2' fontWeight='bold'>
+            Graduate ?
+          </Typography>
           <RadioGroup
             row
             aria-labelledby='demo-row-radio-buttons-group-label'
@@ -180,41 +239,58 @@ const Education = forwardRef((props, ref) => {
           >
             <FormControlLabel
               value='yes'
-              control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-              label='Yes'
+              control={<Radio size='small' />}
+              label={<Typography variant='body2'>Yes</Typography>}
             />
             <FormControlLabel
               value='no'
-              control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-              label='No'
+              control={<Radio size='small' />}
+              label={<Typography variant='body2'>No</Typography>}
             />
           </RadioGroup>
         </Grid>
+
         {/* -----------------ปวส--------------- */}
-        <Grid item xs={6} mt={5}>
-          <Typography fontWeight={'bold'} fontSize={20}>
+        <Grid item xs={12} sm={6}>
+          <Typography variant='body2' fontWeight='bold'>
             High Voc. Cert.
           </Typography>
-          <TextField name='high_voc' placeholder='High Voc. Cert.' fullWidth onChange={handle2Change} />
+          <TextField name='high_voc' placeholder='High Voc. Cert.' size='small' fullWidth onChange={handle2Change} />
         </Grid>
-        <Grid item xs={6} mt={5}>
-          <Typography fontSize={20}>City/State</Typography>
-          <TextField name='city_state_hv' placeholder='City/State' fullWidth onChange={handle2Change} />
+        <Grid item xs={12} sm={6}>
+          <Typography variant='body2' fontWeight='bold'>
+            City/State
+          </Typography>
+          <TextField name='city_state_hv' placeholder='City/State' size='small' fullWidth onChange={handle2Change} />
         </Grid>
-        <Grid item xs={2} mt={5}>
-          <Typography fontSize={20}>From</Typography>
+
+        <Grid item xs={12} sm={6} md={4} lg={2} xl={2}>
+          <Typography variant='body2' fontWeight='bold'>
+            From
+          </Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker onChange={date => (ref.current.hvdate_start = date)} />
+            <DatePicker
+              slotProps={{ textField: { size: 'small' } }}
+              onChange={date => (ref.current.hvdate_start = date)}
+            />
           </LocalizationProvider>
         </Grid>
-        <Grid item xs={2} mt={5}>
-          <Typography fontSize={20}>To</Typography>
+        <Grid item xs={12} sm={6} md={4} lg={2} xl={2}>
+          <Typography variant='body2' fontWeight='bold'>
+            To
+          </Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker onChange={date => (ref.current.hvdate_end = date)} />
+            <DatePicker
+              slotProps={{ textField: { size: 'small' } }}
+              onChange={date => (ref.current.hvdate_end = date)}
+            />
           </LocalizationProvider>
         </Grid>
-        <Grid item xs={2} mt={5} ml={5}>
-          <Typography fontSize={20}>Graduate ?</Typography>
+
+        <Grid item xs={12}>
+          <Typography variant='body2' fontWeight='bold'>
+            Graduate ?
+          </Typography>
           <RadioGroup
             row
             aria-labelledby='demo-row-radio-buttons-group-label'
@@ -223,41 +299,55 @@ const Education = forwardRef((props, ref) => {
           >
             <FormControlLabel
               value='yes'
-              control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-              label='Yes'
+              control={<Radio size='small' />}
+              label={<Typography variant='body2'>Yes</Typography>}
             />
             <FormControlLabel
               value='no'
-              control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-              label='No'
+              control={<Radio size='small' />}
+              label={<Typography variant='body2'>No</Typography>}
             />
           </RadioGroup>
         </Grid>
         {/* -----------------มหาลัย--------------- */}
-        <Grid item xs={6} mt={5}>
-          <Typography fontWeight={'bold'} fontSize={20}>
+        <Grid item xs={12} sm={6}>
+          <Typography variant='body2' fontWeight='bold'>
             College
           </Typography>
-          <TextField name='college' placeholder='College' fullWidth onChange={handle2Change} />
+          <TextField name='college' placeholder='College' size='small' fullWidth onChange={handle2Change} />
         </Grid>
-        <Grid item xs={6} mt={5}>
-          <Typography fontSize={20}>City/State</Typography>
-          <TextField name='city_state_co' placeholder='City/State' fullWidth onChange={handle2Change} />
+        <Grid item xs={12} sm={6}>
+          <Typography variant='body2' fontWeight='bold'>
+            City/State
+          </Typography>
+          <TextField name='city_state_co' placeholder='City/State' size='small' fullWidth onChange={handle2Change} />
         </Grid>
-        <Grid item xs={2} mt={5}>
-          <Typography fontSize={20}>From</Typography>
+        <Grid item xs={12} sm={6} md={4} lg={2} xl={2}>
+          <Typography variant='body2' fontWeight='bold'>
+            From
+          </Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker onChange={date => (ref.current.collegedate_start = date)} />
+            <DatePicker
+              slotProps={{ textField: { size: 'small' } }}
+              onChange={date => (ref.current.collegedate_start = date)}
+            />
           </LocalizationProvider>
         </Grid>
-        <Grid item xs={2} mt={5}>
-          <Typography fontSize={20}>To</Typography>
+        <Grid item xs={12} sm={6} md={4} lg={2} xl={2}>
+          <Typography variant='body2' fontWeight='bold'>
+            To
+          </Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker onChange={date => (ref.current.collegedate_end = date)} />
+            <DatePicker
+              slotProps={{ textField: { size: 'small' } }}
+              onChange={date => (ref.current.collegedate_end = date)}
+            />
           </LocalizationProvider>
         </Grid>
-        <Grid item xs={2} mt={5} ml={5}>
-          <Typography fontSize={20}>Graduate ?</Typography>
+        <Grid item xs={12}>
+          <Typography variant='body2' fontWeight='bold'>
+            Graduate ?
+          </Typography>
           <RadioGroup
             row
             aria-labelledby='demo-row-radio-buttons-group-label'
@@ -266,13 +356,13 @@ const Education = forwardRef((props, ref) => {
           >
             <FormControlLabel
               value='yes'
-              control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-              label='Yes'
+              control={<Radio size='small' />}
+              label={<Typography variant='body2'>Yes</Typography>}
             />
             <FormControlLabel
               value='no'
-              control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-              label='No'
+              control={<Radio size='small' />}
+              label={<Typography variant='body2'>No</Typography>}
             />
           </RadioGroup>
         </Grid>
