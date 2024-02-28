@@ -389,6 +389,7 @@ const ProductDetails = ({}) => {
                     ? `/imgTctmProduct/${productimg[stateImages].image_file_name}`
                     : ''
                 }
+                loading='lazy' // Add this line for lazy loading
                 alt={`Image ${stateImages + 1}`}
                 sx={{
                   width: '70%',

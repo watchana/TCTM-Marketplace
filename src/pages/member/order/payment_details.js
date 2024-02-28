@@ -129,7 +129,6 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
       process_status: Tonen
     }
 
-    console.log('Send Data', data)
 
     // ตรวจสอบค่าว่างใน TextField
     if (FileName === '' || Tracking === '' || selectDelivery === '') {
@@ -143,10 +142,6 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
 
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.send_tracking`, data)
-      Swal.fire({
-        icon: 'success',
-        title: 'Success'
-      })
 
       // เรียกใช้ฟังก์ชัน อัปโหลดไฟล์รูปภาพลงเครื่อง
       const formData = new FormData()
