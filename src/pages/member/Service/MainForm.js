@@ -202,7 +202,7 @@ const MainForm = ({ PDF_File }) => {
         keywords={SeoServiceRegisterpage.keywords}
         content={SeoServiceRegisterpage.content}
       />
-      <Paper elevation={3} style={{ padding: '60px' }}>
+      <Paper elevation={3} style={{ padding: '40px' }}>
         {/* ----------------information---------------- */}
         <div id='page-1'>
           <Information ref={formdataref} />

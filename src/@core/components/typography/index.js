@@ -27,7 +27,7 @@ const typography = {
   subtitle2: { variant: 'body1', fontSize: '15px' },
 
   body1: { variant: 'body1', fontSize: '1rem' },
-  body2: { variant: 'body2', fontSize: '0.875rem' }
+  body2: { variant: 'body2', fontSize: { xs: '0.6rem', sm: '0.6.5rem', md: '0.86rem' }, fontWeight: 'bold' }
 }
 
 export default typography
