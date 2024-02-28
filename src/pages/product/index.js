@@ -65,7 +65,7 @@ const ProductDetails = ({}) => {
   const FirstImage = productimg && productimg[0] ? productimg[0].image_file_name : null // ตัวแปรเก็บข้อมูลรูปภาพตัวอย่าง
   const [loadingData, setLoadingData] = useState(0)
 
-const theme = useTheme()
+  const theme = useTheme()
 
   // ตัวแปรเก็บการแสดงราคา
   const totalPrice = price * quantity
@@ -389,6 +389,7 @@ const theme = useTheme()
                     ? `/imgTctmProduct/${productimg[stateImages].image_file_name}`
                     : ''
                 }
+                loading='lazy' // Add this line for lazy loading
                 alt={`Image ${stateImages + 1}`}
                 sx={{
                   width: '70%',

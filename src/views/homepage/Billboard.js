@@ -134,6 +134,7 @@ const Billboard = () => {
                               image={`imgBillboard/${item.bill_name}`}
                               alt={item.bill_name}
                               style={{ width: 'auto', height: '100%' }}
+                              loading='lazy' // Add this line for lazy loading
                             />
                           </Box>
                         </Card>
@@ -204,6 +205,7 @@ const Billboard = () => {
                                 src={`/imgBillboard/${item.bill_name}`}
                                 alt={`image`}
                                 height='auto'
+                                loading='lazy' // Add this line for lazy loading
                               />
                             </Box>
                           ))}
@@ -273,6 +275,7 @@ const Billboard = () => {
                                 src={`/imgBillboard/${item.bill_name}`}
                                 alt={`image`}
                                 height='auto'
+                                loading='lazy' // Add this line for lazy loading
                               />
                             </Box>
                           ))}
