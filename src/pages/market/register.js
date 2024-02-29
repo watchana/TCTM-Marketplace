@@ -44,12 +44,11 @@ import { SeoMarketRegisterpage } from 'src/seo/homepage'
 import typography from 'src/@core/components/typography'
 import { useTheme } from '@material-ui/core/styles'
 
-
 const RegisterSupplier = () => {
   // ** Hook
   const router = useRouter()
 
-const theme = useTheme()
+  const theme = useTheme()
 
   // รับค่าตัวแปร
   const [storename, setStoreName] = useState('') // ตัวแปรเก็บค่า storename
@@ -195,9 +194,9 @@ const theme = useTheme()
         sub_book_bank_name: bookbankname,
         sub_pay_name: paypalname,
         sub_pay_number: paypalnumber,
-        sup_apikey: apikey,
-        sup_apisecret: apisecret,
-        sup_hostaddress: hostaddress
+        sup_apikey: apikey || '',
+        sup_apisecret: apisecret || '',
+        sup_hostaddress: hostaddress || ''
       }
 
       // console.log('data', data)
