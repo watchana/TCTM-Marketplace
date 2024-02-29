@@ -200,7 +200,7 @@ const UserDropdown = () => {
         {/* ปุ่ม service */}
         <MenuItem
           sx={{ p: 0 }}
-          onClick={() => handleDropdownClose('/member/servicepost/')}
+          onClick={() => handleDropdownClose('/member/servicepost/AllserviceReply/')}
           style={{ display: role === 'USER' && user_status === '3' ? 'block' : 'none' }}
         >
           <Box sx={styles}>

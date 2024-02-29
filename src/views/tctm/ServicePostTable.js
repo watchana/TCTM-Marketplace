@@ -11,6 +11,7 @@ import axios from 'axios'
 const ServiceTable = ({ rows }) => {
   const [tableRows, setTableRows] = useState(rows) //เก็บข้อมูล Row ใน table
   const [SerID, setSerID] = useState(rows) //เก็บข้อมูล Sub id
+  console.log('SerID999', SerID)
 
   // ตัวแปรเก็บ State Select ไว้ชั่วคราว
   const [SerIDSelected, setSerIDSelected] = useState(null)

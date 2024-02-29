@@ -203,7 +203,7 @@ const Service = () => {
   return (
     <StyledDataGrid
       autoHeight
-      rows={(Userlist || []).filter(val => val.ser_status === '2').map(val => ({ ...val, id: val.ser_id.toString() }))} // กรองแถวที่มี ser_status เท่ากับ 2 และเพิ่มคุณสมบัติ id ในแต่ละแถว
+      rows={(Userlist || []).filter(val => val.ser_status === '3').map(val => ({ ...val, id: val.ser_id.toString() }))} // กรองแถวที่มี ser_status เท่ากับ 2 และเพิ่มคุณสมบัติ id ในแต่ละแถว
       getRowId={val => val.id} // กำหนดให้ใช้คุณสมบัติ id เป็น id ของแถว
       columns={[
         { field: 'ser_id', headerName: 'ID', width: 120 },
@@ -219,7 +219,7 @@ const Service = () => {
             if (subStatus === '1') {
               chipColor = 'warning'
               chipLabel = 'Waiting'
-            } else if (subStatus === '2') {
+            } else if (subStatus === '3') {
               chipColor = 'success'
               chipLabel = 'Normal'
             } else if (subStatus === '0') {
