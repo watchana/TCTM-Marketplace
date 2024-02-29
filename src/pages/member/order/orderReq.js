@@ -5,7 +5,18 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { Container, Breadcrumbs, Grid, Hidden, Typography, Card, CardContent, Button, Box } from '@mui/material'
+import {
+  Container,
+  Breadcrumbs,
+  Grid,
+  Hidden,
+  Typography,
+  Card,
+  CardContent,
+  Button,
+  Box,
+  useMediaQuery
+} from '@mui/material'
 
 // ** Material-UI Icons Imports
 import CreditCardIcon from '@mui/icons-material/CreditCard'
@@ -19,6 +30,8 @@ import TablePayment from './tablepayment'
 
 //** Axios Import
 import axios from 'axios'
+import typography from 'src/@core/components/typography'
+import { useTheme } from '@material-ui/core/styles'
 
 const OrderReq = () => {
   // ใช้งาน Router
@@ -53,43 +66,47 @@ const OrderReq = () => {
     fetchData()
   }, [sub_id, invoice_id])
 
+  const isSmallScreen = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+
+const theme = useTheme()
+
   return (
     <Container maxWidth='xl'>
       <Box>
         <Box sx={{ width: '100%' }}>
           <Card
             sx={{
-              height: '100px',
+              height: isSmallScreen ? '70px' : '90px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
-              backgroundColor: '#2d2e81',
+              backgroundColor: theme.palette.primary.dark,
               border: '1px solid #primary.main'
             }}
           >
             <Grid container alignItems='center'>
               <Grid item xs={12} sm={8} md={8}>
-                <Typography variant='h4' fontSize='21px bold' color='#fff'>
+                <Typography sx={typography.h1.title} color='#fff'>
                   Payment
                 </Typography>
                 <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
                   <Link href='/' passHref>
-                    <Typography color='#fff' variant='h6' fontSize='14px' sx={{ cursor: 'pointer' }}>
+                    <Typography sx={typography.subtitle1.title} color='#fff'>
                       Home
                     </Typography>
                   </Link>
                   <Link href='/member/order/myoder/' passHref>
-                    <Typography color='#fff' variant='h6' fontSize='14px' sx={{ cursor: 'pointer' }}>
+                    <Typography sx={typography.subtitle1.title} color='#fff'>
                       my order
                     </Typography>
                   </Link>
-                  <Typography color='#fff' variant='h6' fontSize='14px'>
+                  <Typography sx={typography.subtitle1.title} color='#fff'>
                     Payment
                   </Typography>
                 </Breadcrumbs>
               </Grid>
               <Hidden smDown>
                 <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <CreditCardIcon sx={{ fontSize: 72, color: '#fff' }} />
+                  <CreditCardIcon sx={{ fontSize: 50, color: '#fff' }} />
                 </Grid>
               </Hidden>
             </Grid>

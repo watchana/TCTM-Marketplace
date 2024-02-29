@@ -24,25 +24,25 @@ import ChevronRight from 'mdi-material-ui/ChevronRight'
 import axios from 'axios'
 
 // ** Component Import
-import DialogPost from './DialogPost'
-import DialogEdit from './DialogEdit'
+import ServicePo from './ServicePost'
+import ServiceEdit from './ServiceEdit'
 
 // ** Auth Check
 import { withAuth } from 'src/@core/utils/AuthCheck'
 
 // Responsive image
 import { useMediaQuery } from '@mui/material'
-
-// SEO
-
-import { SeoPostpage } from 'src/seo/homepage'
-import MySeo from 'src/pages/seo'
 import typography from 'src/@core/components/typography'
 import { useTheme } from '@material-ui/core/styles'
 
-const Posts = () => {
+const ServicePosts = () => {
   // ** Router ของ Next.js
   const router = useRouter()
+
+  const handleClick = () => {
+    // ทำการเด้งไปหน้าอื่น ในที่นี้เราเด้งไปที่หน้า '/otherpage'
+    router.push('/member/servicepost/ServicePost')
+  }
 
 const theme = useTheme()
 
@@ -73,7 +73,7 @@ const theme = useTheme()
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API}TCTM.requirements.allrequirement?user_id=${userId}`
+          `${process.env.NEXT_PUBLIC_API}TCTM.requirements.get_all_ser_requirement?user_id=${userId}`
         )
         setMyPose(response.data.message.Data)
       } catch (error) {
@@ -142,10 +142,10 @@ const theme = useTheme()
   } // นะโมมมมมมมมมมมมมมม!!
 
   const columns = [
-    { field: 'req_id', headerName: 'ID', minWidth: 100 },
-    { field: 'req_header', headerName: 'Title', minWidth: 250 },
+    { field: 'name', headerName: 'ID', minWidth: 100 },
+    { field: 'ser_req_header', headerName: 'Title', minWidth: 250 },
     {
-      field: 'req_status',
+      field: 'ser_req_status',
       headerName: 'Po Status',
       minWidth: 200,
       renderCell: rowCell => {
@@ -176,6 +176,7 @@ const theme = useTheme()
         return formattedCreation
       }
     },
+
     {
       field: 'Detail',
       headerName: 'Detail',
@@ -190,47 +191,46 @@ const theme = useTheme()
             variant='outlined'
             onClick={handleDetailClick}
             endIcon={<EyeOutline />}
-            disabled={rowCell.row.req_status === '1'}
+            disabled={rowCell.row.ser_req_status === '1'}
           >
             View
           </Button>
         )
       }
-    },
-    {
-      field: 'Edit',
-      headerName: 'Edit Port',
-      minWidth: 150,
-      renderCell: rowCell => (
-        <Button variant='contained' onClick={() => handleEditButtonClick(rowCell.row)} endIcon={<EditIcon />}>
-          Edit
-        </Button>
-      )
-    },
-    {
-      field: 'Delete',
-      headerName: 'Delete',
-      width: 80,
-      renderCell: cellValues => {
-        return (
-          <Button variant='text' onClick={() => handleDeleteSubmit(cellValues.row.req_id)} color='error'>
-            <DeleteIcon />
-          </Button>
-        )
-      }
     }
+
+    // {
+    //   field: 'Edit',
+    //   headerName: 'Edit Port',
+    //   minWidth: 150,
+    //   renderCell: rowCell => (
+    //     <Button variant='contained' onClick={() => handleEditButtonClick(rowCell.row)} endIcon={<EditIcon />}>
+    //       Edit
+    //     </Button>
+    //   )
+    // },
+    // {
+    //   field: 'Delete',
+    //   headerName: 'Delete',
+    //   width: 80,
+    //   renderCell: cellValues => {
+    //     return (
+    //       <Button variant='text' onClick={() => handleDeleteSubmit(cellValues.row.req_id)} color='error'>
+    //         <DeleteIcon />
+    //       </Button>
+    //     )
+    //   }
+    // }
   ]
 
   const isSmallScreen = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
+  useEffect(() => {
+    console.log('262', myPose)
+  }, [myPose])
+
   return (
     <Container maxWidth='xl'>
-      <MySeo
-        title={'Post'}
-        description={SeoPostpage.description}
-        keywords={SeoPostpage.keywords}
-        content={SeoPostpage.content}
-      />
       <Box>
         <Box sx={{ width: '100%' }}>
           <Card
@@ -292,7 +292,7 @@ const theme = useTheme()
                     My Posts
                   </Typography>
                   {/* ---------- Button POST ---------- */}
-                  <Button variant='contained' onClick={() => setOpenDialogPost(true)}>
+                  <Button variant='contained' onClick={handleClick}>
                     ADD Post
                   </Button>
                 </Box>
@@ -303,7 +303,7 @@ const theme = useTheme()
                       <DataGrid
                         rows={myPose}
                         columns={columns}
-                        getRowId={row => row.req_id}
+                        getRowId={row => row.ser_req_id}
                         pageSize={5}
                         rowsPerPageOptions={[5, 10, 20]}
                       />
@@ -327,11 +327,11 @@ const theme = useTheme()
         </Box>
       </Box>
       {/* 📨📨 Props 📨📨 */}
-      <DialogPost open={openDialogPost} handleClose={() => setOpenDialogPost(false)} userId={userId} />
-      <DialogEdit open={openDialogEdit} handleClose={() => setOpenDialogEdit(false)} Data={row} />
+
+      <ServiceEdit open={openDialogEdit} handleClose={() => setOpenDialogEdit(false)} Data={row} />
       {/* 📨📨 Props 📨📨 */}
     </Container>
   )
 }
 
-export default withAuth(Posts)
+export default withAuth(ServicePosts)

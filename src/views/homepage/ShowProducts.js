@@ -15,18 +15,7 @@ import axios from 'axios'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import { useMediaQuery } from '@mui/material'
-
-const images = [
-  'https://imagen.research.google/main_gallery_images/cactus.jpg',
-  'https://imagen.research.google/main_gallery_images/an-alien-octopus-floats.jpg',
-  'https://imagen.research.google/main_gallery_images/android-mascot-made-from-bamboo.jpg',
-  'https://imagen.research.google/main_gallery_images/a-robot-couple-fine-dining.jpg',
-  'https://imagen.research.google/main_gallery_images/teddy-bear-swimming-butterfly.jpg',
-  'https://imagen.research.google/main_gallery_images/a-brain-riding-a-rocketship.jpg',
-  'https://imagen.research.google/main_gallery_images/a-dog-looking-curiously.jpg',
-  'https://imagen.research.google/main_gallery_images/the-toronto-skyline-with-google-brain-logo.jpg',
-  'https://gweb-research-imagen.web.app/compositional/A%20photo%20of%20a%20fuzzy%20panda%20wearing%20a%20sunglasses%20and%20black%20leather%20jacket%20skateboarding%20on%20a%20beach./0_.jpeg'
-]
+import { useTheme } from '@material-ui/core/styles'
 
 // ** Styles Components
 const DividerBox1 = styled(Box)(({ theme }) => ({
@@ -53,6 +42,8 @@ const ShowProducts = () => {
   // set data and state
   const [slidedata, setSlideData] = useState([])
 
+  const theme = useTheme()
+
   // React Multi Carousel Responsive
   const responsive = {
     desktopLarge: { breakpoint: { max: 3000, min: 2300 }, items: 5 },
@@ -78,7 +69,9 @@ const ShowProducts = () => {
     fetchData()
   }, [])
 
-  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+  const isSmallScreen = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+
+  console.log(slidedata)
 
   return (
     <Container maxWidth='xl'>
@@ -88,7 +81,7 @@ const ShowProducts = () => {
             height: isSmallScreen ? '50px' : '60px',
             display: 'flex',
             justifyContent: 'flex-end',
-            backgroundColor: '#3A46A7',
+            backgroundColor: theme.palette.primary.dark,
             borderRadius: '6px',
             border: '1px solid #primary.main'
           }}
@@ -99,9 +92,10 @@ const ShowProducts = () => {
             <Typography
               variant='h5'
               fontSize='32px'
+              color={theme.palette.grey[50]}
               sx={{
                 fontSize: { xs: '1.5rem', sm: '2rem', md: '2.3rem' },
-                color: '#FFFFFF',
+
                 fontWeight: 'bold',
                 textAlign: 'center',
                 padding: '12px',

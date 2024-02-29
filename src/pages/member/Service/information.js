@@ -23,6 +23,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { useMediaQuery } from '@mui/material'
+import { useTheme } from '@material-ui/core/styles'
+import typography from 'src/@core/components/typography'
 
 const Information = forwardRef((props, ref2) => {
   const handle2Change = e => {
@@ -31,7 +33,9 @@ const Information = forwardRef((props, ref2) => {
     ref2.current[name] = value
   }
 
-  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+  const isSmallScreen = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+
+  const theme = useTheme()
 
   return (
     <Box>
@@ -42,7 +46,7 @@ const Information = forwardRef((props, ref2) => {
             height: isSmallScreen ? '50px' : '60px',
             marginBottom: '30px',
             padding: '15px 25px 20px',
-            backgroundColor: '#2d2e81',
+            backgroundColor: theme.palette.primary.dark,
             border: '1px solid #primary.main'
           }}
         >
@@ -50,7 +54,7 @@ const Information = forwardRef((props, ref2) => {
             textAlign={'center'}
             color='#fff'
             variant='h5'
-            sx={{ fontWeight: 'bold', fontSize: { xs: '1.2rem', sm: '1.5rem', md: '2rem' } }}
+            sx={{ fontWeight: 'bold', fontSize: { xs: '1rem', sm: '1.5rem', md: '2rem' } }}
           >
             Job Application
           </Typography>
@@ -63,7 +67,7 @@ const Information = forwardRef((props, ref2) => {
             height: isSmallScreen ? '50px' : '60px',
             marginBottom: '30px',
             padding: '15px 25px 20px',
-            backgroundColor: '#2d2e81',
+            backgroundColor: theme.palette.primary.dark,
             border: '1px solid #primary.main'
           }}
         >
@@ -71,7 +75,7 @@ const Information = forwardRef((props, ref2) => {
             textAlign={'center'}
             color='#fff'
             variant='h5'
-            sx={{ fontWeight: 'bold', fontSize: { xs: '1.3rem', sm: '1.8rem', md: '2.3rem' } }}
+            sx={{ fontWeight: 'bold', fontSize: { xs: '1rem', sm: '1.8rem', md: '2rem' } }}
           >
             Personal information
           </Typography>
@@ -83,15 +87,11 @@ const Information = forwardRef((props, ref2) => {
 
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
-            <Typography variant='body2' fontWeight='bold'>
-              First Name
-            </Typography>
+            <Typography sx={typography.body2}>First Name</Typography>
             <TextField size='small' name='fname' placeholder='Name' fullWidth onChange={handle2Change} />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Typography variant='body2' fontWeight='bold'>
-              Last Name
-            </Typography>
+            <Typography sx={typography.body2}>Last Name</Typography>
             <TextField size='small' name='lname' placeholder='Last Name' fullWidth onChange={handle2Change} />
           </Grid>
         </Grid>
@@ -101,16 +101,12 @@ const Information = forwardRef((props, ref2) => {
         <Grid container spacing={2} mt={1}>
           {/* -----------------อีเมล--------------- */}
           <Grid item xs={12} sm={4.5} lg={4.5}>
-            <Typography variant='body2' fontWeight='bold'>
-              Email
-            </Typography>
+            <Typography sx={typography.body2}>Email</Typography>
             <TextField size='small' name='email' placeholder='Email' fullWidth onChange={handle2Change} />
           </Grid>
           {/* -----------------โทรศัพท์--------------- */}
           <Grid item xs={4} sm={2.5} lg={2.5}>
-            <Typography variant='body2' fontWeight='bold'>
-              Phone
-            </Typography>
+            <Typography sx={typography.body2}>Phone</Typography>
             <TextField
               size='small'
               name='phone'
@@ -126,9 +122,7 @@ const Information = forwardRef((props, ref2) => {
           </Grid>
           {/* -----------------วันเกิด--------------- */}
           <Grid item xs={4} sm={2.5} lg={2.5}>
-            <Typography variant='body2' fontWeight='bold'>
-              Date Of Birt
-            </Typography>
+            <Typography sx={typography.body2}>Date Of Birt</Typography>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
                 slotProps={{ textField: { size: 'small' } }}
@@ -138,9 +132,7 @@ const Information = forwardRef((props, ref2) => {
           </Grid>
           {/* -----------------อายุ--------------- */}
           <Grid item xs={4} sm={2.5} lg={2.5}>
-            <Typography variant='body2' fontWeight='bold'>
-              Age
-            </Typography>
+            <Typography sx={typography.body2}>Age</Typography>
             <TextField size='small' name='age' placeholder='Age' fullWidth onChange={handle2Change} />
           </Grid>
         </Grid>
@@ -150,16 +142,12 @@ const Information = forwardRef((props, ref2) => {
         <Grid container spacing={2} mt={1}>
           {/* -----------------ที่อยู่--------------- */}
           <Grid item xs={12} sm={6}>
-            <Typography variant='body2' fontWeight='bold'>
-              Address
-            </Typography>
+            <Typography sx={typography.body2}>Address</Typography>
             <TextField size='small' name='address' placeholder='Address' fullWidth onChange={handle2Change} />
           </Grid>
           {/* -----------------ที่อยู่--------------- */}
           <Grid item xs={12} sm={6}>
-            <Typography variant='body2' fontWeight='bold'>
-              Address Line 2
-            </Typography>
+            <Typography sx={typography.body2}>Address Line 2</Typography>
             <TextField
               size='small'
               name='addressline2'
@@ -174,9 +162,7 @@ const Information = forwardRef((props, ref2) => {
         <Grid container spacing={3} mt={1}>
           {/* -----------------ประกันสังคม--------------- */}
           <Grid item xs={12} md={4.5} lg={4.5}>
-            <Typography variant='body2' fontWeight='bold'>
-              Social Security
-            </Typography>
+            <Typography sx={typography.body2}>Social Security</Typography>
             <TextField
               size='small'
               name='social_security'
@@ -187,9 +173,7 @@ const Information = forwardRef((props, ref2) => {
           </Grid>
           {/* -----------------สถานะความเป็นอยู่--------------- */}
           <Grid item xs={12} md={7.5} lg={7.5}>
-            <Typography variant='body2' fontWeight='bold'>
-              Living Status
-            </Typography>
+            <Typography sx={typography.body2}>Living Status</Typography>
 
             <RadioGroup
               row
@@ -235,23 +219,17 @@ const Information = forwardRef((props, ref2) => {
         <Grid container spacing={1} mt={1}>
           {/* -----------------เชื้อชาติ--------------- */}
           <Grid item xs={6} sm={4.5}>
-            <Typography variant='body2' fontWeight='bold'>
-              Ethnicity
-            </Typography>
+            <Typography sx={typography.body2}>Ethnicity</Typography>
             <TextField size='small' name='ethnicity' placeholder='Ethnicity' fullWidth onChange={handle2Change} />
           </Grid>
           {/* -----------------สัญชาติ--------------- */}
           <Grid item xs={6} sm={3.75}>
-            <Typography variant='body2' fontWeight='bold'>
-              Nationality
-            </Typography>
+            <Typography sx={typography.body2}>Nationality</Typography>
             <TextField size='small' name='nationality' placeholder='Nationality' fullWidth onChange={handle2Change} />
           </Grid>
           {/* -----------------ศาสนา--------------- */}
           <Grid item xs={12} sm={3.75}>
-            <Typography variant='body2' fontWeight='bold'>
-              Religion
-            </Typography>
+            <Typography sx={typography.body2}>Religion</Typography>
             <TextField size='small' name='religion' placeholder='Religion' fullWidth onChange={handle2Change} />
           </Grid>
         </Grid>
@@ -261,17 +239,13 @@ const Information = forwardRef((props, ref2) => {
         <Grid container spacing={1} mt={1}>
           {/* -----------------บัตรประชาชน--------------- */}
           <Grid item xs={12} md={6} lg={4.5}>
-            <Typography variant='body2' fontWeight='bold'>
-              Identity card no.
-            </Typography>
+            <Typography sx={typography.body2}>Identity card no.</Typography>
             <TextField size='small' name='idcard' placeholder='XXXXXXXXXXXXX' fullWidth onChange={handle2Change} />
           </Grid>
 
           {/* -----------------วันหมดอายุบัตร--------------- */}
           <Grid item xs={4} lg={2.5}>
-            <Typography variant='body2' fontWeight='bold'>
-              Expiration date
-            </Typography>
+            <Typography sx={typography.body2}>Expiration date</Typography>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
                 slotProps={{ textField: { size: 'small' } }}
@@ -281,27 +255,21 @@ const Information = forwardRef((props, ref2) => {
           </Grid>
           {/* -----------------ส่วนสูง--------------- */}
           <Grid item xs={4} lg={2.5}>
-            <Typography variant='body2' fontWeight='bold'>
-              Height
-            </Typography>
+            <Typography sx={typography.body2}>Height</Typography>
             <TextField size='small' name='height' placeholder='Height Cm.' fullWidth onChange={handle2Change} />
           </Grid>
           {/* -----------------น้ำหนัก--------------- */}
           <Grid item xs={4} lg={2.5}>
-            <Typography variant='body2' fontWeight='bold'>
-              Weight
-            </Typography>
+            <Typography sx={typography.body2}>Weight</Typography>
             <TextField size='small' name='weight' placeholder='Weight Kgs.' fullWidth onChange={handle2Change} />
           </Grid>
         </Grid>
 
         {/* -------------------------------------------------- COLUMN 7 ---------------------------------------------------------- */}
-        <Grid container spacing={1} mt={1} mr={8} width={'100%'}>
+        <Grid container spacing={1} mt={1}>
           {/* -----------------สถานะทางทหาร--------------- */}
-          <Grid item xs={7} md={7} lg={7}>
-            <Typography variant='body2' fontWeight='bold'>
-              Military Status
-            </Typography>
+          <Grid item xs={12} md={12} lg={7}>
+            <Typography sx={typography.body2}>Military Status</Typography>
 
             <RadioGroup
               row
@@ -309,7 +277,7 @@ const Information = forwardRef((props, ref2) => {
               name='military_status'
               onChange={handle2Change}
             >
-              <Grid item xs={12} sm={6} md={4} lg={3}>
+              <Grid item xs={12} sm={4} md={3} lg={3}>
                 <FormControlLabel
                   fullWidth
                   value='Exempted'
@@ -317,7 +285,7 @@ const Information = forwardRef((props, ref2) => {
                   label={<Typography variant='body2'>Exempted</Typography>}
                 />
               </Grid>
-              <Grid item xs={12} sm={6} md={4} lg={3}>
+              <Grid item xs={12} sm={4} md={3} lg={3}>
                 <FormControlLabel
                   fullWidth
                   value='Served'
@@ -325,7 +293,7 @@ const Information = forwardRef((props, ref2) => {
                   label={<Typography variant='body2'>Served</Typography>}
                 />
               </Grid>
-              <Grid item xs={12} sm={6} md={4} lg={3}>
+              <Grid item xs={12} sm={4} md={3} lg={3}>
                 <FormControlLabel
                   fullWidth
                   value='Not yet served'
@@ -338,9 +306,7 @@ const Information = forwardRef((props, ref2) => {
           <Grid item xs={5} md={5} lg={5}>
             {/* -----------------เพศ--------------- */}
             <Grid item xs={12}>
-              <Typography variant='body2' fontWeight='bold'>
-                Gender
-              </Typography>
+              <Typography sx={typography.body2}>Gender</Typography>
 
               <RadioGroup
                 row
@@ -372,9 +338,7 @@ const Information = forwardRef((props, ref2) => {
 
         {/* -----------------สถานภาพ--------------- */}
         <Grid item xs={6}>
-          <Typography variant='body2' fontWeight='bold'>
-            Marital status
-          </Typography>
+          <Typography sx={typography.body2}>Marital status</Typography>
           <FormControl>
             <RadioGroup
               row
@@ -382,34 +346,40 @@ const Information = forwardRef((props, ref2) => {
               name='marital_status'
               onChange={handle2Change}
             >
-              <FormControlLabel
-                value='Single'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Single'
-              />
-              <FormControlLabel
-                value='married'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Married'
-              />
-              <FormControlLabel
-                value='Widowed'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Widowed'
-              />
-              <FormControlLabel
-                value='Separated'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Separated'
-              />
+              <Grid item>
+                <FormControlLabel
+                  value='Single'
+                  control={<Radio size='small' />}
+                  label={<Typography variant='body2'>Single</Typography>}
+                />
+              </Grid>
+              <Grid item>
+                <FormControlLabel
+                  value='married'
+                  control={<Radio size='small' />}
+                  label={<Typography variant='body2'>Married</Typography>}
+                />
+              </Grid>
+              <Grid item>
+                <FormControlLabel
+                  value='Widowed'
+                  control={<Radio size='small' />}
+                  label={<Typography variant='body2'>Widowed</Typography>}
+                />
+              </Grid>
+              <Grid item>
+                <FormControlLabel
+                  value='Separated'
+                  control={<Radio size='small' />}
+                  label={<Typography variant='body2'>Separated</Typography>}
+                />
+              </Grid>
             </RadioGroup>
           </FormControl>
         </Grid>
         {/* -----------------วันที่จะเริ่มทำงาน--------------- */}
         <Grid item xs={2}>
-          <Typography variant='body2' fontWeight='bold'>
-            Date Available
-          </Typography>
+          <Typography sx={typography.body2}>Date Available</Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               slotProps={{ textField: { size: 'small' } }}
@@ -419,9 +389,7 @@ const Information = forwardRef((props, ref2) => {
         </Grid>
         {/* -----------------ตำแหน่งที่อยากทำ--------------- */}
         <Grid item xs={4}>
-          <Typography variant='body2' fontWeight='bold'>
-            Position Applied For
-          </Typography>
+          <Typography sx={typography.body2}>Position Applied For</Typography>
           <TextField
             size='small'
             name='positionap'
@@ -435,9 +403,7 @@ const Information = forwardRef((props, ref2) => {
 
         {/* -----------------เงินเดือนที่ต้องการ--------------- */}
         <Grid item xs={4}>
-          <Typography variant='body2' fontWeight='bold'>
-            Desired Pay
-          </Typography>
+          <Typography sx={typography.body2}>Desired Pay</Typography>
           <TextField
             size='small'
             name='desired_pay'
@@ -453,7 +419,7 @@ const Information = forwardRef((props, ref2) => {
             }}
           />
         </Grid>
-        <Grid item xs={3} mt={13}>
+        <Grid item xs={3} ml={3} mt={6}>
           <FormControl>
             <RadioGroup
               row
@@ -463,43 +429,29 @@ const Information = forwardRef((props, ref2) => {
             >
               <FormControlLabel
                 value='hour'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Hour'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Hour</Typography>}
               />
               <FormControlLabel
                 value='salary'
-                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-                label='Salary'
+                control={<Radio size='small' />}
+                label={<Typography variant='body2'>Salary</Typography>}
               />
             </RadioGroup>
           </FormControl>
         </Grid>
         {/* -----------------การจ้างงานที่ต้องการ--------------- */}
         <Grid item xs={5}>
-          <Typography variant='body2' fontWeight='bold'>
-            Employment Desired
-          </Typography>
+          <Typography sx={typography.body2}>Employment Desired</Typography>
           <RadioGroup
             row
             aria-labelledby='demo-row-radio-buttons-group-label'
             name='employment_desired'
             onChange={handle2Change}
           >
-            <FormControlLabel
-              value='Full-Time'
-              control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-              label='Full-Time'
-            />
-            <FormControlLabel
-              value='Past-Time'
-              control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-              label='Past-Time'
-            />
-            <FormControlLabel
-              value='Seasonal'
-              control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }} />}
-              label='Seasonal'
-            />
+            <FormControlLabel value='Full-Time' control={<Radio size='small' />} label='Full-Time' />
+            <FormControlLabel value='Past-Time' control={<Radio size='small' />} label='Past-Time' />
+            <FormControlLabel value='Seasonal' control={<Radio size='small' />} label='Seasonal' />
           </RadioGroup>
         </Grid>
       </Grid>

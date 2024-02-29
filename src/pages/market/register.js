@@ -41,10 +41,15 @@ import { withAuth } from 'src/@core/utils/AuthCheck'
 // SEO
 import MySeo from '../seo'
 import { SeoMarketRegisterpage } from 'src/seo/homepage'
+import typography from 'src/@core/components/typography'
+import { useTheme } from '@material-ui/core/styles'
+
 
 const RegisterSupplier = () => {
   // ** Hook
   const router = useRouter()
+
+const theme = useTheme()
 
   // รับค่าตัวแปร
   const [storename, setStoreName] = useState('') // ตัวแปรเก็บค่า storename
@@ -230,7 +235,7 @@ const RegisterSupplier = () => {
     }
   }
 
-  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+  const isSmallScreen = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
   return (
     <Container maxWidth='xl'>
@@ -244,37 +249,25 @@ const RegisterSupplier = () => {
         <Box sx={{ width: '100%' }}>
           <Card
             sx={{
-              height: isSmallScreen ? '80px' : '90px',
+              height: isSmallScreen ? '70px' : '90px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
-              backgroundColor: '#2d2e81',
+              backgroundColor: theme.palette.primary.dark,
               border: '1px solid #primary.main'
             }}
           >
             <Grid container alignItems='center'>
               <Grid item xs={12} sm={8} md={8}>
-                <Typography
-                  color='#fff'
-                  variant='h5'
-                  sx={{ fontWeight: 'bold', fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.6rem' } }}
-                >
+                <Typography sx={typography.h1.title} color='#fff'>
                   Marker Register
                 </Typography>
                 <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
                   <Link href='/'>
-                    <Typography
-                      color='#fff'
-                      variant='subtitle1'
-                      sx={{ cursor: 'pointer', fontSize: { xs: '0.8rem', sm: '0.8rem', md: '1rem' } }}
-                    >
+                    <Typography sx={typography.subtitle1.title} color='#fff'>
                       Home
                     </Typography>
                   </Link>
-                  <Typography
-                    color='#fff'
-                    variant='subtitle1'
-                    sx={{ cursor: 'pointer', fontSize: { xs: '0.8rem', sm: '0.8rem', md: '1rem' } }}
-                  >
+                  <Typography sx={typography.subtitle1.title} color='#fff'>
                     Register
                   </Typography>
                 </Breadcrumbs>

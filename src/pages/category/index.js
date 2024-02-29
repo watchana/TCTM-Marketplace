@@ -41,6 +41,8 @@ import { useMediaQuery } from '@mui/material'
 import themeConfig from 'src/configs/themeConfig'
 import { SeoCategorypage } from 'src/seo/homepage'
 import MySeo from '../seo'
+import typography from 'src/@core/components/typography'
+import { useTheme } from '@material-ui/core/styles'
 
 const Category = ({ productData, SearchProduct, keyword }) => {
   const [filteredProducts, setFilteredProducts] = useState(keyword ? SearchProduct || null : productData || null)
@@ -48,6 +50,8 @@ const Category = ({ productData, SearchProduct, keyword }) => {
   const [searchValue, setSearchValue] = useState('') // State เพื่อเก็บคำค้นหา
   const [searchResults, setSearchResults] = useState([]) // State เพื่อเก็บผลลัพธ์การค้นหา
   const [openDrawerLeftMenu, setOpenDrawerLeftMenu] = useState(false)
+
+const theme = useTheme()
 
   // เก็บข้อมูลสินค้า
   const products = productData
@@ -60,7 +64,7 @@ const Category = ({ productData, SearchProduct, keyword }) => {
     setFilteredProducts(keyword ? SearchProduct || null : productData || null)
   }, [SearchProduct, keyword, productData])
 
-  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+  const isSmallScreen = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
   // ตรวจสอบหาก filteredProducts เป็น undefined หรือ null
   if (filteredProducts === undefined || filteredProducts === null) {
@@ -157,37 +161,25 @@ const Category = ({ productData, SearchProduct, keyword }) => {
         <Box sx={{ width: '100%' }}>
           <Card
             sx={{
-              height: isSmallScreen ? '80px' : '90px',
+              height: isSmallScreen ? '70px' : '90px',
               marginBottom: '30px',
               padding: '15px 25px 20px',
-              backgroundColor: '#2d2e81',
+              backgroundColor: theme.palette.primary.dark,
               border: '1px solid #primary.main'
             }}
           >
             <Grid container alignItems='center'>
               <Grid item xs={12} sm={8} md={8}>
-                <Typography
-                  color='#fff'
-                  variant='h5'
-                  sx={{ fontWeight: 'bold', fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.6rem' } }}
-                >
+                <Typography sx={typography.h1.title} color='#fff'>
                   Shop
                 </Typography>
                 <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
                   <Link href='/' passHref>
-                    <Typography
-                      color='#fff'
-                      variant='subtitle1'
-                      sx={{ cursor: 'pointer', fontSize: { xs: '0.8rem', sm: '0.8rem', md: '1rem' } }}
-                    >
+                    <Typography sx={typography.subtitle1.title} color='#fff'>
                       Home
                     </Typography>
                   </Link>
-                  <Typography
-                    color='#fff'
-                    variant='subtitle1'
-                    sx={{ cursor: 'pointer', fontSize: { xs: '0.8rem', sm: '0.8rem', md: '1rem' } }}
-                  >
+                  <Typography sx={typography.subtitle1.title} color='#fff'>
                     Shop
                   </Typography>
                 </Breadcrumbs>
@@ -243,8 +235,8 @@ const Category = ({ productData, SearchProduct, keyword }) => {
                         }}
                         sx={{
                           border: '0.5px solid lightgray',
-                          width: { xs: '150px', sm: '200px' },
-                          height: { xs: '200px', sm: '280px' },
+                          width: { xs: '99px', sm: '150px', md: '200px' },
+                          height: { xs: '190px', sm: '240px', md: '280px' },
                           boxShadow: 3,
                           cursor: 'pointer',
                           '&:hover': { boxShadow: 10, border: '2px solid #2d2e81' }

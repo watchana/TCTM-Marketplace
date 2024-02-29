@@ -202,7 +202,7 @@ const MainForm = ({ PDF_File }) => {
         keywords={SeoServiceRegisterpage.keywords}
         content={SeoServiceRegisterpage.content}
       />
-      <Paper elevation={3} style={{ padding: '60px' }}>
+      <Paper elevation={3} style={{ padding: '40px' }}>
         {/* ----------------information---------------- */}
         <div id='page-1'>
           <Information ref={formdataref} />
@@ -223,13 +223,13 @@ const MainForm = ({ PDF_File }) => {
           <LanguageAbility ref={formdataref} />
         </div>
         <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
-        {/* ----------------SpecialAbility---------------- */}
+        {/* ----------------SpecialAbility แตก ---------------- */}
         <div id='page-5'>
           <SpecialAbility ref={formdataref} />
         </div>
         <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
-        {/* -----------------Resume--------------- */}
 
+        {/* -----------------Resume แตก --------------- */}
         <Grid item xs={12} mt={5}>
           <Paper elevation={3} style={{ borderRadius: '10px', backgroundColor: '#333399' }}>
             <Typography textAlign={'center'} variant='h5' sx={{ fontSize: 40, fontWeight: 'bold', color: 'white' }}>
@@ -238,8 +238,8 @@ const MainForm = ({ PDF_File }) => {
           </Paper>
         </Grid>
         {/* อัปโหลดรูปภาพร้านค้า */}
-        <Box sx={{ width: '100%', marginBottom: 4 }}>
-          <Divider sx={{ marginY: 6, color: '#3A46A7' }}>Please upload your Resume only PDF</Divider>
+        <Grid>
+          <Typography sx={{ marginY: 6, color: '#3A46A7' }}>Please upload your Resume only PDF</Typography>
           <input
             accept='application/pdf' // ระบุชนิดของไฟล์ที่อนุญาตให้อัปโหลดเป็น PDF
             style={{ display: 'none' }}
@@ -253,7 +253,7 @@ const MainForm = ({ PDF_File }) => {
               Upload PDF
             </Button>
           </label>
-        </Box>
+        </Grid>
         <Typography
           textAlign={'center'}
           style={{ textTransform: 'lowercase' }}
@@ -266,10 +266,16 @@ const MainForm = ({ PDF_File }) => {
             <span id='fileName'></span>
           </Typography>
         </Grid>
+        <Button
+          variant='contained'
+          type='submit'
+          onClick={handleSubmit}
+          color='primary'
+          sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}
+        >
+          Submit
+        </Button>
       </Paper>
-      <Button variant='contained' type='submit' onClick={handleSubmit} color='primary'>
-        Submit
-      </Button>
     </Grid>
   )
 }

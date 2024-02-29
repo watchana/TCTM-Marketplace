@@ -28,12 +28,16 @@ import axios from 'axios'
 import { useMediaQuery } from '@mui/material'
 import MySeo from 'src/pages/seo'
 import { Seoinformationpage } from 'src/seo/homepage'
+import typography from 'src/@core/components/typography'
+import { useTheme } from '@material-ui/core/styles'
 
 const InformationDetails = () => {
   const [informationdata, setInformationData] = useState([]) // ตัวแปรเก็บข้อมูลแนะนำ
 
   const [informationimg, setInformationImg] = useState([]) // ตัวแปรเก็บข้อมูลรูปภาพ
   const FirstImage = informationimg && informationimg[0] ? informationimg[0].image_file_infname : null // ตัวแปรเก็บข้อมูลรูปภาพตัวอย่าง
+
+  const theme = useTheme()
 
   const router = useRouter() // เรียกใช้งาน Router
   const { post_id } = router.query
@@ -142,7 +146,7 @@ const InformationDetails = () => {
     }
   }, [MaxLengthImages])
 
-  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+  const isSmallScreen = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
   const host = process.env.NEXT_PUBLIC_VERCEL_URL || process.env.NEXT_PUBLIC_HOST || 'localhost:3000' // replace with your default value
   const currentPath = router.pathname
@@ -156,37 +160,25 @@ const InformationDetails = () => {
             <Box sx={{ width: '100%' }}>
               <Card
                 sx={{
-                  height: isSmallScreen ? '80px' : '90px',
+                  height: isSmallScreen ? '70px' : '90px',
                   marginBottom: '30px',
                   padding: '15px 25px 20px',
-                  backgroundColor: '#2d2e81',
+                  backgroundColor: theme.palette.primary.dark,
                   border: '1px solid #primary.main'
                 }}
               >
                 <Grid container alignItems='center'>
                   <Grid item xs={12} sm={8} md={8}>
-                    <Typography
-                      color='#fff'
-                      variant='h5'
-                      sx={{ fontWeight: 'bold', fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.6rem' } }}
-                    >
+                    <Typography sx={typography.h1.title} color='#fff'>
                       Information
                     </Typography>
                     <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
                       <Link href='/'>
-                        <Typography
-                          color='#fff'
-                          variant='subtitle1'
-                          sx={{ cursor: 'pointer', fontSize: { xs: '0.8rem', sm: '0.8rem', md: '1rem' } }}
-                        >
+                        <Typography sx={typography.subtitle1.title} color='#fff'>
                           Home
                         </Typography>
                       </Link>
-                      <Typography
-                        color='#fff'
-                        variant='subtitle1'
-                        sx={{ cursor: 'pointer', fontSize: { xs: '0.8rem', sm: '0.8rem', md: '1rem' } }}
-                      >
+                      <Typography sx={typography.subtitle1.title} color='#fff'>
                         Information
                       </Typography>
                     </Breadcrumbs>
@@ -201,7 +193,7 @@ const InformationDetails = () => {
             </Box>
           </Box>
           <Grid container spacing={4}>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={6}>
               <Box
                 sx={{
                   display: 'flex',
@@ -241,11 +233,7 @@ const InformationDetails = () => {
                 />
                 <MySeo
                   title={informationdata.post_name}
-
-                  // details={OptionData}
                   description={Seoinformationpage.description}
-
-                  // content={SeoProductpage.content}
                   keywords={Seoinformationpage.keywords}
                   ogimg={
                     informationimg[stateImages]?.image_file_infname
@@ -361,48 +349,32 @@ const InformationDetails = () => {
                 </Box>
               </Hidden>
             </Grid>
+
+            <Grid item xs={12} md={6}>
+              <Grid item xs={12}>
+                <Typography color={theme.palette.text.primary} sx={typography.h1.topic}>
+                  {informationdata.post_name}
+                </Typography>
+              </Grid>
+
+              <Grid item xs={12}>
+                <Divider sx={{ borderBottomWidth: 2, width: '100%' }} />
+              </Grid>
+
+              <Grid item xs={12}>
+                <Typography sx={typography.body2} color='#606060'>
+                  {informationdata.post_detail}
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography sx={typography.body2} color='#606060'>
+                Post by {informationdata.sub_name}
+              </Typography>
+            </Grid>
           </Grid>
         </Container>
       </Box>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%', mt: 20, mb: 6 }}>
-            <Typography
-              variant='h4'
-              fontSize='22px'
-              color='#606060'
-              sx={{
-                fontWeight: 'bold',
-                overflow: 'hidden',
-                whiteSpace: 'pre-wrap', // เพิ่ม pre-wrap เพื่อให้เว้นบรรทัด
-                wordWrap: 'break-word', // ให้ข้อความขยายตัวเมื่อหลุดขอบ
-                textOverflow: 'ellipsis',
-                display: '-webkit-box',
-                WebkitBoxOrient: 'vertical',
-                WebkitLineClamp: 10
-              }}
-            >
-              {informationdata.post_name}
-            </Typography>
-          </Box>
-        </Grid>
-
-        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', width: '50%', my: 10 }}>
-          <Divider sx={{ borderBottomWidth: 2, width: '50%' }} />
-        </Grid>
-
-        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Typography variant='body1' fontSize='16px' color='#606060' style={{ whiteSpace: 'pre-line', width: '80%' }}>
-            {informationdata.post_detail}
-          </Typography>
-        </Grid>
-
-        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Typography variant='body1' fontSize='16px' color='#606060' style={{ whiteSpace: 'pre-line', width: '80%' }}>
-            Post by {informationdata.sub_name}
-          </Typography>
-        </Grid>
-      </Grid>
     </Box>
   )
 }

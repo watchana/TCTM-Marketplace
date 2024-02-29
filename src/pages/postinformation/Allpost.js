@@ -16,6 +16,7 @@ import axios from 'axios'
 import 'react-multi-carousel/lib/styles.css'
 
 import { useMediaQuery } from '@mui/material'
+import { useTheme } from '@material-ui/core/styles'
 
 // ** Styles Components
 const DividerBox1 = styled(Box)(({ theme }) => ({
@@ -42,6 +43,8 @@ const AllPost = () => {
   // set data and state
   const [slidedata, setSlideData] = useState([])
 
+const theme = useTheme()
+
   // React Multi Carousel Responsive
   const responsive = {
     desktopLarge: { breakpoint: { max: 3000, min: 2300 }, items: 10, partialVisibilityGutter: 10 },
@@ -66,24 +69,24 @@ const AllPost = () => {
     fetchData()
   }, [])
 
-  const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
+  const isSmallScreen = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
   return (
     <Container maxWidth='xl'>
       <Box sx={{ width: '100%' }}>
         <Card
           sx={{
-            height: isSmallScreen ? '80px' : '90px',
+            height: isSmallScreen ? '70px' : '90px',
             marginBottom: '30px',
             padding: '15px 25px 20px',
-            backgroundColor: '#2d2e81',
+            backgroundColor: theme.palette.primary.dark,
             border: '1px solid #primary.main'
           }}
         >
           <Typography
             variant='h5'
             sx={{
-              fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.6rem' },
+              fontSize: { xs: '1.2rem', sm: '1.5rem', md: '1.8rem' },
               color: '#FFFFFF',
               fontWeight: 'bold',
               textAlign: 'center',
