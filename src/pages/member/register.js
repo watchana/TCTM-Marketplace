@@ -49,6 +49,7 @@ import axios from 'axios'
 import { createToken, verifyToken } from '../../@core/utils/auth'
 import Cookies from 'js-cookie'
 import Recaptcha from '../recapcha'
+import MySeo from '../seo'
 
 // ** Switch Alert Import
 const SAlert = require('sweetalert2')
@@ -259,6 +260,12 @@ const RegisterPage = () => {
         flexDirection: 'column'
       }}
     >
+      <MySeo
+        title={'Create Account'}
+        description={'Create Account'}
+        keywords={'Create Account'}
+        content={'Create Account'}
+      />
       <Card
         sx={{
           display: 'grid',
