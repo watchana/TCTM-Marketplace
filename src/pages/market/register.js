@@ -65,6 +65,7 @@ const RegisterSupplier = () => {
   const [hostaddress, setHostaddress] = useState('') // ตัวแปรเก็บค่าชื่อ hostaddress
   const [apikey, setApikey] = useState('') // ตัวแปรเก็บค่าชื่อ apikey
   const [apisecret, setApisecret] = useState('') // ตัวแปรเก็บค่าชื่อ apisecret
+  const [bankcard, setBankcard] = useState('') // ตัวแปรเก็บค่าชื่อ apisecret
 
   const [close, setClose] = useState(false)
 
@@ -142,6 +143,11 @@ const RegisterSupplier = () => {
     setApisecret(event.target.value)
   }
 
+  //ฟังก์ชันบัณทึกค่าของ Apikey
+  const handleBankcard = event => {
+    setBankcard(event.target.value)
+  }
+
   // ฟังชันส่งข้อมูล Register
   const handleSubmitData = async event => {
     event.preventDefault()
@@ -180,7 +186,7 @@ const RegisterSupplier = () => {
       const response = await axios.post('/api/StoreimgUpload', formData)
 
       const data = {
-        sub_bank_number: idcard,
+        sub_bank_number: bankcard,
         sub_tel: tel,
         sub_email: email,
         sub_name: storename,
@@ -194,6 +200,7 @@ const RegisterSupplier = () => {
         sub_book_bank_name: bookbankname,
         sub_pay_name: paypalname,
         sub_pay_number: paypalnumber,
+        sup_idcard: idcard,
         sup_apikey: apikey || '',
         sup_apisecret: apisecret || '',
         sup_hostaddress: hostaddress || ''
@@ -464,6 +471,28 @@ const RegisterSupplier = () => {
                       onChange={handleBankNameSet}
                       error={bankname === '' && isSubmitted}
                       helperText={bankname === '' && isSubmitted ? 'Please enter your bank name.' : ''}
+                    ></TextField>
+                  </Box>
+                </Grid>
+              </Grid>
+            </Box>
+            <Box sx={{ width: '100%', marginBottom: 4 }}>
+              <Grid container>
+                <Grid item xs={12} md={4}>
+                  <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
+                    Bankcard
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} md={8}>
+                  <Box sx={{ width: '100%' }}>
+                    <TextField
+                      fullWidth
+                      size='small'
+                      label='Bankcard *'
+                      value={bankcard}
+                      onChange={handleBankcard}
+                      error={bankcard === '' && isSubmitted}
+                      helperText={bankcard === '' && isSubmitted ? 'Please enter your bank name.' : ''}
                     ></TextField>
                   </Box>
                 </Grid>
