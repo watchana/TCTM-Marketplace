@@ -10,12 +10,6 @@ const Recaptcha = ({ onVerify }) => {
     onVerify(value) // Callback to parent component with the reCAPTCHA value
   }
 
-  useEffect(() => {
-    // Execute reCAPTCHA when the component mounts
-    if (window.grecaptcha) {
-      window.grecaptcha.execute()
-    }
-  }, [])
 
   return <ReCAPTCHA sitekey='6Lfu5-ooAAAAAMGil0g9-Q7SKKQKTmntoYO6arEu' onChange={handleRecaptchaChange} />
 }
