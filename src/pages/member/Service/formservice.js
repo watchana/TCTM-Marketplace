@@ -192,8 +192,6 @@ const JobApplicationForm = () => {
     e.preventDefault()
     setIsSubmitted(true)
     window.location.href = '/'
-
-    console.log(formData, formattedDate, formatexpiration_date)
   }
 
   const dataapi = {

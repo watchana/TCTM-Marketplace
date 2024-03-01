@@ -204,8 +204,6 @@ const RegisterProduct = ({ product, setProduct, productCategories, onUploadImage
     // Calculate the maximum valueId
     const maxId = Math.max(...allValueIds, 0)
 
-    // console.log('test: ', maxId)
-
     // Create a new option value with a unique valueId
     const newOptionValue = { valueId: maxId + 1, valueName: '' }
 
@@ -256,8 +254,6 @@ const RegisterProduct = ({ product, setProduct, productCategories, onUploadImage
   }
 
   const handleProductOptionGroupChange = (e, optionGroupId, col) => {
-    console.log('col: ', col)
-
     const updatedOptionGroups = product.items.map(optionGroup => {
       if (optionGroup.optionGroupId === optionGroupId) {
         return { ...optionGroup, [col]: e.target.value }
@@ -729,8 +725,6 @@ const RegisterProduct = ({ product, setProduct, productCategories, onUploadImage
                       <TextField
                         fullWidth
                         label={`Product ${index + 1}: ${option.optionName}`}
-
-                        // defaultValue={`${option.optionName} ${index + 1}`}
                         id={`product-item-group-column-text-${option.optionId}`}
                         value={group[`optionGroupColumn${index + 1}`]}
                         onChange={e =>

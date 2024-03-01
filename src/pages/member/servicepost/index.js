@@ -44,7 +44,7 @@ const ServicePosts = () => {
     router.push('/member/servicepost/ServicePost')
   }
 
-const theme = useTheme()
+  const theme = useTheme()
 
   // นำเข้าตัวsweetalert2
   const SAlert = require('sweetalert2')
@@ -103,7 +103,6 @@ const theme = useTheme()
         axios
           .put(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.deleterequirement`, data)
           .then(function (response) {
-            console.log(response)
             setMyPose(prevData => prevData.filter(myPose => myPose.req_id !== reqId))
 
             if (response.status === 200) {
@@ -130,7 +129,6 @@ const theme = useTheme()
             })
           })
       } else if (result.isDenied) {
-        console.log('cancelled delete')
       }
     })
   }
@@ -225,9 +223,7 @@ const theme = useTheme()
 
   const isSmallScreen = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
-  useEffect(() => {
-    console.log('262', myPose)
-  }, [myPose])
+  useEffect(() => {}, [myPose])
 
   return (
     <Container maxWidth='xl'>

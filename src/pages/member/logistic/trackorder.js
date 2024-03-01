@@ -67,7 +67,6 @@ const TrackingStatus = ({ productdata, updateProductData, trackNo }) => {
           icon: 'success',
           title: 'Success'
         })
-        console.log(response.status)
         updateProductData()
       } else {
         Swal.fire({
@@ -99,7 +98,6 @@ const TrackingStatus = ({ productdata, updateProductData, trackNo }) => {
               item
             }))
             .filter(
-              // Filter by item
               ({ item }) =>
                 (item.price_total !== null && item.price_total >= '1' && item.invoice_status === '3') ||
                 (item.price_total !== null && item.price_total >= '1' && item.invoice_status === '4')

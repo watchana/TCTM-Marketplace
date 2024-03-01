@@ -33,9 +33,7 @@ const ServicePo = ({ open, handleClose }) => {
   const [member_id, setMemberId] = useState(null)
 
   useEffect(() => {
-    console.log(localStorage) // ตรวจสอบว่า localStorage ถูกนำเข้าหรือไม่
     const storedMemberId = localStorage.getItem('Member_Id')
-    console.log(storedMemberId)
 
     // กำหนดค่า member_id ใน state
     setMemberId(storedMemberId)
@@ -121,8 +119,6 @@ const ServicePo = ({ open, handleClose }) => {
       }
 
       axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.post_ser_requirement`, data).then(response => {
-        console.log(response)
-
         // reset display หลังจากส่งข้อมูลเสร็จ
         Route.replace(Route.asPath, undefined, { scroll: false })
         SAlert.fire({

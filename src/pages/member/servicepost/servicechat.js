@@ -57,9 +57,6 @@ const PosrtDetail = () => {
   const reqID = ser_req_id // เก็บค่า req_id
   const recipient = ser_id // เก็บค่า sub_id (ค่านี้อาจเป็น Null)
 
-  // console.log('reqID', reqID)
-  // console.log('recipient', recipient)
-
   // ตัวแปรเก็บค่าข้อมูล
   const [userId, setUserId] = useState('') // ข้อมูล user_Id
   const [postData, setPostData] = useState('') // ข้อมูล header and post detail
@@ -67,10 +64,7 @@ const PosrtDetail = () => {
   const [comments, setComment] = useState('') // ข้อมูล comments
   const [imagesName, setImagesName] = useState([])
   const [messageImage, setMessageImage] = useState([])
-  console.log('messageImage', messageImage)
-
   const [uploadImages, setUploadImages] = useState([])
-
   const [shouldFetchData, setShouldFetchData] = useState(false) // ตัวแปรควบคุมการดึงข้อมูลใหม่
 
   // จัดการตัวแปรชื่อไฟล์ภาพ
@@ -187,12 +181,9 @@ const PosrtDetail = () => {
       ser_req_image_file: uploadedFileNames
     }
 
-    console.log('data1', data)
-
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.ser_postchat`, data)
 
-      console.log(response)
       SAlert.fire({
         icon: 'success',
         title: 'Posted a successful message'
@@ -221,8 +212,6 @@ const PosrtDetail = () => {
         axios
           .put(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.deletechat`, data)
           .then(function (response) {
-            console.log(response)
-
             if (response.status === 200) {
               SAlert.fire({
                 icon: 'success',
@@ -248,7 +237,6 @@ const PosrtDetail = () => {
             })
           })
       } else if (result.isDenied) {
-        console.log('cancelled delete')
       }
     })
   }

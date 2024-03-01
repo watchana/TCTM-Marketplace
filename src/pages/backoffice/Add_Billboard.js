@@ -35,11 +35,10 @@ import { useTheme } from '@material-ui/core/styles'
 // Responsive image
 import { useMediaQuery } from '@mui/material'
 
-
 const AddBillboard = () => {
   // ** Hook
   const router = useRouter()
-const theme = useTheme()
+  const theme = useTheme()
 
   // ตัวแปรเช็คสถานะการส่งข้อมูล
   const [isSubmitted, setIsSubmitted] = useState(false)
@@ -68,10 +67,6 @@ const theme = useTheme()
       setImagesName(imageNames)
     }
   }, [uploadImages, imagesName])
-
-  useEffect(() => {
-    console.log('ไฟล์', imageChange)
-  }, [imageChange])
 
   // จัดการตัวแปรชื่อไฟล์ภาพ
   const handleUploadImagesChange = newImages => {
@@ -118,7 +113,6 @@ const theme = useTheme()
       const data = {
         bill_name: imageChange
       }
-      console.log('data', data)
 
       await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.add_billboards`, data)
 

@@ -206,8 +206,6 @@ const RegisterSupplier = () => {
         sup_hostaddress: hostaddress || ''
       }
 
-      // console.log('data', data)
-
       await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.register.registerMarket`, data)
 
       Swal.fire({

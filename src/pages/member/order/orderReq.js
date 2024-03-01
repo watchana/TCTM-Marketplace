@@ -42,8 +42,6 @@ const OrderReq = () => {
   const [productData, setProductData] = useState('') // ข้อมูล ธนาคาร
   // const [megaProductdata, setMegaProductData] = useState('') // ข้อมูล สินค้า
 
-  // console.log('invoice_id', invoice_id)
-
   // เก็บค่าข้อมูลจาก Api
   useEffect(() => {
     const fetchData = async () => {
@@ -55,7 +53,6 @@ const OrderReq = () => {
           }
         })
 
-        // console.log('Api', response.data.message.Invoice[0])
         setProductData(response.data.message.Data[0])
         setMegaProductData(response.data.message.Invoice[0])
       } catch (error) {
@@ -68,7 +65,7 @@ const OrderReq = () => {
 
   const isSmallScreen = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
-const theme = useTheme()
+  const theme = useTheme()
 
   return (
     <Container maxWidth='xl'>

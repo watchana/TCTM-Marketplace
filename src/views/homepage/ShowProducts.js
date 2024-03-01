@@ -71,8 +71,6 @@ const ShowProducts = () => {
 
   const isSmallScreen = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
-  console.log(slidedata)
-
   return (
     <Container maxWidth='xl'>
       <Box sx={{ width: '100%', marginTop: '15px', boxShadow: 3 }}>

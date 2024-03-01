@@ -7,8 +7,6 @@ const FileUpload = () => {
   const [filePreviews, setFilePreviews] = useState([])
   const [filename, setFileName] = useState([])
 
-  console.log('filename', filename)
-
   useEffect(() => {
     const updateImagePreviews = async () => {
       const previews = await Promise.all(selectedFiles.map(file => readImage(file)))
@@ -58,9 +56,7 @@ const FileUpload = () => {
 
       if (response.ok) {
         const result = await response.json()
-        console.log('Upload successful:', result.uploadedFileNames)
         setFileName(result.uploadedFileNames)
-        console.log('formData', formData)
 
         // Add any additional client-side logic here if needed
       } else {

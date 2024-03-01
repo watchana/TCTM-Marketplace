@@ -51,8 +51,6 @@ const NameMarket = () => {
   // set data and state
   const [slidedata, setSlideData] = useState([])
 
-  // console.log('setSlideData', slidedata)
-
   // ** Router ของ Next.js
   const router = useRouter()
 
@@ -69,8 +67,6 @@ const NameMarket = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.home_page.market_recommend`)
-
-        // console.log('Api', response)
 
         setSlideData(response.data.message.Data)
       } catch (error) {

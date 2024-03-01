@@ -15,8 +15,6 @@ const ProductTable = ({ rows }) => {
   // ตัวแปรเก็บ State Select ไว้ชั่วคราว
   const [subIdSelected, setSubIdSelected] = useState(null)
 
-  // console.log(tableRows)
-
   useEffect(() => {
     const fetchData = async () => {
       try {

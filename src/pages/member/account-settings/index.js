@@ -38,8 +38,6 @@ const Account = () => {
   const [userId, setUserId] = useState('') //  user Id
   const [userdata, setUserData] = useState('') // user data
 
-  // console.log('userdata', userdata)
-
   // data user state
   const [userName, setUserName] = useState('')
   const [userLastName, setUserLastName] = useState('')
@@ -129,7 +127,6 @@ const Account = () => {
       }
 
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.profile.update_profile`, data)
-      console.log(response.data)
 
       Swal.fire({
         icon: 'success',

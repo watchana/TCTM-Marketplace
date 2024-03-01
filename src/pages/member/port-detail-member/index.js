@@ -53,7 +53,7 @@ const PosrtDetail = () => {
   // นำเข้าตัวsweetalert2
   const SAlert = require('sweetalert2')
 
-const theme = useTheme()
+  const theme = useTheme()
 
   // เรียกใช้งาน router
   const router = useRouter()
@@ -178,7 +178,6 @@ const theme = useTheme()
             try {
               const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.postchat`, data)
 
-              console.log(response)
               SAlert.fire({
                 icon: 'success',
                 title: 'Posted a successful message'
@@ -203,7 +202,6 @@ const theme = useTheme()
       try {
         const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.postchat`, data)
 
-        console.log(response)
         SAlert.fire({
           icon: 'success',
           title: 'Posted a successful message'
@@ -257,8 +255,6 @@ const theme = useTheme()
         axios
           .put(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.deletechat`, data)
           .then(function (response) {
-            console.log(response)
-
             if (response.status === 200) {
               SAlert.fire({
                 icon: 'success',
@@ -284,7 +280,6 @@ const theme = useTheme()
             })
           })
       } else if (result.isDenied) {
-        console.log('cancelled delete')
       }
     })
   }
@@ -300,7 +295,7 @@ const theme = useTheme()
 
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.approve_po`, data)
-      console.log(response)
+
       SAlert.fire({
         icon: 'success',
         title: 'Approve Success'
@@ -320,11 +315,9 @@ const theme = useTheme()
       req_id: reqID
     }
 
-    console.log('data', data)
-
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.reject_po`, data)
-      console.log(response)
+
       SAlert.fire({
         icon: 'success',
         title: 'decline Success'
@@ -361,8 +354,6 @@ const theme = useTheme()
 
         // Clean up the object URL after the download is initiated
         URL.revokeObjectURL(blobUrl)
-
-        console.log('Download initiated')
       } else {
         console.error('Error downloading document:', downloadResponse.statusText)
       }
@@ -390,7 +381,7 @@ const theme = useTheme()
 
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.gen_invoice`, data)
-      console.log(response)
+
       SAlert.fire({
         icon: 'success',
         title: 'Approve Success'

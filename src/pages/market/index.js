@@ -65,12 +65,11 @@ import { useMediaQuery } from '@mui/material'
 import typography from 'src/@core/components/typography'
 import { useTheme } from '@material-ui/core/styles'
 
-
 const MyMarket = () => {
   // set tabpanel State
   const [value, setValue] = useState('1')
 
-const theme = useTheme()
+  const theme = useTheme()
 
   // ** Switch Alert Import
   const Swal = require('sweetalert2')
@@ -179,8 +178,6 @@ const theme = useTheme()
           axios
             .put(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.delete.ban`, data)
             .then(function (response) {
-              // console.log(response)
-
               Swal.fire({
                 icon: 'success',
                 title: 'Delete Success'
@@ -208,8 +205,6 @@ const theme = useTheme()
   // ฟังก์ชันเปลี่ยนสถานะ - ขาย
   const handleSellingClick = async (e, product_id) => {
     e.preventDefault()
-
-    console.log('product_id', product_id)
 
     const data = {
       product_id: product_id
@@ -392,8 +387,6 @@ const theme = useTheme()
       )
     }
   ]
-
-  console.log(marketname)
 
   const SearchMenu = () => {
     return (

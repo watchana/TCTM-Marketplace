@@ -6,7 +6,6 @@ import CheckoutForm from '../checkout/stripe_checkout' // Adjust the import path
 const AddStripe = () => {
   const [products, setProducts] = useState([{ name: '', price: 0 }])
   const [priceKeys, setPriceKeys] = useState([])
-  console.log('Product', priceKeys)
 
   const handleProductChange = (event, index) => {
     const updatedProducts = [...products]

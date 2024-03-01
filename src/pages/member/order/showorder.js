@@ -94,8 +94,6 @@ const ShowOrder = ({ productdata, updateProductData }) => {
     const decodedQueryString = decodeURIComponent(urlParams)
 
     router.push(`/member/order/changeorder/?${decodedQueryString}`)
-
-    // console.log('encodedQueryString',decodedQueryString)
   }
 
   const usertype = '1' // usertype = '1'(member) usertype = '2'(marker)
@@ -133,7 +131,6 @@ const ShowOrder = ({ productdata, updateProductData }) => {
           icon: 'success',
           title: 'Success'
         })
-        console.log(response.status)
         updateProductData()
       } else {
         Swal.fire({

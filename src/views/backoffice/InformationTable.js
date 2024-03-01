@@ -63,7 +63,6 @@ const InformationTable = () => {
               post_id: postId
             })
             .then(response => {
-              console.log(response)
               fetchUserData()
 
               Swal.fire({

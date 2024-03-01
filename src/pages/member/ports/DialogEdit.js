@@ -62,8 +62,6 @@ const DialogEdit = ({ open, handleClose, Data }) => {
     axios
       .post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.editrequirement`, data)
       .then(response => {
-        console.log(response)
-
         // ปิด Dialog
         handleClose(false)
 

@@ -54,7 +54,7 @@ const PosrtDetail = () => {
   // นำเข้าตัวsweetalert2
   const SAlert = require('sweetalert2')
 
-const theme = useTheme()
+  const theme = useTheme()
 
   // เรียกใช้งาน router
   const router = useRouter()
@@ -142,10 +142,6 @@ const theme = useTheme()
     fetchData()
   }, [reqID, shouldFetchData])
 
-  // useEffect(() => {
-  //   console.log('posdata', postData)
-  // }, [postData])
-
   // จัดการตัวแปรชื่อไฟล์ภาพ
   const handleUploadImagesChange = newImages => {
     setUploadImages(newImages)
@@ -222,11 +218,8 @@ const theme = useTheme()
       req_image_file: uploadedFileNames
     }
 
-    console.log('data1', dataAdd)
-
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.postchat`, dataAdd)
-      console.log(response)
 
       SAlert.fire({
         icon: 'success',
@@ -259,8 +252,6 @@ const theme = useTheme()
         axios
           .put(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.deletechat`, data)
           .then(function (response) {
-            console.log(response)
-
             if (response.status === 200) {
               SAlert.fire({
                 icon: 'success',
@@ -286,7 +277,6 @@ const theme = useTheme()
             })
           })
       } else if (result.isDenied) {
-        console.log('cancelled delete')
       }
     })
   }
@@ -313,7 +303,6 @@ const theme = useTheme()
 
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.delete_po`, data)
-      console.log(response)
       SAlert.fire({
         icon: 'success',
         title: 'decline Success'

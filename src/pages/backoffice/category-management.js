@@ -24,7 +24,7 @@ import { useTheme } from '@material-ui/core/styles'
 const CategoryManager = () => {
   // นำเข้าตัวsweetalert2
   const Swal = require('sweetalert2')
-const theme = useTheme()
+  const theme = useTheme()
 
   // ตัวแปรเก็บข้อมูล
   const [categorysdata, setCategorysData] = useState([])
@@ -65,7 +65,6 @@ const theme = useTheme()
           }
         })
 
-        // console.log('product data', response.data.message.Data)
         setCategorysData(response.data.message.Data)
       } catch (error) {
         console.error('Error fetching data:', error)
@@ -108,7 +107,6 @@ const theme = useTheme()
         axios
           .post(`${process.env.NEXT_PUBLIC_API}TCTM.product_category.deletecategory`, data)
           .then(response => {
-            console.log(response)
             Swal.fire({
               icon: 'success',
               title: 'ลบข้อมูลแล้วเสร็จ'

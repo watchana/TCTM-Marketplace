@@ -51,8 +51,6 @@ const OrdersReq = ({ subId }) => {
 
   const usertype = '2' // usertype = '1'(member) usertype = '2'(marker)
 
-  // console.log('rows', rows)
-
   // ** Switch Alert Import
   const Swal = require('sweetalert2')
 
@@ -66,7 +64,6 @@ const OrdersReq = ({ subId }) => {
           }
         })
 
-        // console.log('data', response.data.message.Data)
         setRows(response.data.message.Data)
       } catch (error) {
         console.error(error)
@@ -176,7 +173,6 @@ const OrdersReq = ({ subId }) => {
 
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.confirm`, data)
-      console.log(response)
       Swal.fire({
         icon: 'success',
         title: 'Send Data Success'
@@ -212,8 +208,6 @@ const OrdersReq = ({ subId }) => {
           axios
             .put(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.reject`, data)
             .then(function (response) {
-              console.log(response)
-
               Swal.fire({
                 icon: 'success',
                 title: 'Reject Success'
@@ -255,11 +249,7 @@ const OrdersReq = ({ subId }) => {
     <Box sx={{ padding: '10px 10px 15px' }}>
       <MySeo
         title={'Management : Product Requirement Orders'}
-        
-        // details={OptionData}
         description={'Product Requirement Orders'}
-
-        // content={SeoProductpage.content}
         keywords={'Order,Product,market,E-commerce,Chat,Creative'}
 
         // ogimg={

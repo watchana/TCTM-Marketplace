@@ -77,8 +77,6 @@ const Testim = () => {
         image_file_infname: imageChange
       }
 
-      console.log('data', data)
-
       await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.infromation.inf_imgV2`, data)
 
       uploadImagesToApi()

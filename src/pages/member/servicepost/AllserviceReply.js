@@ -67,15 +67,10 @@ const MyMarket = () => {
 
   // ดึงข้อมูลจาก Local Storage
   const userId = get('Member_Id') // Id ผู้ใช้จาก local Storage
-  // console.log('userId', userId)
 
   // เซตข้อมูลลงตัวแปร
-  const [productdata, setProductData] = useState([])
-  const [selectedCategory, setSelectedCategory] = useState('')
-  const [storeStatus, setStoreStatus] = useState('')
-  const [marketname, setMarketname] = useState('')
+
   const [serId, setSerId] = useState('') // เก็บค่า Sub Id
-  console.log('serId', serId)
 
   const [shouldFetchData, setShouldFetchData] = useState(true) // state control fate data
 

@@ -164,20 +164,14 @@ const NotificationDropdown = () => {
       noti_id
     }
 
-    // console.log('data', data)
-
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.notifications.read_noti`, data)
       router.push(`${link_url}`)
       handleDropdownClose()
-      console.log(response)
     } catch (error) {
       console.log(error)
     }
   }
-
-  // console.log('user id', userid)
-  // console.log('NotificationData', notificationData.Data)
 
   return (
     <Fragment>

@@ -81,8 +81,6 @@ const CheckNpost = ({ invoice_id }) => {
     }
 
     fetchData()
-
-    // console.log('workMyapi', workMyapi)
   }, [invoice_id, operations])
 
   const handleSomeAdd = async (newopr, oldopr) => {
@@ -125,8 +123,6 @@ const CheckNpost = ({ invoice_id }) => {
       })
       .filter(Boolean) // Remove null items
 
-    console.log('matchingData', matchingData)
-
     if (matchingData.length > 0) {
       const requests = matchingData.map(item =>
         axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.workorder.update_workorder`, {
@@ -140,7 +136,6 @@ const CheckNpost = ({ invoice_id }) => {
           wod_time: item.time_in_mins
         })
       )
-      console.log('rrrrrrrrrrrrrrrrr')
 
       // Wait for all requests to complete
       const responses = await Promise.all(requests)

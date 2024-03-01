@@ -40,7 +40,6 @@ const Education = forwardRef((props, ref) => {
 
   const handleDatePicker2 = date2 => {
     ref.current['date2'] = date2
-    console.log(date2)
   }
 
   return (

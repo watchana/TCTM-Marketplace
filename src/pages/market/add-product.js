@@ -40,14 +40,13 @@ import ShowResultsAPI from 'src/views/supplier/ShowResultsAPI'
 import typography from 'src/@core/components/typography'
 import { useTheme } from '@material-ui/core/styles'
 
-
 // ** Switch Alert Import
 const Swal = require('sweetalert2')
 
 const AddProductPage = ({ productCategories }) => {
   const router = useRouter()
 
-const theme = useTheme()
+  const theme = useTheme()
 
   // รับค่า Sub_id
   const { sub_id } = router.query
@@ -212,15 +211,11 @@ const theme = useTheme()
         setResultAPIStatus(500)
       }
     } else if (activeStep === 1) {
-      console.log('test')
-
       axios
         .post(`${process.env.NEXT_PUBLIC_API}TCTM.product.postnewproductv2`, product)
         .then(response => {
           const statusCode = response.data.message.StatusCode
           setResultAPIStatus(statusCode)
-
-          console.log('ข้อมูลก่อนส่ง', product)
 
           // เรียกใช้ฟังก์ชัน อัปโหลดไฟล์รูปภาพลงเครื่อง
           uploadImagesToApi()
@@ -266,10 +261,6 @@ const theme = useTheme()
       setSkipped(newSkipped)
     }
   }
-
-  useEffect(() => {
-    console.log(product), [product]
-  })
 
   const handleBack = () => {
     setActiveStep(prevActiveStep => prevActiveStep - 1)

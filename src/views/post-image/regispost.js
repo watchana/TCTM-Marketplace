@@ -35,8 +35,6 @@ const Regispost = ({ imageChange, setImageChange, onUploadImagesChange }) => {
   const [openImagePreview, setOpenImagePreview] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
 
-  console.log('uploadImages', uploadImages)
-
   // ** upload images
   const handleImageChange = event => {
     const files = event.target.files

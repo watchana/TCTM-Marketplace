@@ -99,7 +99,6 @@ const ServicePosts = () => {
         axios
           .put(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.deleterequirement`, data)
           .then(function (response) {
-            console.log(response)
             setMyPose(prevData => prevData.filter(myPose => myPose.req_id !== reqId))
 
             if (response.status === 200) {
@@ -126,7 +125,6 @@ const ServicePosts = () => {
             })
           })
       } else if (result.isDenied) {
-        console.log('cancelled delete')
       }
     })
   }
@@ -239,10 +237,6 @@ const ServicePosts = () => {
   ]
 
   const isSmallScreen = useMediaQuery('(max-width: 700px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
-
-  useEffect(() => {
-    console.log('262', myPose)
-  }, [myPose])
 
   return (
     <Container maxWidth='xl'>

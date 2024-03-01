@@ -86,18 +86,6 @@ const EditPo = () => {
     fetchData()
   }, [pdi])
 
-  // const remapOption = Object.values(options).map((optionArray, index) =>
-  //   optionArray.filter(fil => fil.option_name !== 'Price' && fil.option_name !== 'Quantity')
-  // )
-  // console.log('remapOption', remapOption)
-
-  // const OptionData = Object.values(options).map((optionArray, index) =>
-  //   optionArray.map(option => ({ optid: option.value_id,optv: option.value_name, optn: option.option_name }))
-  // )
-
-  // console.log('options', options)
-  // console.log('Option1', OptionData)
-
   //Set product detail
   const [ProductName, setProductName] = useState('')
   const [Category, setCategory] = useState('')
@@ -278,7 +266,6 @@ const EditPo = () => {
             data: changeSelection.data.map(item => ({ value_id: item.value_id, value_name: item.value_name }))
           }
 
-          console.log(data)
           if (data) {
             try {
               const responses = await axios.put(`${process.env.NEXT_PUBLIC_API}TCTM.product.update_productvalue`, data)
@@ -313,7 +300,7 @@ const EditPo = () => {
                   const data = {
                     product_image_id: image.product_image_id
                   }
-                  console.log('id', data)
+
                   await axios.put(`${process.env.NEXT_PUBLIC_API}TCTM.product.deleteimgproduct`, data)
                 })
               )
@@ -363,7 +350,6 @@ const EditPo = () => {
           }
 
           if (Object.values(dataDetail).some(value => value !== '')) {
-            console.log('working')
             try {
               const responses = await axios.put(`${process.env.NEXT_PUBLIC_API}TCTM.product.update_product`, dataDetail)
 

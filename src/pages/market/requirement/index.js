@@ -53,8 +53,6 @@ const Requirement = SubID => {
   const sub_id = SubID.sub_id
   const [rowdata, setRowData] = useState([])
 
-  // console.log('row', rowdata)
-
   // เก็บค่าข้อมูลลง Api
   useEffect(() => {
     const fetchData = async () => {
@@ -68,7 +66,6 @@ const Requirement = SubID => {
           }
         )
 
-        // console.log('Api', response.data.message.Data[0].member_id)
         setRowData(response.data.message.Data)
       } catch (error) {
         console.error(error)
@@ -80,8 +77,6 @@ const Requirement = SubID => {
 
   // ฟังก์ชันสำหรับ  Band User
   const handleRejectSubmit = reqId => {
-    console.log('reqId', reqId)
-
     // แสดงกล่องข้อความยืนยัน
     Swal.fire({
       title: 'Confirm Reject',
@@ -228,11 +223,7 @@ const Requirement = SubID => {
     <Box sx={{ padding: '10px 10px 15px' }}>
       <MySeo
         title={'Management : Requirements'}
-
-        // details={OptionData}
         description={'Product Requirement Orders'}
-
-        // content={SeoProductpage.content}
         keywords={'Order,Product,market,E-commerce,Chat,Creative'}
 
         // ogimg={

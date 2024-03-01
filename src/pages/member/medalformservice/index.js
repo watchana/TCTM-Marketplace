@@ -42,10 +42,6 @@ const MedalMainform = () => {
   const { ser_id } = router.query
   const serID = ser_id
 
-  useEffect(() => {
-    console.log('data', data)
-  }, [data])
-
   // Call Api
   useEffect(() => {
     const fetchData = async () => {

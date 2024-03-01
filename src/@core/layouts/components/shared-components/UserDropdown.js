@@ -95,8 +95,6 @@ const UserDropdown = () => {
     user_status = localStorage.getItem('User_Status')
   }
 
-  // console.log('สถานะ user', user_status)
-
   // ** ทำการถอดรหัส role
   let role = ''
   if (typeof window !== 'undefined') {

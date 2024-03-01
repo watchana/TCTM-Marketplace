@@ -40,7 +40,6 @@ const User = () => {
         user_id: member_id // ส่ง account_id ไปที่ API
       })
       .then(response => {
-        console.log('UserID', response)
         fetchUserData()
 
         // ทำอย่างอื่นตามความต้องการ
@@ -60,7 +59,6 @@ const User = () => {
         user_id: member_id // ส่ง account_id ไปที่ API
       })
       .then(response => {
-        console.log('UserID', response)
         fetchUserData()
 
         // ทำอย่างอื่นตามความต้องการ

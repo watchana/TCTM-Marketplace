@@ -35,7 +35,6 @@ const ShowOrderReq = ({ userId }) => {
           }
         })
 
-        // console.log('Api', response.data.message.Data[0])
         setRows(response.data.message.Data)
         setShouldFetchData(false)
       } catch (error) {
@@ -55,15 +54,13 @@ const ShowOrderReq = ({ userId }) => {
         invoice_id: invoice_id
       }
 
-      console.log('data', data)
-
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.member_confirm_product`, data)
       if (response.status === 200) {
         Swal.fire({
           icon: 'success',
           title: 'Success'
         })
-        console.log(response.status)
+
         setShouldFetchData(true)
       } else {
         Swal.fire({

@@ -54,7 +54,6 @@ const Service = () => {
 
   // ฟังชันส่งข้อมูล Register
   const handleSubmitData = async (event, rowId) => {
-    console.log('RowId: ' + rowId)
     event.preventDefault()
     setIsSubmitted(true)
 
@@ -75,7 +74,6 @@ const Service = () => {
       ser_id: rowId,
       ser_type: certificateType
     }
-    console.log('data', data)
 
     let config = {
       method: 'put',
@@ -100,8 +98,6 @@ const Service = () => {
 
           return updatedCertificates
         })
-
-        console.log(JSON.stringify(response.data))
       })
       .catch(error => {
         console.log(error)
@@ -112,46 +108,6 @@ const Service = () => {
         })
       })
   }
-
-  // const handleBanClick = (account_id, member_id) => {
-  //   // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Ban
-  //   console.log(`Ban account with ID ${account_id}`)
-
-  //   axios
-  //     .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.users.banuser`, {
-  //       account_id,
-  //       user_id: member_id // ส่ง account_id ไปที่ API
-  //     })
-  //     .then(response => {
-  //       console.log('UserID', response)
-  //       fetchUserData()
-
-  //       // ทำอย่างอื่นตามความต้องการ
-  //     })
-  //     .catch(error => {
-  //       console.error('Error:', error)
-  //     })
-  // }
-
-  // const handleUnbanClick = (account_id, member_id) => {
-  //   // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Unban
-  //   console.log(`Unban account with ID ${account_id}`)
-
-  //   axios
-  //     .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.users.unbanuser`, {
-  //       account_id,
-  //       user_id: member_id // ส่ง account_id ไปที่ API
-  //     })
-  //     .then(response => {
-  //       console.log('UserID', response)
-  //       fetchUserData()
-
-  //       // ทำอย่างอื่นตามความต้องการ
-  //     })
-  //     .catch(error => {
-  //       console.error('Error:', error)
-  //     })
-  // }
 
   // ฟังชัน download ใบเสร็จ
   const handleDownload = async fileName => {

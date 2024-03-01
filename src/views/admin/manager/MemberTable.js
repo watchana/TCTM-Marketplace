@@ -133,8 +133,6 @@ const MemberTable = ({ rows }) => {
         axios
           .put(`${process.env.NEXT_PUBLIC_API}TCTM.approve.userreject`, data)
           .then(function (response) {
-            console.log(response)
-
             // หลังจากที่แตะเสร็จ ลบแถวที่ถูก แตะ ออกจากข้อมูล
             const updatedRows = tableRows.filter(row => row.account_id !== id)
 

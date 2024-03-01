@@ -17,7 +17,7 @@ const StripeSuccess = () => {
         return JSON.parse(str)
       } catch (error) {
         console.error('Error parsing JSON:', error)
-        
+
         return null
       }
     })
@@ -34,14 +34,12 @@ const StripeSuccess = () => {
           }
 
           const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.send_proof`, formattedData)
-          console.log('API Response:', response.data)
 
           // Process the response data here
           if (response.status === 200) {
             // Do something with response.data
             // Example: Update UI, state, or perform additional logic
             const responseData = response.data
-
           }
         }
 

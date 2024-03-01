@@ -51,10 +51,6 @@ const ServicereplyChat = serId => {
   // ตัวแปรเก็บค่าข้อมูล
   const ser_id = serId.ser_id
   const [rowdata, setRowData] = useState([])
-  console.log('ser_id', ser_id)
-  console.log('rowdata', rowdata)
-
-  // console.log('row', rowdata)
 
   // เก็บค่าข้อมูลลง Api
   useEffect(() => {
@@ -65,8 +61,6 @@ const ServicereplyChat = serId => {
             ser_id: ser_id
           }
         })
-
-        // console.log('Api', response.data.message.Data[0].member_id)
         setRowData(response.data.message.Data)
       } catch (error) {
         console.error(error)
@@ -78,8 +72,6 @@ const ServicereplyChat = serId => {
 
   // ฟังก์ชันสำหรับ  Band User
   const handleRejectSubmit = reqId => {
-    console.log('reqId', reqId)
-
     // แสดงกล่องข้อความยืนยัน
     Swal.fire({
       title: 'Confirm Reject',

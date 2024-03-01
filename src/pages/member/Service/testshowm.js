@@ -145,8 +145,6 @@ const Testim1 = () => {
         ser_filedame: imageName
       }
 
-      // console.log('data', data)
-
       await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.service.addservice`, data)
 
       Swal.fire({

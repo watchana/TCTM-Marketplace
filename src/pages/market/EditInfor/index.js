@@ -43,7 +43,7 @@ const EditInfor = () => {
   const [imagesName, setImagesName] = useState([])
   const [imageChange, setImageChange] = useState({})
 
-const theme = useTheme()
+  const theme = useTheme()
 
   const FirstImage = informationimg && informationimg[0] ? informationimg[0].image_file_infname : null // ตัวแปรเก็บข้อมูลรูปภาพตัวอย่าง
 
@@ -77,10 +77,6 @@ const theme = useTheme()
       setImagesName(imageNames)
     }
   }, [uploadImages, imagesName])
-
-  useEffect(() => {
-    console.log('ไฟล์', imageChange)
-  }, [imageChange])
 
   // จัดการตัวแปรชื่อไฟล์ภาพ
   const handleUploadImagesChange = newImages => {
@@ -193,7 +189,6 @@ const theme = useTheme()
   const isSmallScreen = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
   const handleTitleChange = e => {
-    console.log('Title changed:', e.target.value)
     setInformationData(prevData => ({
       ...prevData,
       post_name: e.target.value
@@ -225,7 +220,6 @@ const theme = useTheme()
 
       const res = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.infromation.inf_add_img `, data)
       uploadImagesToApi()
-      console.log('data', data)
 
       // fetchData()
       console.log('Update successful:', response.data)
@@ -251,12 +245,10 @@ const theme = useTheme()
   }
 
   const handleDeleteImage = async imageId => {
-    console.log('delete image', imageId)
     const data = { name: imageId }
     try {
       const response = await axios.put(`${process.env.NEXT_PUBLIC_API}TCTM.infromation.deleteinfimg`, data)
 
-      console.log('Image deleted successfully:', response.data)
       Swal.fire({
         icon: 'success',
         title: 'Delete successful',

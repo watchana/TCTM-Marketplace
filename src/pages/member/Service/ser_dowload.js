@@ -59,7 +59,6 @@ const SerDowload = () => {
           }
         })
         setServiceDowload(response.data.message.Data[0])
-        console.log('API Response:', response.data)
       } catch (error) {
         console.error(error)
       }

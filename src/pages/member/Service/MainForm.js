@@ -66,9 +66,7 @@ const MainForm = ({ PDF_File }) => {
   const [member_id, setMemberId] = useState(null)
 
   useEffect(() => {
-    console.log(localStorage) // ตรวจสอบว่า localStorage ถูกนำเข้าหรือไม่
     const storedMemberId = localStorage.getItem('Member_Id')
-    console.log(storedMemberId)
 
     // กำหนดค่า member_id ใน state
     setMemberId(storedMemberId)
@@ -163,7 +161,6 @@ const MainForm = ({ PDF_File }) => {
     ser_imagedata: '5555',
     ser_filedame: FileName
   }
-  console.log(FileName)
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -184,7 +181,7 @@ const MainForm = ({ PDF_File }) => {
 
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.service.addservice`, data)
-      console.log(response)
+
       Swal.fire({
         icon: 'success',
         title: 'Success'

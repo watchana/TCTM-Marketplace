@@ -12,8 +12,6 @@ const Total = ({ megaProductData, productData }) => {
 
   const allNewProducts = megaProductData.map(item => item.product_name).join(', ')
 
-  console.log('newallNewProducts', allNewProducts)
-
   return (
     <Card variant='outlined' sx={{ width: '100%', boxShadow: 3, marginBottom: 4 }}>
       {megaProductData.map((item, index) => (

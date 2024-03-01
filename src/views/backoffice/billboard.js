@@ -23,7 +23,6 @@ const Billboard = () => {
 
   useEffect(() => {
     axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.all_billboard`).then(response => {
-      // console.log('setBillboardlist:', response.data.message.Data)
       setBillboardlist(response.data.message.Data)
     })
   }, [])
@@ -45,15 +44,12 @@ const Billboard = () => {
 
   const handleActiveClick = bill_id => {
     // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Ban
-    console.log(`Active account with ID ${bill_id}`)
 
     axios
       .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.active_bill_board`, {
         bill_id
       })
       .then(response => {
-        console.log('bill_id', response)
-
         // ทำอย่างอื่นตามความต้องการ
         fetchBillboardData()
       })
@@ -63,14 +59,11 @@ const Billboard = () => {
   }
 
   const handleUnactiveClick = bill_id => {
-    console.log(`Unactive account with ID ${bill_id}`)
-
     axios
       .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.unactive_bill_board`, {
         bill_id
       })
       .then(response => {
-        console.log('UserID', response)
         localStorage.removeItem('billboard2Clicked') // ลบค่าที่ถูกเก็บไว้ใน local storage
         localStorage.removeItem('billboard3Clicked') // ลบค่าที่ถูกเก็บไว้ใน local storage
         setBillboard2Clicked(false) // ตั้งค่า billboard2Clicked เป็น false เพื่อให้ปุ่ม Billboard 2 กลับมาสามารถกดได้
@@ -83,14 +76,11 @@ const Billboard = () => {
   }
 
   const handleActiveClickBill2 = bill_id => {
-    console.log(`Unactive account with ID 2 ${bill_id}`)
-
     axios
       .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.billboards2`, {
         bill_id
       })
       .then(response => {
-        console.log('UserID', response)
         localStorage.setItem('billboard2Clicked', 'true') // เก็บค่าการคลิกใน local storage
         setBillboard2Clicked(true) // ตั้งค่า billboard2Clicked เป็น true
         fetchBillboardData()
@@ -109,14 +99,12 @@ const Billboard = () => {
 
   const handleActiveClickBill3 = bill_id => {
     // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Unban
-    console.log(`Unactive account with ID 2 ${bill_id}`)
 
     axios
       .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.billboards3`, {
         bill_id
       })
       .then(response => {
-        console.log('UserID', response)
         localStorage.setItem('billboard3Clicked', 'true') // เก็บค่าการคลิกใน local storage
         setBillboard3Clicked(true) // ตั้งค่า billboard2Clicked เป็น true
         fetchBillboardData()

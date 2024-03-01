@@ -5,7 +5,6 @@ import React from 'react'
 import { Box, Card, Typography, Grid } from '@mui/material'
 
 const ShowResultsAPI = ({ result }) => {
-  console.log('result', result)
   if (result === 201) {
     return (
       <Box

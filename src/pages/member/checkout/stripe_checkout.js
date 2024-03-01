@@ -46,8 +46,6 @@ const CheckoutForm = ({ newProduct, NewPrice }) => {
   const urlParams = new URLSearchParams(encodedQueryString)
   const decodedQueryString = decodeURIComponent(urlParams)
 
-  console.log('decodedQueryString', decodedQueryString)
-
   const handleCheckout = async () => {
     if (!newProduct) {
       console.error('Product is missing.')
@@ -71,7 +69,6 @@ const CheckoutForm = ({ newProduct, NewPrice }) => {
         nickname: newProduct
       })
 
-      console.log('Price created:', price.id)
       setPriceKey(String(price.id))
 
       const stripePromise = loadStripe(process.env.NEXT_PUBLIC_PUBLISHSTRIPE)

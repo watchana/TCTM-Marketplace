@@ -89,9 +89,6 @@ const Indexpayment = () => {
 
         const results = await Promise.all(promises)
 
-        // ทำสิ่งที่ต้องการเมื่อเสร็จสิ้นทุกคำขอ API ใน dataArray
-        console.log('All API requests completed:', results.length)
-
         // สร้าง arrays สำหรับข้อมูลทั้งหมดที่ได้จากการเรียก API
         const allProductData = results.map(request => request?.Data[0] || null)
         const allMegaProductData = results.map(request => request?.Invoice[0] || null)
@@ -111,7 +108,7 @@ const Indexpayment = () => {
 
   const isSmallScreen = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
-const theme = useTheme()
+  const theme = useTheme()
 
   return (
     <Container maxWidth='xl'>

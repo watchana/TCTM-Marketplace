@@ -32,7 +32,7 @@ const Checkout = () => {
   const router = useRouter() // เรียกใช้งาน Router
   const { productName, price, quantity, selection, sub_id, product_id, FirstImage } = router.query // รับค่าข้อมูล จาก Router
 
-const theme = useTheme()
+  const theme = useTheme()
 
   // ตัวแปรรับค่าข้อมูล
   const [userId, setUserId] = useState('') // ข้อมูล user_Id
@@ -103,7 +103,6 @@ const theme = useTheme()
 
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.gen_invoice`, data)
-      console.log(response)
       Swal.fire({
         icon: 'success',
         title: 'Send Data Success'

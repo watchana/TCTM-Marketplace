@@ -56,7 +56,6 @@ const MyOrderPage = () => {
           }
         })
 
-        // console.log('Api', response.data)
         setProductData(response.data.message.Data)
       } catch (error) {
         console.error(error)
@@ -89,7 +88,7 @@ const MyOrderPage = () => {
 
   const isSmallScreen = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
-const theme = useTheme()
+  const theme = useTheme()
 
   return (
     <Container maxWidth='xl'>

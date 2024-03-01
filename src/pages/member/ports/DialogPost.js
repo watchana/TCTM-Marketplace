@@ -59,13 +59,9 @@ const DialogPost = ({ open, handleClose, userId }) => {
       req_description: description
     }
 
-    console.log(data)
-
     axios
       .post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.postrequirement`, data)
       .then(response => {
-        console.log(response)
-
         // ปิด Dialog
         handleClose(false)
 

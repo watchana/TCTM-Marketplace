@@ -33,8 +33,6 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
   // ตัวแปรควบคุม State
   const [isConfirmed, setIsConfirmed] = useState(false) // ควบคุมการกด submit ฟังก์ชัน handleInvoiceClick
 
-  // console.log('555', orderdata)
-  // console.log('666', orderdata.invoice_file_name)
   const [selectDelivery, setselectDelivery] = useState('') // State to track the selected value
 
   const handleChange = event => {
@@ -100,7 +98,7 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
 
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.confirm_payment`, data)
-      console.log(response)
+
       Swal.fire({
         icon: 'success',
         title: 'Confirm Data Success'
@@ -129,7 +127,6 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
       process_status: Tonen
     }
 
-
     // ตรวจสอบค่าว่างใน TextField
     if (FileName === '' || Tracking === '' || selectDelivery === '') {
       Swal.fire({
@@ -155,7 +152,6 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
             'Content-Type': 'multipart/form-data'
           }
         })
-        console.log('response Api', response)
       } catch (error) {
         console.error(error)
       }
@@ -181,8 +177,6 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
   const handleDownload = async FileName => {
     const fileName = FileName
 
-    console.log('fileName', fileName)
-
     try {
       const downloadResponse = await fetch('/api/receipt_FileDownload', {
         method: 'POST',
@@ -205,8 +199,6 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
 
         // Clean up the object URL after the download is initiated
         URL.revokeObjectURL(blobUrl)
-
-        console.log('Download initiated')
       } else {
         console.error('Error downloading document:', downloadResponse.statusText)
       }

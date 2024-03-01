@@ -48,10 +48,6 @@ const MedalInformation = () => {
   const { ser_id } = router.query
   const serID = ser_id
 
-  useEffect(() => {
-    console.log('data', data)
-  }, [data])
-
   // Call Api
   useEffect(() => {
     const fetchData = async () => {
@@ -73,7 +69,7 @@ const MedalInformation = () => {
 
   const isSmallScreen = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
-const theme = useTheme()
+  const theme = useTheme()
 
   return (
     <form>

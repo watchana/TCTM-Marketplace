@@ -26,10 +26,6 @@ const ServiceTable = ({ rows }) => {
   const member_id = rounter.query
   const memID = member_id
 
-  useEffect(() => {
-    console.log('data1', tableRows)
-  }, [tableRows])
-
   const handleDownload = async fileName => {
     try {
       // แสดงกล่องข้อความยืนยันด้วย SweetAlert
@@ -63,13 +59,10 @@ const ServiceTable = ({ rows }) => {
 
           // Clean up the object URL after the download is initiated
           URL.revokeObjectURL(blobUrl)
-
-          console.log('Download initiated')
         } else {
           console.error('Error downloading document:', downloadResponse.statusText)
         }
       } else {
-        console.log('Cancel download')
       }
     } catch (error) {
       console.error('An error occurred:', error)
@@ -182,7 +175,6 @@ const ServiceTable = ({ rows }) => {
       ser_id: id,
       member_id: memID
     }
-    console.log('data555', data)
 
     axios
       .put(`${process.env.NEXT_PUBLIC_API}TCTM.approve.serviceapprove`, data)
@@ -231,8 +223,6 @@ const ServiceTable = ({ rows }) => {
         axios
           .put(`${process.env.NEXT_PUBLIC_API}TCTM.approve.servicereject`, data)
           .then(function (response) {
-            console.log(response)
-
             // หลังจากที่แตะเสร็จ ลบแถวที่ถูก แตะ ออกจากข้อมูล
             const updatedRows = tableRows.filter(row => row.ser_id !== id)
 

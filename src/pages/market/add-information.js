@@ -32,17 +32,12 @@ import { ChevronRight } from 'mdi-material-ui'
 import typography from 'src/@core/components/typography'
 import { useTheme } from '@material-ui/core/styles'
 
-
 const AddInformationPage = () => {
   // ** Hook
   const router = useRouter()
-const theme = useTheme()
+  const theme = useTheme()
   const { sub_id } = router.query
   const SubId = sub_id
-
-  useEffect(() => {
-    console.log('sub_id', sub_id)
-  }, [sub_id])
 
   // รับค่าตัวแปร
 
@@ -110,8 +105,6 @@ const theme = useTheme()
       }
 
       await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.infromation.inf_imgV2`, data)
-
-      console.log('data', data)
 
       Swal.fire({
         icon: 'success',
