@@ -122,7 +122,7 @@ const AppBarContent = props => {
   return (
     <Box
       sx={{
-        width: '98%',
+        width: '100%',
         height: '90px',
         bgcolor: theme.palette.grey[50],
         position: 'fixed',
