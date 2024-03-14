@@ -10,7 +10,7 @@ const Market = () => {
   const [Marketlist, setMarketlist] = useState([])
 
   useEffect(() => {
-    axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.market.allmarket`).then(response => {
+    axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.backoffice.market.allmarket`).then(response => {
       // console.log('setMarket:', response.data.message.Data)
       setMarketlist(response.data.message.Data)
     })
@@ -22,7 +22,7 @@ const Market = () => {
 
   const fetchMarketData = () => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.market.allmarket`)
+      .get(`${process.env.NEXT_PUBLIC_API}DIGITAL.backoffice.market.allmarket`)
       .then(response => {
         setMarketlist(response.data.message.Data)
       })
@@ -32,10 +32,10 @@ const Market = () => {
   }
 
   const handleBanClick = sub_id => {
-    console.log(`Ban account with ID ${sub_id}`)
+    // console.log(`Ban account with ID ${sub_id}`)
 
     axios
-      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.market.banmarket`, {
+      .post(`${process.env.NEXT_PUBLIC_API}DIGITAL.backoffice.market.banmarket`, {
         sub_id
       })
       .then(response => {
@@ -49,10 +49,10 @@ const Market = () => {
 
   const handleActiveClick = sub_id => {
     // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Ban
-    console.log(`Active account with ID ${sub_id}`)
+    // console.log(`Active account with ID ${sub_id}`)
 
     axios
-      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.market_active`, {
+      .post(`${process.env.NEXT_PUBLIC_API}DIGITAL.backoffice.home_page.market_active`, {
         sub_id
       })
       .then(response => {
@@ -66,10 +66,10 @@ const Market = () => {
 
   const handleUnactiveClick = sub_id => {
     // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Unban
-    console.log(`Unactive account with ID ${sub_id}`)
+    // console.log(`Unactive account with ID ${sub_id}`)
 
     axios
-      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.market_unactive`, {
+      .post(`${process.env.NEXT_PUBLIC_API}DIGITAL.backoffice.home_page.market_unactive`, {
         sub_id
       })
       .then(response => {
@@ -82,10 +82,10 @@ const Market = () => {
   }
 
   const handleUnbanClick = sub_id => {
-    console.log(`Unban account with ID ${sub_id}`)
+    // console.log(`Unban account with ID ${sub_id}`)
 
     axios
-      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.market.unbanmarket`, {
+      .post(`${process.env.NEXT_PUBLIC_API}DIGITAL.backoffice.market.unbanmarket`, {
         sub_id
       })
       .then(response => {

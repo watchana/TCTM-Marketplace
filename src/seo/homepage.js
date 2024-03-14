@@ -1,9 +1,9 @@
 const SeoHomepage = {
   id: 1,
-  templateName: 'TCTM - 1 ',
-  description: 'homepage',
-  keywords: 'homepage',
-  content: 'homepage'
+  templateName: 'Digital2day - 1 ',
+  description: 'shop.Digital2day.com',
+  keywords: 'shop.digital2day.com,อุปกรณ์เน็ตเวิร์คคอมพิวเตอร์,PLC,digital2day,อุปกรณ์เน็ตเวิร์คราคาถูก,digital access',
+  content: 'shop.digital2day.com'
 }
 
 const SeoProductpage = {
@@ -16,60 +16,60 @@ const SeoProductpage = {
 
 const SeoCategorypage = {
   id: 1,
-  templateName: 'category',
-  description: 'category',
-  keywords: 'category',
-  content: 'category'
+  templateName: 'Digital2day Catalog',
+  description: 'Digital2day Catalog',
+  keywords: 'Digital2day Catalog',
+  content: 'Digital2day Catalog'
 }
 
 const Seoinformationpage = {
   id: 1,
-  description: 'Seoinformationpage',
-  keywords: 'Seoinformationpage',
-  content: 'Seoinformationpage'
+  description: 'Digital2day Information',
+  keywords: 'Digital2day Information',
+  content: 'Digital2day Information'
 }
 
 const SeoDashboardpage = {
   id: 1,
-  description: '  Dashboard',
-  keywords: '  Dashboard',
-  content: '  Dashboard'
+  description: 'Digital2day Dashboard',
+  keywords: 'Digital2day Dashboard',
+  content: 'Digital2day Dashboard'
 }
 
 // ของ admin
-const SeoTctmManagementpage = {
+const SeoDigitalManagementpage = {
   id: 1,
-  description: '   TCTM Management',
-  keywords: '   TCTM Management',
-  content: '   TCTM Management'
+  description: 'Digital2day Management',
+  keywords: 'Digital2day Management',
+  content: 'Digital2day Management'
 }
 
 const SeoCategoryManagementpage = {
   id: 1,
-  description: ' CategoryManagementpage',
-  keywords: ' CategoryManagementpage',
-  content: ' CategoryManagementpage'
+  description: 'Digital2day Catalogry Mng',
+  keywords: 'Digital2day Catalogry Mng',
+  content: 'Digital2day Catalogry Mng'
 }
 
 const SeoBackofficetpage = {
   id: 1,
-  description: ' Backofficetpage',
-  keywords: ' Backofficetpage',
-  content: ' Backofficetpage'
+  description: 'Digital2day Back office',
+  keywords: 'Digital2day Back office',
+  content: 'Digital2day Back office'
 }
 
 const SeoLoginpage = {
   id: 1,
-  description: ' Loginpage',
-  keywords: ' Loginpage',
-  content: ' Loginpage'
+  description: 'Digital2day  Loginpage',
+  keywords: 'Digital2day  Loginpage',
+  content: 'Digital2day  Loginpage'
 }
 
 const SeoAccountSettingspage = {
   id: 1,
-  description: ' AccountSettings',
-  keywords: ' AccountSettings',
-  content: ' AccountSettings'
+  description: 'Digital2day AccountSettings',
+  keywords: 'Digital2day AccountSettings',
+  content: 'Digital2day AccountSettings'
 }
 
 // ของ admin
@@ -96,9 +96,9 @@ const SeoServiceRegisterpage = {
 
 const SeoPostpage = {
   id: 1,
-  description: ' Postpage',
-  keywords: ' Postpage',
-  content: ' Postpage'
+  description: 'Digital2day ',
+  keywords: 'Digital2day ',
+  content: 'Digital2day '
 }
 
 const SeoMyorderpage = {
@@ -121,7 +121,7 @@ export {
   SeoCategorypage,
   Seoinformationpage,
   SeoDashboardpage,
-  SeoTctmManagementpage,
+  SeoDigitalManagementpage,
   SeoCategoryManagementpage,
   SeoBackofficetpage,
   SeoLoginpage,

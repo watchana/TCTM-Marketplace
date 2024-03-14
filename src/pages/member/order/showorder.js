@@ -125,7 +125,7 @@ const ShowOrder = ({ productdata, updateProductData }) => {
         invoice_id: invoice_id
       }
 
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.member_confirm_product`, data)
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.invoice.member_confirm_product`, data)
       if (response.status === 200) {
         Swal.fire({
           icon: 'success',
@@ -141,7 +141,7 @@ const ShowOrder = ({ productdata, updateProductData }) => {
       }
     } catch (error) {
       console.error(error)
-      console.log(error)
+      // console.log(error)
       Swal.fire({
         icon: 'error',
         title: 'การส่งข้อมูลล้มเหลว',
@@ -203,7 +203,7 @@ const ShowOrder = ({ productdata, updateProductData }) => {
                         >
                           <CardMedia
                             component='img'
-                            src={`/imgTctmProduct/${item.image_file_name}`}
+                            src={`/imgDigitalProduct/${item.image_file_name}`}
                             alt={`Image for ${item.product_name}`}
                             height='auto'
                             sx={{ minWidth: '100px', minHeight: '100px' }}
@@ -350,7 +350,7 @@ const ShowOrder = ({ productdata, updateProductData }) => {
                           >
                             <CardMedia
                               component='img'
-                              src={`/imgTctmProduct/${item.image_file_name}`}
+                              src={`/imgDigitalProduct/${item.image_file_name}`}
                               alt={`Image for ${item.product_name}`}
                               height='auto'
                               sx={{ minWidth: '100px', minHeight: '100px' }}

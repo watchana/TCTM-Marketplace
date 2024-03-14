@@ -33,12 +33,17 @@ const StripeSuccess = () => {
             invoice_id: item.invoice_id
           }
 
-          const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.send_proof`, formattedData)
+          const response = await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.invoice.send_proof`, formattedData)
 
           // Process the response data here
           if (response.status === 200) {
-            // Do something with response.data
-            // Example: Update UI, state, or perform additional logic
+            
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.product.productdetailv2`, {
+             params: {
+              product_id: productId
+                    }
+        })
+
             const responseData = response.data
           }
         }

@@ -50,7 +50,7 @@ const MyOrderPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.member_order`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.invoice.member_order`, {
           params: {
             member_id: userId
           }
@@ -68,7 +68,7 @@ const MyOrderPage = () => {
   // ฟังชันอัปเดทค่าข้อมูลจาก Component
   const updateProductData = async () => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.member_order`, {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.invoice.member_order`, {
         params: {
           member_id: userId
         }

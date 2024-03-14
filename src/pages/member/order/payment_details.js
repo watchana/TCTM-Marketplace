@@ -74,15 +74,15 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
         return
       }
       try {
-        const Response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.invoice_detail`, {
+        const Response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.invoice.invoice_detail`, {
           params: {
             invoice_id: invoice_id
           }
         })
-        setTonen(Response.data.message.Data[0].process_status)
-        setTracking(Response.data.message.Data[0].tracking_number)
-        setselectDelivery(Response.data.message.Data[0].tracking_name)
-        setFileName(Response.data.message.Data[0].invoice_file_name)
+        setTonen(Response.data.message.Data[0].process_status||'')
+        setTracking(Response.data.message.Data[0].tracking_number||'')
+        setselectDelivery(Response.data.message.Data[0].tracking_name||'')
+        setFileName(Response.data.message.Data[0].invoice_file_name||'')
       } catch (error) {}
     }
     fetchData()
@@ -97,7 +97,7 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
     }
 
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.confirm_payment`, data)
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.invoice.confirm_payment`, data)
 
       Swal.fire({
         icon: 'success',
@@ -138,7 +138,7 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
     }
 
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.send_tracking`, data)
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.invoice.send_tracking`, data)
 
       // เรียกใช้ฟังก์ชัน อัปโหลดไฟล์รูปภาพลงเครื่อง
       const formData = new FormData()
@@ -250,7 +250,7 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
 
           <Grid item xs={12} sm={9} md={9}>
             <Box display={'flex'}>
-              <FormControl sx={{ width: '100%' }}>
+              <FormControl sx={{ width: '100%' }} disabled={orderdata.invoice_status == '3' || isConfirmed} >
                 <InputLabel>Select Delivery</InputLabel>
                 <Select value={selectDelivery} onChange={handleChange}>
                   <MenuItem value=''>Select Delivery</MenuItem>
@@ -280,14 +280,14 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
             <Typography variant='subtitle1'>Tracking Number</Typography>
           </Grid>
           <Grid item xs={12} sm={12} md={12}>
-            <TextField sx={{ width: '100%' }} onChange={handleTracking} value={Tracking} />
+            <TextField sx={{ width: '100%' }} onChange={handleTracking} value={Tracking} disabled={orderdata.invoice_status == '3' || isConfirmed} />
           </Grid>
           <Grid item xs={12} sm={12} md={12}>
             <Typography variant='subtitle1'>Send Work Order</Typography>
           </Grid>
-          <Grid item xs={12} sm={12} md={12}>
-            <TextField sx={{ width: '100%' }} onChange={handleTonen} value={Tonen} />
-          </Grid>
+          {/* <Grid item xs={12} sm={12} md={12}>
+            <TextField sx={{ width: '100%' }} onChange={handleTonen} value={Tonen} disabled={orderdata.invoice_status == '3' || isConfirmed}/>
+          </Grid> */}
           <Grid item xs={12} sm={12} md={3} sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
             <Button
               variant='contained'
@@ -306,11 +306,11 @@ const Payment = ({ usertype, invoice_id, orderdata, receipt }) => {
                   id='file-input'
                   style={{ display: 'none' }}
                   onChange={handleFileUpload}
-
+                  disabled={orderdata.invoice_status == '3' || isConfirmed}
                   // accept='.pdf'
                 />
 
-                <IconButton component='span' color='primary' aria-label='upload file'>
+                <IconButton component='span' color='primary' aria-label='upload file' disabled={orderdata.invoice_status == '3' || isConfirmed}>
                   <FileUploadIcon />
                 </IconButton>
               </label>

@@ -176,7 +176,7 @@ const MyMarket = () => {
 
         if (primary !== '') {
           axios
-            .put(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.delete.ban`, data)
+            .put(`${process.env.NEXT_PUBLIC_API}DIGITAL.backoffice.delete.ban`, data)
             .then(function (response) {
               Swal.fire({
                 icon: 'success',
@@ -186,7 +186,7 @@ const MyMarket = () => {
               setShouldFetchData(true)
             })
             .catch(function (error) {
-              console.log(error)
+              // console.log(error)
 
               Swal.fire({
                 icon: 'error',
@@ -194,10 +194,10 @@ const MyMarket = () => {
               })
             })
         } else {
-          console.log('Error')
+          // console.log('Error')
         }
       } else if (result.isDenied) {
-        console.log('cancelled Error')
+        // console.log('cancelled Error')
       }
     })
   }
@@ -211,8 +211,8 @@ const MyMarket = () => {
     }
 
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.product.active_sell_product`, data)
-      console.log(response)
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.product.active_sell_product`, data)
+      // console.log(response)
       Swal.fire({
         icon: 'success',
         title: 'Send Data Success'
@@ -223,7 +223,7 @@ const MyMarket = () => {
         icon: 'error',
         title: 'Error'
       })
-      console.log(error)
+      // console.log(error)
     }
   }
 
@@ -244,9 +244,9 @@ const MyMarket = () => {
         }
         if (product_id !== '') {
           axios
-            .put(`${process.env.NEXT_PUBLIC_API}TCTM.product.active_not_sell_product`, data)
+            .put(`${process.env.NEXT_PUBLIC_API}DIGITAL.product.active_not_sell_product`, data)
             .then(function (response) {
-              console.log(response)
+              // console.log(response)
               Swal.fire({
                 icon: 'success',
                 title: 'Unselling Success'
@@ -254,17 +254,17 @@ const MyMarket = () => {
               setShouldFetchData(true)
             })
             .catch(function (error) {
-              console.log(error)
+              // console.log(error)
               Swal.fire({
                 icon: 'error',
                 title: 'Erroe'
               })
             })
         } else {
-          console.log('Error')
+          // console.log('Error')
         }
       } else if (result.isDenied) {
-        console.log('cancelled Error')
+        // console.log('cancelled Error')
       }
     })
   }
@@ -291,7 +291,7 @@ const MyMarket = () => {
           chipLabel = 'Promote'
         } else if (subStatus === '1') {
           chipColor = 'warning'
-          chipLabel = 'Wait TCTM Approve'
+          chipLabel = 'Wait Digital2day Approve'
         } else if (subStatus === '4') {
           chipColor = 'default'
           chipLabel = 'UnSelling..'
@@ -467,7 +467,7 @@ const MyMarket = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.mymarket.allproductinmarket`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.mymarket.allproductinmarket`, {
           params: {
             member_id: userId
           }

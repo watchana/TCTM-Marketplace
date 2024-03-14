@@ -12,7 +12,10 @@ import {
   Grid,
   Hidden,
   Skeleton,
-  Typography
+  Typography,
+  Modal,
+  Fade,
+  Backdrop
 } from '@mui/material'
 import { styled } from '@mui/material/styles'
 
@@ -56,8 +59,8 @@ const Billboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.home_page.allbillboards`)
-        setSlideData(response.data.message.Data)
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.home_page.allbillboards`)
+        setSlideData(response.data.message.Data||[])
       } catch (error) {
         console.error(error)
       } finally {
@@ -92,13 +95,28 @@ const Billboard = () => {
     }
   }
 
+  const [openImagePreview, setOpenImagePreview] = useState(false)
+  const [selectedImage, setSelectedImage] = useState(null)
+
+  // ** open image preview
+  const handleOpen = image => {
+    setSelectedImage(image)
+    setOpenImagePreview(true)
+  }
+
+  // ** close image preview
+  const handleClose = () => {
+    setSelectedImage(null)
+    setOpenImagePreview(false)
+  }
+
   // ตรวจสอบขนาดของหน้าจอ
   const isSmallScreen = useMediaQuery('(max-width: 600px)')
 
   return (
     <Container maxWidth='xl'>
       {/* ---------- Billboard ---------- */}
-      <Box sx={{ width: '100%' }}>
+      <Box sx={{ width: '100%' ,mb:4}}>
         <Grid container spacing={4}>
           {/* ---------- Main Billboard ---------- */}
           <Grid item xs={12} md={12} lg={9} mb={'6px'}>
@@ -129,6 +147,7 @@ const Billboard = () => {
                             }}
                           >
                             <CardMedia
+                              onClick={()=>handleOpen(`/imgBillboard/${item.bill_name}`)}
                               key={index} // Use key={index} instead of key={index.id}
                               component='img'
                               image={`imgBillboard/${item.bill_name}`}
@@ -201,6 +220,7 @@ const Billboard = () => {
                               }}
                             >
                               <CardMedia
+                                onClick={()=>handleOpen(`/imgBillboard/${item.bill_name}`)}
                                 component='img'
                                 src={`/imgBillboard/${item.bill_name}`}
                                 alt={`image`}
@@ -271,6 +291,7 @@ const Billboard = () => {
                               }}
                             >
                               <CardMedia
+                              onClick={()=>handleOpen(`/imgBillboard/${item.bill_name}`)}
                                 component='img'
                                 src={`/imgBillboard/${item.bill_name}`}
                                 alt={`image`}
@@ -308,9 +329,46 @@ const Billboard = () => {
           </Grid>
         </Grid>
       </Box>
+                <Modal
+                  open={openImagePreview}
+                  onClose={handleClose}
+                  closeAfterTransition
+                  slots={{ backdrop: Backdrop }}
+                  slotProps={{
+                    backdrop: {
+                      TransitionComponent: Fade
+                    }
+                  }}
+                >
+                  <Fade in={openImagePreview}>
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: 'auto',
+                        bgcolor: 'background.paper',
+                        boxShadow: 24,
+                        p: 4
+                      }}
+                    >
+                      {selectedImage ? (
+                        <img
+                          src={selectedImage}
+                          alt='Selected Image'
+                          style={{ maxWidth: '100%', maxHeight: '80vh' }} // ปรับขนาดให้พอดีกับ viewport
+                        />
+                      ) : (
+                        <Typography variant='body1'>No image selected</Typography>
+                      )}
+                    </Box>
+                  </Fade>
+                </Modal>
+
       {/* ---------- Advert ---------- */}
-      <Hidden mdDown>
-        <Box mb={3} mt={5} sx={{ width: '100%', height: '100%' }}>
+      {/* <Hidden mdDown>
+        <Box mb={12} mt={5} sx={{ width: '100%', height: '100%' }}>
           <Card variant='outlined' sx={{ height: '100px' }}>
             <Grid container direction='row' justifyContent='space-around'>
               <Grid item>
@@ -363,7 +421,7 @@ const Billboard = () => {
             </Grid>
           </Card>
         </Box>
-      </Hidden>
+      </Hidden> */}
     </Container>
   )
 }

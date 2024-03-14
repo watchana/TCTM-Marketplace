@@ -1,0 +1,16 @@
+{
+  "name": "Digital2day",
+  "short_name": "Digital2day",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "https://shop.digital2day.com/Logo_digital2day/digital2dayloginpage2.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

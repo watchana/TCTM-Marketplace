@@ -58,7 +58,7 @@ const OrdersReq = ({ subId }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.market_req_order`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.invoice.market_req_order`, {
           params: {
             sub_id: subId
           }
@@ -172,7 +172,7 @@ const OrdersReq = ({ subId }) => {
     }
 
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.confirm`, data)
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.invoice.confirm`, data)
       Swal.fire({
         icon: 'success',
         title: 'Send Data Success'
@@ -183,7 +183,7 @@ const OrdersReq = ({ subId }) => {
         icon: 'error',
         title: 'Error'
       })
-      console.log(error)
+      // console.log(error)
     }
   }
 
@@ -206,7 +206,7 @@ const OrdersReq = ({ subId }) => {
 
         if (invoice_id !== '' && member_id !== '') {
           axios
-            .put(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.reject`, data)
+            .put(`${process.env.NEXT_PUBLIC_API}DIGITAL.invoice.reject`, data)
             .then(function (response) {
               Swal.fire({
                 icon: 'success',
@@ -216,7 +216,7 @@ const OrdersReq = ({ subId }) => {
               setShouldFetchData(true)
             })
             .catch(function (error) {
-              console.log(error)
+              // console.log(error)
 
               Swal.fire({
                 icon: 'error',
@@ -224,10 +224,10 @@ const OrdersReq = ({ subId }) => {
               })
             })
         } else {
-          console.log('Error')
+          // console.log('Error')
         }
       } else if (result.isDenied) {
-        console.log('cancelled Error')
+        // console.log('cancelled Error')
       }
     })
   }

@@ -69,7 +69,7 @@ const ServicePosts = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API}TCTM.requirements.get_all_ser_requirement?user_id=${userId}`
+          `${process.env.NEXT_PUBLIC_API}DIGITAL.requirements.get_all_ser_requirement?user_id=${userId}`
         )
         setMyPose(response.data.message.Data)
       } catch (error) {
@@ -97,7 +97,7 @@ const ServicePosts = () => {
         }
 
         axios
-          .put(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.deleterequirement`, data)
+          .put(`${process.env.NEXT_PUBLIC_API}DIGITAL.requirements.deleterequirement`, data)
           .then(function (response) {
             setMyPose(prevData => prevData.filter(myPose => myPose.req_id !== reqId))
 
@@ -116,7 +116,7 @@ const ServicePosts = () => {
             }
           })
           .catch(function (error) {
-            console.log(error)
+            // console.log(error)
 
             SAlert.fire({
               icon: 'error',
@@ -145,7 +145,7 @@ const ServicePosts = () => {
       renderCell: rowCell => {
         const reqStatus = rowCell.value
         if (reqStatus === '1') {
-          return <Chip label='Wait TCTM Approve' color='warning' />
+          return <Chip label='Wait Digital2day Approve' color='warning' />
         } else if (reqStatus === '2') {
           return <Chip label='Wait for Po Approve' color='primary' />
         } else if (reqStatus === '3') {

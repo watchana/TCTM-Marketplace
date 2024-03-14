@@ -1,5 +1,5 @@
 // *** React Import
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 // ** Material UI Imports
 import {
@@ -8,6 +8,7 @@ import {
   Button,
   Card,
   CardContent,
+  ClickAwayListener,
   Fade,
   FormControl,
   Grid,
@@ -17,6 +18,7 @@ import {
   ImageListItemBar,
   InputLabel,
   MenuItem,
+  MenuList,
   Modal,
   Select,
   TextField,
@@ -25,6 +27,8 @@ import {
 
 // ** Material-UI Icons Imports
 import DeleteIcon from '@mui/icons-material/Delete'
+import axios from 'axios'
+import { withAuth } from 'src/@core/utils/AuthCheck'
 
 // ** Switch Alert Import
 const Swal = require('sweetalert2')
@@ -34,6 +38,28 @@ const RegisterProduct = ({ product, setProduct, productCategories, onUploadImage
   const [uploadVideos, setUploadVideos] = useState({})
   const [openImagePreview, setOpenImagePreview] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
+
+  const weight = [
+  {
+    value: 'Kilogram',
+    label: 'Kg',
+  },
+  {
+    value: 'Milligram',
+    label: 'Mg',
+  },
+  {
+    value: 'Gram',
+    label: 'g',
+  },
+];
+
+const[listC,setListC]=useState([])
+useEffect(async() => {
+const contryList= await axios.get('https://countriesnow.space/api/v0.1/countries/info?returns=name,flag')
+setListC(contryList.data.data);
+}, [])
+
 
   const productOptionsInit = [
     {
@@ -288,6 +314,18 @@ const RegisterProduct = ({ product, setProduct, productCategories, onUploadImage
     setProduct({ ...product, items: updatedOptionGroups })
   }
 
+  const [menuOpen, setMenuOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setMenuOpen((prev) => !prev);
+  };
+
+  const handleClickAway = () => {
+    setMenuOpen(false);
+  };
+
+  console.log(product);
+
   return (
     <Box>
       <Card variant='outlined' sx={{ padding: '30px' }}>
@@ -486,6 +524,7 @@ const RegisterProduct = ({ product, setProduct, productCategories, onUploadImage
               value={product.product_weight}
               onChange={e => setProduct({ ...product, product_weight: e.target.value })}
             />
+            
           </Grid>
           {/* ---------- Product License Number ---------- */}
           <Grid item xs={12} sm={6}>
@@ -500,15 +539,30 @@ const RegisterProduct = ({ product, setProduct, productCategories, onUploadImage
           </Grid>
           {/* ---------- Product country ---------- */}
           <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              label='Product country'
-              id='product-brand'
-              variant='outlined'
-              value={product.product_country}
-              onChange={e => setProduct({ ...product, product_country: e.target.value })}
-            />
-          </Grid>
+          <TextField
+            fullWidth
+            label='Product country'
+            id='product-brand'
+            variant='outlined'
+            select
+            value={product.product_country}
+            onChange={(e) => setProduct({ ...product, product_country: e.target.value })}
+            onClick={handleClick}
+          >
+              {listC
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map((option) => (
+                  <MenuItem key={option.name} value={option.name} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    {option.flag?<img src={option.flag} 
+                                      width={'30px'} 
+                                      height={'16px'} 
+                                      alt={`${option.name} flag`} />:<Box></Box>}
+                    {option.name}
+                  </MenuItem>
+                ))}
+          </TextField>
+
+      </Grid>
           {/* ---------- Packing size ---------- */}
           <Grid item xs={12} sm={6}>
             <TextField
@@ -840,4 +894,4 @@ const RegisterProduct = ({ product, setProduct, productCategories, onUploadImage
   )
 }
 
-export default RegisterProduct
+export default withAuth(RegisterProduct)

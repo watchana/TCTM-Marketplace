@@ -133,7 +133,7 @@ const NotificationDropdown = () => {
       // ตรวจสอบว่า reqID มีค่าหรือไม่
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API}TCTM.notifications.all_notifications?member_id=${userid}`
+          `${process.env.NEXT_PUBLIC_API}DIGITAL.notifications.all_notifications?member_id=${userid}`
         )
         setNotificationData(response.data.message)
       } catch (error) {
@@ -165,11 +165,11 @@ const NotificationDropdown = () => {
     }
 
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.notifications.read_noti`, data)
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.notifications.read_noti`, data)
       router.push(`${link_url}`)
       handleDropdownClose()
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 

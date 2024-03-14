@@ -99,10 +99,11 @@ const AppBarContent = props => {
     const token = localStorage.getItem('jwt')
     const decodedToken = verifyToken(token)
 
+
     if (decodedToken) {
       setRole(decodedToken.Role)
     } else {
-      console.log('Invalid or expired token')
+      // console.log('Invalid or expired token')
     }
   }, [])
 
@@ -132,11 +133,10 @@ const AppBarContent = props => {
     >
       <Grid container justifyContent='space-between' alignItems='center' sx={{ height: '100%' }}>
         <Grid item xl={3} xs={3}>
-          <Box sx={{ width: '100%', marginLeft: 2 }}>
-            <Link href='/' passHref>
+          <Box component='a' href='/'>
               <CardMedia
                 component='img'
-                image='https://cdn.discordapp.com/attachments/1143783715877703833/1158967489900851200/cropped-LOGO-TCTM-1.png?ex=65e7e196&is=65d56c96&hm=f5ba0a46f9335e5271d5ac7a0770bb2b310f9f580ab8a4e282f0ef1b271354d2&'
+                image='/Logo_digital2day/logodigital2horizon2.png'
                 alt='logo'
                 sx={{
                   cursor: 'pointer',
@@ -145,7 +145,7 @@ const AppBarContent = props => {
                     transition: 'all 0.3s ease'
                   },
                   '@media (max-width: 1920px)': {
-                    width: '60%' // ปรับขนาดเมื่อหน้าจอใหญ่สุด 1920px
+                    width: '55%' // ปรับขนาดเมื่อหน้าจอใหญ่สุด 1920px
                   },
                   '@media (max-width: 960px)': {
                     width: '80%' // ปรับขนาดเมื่อหน้าจอใหญ่สุด 960px
@@ -154,7 +154,6 @@ const AppBarContent = props => {
                   // สามารถเพิ่มเงื่อนไข media query เพิ่มเติมตามความต้องการ
                 }}
               />
-            </Link>
           </Box>
         </Grid>
         <Grid item xl={8} xs={8} sx={{ mr: '30px' }}>
@@ -218,17 +217,17 @@ const AppBarContent = props => {
                     >
                       <List>
                         <Link href='/member/ports/' passHref>
-                          <ListItem button>
+                          <ListItem >
                             <QuestionAnswerIcon sx={{ color: 'text.primary' }} />
                           </ListItem>
                         </Link>
                         <Link href='/member/order/myoder/' passHref>
-                          <ListItem button>
+                          <ListItem >
                             <ShoppingCartIcon sx={{ color: 'text.primary' }} />
                           </ListItem>
                         </Link>
                         <Link href='/member/logistic' passHref>
-                          <ListItem button>
+                          <ListItem >
                             <LocalShippingIcon sx={{ color: 'text.primary' }} />
                           </ListItem>
                         </Link>
@@ -240,7 +239,7 @@ const AppBarContent = props => {
                     <Link href='/member/ports/' passHref>
                       <IconButton
                         sx={{ p: 0 }}
-                        style={{ display: role === 'USER' || role === 'ADMIN' || role === 'TCTM' ? 'block' : 'none' }}
+                        style={{ display: role === 'USER' || role === 'ADMIN' ? 'block' : 'none' }}
                       >
                         <Box sx={styles}>
                           <QuestionAnswerIcon sx={{ color: 'text.primary' }} />
@@ -250,7 +249,7 @@ const AppBarContent = props => {
                     <Link href='/member/order/myoder/' passHref>
                       <IconButton
                         sx={{ p: 0 }}
-                        style={{ display: role === 'USER' || role === 'ADMIN' || role === 'TCTM' ? 'block' : 'none' }}
+                        style={{ display: role === 'USER' || role === 'ADMIN' ? 'block' : 'none' }}
                       >
                         <Box sx={styles}>
                           <ShoppingCartIcon sx={{ color: 'text.primary' }} />
@@ -260,7 +259,7 @@ const AppBarContent = props => {
                     <Link href='/member/logistic' passHref>
                       <IconButton
                         sx={{ p: 0 }}
-                        style={{ display: role === 'USER' || role === 'ADMIN' || role === 'TCTM' ? 'block' : 'none' }}
+                        style={{ display: role === 'USER' || role === 'ADMIN' ? 'block' : 'none' }}
                       >
                         <Box sx={styles}>
                           <LocalShippingIcon sx={{ color: 'text.primary' }} />
@@ -270,24 +269,26 @@ const AppBarContent = props => {
                   </Hidden>
                   <Box
                     sx={{ p: 0 }}
-                    style={{ display: role === 'USER' || role === 'ADMIN' || role === 'TCTM' ? 'block' : 'none' }}
+                    style={{ display: role === 'USER' || role === 'ADMIN' ? 'block' : 'none' }}
                   >
                     <NotificationDropdown />
                   </Box>
 
                   {/* Responsive Dropdown - End */}
 
-                  <UserDropdown />
-                  <Link href='/login' passHref>
-                    <Box sx={{ ml: 2 }} style={{ display: role === '' ? 'block' : 'none' }}>
+                <Box sx={{ ml: 2 }} style={{ display: role !== '' ? 'block' : 'none' }}>
+                    <UserDropdown />
+                </Box>
+                 
+                    <Box component='a' href='/login' sx={{ ml: 2, textDecoration: 'none' }} style={{ display: role === '' ? 'block' : 'none' }}>
                       <Typography
                         variant='h6'
-                        sx={{ fontSize: '0.875rem', textDecoration: 'none', cursor: 'pointer', fontweight: 400 }}
+                        sx={{ fontSize: '0.875rem', cursor: 'pointer', fontweight: 400 }}
                       >
                         Login
                       </Typography>
                     </Box>
-                  </Link>
+                 
                 </Box>
               </Grid>
             </Grid>

@@ -87,7 +87,7 @@ const MemberTable = ({ rows }) => {
     }
 
     axios
-      .put(`${process.env.NEXT_PUBLIC_API}TCTM.approve.userapprove`, data)
+      .put(`${process.env.NEXT_PUBLIC_API}DIGITAL.approve.userapprove`, data)
       .then(function (response) {
         // หลังจากที่อนุมัติสำเร็จ ลบแถวที่ถูก Approve ออกจากข้อมูล
         const updatedRows = tableRows.filter(row => row.account_id !== id)
@@ -103,7 +103,7 @@ const MemberTable = ({ rows }) => {
         })
       })
       .catch(function (error) {
-        console.log(error)
+        // console.log(error)
         Swal.fire({
           icon: 'error',
           title: 'Approve Error',
@@ -131,7 +131,7 @@ const MemberTable = ({ rows }) => {
         }
 
         axios
-          .put(`${process.env.NEXT_PUBLIC_API}TCTM.approve.userreject`, data)
+          .put(`${process.env.NEXT_PUBLIC_API}DIGITAL.approve.userreject`, data)
           .then(function (response) {
             // หลังจากที่แตะเสร็จ ลบแถวที่ถูก แตะ ออกจากข้อมูล
             const updatedRows = tableRows.filter(row => row.account_id !== id)
@@ -147,7 +147,7 @@ const MemberTable = ({ rows }) => {
             })
           })
           .catch(function (error) {
-            console.log(error)
+            // console.log(error)
             Swal.fire({
               icon: 'error',
               title: 'Reject Error',

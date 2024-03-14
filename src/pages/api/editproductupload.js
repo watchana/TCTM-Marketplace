@@ -11,7 +11,7 @@ export const config = {
 export default async (req, res) => {
   const form = new IncomingForm()
 
-  const newPath = 'public/imgTctmProduct'
+  const newPath = 'public/imgDigitalProduct'
 
   form.parse(req, async (err, fields, files) => {
     if (err) {

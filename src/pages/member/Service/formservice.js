@@ -281,7 +281,7 @@ const JobApplicationForm = () => {
   }
 
   if (isSubmitted) {
-    axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.service.addservice`, dataapi).catch(error => {
+    axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.service.addservice`, dataapi).catch(error => {
       console.error(error)
       SAlert.fire({
         icon: 'error',

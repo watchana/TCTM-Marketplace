@@ -60,7 +60,7 @@ const ServiceEdit = ({ open, handleClose, Data }) => {
     }
 
     axios
-      .post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.editrequirement`, data)
+      .post(`${process.env.NEXT_PUBLIC_API}DIGITAL.requirements.editrequirement`, data)
       .then(response => {
         // ปิด Dialog
         handleClose(false)
@@ -69,7 +69,7 @@ const ServiceEdit = ({ open, handleClose, Data }) => {
         Route.replace(Route.asPath, undefined, { scroll: false })
       })
       .catch(error => {
-        console.log(error)
+        // console.log(error)
       })
     Swal.fire({
       icon: 'success',

@@ -73,7 +73,7 @@ const Checkout = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API}TCTM.checkout.check_out_detail?member_id=${userId}`
+          `${process.env.NEXT_PUBLIC_API}DIGITAL.checkout.check_out_detail?member_id=${userId}`
         )
         setUserData(response.data.message.Data[0])
       } catch (error) {
@@ -102,7 +102,7 @@ const Checkout = () => {
     }
 
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.gen_invoice`, data)
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.invoice.gen_invoice`, data)
       Swal.fire({
         icon: 'success',
         title: 'Send Data Success'
@@ -113,7 +113,7 @@ const Checkout = () => {
         icon: 'error',
         title: 'error'
       })
-      console.log(error)
+      // console.log(error)
     }
   }
 
@@ -197,7 +197,7 @@ const Checkout = () => {
             </Box>
             <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <Typography variant='body2' sx={{ marginTop: '10px' }}>
-                By placing your order, you agree to TCTM's privacy notice and conditions of use.
+                By placing your order, you agree to Digital2day's privacy notice and conditions of use.
               </Typography>
             </Box>
           </Grid>

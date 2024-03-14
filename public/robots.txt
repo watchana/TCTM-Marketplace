@@ -1,0 +1,11 @@
+Sitemap: https://shop.digital2day.com/sitemap.xml
+
+User-agent: *
+Disallow: /backoffice/
+Disallow: /chat/
+Disallow: /digital/
+Disallow: /error/
+Disallow: /recapcha/
+Disallow: /seo/
+Disallow: /views/
+Allow: /

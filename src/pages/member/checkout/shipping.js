@@ -41,7 +41,7 @@ const Shipping = ({ productName, price, quantity, parsedSelection, FirstImage })
             >
               <CardMedia
                 component='img'
-                image={`/imgTctmProduct/${FirstImage}`}
+                image={`/imgDigitalProduct/${FirstImage}`}
                 alt='Product'
                 height='100%'
                 sx={{ width: '90%', objectFit: 'contain' }}

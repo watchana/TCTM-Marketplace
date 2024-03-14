@@ -69,8 +69,8 @@ const Payment = ({ invoice_id, sub_id }) => {
     }
 
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.send_proof`, data)
-      console.log(response)
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.invoice.send_proof`, data)
+      // console.log(response)
       const RedirectStatus = response.data.message.RedirectStatus
 
       if (RedirectStatus === true) {
@@ -99,12 +99,12 @@ const Payment = ({ invoice_id, sub_id }) => {
           }
         })
       } catch (error) {
-        console.log(error)
+        // console.log(error)
       }
 
       router.push(`/member/order/myoder/`)
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 

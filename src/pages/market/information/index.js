@@ -16,7 +16,7 @@ const Information = subId => {
 
   useEffect(() => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_API}TCTM.infromation.getallinf`, {
+      .get(`${process.env.NEXT_PUBLIC_API}DIGITAL.infromation.getallinf`, {
         params: {
           sub_id: subId.sub_id
         }
@@ -41,7 +41,7 @@ const Information = subId => {
 
         if (primary !== '') {
           axios
-            .put(`${process.env.NEXT_PUBLIC_API}TCTM.infromation.deleteinf`, data)
+            .put(`${process.env.NEXT_PUBLIC_API}DIGITAL.infromation.deleteinf`, data)
             .then(function (response) {
               // หลังจากลบข้อมูลเสร็จสิ้น อัพเดต state ให้รีเรนเดอร์ component
               setDataInformation(prevData => prevData.filter(item => item.post_id !== primary))
@@ -52,7 +52,7 @@ const Information = subId => {
               })
             })
             .catch(function (error) {
-              console.log(error)
+              // console.log(error)
 
               Swal.fire({
                 icon: 'error',
@@ -60,10 +60,10 @@ const Information = subId => {
               })
             })
         } else {
-          console.log('Error')
+          // console.log('Error')
         }
       } else if (result.isDenied) {
-        console.log('cancelled Error')
+        // console.log('cancelled Error')
       }
     })
   }
@@ -134,7 +134,7 @@ const Information = subId => {
       <MySeo
         title={'Management : Information'}
         description={'Information'}
-        keywords={'Order,Product,market,E-commerce,Chat,TCTM,Knowledge'}
+        keywords={'Order,Product,market,E-commerce,Chat,digital2day,Knowledge'}
       />
       <Grid item xl={6} lg={6} md={8} sm={8} xs={8}>
         <TextField

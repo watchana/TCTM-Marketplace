@@ -180,14 +180,14 @@ const MainForm = ({ PDF_File }) => {
     })
 
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.service.addservice`, data)
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.service.addservice`, data)
 
       Swal.fire({
         icon: 'success',
         title: 'Success'
       })
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 

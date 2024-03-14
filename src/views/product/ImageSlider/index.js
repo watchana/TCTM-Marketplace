@@ -29,7 +29,7 @@ function ImageSlider({ img }) {
         img.map((item, index) => (
           <div key={index} style={{ height: '100%' }}>
             <img
-              src={`/imgTctmProduct/${item.image_file_name}`}
+              src={`/imgDigitalProduct/${item.image_file_name}`}
               alt={`Thumbnail ${index + 1}`}
               style={{ maxWidth: '95%', maxHeight: '100%' }}
             />

@@ -12,7 +12,7 @@ const InformationTable = () => {
   const [dataInformation, setDataInformation] = useState([])
 
   useEffect(() => {
-    axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.post.allpost`).then(res => {
+    axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.backoffice.post.allpost`).then(res => {
       setDataInformation(res.data.message.Data)
     })
   }, [])
@@ -23,7 +23,7 @@ const InformationTable = () => {
 
   const fetchUserData = () => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.post.allpost`)
+      .get(`${process.env.NEXT_PUBLIC_API}DIGITAL.backoffice.post.allpost`)
       .then(response => {
         setDataInformation(response.data.message.Data)
       })
@@ -33,14 +33,14 @@ const InformationTable = () => {
   }
 
   const handleBanClick = post_id => {
-    console.log(`Ban account with ID ${post_id}`)
+    // console.log(`Ban account with ID ${post_id}`)
 
     axios
-      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.post.banpost`, {
+      .post(`${process.env.NEXT_PUBLIC_API}DIGITAL.backoffice.post.banpost`, {
         post_id: post_id
       })
       .then(response => {
-        console.log('UserID', response)
+        // console.log('UserID', response)
         fetchUserData()
       })
       .catch(error => {
@@ -59,7 +59,7 @@ const InformationTable = () => {
       if (result.isConfirmed) {
         if (postId !== '') {
           axios
-            .put(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.post.unbanpost`, {
+            .put(`${process.env.NEXT_PUBLIC_API}DIGITAL.backoffice.post.unbanpost`, {
               post_id: postId
             })
             .then(response => {
@@ -71,7 +71,7 @@ const InformationTable = () => {
               })
             })
             .catch(error => {
-              console.log(error)
+              // console.log(error)
 
               Swal.fire({
                 icon: 'error',
@@ -79,10 +79,10 @@ const InformationTable = () => {
               })
             })
         } else {
-          console.log('Error')
+          // console.log('Error')
         }
       } else if (result.isDenied) {
-        console.log('Cancelled Error')
+        // console.log('Cancelled Error')
       }
     })
   }
@@ -181,7 +181,7 @@ const InformationTable = () => {
               color='success'
               disabled={params.row.post_status === '0'}
               onClick={() => {
-                router.push(`/market/information-detail/?post_id=${params.row.post_id}`)
+                router.push(`/information-detail/?post_id=${params.row.post_id}`)
               }}
             >
               Details

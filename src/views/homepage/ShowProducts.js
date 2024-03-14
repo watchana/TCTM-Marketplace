@@ -1,11 +1,8 @@
 // ** React Imports
 import { useState, useEffect } from 'react'
 
-// ** Next Import
-import Link from 'next/link'
-
 // ** Material UI Imports
-import { Box, Card, Container, CardMedia, Grid, Hidden, Typography } from '@mui/material'
+import { Box, Card, Container, CardMedia, Grid, Hidden, Typography, Button } from '@mui/material'
 import { styled } from '@mui/material/styles'
 
 // ** Axios Import
@@ -40,7 +37,7 @@ const DividerBox2 = styled(Box)(({ theme }) => ({
 
 const ShowProducts = () => {
   // set data and state
-  const [slidedata, setSlideData] = useState([])
+  const [slideData, setSlideData] = useState([])
 
   const theme = useTheme()
 
@@ -59,7 +56,7 @@ const ShowProducts = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.home_page.best_selling`)
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.home_page.best_selling`)
         setSlideData(response.data.message.Data)
       } catch (error) {
         console.error(error)
@@ -72,7 +69,7 @@ const ShowProducts = () => {
   const isSmallScreen = useMediaQuery('(max-width: 600px)') // ปรับขนาดตามขอบเขตของหน้าจอที่คุณต้องการ
 
   return (
-    <Container maxWidth='xl'>
+    <Container maxWidth='xl' >
       <Box sx={{ width: '100%', marginTop: '15px', boxShadow: 3 }}>
         <Box
           sx={{
@@ -86,14 +83,17 @@ const ShowProducts = () => {
         >
           <DividerBox1 />
           <DividerBox2 />
-          <Link href='/category' passHref>
+          
             <Typography
               variant='h5'
               fontSize='32px'
+              component='a'
+              href='/category'
+              underline='false'
               color={theme.palette.grey[50]}
               sx={{
                 fontSize: { xs: '1.5rem', sm: '2rem', md: '2.3rem' },
-
+                textDecoration: 'none',
                 fontWeight: 'bold',
                 textAlign: 'center',
                 padding: '12px',
@@ -106,8 +106,9 @@ const ShowProducts = () => {
             >
               Category
             </Typography>
-          </Link>
+   
         </Box>
+        
       </Box>
       {/* ---------- Show Product ---------- */}
       <Box sx={{ width: '100%', marginTop: '30px' }}>
@@ -155,17 +156,14 @@ const ShowProducts = () => {
 
           <Grid item xs={12} md={10}>
             <Box sx={{ borderRadius: '6px' }}>
-              {slidedata && slidedata.length > 0 ? (
+              {slideData && slideData.length > 0 ? (
                 <Carousel responsive={responsive} infinite={false}>
-                  {slidedata.map((product, index) => (
+                  {slideData.map((product, index) => ( 
+                  <Box key={index} component='a' href ={ `product/?product_id=${product.product_id}`} sx={{textDecoration:'none'}}>
                     <Card
                       title={product.product_name}
                       alt={product.product_name}
-                      key={index}
                       variant='outlined'
-                      onClick={() => {
-                        window.location.href = `product/?product_id=${product.product_id}`
-                      }}
                       sx={{
                         border: '0.5px solid lightgray',
                         width: { xs: '98px', sm: '140px', md: '200px' },
@@ -180,12 +178,14 @@ const ShowProducts = () => {
                       <CardMedia
                         component='img'
                         height={{ xs: '50%', md: '50%' }}
-                        image={`/imgTctmProduct/${product.image_file_name}`}
+                        image={`/imgDigitalProduct/${product.image_file_name}`}
                         alt={product.image_file_name}
                         sx={{
                           objectFit: 'contain',
                           padding: '8px' // Adjust the padding as needed
                         }}
+                        loading='lazy' // Add this line for lazy loading
+
                       />
                       <Box sx={{ padding: 1, height: { xs: '80px', md: '120px' } }}>
                         <Typography
@@ -212,7 +212,7 @@ const ShowProducts = () => {
                             textOverflow: 'ellipsis'
                           }}
                         >
-                          $
+                          ฿
                           {product.min_price === product.max_price
                             ? `${product.min_price}`
                             : `${product.min_price} - ${product.max_price}`}
@@ -231,7 +231,7 @@ const ShowProducts = () => {
                           {product.sub_name}
                         </Typography>
                       </Box>
-                    </Card>
+                    </Card></Box>
                   ))}
                 </Carousel>
               ) : (

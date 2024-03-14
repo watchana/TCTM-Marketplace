@@ -56,7 +56,7 @@ const ShowProducts2 = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.home_page.product_recommend`)
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.home_page.product_recommend`)
         setSlideData(response.data.message.Data)
       } catch (error) {
         console.error(error)
@@ -138,12 +138,14 @@ const ShowProducts2 = () => {
                       <CardMedia
                         component='img'
                         height={{ xs: '50%', md: '50%' }}
-                        image={`/imgTctmProduct/${product.image_file_name}`}
+                        image={`/imgDigitalProduct/${product.image_file_name}`}
                         alt={product.image_file_name}
                         sx={{
                           objectFit: 'contain',
                           padding: '8px' // Adjust the padding as needed
                         }}
+                        loading='lazy' // Add this line for lazy loading
+
                       />
                       <Box sx={{ padding: 1, height: { xs: '80px', md: '120px' } }}>
                         <Typography

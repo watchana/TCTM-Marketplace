@@ -38,6 +38,9 @@ import ChevronRight from 'mdi-material-ui/ChevronRight'
 // ** MUI X Imports
 import { DataGrid } from '@mui/x-data-grid'
 
+// Import auth token Decode
+import { createToken} from 'src/@core/utils/auth'
+
 // ** Axios Import
 import axios from 'axios'
 import MySeo from 'src/pages/seo'
@@ -58,7 +61,7 @@ const Orders = ({ subId }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.market_order`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.invoice.market_order`, {
           params: {
             sub_id: subId
           }
@@ -79,7 +82,11 @@ const Orders = ({ subId }) => {
 
   // ฟังชัน ย้ายไปหน้า ดูรายละเอียดผลิตภัณ
   const handleDetailPage = invoice_id => {
-    router.push(`/member/order/ordersdetail/?invoice_id=${invoice_id}&usertype=${usertype}`)
+      const sending = {invoice_id:invoice_id,
+    usertype:usertype}
+
+  const code= createToken(sending)
+    router.push(`/member/order/ordersdetail/?sending=${code}`)
   }
 
   // ประกาศ Colum
@@ -174,7 +181,7 @@ const Orders = ({ subId }) => {
     }
 
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.confirm`, data)
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.invoice.confirm`, data)
 
       Swal.fire({
         icon: 'success',
@@ -186,7 +193,7 @@ const Orders = ({ subId }) => {
         icon: 'error',
         title: 'Error'
       })
-      console.log(error)
+      // console.log(error)
     }
   }
 
@@ -209,7 +216,7 @@ const Orders = ({ subId }) => {
 
         if (invoice_id !== '' && member_id !== '') {
           axios
-            .put(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.reject`, data)
+            .put(`${process.env.NEXT_PUBLIC_API}DIGITAL.invoice.reject`, data)
             .then(function (response) {
               Swal.fire({
                 icon: 'success',
@@ -219,7 +226,7 @@ const Orders = ({ subId }) => {
               setShouldFetchData(true)
             })
             .catch(function (error) {
-              console.log(error)
+              // console.log(error)
 
               Swal.fire({
                 icon: 'error',
@@ -227,10 +234,10 @@ const Orders = ({ subId }) => {
               })
             })
         } else {
-          console.log('Error')
+          // console.log('Error')
         }
       } else if (result.isDenied) {
-        console.log('cancelled Error')
+        // console.log('cancelled Error')
       }
     })
   }

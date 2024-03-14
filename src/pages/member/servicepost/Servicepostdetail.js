@@ -39,7 +39,7 @@ const ServiceDetail = () => {
   const [informationimg, setInformationImg] = useState([]) // ตัวแปรเก็บข้อมูลรูปภาพ
   const FirstImage = informationimg && informationimg[0] ? informationimg[0].ser_req_image_file : null // ตัวแปรเก็บข้อมูลรูปภาพตัวอย่าง
 
-  console.log('serID', serID)
+  // console.log('serID', serID)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,7 +51,7 @@ const ServiceDetail = () => {
 
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API}TCTM.requirements.requirement_ser_detail?ser_req_id=${serID}`,
+          `${process.env.NEXT_PUBLIC_API}DIGITAL.requirements.requirement_ser_detail?ser_req_id=${serID}`,
           {
             rowCell: {
               ser_req_id: serID

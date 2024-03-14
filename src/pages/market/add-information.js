@@ -104,13 +104,15 @@ const AddInformationPage = () => {
         inf_id: 'INFPOST-12'
       }
 
-      await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.infromation.inf_imgV2`, data)
+      await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.infromation.inf_imgV2`, data)
 
       Swal.fire({
         icon: 'success',
         title: 'ส่งข้อมูลสำเร็จ',
         text: 'ส่งข้อมูลเสร็จสิ้น'
       })
+      window.location.reload()
+
     } catch (error) {
       console.error(error)
       Swal.fire({
@@ -141,12 +143,12 @@ const AddInformationPage = () => {
                 Management
               </Typography>
               <Breadcrumbs separator={<ChevronRight />} aria-label='breadcrumb' color='#fff'>
-                <Link href='/' passHref>
+                <Link href='/' >
                   <Typography sx={typography.subtitle1.title} color='#fff'>
                     Home
                   </Typography>
                 </Link>
-                <Link href='/market/' passHref>
+                <Link href='/market/' >
                   <Typography sx={typography.subtitle1.title} color='#fff'>
                     Market Management
                   </Typography>

@@ -66,7 +66,7 @@ const NameMarket = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.home_page.market_recommend`)
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.home_page.market_recommend`)
 
         setSlideData(response.data.message.Data)
       } catch (error) {
@@ -100,7 +100,7 @@ const NameMarket = () => {
                   <ButtonBase
                     spacing={4}
                     component='a'
-                    sx={{ width: '100%', height: '90px', padding: 0, borderRadius: '6px' }}
+                    sx={{ width: '100%', height: '120px', padding: 0, borderRadius: '6px' }}
                   >
                     <ImageButton
                       focusRipple
@@ -115,6 +115,8 @@ const NameMarket = () => {
                         image={`/imgStore/${product.sub_image}`}
                         alt='NameMarket'
                         style={{ objectFit: 'contain', maxWidth: '70%', maxHeight: '70%' }}
+                        loading='lazy' // Add this line for lazy loading
+
                       />
                       <ImageBackdrop className='MuiImageBackdrop-root' />
                     </ImageButton>

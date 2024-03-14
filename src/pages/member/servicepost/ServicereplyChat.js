@@ -56,7 +56,7 @@ const ServicereplyChat = serId => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.all_ser_requirement_inone`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.requirements.all_ser_requirement_inone`, {
           params: {
             ser_id: ser_id
           }
@@ -89,7 +89,7 @@ const ServicereplyChat = serId => {
         }
 
         axios
-          .put(`${process.env.NEXT_PUBLIC_API}TCTM.approve.requirementreject`, data)
+          .put(`${process.env.NEXT_PUBLIC_API}DIGITAL.approve.requirementreject`, data)
           .then(function (response) {
             // หลังจากที่แตะเสร็จ ลบแถวที่ถูก แตะ ออกจากข้อมูล
             const updatedRows = rowdata.filter(row => row.req_id !== reqId)
@@ -105,7 +105,7 @@ const ServicereplyChat = serId => {
             })
           })
           .catch(function (error) {
-            console.log(error)
+            // console.log(error)
             Swal.fire({
               icon: 'error',
               title: 'Reject Error',

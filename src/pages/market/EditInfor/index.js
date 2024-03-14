@@ -54,7 +54,7 @@ const EditInfor = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.infromation.getallinfV2`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.infromation.getallinfV2`, {
           params: {
             post_id: postId
           }
@@ -103,7 +103,7 @@ const EditInfor = () => {
 
   const fetchData = () => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_API}TCTM.infromation.getallinfV2`)
+      .get(`${process.env.NEXT_PUBLIC_API}DIGITAL.infromation.getallinfV2`)
       .then(response => {
         setInformationData(response.data.message.Data)
       })
@@ -196,7 +196,7 @@ const EditInfor = () => {
   }
 
   const handleDetailChange = e => {
-    console.log('Detail changed:', e.target.value)
+    // console.log('Detail changed:', e.target.value)
     setInformationData(prevData => ({
       ...prevData,
       post_detail: e.target.value
@@ -205,7 +205,7 @@ const EditInfor = () => {
 
   const updateData = async () => {
     try {
-      const response = await axios.put(`${process.env.NEXT_PUBLIC_API}TCTM.infromation.update_inf`, {
+      const response = await axios.put(`${process.env.NEXT_PUBLIC_API}DIGITAL.infromation.update_inf`, {
         post_id: postId, // หรือข้อมูลอื่น ๆ ที่คุณต้องการใช้ในการระบุข้อมูลที่จะอัปเดต
         post_name: informationdata.post_name,
         post_detail: informationdata.post_detail
@@ -218,12 +218,12 @@ const EditInfor = () => {
         image_file_infname: imageChange[0]
       }
 
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.infromation.inf_add_img `, data)
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.infromation.inf_add_img `, data)
       uploadImagesToApi()
 
       // fetchData()
-      console.log('Update successful:', response.data)
-      console.log('Update successful:', res.data)
+      // console.log('Update successful:', response.data)
+      // console.log('Update successful:', res.data)
       Swal.fire({
         icon: 'success',
         title: 'ส่งข้อมูลสำเร็จ',
@@ -247,7 +247,7 @@ const EditInfor = () => {
   const handleDeleteImage = async imageId => {
     const data = { name: imageId }
     try {
-      const response = await axios.put(`${process.env.NEXT_PUBLIC_API}TCTM.infromation.deleteinfimg`, data)
+      const response = await axios.put(`${process.env.NEXT_PUBLIC_API}DIGITAL.infromation.deleteinfimg`, data)
 
       Swal.fire({
         icon: 'success',

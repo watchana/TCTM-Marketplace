@@ -104,7 +104,7 @@ const UserDropdown = () => {
     if (decodedToken) {
       role = decodedToken.Role
     } else {
-      console.log('Invalid or expired token')
+      // console.log('Invalid or expired token')
     }
   }
 
@@ -206,11 +206,11 @@ const UserDropdown = () => {
             My Service
           </Box>
         </MenuItem>
-        {/* ปุ่มหน้า Dashboard TCTM */}
+        {/* ปุ่มหน้า Dashboard Digital */}
         <MenuItem
           sx={{ p: 0 }}
-          onClick={() => handleDropdownClose('/tctm/dashboard/')}
-          style={{ display: role === 'TCTM' || role === 'ADMIN' ? 'block' : 'none' }}
+          onClick={() => handleDropdownClose('/digital/dashboard/')}
+          style={{ display: role === 'ADMIN' ? 'block' : 'none' }}
         >
           <Box sx={styles}>
             <DataThresholdingIcon sx={{ marginRight: 2 }} />
@@ -220,12 +220,12 @@ const UserDropdown = () => {
         {/* ปุ่ม Approve */}
         <MenuItem
           sx={{ p: 0 }}
-          onClick={() => handleDropdownClose('/tctm/management/')}
-          style={{ display: role === 'TCTM' || role === 'ADMIN' ? 'block' : 'none' }}
+          onClick={() => handleDropdownClose('/digital/management/')}
+          style={{ display: role === 'ADMIN' ? 'block' : 'none' }}
         >
           <Box sx={styles}>
             <HowToRegIcon sx={{ marginRight: 2 }} />
-            Approve(TCTM)
+            Approve(DIGITAL)
           </Box>
         </MenuItem>
         {/* ปุ่ม Approve Category*/}

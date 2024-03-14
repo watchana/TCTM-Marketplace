@@ -199,7 +199,7 @@ const RegisterPage = () => {
     }
 
     axios
-      .post(`${process.env.NEXT_PUBLIC_API}TCTM.register.register`, data)
+      .post(`${process.env.NEXT_PUBLIC_API}DIGITAL.register.register`, data)
       .then(response => {
         SwitchAlert.fire({
           icon: 'success',

@@ -245,7 +245,7 @@ const theme = useTheme()
                         <CardMedia
                           component='img'
                           height='70%'
-                          image={`/imgTctmProduct/${product.image_file_name}`}
+                          image={`/imgDigitalProduct/${product.image_file_name}`}
                           alt={product.product_name}
                           sx={{
                             objectFit: 'contain',
@@ -323,7 +323,7 @@ const theme = useTheme()
 
 export const getServerSideProps = async ({ query }) => {
   try {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.product.allproducts`)
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.product.allproducts`)
     const productData = response.data.message.Data || []
 
     if (!query.keyword) {

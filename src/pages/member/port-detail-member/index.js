@@ -110,7 +110,7 @@ const PosrtDetail = () => {
         // ตรวจสอบว่า reqID มีค่าหรือไม่
         try {
           const response = await axios.get(
-            `${process.env.NEXT_PUBLIC_API}TCTM.requirements.requirement_detail?req_id=${reqID}`
+            `${process.env.NEXT_PUBLIC_API}DIGITAL.requirements.requirement_detail?req_id=${reqID}`
           )
 
           setPostData(response.data.message.Requirement_Data[0])
@@ -176,7 +176,7 @@ const PosrtDetail = () => {
               req_image_file: response.data.uploadedFileNames || []
             }
             try {
-              const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.postchat`, data)
+              const response = await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.requirements.postchat`, data)
 
               SAlert.fire({
                 icon: 'success',
@@ -187,7 +187,7 @@ const PosrtDetail = () => {
 
               window.location.reload()
             } catch (error) {
-              console.log(error)
+              // console.log(error)
             }
           }
         })
@@ -200,7 +200,7 @@ const PosrtDetail = () => {
         req_image_file: []
       }
       try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.postchat`, data)
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.requirements.postchat`, data)
 
         SAlert.fire({
           icon: 'success',
@@ -210,7 +210,7 @@ const PosrtDetail = () => {
         setShouldFetchData(!shouldFetchData)
         window.location.reload()
       } catch (error) {
-        console.log(error)
+        // console.log(error)
       }
     }
 
@@ -253,7 +253,7 @@ const PosrtDetail = () => {
         }
 
         axios
-          .put(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.deletechat`, data)
+          .put(`${process.env.NEXT_PUBLIC_API}DIGITAL.requirements.deletechat`, data)
           .then(function (response) {
             if (response.status === 200) {
               SAlert.fire({
@@ -271,7 +271,7 @@ const PosrtDetail = () => {
             }
           })
           .catch(function (error) {
-            console.log(error)
+            // console.log(error)
 
             SAlert.fire({
               icon: 'error',
@@ -294,7 +294,7 @@ const PosrtDetail = () => {
     }
 
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.approve_po`, data)
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.requirements.approve_po`, data)
 
       SAlert.fire({
         icon: 'success',
@@ -302,7 +302,7 @@ const PosrtDetail = () => {
       })
       setShouldFetchData(!shouldFetchData)
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 
@@ -316,7 +316,7 @@ const PosrtDetail = () => {
     }
 
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.reject_po`, data)
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.requirements.reject_po`, data)
 
       SAlert.fire({
         icon: 'success',
@@ -324,7 +324,7 @@ const PosrtDetail = () => {
       })
       setShouldFetchData(!shouldFetchData)
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 
@@ -380,7 +380,7 @@ const PosrtDetail = () => {
     }
 
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.gen_invoice`, data)
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.invoice.gen_invoice`, data)
 
       SAlert.fire({
         icon: 'success',
@@ -388,7 +388,7 @@ const PosrtDetail = () => {
       })
       setShouldFetchData(!shouldFetchData)
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 

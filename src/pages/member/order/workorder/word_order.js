@@ -34,7 +34,7 @@ const Word_order = () => {
     const fetchData = async () => {
       try {
         // Fetch invoice details
-        const invoiceResponse = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.invoice_detail`, {
+        const invoiceResponse = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.invoice.invoice_detail`, {
           params: {
             invoice_id: invoice_id
           }
@@ -47,7 +47,7 @@ const Word_order = () => {
         if (userIdFromLocalStorage) {
           setUserId(userIdFromLocalStorage)
 
-          const userResponse = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.profile.display_profile`, {
+          const userResponse = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.profile.display_profile`, {
             params: {
               member_id: userIdFromLocalStorage
             }

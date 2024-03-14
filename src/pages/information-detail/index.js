@@ -52,7 +52,7 @@ const InformationDetails = () => {
       }
 
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.infromation.getallinfV2`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.infromation.getallinfV2`, {
           params: {
             post_id: postId
           }
@@ -362,7 +362,7 @@ const InformationDetails = () => {
               </Grid>
 
               <Grid item xs={12}>
-                <Typography sx={typography.body2} color='#606060'>
+                <Typography sx={{ ...typography.body2, whiteSpace: 'pre-wrap' }} color='#606060'>
                   {informationdata.post_detail}
                 </Typography>
               </Grid>

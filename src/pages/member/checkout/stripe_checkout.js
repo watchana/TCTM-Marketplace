@@ -65,7 +65,7 @@ const CheckoutForm = ({ newProduct, NewPrice }) => {
       const price = await stripe.prices.create({
         unit_amount: NewPrice * 100,
         currency: 'thb',
-        product: 'prod_PDnunZLALu4JjW',
+        product: 'prod_Pix3jTQLJYqulk',
         nickname: newProduct
       })
 

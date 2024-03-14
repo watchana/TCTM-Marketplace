@@ -20,7 +20,9 @@ import {
   MenuItem,
   Select,
   Typography,
-  Tab
+  Tab,
+  CardContent,
+  Divider
 } from '@mui/material'
 
 // ** Material UI Tabs Imports
@@ -64,6 +66,7 @@ const ProductDetails = ({}) => {
   const [productimg, setProductImg] = useState([]) // ตัวแปรเก็บข้อมูลรูปภาพ
   const FirstImage = productimg && productimg[0] ? productimg[0].image_file_name : null // ตัวแปรเก็บข้อมูลรูปภาพตัวอย่าง
   const [loadingData, setLoadingData] = useState(0)
+  const [supplier, setSupplier] = useState({})
 
   const theme = useTheme()
 
@@ -108,7 +111,9 @@ const ProductDetails = ({}) => {
 
   // ฟังก์ชันเพิ่มลดปริมาณสินค้า
   const increaseQuantity = () => {
-    setQuantity(quantity + 1)
+
+    if(productdata.product_amount>quantity){
+    setQuantity(quantity + 1)}
   }
 
   const decreaseQuantity = () => {
@@ -129,12 +134,14 @@ const ProductDetails = ({}) => {
       try {
         setLoadingData(0)
 
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.product.productdetailv2`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.product.productdetailv2`, {
           params: {
             product_id: productId
           }
         })
         setLoadingData(1)
+        setSupplier(response.data.message.supplier[0])
+
         setProductImg(response.data.message.images.Result)
         setProductData(response.data.message.data[0])
         setOptions(response.data.message.options)
@@ -194,7 +201,7 @@ const ProductDetails = ({}) => {
       }
 
       try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.gen_invoice`, data)
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.invoice.gen_invoice`, data)
 
         Swal.fire({
           icon: 'success',
@@ -206,7 +213,7 @@ const ProductDetails = ({}) => {
           icon: 'error',
           title: 'error'
         })
-        console.log(error)
+        // console.log(error)
       }
     }
   }
@@ -312,7 +319,7 @@ const ProductDetails = ({}) => {
     if (decodedToken) {
       setRole(decodedToken.Role)
     } else {
-      console.log('Invalid or expired token')
+      // console.log('Invalid or expired token')
     }
   }, [])
 
@@ -361,7 +368,7 @@ const ProductDetails = ({}) => {
           </Card>
         </Box>
 
-        <Grid container spacing={1} sx={{ display: 'flex', alingItem: 'center', justifyContent: 'center' }}>
+        <Grid container spacing={2} sx={{ display: 'flex', alingItem: 'center', justifyContent: 'center' }}>
           <Hidden smUp>
             <Grid sx={{ display: 'flex', alignItems: 'center' }}>
               <IconButton onClick={slideLeftImage}>
@@ -386,7 +393,7 @@ const ProductDetails = ({}) => {
                 component='img'
                 image={
                   productimg[stateImages]?.image_file_name
-                    ? `/imgTctmProduct/${productimg[stateImages].image_file_name}`
+                    ? `/imgDigitalProduct/${productimg[stateImages].image_file_name}`
                     : ''
                 }
                 loading='lazy' // Add this line for lazy loading
@@ -448,7 +455,7 @@ const ProductDetails = ({}) => {
                       >
                         <CardMedia
                           component='img'
-                          src={`/imgTctmProduct/${image.image_file_name}`}
+                          src={`/imgDigitalProduct/${image.image_file_name}`}
                           alt={`Image ${index + 1}`}
                           onClick={() => indexCount(index, firstImage)}
                           sx={{
@@ -514,7 +521,7 @@ const ProductDetails = ({}) => {
                 keywords={SeoProductpage.keywords}
                 ogimg={
                   productimg[stateImages]?.image_file_name
-                    ? `/imgTctmProduct/${productimg[stateImages].image_file_name}`
+                    ? `/imgDigitalProduct/${productimg[stateImages].image_file_name}`
                     : ''
                 }
                 url={fullURL}
@@ -599,22 +606,27 @@ const ProductDetails = ({}) => {
                 >
                   <AddIcon sx={{ color: '#fff' }} />
                 </IconButton>
+                {/* ========== productsize ========== */}
+               
+                <Typography fontSize={"1rem"} color='#000' ml={5} mt={1}>
+                    {productdata.product_amount-quantity} {productdata.product_size =='-'||''?'pieces':"(" +productdata.product_size +')'} available.
+                </Typography>
               </Box>
+            
+              
               {/* ========== Price ========== */}
               <Box sx={{ width: '100%', marginTop: '20px' }}>
                 <Typography sx={{ ...typography.h1.topic, color: 'primary.main' }}>
-                  {/* ${' '}
-                  {selection
-                    ? selection.find(option => option.option_name === 'Price')?.value_name
-                    : 'Please specify product options.'} */}
-
-                  {totalPrice || 'Please specify product options.'}
+                  {Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'THB', // Change this to the desired currency code
+                  }).format(totalPrice) || 'Please specify product options.'}
                 </Typography>
               </Box>
               {/* ========== Button ========== */}
               <Box
                 sx={{ width: '100%', marginTop: '20px' }}
-                style={{ display: role === 'USER' || role === 'ADMIN' || role === 'TCTM' ? 'block' : 'none' }}
+                style={{ display: role === 'USER' || role === 'ADMIN' ? 'block' : 'none' }}
               >
                 <Button
                   sx={{ width: 175 }}
@@ -642,6 +654,47 @@ const ProductDetails = ({}) => {
               </Box>
             </Box>
           </Grid>
+          <Grid item xs={12}>
+              <Divider fullWidth color='#fff' sx={{ borderBottomWidth: 2}}/>
+          </Grid>
+          <Grid item xs={12} md={12}>
+        <Grid container>
+  <Grid item>
+    <Box sx={{ 
+      width: 100,
+      height: 100, // Ensure the height matches the width for a perfect circle
+      borderRadius: '100%', // Apply border radius to create a circular shape
+      objectFit: 'cover', // Ensure the image covers the entire area of the circle
+      ml: 5,
+      mt: 5,
+      mr: 5,
+      bgcolor: 'gray',
+      display: 'flex',
+      justifyContent: 'center', // Center horizontally
+      alignItems: 'center', // Center vertically
+    }}>
+      <CardMedia
+        component='img'
+        image={'/imgStore/' + supplier.sub_image}
+        loading='lazy' // Add this line for lazy loading
+        alt={`Image ${supplier.sub_name}`}
+        sx={{
+          width: 100,
+        }}
+      />
+    </Box>
+  </Grid>
+  <Grid item xs={3}>
+    <Box mb={8}>
+      <Typography sx={typography.subtitle1.topic} align='center'>{supplier.sub_name}</Typography>
+    </Box>
+    <Box>
+      <Button variant='outlined' fullWidth onClick={()=>{router.push(`/category_market/?sub_id=${productdata.sub_id}&sub_name=${supplier.sub_name}`)}}>Go To Shop</Button>
+    </Box>
+  </Grid>
+</Grid>
+
+          </Grid>
           <Grid item xs={12} md={12}>
             <TabContext value={valueTabs}>
               <Box sx={{ width: '100%', borderBottom: 2, borderColor: 'divider' }}>
@@ -653,7 +706,7 @@ const ProductDetails = ({}) => {
               </Box>
               <TabPanel value='1'>
                 <Box sx={{ width: '100%', marginTop: '10px' }}>
-                  <Typography sx={typography.body2} color='#606060'>
+                  <Typography sx={{ ...typography.body2, whiteSpace: 'pre-wrap' }} color='#606060'>
                     {productdata.product_description?.split(/\b(https?:\/\/[^\s]+)/)?.map((part, index) =>
                       part.match(/(https?:\/\/[^\s]+)/) ? (
                         <a key={index} href={part} target='_blank' rel='noopener noreferrer'>
@@ -668,7 +721,13 @@ const ProductDetails = ({}) => {
               </TabPanel>
               <TabPanel value='2'>
                 <Typography sx={typography.body2} color='#606060'>
-                  {productdata.product_detail ? productdata.product_detail : 'No information'}
+                  Contry of Origin: {productdata.product_county == '-' ? 'Not specified'|| productdata.product_county : null}
+                </Typography>
+                <Typography sx={typography.body2} color='#606060'>
+                  Brand: {productdata.product_brand ? productdata.product_brand : ''}
+                </Typography>
+                <Typography sx={typography.body2} color='#606060'>
+                  Weight: {productdata.product_weight== '-' ? 'Not specified'||productdata.product_weight : ''}
                 </Typography>
               </TabPanel>
               <TabPanel value='3'>
@@ -682,18 +741,6 @@ const ProductDetails = ({}) => {
       </Box>
     </Container>
   )
-}
-
-export async function getServerSideProps(context) {
-  const { product_id } = context.query
-
-  // Fetch data based on product_id
-
-  return {
-    props: {
-      // Data to be passed to the component
-    }
-  }
 }
 
 export default ProductDetails

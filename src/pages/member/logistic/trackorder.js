@@ -27,6 +27,9 @@ import {
 // ** axios Import
 import axios from 'axios'
 
+// Import auth token Decode
+import { createToken} from 'src/@core/utils/auth'
+
 const TrackingStatus = ({ productdata, updateProductData, trackNo }) => {
   //แสดงสถานะการขนส่ง
   const [status, setStatus] = useState([])
@@ -49,20 +52,27 @@ const TrackingStatus = ({ productdata, updateProductData, trackNo }) => {
 
   // ฟังชัน ย้ายไปหน้า ดูรายละเอียดผลิตภัณ
   const handleDetailPage = invoice_id => {
-    router.push(`/member/logistic/showstatus/?invoice_id=${invoice_id}&usertype=${usertype}`)
+    const sending = {invoice_id:invoice_id,
+    usertype:usertype}
+
+  const code= createToken(sending)
+    router.push(`/member/logistic/showstatus/?sending=${code}`)
   }
 
   // ฟังชันยืนยันข้อมูล
-  const handleConfirmProduct = async invoice_id => {
+  const handleConfirmProduct = async (invoice_id,pdi,productamount,amount) => {
     // event.preventDefault()
 
     try {
-      const data = {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.invoice.member_confirm_product`, {
         invoice_id: invoice_id
-      }
-
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.member_confirm_product`, data)
+      })
       if (response.status === 200) {
+        await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.product.update_product_amount`, {
+    data: [
+        {product_id: pdi, product_amount: productamount-amount}
+    ]
+        })
         Swal.fire({
           icon: 'success',
           title: 'Success'
@@ -77,7 +87,7 @@ const TrackingStatus = ({ productdata, updateProductData, trackNo }) => {
       }
     } catch (error) {
       console.error(error)
-      console.log(error)
+      // console.log(error)
       Swal.fire({
         icon: 'error',
         title: 'การส่งข้อมูลล้มเหลว',
@@ -138,7 +148,7 @@ const TrackingStatus = ({ productdata, updateProductData, trackNo }) => {
                           >
                             <CardMedia
                               component='img'
-                              src={`/imgTctmProduct/${item.image_file_name}`}
+                              src={`/imgDigitalProduct/${item.image_file_name}`}
                               alt={`image`}
                               height='auto'
                               sx={{ minWidth: '100px', minHeight: '100px' }}
@@ -219,7 +229,7 @@ const TrackingStatus = ({ productdata, updateProductData, trackNo }) => {
                               fullWidth
                               variant='contained'
                               color='primary'
-                              onClick={() => handleConfirmProduct(item.invoice_id)}
+                              onClick={() => handleConfirmProduct(item.invoice_id,item.product_id,item.product_amount,item.amount)}
                             >
                               Confirm
                             </Button>

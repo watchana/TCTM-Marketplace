@@ -158,6 +158,7 @@ const AddProductPage = ({ productCategories }) => {
     })
   }
 
+
   // Api ฟังชันอัปโหลดวิดิโอ
   const uploadVdoToApi = () => {
     return axios.post(`/api/ProductimgUpload`, uploadVdo, {
@@ -212,7 +213,7 @@ const AddProductPage = ({ productCategories }) => {
       }
     } else if (activeStep === 1) {
       axios
-        .post(`${process.env.NEXT_PUBLIC_API}TCTM.product.postnewproductv2`, product)
+        .post(`${process.env.NEXT_PUBLIC_API}DIGITAL.product.postnewproductv2`, product)
         .then(response => {
           const statusCode = response.data.message.StatusCode
           setResultAPIStatus(statusCode)
@@ -223,7 +224,7 @@ const AddProductPage = ({ productCategories }) => {
               const statusCode = response.status
               if (statusCode === 200) {
                 // อัปโหลดสำเร็จ
-                console.log('File uploaded successfully.')
+                // console.log('File uploaded successfully.')
               } else {
                 // อัปโหลดไม่สำเร็จ
                 console.error('File upload failed.')
@@ -239,7 +240,7 @@ const AddProductPage = ({ productCategories }) => {
               const statusCode = response.status
               if (statusCode === 200) {
                 // อัปโหลดสำเร็จ
-                console.log('File uploaded successfully.')
+                // console.log('File uploaded successfully.')
               } else {
                 // อัปโหลดไม่สำเร็จ
                 console.error('File upload failed.')
@@ -381,14 +382,14 @@ const AddProductPage = ({ productCategories }) => {
 
 export async function getServerSideProps() {
   try {
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.product_category.allcategorys`)
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.product_category.allcategorys`)
     const productCategories = res.data.message.Data
 
     return {
       props: { productCategories: productCategories }
     }
   } catch (error) {
-    console.log(error)
+    // console.log(error)
 
     return {
       props: { productCategories: [] }

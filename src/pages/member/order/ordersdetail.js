@@ -43,12 +43,28 @@ import CheckNpost from './workorder/addworkorder'
 import typography from 'src/@core/components/typography'
 import { useTheme } from '@material-ui/core/styles'
 
+// Import auth token Decode
+import { verifyToken } from 'src/@core/utils/auth'
+
 const Orders_Detail = () => {
   // ใช้งาน Router
   const router = useRouter() // use router
-  const { invoice_id, usertype } = router.query
+  const { sending } = router.query
+  const [usertype,setUserType]=useState('')
+  const [invoice_id,setinvoice_id]=useState('')
+
+  useEffect(() => {
+  if (!sending) {
+        // console.error('invoice is undefined ro null')
+        return
+      }
+    setUserType(verifyToken(sending).usertype||'')
+    setinvoice_id(verifyToken(sending).invoice_id||'')
+
+  }, [sending])
 
   //ตัวแปรเก็บค่าข้อมูล
+
   const [orderdata, setOrderData] = useState('') // Order Data
   const [productoption, setProductOption] = useState('') // Product Option
 
@@ -61,7 +77,7 @@ const Orders_Detail = () => {
         return
       }
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.invoice_detail`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.invoice.invoice_detail`, {
           params: {
             invoice_id: invoice_id
           }
@@ -163,11 +179,11 @@ const theme = useTheme()
         </Grid>
         <Grid item xs={12} md={7}>
           <Grid container spacing={2}>
-            <Grid item xs={12} mb={5} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+            {/* <Grid item xs={12} mb={5} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
               <Box sx={{ width: '100%' }}>
                 <ShowWorkOrder invoice_id={invoice_id} />
               </Box>
-            </Grid>
+            </Grid> */}
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
               <Box sx={{ width: '100%' }}>
                 <Paymant

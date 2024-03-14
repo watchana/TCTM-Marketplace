@@ -22,7 +22,7 @@ const Billboard = () => {
   const [Billboardlist, setBillboardlist] = useState([])
 
   useEffect(() => {
-    axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.all_billboard`).then(response => {
+    axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.backoffice.home_page.all_billboard`).then(response => {
       setBillboardlist(response.data.message.Data)
     })
   }, [])
@@ -33,7 +33,7 @@ const Billboard = () => {
 
   const fetchBillboardData = () => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.all_billboard`)
+      .get(`${process.env.NEXT_PUBLIC_API}DIGITAL.backoffice.home_page.all_billboard`)
       .then(response => {
         setBillboardlist(response.data.message.Data)
       })
@@ -46,7 +46,7 @@ const Billboard = () => {
     // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Ban
 
     axios
-      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.active_bill_board`, {
+      .post(`${process.env.NEXT_PUBLIC_API}DIGITAL.backoffice.home_page.active_bill_board`, {
         bill_id
       })
       .then(response => {
@@ -60,7 +60,7 @@ const Billboard = () => {
 
   const handleUnactiveClick = bill_id => {
     axios
-      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.unactive_bill_board`, {
+      .post(`${process.env.NEXT_PUBLIC_API}DIGITAL.backoffice.home_page.unactive_bill_board`, {
         bill_id
       })
       .then(response => {
@@ -77,7 +77,7 @@ const Billboard = () => {
 
   const handleActiveClickBill2 = bill_id => {
     axios
-      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.billboards2`, {
+      .post(`${process.env.NEXT_PUBLIC_API}DIGITAL.backoffice.home_page.billboards2`, {
         bill_id
       })
       .then(response => {
@@ -101,7 +101,7 @@ const Billboard = () => {
     // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Unban
 
     axios
-      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.billboards3`, {
+      .post(`${process.env.NEXT_PUBLIC_API}DIGITAL.backoffice.home_page.billboards3`, {
         bill_id
       })
       .then(response => {
@@ -123,12 +123,12 @@ const Billboard = () => {
 
   const handleDeleteClick = bill_id => {
     // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Delete
-    console.log(`Delete account with ID ${bill_id}`)
+    // console.log(`Delete account with ID ${bill_id}`)
   }
 
   const handleUndeleteClick = bill_id => {
     // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Undelete
-    console.log(`Undelete account with ID ${bill_id}`)
+    // console.log(`Undelete account with ID ${bill_id}`)
   }
 
   const [billboard2Clicked, setBillboard2Clicked] = useState(false)
@@ -144,7 +144,7 @@ const Billboard = () => {
           startIcon={<Plus />}
           onClick={() => {
             // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม "Add"
-            console.log('Add button clicked')
+            // console.log('Add button clicked')
 
             // เพิ่มโค้ดที่ต้องการทำเมื่อคลิกปุ่ม "Add" ที่นี่
           }}

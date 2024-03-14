@@ -164,10 +164,6 @@ const RegisterSupplier = () => {
       address,
       imageName,
       member_id,
-      bankname,
-      bookbankname,
-      paypalname,
-      paypalnumber
     ]
     if (fieldsToCheck.some(field => field === '' || field === null || field === undefined)) {
       Swal.fire({
@@ -186,32 +182,33 @@ const RegisterSupplier = () => {
       const response = await axios.post('/api/StoreimgUpload', formData)
 
       const data = {
-        sub_bank_number: bankcard,
+        sub_bank_number: bankcard||'0',
         sub_tel: tel,
         sub_email: email,
         sub_name: storename,
         sub_description: storedetails,
         sub_address: address,
-        sub_address_shop: '1',
-        sub_address_claim: '1',
+        sub_address_shop: '0',
+        sub_address_claim: '0',
         member_id: member_id,
         sub_image: imageName,
-        sub_bank_name: bankname,
-        sub_book_bank_name: bookbankname,
-        sub_pay_name: paypalname,
-        sub_pay_number: paypalnumber,
-        sup_idcard: idcard,
+        sub_bank_name: bankname|| '0',
+        sub_book_bank_name: bookbankname|| '0',
+        sub_pay_name: paypalname|| '0',
+        sub_pay_number: paypalnumber|| '0',
+        sup_idcard: idcard|| '',
         sup_apikey: apikey || '',
         sup_apisecret: apisecret || '',
         sup_hostaddress: hostaddress || ''
       }
+      // console.log('data',data);
 
-      await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.register.registerMarket`, data)
+      await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.register.registerMarket`, data)
 
       Swal.fire({
         icon: 'success',
         title: 'ส่งข้อมูลสำเร็จ',
-        text: 'กรุณารอ การยืนยันจาก TCTM'
+        text: 'กรุณารอ การยืนยันจาก digital2day'
       })
 
       router.push('/')
@@ -407,7 +404,7 @@ const RegisterSupplier = () => {
               <Grid container>
                 <Grid item xs={12} md={4}>
                   <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
-                    Address on ID card *
+                    Address on ID card
                   </Typography>
                 </Grid>
                 <Grid item xs={12} md={8}>
@@ -415,7 +412,7 @@ const RegisterSupplier = () => {
                     <TextField
                       fullWidth
                       size='small'
-                      label='Address on ID card *'
+                      label='Address on ID card'
                       value={idcard}
                       onChange={handleIdCardSet}
                       error={idcard === '' && isSubmitted}
@@ -430,7 +427,7 @@ const RegisterSupplier = () => {
               <Grid container>
                 <Grid item xs={12} md={4}>
                   <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
-                    Address Information *
+                    Address Information
                   </Typography>
                 </Grid>
                 <Grid item xs={12} md={8}>
@@ -440,7 +437,7 @@ const RegisterSupplier = () => {
                       multiline
                       rows={3}
                       size='small'
-                      label='Address Information *'
+                      label='Address Information'
                       value={address}
                       onChange={handleAddressSet}
                       error={address === '' && isSubmitted}
@@ -456,7 +453,7 @@ const RegisterSupplier = () => {
               <Grid container>
                 <Grid item xs={12} md={4}>
                   <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
-                    Bank Name
+                    Name on Card
                   </Typography>
                 </Grid>
                 <Grid item xs={12} md={8}>
@@ -464,11 +461,11 @@ const RegisterSupplier = () => {
                     <TextField
                       fullWidth
                       size='small'
-                      label='Bank Name *'
+                      label='Name on Card'
                       value={bankname}
                       onChange={handleBankNameSet}
-                      error={bankname === '' && isSubmitted}
-                      helperText={bankname === '' && isSubmitted ? 'Please enter your bank name.' : ''}
+                      // error={bankname === '' && isSubmitted}
+                      // helperText={bankname === '' && isSubmitted ? 'Please enter your Name on Card.' : ''}
                     ></TextField>
                   </Box>
                 </Grid>
@@ -478,7 +475,7 @@ const RegisterSupplier = () => {
               <Grid container>
                 <Grid item xs={12} md={4}>
                   <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
-                    Bankcard
+                    Card Number
                   </Typography>
                 </Grid>
                 <Grid item xs={12} md={8}>
@@ -486,11 +483,11 @@ const RegisterSupplier = () => {
                     <TextField
                       fullWidth
                       size='small'
-                      label='Bankcard *'
+                      label='Card Number'
                       value={bankcard}
                       onChange={handleBankcard}
-                      error={bankcard === '' && isSubmitted}
-                      helperText={bankcard === '' && isSubmitted ? 'Please enter your bank name.' : ''}
+                      // error={bankcard === '' && isSubmitted}
+                      // helperText={bankcard === '' && isSubmitted ? 'Please enter your Card Number.' : ''}
                     ></TextField>
                   </Box>
                 </Grid>
@@ -509,11 +506,11 @@ const RegisterSupplier = () => {
                     <TextField
                       fullWidth
                       size='small'
-                      label='Book Bank Name *'
+                      label='Book Bank Name'
                       value={bookbankname}
                       onChange={handleBookBankNameSet}
-                      error={bookbankname === '' && isSubmitted}
-                      helperText={bookbankname === '' && isSubmitted ? 'Please enter your book bank name.' : ''}
+                      // error={bookbankname === '' && isSubmitted}
+                      // helperText={bookbankname === '' && isSubmitted ? 'Please enter your book bank name.' : ''}
                     ></TextField>
                   </Box>
                 </Grid>
@@ -524,7 +521,7 @@ const RegisterSupplier = () => {
               <Grid container>
                 <Grid item xs={12} md={4}>
                   <Typography variant='body1' sx={{ fontWeight: 'bold' }}>
-                    paypal Name
+                    Paypal Name
                   </Typography>
                 </Grid>
                 <Grid item xs={12} md={8}>
@@ -532,11 +529,11 @@ const RegisterSupplier = () => {
                     <TextField
                       fullWidth
                       size='small'
-                      label='Paypal *'
+                      label='Paypal'
                       value={paypalname}
                       onChange={handlepaypalNameSet}
-                      error={paypalname === '' && isSubmitted}
-                      helperText={paypalname === '' && isSubmitted ? 'Please enter your paypal.' : ''}
+                      // error={paypalname === '' && isSubmitted}
+                      // helperText={paypalname === '' && isSubmitted ? 'Please enter your paypal.' : ''}
                     ></TextField>
                   </Box>
                 </Grid>
@@ -555,11 +552,11 @@ const RegisterSupplier = () => {
                     <TextField
                       fullWidth
                       size='small'
-                      label='Paypal *'
+                      label='Paypal'
                       value={paypalnumber}
                       onChange={handlePaypalNumberSet}
-                      error={paypalnumber === '' && isSubmitted}
-                      helperText={paypalnumber === '' && isSubmitted ? 'Please enter your paypal number.' : ''}
+                      // error={paypalnumber === '' && isSubmitted}
+                      // helperText={paypalnumber === '' && isSubmitted ? 'Please enter your paypal number.' : ''}
                     ></TextField>
                   </Box>
                 </Grid>
@@ -575,8 +572,8 @@ const RegisterSupplier = () => {
                       size='small'
                       sx={{
                         '&:hover': {
-                          textDecoration: 'underline'
-                        }
+                          color:'blue'
+                        },textDecoration: 'underline'
                       }}
                     >
                       Manufacturing?

@@ -28,7 +28,7 @@ const Service = () => {
 
   useEffect(() => {
     try {
-      axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.service.showalluserservice`).then(response => {
+      axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.service.showalluserservice`).then(response => {
         // console.log('setUser:', response.data.message.Data)
         setUserlist(response.data.message.data)
       })
@@ -43,7 +43,7 @@ const Service = () => {
 
   const fetchUserData = () => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_API}TCTM.service.showalluserservice`)
+      .get(`${process.env.NEXT_PUBLIC_API}DIGITAL.service.showalluserservice`)
       .then(response => {
         setUserlist(response.data.message.Data)
       })
@@ -78,7 +78,7 @@ const Service = () => {
     let config = {
       method: 'put',
       maxBodyLength: Infinity,
-      url: `${process.env.NEXT_PUBLIC_API}TCTM.service.update_sertype`,
+      url: `${process.env.NEXT_PUBLIC_API}DIGITAL.service.update_sertype`,
 
       data: data
     }
@@ -100,7 +100,7 @@ const Service = () => {
         })
       })
       .catch(error => {
-        console.log(error)
+        // console.log(error)
         Swal.fire({
           icon: 'error',
           title: 'Log in ล้มเหลว...',
@@ -144,12 +144,12 @@ const Service = () => {
           // Clean up the object URL after the download is initiated
           URL.revokeObjectURL(blobUrl)
 
-          console.log('Download initiated')
+          // console.log('Download initiated')
         } else {
           console.error('Error downloading document:', downloadResponse.statusText)
         }
       } else {
-        console.log('Cancel download')
+        // console.log('Cancel download')
       }
     } catch (error) {
       console.error('An error occurred:', error)

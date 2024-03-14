@@ -107,7 +107,7 @@ const theme = useTheme()
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.product.productdetailv2`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.product.productdetailv2`, {
           params: {
             product_id: productId
           }
@@ -248,7 +248,7 @@ const theme = useTheme()
         content={SeoProductpage.content}
         keywords={SeoProductpage.keywords}
         ogimg={
-          productimg[stateImages]?.image_file_name ? `/imgTctmProduct/${productimg[stateImages].image_file_name}` : ''
+          productimg[stateImages]?.image_file_name ? `/imgDigitalProduct/${productimg[stateImages].image_file_name}` : ''
         }
         url={fullURL}
       />
@@ -325,7 +325,7 @@ const theme = useTheme()
                 component='img'
                 image={
                   productimg[stateImages]?.image_file_name
-                    ? `/imgTctmProduct/${productimg[presentState].image_file_name}`
+                    ? `/imgDigitalProduct/${productimg[presentState].image_file_name}`
                     : ''
                 }
                 alt={`Image ${stateImages + 1}`}
@@ -396,7 +396,7 @@ const theme = useTheme()
                       >
                         <CardMedia
                           component='img'
-                          src={`/imgTctmProduct/${image.image_file_name}`}
+                          src={`/imgDigitalProduct/${image.image_file_name}`}
                           alt={`Image ${index + 1}`}
                           onClick={() => indexCount(index, firstImage)}
                           sx={{

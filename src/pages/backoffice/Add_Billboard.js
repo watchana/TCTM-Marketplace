@@ -114,18 +114,18 @@ const AddBillboard = () => {
         bill_name: imageChange
       }
 
-      await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.add_billboards`, data)
+      await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.backoffice.home_page.add_billboards`, data)
 
       uploadImagesToApi()
         .then(response => {
           const statusCode = response.status
           if (statusCode === 200) {
             // อัปโหลดสำเร็จ
-            console.log('File uploaded successfully.')
+            // console.log('File uploaded successfully.')
             router.reload(6)
           } else {
             // อัปโหลดไม่สำเร็จ
-            console.error('File upload failed.')
+            // console.error('File upload failed.')
           }
         })
         .catch(error => {

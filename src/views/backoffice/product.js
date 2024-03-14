@@ -9,7 +9,7 @@ const Product = () => {
   const [Productlist, setProductlist] = useState([])
 
   useEffect(() => {
-    axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.product.allproduct`).then(response => {
+    axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.backoffice.product.allproduct`).then(response => {
       // console.log('setProduxt:', response.data.message.Data)
       // setProductlist(response.data.message.Data)
     })
@@ -21,7 +21,7 @@ const Product = () => {
 
   const fetchProductData = () => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.product.allproduct`)
+      .get(`${process.env.NEXT_PUBLIC_API}DIGITAL.backoffice.product.allproduct`)
       .then(response => {
         setProductlist(response.data.message.Data)
       })
@@ -32,14 +32,14 @@ const Product = () => {
 
   const handleBanClick = product_id => {
     // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Ban
-    console.log(`Ban account with ID ${product_id}`)
+    // console.log(`Ban account with ID ${product_id}`)
 
     axios
-      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.product.ban`, {
+      .post(`${process.env.NEXT_PUBLIC_API}DIGITAL.backoffice.product.ban`, {
         product_id
       })
       .then(response => {
-        console.log('UserID', response)
+        // console.log('UserID', response)
 
         // ทำอย่างอื่นตามความต้องการ
         fetchProductData()
@@ -51,14 +51,14 @@ const Product = () => {
 
   const handleUnbanClick = product_id => {
     // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Unban
-    console.log(`Unban account with ID ${product_id}`)
+    // console.log(`Unban account with ID ${product_id}`)
 
     axios
-      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.product.unban`, {
+      .post(`${process.env.NEXT_PUBLIC_API}DIGITAL.backoffice.product.unban`, {
         product_id
       })
       .then(response => {
-        console.log('UserID', response)
+        // console.log('UserID', response)
 
         // ทำอย่างอื่นตามความต้องการ
         fetchProductData()
@@ -70,10 +70,10 @@ const Product = () => {
 
   const handleActiveClick = product_id => {
     // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Ban
-    console.log(`Active account with ID ${product_id}`)
+    // console.log(`Active account with ID ${product_id}`)
 
     axios
-      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.product_active`, {
+      .post(`${process.env.NEXT_PUBLIC_API}DIGITAL.backoffice.home_page.product_active`, {
         product_id
       })
       .then(response => {
@@ -87,14 +87,14 @@ const Product = () => {
 
   const handleUnactiveClick = product_id => {
     // ทำสิ่งที่คุณต้องการเมื่อคลิกปุ่ม Unban
-    console.log(`Unactive account with ID ${product_id}`)
+    // console.log(`Unactive account with ID ${product_id}`)
 
     axios
-      .post(`${process.env.NEXT_PUBLIC_API}TCTM.backoffice.home_page.product_unactive`, {
+      .post(`${process.env.NEXT_PUBLIC_API}DIGITAL.backoffice.home_page.product_unactive`, {
         product_id
       })
       .then(response => {
-        console.log('UserID', response)
+        // console.log('UserID', response)
 
         // ทำอย่างอื่นตามความต้องการ
         fetchProductData()

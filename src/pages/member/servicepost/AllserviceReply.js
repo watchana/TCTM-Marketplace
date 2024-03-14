@@ -88,7 +88,7 @@ const MyMarket = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.service.allpostservice`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.service.allpostservice`, {
           params: {
             member_id: userId
           }

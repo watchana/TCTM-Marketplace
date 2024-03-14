@@ -118,7 +118,7 @@ const ServicePo = ({ open, handleClose }) => {
         ser_req_image_file: uploadedFileNames
       }
 
-      axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.post_ser_requirement`, data).then(response => {
+      axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.requirements.post_ser_requirement`, data).then(response => {
         // reset display หลังจากส่งข้อมูลเสร็จ
         Route.replace(Route.asPath, undefined, { scroll: false })
         SAlert.fire({

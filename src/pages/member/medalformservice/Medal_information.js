@@ -52,7 +52,7 @@ const MedalInformation = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.service.showallservice`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.service.showallservice`, {
           params: {
             ser_id: serID
           }

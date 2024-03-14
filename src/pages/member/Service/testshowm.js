@@ -145,12 +145,12 @@ const Testim1 = () => {
         ser_filedame: imageName
       }
 
-      await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.service.addservice`, data)
+      await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.service.addservice`, data)
 
       Swal.fire({
         icon: 'success',
         title: 'ส่งข้อมูลสำเร็จ',
-        text: 'กรุณารอ การยืนยันจาก TCTM'
+        text: 'กรุณารอ การยืนยันจาก Digital2day'
       })
 
       router.push('/')

@@ -110,7 +110,7 @@ const theme = useTheme()
           keywords={sub_name}
 
           // ogimg={
-          //   productimg[stateImages]?.image_file_name ? `/imgTctmProduct/${productimg[stateImages].image_file_name}` : ''
+          //   productimg[stateImages]?.image_file_name ? `/imgDigitalProduct/${productimg[stateImages].image_file_name}` : ''
           // }
           // url={fullURL}
         />
@@ -254,7 +254,7 @@ const theme = useTheme()
                         <CardMedia
                           component='img'
                           height='70%'
-                          image={`/imgTctmProduct/${product.image_file_name}`}
+                          image={`/imgDigitalProduct/${product.image_file_name}`}
                           alt={product.product_name}
                           sx={{ objectFit: 'contain' }}
                         />
@@ -332,7 +332,7 @@ const theme = useTheme()
 export const getServerSideProps = async ({ query }) => {
   try {
     const sub_id = query.sub_id
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.product.allproducts_market?sup_id=${sub_id}`)
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.product.allproducts_market?sup_id=${sub_id}`)
     const productData = response.data.message.Data || []
 
     if (!query.keyword) {

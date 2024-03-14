@@ -45,7 +45,7 @@ const FileUpload = () => {
 
     selectedFiles.forEach((file, index) => {
       formData.append(`file${index}`, file)
-      console.log(`file${index}`, file)
+      // console.log(`file${index}`, file)
     })
 
     try {

@@ -41,7 +41,7 @@ export default function EditCategory({ open, onClose, initialCategoryName, categ
     }
 
     axios
-      .post(`${process.env.NEXT_PUBLIC_API}TCTM.product_category.editcategory`, data)
+      .post(`${process.env.NEXT_PUBLIC_API}DIGITAL.product_category.editcategory`, data)
       .then(response => {})
       .catch(error => {
         console.log(error)

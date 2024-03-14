@@ -111,7 +111,7 @@ const RegisterPage = () => {
   // ฟังก์ชันบัณทึกค่าของ User
   const handleUserSet = event => {
     const userInput = event.target.value
-    if (/^[a-zA-Z]+$/.test(userInput) || userInput === '') {
+    if (/^[a-zA-Z_0-9.]+$/.test(userInput) || userInput === '') {
       setUser(userInput)
     }
   }
@@ -183,7 +183,7 @@ const RegisterPage = () => {
     // ตรวจสอบว่า reCAPTCHA ถูกต้อง
     if (!recaptchaValue) {
       // กระทำเมื่อ reCAPTCHA ไม่ถูกต้อง (ตัวอย่าง: แสดงข้อความหรือบล็อกการส่ง)
-      console.log('Please complete the reCAPTCHA.')
+      // console.log('Please complete the reCAPTCHA.')
 
       return
     }
@@ -232,7 +232,7 @@ const RegisterPage = () => {
     }
 
     axios
-      .post(`${process.env.NEXT_PUBLIC_API}TCTM.register.register`, data)
+      .post(`${process.env.NEXT_PUBLIC_API}DIGITAL.register.register`, data)
       .then(response => {
         SAlert.fire({
           icon: 'success',
@@ -415,6 +415,7 @@ const RegisterPage = () => {
                 <DatePicker
                   label='Date'
                   value={date}
+                  format="DD/MM/YYYY"
                   onChange={handleDateSet}
                   renderInput={props => <TextField {...props} />}
                   sx={{ maxWidth: '48%', marginLeft: '2%' }}

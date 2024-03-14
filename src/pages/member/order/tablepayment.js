@@ -54,10 +54,10 @@ const uniqueProductData = Array.from(new Set(productData.map(item => item.sub_ba
               </tr>
             </tbody>
           </table>
-          <Typography variant='body1' sx={{ p: '10px 0px 10px' }} gutterBottom>
+          {/* <Typography variant='body1' sx={{ p: '10px 0px 10px' }} gutterBottom>
             Scan QR Code to pay for products.
-          </Typography>
-          <div
+          </Typography> */}
+          {/* <div
             style={{
               display: 'flex',
               justifyContent: 'center',
@@ -69,7 +69,7 @@ const uniqueProductData = Array.from(new Set(productData.map(item => item.sub_ba
               alt='QR Code'
               style={{ maxWidth: '40%' }}
             />
-          </div>
+          </div> */}
         </div>
       </CardContent>
       ))}

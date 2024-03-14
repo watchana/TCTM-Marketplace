@@ -29,7 +29,7 @@ const ShowOrderReq = ({ userId }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.member_req_order`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.invoice.member_req_order`, {
           params: {
             member_id: userId
           }
@@ -54,7 +54,7 @@ const ShowOrderReq = ({ userId }) => {
         invoice_id: invoice_id
       }
 
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.member_confirm_product`, data)
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.invoice.member_confirm_product`, data)
       if (response.status === 200) {
         Swal.fire({
           icon: 'success',
@@ -71,7 +71,7 @@ const ShowOrderReq = ({ userId }) => {
       }
     } catch (error) {
       console.error(error)
-      console.log(error)
+      // console.log(error)
       Swal.fire({
         icon: 'error',
         title: 'การส่งข้อมูลล้มเหลว',

@@ -46,7 +46,7 @@ const OrderReq = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.checkout.market_number_bank`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.checkout.market_number_bank`, {
           params: {
             sub_id: sub_id,
             invoice_id: invoice_id

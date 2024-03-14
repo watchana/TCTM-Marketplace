@@ -28,7 +28,7 @@ const ShowResultsAPI = ({ result }) => {
               <Typography variant='h3' gutterBottom>
                 Product registration is complete.
               </Typography>
-              <Typography variant='h4'>Please wait for approval from TCTM Marketplace.</Typography>
+              <Typography variant='h4'>Please wait for approval from Digital2day Marketplace.</Typography>
             </Card>
           </Grid>
         </Grid>

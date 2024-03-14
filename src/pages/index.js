@@ -14,8 +14,8 @@ import ShowProducts2 from 'src/views/homepage/ShowProducts2'
 import ShowPost from './postinformation/Showpost'
 import { SeoHomepage } from 'src/seo/homepage'
 import MySeo from './seo'
+import BlankLayout from 'src/@core/layouts/BlankLayout'
 
-console.log(SeoHomepage)
 
 const Dashboard = () => {
   return (
@@ -35,5 +35,7 @@ const Dashboard = () => {
     </Container>
   )
 }
+// Dashboard.getLayout = page => <BlankLayout>{page}</BlankLayout>
+
 
 export default Dashboard

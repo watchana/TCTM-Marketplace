@@ -53,7 +53,7 @@ const Orders_Detail = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.invoice_req_detail`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.invoice.invoice_req_detail`, {
           params: {
             invoice_id: invoice_id
           }

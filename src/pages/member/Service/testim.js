@@ -77,14 +77,14 @@ const Testim = () => {
         image_file_infname: imageChange
       }
 
-      await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.infromation.inf_imgV2`, data)
+      await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.infromation.inf_imgV2`, data)
 
       uploadImagesToApi()
         .then(response => {
           const statusCode = response.status
           if (statusCode === 200) {
             // อัปโหลดสำเร็จ
-            console.log('File uploaded successfully.')
+            // console.log('File uploaded successfully.')
           } else {
             // อัปโหลดไม่สำเร็จ
             console.error('File upload failed.')
@@ -97,7 +97,7 @@ const Testim = () => {
       Swal.fire({
         icon: 'success',
         title: 'ส่งข้อมูลสำเร็จ',
-        text: 'กรุณารอ การยืนยันจาก TCTM'
+        text: 'กรุณารอ การยืนยันจาก Digital2day'
       })
     } catch (error) {
       console.error(error)

@@ -15,7 +15,7 @@ const ShowWorkOrder = invoice_id => {
         return
       }
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.workorder.get_work_order`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.workorder.get_work_order`, {
           params: {
             invoice_id: invoice_id.invoice_id
           }

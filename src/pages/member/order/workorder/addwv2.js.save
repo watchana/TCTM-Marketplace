@@ -11,7 +11,7 @@ const AddWorkorders = ({ invoice_id }) => {
     const fetchData = async () => {
       try {
         // Fetch invoice details
-        const response = await axios.get(`${API}TCTM.invoice.invoice_detail`, {
+        const response = await axios.get(`${API}DIGITAL.invoice.invoice_detail`, {
           params: {
             invoice_id: invoice_id || 'INVO-118'
           }
@@ -20,7 +20,7 @@ const AddWorkorders = ({ invoice_id }) => {
         const process = response.data.message.Data[0].process_status
         const userIdFromLocalStorage = localStorage.getItem('Member_Id')
 
-        const userResponse = await axios.get(`${API}TCTM.profile.display_profile`, {
+        const userResponse = await axios.get(`${API}DIGITAL.profile.display_profile`, {
           params: {
             member_id: userIdFromLocalStorage
           }
@@ -53,7 +53,7 @@ const AddWorkorders = ({ invoice_id }) => {
     if (dataToAdd.length > 0) {
       // Map data to an array of promises
       const requests = dataToAdd.map(item =>
-        axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.workorder.addworkorder`, {
+        axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.workorder.addworkorder`, {
           invoice_id: invoice_id || 'INVO-118',
           wod_name: item.operation,
           wod_ordet_id: item.name,
@@ -88,7 +88,7 @@ const AddWorkorders = ({ invoice_id }) => {
 
     if (matchingData.length > 0) {
       const requests = matchingData.map(item =>
-        axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.workorder.update_workorder`, {
+        axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.workorder.update_workorder`, {
           wod_id: item.wod_id,
           wod_name: item.operation,
           wod_ordet_id: item.name,
@@ -122,7 +122,7 @@ const AddWorkorders = ({ invoice_id }) => {
       // Check if combinedData has data before proceeding
       if (data.length > 0) {
         // Map data to an array of promises
-        const requests = data.map(item => axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.workorder.addworkorder`, item))
+        const requests = data.map(item => axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.workorder.addworkorder`, item))
 
         // Wait for all requests to complete
         const responses = await Promise.all(requests)
@@ -140,7 +140,7 @@ const AddWorkorders = ({ invoice_id }) => {
     const fetchData = async () => {
       try {
         // Fetch invoice details
-        const response = await axios.get(`${API}TCTM.workorder.get_work_order`, {
+        const response = await axios.get(`${API}DIGITAL.workorder.get_work_order`, {
           params: {
             invoice_id: invoice_id || 'INVO-118'
           }

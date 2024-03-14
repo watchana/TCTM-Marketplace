@@ -93,25 +93,16 @@ const Account = () => {
   const handleChangUserData = async e => {
     e.preventDefault()
 
-    const data = {
-      member_id: userId,
-      email: userEmail,
-      address: userAddress,
-      phone: userPhone,
-      company: userCompany,
-      host: userHost
-    }
-
     try {
       const data = {
         member_id: userId,
-        email: userEmail,
-        address: userAddress,
-        phone: userPhone,
-        company: userCompany,
-        userHost: userHost,
-        key: key,
-        secret: secret
+        user_email: userEmail,
+        user_address: userAddress,
+        user_tel: userPhone,
+        user_company: userCompany,
+        sup_hostaddress: userHost,
+        sup_apikey: key,
+        sup_apisecret: secret
       }
 
       const fieldsToCheck = [userId, userEmail, userAddress, userPhone, userCompany]
@@ -123,10 +114,10 @@ const Account = () => {
           text: 'Please fill out all fields.'
         })
 
-        return
+        return 
       }
 
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.profile.update_profile`, data)
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.profile.update_profile`, data)
 
       Swal.fire({
         icon: 'success',
@@ -148,7 +139,7 @@ const Account = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.profile.display_profile`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.profile.display_profile`, {
           params: {
             member_id: userId
           }

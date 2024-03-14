@@ -73,7 +73,7 @@ const EditPo = () => {
     }
 
     const fetchData = async () => {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.product.productdetailv2`, {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.product.productdetailv2`, {
         params: {
           product_id: pdi
         }
@@ -268,7 +268,7 @@ const EditPo = () => {
 
           if (data) {
             try {
-              const responses = await axios.put(`${process.env.NEXT_PUBLIC_API}TCTM.product.update_productvalue`, data)
+              const responses = await axios.put(`${process.env.NEXT_PUBLIC_API}DIGITAL.product.update_productvalue`, data)
 
               // Handle the responses as needed
             } catch (error) {
@@ -301,7 +301,7 @@ const EditPo = () => {
                     product_image_id: image.product_image_id
                   }
 
-                  await axios.put(`${process.env.NEXT_PUBLIC_API}TCTM.product.deleteimgproduct`, data)
+                  await axios.put(`${process.env.NEXT_PUBLIC_API}DIGITAL.product.deleteimgproduct`, data)
                 })
               )
             } catch (error) {
@@ -330,7 +330,7 @@ const EditPo = () => {
                 }
 
                 try {
-                  const responses = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.product.add_imgpro`, data)
+                  const responses = await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.product.add_imgpro`, data)
                 } catch (error) {
                   // Handle any errors that occurred during the requests
                   console.error('Error fetching image details:', error)
@@ -351,7 +351,7 @@ const EditPo = () => {
 
           if (Object.values(dataDetail).some(value => value !== '')) {
             try {
-              const responses = await axios.put(`${process.env.NEXT_PUBLIC_API}TCTM.product.update_product`, dataDetail)
+              const responses = await axios.put(`${process.env.NEXT_PUBLIC_API}DIGITAL.product.update_product`, dataDetail)
 
               // Handle the responses as needed
             } catch (error) {
@@ -398,7 +398,7 @@ const EditPo = () => {
                 {FileteredImages.map((img, index) => (
                   <ImageListItem key={index} xs={4}>
                     <CardMedia
-                      image={`/imgTctmProduct/${img.image_file_name}`}
+                      image={`/imgDigitalProduct/${img.image_file_name}`}
                       alt={`Image ${index}`}
                       loading='lazy'
                       style={{

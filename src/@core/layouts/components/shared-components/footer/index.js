@@ -51,7 +51,7 @@ const Footer = props => {
         }}
       >
         <Typography variant='body2' color='#FFF' sx={{ marginY: 1 }}>
-          © 2023 TCTM. All rights reserved.
+          © 2023 Digital2day. All rights reserved.
         </Typography>
       </Box>
     </Box>

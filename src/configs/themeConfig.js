@@ -1,6 +1,6 @@
 var themeConfig = {
   // ** Layout Configs
-  templateName: ' TCTM -' /* App Name */,
+  templateName: ' Digital2day -' /* App Name */,
   keywords: '',
   content: '',
   description: '',

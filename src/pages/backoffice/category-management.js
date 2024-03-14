@@ -59,7 +59,7 @@ const CategoryManager = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.product_category.allcategorys`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.product_category.allcategorys`, {
           headers: {
             Authorization: 'token 76dc8ec5e14d19c:a644317879022f2'
           }
@@ -77,7 +77,7 @@ const CategoryManager = () => {
   // เก็บข้อมูลอัปเดท
   const handleUpdateData = async () => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.product_category.allcategorys`, {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.product_category.allcategorys`, {
         headers: {
           Authorization: 'token 76dc8ec5e14d19c:a644317879022f2'
         }
@@ -105,7 +105,7 @@ const CategoryManager = () => {
         }
 
         axios
-          .post(`${process.env.NEXT_PUBLIC_API}TCTM.product_category.deletecategory`, data)
+          .post(`${process.env.NEXT_PUBLIC_API}.product_category.deletecategory`, data)
           .then(response => {
             Swal.fire({
               icon: 'success',
@@ -114,7 +114,7 @@ const CategoryManager = () => {
             handleUpdateData() // อัปเดตข้อมูลหลังจากลบ
           })
           .catch(error => {
-            console.log(error)
+            // console.log(error)
           })
       }
     })

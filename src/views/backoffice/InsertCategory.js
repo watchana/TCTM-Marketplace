@@ -46,7 +46,7 @@ export default function InsertCategory({ open, onClose, updateData }) {
     }
 
     axios
-      .post(`${process.env.NEXT_PUBLIC_API}TCTM.product_category.addcategory`, data)
+      .post(`${process.env.NEXT_PUBLIC_API}DIGITAL.product_category.addcategory`, data)
       .then(response => {})
       .catch(error => {
         console.log(error)

@@ -51,10 +51,25 @@ import { useMediaQuery } from '@mui/material'
 import typography from 'src/@core/components/typography'
 import { useTheme } from '@material-ui/core/styles'
 
+// Import auth token Decode
+import { verifyToken } from 'src/@core/utils/auth'
+
 const Show_Status = () => {
   // ใช้งาน Router
   const router = useRouter() // use router
-  const { invoice_id, usertype } = router.query
+  const { sending } = router.query
+  const [usertype,setUserType]=useState('')
+  const [invoice_id,setinvoice_id]=useState('')
+
+  useEffect(() => {
+  if (!sending) {
+        // console.error('invoice is undefined ro null')
+        return
+      }
+    setUserType(verifyToken(sending).usertype||'')
+    setinvoice_id(verifyToken(sending).invoice_id||'')
+
+  }, [sending])
 
 const theme = useTheme()
 
@@ -71,7 +86,7 @@ const theme = useTheme()
         return
       }
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.invoice.invoice_detail`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.invoice.invoice_detail`, {
           params: {
             invoice_id: invoice_id
           }
@@ -98,7 +113,7 @@ const theme = useTheme()
     if (userId) {
       const fetchData = async () => {
         try {
-          const userResponse = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.profile.display_profile`, {
+          const userResponse = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.profile.display_profile`, {
             params: {
               member_id: userId
             }

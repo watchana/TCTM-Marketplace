@@ -58,7 +58,7 @@ const Requirement = SubID => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API}TCTM.requirements.allrequirement_inone_market`,
+          `${process.env.NEXT_PUBLIC_API}DIGITAL.requirements.allrequirement_inone_market`,
           {
             params: {
               sub_id: sub_id
@@ -94,7 +94,7 @@ const Requirement = SubID => {
         }
 
         axios
-          .put(`${process.env.NEXT_PUBLIC_API}TCTM.approve.requirementreject`, data)
+          .put(`${process.env.NEXT_PUBLIC_API}DIGITAL.approve.requirementreject`, data)
           .then(function (response) {
             // หลังจากที่แตะเสร็จ ลบแถวที่ถูก แตะ ออกจากข้อมูล
             const updatedRows = rowdata.filter(row => row.req_id !== reqId)
@@ -110,7 +110,7 @@ const Requirement = SubID => {
             })
           })
           .catch(function (error) {
-            console.log(error)
+            // console.log(error)
             Swal.fire({
               icon: 'error',
               title: 'Reject Error',

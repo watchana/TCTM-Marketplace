@@ -46,6 +46,7 @@ import LoadingLogin from 'src/views/login/Loading'
 // SEO
 import MySeo from '../seo'
 import { SeoLoginpage } from 'src/seo/homepage'
+import typography from 'src/@core/components/typography'
 
 const initialPasswordValue = '1'
 
@@ -154,7 +155,7 @@ const LoginPage = () => {
     }
 
     axios
-      .post(`${process.env.NEXT_PUBLIC_API}TCTM.authen.login`, data)
+      .post(`${process.env.NEXT_PUBLIC_API}DIGITAL.authen.login`, data)
       .then(response => {
         if (response.data.message) {
           const receivedStatus = response.data.message.Message
@@ -247,7 +248,7 @@ const LoginPage = () => {
                   <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer' }}>
                     <CardMedia
                       component='img'
-                      image='https://cdn.discordapp.com/attachments/1143783715877703833/1158967489900851200/cropped-LOGO-TCTM-1.png?ex=65e7e196&is=65d56c96&hm=f5ba0a46f9335e5271d5ac7a0770bb2b310f9f580ab8a4e282f0ef1b271354d2&'
+                      image='/Logo_digital2day/digital2dayloginpage2.png'
                       alt='logo'
                       sx={{ width: '260px' }}
                     />
@@ -258,9 +259,10 @@ const LoginPage = () => {
                 <Grid item xs={12}>
                   <Link href='/' passHref>
                     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer' }}>
-                      <Typography variant='h4' color='#2D2E81' sx={{ fontWeight: 600, cursor: 'pointer' }}>
-                        Welcome to <span style={{ color: '#BF1522' }}>TCTM</span> marketplace
-                      </Typography>
+                      {/* <Typography sx={typography.h1.title} color='##2D2E81'>
+                        Welcome to <span style={{ color: '#BF1522' }}>Digital</span> marketplace
+                      </Typography> */}
+
                     </Box>
                   </Link>
                 </Grid>

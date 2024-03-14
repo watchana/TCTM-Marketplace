@@ -53,7 +53,7 @@ const SerDowload = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.service.showallservice`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.service.showallservice`, {
           params: {
             member_id: member_id
           }
@@ -92,7 +92,7 @@ const SerDowload = () => {
         // Clean up the object URL after the download is initiated
         URL.revokeObjectURL(blobUrl)
 
-        console.log('Download initiated')
+        // console.log('Download initiated')
       } else {
         console.error('Error downloading document:', downloadResponse.statusText)
       }

@@ -73,7 +73,7 @@ const Indexpayment = () => {
       try {
         const promises = dataArray.map(async (item, index) => {
           try {
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.checkout.market_number_bank`, {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.checkout.market_number_bank`, {
               params: {
                 sub_id: item?.sub_id,
                 invoice_id: item?.invoice_id

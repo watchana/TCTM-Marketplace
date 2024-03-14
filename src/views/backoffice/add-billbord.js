@@ -89,7 +89,6 @@ const Addbillbord = ({ imageChange, setImageChange, onUploadImagesChange }) => {
 
   return (
     <Box>
-      <Card variant='outlined' sx={{ padding: '30px' }}>
         <Grid container spacing={4}>
           {/* ---------- Upload Image ---------- */}
           <Grid item xs={12}>
@@ -205,7 +204,6 @@ const Addbillbord = ({ imageChange, setImageChange, onUploadImagesChange }) => {
             </Card>
           </Grid>
         </Grid>
-      </Card>
     </Box>
   )
 }

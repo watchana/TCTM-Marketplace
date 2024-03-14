@@ -38,7 +38,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 443",
     "export": "next export",
     "lint": "eslint --fix \"src/**/*.{js,jsx}\"",
     "format": "prettier --write \"src/**/*.{js,jsx}\""
@@ -94,6 +94,7 @@
     "react-popper": "^2.2.5",
     "react-responsive-carousel": "^3.2.23",
     "react-slideshow-image": "^4.2.1",
+    "sitemap-generator": "^8.5.1",
     "stripe": "^14.11.0",
     "styled-components": "^5.3.11",
     "sweetalert2": "^11.7.27"

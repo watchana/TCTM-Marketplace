@@ -101,7 +101,7 @@ const PosrtDetail = () => {
         // ตรวจสอบว่า reqID มีค่าหรือไม่
         try {
           const response = await axios.get(
-            `${process.env.NEXT_PUBLIC_API}TCTM.requirements.requirement_ser_detail?ser_req_id=${ser_req_id}`
+            `${process.env.NEXT_PUBLIC_API}DIGITAL.requirements.requirement_ser_detail?ser_req_id=${ser_req_id}`
           )
 
           setQuestionData(response.data.message.Question_List)
@@ -182,7 +182,7 @@ const PosrtDetail = () => {
     }
 
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.ser_postchat`, data)
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API}DIGITAL.requirements.ser_postchat`, data)
 
       SAlert.fire({
         icon: 'success',
@@ -191,7 +191,7 @@ const PosrtDetail = () => {
       setComment('')
       setShouldFetchData(!shouldFetchData)
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 
@@ -210,7 +210,7 @@ const PosrtDetail = () => {
         }
 
         axios
-          .put(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.deletechat`, data)
+          .put(`${process.env.NEXT_PUBLIC_API}DIGITAL.requirements.deletechat`, data)
           .then(function (response) {
             if (response.status === 200) {
               SAlert.fire({
@@ -228,7 +228,7 @@ const PosrtDetail = () => {
             }
           })
           .catch(function (error) {
-            console.log(error)
+            // console.log(error)
 
             SAlert.fire({
               icon: 'error',
@@ -237,7 +237,7 @@ const PosrtDetail = () => {
             })
           })
       } else if (result.isDenied) {
-        console.log('cancelled delete')
+        // console.log('cancelled delete')
       }
     })
   }

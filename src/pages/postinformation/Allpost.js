@@ -59,7 +59,7 @@ const theme = useTheme()
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}TCTM.infromation.getallinfV5`)
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API}DIGITAL.infromation.getallinfV5`)
         setSlideData(response.data.message.Data)
       } catch (error) {
         console.error(error)

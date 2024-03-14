@@ -60,7 +60,7 @@ const DialogPost = ({ open, handleClose, userId }) => {
     }
 
     axios
-      .post(`${process.env.NEXT_PUBLIC_API}TCTM.requirements.postrequirement`, data)
+      .post(`${process.env.NEXT_PUBLIC_API}DIGITAL.requirements.postrequirement`, data)
       .then(response => {
         // ปิด Dialog
         handleClose(false)
@@ -69,7 +69,7 @@ const DialogPost = ({ open, handleClose, userId }) => {
         Route.replace(Route.asPath, undefined, { scroll: false })
       })
       .catch(error => {
-        console.log(error)
+        // console.log(error)
       })
     SAlert.fire({
       icon: 'success',
